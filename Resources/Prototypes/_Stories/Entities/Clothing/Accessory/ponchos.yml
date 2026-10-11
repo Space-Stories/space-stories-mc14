@@ -1,0 +1,13 @@
+- type: entity
+  parent: RMCPonchoBase
+  id: STPonchoBlack
+  name: UNMC black poncho
+  description: The standard UNMC poncho has variations for every climate. Custom fitted to be attached to standard UNMC armor variants and worn over uniforms, it is comfortable, warming or cooling as needed, and well-fit. A marine couldn't ask for more. Affectionately referred to as a "woobie".
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Clothing/Accessory/Ponchos/black.rsi
+    state: icon
+  - type: UniformAccessory
+    playerSprite:
+      sprite: _Stories/Objects/Clothing/Accessory/Ponchos/black.rsi
+      state: poncho

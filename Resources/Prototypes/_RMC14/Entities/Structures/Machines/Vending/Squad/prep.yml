@@ -363,6 +363,9 @@
       - id: RMCPonchoSnow
         name: UNMC snow poncho
         amount: 10
+      - id: STPonchoBlack
+        name: UNMC black poncho
+        amount: 10
       # Space-Stories-End
       - id: RMCHelmetGarbGunOil
         name: firearm lubricant
