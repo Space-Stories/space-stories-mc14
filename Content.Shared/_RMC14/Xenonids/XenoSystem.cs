@@ -216,7 +216,7 @@ public sealed partial class XenoSystem : EntitySystem
 
     private void OnXenoHealthScannerAttemptTarget(Entity<XenoComponent> ent, ref HealthScannerAttemptTargetEvent args)
     {
-        args.Popup = "The scanner can't make sense of this creature.";
+        args.Popup = "Сканер не может понять, что это за существо.";
         args.Cancelled = true;
     }
 

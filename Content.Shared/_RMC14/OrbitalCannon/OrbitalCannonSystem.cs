@@ -845,7 +845,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
         var logMessage = $"{ToPrettyString(user)} launched orbital bombardment at {fireCoordinates} for squad {ToPrettyString(squad)}, misfuel: {misfuel}, final coords: {adjustedCoords}";
         _adminLog.Add(LogType.RMCOrbitalBombardment, $"{logMessage}");
 
-        _core.CreateARESLog(cannon, LogCat, (string)$"{Name(user)} fired the orbital cannon at {adjustedCoords.X}, {adjustedCoords.Y}");
+        _core.CreateARESLog(cannon, LogCat, (string)$"{Name(user)} запустил орбитальную бомбардировку {adjustedCoords.X}, {adjustedCoords.Y}");
 
         var ev = new OrbitalCannonLaunchEvent(cannon.Comp.FireCooldown + firing.ImpactDelay);
         RaiseLocalEvent(ref ev);
