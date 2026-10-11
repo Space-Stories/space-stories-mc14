@@ -15,10 +15,10 @@
     jobs:
     - CMSquadLeader
     sections:
-    - name: Squad Leader Kit
-      takeAll: CMStandard
-      entries:
-      - id: RMCVendorBundleCrewLeader
+    #- name: Squad Leader Kit #ST-BundleCrewLeaderRework
+      #takeAll: CMStandard
+      #entries:
+      #- id: RMCVendorBundleCrewLeader
     - name: Squad Kit (for yourself or your squad)
       choices: { RMCKitBase: 1 }
       entries:
@@ -232,9 +232,10 @@
       takeAll: CMStandard
       entries:
       - id: CMVendorBundleSquadLeaderApparel
-      - id: RMCBackpackRTO
-        replaceSlot: back
+      #- id: RMCBackpackRTO #ST-BundleCrewLeaderRework
+        #replaceSlot: back
       - id: CMMRE
+      - id: RMCVendorBundleCrewLeader #ST-BundleCrewLeaderRework
       #- id: CMMap # TODO: Make a map
     - name: Armor
       choices: { CMArmour: 1 }
@@ -324,10 +325,15 @@
     state: icon
   - type: CMVendorBundle
     bundle:
-    - RMCExplosivePlastic
+    #ST-BundleCrewLeaderRework-Start
+    - RMCWhistle
+    - RMCMegaphone
+    #- RMCExplosivePlastic
     - RMCPackFlareCAS
     - RMCLaserDesignator
-    - CMFireExtinguisherPortable
+    #- CMFireExtinguisherPortable
+    - RMCBackpackRTO
+    #ST-BundleCrewLeaderRework-End
 
 - type: entity
   parent: RMCKitBase
