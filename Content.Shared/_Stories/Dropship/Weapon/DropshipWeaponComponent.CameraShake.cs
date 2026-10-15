@@ -13,7 +13,7 @@ public sealed partial class DropshipWeaponComponent
     /// Chance for each unbuckled passenger to fall when a weapon with camera recoil fires.
     /// </summary>
     [DataField]
-    public float STLaunchKnockdownChance = 0.65f;
+    public float STLaunchKnockdownChance = 0.70f;
 
     /// <summary>
     /// Base duration of the launch knockdown, using the same status modifiers as takeoff and landing.
