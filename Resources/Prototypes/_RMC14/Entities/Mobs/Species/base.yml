@@ -309,6 +309,12 @@
     marines: true
   - type: EmoteCooldown
   - type: FiremanCarriable
+    # Stories-SynthHeavyGrab-Start
+    canThrow: true
+    throwWhitelist:
+      components:
+      - Synth
+    # Stories-SynthHeavyGrab-End
   - type: CanFiremanCarry
   - type: RMCSuicide
     damage:
@@ -369,6 +375,7 @@
   - type: MobCollision
   - type: RMCMobCollision
   - type: RMCRest
+  - type: RMCPushup
   - type: RMCMeleeDamageSkill
   - type: RMCStripTimeSkill
   - type: RMCDisarm

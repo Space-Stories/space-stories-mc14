@@ -1,0 +1,20 @@
+- type: entity
+  parent: RMCSpawnPointSynth
+  id: STSpawnPointSynthRoundStart
+  name: synthetic roundstart spawn point
+  suffix: Job Spawn, Round Start
+  components:
+  - type: StoriesSpawnPointPhase
+    lateJoin: false
+
+- type: entity
+  parent: RMCSpawnPointSynth
+  id: STSpawnPointSynthLateJoin
+  name: synthetic late join spawn point
+  suffix: Job Spawn, Late Join
+  components:
+  - type: Sprite
+    state: syn_spawn
+    color: "#FFB347"
+  - type: StoriesSpawnPointPhase
+    roundStart: false

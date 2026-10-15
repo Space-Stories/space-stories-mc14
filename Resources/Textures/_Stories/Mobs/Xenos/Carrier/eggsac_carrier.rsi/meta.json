@@ -179,6 +179,22 @@
     },
     {
       "name": "eggsac_3_downed_active"
+    },
+    {
+      "name": "carrier_egg_left",
+      "directions": 4
+    },
+    {
+      "name": "carrier_egg_right",
+      "directions": 4
+    },
+    {
+      "name": "carrier_parasite_left",
+      "directions": 4
+    },
+    {
+      "name": "carrier_parasite_right",
+      "directions": 4
     }
   ]
 }

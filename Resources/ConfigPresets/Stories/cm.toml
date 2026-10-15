@@ -97,6 +97,7 @@ enabled = true
 [server]
 rules_file = "STOverview"
 default_guide = "Stories"
+lobby_right_panel_width = 700
 
 [shuttle]
 arrivals_planet = false

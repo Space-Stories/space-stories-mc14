@@ -1,0 +1,28 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/master/icons/obj/items/clothing/uniforms/uniforms_by_faction/SEEGSON.dmi and https://github.com/cmss13-devs/cmss13/blob/master/icons/mob/humans/onmob/clothing/uniforms/uniforms_by_faction/SEEGSON.dmi",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "icon"
+        },
+        {
+            "name": "icon-working_joe_engi"
+        },
+        {
+            "name": "icon-working_joe_overalls"
+        },
+        {
+            "name": "working_joe_engi-equipped-INNERCLOTHING",
+            "directions": 4
+        },
+        {
+            "name": "working_joe_overalls-equipped-INNERCLOTHING",
+            "directions": 4
+        }
+    ]
+}

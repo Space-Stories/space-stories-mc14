@@ -11,3 +11,12 @@ rmc-job-name-corp-exec-specialist-legal = Специалист по корпор
 rmc-ghost-name-corp-exec-supervisor-legal = Корпоративный юрисконсульт (нейтральный)
 rmc-job-name-corp-exec-supervisor-legal = Руководитель юридического отдела корпорации
 
+rmc-job-title-corporate-executive-specialist = Корпоративный исполнительный специалист
+rmc-job-title-corporate-executive-supervisor = Корпоративный исполнительный руководитель
+
+rmc-ghost-role-information-corporate-executive-specialist-name = Корпоративный исполнительный специалист
+rmc-ghost-role-information-corporate-executive-specialist-description = Вы — специалист отдела корпоративных дел Вестон-Ямада. Оказывайте юридическую и корпоративную поддержку корпоративному представителю, защищайте интересы компании и ожидайте указаний своего руководителя.
+
+rmc-ghost-role-information-corporate-executive-supervisor-name = Корпоративный исполнительный руководитель
+rmc-ghost-role-information-corporate-executive-supervisor-description = Вы — руководитель группы отдела корпоративных дел Вестон-Ямада. Координируйте специалистов, оказывайте юридическую и корпоративную поддержку корпоративному представителю и защищайте интересы компании.
+

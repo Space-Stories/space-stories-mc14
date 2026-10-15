@@ -1,0 +1,45 @@
+
+- type: entity
+  parent: BaseItem
+  id: STMaintenanceJack
+  name: K92 maintenance jack
+  description: A combination crowbar, wrench, and generally large bludgeoning device that comes in handy in emergencies. Pretty hefty, though.
+  components:
+  - type: Sprite
+    sprite: _Stories/Synth/WorkingJoe/maintenance_jack.rsi
+    state: icon
+  - type: Item
+    sprite: _Stories/Synth/WorkingJoe/maintenance_jack.rsi
+    size: Large
+  - type: MultipleTool
+    statusShowBehavior: true
+    entries:
+    - behavior: Prying
+      useSound:
+        path: /Audio/Items/crowbar.ogg
+      changeSound:
+        path: /Audio/Machines/button.ogg
+    - behavior: Anchoring
+      useSound:
+        path: /Audio/Items/wrench_drop.ogg
+      changeSound:
+        path: /Audio/Machines/button.ogg
+  - type: Clothing
+    sprite: _Stories/Synth/WorkingJoe/maintenance_jack.rsi
+    quickEquip: false
+    slots:
+    - suitStorage
+  - type: Tool
+    qualities:
+    - Prying
+  - type: Prying
+    pryPowered: true
+  - type: MeleeWeapon
+    damage:
+      types:
+        Blunt: 25
+    soundHit:
+      path: /Audio/_RMC14/Weapons/genhit3.ogg
+  - type: Tag
+    tags:
+    - STMaintenanceJack

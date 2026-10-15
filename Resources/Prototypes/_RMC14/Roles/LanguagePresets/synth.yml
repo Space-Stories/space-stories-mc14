@@ -43,4 +43,4 @@
         initialBoostedWordComprehension: 0.4
     comprehensionThreshold: 0.8
     learningRange: 8.0
-    baseWordLearningRate: 0.05
+    baseWordLearningRate: 0.075 # Stories-Synth

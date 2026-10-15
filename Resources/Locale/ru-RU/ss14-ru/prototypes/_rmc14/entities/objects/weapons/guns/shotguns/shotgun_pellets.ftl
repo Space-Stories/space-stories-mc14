@@ -14,5 +14,5 @@ ent-CMPelletShotgunIncendiaryBuckshot = зажигательная дробь
     .desc = { ent-CMPelletShotgunBuckshot.desc }
 ent-RMCPelletShotgunBreaching = легкий разрывной снаряд
     .desc = { ent-CMPelletShotgunBase.desc }
-ent-RMCPelletShotgunL49B = L49B pellets
+ent-RMCPelletShotgunL49B = дробь L49B
     .desc = { ent-CMPelletShotgunBase.desc }

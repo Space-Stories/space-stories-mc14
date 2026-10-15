@@ -6,6 +6,7 @@ cm-xeno-egg-failed-must-hive-weeds = Яйцо должно быть посаже
 cm-xeno-egg-failed-plant-outside = Лучше не сажать его за пределами защитной клетки.
 cm-xeno-egg-failed-already-there = Там уже есть яйцо.
 cm-xeno-egg-blocked = Здесь уже что-то построено.
+rmc-xeno-egg-blocked-vehicle = The egg cannot be planted inside a vehicle.
 
 rmc-xeno-egg-dead-child = Этот лицехват мертв.
 rmc-xeno-egg-has-child = Это занято лицехватом.

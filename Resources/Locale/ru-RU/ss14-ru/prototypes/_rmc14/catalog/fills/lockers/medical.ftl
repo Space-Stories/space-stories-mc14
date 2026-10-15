@@ -1,0 +1,12 @@
+ent-RMCClosetMedical = medical closet
+    .desc = Filled with medical items.
+    .suffix = { ent-CMLockerBase.suffix }
+ent-RMCClosetMedicalMedicine = medicine closet
+    .desc = { ent-RMCClosetMedical.desc }
+    .suffix = Filled, Medical, Medicine
+ent-RMCClosetMedicalAnesthetic = anesthetic closet
+    .desc = Used to knock people out.
+    .suffix = Filled, Medical, Anesthetic
+ent-RMCClosetMedicalDoctors = medical doctor's locker
+    .desc = { ent-RMCClosetMedical.desc }
+    .suffix = Filled, Medical, Doctor's

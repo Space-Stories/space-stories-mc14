@@ -1,0 +1,14 @@
+ent-RMCElevatorDestination = elevator destination
+    .desc = Defines a location for an elevator to travel to and from.
+ent-RMCElevatorDestinationVisible = elevator destination
+    .desc = { ent-RMCElevatorDestination.desc }
+    .suffix = GhostVisible
+ent-RMCElevatorDestinationMarker = elevator destination
+    .desc = { ent-RMCElevatorDestination.desc }
+    .suffix = Mapping
+ent-RMCElevatorDestinationMarkerSpawner = elevator origin
+    .desc = Defines a location for an elevator to travel to and from and spawns an elevator.
+    .suffix = { ent-RMCElevatorDestinationMarker.suffix }
+ent-RMCElevatorDestinationVisibleSpawner = elevator origin
+    .desc = Defines a location for an elevator to travel to and from and spawns an elevator.
+    .suffix = { ent-RMCElevatorDestinationVisible.suffix }

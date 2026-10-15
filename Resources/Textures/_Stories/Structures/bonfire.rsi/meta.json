@@ -1,57 +1,57 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 32,
-        "y": 32
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "brazier",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
     },
-    "states": [
-        {
-            "name": "brazier",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "brazier_frame_filled"
-        },
-        {
-            "name": "brazier_frame"
-        },
-        {
-            "name": "torch",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "torch_frame"
-        },
-        {
-            "name": "campfire"
-        },
-        {
-            "name": "campfire_on",
-            "delays": [
-                [
-                    0.125,
-                    0.125,
-                    0.125,
-                    0.125,
-                    0.125
-                ]
-            ]
-        }
-    ]
+    {
+      "name": "brazier_frame_filled"
+    },
+    {
+      "name": "brazier_frame"
+    },
+    {
+      "name": "torch",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "torch_frame"
+    },
+    {
+      "name": "campfire"
+    },
+    {
+      "name": "campfire_on",
+      "delays": [
+        [
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125
+        ]
+      ]
+    }
+  ]
 }

@@ -3,7 +3,7 @@ cm-job-name-correspondent = Корреспондент
 cm-job-description-correspondent = Вы сообщаете обо всем, что считаете нужным опубликовать на страницах новостей.
 cm-job-prefix-correspondent = ПРЕССА
 cm-job-name-combat-correspondent = Военный корреспондент
-cm-job-description-combat-correspondent = Вы прикомандированы к UNMC для ведения репортажей с передовой и информирования общественности.
+cm-job-description-combat-correspondent = Вы прикомандированы к КМП США для ведения репортажей с передовой и информирования общественности.
 cm-job-prefix-combat-correspondent = ВК
 CMJobCorrespondent = Корреспондент
 

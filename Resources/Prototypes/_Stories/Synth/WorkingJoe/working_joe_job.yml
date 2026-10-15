@@ -1,0 +1,91 @@
+
+- type: job
+  parent: CMJobBase
+  id: STJobWorkingJoe
+  name: st-job-name-working-joe
+  description: st-job-description-working-joe
+  playTimeTracker: STJobWorkingJoe
+  icon: "RMCJobIconSynth"
+  joinNotifyCrew: false
+  lateJoinAnnouncement: stories-latejoin-arrival-announcement-working-joe
+  lateJoinChannels:
+  - STApolloLink
+  whitelisted: true
+  supervisors: st-job-supervisors-ares
+  accessGroups:
+  - ShipMasterAccess
+  - Synth
+  roleWeight: 0.1
+  applyTraits: false
+  jobEntity: STMobWorkingJoe
+  jobPreviewEntity: STMobWorkingJoeDummy
+  dummyStartingGear: STGearWorkingJoeEquipped
+  hasIcon: false
+  setVariantPreference: true
+  variants:
+    Standard: st-job-working-joe-variant-standard
+    Hazmat: st-job-working-joe-variant-hazmat
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: Language
+      spokenLanguages:
+      - English
+      understoodLanguages:
+      - English
+      currentLanguage: English
+      defaultLanguage: English
+    - type: TacticalMapIcon
+      icon:
+        sprite: /Textures/_RMC14/Interface/map_blips.rsi
+        state: synth
+    - type: STSynthVoiceSynthesizer
+      alternateSoundVariants:
+      - Hazmat
+      alternateEmoteSounds: STWorkingJoeHazmatSounds
+    - type: UserInterface
+      interfaces:
+        enum.STSynthVoiceUIKey.Key:
+          type: STSynthVoiceSynthesizerBui
+    - type: STJobVariantGear
+      variants:
+        Hazmat:
+        - STJumpsuitHazmatJoe
+        - STJumpsuitHazmatJoeOveralls
+    - type: Loadout
+      prototypes: [ STGearWorkingJoeEquipped ]
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: STSpawnPointWorkingJoe
+  name: working joe spawn point
+  components:
+  - type: SpawnPoint
+    job_id: STJobWorkingJoe
+  - type: Sprite
+    state: wj_spawn
+
+- type: playTimeTracker
+  id: STJobWorkingJoe
+  isHumanoid: true
+
+- type: startingGear
+  id: STGearWorkingJoeEquipped
+  equipment:
+    ears: CMHeadsetEngineer
+    jumpsuit: STJumpsuitAverageJoeDropPouch
+    outerClothing: STOuterClothingExternalWebbingWorkingJoe
+    belt: STBeltUtilityWorkingJoe
+    back: CMSatchelMarine
+    shoes: RMCShoesLaceup
+    id: RMCIDCardSynth
+    pocket1: STPouchSlingWorkingJoePDA
+    pocket2: STPouchConstructionWorkingJoe
+    suitstorage: STMaintenanceJack
+  storage:
+    back:
+    - RMCSprayBottleSpaceCleaner
+    - RMCSprayBottleSpaceCleaner
+    - CMMop
+  inhand:
+  - TrashBag

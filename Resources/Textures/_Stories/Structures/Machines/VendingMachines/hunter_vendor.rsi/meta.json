@@ -1,122 +1,122 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 32,
-        "y": 64
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "states": [
+    {
+      "name": "hunter_vendor_left",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
     },
-    "states": [
-        {
-            "name": "hunter_vendor_left",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_lcenter",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_centre",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_rcentre",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_right",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_elder_left"
-        },
-        {
-            "name": "hunter_vendor_elder_right"
-        },
-        {
-            "name": "hunter_trophy_vendor_left",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_trophy_vendor_centre",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_trophy_vendor_right",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.2,
-                    0.2,
-                    0.5
-                ]
-            ]
-        },
-        {
-            "name": "hunter_vendor_thrall_right"
-        },
-        {
-            "name": "hunter_vendor_blooded_left"
-        },
-        {
-            "name": "hunter_vendor_blooded_right"
-        }
-    ]
+    {
+      "name": "hunter_vendor_lcenter",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_vendor_centre",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_vendor_rcentre",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_vendor_right",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_vendor_elder_left"
+    },
+    {
+      "name": "hunter_vendor_elder_right"
+    },
+    {
+      "name": "hunter_trophy_vendor_left",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_trophy_vendor_centre",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_trophy_vendor_right",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "name": "hunter_vendor_thrall_right"
+    },
+    {
+      "name": "hunter_vendor_blooded_left"
+    },
+    {
+      "name": "hunter_vendor_blooded_right"
+    }
+  ]
 }

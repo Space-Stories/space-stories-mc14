@@ -16,6 +16,7 @@ using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.JoinXeno;
 using Content.Shared._RMC14.Xenonids.Leap;
 using Content.Shared._RMC14.Xenonids.Pheromones;
+using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Actions;
 using Content.Shared.Atmos.Rotting;
 using Content.Shared.Chat.Prototypes;
@@ -716,6 +717,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
                 var victimComp = EnsureComp<VictimInfectedComponent>(infectedVictim);
                 SetHive((infectedVictim, victimComp), _hive.GetHive(uid)?.Owner);
 
+                if (HasComp<HunterComponent>(infectedVictim)) // Stories-Abomination
+                    SetBurstSpawn((infectedVictim, victimComp), "STXenoPredalienLarva");
+
                 victimComp.InfectorUserId = para.PendingInfectorUserId;
 
                 if (TryComp<ActorComponent>(infectedVictim, out var victimActor))
@@ -919,8 +923,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
             BreakOnDamage = false,
             BreakOnMove = false,
             BreakOnRest = false,
+            RequireCanInteract = false,
+            RangeCheck = false,
             Hidden = true,
-            CancelDuplicate = true,
             BlockDuplicate = true,
             DuplicateCondition = DuplicateConditions.SameEvent
         };

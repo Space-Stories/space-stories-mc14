@@ -20,6 +20,9 @@
   id: RMCCartridgeRevolver44Marksman
 
 - type: Tag
+  id: RMCCartridgeRevolver44Heavy
+
+- type: Tag
   id: RCMCartridgePistol9mmSquashHead
 
 - type: Tag
@@ -81,6 +84,15 @@
 
 - type: Tag
   id: RMCDropshipUtilityPoint
+
+- type: Tag
+  id: RMCShuttleAirlockInternal
+
+- type: Tag
+  id: RMCShuttleAirlockExternalSide
+
+- type: Tag
+  id: RMCShuttleAirlockExternalHangar
 
 - type: Tag
   id: WeaponSMGM63
@@ -191,6 +203,9 @@
 
 - type: Tag
   id: RMCSynthGrabbable # whitelist tag for synths being able to grab particular xenos
+
+- type: Tag
+  id: RMCSynthAllowedArmor # armor items synths are permitted to wear regardless of CanWearArmor
 
 - type: Tag
   id: RMCSentryLaptop

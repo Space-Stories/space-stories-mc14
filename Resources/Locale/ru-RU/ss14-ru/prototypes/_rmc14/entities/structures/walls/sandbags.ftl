@@ -1,5 +1,7 @@
 ent-CMBarricadeSandbag = баррикада из мешков с песком
     .desc = Импровизированная баррикада, сделанная из песка с земли. Её трудно пробить, но легко проткнуть.
+ent-CMBarricadeHesco = HESCO barricade
+    .desc = A sandbag wall. Provides better protection than a makeshift sandbag barricade, but requires specialized equipment to set up.
 ent-CMSandbagEmpty = пустые мешки с песком
     .desc = Несколько пустых мешков с песком, лучше наполнить их, если вы хотите их использовать.
 ent-CMSandbagEmpty50 = { ent-CMSandbagEmpty }

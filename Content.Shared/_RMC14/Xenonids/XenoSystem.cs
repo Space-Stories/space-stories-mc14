@@ -11,6 +11,7 @@ using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Tackle;
 using Content.Shared._RMC14.Vendors;
 using Content.Shared._RMC14.Weapons.Melee;
+using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Construction.Nest;
 using Content.Shared._RMC14.Xenonids.Devour;
 using Content.Shared._RMC14.Xenonids.Egg;
@@ -40,6 +41,7 @@ using Content.Shared.DragDrop;
 using Content.Shared.FixedPoint;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Popups;
 using Content.Shared.Lathe;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
@@ -78,6 +80,7 @@ public sealed partial class XenoSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _mobThresholds = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
+    [Dependency] private readonly INetConfigurationManager _netConfig = default!;
     [Dependency] private readonly SharedNightVisionSystem _nightVision = default!;
     [Dependency] private readonly XenoRestSystem _rest = default!;
     [Dependency] private readonly SharedRMCDamageableSystem _rmcDamageable = default!;
@@ -91,6 +94,7 @@ public sealed partial class XenoSystem : EntitySystem
     [Dependency] private readonly WeldableSystem _weldable = default!;
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     private static readonly ProtoId<DamageTypePrototype> HeatDamage = "Heat";
 
@@ -243,6 +247,20 @@ public sealed partial class XenoSystem : EntitySystem
             _victimInfectedQuery.HasComp(target) && !args.Disarm)
         {
             args.Cancel();
+            return;
+        }
+
+        if (!args.Disarm && _victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno.Owner))
+        {
+            args.Cancel();
+            _popup.PopupClient(Loc.GetString("rmc-xeno-harm-permission-denied"), target, xeno, PopupType.MediumCaution);
+            return;
+        }
+
+        if (!args.Disarm && HasComp<HiveConstructionLimitedComponent>(target) && !_hive.CanXenoDeconstruct(xeno.Owner))
+        {
+            args.Cancel();
+            _popup.PopupClient(Loc.GetString("rmc-xeno-construction-permission-denied-deconstruct"), target, xeno, PopupType.MediumCaution);
         }
     }
 
@@ -534,6 +552,9 @@ public sealed partial class XenoSystem : EntitySystem
         if (_xenoNestedQuery.HasComp(target))
             return false;
 
+        if (_victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno))
+            return false;
+
         if (canAttackBarricades && HasComp<BarricadeComponent>(target))
             return true;
 
@@ -571,6 +592,13 @@ public sealed partial class XenoSystem : EntitySystem
     public bool CanTackleOtherXeno(EntityUid sourceXeno, EntityUid targetXeno, out TimeSpan time)
     {
         time = TimeSpan.Zero;
+
+        if (CompOrNull<ActorComponent>(sourceXeno)?.PlayerSession is not { } session ||
+            !_netConfig.GetClientCVar(session.Channel, RMCCVars.RMCHiveLeaderTackleXenos))
+        {
+            return false;
+        }
+
         if (!_hive.FromSameHive(targetXeno, sourceXeno))
             return false;
 

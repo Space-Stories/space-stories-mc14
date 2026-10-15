@@ -8,6 +8,11 @@ command-description-mutiny-removemutineerleader = Снимает с сущнос
 command-description-mutiny-makeloyalist = Делает сущность лоялистом во время активного мятежа.
 command-description-mutiny-makenoncombatant = Делает сущность некомбатантом во время активного мятежа.
 
+ent-ActionMutineerRecruit = Вербовать мятежника
+    .desc = Предложить подходящему морпеху присоединиться к мятежу, когда тот начнётся.
+ent-ActionMutineerBegin = Начать мятеж
+    .desc = Начать мятеж со всеми завербованными сторонниками.
+
 mutineer-status-added = [bold][color=red]Теперь вы мятежник![/color][/bold]
     Перед участием ознакомьтесь с правилами проведения мятежей.
 mutineer-status-removed = Вы больше не являетесь мятежником.
@@ -42,7 +47,7 @@ rmc-mutiny-side-refuse = Отказаться сражаться
 
 rmc-mutiny-announcement = ОПАСНОСТЬ: получено сообщение о происходящем мятеже. Код действий: задерживать, арестовывать, защищать.
 
-rmc-mutiny-error-invalid-member = Цель не может участвовать в мятеже КМ ООН.
+rmc-mutiny-error-invalid-member = Цель не может участвовать в мятеже КМ США.
 rmc-mutiny-error-invalid-recruit = Этого морпеха нельзя завербовать в мятежники.
 rmc-mutiny-error-rule = Не удалось запустить игровое правило мятежа.
 rmc-mutiny-error-other-rule = Разум цели уже участвует в другом мятеже.
@@ -54,10 +59,10 @@ rmc-mutiny-error-not-mutineer = Цель не является мятежник�
 rmc-mutiny-error-leader-side = Перед назначением стороны снимите с цели статус лидера мятежа.
 rmc-mutiny-error-remove-leader-first = Перед снятием статуса мятежника снимите с цели статус лидера мятежа.
 
-rmc-mutiny-admin-leader-added = {$player} назначен лидером мятежа.
-rmc-mutiny-admin-leader-removed = {$player} больше не является лидером мятежа.
-rmc-mutiny-admin-recruit-accepted = {$target} принял приглашение присоединиться к мятежу от {$leader}.
-rmc-mutiny-admin-begun = {$leader} начал мятеж.
+rmc-mutiny-admin-leader-added = { $player } назначен лидером мятежа.
+rmc-mutiny-admin-leader-removed = { $player } больше не является лидером мятежа.
+rmc-mutiny-admin-recruit-accepted = { $target } принял приглашение присоединиться к мятежу от { $leader }.
+rmc-mutiny-admin-begun = { $leader } начал мятеж.
 
 rmc-mutiny-verb-make-leader = Назначить лидером мятежа
 rmc-mutiny-verb-remove-leader = Снять статус лидера мятежа
@@ -66,7 +71,7 @@ rmc-mutiny-verb-remove-mutineer = Снять статус мятежника
 
 rmc-mutiny-command-success = Состояние мятежа обновлено.
 rmc-mutiny-command-list-none = Активного мятежа нет.
-rmc-mutiny-command-list-header = Текущая фаза мятежа: {$phase}
+rmc-mutiny-command-list-header = Текущая фаза мятежа: { $phase }
 rmc-mutiny-phase-recruiting = Набор участников
 rmc-mutiny-phase-active = Активный мятеж
 rmc-mutiny-side-name-mutineer = Мятежник
@@ -75,4 +80,4 @@ rmc-mutiny-side-name-noncombatant = Некомбатант
 rmc-mutiny-command-list-recruit = Завербован
 rmc-mutiny-command-list-unassigned = Сторона не выбрана
 rmc-mutiny-command-list-leader = , лидер
-rmc-mutiny-command-list-entry = - {$player}: {$state}{$leader}
+rmc-mutiny-command-list-entry = - { $player }: { $state }{ $leader }

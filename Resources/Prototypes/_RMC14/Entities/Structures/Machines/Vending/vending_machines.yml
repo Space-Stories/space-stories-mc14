@@ -68,7 +68,7 @@
   - type: RMCPowerReceiver
     idleLoad: 10
     activeLoad: 0
-    channel: Equipment # TODO RMC14 vend_power_usage: 150
+    channel: Equipment
   - type: Appearance
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/generic.rsi
@@ -153,6 +153,7 @@
         density: 200
   - type: ActivatableUI
     key: enum.CMAutomatedVendorUI.Key
+  - type: ActivatableUIRequiresPower
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
     access: [ [ "RMCAccessVehicleCrew" ] ]
@@ -175,6 +176,14 @@
       state: vehicle_gear_vend
     sections: []
   - type: VehicleHardpointVendor
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 0
+    activeLoad: 0
+    # CM13's vehicle crew vendor inherits the zero-load cm_vending base.
+    channel: Equipment
   - type: InteractionOutline
   - type: RequireProjectileTarget
 
@@ -191,7 +200,12 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/coffee.rsi
   - type: VendingMachine
     pack: CMVendorCoffee
+    vendEnergy: 85000
     ejectState: eject-unshaded
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: entity
   parent: CMVendorCoffee
@@ -277,8 +291,8 @@
 - type: entity
   parent: CMVendorSnack
   id: RMCVendorSnackSPP
-  name: Surplus Ration Vendor
-  description: A vending machine full of surplus rations, viewed as the luxury of ready-avaliable SPP rations.
+  name: surplus ration vendor
+  description: A vending machine full of surplus rations, viewed as the luxury of ready-available SPP rations.
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/spp_snack.rsi
@@ -295,6 +309,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/cola.rsi
   - type: VendingMachine
     pack: CMVendorCola
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorCola
@@ -383,6 +401,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/sodavend.rsi
   - type: VendingMachine
     pack: RMCVendorSoda
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: RMCVendorSoda
@@ -515,7 +537,7 @@
 - type: entity
   parent: CMVendorCigs
   id: RMCVendorCigsSPP
-  name: Komandir Cigarettes Vendor
+  name: Komandir cigarettes vendor
   description: A state-owned cigarette vendor. Its drab colour was chosen to discourage purchases, but its existence is an admittance to the necessity for such machines to exist in the first place.
   components:
   - type: Sprite
@@ -559,8 +581,8 @@
     CMHeadBeretRed: 6
     CMGlassesSecurity: 3
     CMHeadset: 6
-    #RegulationTape: 5
-    #TapeRecorder: 3
+    RMCUniversalRecorder: 3
+    RMCBoxRegulationTapes: 5
     #ClueScanner: 3
     #Camera: 8
     #CameraFilm: 8
@@ -631,7 +653,7 @@
     CMBurnAidKitFilled: 2
     RMCRadiationAidKitFilled: 1
     RMCCPRDummy: 5
-    # Crew Monitor
+    RMCPortableCrewMonitor: 1
 
 
 # Nutriments
@@ -647,6 +669,10 @@
     pack: CMVendorNutri
     denyState: deny-unshaded
     ejectState: eject-unshaded
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorNutri
@@ -747,7 +773,7 @@
     - state: "panel"
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
   - type: ApcPowerReceiver
-    needsPower: true # TODO RMC14
+    needsPower: true
     powerLoad: 250
   - type: RMCPowerReceiver
     idleLoad: 10
@@ -765,6 +791,7 @@
     timeToApply: 4
     structure: true
   - type: CMAutomatedVendor
+    vendEnergy: 150
     scaling: false
     sections:
     - name: Products
@@ -863,6 +890,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/sovietsoda.rsi
   - type: VendingMachine
     pack: CMVendorSodaSoviet
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorSodaSoviet

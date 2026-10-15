@@ -1,47 +1,47 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 64,
-        "y": 64
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 64,
+    "y": 64
+  },
+  "states": [
+    {
+      "name": "bengal",
+      "directions": 4
     },
-    "states": [
-        {
-            "name": "bengal",
-            "directions": 4
-        },
-        {
-            "name": "bengal_alt",
-            "directions": 4
-        },
-        {
-            "name": "white",
-            "directions": 4
-        },
-        {
-            "name": "white_alt",
-            "directions": 4
-        },
-        {
-            "name": "gray",
-            "directions": 4
-        },
-        {
-            "name": "gray_alt",
-            "directions": 4
-        },
-        {
-            "name": "hotline",
-            "directions": 4
-        },
-        {
-            "name": "hotline_alt",
-            "directions": 4
-        },
-        {
-            "name": "plain",
-            "directions": 4
-        }
-    ]
+    {
+      "name": "bengal_alt",
+      "directions": 4
+    },
+    {
+      "name": "white",
+      "directions": 4
+    },
+    {
+      "name": "white_alt",
+      "directions": 4
+    },
+    {
+      "name": "gray",
+      "directions": 4
+    },
+    {
+      "name": "gray_alt",
+      "directions": 4
+    },
+    {
+      "name": "hotline",
+      "directions": 4
+    },
+    {
+      "name": "hotline_alt",
+      "directions": 4
+    },
+    {
+      "name": "plain",
+      "directions": 4
+    }
+  ]
 }

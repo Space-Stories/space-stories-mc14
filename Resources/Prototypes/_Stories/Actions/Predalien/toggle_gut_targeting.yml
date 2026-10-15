@@ -1,0 +1,13 @@
+- type: entity
+  id: ActionSTToggleGutTargeting
+  parent: ActionXenoBase
+  name: Toggle Frenzy Targeting
+  description: Switches Feral Frenzy between single-target and area-of-effect mode.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/predalien_actions.rsi
+      state: toggle_gut_targeting
+  - type: InstantAction
+    event: !type:STToggleGutTargetingActionEvent

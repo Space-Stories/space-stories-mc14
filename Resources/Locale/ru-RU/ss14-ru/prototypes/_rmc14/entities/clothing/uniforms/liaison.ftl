@@ -120,3 +120,5 @@ ent-RMCJumpsuitLiaisonDisco = стильная праздничная рубаш
     .desc = Розовая и фиолетовая праздничная рубашка в сочетании с серыми брюками. Делает смелое заявление о долговечности диско.
 ent-RMCJumpsuitLiaisonBlueGreyAdmin = сине-серая административная униформа
     .desc = Пара синих брюк и сине-серая рубашка. Распространённый вид для служащих колониальной администрации.
+ent-RMCJumpsuitLiaisonColonialAdmin = colonial administrator uniform
+    .desc = An office grey polo with a We-Ya badge on the chest. Worn by administrators on colonies owned by the Company.

@@ -90,3 +90,31 @@
   sprite:
     sprite: _RMC14/Decals/siding.rsi
     state: siding15
+
+- type: decal
+  id: RMCDecalSiding16
+  parent: RMCDecalSiding1
+  sprite:
+    sprite: _RMC14/Decals/siding.rsi
+    state: siding16
+
+- type: decal
+  id: RMCDecalSiding17
+  parent: RMCDecalSiding1
+  sprite:
+    sprite: _RMC14/Decals/siding.rsi
+    state: siding17
+
+- type: decal
+  id: RMCDecalSiding18
+  parent: RMCDecalSiding1
+  sprite:
+    sprite: _RMC14/Decals/siding.rsi
+    state: siding18
+
+- type: decal
+  id: RMCDecalSiding19
+  parent: RMCDecalSiding1
+  sprite:
+    sprite: _RMC14/Decals/siding.rsi
+    state: siding19

@@ -1,53 +1,53 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 32,
-        "y": 32
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "hunter_feed1"
     },
-    "states": [
-        {
-            "name": "hunter_feed1"
-        },
-        {
-            "name": "hunter_feed2"
-        },
-        {
-            "name": "hunter_feed3"
-        },
-        {
-            "name": "hunter_feed4"
-        },
-        {
-            "name": "hunter_feed5"
-        },
-        {
-            "name": "hunter_feed6"
-        },
-        {
-            "name": "hunter_feed7"
-        },
-        {
-            "name": "hunter_feed8"
-        },
-        {
-            "name": "hunter_armor_prop"
-        },
-        {
-            "name": "hunter_armor_prop_2"
-        },
-        {
-            "name": "hunter_armor_prop_3"
-        },
-        {
-            "name": "hunter_armor_prop_4"
-        },
-        {
-            "name": "bone_throne"
-        },
-        {
-            "name": "bone_throne_top"
-        }
-    ]
+    {
+      "name": "hunter_feed2"
+    },
+    {
+      "name": "hunter_feed3"
+    },
+    {
+      "name": "hunter_feed4"
+    },
+    {
+      "name": "hunter_feed5"
+    },
+    {
+      "name": "hunter_feed6"
+    },
+    {
+      "name": "hunter_feed7"
+    },
+    {
+      "name": "hunter_feed8"
+    },
+    {
+      "name": "hunter_armor_prop"
+    },
+    {
+      "name": "hunter_armor_prop_2"
+    },
+    {
+      "name": "hunter_armor_prop_3"
+    },
+    {
+      "name": "hunter_armor_prop_4"
+    },
+    {
+      "name": "bone_throne"
+    },
+    {
+      "name": "bone_throne_top"
+    }
+  ]
 }

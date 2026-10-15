@@ -24,6 +24,8 @@
       path: /Audio/_RMC14/Medical/defib_SafetyOn.ogg
     soundDeactivate:
       path: /Audio/_RMC14/Medical/defib_safetyOff.ogg
+  - type: ItemToggleSize
+    activatedSize: Large
   - type: Defibrillator
     zapDelay: 0
     doAfterDuration: 4
@@ -152,10 +154,10 @@
   description: This device can fix major glitches or programming errors of synthetic units, as well as being able to restart a synthetic that has suffered critical failure. It can only be used once before being reset.
   components:
   - type: Sprite
-    sprite: _RMC14/Objects/Devices/reset_key.rsi
+    sprite: _Stories/Synth/reset_keys.rsi # Stories-ResetKeys
     layers:
-    - state: defib
-    - state: defib_on
+    - state: reset_key # Stories-ResetKeys
+    - state: reset_key_on # Stories-ResetKeys
       map: [ "enum.ToggleableVisuals.Layer" ]
       visible: false
   - type: PowerCellDraw
@@ -195,7 +197,7 @@
         - Marine
   - type: Item
     size: Small
-    sprite: _RMC14/Objects/Devices/reset_key.rsi
+    sprite: _Stories/Synth/reset_keys.rsi # Stories-ResetKeys
     heldPrefix: null
   - type: Tag
     tags:
@@ -210,19 +212,44 @@
   - type: RequiresSkill
     skills:
       RMCSkillEngineer: 0
+  # Stories-ResetKeys-Start
+  - type: Sprite
+    layers:
+    - state: reset_key_ns
+    - state: reset_key_ns_on
+      map: [ "enum.ToggleableVisuals.Layer" ]
+      visible: false
+  # Stories-ResetKeys-End
 
 - type: entity
   parent: RMCSynthResetKey
-  id: RMCSynthResetKeyNovaris # TODO RMC14 unique sprite for this
+  id: RMCSynthResetKeyNovaris # Stories-ResetKeys
   name: Novaris synthetic reset key
   description: An independent Novaris design, based on a previous collaboration with Weston-Yamada. This device can fix major glitches or programming errors of synthetic units, as well as being able to restart a synthetic that has suffered critical failure. It can only be used once before being reset.
+  # Stories-ResetKeys-Start
+  components:
+  - type: Sprite
+    layers:
+    - state: hyper_reset_key
+    - state: hyper_reset_key_on
+      map: [ "enum.ToggleableVisuals.Layer" ]
+      visible: false
+  # Stories-ResetKeys-End
 
 - type: entity
   parent: RMCSynthResetKey
-  id: RMCSynthResetKeyNovarisSMART # TODO RMC14 unique sprite for this
+  id: RMCSynthResetKeyNovarisSMART # Stories-ResetKeys
   name: SMART Novaris synthetic reset key
   description: An independent Novaris design, based on a previous collaboration with Weston-Yamada. This device can fix major glitches or programming errors of synthetic units, as well as being able to restart a synthetic that has suffered critical failure. It can only be used once before being reset. This one has a micro-function AI and can be operated by anyone.
   components:
   - type: RequiresSkill
     skills:
       RMCSkillEngineer: 0
+  # Stories-ResetKeys-Start
+  - type: Sprite
+    layers:
+    - state: hyper_reset_ns_key
+    - state: hyper_reset_ns_key_on
+      map: [ "enum.ToggleableVisuals.Layer" ]
+      visible: false
+  # Stories-ResetKeys-End

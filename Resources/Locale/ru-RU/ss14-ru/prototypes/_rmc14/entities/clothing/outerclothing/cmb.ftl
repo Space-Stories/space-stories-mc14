@@ -6,3 +6,7 @@ ent-RMCArmorM4RMedium = броня M4R БКМ
     .desc = Темный комплект брони, являющийся модификацией охранного варианта брони M3 компании Вооружение Эгида. Предназначен для борьбы с беспорядками и подавления протестов. На боку имеется металлическая эмблема с надписью "CMB RIOT CONTROL". Законы Земли простираются за пределы Сола.
 ent-RMCArmorM4RMarshallMedium = маршальская броня M4R БКМ
     .desc = Индивидуальный вариант брони CMB Riot, предназначенный для ношения самими маршалами, имеет золотую подкладку со знаками различия. Имеет дополнительный слой легких защитных материалов.
+ent-RMCArmorPMCRiotCMB = M4R pattern CMB armored vest
+    .desc = A dark set of armor, which is a modification of the security variant of AEGIS Armaments M3 armor. This version is reinforced with strike resistant polyethylene and ceramic plates, providing robust protection to the vital organs while granting an impressive amount of mobility to officers in the field. The side of it has a metallic insignia with 'CMB RIOT CONTROL' on it.
+ent-RMCArmorPMCRiotCMBSynth = M4R pattern CMB synthetic vest
+    .desc = A dark set of armor, which is a modification of the security variant of AEGIS Armaments M3 armor. This variant was designed for CMB Riot Control synthetics, and has had all its' armor inserts removed. The side of it has a metallic insignia with 'CMB RIOT CONTROL' on it.

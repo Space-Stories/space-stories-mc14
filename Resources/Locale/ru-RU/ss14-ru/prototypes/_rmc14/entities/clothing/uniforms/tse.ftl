@@ -1,7 +1,7 @@
 ent-RMCJumpsuitTSEPA = униформа TSEPA
     .desc = Стандартная униформа офицера TSEPA.
 ent-RMCJumpsuitMarineRoyal = полевая форма морской пехоты Королевской Короны
-    .desc = Полевая форма морской пехоты Королевской Короны, с элементами лёгкого кевлара для защиты от холодного оружия и пуль. На уровне аналогичного снаряжения ОВМС ООН.
+    .desc = Полевая форма морской пехоты Королевской Короны, с элементами лёгкого кевлара для защиты от холодного оружия и пуль. На уровне аналогичного снаряжения ОВМС США.
     .suffix = Заполненный, Королевский
 ent-RMCJumpsuitMarineRoyalL189 = { ent-RMCJumpsuitMarineRoyal }
     .desc = { ent-RMCJumpsuitMarineRoyal.desc }
@@ -13,7 +13,7 @@ ent-RMCJumpsuitMarineRoyalDropPouch = { ent-RMCJumpsuitMarineRoyal }
     .desc = { ent-RMCJumpsuitMarineRoyal.desc }
     .suffix = Заполненный, Королевский, Сумка
 ent-RMCJumpsuitMarineRoyalTeamlead = полевая форма морской пехоты Королевской Короны
-    .desc = Полевая форма морской пехоты Королевской Короны. Имеет элементы лёгкого кевлара для защиты от холодного оружия и пуль. На уровне аналогичного снаряжения ОВМС ООН.
+    .desc = Полевая форма морской пехоты Королевской Короны. Имеет элементы лёгкого кевлара для защиты от холодного оружия и пуль. На уровне аналогичного снаряжения ОВМС США.
     .suffix = Заполненный, Королевский, Командир
 ent-RMCJumpsuitMarineRoyalPVE = { ent-RMCJumpsuitMarineRoyal }
     .desc = { ent-RMCJumpsuitMarineRoyal.desc }

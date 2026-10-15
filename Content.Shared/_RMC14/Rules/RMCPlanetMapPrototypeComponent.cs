@@ -26,7 +26,7 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     public int MaxPlayers;
 
     [DataField, AutoNetworkedField]
-    public string? Announcement;
+    public List<RMCPlanetAnnouncement>? Announcements;
 
     [DataField, AutoNetworkedField]
     public List<(ProtoId<JobPrototype> Job, int Amount)>? SurvivorJobs;
@@ -93,6 +93,11 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     public Dictionary<EntProtoId, EntProtoId?>? Replacements;
     // Stories-Survivor-End
 
+    // Stories-RandomScenarioVariant-Start
+    [DataField, AutoNetworkedField]
+    public HashSet<ProtoId<JobPrototype>>? RandomScenarioVariantJobs;
+    // Stories-RandomScenarioVariant-End
+
     /// <summary>
     /// Round-start operational briefings sent to the Commanding Officer, keyed by their affiliation preference.
     /// </summary>
@@ -109,4 +114,18 @@ public sealed partial record RMCNightmareScenario
 
     [DataField]
     public float ScenarioProbability = 1.0f;
+}
+
+[DataDefinition]
+[Serializable, NetSerializable]
+public sealed partial record RMCPlanetAnnouncement
+{
+    [DataField]
+    public TimeSpan Delay = TimeSpan.FromSeconds(20);
+
+    [DataField(required: true)]
+    public LocId Text;
+
+    [DataField]
+    public LocId Announcement = "rmc-announcement-ares-map";
 }

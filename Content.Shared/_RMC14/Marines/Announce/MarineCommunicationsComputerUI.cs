@@ -1,4 +1,6 @@
-﻿using Robust.Shared.Serialization;
+using Content.Shared._RMC14.Dialog;
+using Robust.Shared.Network;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared._RMC14.Marines.Announce;
 
@@ -12,10 +14,22 @@ public enum MarineCommunicationsComputerUI
 public sealed class MarineCommunicationsOpenMapMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
+public sealed class MarineCommunicationsOpenAnnouncementMsg : BoundUserInterfaceMessage;
+
+[Serializable, NetSerializable]
+public sealed record MarineCommunicationsAnnouncementDialogEvent(NetEntity User, string Message = "") : DialogInputEvent(Message);
+
+[Serializable, NetSerializable]
 public sealed class MarineCommunicationsEchoSquadMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
 public sealed class MarineCommunicationsOverwatchMsg : BoundUserInterfaceMessage;
+
+[Serializable, NetSerializable]
+public sealed class MarineCommunicationsDistressBeaconMsg : BoundUserInterfaceMessage;
+
+[Serializable, NetSerializable]
+public sealed class MarineCommunicationsToggleEvacuationMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
 public sealed class MarineCommunicationsComputerMsg(string text) : BoundUserInterfaceMessage
@@ -30,11 +44,16 @@ public sealed class MarineCommunicationsDesignatePrimaryLZMsg(NetEntity lz) : Bo
 }
 
 [Serializable, NetSerializable]
-public sealed class MarineCommunicationsComputerBuiState(string planet, string operation, List<LandingZone> landingZones) : BoundUserInterfaceState
+public sealed class MarineCommunicationsComputerBuiState(
+    string planet,
+    string operation,
+    List<LandingZone> landingZones,
+    bool distressBeaconEnabled) : BoundUserInterfaceState
 {
     public readonly string Planet = planet;
     public readonly string Operation = operation;
     public readonly List<LandingZone> LandingZones = landingZones;
+    public readonly bool DistressBeaconEnabled = distressBeaconEnabled;
 }
 
 [Serializable, NetSerializable]

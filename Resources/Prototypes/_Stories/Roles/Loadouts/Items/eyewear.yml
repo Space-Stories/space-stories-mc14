@@ -1,0 +1,6 @@
+# Eyewear
+- type: loadout
+  id: STGogglesM1A1Black
+  cost: 2
+  equipment:
+    eyes: STGogglesM1A1BallisticBlack

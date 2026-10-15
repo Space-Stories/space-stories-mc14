@@ -34,7 +34,7 @@
   parent: RMCHeadsetIconsCMB
   id: RMCHeadsetDistressBureau
   name: bureau earpiece
-  description: A sleek headset used by The Colony Marshal Bureau. Low profile and comfortable. No one is above the law.
+  description: A sleek headset used by the Colony Marshal Bureau. Low profile and comfortable. No one is above the law.
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/headsets.rsi
@@ -49,7 +49,7 @@
   parent: RMCHeadsetDistressBureau
   id: RMCHeadsetDistressBureauDamaged
   name: damaged bureau earpiece
-  description: A sleek headset used by The Colony Marshal Bureau. Low profile and comfortable. No one is above the law. This one is pretty beat up, and seems to be missing a few frequencies.
+  description: A sleek headset used by the Colony Marshal Bureau. Low profile and comfortable. No one is above the law. This one is pretty beat up, and seems to be missing a few frequencies.
   components:
   - type: ContainerFill
     containers:
@@ -123,7 +123,7 @@
   parent: RMCHeadsetDistressPMC
   id: RMCHeadsetDistressPMCLeader
   suffix: Leader
-  description:
+  description: A special headset used by corporate personnel.
   components:
   - type: RMCHeadset
     radioTextIncrease: 2
@@ -155,7 +155,7 @@
   parent: RMCHeadsetDistressWeYa
   id: RMCHeadsetDistressGoon
   name: We-Ya headset
-  description: A special headset used by corporate personnel.
+  description: A special headset used by corporate security personnel.
   components:
   - type: ContainerFill
     containers:
@@ -178,7 +178,7 @@
   parent: RMCHeadsetDistressGoon
   id: RMCHeadsetDistressGoonLeader
   suffix: Leader
-  description:
+  description: A special headset used by corporate security personnel.
   components:
   - type: RMCHeadset
     radioTextIncrease: 2
@@ -187,7 +187,7 @@
   parent: RMCHeadsetDistressWeYa
   id: RMCHeadsetDistressLawyerWeYa
   name: We-Ya headset
-  description: A special headset used by corporate personnel.
+  description: A special headset used by corporate legal personnel.
   suffix: Director
   components:
   - type: ContainerFill
@@ -226,6 +226,23 @@
 - type: entity
   parent: RMCHeadsetDistressDukes
   id: RMCHeadsetDistressDukesLeader
+  components:
+  - type: RMCHeadset
+    radioTextIncrease: 3
+
+- type: entity
+  parent: RMCHeadsetDistressDukes
+  id: RMCHeadsetDistressVAI
+  name: VAI contractor headset
+  description: A corporate contractor headset used by Vanguard's Arrow Incorporated response teams.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/headsets.rsi
+    state: vai_headset
+
+- type: entity
+  parent: RMCHeadsetDistressVAI
+  id: RMCHeadsetDistressVAILeader
   components:
   - type: RMCHeadset
     radioTextIncrease: 3
@@ -278,6 +295,76 @@
     channels:
     - MarineSOF
     radioTextIncrease: 3
+
+# Tyrargo/Varadero survs
+- type: entity
+  parent: RMCHeadsetMarine
+  id: RMCHeadsetTyrargo
+  name: UNMC headset
+  description: Issued to UNMC Marines.
+  suffix: Survivor
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/headsets.rsi
+    state: soc_headset
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - CMEncryptionKeyColony
+  - type: RMCHeadset
+    channels:
+    - MarineSurvivor
+  - type: RMCStaticDefaultChannel
+  - type: EncryptionKeyHolder
+    defaultChannel: MarineSurvivor
+  - type: GrantSquadLeaderTracker
+    defaultMode: SquadLeader
+    trackerModes:
+    - SquadLeader
+
+- type: entity
+  parent: RMCHeadsetTyrargo
+  id: RMCHeadsetTyrargoLeader
+  name: UNMC leader headset
+  suffix: Survivor
+  components:
+  - type: RMCHeadset
+    channels:
+    - MarineSurvivor
+    radioTextIncrease: 2
+
+- type: entity
+  parent: RMCHeadsetTyrargo
+  id: RMCHeadsetTyrargoCommander
+  name: UNMC commander headset
+  suffix: Survivor
+  components:
+  - type: RMCHeadset
+    channels:
+    - MarineSurvivor
+    radioTextIncrease: 3
+
+# without tracker
+- type: entity
+  parent: RMCHeadsetTyrargo
+  id: RMCHeadsetMarineNV
+  name: UNMC headset
+  description: A standard issue UNMC headset.
+  suffix: Survivor, Varadero
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/headsets.rsi
+    state: generic_headset
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - CMEncryptionKeyColony
+  - type: RMCHeadset
+    channels:
+    - MarineSurvivor
+  - type: RMCStaticDefaultChannel
+  - type: EncryptionKeyHolder
+    defaultChannel: MarineSurvivor
 
 # Paramarine Hybrisa survivor insert
 - type: entity
@@ -378,3 +465,17 @@
     defaultMode: SPPAirborneSL
     trackerModes:
     - SPPAirborneSL
+
+# For Sorokyne SPP SOF
+
+- type: entity
+  parent: RMCHeadsetColonyIcons
+  id: RMCHeadsetSPPSOFCrashland
+  name: SPP 121/RECON headset
+  description: A special headset used by recon elements of the SPP military.
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - RMCEncryptionKeySPP
+      - CMEncryptionKeyColony

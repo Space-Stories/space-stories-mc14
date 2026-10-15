@@ -327,6 +327,7 @@
   - type: NpcFactionMember
     factions:
     - RMCXeno
+  - type: STXenoMaskKnockoff # Stories-MaskKnockoff
   - type: RMCNightVisionVisible
   - type: CrashLandable
   - type: UserBlacklistActivatableUI

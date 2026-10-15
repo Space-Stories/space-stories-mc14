@@ -7,6 +7,7 @@ rmc-xeno-mature = Взрослый { $baseName }
 rmc-xeno-elder = Старший { $baseName }
 rmc-xeno-ancient = Древний { $baseName }
 rmc-xeno-prime = Первородный { $baseName }
+rmc-xeno-apex = Apex { $baseName }
 
 rmc-xeno-mature-parasite = Неоперившийся { $baseName }
 rmc-xeno-elder-parasite = Ветеран { $baseName }

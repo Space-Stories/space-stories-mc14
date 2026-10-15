@@ -1,10 +1,11 @@
-﻿using Content.Shared.Whitelist;
+﻿using Content.Shared._Stories.Weapons.Melee.TelescopicBaton;
+using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Weapons.Melee;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(SharedRMCMeleeWeaponSystem))]
+[Access(typeof(SharedRMCMeleeWeaponSystem), typeof(STTelescopicBatonModeSystem))] // Stories-TelescopicBaton
 public sealed partial class StunOnHitComponent : Component
 {
     [DataField, AutoNetworkedField]

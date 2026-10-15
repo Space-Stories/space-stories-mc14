@@ -45,6 +45,7 @@ rmc-guide-entry-squad-leader = Командир отряда
 rmc-guide-entry-marine-structures = Постройки морпехов
 rmc-guide-entry-comms-and-sensors = Связь и сенсоры
 rmc-guide-entry-mortar = Миномёт
+rmc-guide-entry-power-and-apcs = Энергоснабжение и ЛКП
 rmc-guide-entry-xenonid-castes = Касты ксеноморфов
 rmc-guide-entry-xenonid-t1 = Ксеноморфы Тира 1
 rmc-guide-entry-defender = Защитник

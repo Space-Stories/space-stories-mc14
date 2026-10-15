@@ -4,6 +4,17 @@ rmc-ui-options-cassettes-volume = Громкость кассет:
 rmc-ui-options-hijack-song-volume = Громкость песен захвата:
 rmc-ui-options-xeno-ability-previews = Показать предварительный просмотр способностей ксеноморфов
 rmc-ui-options-marine-equipment-previews = Показать предварительный просмотр снаряжения морпехов
+rmc-ui-options-post-death-chat-mute = Кратковременно заглушать чат после смерти
+rmc-ui-options-post-death-chat-mute-confirmation-title = Отключить заглушение чата после смерти?
+rmc-ui-options-post-death-chat-mute-confirmation-text = Отключение этого заглушения означает, что вы можете сразу же увидеть реакцию других персонажей после смерти вашего персонажа.
+  Помните о необходимости разделять взаимодействия персонажей и взаимодействия игроков: комментарии о вашем персонаже не обязательно направлены в ваш адрес.
+
+  Если вас что-то расстроило, сделайте перерыв перед ответом и используйте помощь администрации (ahelp) при нарушениях правил.
+  Ознакомьтесь с "Отказом от ответственности за сеттинг ролевой игры" в разделе правил "Не проявлять враждебность/не преследовать других".
+
+  Продолжая, вы подтверждаете, что можете увидеть потенциально неприятные реакции после смерти, и соглашаетесь не злиться на других игроков из-за внутриигровых взаимодействий персонажей.
+rmc-ui-options-post-death-chat-mute-confirmation-accept = Я понимаю, отключить
+rmc-ui-options-post-death-chat-mute-confirmation-deny = Оставить заглушение включённым
 
 rmc-ui-voicelines = Голосовые реплики
 rmc-ui-options-tab-voicelines = Голосовые реплики
@@ -94,6 +105,7 @@ rmc-other-credits-tab = Другое
 rmc-ui-auto-punctuate = Автоматически расставляйте знаки препинания в символьных сообщениях
 rmc-ui-auto-eject-magazines = Автоматическое извлечение магазинов из оружия
 rmc-ui-damage-yourself = Возможность наносить себе повреждения с помощью оружия ближнего боя
+rmc-ui-hive-leader-tackle-xenos = Толкать других ксеноморфов в качестве лидера улья.
 rmc-ui-show-new-player-icons = Отображайте значки новых игроков в качестве ролей наставника или руководителя отдела.
 rmc-ui-xeno-night-vision-default = Ночное видение ксеноморфов по умолчанию
 rmc-ui-xeno-night-vision-default-off = Выключено
@@ -114,6 +126,53 @@ rmc-tacmap-alert-no-area = Неизвесно
 rmc-ui-options-alternate-sprites = Используйте спрайты, не вызывающие трипофобии
 
 rmc-ui-options-chat-squad-color-mode = Раскрашивать имена говорящих по отрядам
+rmc-ui-options-crt-theme = Использовать оформление интерфейса в стиле ЭЛТ
+rmc-ui-options-crt-effects = Использовать визуальные эффекты ЭЛТ
+
+rmc-ui-options-announcements-style = Оформление объявлений
+rmc-ui-options-announcements-style-stylized = Стилизованное
+rmc-ui-options-announcements-style-default = Стандартное
+rmc-ui-options-announcements-style-simplified = Упрощённое
+rmc-ui-options-announcements-style-disabled = Отключено
+rmc-ui-options-announcements-style-per-announcement = Оформление по типу объявления
+rmc-ui-options-announcements-max-visible = Количество одновременных объявлений
+rmc-ui-options-announcements-layout = Расположение объявлений
+rmc-ui-options-announcements-layout-open-editor = Открыть редактор расположения
+rmc-ui-options-announcements-layout-reset-all = Сбросить все настройки расположения
+rmc-ui-options-announcements-layout-window = Расположение объявлений
+rmc-ui-options-announcements-layout-preview = Предпросмотр объявления
+rmc-ui-options-announcements-layout-preview-variant = Вариант предпросмотра
+rmc-ui-options-announcements-layout-preset-modes = Доступные варианты
+rmc-ui-options-announcements-layout-preset-modes-value = { $modes }
+rmc-ui-options-announcements-layout-target-global = Общие настройки
+rmc-ui-options-announcements-layout-target-preset = Настройки этого объявления
+rmc-ui-options-announcements-layout-target-global-check = Изменять общие настройки вместо настроек этого объявления
+rmc-ui-options-announcements-layout-position-x = Положение по X
+rmc-ui-options-announcements-layout-position-y = Положение по Y
+rmc-ui-options-announcements-layout-scale = Масштаб
+rmc-ui-options-announcements-layout-scale-input = Значение масштаба
+rmc-ui-options-announcements-layout-body-scale = Масштаб основного текста
+rmc-ui-options-announcements-layout-title-scale = Масштаб заголовка
+rmc-ui-options-announcements-layout-show-title = Показывать заголовок
+rmc-ui-options-announcements-layout-show-portrait = Показывать портрет
+rmc-ui-options-announcements-layout-body-color = Цвет основного текста (HEX)
+rmc-ui-options-announcements-layout-title-color = Цвет заголовка (HEX)
+rmc-ui-options-announcements-layout-sprite-box-color = Цвет фона портрета (HEX)
+rmc-ui-options-announcements-layout-sprite-box-border-color = Цвет рамки портрета (HEX)
+rmc-ui-options-announcements-layout-crt-glow-color = Цвет свечения ЭЛТ (HEX)
+rmc-ui-options-announcements-layout-background-color = Цвет фона (HEX)
+rmc-ui-options-announcements-layout-scale-value = Масштаб: { $value }
+rmc-ui-options-announcements-layout-position-value = Положение: { $x }, { $y }
+rmc-ui-options-announcements-layout-position-default = Положение: по умолчанию для объявления
+rmc-ui-options-announcements-layout-reset-target = Сбросить текущие настройки
+rmc-ui-options-announcements-layout-help = Предпросмотр отображается прямо на игровом экране, а не внутри этого окна. Перетащите объявление на экране, чтобы изменить его положение. Для настройки выбранного объявления используйте ползунок, колёсико мыши или числовые поля. Включайте изменение общих настроек только тогда, когда хотите настроить положение по умолчанию для объявлений без собственных настроек.
+rmc-ui-options-announcements-layout-summary = Общие настройки: { $global }. Отдельно настроено объявлений: { $count }.
+rmc-ui-options-announcements-layout-summary-default = по умолчанию
+rmc-ui-options-announcements-layout-summary-custom = изменены
+rmc-ui-options-announcements-layout-preview-line-1 = Предпросмотр: { $name }
+rmc-ui-options-announcements-layout-preview-line-2 = Перетащите, чтобы изменить положение. Масштаб задаётся отдельно.
+rmc-ui-options-announcements-layout-preview-speaker = Диктор
+rmc-ui-options-announcements-layout-no-presets = Нет доступных для редактирования шаблонов объявлений.
 
 # Dialog input
 rmc-dialog-input-placeholder-default = Введите текст

@@ -198,6 +198,9 @@
     blacklist:
       components:
       - Xeno
+  - type: AccessReader
+    access: [ [ "RMCAccessCommand" ] ]
+  - type: ActivatableUIRequiresAccess
 
 - type: entity
   parent: RMCCommunicationsConsoleBase
@@ -230,8 +233,8 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 300
+    activeLoad: 300
     channel: Equipment
   - type: UserInterface
     interfaces:
@@ -259,8 +262,8 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 300
+    activeLoad: 300
     channel: Equipment
   - type: UserInterface
     interfaces:

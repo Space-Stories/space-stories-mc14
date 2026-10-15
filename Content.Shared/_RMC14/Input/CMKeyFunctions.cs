@@ -27,12 +27,15 @@ public sealed class CMKeyFunctions
     public static readonly BoundKeyFunction RMCMarineSpecialistOne = "RMCMarineSpecialistOne";
     public static readonly BoundKeyFunction RMCMarineSpecialistTwo = "RMCMarineSpecialistTwo";
     public static readonly BoundKeyFunction RMCPickUpDroppedItems = "RMCPickUpDroppedItems";
+    public static readonly BoundKeyFunction RMCPushup = "RMCPushup";
+    public static readonly BoundKeyFunction RMCPushupRoutine = "RMCPushupRoutine";
     public static readonly BoundKeyFunction RMCQuickEquipInventory = "RMCQuickEquipInventory";
     public static readonly BoundKeyFunction RMCRest = "RMCRest";
     public static readonly BoundKeyFunction RMCResist = "RMCResist";
     public static readonly BoundKeyFunction RMCToggleAutoEject = "RMCToggleAutoEject";
     public static readonly BoundKeyFunction RMCToggleIff = "RMCToggleIff";
     public static readonly BoundKeyFunction RMCUnloadWeapon = "RMCUnloadWeapon";
+    public static readonly BoundKeyFunction RMCWeakPushup = "RMCWeakPushup";
 
     // Xeno
     public static readonly BoundKeyFunction CMXenoWideSwing = "CMXenoWideSwing";

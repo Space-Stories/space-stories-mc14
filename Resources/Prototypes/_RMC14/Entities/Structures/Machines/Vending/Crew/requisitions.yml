@@ -24,11 +24,6 @@
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/guns.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     baseSprite:
@@ -361,16 +356,11 @@
 - type: entity
   parent: ColMarTechCargo
   id: ColMarTechCargoAmmo
-  name: ASRS automated munition vendor
+  name: ASRS surplus munitions vendor
   description: An automated supply rack hooked up to a big storage of various ammunition types. Can be accessed by the Logistics Officer and Requisitions Technicians.
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/ammo.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     ignoreBulkRestockById:
@@ -434,10 +424,10 @@
         amount: 4
       - id: RMCMagazineSmartGun
         amount: 4
-      #- id: M44 Heavy Speed Loader (.44)
-      #  amount: 10
+      - id: RMCSpeedLoader44Heavy
+        amount: 10
       - id: RMCSpeedLoader44Marksman
-        amount: 16 # TODO RMC14 6 once heavy is in
+        amount: 6
       - id: RMCMagazinePistolM1984HP
         amount: 2
       - id: CMMagazineRifleM54CE2HT
@@ -578,8 +568,9 @@
         name: Коробка магазинов (Марксман M44 x 16)
         box: RMCSpeedLoader44Marksman
 
-#      - name: Magazine Box (Heavy M44 x 16)
-#        box: CMMagazineSMGM63
+      - id: RMCBoxMagazineRevolverM44Heavy
+        name: Magazine Box (Heavy M44 x 16)
+        box: RMCSpeedLoader44Heavy
 #      - name: Magazine Box (UT-Napthal Fuel x 8)
 #        box: CMMagazineSMGM63
 
@@ -618,16 +609,11 @@
 - type: entity
   parent: ColMarTechCargo
   id: ColMarTechCargoAttachments
-  name: AEGIS Armaments attachments vendor
+  name: ASRS surplus attachments vendor
   description: An automated supply rack hooked up to a big storage of weapons attachments. Can be accessed by the Logistics Officer and Requisitions Technicians.
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/attachments.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     baseSprite:
@@ -687,8 +673,8 @@
         amount: 4
       - id: RMCAttachmentMiniFlamethrower
         amount: 5
-      #- id: RMCAttachmentXMVESG1FlamerNozzle
-      #  amount: 5
+      - id: RMCAttachmentXMVESG1FlamerNozzle
+        amount: 5
       - id: RMCAttachmentU7UnderbarrelShotgun
         amount: 5
       - id: RMCAttachmentUnderbarrelExtinguisher
@@ -795,7 +781,7 @@
         amount: 10
     - name: Перчатки
       entries:
-      - id: CMHandsBrown
+      - id: RMCHandsBrownMarine
         amount: 40
       - id: RMCHandsGreyMarine
         amount: 40

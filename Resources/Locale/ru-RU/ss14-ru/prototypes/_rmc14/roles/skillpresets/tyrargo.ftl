@@ -1,0 +1,12 @@
+ent-RMCSkillPresetTyrargoTrooper = UNMC Tyrargo Rifleman
+    .desc = { ent-RMCSkillPresetSurvivor.desc }
+ent-RMCSkillPresetEngineeringTechnician = UNMC Tyrargo Engineering Technician
+    .desc = { ent-RMCSkillPresetTyrargoTrooper.desc }
+ent-RMCSkillPresetTyrargoMedicalTechnician = UNMC Tyrargo Medical Technician
+    .desc = { ent-RMCSkillPresetTyrargoTrooper.desc }
+ent-RMCSkillPresetTyrargoMarksman = UNMC Tyrargo Marksman
+    .desc = { ent-RMCSkillPresetTyrargoTrooper.desc }
+ent-RMCSkillPresetTyrargoHeavyGunner = UNMC Tyrargo Heavy Gunner
+    .desc = { ent-RMCSkillPresetTyrargoTrooper.desc }
+ent-RMCSkillPresetTyrargoSquadLeader = UNMC Tyrargo Squad Leader
+    .desc = { ent-RMCSkillPresetTyrargoTrooper.desc }

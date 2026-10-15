@@ -494,6 +494,7 @@ public sealed class SharedXenoConstructionSystem : EntitySystem
                 ? "We regurgitate some resin and thicken the " + Name(upgradeable) + " effortlessly."
                 : $"We regurgitate some resin and thicken the {Name(upgradeable)}, using {cost} plasma.";
             _popup.PopupClient(msg, upgradeable, xeno);
+            _audio.PlayPredicted(xeno.Comp.BuildSound, Transform(upgradeable).Coordinates, xeno.Owner);
 
             if (_net.IsClient)
                 return;
@@ -1505,6 +1506,14 @@ public sealed class SharedXenoConstructionSystem : EntitySystem
 
     public bool CanOrderConstructionPopup(Entity<XenoConstructionComponent> xeno, EntityCoordinates target, EntProtoId? choice, bool popup = true)
     {
+        if (!_hive.CanXenoConstruct(xeno.Owner))
+        {
+            if (popup)
+                _popup.PopupClient(Loc.GetString("rmc-xeno-construction-permission-denied"), target, xeno, PopupType.MediumCaution);
+
+            return false;
+        }
+
         if (_queenEye.IsInQueenEye(xeno.Owner) &&
             !_queenEye.CanSeeTarget(xeno.Owner, target))
         {

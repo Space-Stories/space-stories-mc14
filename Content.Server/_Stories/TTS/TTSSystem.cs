@@ -202,21 +202,29 @@ public sealed partial class TTSSystem : EntitySystem
         return true;
     }
 
-    private void OnEntitySpoke(EntityUid uid, TTSComponent component, EntitySpokeEvent args)
+    private bool TryResolveVoiceForEntity(
+        EntityUid uid,
+        string? voiceId,
+        [NotNullWhen(true)] out TTSVoicePrototype? voicePrototype)
     {
-        var voiceId = component.VoicePrototypeId;
-        if (args.Message.Length > MaxMessageChars || voiceId == null)
-            return;
+        voicePrototype = null;
+        if (voiceId == null)
+            return false;
 
         var voiceEv = new TransformSpeakerVoiceEvent(uid, voiceId);
         RaiseLocalEvent(uid, voiceEv);
-        voiceId = voiceEv.VoiceId;
 
-        if (!GetVoicePrototype(voiceId, out var protoVoice) || !ValidateVoiceForEntity(uid, protoVoice))
-        {
-            if (!GetVoicePrototype("father_grigori", out protoVoice))
-                return;
-        }
+        if (GetVoicePrototype(voiceEv.VoiceId, out voicePrototype) && ValidateVoiceForEntity(uid, voicePrototype))
+            return true;
+
+        return GetVoicePrototype("father_grigori", out voicePrototype);
+    }
+
+    private void OnEntitySpoke(EntityUid uid, TTSComponent component, EntitySpokeEvent args)
+    {
+        if (args.Message.Length > MaxMessageChars ||
+            !TryResolveVoiceForEntity(uid, component.VoicePrototypeId, out var protoVoice))
+            return;
 
         var messageToUse = args.Message;
 

@@ -16,3 +16,6 @@ ent-RMCLockerFridgeMeat = мясо
 ent-RMCLockerFridgeFish = рыба
     .desc = { ent-CMLockerFridge.desc }
     .suffix = { ent-CMLockerFridge.suffix }
+ent-CMLockerFridgeColony = fridge
+    .desc = { ent-CMLockerFridge.desc }
+    .suffix = colony

@@ -1,6 +1,6 @@
 ent-RMCEffectAlert = { "" }
     .desc = { "" }
-ent-RMCHijackPipeExplosionWarning = explosive warning
+ent-RMCHijackPipeExplosionWarning = предупреждение о взрывоопасности
     .desc = { ent-RMCEffectAlert.desc }
 ent-RMCActiveAlertEffect = восклицание
     .desc = { "" }

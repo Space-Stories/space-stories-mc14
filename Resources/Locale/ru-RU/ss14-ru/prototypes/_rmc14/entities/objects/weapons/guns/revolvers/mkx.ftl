@@ -1,6 +1,6 @@
-ent-RMCWeaponRevolverMkX = Warwick MkX TBR
-    .desc = For centuries, throughout peacetime and war, the Warwick has been the choice sidearm of the TSE's armed forces. The Mark 10 top-break revolver, chambered in .454, carries the Warwick's legacy into the modern age.
-    .suffix = DO NOT MAP
+ent-RMCWeaponRevolverMkX = переломный револьвер Уорвик MkX
+    .desc = На протяжении веков, в мирное и военное время, Уорвик оставался излюбленным личным оружием вооружённых сил ИТС. Переломный револьвер Mark 10 под патрон .454 переносит наследие Уорвика в современную эпоху.
+    .suffix = НЕ МАППИТЬ
 ent-RMCWeaponRevolverMkXEmpty = { ent-RMCWeaponRevolverMkX }
     .desc = { ent-RMCWeaponRevolverMkX.desc }
-    .suffix = Empty
+    .suffix = Пустой

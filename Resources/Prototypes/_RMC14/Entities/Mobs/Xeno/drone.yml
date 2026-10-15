@@ -12,6 +12,7 @@
   name: Drone
   description: An alien drone.
   components:
+  - type: XenoBuilderCaste
   - type: MobState
     allowedStates:
     - Alive
@@ -26,6 +27,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  # Stories-SynthHeavyGrab-End
   - type: MeleeWeapon
     damage:
       groups:
@@ -305,5 +313,9 @@
   - type: XenoHidden
   - type: VentCrawler
     ventCrawlIcon: healer
+  - type: AcidTrap
+    trapLevel: 1
+    cost: 70
+    spray: XenoAcidSprayTrapWeak
   - type: RMCActionOrder
     id: CMXenoDroneHealer

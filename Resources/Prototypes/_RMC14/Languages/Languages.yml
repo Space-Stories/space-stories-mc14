@@ -28,6 +28,7 @@
   name: "Xenonid"
   description: "The alien language of the Xenonids."
   isVisibleLanguage: true
+  category: Xenonid
   typefaceId: null
   textSize: null
   languageIcon:
@@ -44,8 +45,9 @@
   learningRateMultiplier: 0.45
   obfuscationMethod:
     !type:XenoObfuscation
-    xenoSounds: ["hss", "sss", "tss", "chk", "krr", "hrr", "skr", "tsk", "rrk", "hsk", "ssk"]
+    xenoSounds: ["хсс", "ссс", "тсс", "чк", "крр", "хрр", "скр", "тск", "ррк", "хск", "сск"] # Stories-CyrillicLanguageLearning
     garbleChars: ['~', '?', '*', '#', '¿', '§']
+    soundReplacementChance: 1.0 # Stories-XenoObfuscationFade
     intensityMultiplier: 1.0
   speechOverride:
     speechSoundsOverride: Xenonid

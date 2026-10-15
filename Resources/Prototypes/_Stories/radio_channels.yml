@@ -19,3 +19,11 @@
   planet: true
   tower: false
   ttsCategory: "stories-tts-category-radio-hunter"
+
+- type: radioChannel
+  id: STApolloLink
+  name: stories-chat-radio-apollo-link
+  keycode: "хд"
+  frequency: 1207
+  color: "#5ed7aa"
+  longRange: true

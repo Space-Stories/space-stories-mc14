@@ -1,9 +1,15 @@
 ent-RMCWeaponPistolMK45 = MK-45 'мощный' автомагнум
     .desc = Изначально он был разработан как замена боевому револьверу M44, но в последнюю минуту комиссия отклонила его, сославшись на то, что он должен взводиться после каждого заряженного магазина и является слишком громоздким и устаревшим.
     .suffix = Заполненный
+ent-RMCWeaponPistolHG45Marina = пистолет HG-45 "Марина"
+    .desc = Версия MK-45, заказанная в массовое производство для вооружения КМБ после того, как он прошел их снисходительные стандарты, в отличие от КМП США. Требует взведения после установки новой обоймы, калибр — .45 Automagnum.
+    .suffix = { ent-RMCWeaponPistolMK45.suffix }
+ent-RMCWeaponPistolHG45Aguila = пистолет HG-45 "Аквила"
+    .desc = Гражданская версия пистолета MK-45, пользуется популярностью у начинающих офицеров, стремящихся произвести впечатление на своих товарищей. После установки нового магазина его необходимо взвести. Калибр — .45 Automagnum.
+    .suffix = { ent-RMCWeaponPistolMK45.suffix }
 ent-RMCMagazinePistolMK45 = магазин MK-45 автомагнум (.45)
     .desc = Пистолетный магазин.
-ent-CMCartridgePistolMK45 = Cartridge (.45 Automagnum)
+ent-CMCartridgePistolMK45 = патрон (.45 автомагнум)
     .desc = { ent-CMCartridgePistolBase.desc }
 ent-CMBulletPistolMK45 = мощная пистолетная пуля (.45)
     .desc = { ent-CMBulletBase.desc }

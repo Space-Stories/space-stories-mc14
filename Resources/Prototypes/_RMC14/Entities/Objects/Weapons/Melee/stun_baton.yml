@@ -91,12 +91,70 @@
     guides:
     - RMCGuideRoleMilitaryPolice
 
-# TODO RMC14: Actually implement the telescopic baton
 - type: entity
-  parent: CMStunbaton
+  parent: BaseItem
   id: RMCTelescopicBaton
   name: telescopic baton
-  description: A compact yet rebalanced personal defense weapon. Can be concealed when folded.
+  description: A compact yet rebalanced personal defense weapon. Can be concealed when folded. Use in-hand to extend or collapse it. Use the unique action to switch between combat and stun mode.
   components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Melee/telebaton.rsi
+    layers:
+    - state: telebaton_off
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _RMC14/Objects/Weapons/Melee/telebaton.rsi
+    slots:
+    - Belt
+    - Suitstorage
   - type: Item
+    heldPrefix: off
     size: Small
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: {state: telebaton_on}
+          False: {state: telebaton_off}
+  - type: ItemToggle
+    predictable: false
+    soundActivate:
+      path: /Audio/Machines/button.ogg
+      params:
+        variation: 0.15
+    soundDeactivate:
+      path: /Audio/Machines/button.ogg
+      params:
+        variation: 0.15
+  - type: ItemTogglePrefix
+    prefixOn: on
+    prefixOff: off
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    damage:
+      types:
+        Blunt: 4
+    angle: 60
+    animation: WeaponArcThrust
+  - type: ItemToggleMeleeWeapon
+    activatedDamage:
+      types:
+        Blunt: 9
+  - type: STTelescopicBatonMode
+    combatDamage:
+      types:
+        Blunt: 9
+    stunStaminaDamage: 60
+    stunDuration: 6
+    stunWhitelist:
+      components:
+      - Marine
+  - type: MeleeRequiresSkill
+    skills:
+      RMCSkillPolice: 1
+  - type: DisarmMalus
+    malus: 0.15
+  - type: GuideHelp
+    guides:
+    - RMCGuideRoleMilitaryPolice

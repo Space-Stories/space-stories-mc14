@@ -1,0 +1,9 @@
+ent-RMCPlatformTyrargoRock = rock edge
+    .desc = A solid chunk of desolate rocks. Looks like you could climb it with some difficulty.
+    .suffix = Tyrargo
+ent-RMCPlatformTyrargoRockBroken = destroyed rock edge
+    .desc = A solid chunk of desolate rocks. Looks like you could climb it with some difficulty. It has been destroyed.
+    .suffix = Tyrargo
+ent-RMCPlatformTyrargoRockCornerSmall = rock corner
+    .desc = A solid chunk of desolate rocks.
+    .suffix = Tyrargo

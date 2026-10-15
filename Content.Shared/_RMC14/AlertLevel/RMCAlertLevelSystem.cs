@@ -4,6 +4,7 @@ using Content.Shared._RMC14.Doors;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.Announce;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Doors.Components;
@@ -36,9 +37,17 @@ public sealed class RMCAlertLevelSystem : EntitySystem
     private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
     public override void Initialize()
     {
+        base.Initialize();
+
         SubscribeLocalEvent<DropshipHijackLandedEvent>(OnDropshipHijackLanded);
+        SubscribeLocalEvent<RMCAlertLevelDisplayComponent, MapInitEvent>(OnAlertLevelDisplayMapInit);
 
         _ghostQuery = GetEntityQuery<GhostComponent>();
+    }
+
+    private void OnAlertLevelDisplayMapInit(Entity<RMCAlertLevelDisplayComponent> ent, ref MapInitEvent args)
+    {
+        _appearance.SetData(ent.Owner, RMCAlertLevelsVisuals.Alert, Get() ?? RMCAlertLevels.Green);
     }
 
     private void OnDropshipHijackLanded(ref DropshipHijackLandedEvent ev)
@@ -83,6 +92,12 @@ public sealed class RMCAlertLevelSystem : EntitySystem
         return Get() == RMCAlertLevels.Red || Get() ==  RMCAlertLevels.Delta;
     }
 
+    public ProtoId<AnnouncementPresetPrototype> EnsureAlertAnnouncementPreset(RMCAlertLevels level)
+    {
+        var alert = EnsureAlertLevel();
+        return alert.Comp.GetAnnouncementPreset(level);
+    }
+
     public void Set(RMCAlertLevels level, EntityUid? user, bool playSound = true, bool sendAnnouncement = true)
     {
         var ent = EnsureAlertLevel();
@@ -116,7 +131,7 @@ public sealed class RMCAlertLevelSystem : EntitySystem
         {
             foreach (var almayer in almayers)
             {
-                _aresCore.CreateARESLog(almayer, LogCat, (string)$"{Name(user.Value)} set the alert level to: {level}");
+                _aresCore.CreateARESLog(almayer, LogCat, $"{Name(user.Value)} set the alert level to: {level}");
             }
         }
 
@@ -142,14 +157,19 @@ public sealed class RMCAlertLevelSystem : EntitySystem
         // Send announcement if sendAnnouncement == true
         if (sendAnnouncement)
         {
+            var preset = ent.Comp.GetAnnouncementPreset(level);
             if (announcement != null)
             {
-                _marineAnnounce.AnnounceToMarines(Loc.GetString(announcement));
+                var text = Loc.GetString(announcement);
+                _marineAnnounce.AnnounceToMarines(text);
+                _marineAnnounce.AnnounceAlertLevel(preset, text, filter);
             }
             else if (message != null)
             {
                 var ares = _aresCore.EnsureMarineARES();
-                _marineAnnounce.AnnounceRadio(ares, Loc.GetString(message.Value), ent.Comp.RadioChannel);
+                var text = Loc.GetString(message.Value);
+                _marineAnnounce.AnnounceRadio(ares, text, ent.Comp.RadioChannel);
+                _marineAnnounce.AnnounceAlertLevel(preset, text, filter);
             }
         }
 

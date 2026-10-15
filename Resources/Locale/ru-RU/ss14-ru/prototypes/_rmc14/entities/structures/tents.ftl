@@ -1,0 +1,13 @@
+ent-RMCPropTentBase = tent
+    .desc = { "" }
+ent-RMCPropTentSmall = small tent
+    .desc = { ent-RMCPropTentBase.desc }
+ent-RMCPropTentMedical = medical tent
+    .desc = { ent-RMCPropTentBase.desc }
+ent-RMCPropTentCommand = command tent
+    .desc = { ent-RMCPropTentBase.desc }
+ent-RMCPropTentSupply = supply tent
+    .desc = { ent-RMCPropTentBase.desc }
+ent-RMCPropTentSmallBack = small tent
+    .desc = { ent-RMCPropTentBase.desc }
+    .suffix = Back

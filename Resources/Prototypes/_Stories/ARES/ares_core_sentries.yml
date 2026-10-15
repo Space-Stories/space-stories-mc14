@@ -1,0 +1,23 @@
+- type: entity
+  parent: RMCTurretAlmayer
+  id: STTurretARES
+  name: UA X512-S mini sentry
+  description: A compact defence turret slaved to the ARES security grid. It deploys from the floor whenever the AI core detects hostile activity.
+  components:
+  - type: SentryTargeting
+    friendlyFactions:
+    - UNMC
+
+- type: entity
+  parent: RMCDeployerSentry
+  id: STDeployerSentryARES
+  name: ARES sentry deployment system
+  description: A floor hatch housing an ARES core defence turret. It deploys automatically when xenomorphs, resin or personnel without UNMC IFF are detected nearby.
+  components:
+  - type: RMCEquipmentDeployer
+    deployPrototype: STTurretARES
+    isDeployableByHand: false
+    alertLevelRequired: null
+  - type: StoriesThreatAutoDeployer
+    range: 7
+    announcementSound: /Audio/_RMC14/Announcements/ARES/attention_jingle.ogg

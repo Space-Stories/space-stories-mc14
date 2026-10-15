@@ -2,6 +2,8 @@
   id: RMCLexorin
   priority: 5
   reactants:
+    RMCBlackGoo:
+      amount: 0.5
     RMCPhoron:
       amount: 1
     RMCHydrogen:

@@ -11,3 +11,7 @@ cm-xeno-nest-failed-target-resisting = { $target } сопротивляется,
 cm-xeno-nest-failed-cant-there = Вы не можете создать там гнездо!
 cm-xeno-nest-failed-cant-already-there = Там уже кто-то гнездился!
 rmc-xeno-nest-failed-dead = Этот хозяин мертв.
+
+rmc-xeno-nest-unnest-verb = Освободить носителя
+rmc-xeno-nest-unnest-permission-denied = Нам не стоит вмешиваться в гнездо, оставим это строителям.
+rmc-xeno-nest-unnest-start = Мы начинаем высвобождать { $target } из гнезда...

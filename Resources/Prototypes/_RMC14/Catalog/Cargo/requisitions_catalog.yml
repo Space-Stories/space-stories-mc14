@@ -65,6 +65,8 @@
       - cost: 3000
         crate: RMCCrateBoxMagazineRevolverM44Marksman
       - cost: 4000
+        crate: RMCCrateBoxMagazineRevolverM44Heavy
+      - cost: 4000
         crate: RMCCrateBoxMagazineSentry
       - cost: 4000
         crate: RMCCrateMagazineNapthalUT
@@ -289,6 +291,8 @@
         crate: RMCCrateMortarShellIncendiary
       - cost: 1000
         crate: RMCCrateMortarShellFlare
+      - cost: 1000
+        crate: RMCCrateMortarShellFrag
 #    - name: Операции # Stories-Translate
 #      entries: []
     - name: Резервуары для реагентов # Stories-Translate

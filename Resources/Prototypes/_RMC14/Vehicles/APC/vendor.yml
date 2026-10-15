@@ -1,7 +1,7 @@
 - type: entity
   parent: ColMarTechBase
   id: VehicleAPCSupplyVendor
-  name: ColMarTech automated supply vendor
+  name: ASRS automated supply vendor
   description: An automated supply rack for APC crews.
   components:
   - type: ApcPowerReceiver
@@ -55,6 +55,10 @@
       - id: CMMagazinePistolM77AP
         amount: 0
       - id: RMCSpeedLoaderM44
+        amount: 0
+      - id: RMCSpeedLoader44Heavy
+        amount: 0
+      - id: RMCSpeedLoader44Marksman
         amount: 0
       - id: CMMagazinePistolM1984
         amount: 0

@@ -369,6 +369,7 @@
       - id: RMCGogglesBallisticPolarizedBlue
       - id: RMCGogglesBallisticPolarizedOrange
       - id: RMCGogglesM1A1BallisticBlue
+      - id: STGogglesM1A1BallisticBlack # Stories-GogglesM1A1Black
     # Masks and scarfs
     - name: Standard Masks and Scarfs
       entries:

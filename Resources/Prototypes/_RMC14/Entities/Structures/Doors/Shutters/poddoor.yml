@@ -99,6 +99,7 @@
   description: That looks like it doesn't open easily. Maybe look for a button or use a breaching charge?
   components:
   - type: VehicleSmashable
+    minContinueWeightClass: Heavy
     smashSound:
       path: /Audio/_RMC14/Effects/metal_crash.ogg
   - type: Door
@@ -112,6 +113,44 @@
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Doors/Shutters/Almayer/poddoor.rsi
+  - type: MinimapColor
+    color: "#451e5eb8"
+
+- type: entity
+  parent: RMCPodDoorAlmayer
+  id: RMCShuttleExternalHangarPodDoor
+  suffix: Shuttle, External Hangar
+  components:
+  - type: FTLBeacon
+  - type: DropshipDestination
+    dockBounds: "-6,-10.5,6,8.5"
+    reserved: true
+    landingClasses: [ external_hangar ]
+    landingTags: [ mainship, ert, external_hangar ]
+  - type: FTLSmashImmune
+  - type: NoFTL
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: false
+  - type: RMCPowerReceiver
+    idleLoad: 0
+    activeLoad: 0
+  - type: RMCDockingPortAirlockControl
+    airlockTags: [ RMCShuttleAirlockExternalHangar ]
+    searchRadius: 8
+  - type: Tag
+    tags:
+    - RMCShuttleAirlockExternalHangar
+
+- type: entity
+  parent: RMCPodDoor
+  id: RMCPodDoorAlmayerBlendedLiaison
+  suffix: Poddoor, Blended, Liaison
+  name: reinforced hull
+  description: A reinforced metal wall used to separate rooms and make up the ship.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Doors/Shutters/Almayer/liaison_poddoor.rsi
   - type: MinimapColor
     color: "#451e5eb8"
 
@@ -200,6 +239,7 @@
   - type: RMCPowerReceiver
     idleLoad: 0
     activeLoad: 0
+    # This indestructible map barrier is intentionally always powered.
 
 - type: entity
   parent: RMCPodDoorHybrisaIndestructibleUltra

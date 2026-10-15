@@ -6,3 +6,5 @@ ent-RMCCrateMortarShellIncendiary = ящик минометных снарядо
     .desc = { ent-RMCCrateMortarAmmo.desc }
 ent-RMCCrateMortarShellFlare = ящик минометных снарядов M402 (x6 сигнальная ракета/камера)
     .desc = { ent-RMCCrateMortarAmmo.desc }
+ent-RMCCrateMortarShellFrag = ящик минометных снарядов M402 (x6 осколочные)
+    .desc = { ent-RMCCrateMortarAmmo.desc }

@@ -1,0 +1,14 @@
+- type: entity
+  id: ActionSTPredalienRoar
+  parent: ActionXenoBase
+  name: Predalien Roar
+  description: A guttural roar that decloaks nearby hunters and empowers allied xenos.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/predalien_actions.rsi
+      state: predalien_roar
+    useDelay: 25
+  - type: InstantAction
+    event: !type:STPredalienRoarActionEvent

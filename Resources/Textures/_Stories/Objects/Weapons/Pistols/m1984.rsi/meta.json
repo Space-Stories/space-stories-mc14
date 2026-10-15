@@ -1,43 +1,43 @@
 {
-    "version": 1,
-    "license": "Собственная лицензия. Копирование, модификация и использование вне проекта Space Stories полностью запрещено без предварительного согласия текущего владельца проекта",
-    "copyright": "lukas DS(discord:.lukasa.)",
-    "size": {
-        "x": 32,
-        "y": 32
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "lukas DS(discord:.lukasa.)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
     },
-    "states": [
-        {
-            "name": "icon"
-        },
-        {
-            "name": "base"
-        },
-        {
-            "name": "bolt-open"
-        },
-        {
-            "name": "inhand-left",
-            "directions": 4
-        },
-        {
-            "name": "mag-0"
-        },
-        {
-            "name": "inhand-right",
-            "directions": 4
-        },
-        {
-            "name": "wielded-inhand-left",
-            "directions": 4
-        },
-        {
-            "name": "wielded-inhand-right",
-            "directions": 4
-        },
-        {
-            "name": "equipped-SUITSTORAGE",
-            "directions": 4
-        }
-    ]
+    {
+      "name": "base"
+    },
+    {
+      "name": "bolt-open"
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "mag-0"
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "wielded-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "wielded-inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "equipped-SUITSTORAGE",
+      "directions": 4
+    }
+  ]
 }

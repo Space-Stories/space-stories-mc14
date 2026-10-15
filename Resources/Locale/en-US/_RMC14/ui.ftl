@@ -4,6 +4,17 @@ rmc-ui-options-cassettes-volume = Cassette volume:
 rmc-ui-options-hijack-song-volume = Hijack song volume:
 rmc-ui-options-xeno-ability-previews = Show xeno ability previews
 rmc-ui-options-marine-equipment-previews = Show marine equipment previews
+rmc-ui-options-post-death-chat-mute = Mute chat briefly after death
+rmc-ui-options-post-death-chat-mute-confirmation-title = Disable post-death chat mute?
+rmc-ui-options-post-death-chat-mute-confirmation-text = Disabling this mute means you may immediately see the reaction of other characters after your character dies.
+  Remember to separate character interactions from player interactions, comments about your character are not necessarily directed at you.
+
+  If something upsets you, step away before responding, and use admin help for rule-breaking behavior.
+  Read the "Roleplay Setting Disclaimer" in the "Don't Antagonize/Harass Others" section of the rules.
+
+  By continuing, you acknowledge that you may see potentially upsetting post-death reactions and agree not to get upset at other players over in-character interactions.
+rmc-ui-options-post-death-chat-mute-confirmation-accept = I understand, disable
+rmc-ui-options-post-death-chat-mute-confirmation-deny = Keep chat mute enabled
 
 rmc-ui-voicelines = Voicelines
 rmc-ui-options-tab-voicelines = Voicelines
@@ -94,6 +105,7 @@ rmc-other-credits-tab = Other
 rmc-ui-auto-punctuate = Automatically punctuate in-character messages
 rmc-ui-auto-eject-magazines = Automatically eject magazines from guns
 rmc-ui-damage-yourself = Enable being able to hurt yourself with melee and guns
+rmc-ui-hive-leader-tackle-xenos = Tackle other xenos as hive leader.
 rmc-ui-show-new-player-icons = Show new player icons as mentor or department head roles
 rmc-ui-xeno-night-vision-default = Xeno night vision default
 rmc-ui-xeno-night-vision-default-off = Off
@@ -114,6 +126,53 @@ rmc-tacmap-alert-no-area = Unknown area
 rmc-ui-options-alternate-sprites = Use non-trypophobia inducing sprites
 
 rmc-ui-options-chat-squad-color-mode = Colorize names of the speaker by squads
+rmc-ui-options-crt-theme = Use the CRT interface theme
+rmc-ui-options-crt-effects = Use CRT visual effects
+
+rmc-ui-options-announcements-style = Announcement visuals
+rmc-ui-options-announcements-style-stylized = Stylized
+rmc-ui-options-announcements-style-default = Default
+rmc-ui-options-announcements-style-simplified = Simple
+rmc-ui-options-announcements-style-disabled = Disabled
+rmc-ui-options-announcements-style-per-announcement = Announcement visuals by source
+rmc-ui-options-announcements-max-visible = Simultaneous announcements
+rmc-ui-options-announcements-layout = Announcement layout
+rmc-ui-options-announcements-layout-open-editor = Open layout editor
+rmc-ui-options-announcements-layout-reset-all = Reset all layout overrides
+rmc-ui-options-announcements-layout-window = Announcement Layout
+rmc-ui-options-announcements-layout-preview = Preview preset
+rmc-ui-options-announcements-layout-preview-variant = Preview variant
+rmc-ui-options-announcements-layout-preset-modes = Available variants
+rmc-ui-options-announcements-layout-preset-modes-value = {$modes}
+rmc-ui-options-announcements-layout-target-global = Global default
+rmc-ui-options-announcements-layout-target-preset = This preset override
+rmc-ui-options-announcements-layout-target-global-check = Edit global override instead of this preset
+rmc-ui-options-announcements-layout-position-x = Position X
+rmc-ui-options-announcements-layout-position-y = Position Y
+rmc-ui-options-announcements-layout-scale = Scale
+rmc-ui-options-announcements-layout-scale-input = Scale value
+rmc-ui-options-announcements-layout-body-scale = Body text scale
+rmc-ui-options-announcements-layout-title-scale = Title text scale
+rmc-ui-options-announcements-layout-show-title = Show title
+rmc-ui-options-announcements-layout-show-portrait = Show portrait
+rmc-ui-options-announcements-layout-body-color = Body color hex
+rmc-ui-options-announcements-layout-title-color = Title color hex
+rmc-ui-options-announcements-layout-sprite-box-color = Sprite box bg hex
+rmc-ui-options-announcements-layout-sprite-box-border-color = Sprite box border hex
+rmc-ui-options-announcements-layout-crt-glow-color = CRT glow color hex
+rmc-ui-options-announcements-layout-background-color = Background color hex
+rmc-ui-options-announcements-layout-scale-value = Scale: {$value}
+rmc-ui-options-announcements-layout-position-value = Position: {$x}, {$y}
+rmc-ui-options-announcements-layout-position-default = Position: preset default
+rmc-ui-options-announcements-layout-reset-target = Reset current target
+rmc-ui-options-announcements-layout-help = The preview is drawn on the live game screen, not inside this window. Drag the announcement on the screen to reposition it. Use the slider, mouse wheel, or numeric fields here to edit the selected preset override. Tick the global override box only when you want to change the default fallback used by presets without their own override.
+rmc-ui-options-announcements-layout-summary = Global layout: {$global}. Preset overrides: {$count}.
+rmc-ui-options-announcements-layout-summary-default = preset default
+rmc-ui-options-announcements-layout-summary-custom = custom
+rmc-ui-options-announcements-layout-preview-line-1 = {$name} preview
+rmc-ui-options-announcements-layout-preview-line-2 = Drag to reposition. Scale is local.
+rmc-ui-options-announcements-layout-preview-speaker = Speaker
+rmc-ui-options-announcements-layout-no-presets = No announcement presets are available for layout editing.
 
 # Dialog input
 rmc-dialog-input-placeholder-default = Enter text

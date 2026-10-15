@@ -359,7 +359,6 @@ cm-chatsan-word-kitties = kitties
 cm-chatsan-word-kittens = kittens
 cm-chatsan-replacement-cats = кошачьи носители
 
-cm-chatsan-word-fish = рыба
 cm-chatsan-word-carp = carp
 cm-chatsan-replacement-fish = водный носитель
 

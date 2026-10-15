@@ -1,0 +1,17 @@
+ent-RMCPropPCMS = Portable Changeable Message Sign
+    .desc = A PCMS, it displays official instructions by the local authorities.
+ent-RMCPropPCMS1 = { ent-RMCPropPCMS }
+    .desc = A PCMS, it displays official instructions by the local authorities. This one reads 'SLOW DOWN'.
+    .suffix = Slow Down
+ent-RMCPropPCMS2 = { ent-RMCPropPCMS }
+    .desc = A PCMS, it displays official instructions by the local authorities. This one reads 'TUNE TO 91.7 AM'.
+    .suffix = Tune To
+ent-RMCPropPCMS3 = { ent-RMCPropPCMS }
+    .desc = A PCMS, it displays official instructions by the local authorities. This one reads 'FOLLOW UNMC ORDERS'.
+    .suffix = Follow Orders
+ent-RMCPropPCMS4 = { ent-RMCPropPCMS }
+    .desc = A PCMS, it displays official instructions by the local authorities. This one reads 'CHECKPOINT AHEAD'.
+    .suffix = Checkpoint Ahead
+ent-RMCPropPCMS5 = { ent-RMCPropPCMS }
+    .desc = A PCMS, it displays official instructions by the local authorities. This one reads 'EVAC CENTER'.
+    .suffix = Evac Center

@@ -3,7 +3,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechMilitaryPoliceEquipment
-  name: ColMarTech Military Police Equipment Rack
+  name: ASRS military police equipment rack
   description: An automated rack hooked up to a colossal storage of Military Police standard-issue equipment.
   components:
   - type: AccessReader
@@ -22,11 +22,13 @@
     - name: Стандартное Оборудование
       takeAll: CMStandard
       entries:
-      - id: CMHandsBlackMarine
+#      - id: CMHandsBlackMarine (Everything marked as a comment is redundant, since the role already spawns with that item. The lines were not deleted, in case they need to be re-added later.)
       - id: CMHeadsetMPO
-      - id: CMBootsBlackFilled
+#      - id: CMJumpsuitMP
+#      - id: CMBootsBlackFilled
+#      - id: CMBeltSecurityMPFilled
       - id: CMGlassesSecurity
-      - id: CMBeltSecurityMPFilled
+      - id: RMCVisorMedical
     - name: Helmet
       choices: { CMHelmet: 1 }
       entries:
@@ -35,20 +37,21 @@
       choices: { CMArmor: 1 }
       entries:
       - id: CMArmorM2MP
-    - name: Hat
-      choices: { CMHat: 1 }
-      entries:
-      - id: CMHeadBeretRed
+      - id: RMCArmorVestMP
+#    - name: Hat
+#      choices: { CMHat: 1 }
+#      entries:
+#      - id: CMHeadBeretRed
     - name: Кейс Для Пистолета
       choices: { CMGunCase: 1 }
       entries:
       - id: RMCGunCasePistolM77
       - id: RMCGunCasePistolM44
       - id: RMCGunCasePistolM1984
-    - name: Рюкзак
-      choices: { CMBackpack: 1 }
-      entries:
-      - id: CMSatchelSecurity
+#    - name: Рюкзак
+#      choices: { CMBackpack: 1 }
+#      entries:
+#      - id: CMSatchelSecurity
     - name: Пояс
       choices: { CMBelt: 1 }
       entries:
@@ -61,10 +64,13 @@
       - id: RMCPouchGeneralMedium
       - id: RMCPouchFirstAidInjectors
         name: подсумок первой помощи (многоразовые инъекторы)
+        recommended: true
       - id: RMCPouchFirstAidSplintsGauzeOintment
         name: подсумок первой помощи (марля, мазь) # TODO RMC14 add 'splints,'
+        recommended: true
       - id: RMCPouchFirstAidPills
         name: подсумок первой помощи (таблетки)
+        recommended: true
       - id: RMCPouchMagazinePistol
       - id: RMCPouchPistol
     - name: Маска
@@ -77,7 +83,9 @@
       choices: { CMAccessories: 1 }
       entries:
       - id: CMWebbingBrown
+        recommended: true
       - id: CMWebbingBlack
+        recommended: true
       - id: RMCWebbingLegPouch
       - id: RMCWebbingLegPouchBlack
       - id: RMCWebbingDropPouch
@@ -92,18 +100,12 @@
         amount: 10
       - id: RMCGuidebookSOP
         amount: 10
-    - name: Investigation
-      entries:
-      - id: RMCUniversalRecorder
-        amount: 3
-      - id: RMCBoxRegulationTapes
-        amount: 5
-
+        
 # WARDEN
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechWardenEquipment
-  name: ColMarTech Military Warden Equipment Rack
+  name: ASRS military warden equipment rack
   description: An automated rack hooked up to a colossal storage of Military Police standard-issue equipment.
   components:
   - type: AccessReader
@@ -115,16 +117,18 @@
     jobs:
     - CMMilitaryWarden
     sections:
-    - name: Полицейский Набор (обязательно)
-      takeAll: RMCMPSet
-      entries:
-      - id: RMCVendorBundleMilitaryPoliceApparel
+#    - name: Полицейский Набор (обязательно)
+#      takeAll: RMCMPSet
+#      entries:
+#      - id: RMCVendorBundleMilitaryPoliceApparel
     - name: Стандартное Оборудование
       takeAll: CMStandard
       entries:
-      - id: CMHandsBlackMarine
+#      - id: CMHandsBlackMarine
       - id: RMCHeadsetMW
-      - id: CMBootsBlackFilled
+#      - id: CMJumpsuitWarden
+#      - id: CMBootsBlackFilled
+      - id: RMCVisorMedical
     - name: Helmet
       choices: { CMHelmet: 1 }
       entries:
@@ -133,20 +137,21 @@
       choices: { CMArmor: 1 }
       entries:
       - id: CMArmorM3Warden
-    - name: Hat
-      choices: { CMHat: 1 }
-      entries:
-      - id: CMHeadCapWarden
+      - id: RMCArmorVestMP
+#    - name: Hat
+#      choices: { CMHat: 1 }
+#      entries:
+#      - id: CMHeadCapWarden
     - name: Кейс Для Пистолета
       choices: { CMGunCase: 1 }
       entries:
       - id: RMCGunCasePistolM77
       - id: RMCGunCasePistolM44
       - id: RMCGunCasePistolM1984
-    - name: Рюкзак
-      choices: { CMBackpack: 1 }
-      entries:
-      - id: CMSatchelSecurity
+#    - name: Рюкзак
+#      choices: { CMBackpack: 1 }
+#      entries:
+#      - id: CMSatchelSecurity
     - name: Пояс
       choices: { CMBelt: 1 }
       entries:
@@ -159,10 +164,13 @@
       - id: RMCPouchGeneralMedium
       - id: RMCPouchFirstAidInjectors
         name: подсумок первой помощи (многоразовые инъекторы)
+        recommended: true
       - id: RMCPouchFirstAidSplintsGauzeOintment
         name: подсумок первой помощи (марля, мазь) # TODO RMC14 add 'splints,'
+        recommended: true
       - id: RMCPouchFirstAidPills
         name: подсумок первой помощи (таблетки)
+        recommended: true
       - id: RMCPouchMagazinePistol
       - id: RMCPouchPistol
     - name: Маска
@@ -175,7 +183,9 @@
       choices: { CMAccessories: 1 }
       entries:
       - id: CMWebbingBrown
+        recommended: true
       - id: CMWebbingBlack
+        recommended: true
       - id: RMCWebbingLegPouch
       - id: RMCWebbingLegPouchBlack
       - id: RMCWebbingDropPouch
@@ -190,9 +200,3 @@
         amount: 10
       - id: RMCGuidebookSOP
         amount: 10
-    - name: Investigation
-      entries:
-      - id: RMCUniversalRecorder
-        amount: 3
-      - id: RMCBoxRegulationTapes
-        amount: 5

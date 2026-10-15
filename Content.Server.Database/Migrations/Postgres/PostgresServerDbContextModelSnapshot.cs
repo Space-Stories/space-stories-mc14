@@ -1692,6 +1692,51 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.ToTable("round", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.STSynthProfile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.Property<string>("EyeColor")
+                        .HasColumnType("text")
+                        .HasColumnName("eye_color");
+
+                    b.Property<string>("FacialHairColor")
+                        .HasColumnType("text")
+                        .HasColumnName("facial_hair_color");
+
+                    b.Property<string>("FacialHairName")
+                        .HasColumnType("text")
+                        .HasColumnName("facial_hair_name");
+
+                    b.Property<string>("HairColor")
+                        .HasColumnType("text")
+                        .HasColumnName("hair_color");
+
+                    b.Property<string>("HairName")
+                        .HasColumnType("text")
+                        .HasColumnName("hair_name");
+
+                    b.Property<JsonDocument>("Markings")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("markings");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("SkinColor")
+                        .HasColumnType("text")
+                        .HasColumnName("skin_color");
+
+                    b.HasKey("ProfileId")
+                        .HasName("PK_st_synth_profile");
+
+                    b.ToTable("st_synth_profile", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Server", b =>
                 {
                     b.Property<int>("Id")
@@ -2054,6 +2099,37 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasName("PK_uploaded_resource_log");
 
                     b.ToTable("uploaded_resource_log", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.VariantPreference", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("variant_preference_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("JobName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("job_name");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.Property<string>("VariantName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("variant_name");
+
+                    b.HasKey("Id")
+                        .HasName("PK_variant_preference");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("variant_preference", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Whitelist", b =>
@@ -2769,6 +2845,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Server");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.STSynthProfile", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithOne("SynthProfile")
+                        .HasForeignKey("Content.Server.Database.STSynthProfile", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_st_synth_profile_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("Content.Server.Database.ServerBan", b =>
                 {
                     b.HasOne("Content.Server.Database.Player", "CreatedBy")
@@ -2938,6 +3026,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.VariantPreference", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithMany("VariantPreferences")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_variant_preference_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("PlayerRound", b =>
                 {
                     b.HasOne("Content.Server.Database.Player", null)
@@ -3064,7 +3164,11 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     b.Navigation("SquadPreference");
 
+                    b.Navigation("SynthProfile");
+
                     b.Navigation("Traits");
+
+                    b.Navigation("VariantPreferences");
                 });
 
             modelBuilder.Entity("Content.Server.Database.ProfileLoadoutGroup", b =>

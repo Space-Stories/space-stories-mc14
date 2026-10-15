@@ -13,4 +13,3 @@ rmc-anti-air-ares-target-cleared = MGAD targeting cleared.
 rmc-anti-air-hijack-deterred = A hostile aircraft on course for the {$zone} has been successfully deterred.
 rmc-anti-air-dropship-jostles = The ship jostles violently as explosions rock the ship!
 rmc-anti-air-dropship-turns = You feel the ship turning sharply as it adjusts its course!
-rmc-overwatch-anti-air-status = IX-50 MGAD Cannon Subsystem: {$status} | Targeting: {$zone} | {$engagement}

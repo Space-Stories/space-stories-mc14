@@ -29,6 +29,7 @@
     state: icon
   - type: Item
     sprite: Objects/Consumable/Drinks/shaker.rsi
+    size: Huge #Stories-Balance
   - type: UserInterface
     interfaces:
       enum.TransferAmountUiKey.Key:

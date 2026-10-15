@@ -1,5 +1,5 @@
 ent-RMCGrassTallBase = высокая трава
-    .desc = { ent-CMBaseStructure.desc }
+    .desc = { "" }
     .suffix = Центр
 ent-RMCGrassTallSidesBase = { ent-RMCGrassTallBase }
     .desc = { ent-RMCGrassTallBase.desc }

@@ -21,6 +21,7 @@ public sealed partial class OverwatchSquadView : Control
     public readonly FloatSpinBox OrbitalLatitude;
     public bool HasCrate;
     public bool HasOrbital;
+    public bool OrbitalSafetyEngaged;
     public TimeSpan NextLaunchAt;
     public TimeSpan NextOrbitalAt;
 
@@ -298,17 +299,22 @@ public sealed partial class OverwatchSquadView : Control
         }
 
         var orbitalTimeLeft = NextOrbitalAt - time;
-        if (orbitalTimeLeft > TimeSpan.Zero)
+        if (OrbitalSafetyEngaged)
+        {
+            OrbitalStatus.Text = Loc.GetString("rmc-overwatch-console-orbital-safety-engaged");
+            OrbitalFireButton.Disabled = true;
+        }
+        else if (orbitalTimeLeft > TimeSpan.Zero)
         {
             OrbitalStatus.Text = Loc.GetString("rmc-overwatch-console-cooldown", ("seconds", (int)orbitalTimeLeft.TotalSeconds));
             OrbitalFireButton.Disabled = true;
         }
         else
         {
-            OrbitalStatus.Text = HasOrbital
-                ? Loc.GetString("rmc-overwatch-console-ready")
-                : Loc.GetString("rmc-overwatch-console-not-ready");
-            OrbitalFireButton.Disabled = false;
+            OrbitalStatus.Text = Loc.GetString(HasOrbital
+                ? "rmc-overwatch-console-ready"
+                : "rmc-overwatch-console-not-ready");
+            OrbitalFireButton.Disabled = !HasOrbital;
         }
     }
 }

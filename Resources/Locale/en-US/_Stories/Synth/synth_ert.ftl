@@ -1,0 +1,9 @@
+stories-ghost-name-spp-hostile-synth = SPP Support Synthetic (Hostile)
+stories-ghost-name-spp-friendly-synth = SPP Support Synthetic (Friendly)
+stories-ert-role-pmc-synth = PMC Support Synthetic
+stories-ert-role-spp-synth = SPP Support Synthetic
+stories-ghost-name-pmc-synth-no-whitelist = We-Ya PMC Support Synthetic (Neutral, No Whitelist)
+stories-ghost-name-spp-hostile-synth-no-whitelist = SPP Support Synthetic (Hostile, No Whitelist)
+stories-ghost-name-spp-friendly-synth-no-whitelist = SPP Support Synthetic (Friendly, No Whitelist)
+stories-ert-role-pmc-synth-no-whitelist = PMC Support Synthetic (No Whitelist)
+stories-ert-role-spp-synth-no-whitelist = SPP Support Synthetic (No Whitelist)

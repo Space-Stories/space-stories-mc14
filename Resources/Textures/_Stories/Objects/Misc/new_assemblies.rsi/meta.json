@@ -1,202 +1,202 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 32,
-        "y": 32
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "blank"
     },
-    "states": [
-        {
-            "name": "blank"
-        },
-        {
-            "name": "prox_scanning",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "prox_timing",
-            "delays": [
-                [
-                    0.3,
-                    0.9
-                ]
-            ]
-        },
-        {
-            "name": "prox"
-        },
-        {
-            "name": "holder"
-        },
-        {
-            "name": "prox_scanning_l",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "prox_timing_l",
-            "delays": [
-                [
-                    0.3,
-                    0.9
-                ]
-            ]
-        },
-        {
-            "name": "prox_left"
-        },
-        {
-            "name": "prox_scanning_r",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        },
-        {
-            "name": "prox_timing_r",
-            "delays": [
-                [
-                    0.3,
-                    0.9
-                ]
-            ]
-        },
-        {
-            "name": "prox_right"
-        },
-        {
-            "name": "igniter"
-        },
-        {
-            "name": "igniter_left"
-        },
-        {
-            "name": "igniter_right"
-        },
-        {
-            "name": "timer"
-        },
-        {
-            "name": "timer_timing_l",
-            "delays": [
-                [
-                    0.3,
-                    0.9
-                ]
-            ]
-        },
-        {
-            "name": "timer_left"
-        },
-        {
-            "name": "timer_timing_r",
-            "delays": [
-                [
-                    0.3,
-                    0.9
-                ]
-            ]
-        },
-        {
-            "name": "timer_right"
-        },
-        {
-            "name": "infrared_old"
-        },
-        {
-            "name": "infrared",
-            "directions": 4
-        },
-        {
-            "name": "infrared_on"
-        },
-        {
-            "name": "infrared_on_l"
-        },
-        {
-            "name": "infrared_left",
-            "directions": 4
-        },
-        {
-            "name": "infrared_on_r"
-        },
-        {
-            "name": "infrared_right",
-            "directions": 4
-        },
-        {
-            "name": "signaller"
-        },
-        {
-            "name": "signaller_left"
-        },
-        {
-            "name": "signaller_right"
-        },
-        {
-            "name": "mousetrap",
-            "directions": 4
-        },
-        {
-            "name": "mousetraparmed",
-            "directions": 4
-        },
-        {
-            "name": "mousetrap_left"
-        },
-        {
-            "name": "mousetraparmed_left"
-        },
-        {
-            "name": "mousetrap_right"
-        },
-        {
-            "name": "mousetraparmed_right"
-        },
-        {
-            "name": "voice"
-        },
-        {
-            "name": "voice_left"
-        },
-        {
-            "name": "voice_right"
-        },
-        {
-            "name": "motion"
-        },
-        {
-            "name": "motion_active",
-            "delays": [
-                [
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1,
-                    0.1
-                ]
-            ]
-        }
-    ]
+    {
+      "name": "prox_scanning",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "prox_timing",
+      "delays": [
+        [
+          0.3,
+          0.9
+        ]
+      ]
+    },
+    {
+      "name": "prox"
+    },
+    {
+      "name": "holder"
+    },
+    {
+      "name": "prox_scanning_l",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "prox_timing_l",
+      "delays": [
+        [
+          0.3,
+          0.9
+        ]
+      ]
+    },
+    {
+      "name": "prox_left"
+    },
+    {
+      "name": "prox_scanning_r",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "prox_timing_r",
+      "delays": [
+        [
+          0.3,
+          0.9
+        ]
+      ]
+    },
+    {
+      "name": "prox_right"
+    },
+    {
+      "name": "igniter"
+    },
+    {
+      "name": "igniter_left"
+    },
+    {
+      "name": "igniter_right"
+    },
+    {
+      "name": "timer"
+    },
+    {
+      "name": "timer_timing_l",
+      "delays": [
+        [
+          0.3,
+          0.9
+        ]
+      ]
+    },
+    {
+      "name": "timer_left"
+    },
+    {
+      "name": "timer_timing_r",
+      "delays": [
+        [
+          0.3,
+          0.9
+        ]
+      ]
+    },
+    {
+      "name": "timer_right"
+    },
+    {
+      "name": "infrared_old"
+    },
+    {
+      "name": "infrared",
+      "directions": 4
+    },
+    {
+      "name": "infrared_on"
+    },
+    {
+      "name": "infrared_on_l"
+    },
+    {
+      "name": "infrared_left",
+      "directions": 4
+    },
+    {
+      "name": "infrared_on_r"
+    },
+    {
+      "name": "infrared_right",
+      "directions": 4
+    },
+    {
+      "name": "signaller"
+    },
+    {
+      "name": "signaller_left"
+    },
+    {
+      "name": "signaller_right"
+    },
+    {
+      "name": "mousetrap",
+      "directions": 4
+    },
+    {
+      "name": "mousetraparmed",
+      "directions": 4
+    },
+    {
+      "name": "mousetrap_left"
+    },
+    {
+      "name": "mousetraparmed_left"
+    },
+    {
+      "name": "mousetrap_right"
+    },
+    {
+      "name": "mousetraparmed_right"
+    },
+    {
+      "name": "voice"
+    },
+    {
+      "name": "voice_left"
+    },
+    {
+      "name": "voice_right"
+    },
+    {
+      "name": "motion"
+    },
+    {
+      "name": "motion_active",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    }
+  ]
 }

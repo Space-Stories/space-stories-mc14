@@ -1,0 +1,29 @@
+- files: ["predalien_click.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_click.ogg"
+
+- files: ["predalien_death.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_death.ogg"
+
+- files: ["predalien_growl.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_growl.ogg"
+
+- files: ["predalien_hiss.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_hiss.ogg"
+
+- files: ["predalien_pounce.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_pounce.ogg"
+
+- files: ["predalien_roar.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/voice/predalien_roar.ogg"
