@@ -10,6 +10,7 @@ using Content.Shared.Coordinates;
 using Content.Shared.FixedPoint;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using static Content.Shared.Interaction.SharedInteractionSystem;
 using Content.Shared.Popups;
 using Content.Shared.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids.Weeds;
@@ -50,9 +51,25 @@ public sealed partial class DesignerConstructNodeSystem : EntitySystem
         _xenoQuery = GetEntityQuery<XenoComponent>();
         _plasmaQuery = GetEntityQuery<XenoPlasmaComponent>();
 
+        SubscribeLocalEvent<XenoComponent, InRangeOverrideEvent>(OnXenoDesignNodeRangeOverride);
         SubscribeLocalEvent<DesignNodeComponent, ActivateInWorldEvent>(OnDesignNodeActivate);
         SubscribeLocalEvent<DesignNodeComponent, GettingInteractedWithAttemptEvent>(OnDesignNodeGettingInteractedWithAttempt);
         SubscribeLocalEvent<DesignerConstructNodeBuildingComponent, ComponentRemove>(OnBuildingRemoved);
+    }
+
+    private void OnXenoDesignNodeRangeOverride(Entity<XenoComponent> ent, ref InRangeOverrideEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryComp(args.Target, out DesignNodeComponent? nodeComp))
+            return;
+
+        if (!_transform.InRange(args.User, args.Target, nodeComp.InteractionRange))
+            return;
+
+        args.InRange = true;
+        args.Handled = true;
     }
 
     private void OnBuildingRemoved(Entity<DesignerConstructNodeBuildingComponent> ent, ref ComponentRemove args)

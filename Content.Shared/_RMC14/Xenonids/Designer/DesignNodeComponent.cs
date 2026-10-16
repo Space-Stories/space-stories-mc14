@@ -64,4 +64,9 @@ public sealed partial class DesignNodeComponent : Component
     {
         Params = AudioParams.Default.WithVolume(-8f),
     };
+
+    // Extended interaction range for xenos activating this node.
+    // Default 1.5f allows activation from roughly 1 tile away.
+    [DataField, AutoNetworkedField]
+    public float InteractionRange = 1.5f;
 }
