@@ -24,6 +24,7 @@
     - CMXenoSentinel
     - CMXenoSpitter
     - CMXenoWarrior
+    - STXenoDespoiler # Stories-Despoiler
 
 - type: entity
   id: CMJobsXenoDrones
@@ -52,3 +53,4 @@
     - CMXenoCrusher
     - CMXenoPraetorian
     - CMXenoRavager
+    - STXenoDespoiler # Stories-Despoiler

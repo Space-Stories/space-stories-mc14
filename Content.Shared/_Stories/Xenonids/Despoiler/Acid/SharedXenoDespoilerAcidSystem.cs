@@ -60,7 +60,7 @@ public sealed class SharedXenoDespoilerAcidSystem : EntitySystem
         if (!args.DamageIncreased || args.DamageDelta is not { } delta)
             return;
 
-        _hyper.AddPoints(uid, comp, (float) delta.GetTotal() * comp.PointsPerDamageTaken);
+        _hyper.GainPoints(uid, comp, (float) delta.GetTotal() * comp.PointsPerDamageTaken);
     }
 
     private bool TryGetHyperBurn(EntityUid uid, out DamageSpecifier burn)

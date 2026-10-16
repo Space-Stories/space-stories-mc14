@@ -83,7 +83,7 @@
     plasmaRegenOnWeeds: 4
   - type: XenoAcid
   - type: CMArmor
-    xenoArmor: 25
+    xenoArmor: 30
     explosionArmor: 20
   - type: XenoDevour
   - type: XenoTailStab
@@ -117,10 +117,10 @@
   - type: XenoDespoilerHypertension
     maxStacks: 4
     pointsPerStack: 200
-    pointsPerSlash: 100
+    pointsPerSlash: 200
     decayDelay: 10
-    decayPerSecond: 200
-    bonusBurnPerStack: 10
+    decayPerSecond: 120
+    bonusBurnPerStack: 15
   - type: XenoDespoilerSlashOnHit
     enhanceStacksThreshold: 3
   - type: Tackle
@@ -162,6 +162,10 @@
     icon:
       sprite: /Textures/_RMC14/Interface/map_blips.rsi
       state: boiler
+  - type: Flammable
+    damage:
+      types:
+        Heat: 2
   - type: FixedIdentity
     name: st-xeno-despoiler-name
   - type: RMCActionOrder

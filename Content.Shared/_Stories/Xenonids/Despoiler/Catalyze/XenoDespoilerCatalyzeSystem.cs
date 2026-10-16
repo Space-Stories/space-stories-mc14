@@ -46,7 +46,7 @@ public sealed class XenoDespoilerCatalyzeSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        _hyper.TrySpendStacks(uid, hyper, action.HypertensionCost);
+        _hyper.TryConsumeStacks(uid, hyper, action.HypertensionCost);
 
         comp.NextAbilityEmpowered = true;
         comp.EmpowerExpiresAt = _timing.CurTime + action.BuffDuration;

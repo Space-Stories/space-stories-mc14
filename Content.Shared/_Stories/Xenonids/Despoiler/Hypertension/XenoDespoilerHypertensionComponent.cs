@@ -22,7 +22,7 @@ public sealed partial class XenoDespoilerHypertensionComponent : Component
     public float PointsPerSlash = 100f;
 
     [DataField]
-    public float PointsPerDamageTaken = 1f;
+    public float PointsPerDamageTaken = 0.5f;
 
     [DataField]
     public TimeSpan DecayDelay = TimeSpan.FromSeconds(10);
@@ -32,6 +32,9 @@ public sealed partial class XenoDespoilerHypertensionComponent : Component
 
     [DataField]
     public float BonusBurnPerStack = 10f;
+
+    [DataField]
+    public int ArmorPerStackPair = 5;
 
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
     public TimeSpan LastActivityAt;

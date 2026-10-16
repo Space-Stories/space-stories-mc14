@@ -16,6 +16,8 @@ namespace Content.Shared._Stories.Xenonids.Despoiler;
 
 public sealed class XenoDespoilerOozingWoundsSystem : EntitySystem
 {
+    private static readonly int[] StackDrainCap = { int.MaxValue, 2, 1 };
+
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -25,6 +27,7 @@ public sealed class XenoDespoilerOozingWoundsSystem : EntitySystem
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
     [Dependency] private readonly XenoDespoilerCatalyzeFlagSystem _catalyze = default!;
+    [Dependency] private readonly XenoDespoilerHypertensionSystem _hypertension = default!;
 
     private EntityQuery<XenoDespoilerAcidSprayComponent> _sprayQuery;
     private EntityQuery<XenoDespoilerLingeringAcidComponent> _lingeringQuery;
@@ -56,9 +59,17 @@ public sealed class XenoDespoilerOozingWoundsSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        var severity = HealthSeverityTier(uid, action);
+
+        if (TryComp<XenoDespoilerHypertensionComponent>(uid, out var hypertension))
+        {
+            var tier = Math.Clamp(severity, 0, StackDrainCap.Length - 1);
+            var drain = Math.Min(hypertension.Stacks, StackDrainCap[tier]);
+            _hypertension.ReduceStacks(uid, hypertension, drain);
+        }
+
         var empowered = _catalyze.TakeEmpowerment(uid, comp);
 
-        var severity = ComputeSeverity(uid, action);
         var radius = action.BaseRadius + severity;
         var origin = Transform(uid).Coordinates.SnapToGrid(EntityManager);
         var sprayProto = empowered ? action.AcidSprayEmpoweredProto : action.AcidSprayProto;
@@ -149,7 +160,7 @@ public sealed class XenoDespoilerOozingWoundsSystem : EntitySystem
         }
     }
 
-    private int ComputeSeverity(EntityUid uid, XenoDespoilerOozingWoundsActionComponent action)
+    private int HealthSeverityTier(EntityUid uid, XenoDespoilerOozingWoundsActionComponent action)
     {
         if (!TryComp<DamageableComponent>(uid, out var dmg))
             return 0;
@@ -160,11 +171,11 @@ public sealed class XenoDespoilerOozingWoundsSystem : EntitySystem
             return 0;
         }
 
-        var hpFrac = 1f - Math.Clamp((float)(dmg.TotalDamage / deadThreshold.Value), 0f, 1f);
+        var hpFraction = 1f - Math.Clamp((float)(dmg.TotalDamage / deadThreshold.Value), 0f, 1f);
 
-        var severity = 0;
-        if (hpFrac <= action.SeverityHpThreshold1) severity++;
-        if (hpFrac <= action.SeverityHpThreshold2) severity++;
-        return severity;
+        if (hpFraction <= action.SeverityHpThreshold2)
+            return 2;
+
+        return hpFraction <= action.SeverityHpThreshold1 ? 1 : 0;
     }
 }

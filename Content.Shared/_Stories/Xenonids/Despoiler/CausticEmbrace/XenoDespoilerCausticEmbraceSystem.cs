@@ -56,23 +56,21 @@ public sealed class XenoDespoilerCausticEmbraceSystem : EntitySystem
             return;
 
         var ownerXform = Transform(uid);
-        var ownerMap = _xform.ToMapCoordinates(ownerXform.Coordinates);
+        var originMap = _xform.ToMapCoordinates(ownerXform.Coordinates);
         var targetMap = _xform.ToMapCoordinates(args.Target);
-        if (ownerMap.MapId != targetMap.MapId)
+        if (originMap.MapId != targetMap.MapId)
             return;
 
-        var approach = targetMap.Position - ownerMap.Position;
-        var dist = approach.Length();
-        if (dist < 0.01f)
+        var toTarget = targetMap.Position - originMap.Position;
+        var range = toTarget.Length();
+        if (range < 0.01f)
             return;
 
-        var step = SnapDirectionToTile(approach / dist);
-        if (step == Vector2.Zero)
-            return;
+        var facing = toTarget / range;
 
         if (_catalyze.IsEmpowered(uid, comp))
         {
-            if (!CanEmpoweredLunge(uid, action, args, dist, out var victim))
+            if (!CanEmpoweredLunge(uid, action, args, range, out var victim))
                 return;
 
             if (!_rmcActions.TryUseAction(args))
@@ -93,10 +91,12 @@ public sealed class XenoDespoilerCausticEmbraceSystem : EntitySystem
             return;
         }
 
-        var landing = ownerXform.Coordinates.Offset(step).SnapToGrid(EntityManager);
+        var landing = ownerXform.Coordinates.Offset(facing * action.NormalRange).SnapToGrid(EntityManager);
+        var landingMap = _xform.ToMapCoordinates(landing);
+        var landingDistance = (landingMap.Position - originMap.Position).Length();
 
         if (_rmcMap.IsTileBlocked(landing) ||
-            !_interaction.InRangeUnobstructed(uid, landing, range: action.NormalRange + UnobstructedRangeBuffer))
+            !_interaction.InRangeUnobstructed(uid, landing, range: landingDistance + UnobstructedRangeBuffer))
         {
             _popup.PopupClient(Loc.GetString("st-xeno-despoiler-pounce-blocked"), uid, uid);
             return;
@@ -115,67 +115,70 @@ public sealed class XenoDespoilerCausticEmbraceSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        SpawnSplashAroundExceptBack(uid, action, landing, step);
+        SplashNeighborTiles(uid, action, landing, facing);
     }
 
-    private static Vector2 SnapDirectionToTile(Vector2 dir)
+    private static readonly Vector2i[] NeighborOffsets =
     {
-        return new Vector2(Math.Sign(MathF.Round(dir.X)), Math.Sign(MathF.Round(dir.Y)));
+        new(-1, -1), new(0, -1), new(1, -1),
+        new(-1, 0), new(1, 0),
+        new(-1, 1), new(0, 1), new(1, 1),
+    };
+
+    private static Vector2i FacingOffset(Vector2 dir)
+    {
+        return new Vector2i(Math.Sign(MathF.Round(dir.X)), Math.Sign(MathF.Round(dir.Y)));
     }
 
-    private void SpawnSplashAroundExceptBack(EntityUid caster,
+    private void SplashNeighborTiles(EntityUid caster,
         XenoDespoilerCausticEmbraceActionComponent action,
         EntityCoordinates center,
         Vector2 forward)
     {
-        var backX = -(int)forward.X;
-        var backY = -(int)forward.Y;
+        var behind = FacingOffset(-forward);
 
         var centerMap = _xform.ToMapCoordinates(center);
         var hits = _lookup.GetEntitiesIntersecting(centerMap.MapId,
             Box2.CenteredAround(centerMap.Position, new Vector2(action.SplashScanSize, action.SplashScanSize)));
         var damaged = new HashSet<EntityUid>();
 
-        for (var dx = -1; dx <= 1; dx++)
+        foreach (var offset in NeighborOffsets)
         {
-            for (var dy = -1; dy <= 1; dy++)
+            if (offset == behind)
+                continue;
+
+            var tile = center.Offset(new Vector2(offset.X, offset.Y));
+            var tileMap = _xform.ToMapCoordinates(tile);
+
+            if (!_interaction.InRangeUnobstructed(caster, tile, SplashUnobstructedRange))
+                continue;
+
+            var telegraph = Spawn(action.TelegraphProto, tile);
+            _hive.SetSameHive(caster, telegraph);
+
+            foreach (var ent in hits)
             {
-                if (dx == 0 && dy == 0)
-                    continue;
-                if (dx == backX && dy == backY)
+                if (damaged.Contains(ent) || !_xeno.CanAbilityAttackTarget(caster, ent))
                     continue;
 
-                var tile = center.Offset(new Vector2(dx, dy));
-                var tileMap = _xform.ToMapCoordinates(tile);
-
-                if (!_interaction.InRangeUnobstructed(caster, tile, SplashUnobstructedRange))
+                var entPos = _xform.ToMapCoordinates(Transform(ent).Coordinates).Position;
+                if (Math.Abs(entPos.X - tileMap.Position.X) > TileHalfExtent)
+                    continue;
+                if (Math.Abs(entPos.Y - tileMap.Position.Y) > TileHalfExtent)
                     continue;
 
-                var telegraph = Spawn(action.TelegraphProto, tile);
-                _hive.SetSameHive(caster, telegraph);
+                damaged.Add(ent);
+                _damageable.TryChangeDamage(ent, action.SplashDamage, ignoreResistances: false, origin: caster);
+            }
 
-                foreach (var ent in hits)
+            if (_random.Prob(action.LingeringAcidChance))
+            {
+                var puddle = Spawn(action.LingeringAcidProto, tile);
+                _hive.SetSameHive(caster, puddle);
+                if (_lingeringQuery.TryComp(puddle, out var puddleComp))
                 {
-                    if (damaged.Contains(ent) || !_xeno.CanAbilityAttackTarget(caster, ent))
-                        continue;
-
-                    var entPos = _xform.ToMapCoordinates(Transform(ent).Coordinates).Position;
-                    if (Math.Abs(entPos.X - tileMap.Position.X) > TileHalfExtent) continue;
-                    if (Math.Abs(entPos.Y - tileMap.Position.Y) > TileHalfExtent) continue;
-
-                    damaged.Add(ent);
-                    _damageable.TryChangeDamage(ent, action.SplashDamage, ignoreResistances: false, origin: caster);
-                }
-
-                if (_random.Prob(action.LingeringAcidChance))
-                {
-                    var puddle = Spawn(action.LingeringAcidProto, tile);
-                    _hive.SetSameHive(caster, puddle);
-                    if (_lingeringQuery.TryComp(puddle, out var puddleComp))
-                    {
-                        puddleComp.Caster = caster;
-                        Dirty(puddle, puddleComp);
-                    }
+                    puddleComp.Caster = caster;
+                    Dirty(puddle, puddleComp);
                 }
             }
         }

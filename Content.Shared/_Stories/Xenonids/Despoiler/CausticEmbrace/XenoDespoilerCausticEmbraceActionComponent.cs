@@ -8,7 +8,7 @@ namespace Content.Shared._Stories.Xenonids.Despoiler;
 public sealed partial class XenoDespoilerCausticEmbraceActionComponent : Component
 {
     [DataField]
-    public int NormalRange = 1;
+    public int NormalRange = 3;
 
     [DataField]
     public int EmpoweredRange = 5;

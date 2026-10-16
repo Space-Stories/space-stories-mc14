@@ -17,6 +17,18 @@ public sealed partial class XenoDespoilerLingeringAcidComponent : Component
     [DataField]
     public TimeSpan CrossSlow = TimeSpan.FromSeconds(0.4);
 
+    [DataField]
+    public int SpraysToExtinguish = 2;
+
+    public int SpraysTaken;
+
+    public TimeSpan LastSprayAt;
+
+    [DataField]
+    public float BarricadeDamagePerSecond = 5f;
+
+    public TimeSpan NextBarricadeDamageAt;
+
     [DataField, AutoNetworkedField]
     public EntityUid? Caster;
 }

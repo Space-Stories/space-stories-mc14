@@ -87,7 +87,10 @@ public sealed class XenoDespoilerAcidBarrageSystem : EntitySystem
         if (!_actionBlocker.CanConsciouslyPerformAction(uid))
             return;
 
-        if (!TryGetBarrageAction(uid, out _, out var action))
+        if (!TryGetBarrageAction(uid, out var actionEnt, out var action))
+            return;
+
+        if (!_rmcActions.CanUseActionPopup(uid, actionEnt.Owner))
             return;
 
         var charging = EnsureComp<XenoDespoilerChargingBarrageComponent>(uid);
@@ -234,11 +237,15 @@ public sealed class XenoDespoilerAcidBarrageSystem : EntitySystem
         var scatter = Angle.FromDegrees(action.ScatterDegrees);
         var scaleSpan = action.MaxProjectileScale - action.MinProjectileScale;
 
+        // Fan the shots evenly across [baseAngle - scatter, baseAngle + scatter] instead of picking each one at random.
+        var arcStart = baseAngle - scatter;
+        var arcStep = count > 1 ? scatter.Theta * 2d / (count - 1) : 0d;
+
         for (var i = 0; i < count; i++)
         {
-            var angle = baseAngle + ((_random.NextDouble() * 2d - 1d) * scatter);
-            var unit = angle.ToVec();
-            var rangeTiles = _random.Next(action.MinRangeTiles, action.MaxRangeTiles + 1);
+            var shotAngle = count == 1 ? baseAngle : arcStart + new Angle(arcStep * i);
+            var heading = shotAngle.ToVec();
+            var shotRange = _random.Next(action.MinRangeTiles, action.MaxRangeTiles + 1);
 
             var proj = Spawn(action.ProjectileId, casterCoords);
             _hive.SetSameHive(uid, proj);
@@ -251,8 +258,8 @@ public sealed class XenoDespoilerAcidBarrageSystem : EntitySystem
                 Dirty(proj, projComp);
             }
 
-            _rmcProjectile.SetMaxRange(proj, rangeTiles);
-            _gun.ShootProjectile(proj, unit * rangeTiles, Vector2.Zero, uid, uid, speed: action.ProjectileSpeed);
+            _rmcProjectile.SetMaxRange(proj, shotRange);
+            _gun.ShootProjectile(proj, heading * shotRange, Vector2.Zero, uid, uid, speed: action.ProjectileSpeed);
         }
 
         if (action.FireSound is { } sound)

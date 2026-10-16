@@ -398,7 +398,6 @@ public sealed class XenoAbilityPreviewOverlay : Overlay
             return;
 
         var dir = direction.Normalized();
-        var originTile = _mapSystem.CoordinatesToTile(gridUid, grid, originMap);
 
         if (_despoilerQ.TryComp(player, out var despoiler) && _catalyzeFlag.IsEmpowered(player, despoiler))
         {
@@ -410,11 +409,10 @@ public sealed class XenoAbilityPreviewOverlay : Overlay
             return;
         }
 
-        var step = new Vector2i(Math.Sign(MathF.Round(dir.X)), Math.Sign(MathF.Round(dir.Y)));
-        if (step == Vector2i.Zero)
-            return;
+        var landingPos = originMap.Position + dir * embrace.NormalRange;
+        var landingTile = _mapSystem.CoordinatesToTile(gridUid, grid, new MapCoordinates(landingPos, originMap.MapId));
 
-        var landingTile = originTile + step;
+        var back = new Vector2i(Math.Sign(MathF.Round(-dir.X)), Math.Sign(MathF.Round(-dir.Y)));
         var splashTiles = new HashSet<Vector2i>();
         for (var dx = -1; dx <= 1; dx++)
         {
@@ -422,7 +420,7 @@ public sealed class XenoAbilityPreviewOverlay : Overlay
             {
                 if (dx == 0 && dy == 0)
                     continue;
-                if (dx == -step.X && dy == -step.Y)
+                if (dx == back.X && dy == back.Y)
                     continue;
 
                 splashTiles.Add(landingTile + new Vector2i(dx, dy));
