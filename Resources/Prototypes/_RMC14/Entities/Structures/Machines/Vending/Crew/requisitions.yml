@@ -420,8 +420,6 @@
         amount: 5
     - name: Специальные боеприпасы
       entries:
-      - id: RMCPowerCellSmartgun
-        amount: 4
       - id: RMCMagazineSmartGun
         amount: 4
       - id: RMCSpeedLoader44Heavy
