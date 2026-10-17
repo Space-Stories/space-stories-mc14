@@ -107,6 +107,9 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: RMCPoliceClueOnDestruction
+    description: rmc-police-clue-door
+    mainshipOnly: true
   - type: Weldable
     time: 3
   - type: RMCWeldEffectSource

@@ -447,6 +447,8 @@ public abstract class SharedRMCPowerSystem : EntitySystem
                 UpdateApcAppearance(ent);
                 ToUpdate.Add(ent);
                 args.Handled = true;
+                var removed = new RMCApcCellRemovedEvent(args.User);
+                RaiseLocalEvent(ent, ref removed);
                 break;
             }
         }
@@ -615,6 +617,8 @@ public abstract class SharedRMCPowerSystem : EntitySystem
 
         Dirty(ent);
         UpdateApcAppearance(ent);
+        var removed = new RMCApcElectronicsRemovedEvent(args.User);
+        RaiseLocalEvent(ent, ref removed);
     }
 
     private void OnApcSecureElectronicsDoAfter(Entity<RMCApcComponent> ent, ref RMCApcSecureElectronicsDoAfterEvent args)

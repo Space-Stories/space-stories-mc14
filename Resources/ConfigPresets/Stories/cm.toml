@@ -94,6 +94,9 @@ preload = false
 [queue]
 enabled = true
 
+[rmc]
+marine_law_catalogue = "STMarineLaw"
+
 [server]
 rules_file = "STOverview"
 default_guide = "Stories"

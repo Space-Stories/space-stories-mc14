@@ -4,6 +4,7 @@ using Content.Client._Stories.Chat;
 using Content.Client.Message;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Maths;
+using Content.Shared._RMC14.MilitaryPolice;
 using Content.Shared._RMC14.Overwatch;
 using Content.Shared._RMC14.SupplyDrop;
 using Content.Shared.Mobs;
@@ -542,6 +543,25 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                     promoteButton.Margin = margin;
                     promote.AddChild(promoteButton);
                     buttonsContainer.AddChild(promote);
+
+                    if (!entry.IsCamera)
+                    {
+                        var insubordination = new Button
+                        {
+                            Text = "!",
+                            MaxWidth = 25,
+                            MaxHeight = 25,
+                            VerticalAlignment = VAlignment.Top,
+                            StyleClasses = { "OpenBoth" },
+                            ToolTip = Loc.GetString("rmc-police-mark-insubordination"),
+                            Margin = margin,
+                        };
+                        insubordination.OnPressed += _ =>
+                            SendMessage(new RMCOverwatchInsubordinationMsg(id));
+                        var insubordinationPanel = CreatePanel(50);
+                        insubordinationPanel.AddChild(insubordination);
+                        buttonsContainer.AddChild(insubordinationPanel);
+                    }
 
                     monitor.Buttons.AddChild(buttonsContainer);
 

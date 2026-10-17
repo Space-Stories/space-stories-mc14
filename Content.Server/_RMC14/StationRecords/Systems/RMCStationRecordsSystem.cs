@@ -8,7 +8,7 @@ using Content.Shared.StationRecords;
 
 namespace Content.Server._RMC14.StationRecords.Systems;
 
-public sealed class RMCStationRecordsSystem : EntitySystem
+public sealed partial class RMCStationRecordsSystem : EntitySystem
 {
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly StationRecordsSystem _record = default!;
@@ -22,6 +22,8 @@ public sealed class RMCStationRecordsSystem : EntitySystem
         SubscribeLocalEvent<PlayerSpawnCompleteEvent>(OnPlayerSpawn, after: [typeof(StationRecordsSystem)]);
         SubscribeLocalEvent<SquadMemberAddedEvent>(OnSquadMemberAdded);
         SubscribeLocalEvent<SquadMemberRemovedEvent>(OnSquadMemberRemoved);
+        SubscribeLocalEvent<AfterGeneralRecordCreatedEvent>(OnRecordCreated);
+        SubscribeLocalEvent<RecordRemovedEvent>(OnRecordRemoved);
     }
 
     private void OnPlayerSpawn(PlayerSpawnCompleteEvent args)

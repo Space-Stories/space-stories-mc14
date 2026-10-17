@@ -1,0 +1,30 @@
+<mp:RMCPoliceLayout xmlns="https://spacestation14.io"
+                    xmlns:mp="clr-namespace:Content.Client._RMC14.MilitaryPolice"
+                    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt">
+    <crt:RMCCrtThemeScope Palette="Red" Effects="HorizontalScanlines" ScanlineOpacity="0.1">
+        <BoxContainer Orientation="Vertical" SeparationOverride="6" Margin="10"
+                      HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Name="Toolbar" Access="Public" Orientation="Vertical" SeparationOverride="6"
+                          HorizontalExpand="True" />
+            <crt:RMCCrtLabel Name="Connection" Access="Public" Tone="Warning" TextFontSize="10" Visible="False" />
+            <crt:RMCCrtSeparator Margin="0 2" />
+            <crt:RMCCrtTwoColumnContainer HorizontalExpand="True" VerticalExpand="True">
+                <crt:RMCCrtPanel Variant="Transparent" BorderThickness="0"
+                                 HorizontalExpand="True" VerticalExpand="True">
+                    <ScrollContainer HScrollEnabled="False" HorizontalExpand="True" VerticalExpand="True">
+                        <BoxContainer Name="Left" Access="Public" Orientation="Vertical" SeparationOverride="6"
+                                      Margin="8" HorizontalExpand="True" />
+                    </ScrollContainer>
+                </crt:RMCCrtPanel>
+                <crt:RMCCrtSeparator Orientation="Vertical" MinWidth="1" MaxWidth="1" />
+                <crt:RMCCrtPanel Variant="Transparent" BorderThickness="0"
+                                 HorizontalExpand="True" VerticalExpand="True">
+                    <ScrollContainer HScrollEnabled="False" HorizontalExpand="True" VerticalExpand="True">
+                        <BoxContainer Name="Right" Access="Public" Orientation="Vertical" SeparationOverride="6"
+                                      Margin="8" HorizontalExpand="True" />
+                    </ScrollContainer>
+                </crt:RMCCrtPanel>
+            </crt:RMCCrtTwoColumnContainer>
+        </BoxContainer>
+    </crt:RMCCrtThemeScope>
+</mp:RMCPoliceLayout>

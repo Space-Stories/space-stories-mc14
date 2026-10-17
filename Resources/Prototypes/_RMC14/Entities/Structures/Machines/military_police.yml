@@ -1,0 +1,171 @@
+# Existing map IDs in prop_computers.yml retain CM's jas and security console sprites.
+# The sprites and keyboard sounds already carry CM-SS13 attribution in their metadata.
+- type: entity
+  abstract: true
+  parent: RMCPropComputerBase
+  id: RMCPoliceConsoleBase
+  suffix: ""
+  components:
+  - type: RMCPoliceConsole
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
+      enum.RMCPoliceConsoleVisuals.Broken:
+        enum.RMCPoliceConsoleVisualLayers.Unpowered:
+          True: { visible: false }
+          False: { visible: true }
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: false }
+        enum.RMCPoliceConsoleVisualLayers.Broken:
+          True: { visible: true }
+          False: { visible: false }
+  - type: Repairable
+    doAfterDelay: 8
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Breakage"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: ActivatableUI
+    key: enum.RMCPoliceUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [["CMAccessBrig"]]
+  - type: UserInterface
+    interfaces:
+      enum.RMCPoliceUiKey.Key:
+        type: RMCPoliceConsoleBui
+  - type: EmitSoundOnUIOpen
+    sound:
+      collection: RMCKeyboardTyping
+
+- type: entity
+  parent: RMCSecurityRecordsConsole
+  id: RMCSentencingConsole
+  name: Jurisdictional Automated System
+
+- type: entity
+  parent: RMCSecurityRecordsConsoleAlt
+  id: RMCPoliceRecordsConsole
+  name: security records console
+
+- type: entity
+  abstract: true
+  parent: CMPaper
+  id: RMCPolicePrintedPaper
+  components:
+  - type: Paper
+    editingDisabled: true
+  - type: PaperVisuals
+    backgroundImagePath: "/Textures/Interface/Paper/paper_background_default.svg.96dpi.png"
+    backgroundPatchMargin: 16.0, 16.0, 16.0, 16.0
+    contentMargin: 18.0, 18.0, 18.0, 18.0
+
+- type: entity
+  parent: RMCPolicePrintedPaper
+  id: RMCPoliceRecordPaper
+  name: security record
+  description: An official extract from the military police personnel database.
+
+- type: entity
+  parent: RMCPolicePrintedPaper
+  id: RMCIncidentReportPaper
+  name: encoded incident report
+  description: An original incident report exported by the Jurisdictional Automated System.
+  components:
+  - type: RMCIncidentReportPaper
+
+- type: entity
+  parent: BaseItem
+  id: RMCPoliceForensicScanner
+  name: forensic scanner
+  description: A modern handheld scanner to gather fingerprints. Must be analyzed at a security records terminal after prints are gathered.
+  components:
+  - type: RMCClueScanner
+  - type: Sprite
+    sprite: _RMC14/Objects/Devices/forensic_scanner.rsi
+    layers:
+    - state: icon
+    - state: scanning
+      map: ["enum.RMCPoliceClueVisuals.Scanning"]
+      visible: false
+    - state: prints
+      map: ["enum.RMCPoliceClueVisuals.Stored"]
+      visible: false
+  - type: Item
+    size: Normal
+  - type: Clothing
+    slots: [belt]
+  - type: Tag
+    tags: [SecBeltEquip]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.RMCPoliceClueVisuals.Scanning:
+        enum.RMCPoliceClueVisuals.Scanning:
+          True: {visible: true}
+          False: {visible: false}
+      enum.RMCPoliceClueVisuals.Stored:
+        enum.RMCPoliceClueVisuals.Stored:
+          True: {visible: true}
+          False: {visible: false}
+
+- type: entity
+  id: RMCPoliceClue
+  name: suspicious prints
+  description: A suspicious set of fingerprints.
+  components:
+  - type: RMCPoliceClue
+  - type: RMCPoliceClueVisibility
+  - type: Sprite
+    sprite: _RMC14/Objects/Devices/police_clues.rsi
+    drawdepth: FloorObjects
+    state: prints
+    visible: false
+  - type: Reactive
+
+- type: entity
+  parent: SprayBottle
+  id: RMCForensicSpray
+  name: forensic spray
+  description: A dye-containing spray that binds to the skin oils left behind by fingerprints.
+  suffix: ""
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Devices/police_clues.rsi
+    state: spray
+  - type: Item
+    sprite: _RMC14/Objects/Devices/police_clues.rsi
+  - type: SolutionContainerManager
+    solutions:
+      spray:
+        maxVol: 100
+        reagents:
+        - ReagentId: RMCForensicSpray
+          Quantity: 100
+
+- type: reagent
+  parent: CMReagent
+  id: RMCForensicSpray
+  name: rmc-police-forensic-spray-name
+  desc: rmc-police-forensic-spray-desc
+  physicalDesc: reagent-physical-desc-opaque
+  color: "#79847a"
+  tileReactions:
+  - !type:RMCRevealCluesTileReaction

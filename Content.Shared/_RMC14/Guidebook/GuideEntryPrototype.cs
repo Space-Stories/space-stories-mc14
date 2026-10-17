@@ -16,4 +16,11 @@ public sealed partial class GuideEntryPrototype : IInheritingPrototype, ICMSpeci
 
     [DataField]
     public bool IsCM { get; }
+
+    /// <summary>
+    /// The server.default_guide setting for which this branch is listed in the general guidebook.
+    /// Explicit help requests can still open the branch on any server.
+    /// </summary>
+    [DataField]
+    public string? ServerGuide { get; }
 }

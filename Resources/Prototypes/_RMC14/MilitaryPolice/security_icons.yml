@@ -1,0 +1,34 @@
+- type: securityIcon
+  parent: SecurityIcon
+  id: RMCPoliceIconArrest
+  icon:
+    sprite: /Textures/_RMC14/Interface/Police/security_status.rsi
+    state: hudsec_wanted
+
+- type: securityIcon
+  parent: SecurityIcon
+  id: RMCPoliceIconIncarcerated
+  icon:
+    sprite: /Textures/_RMC14/Interface/Police/security_status.rsi
+    state: hudsec_prisoner
+
+- type: securityIcon
+  parent: SecurityIcon
+  id: RMCPoliceIconReleased
+  icon:
+    sprite: /Textures/_RMC14/Interface/Police/security_status.rsi
+    state: hudsec_released
+
+- type: securityIcon
+  parent: SecurityIcon
+  id: RMCPoliceIconSuspect
+  icon:
+    sprite: /Textures/_RMC14/Interface/Police/security_status.rsi
+    state: hudsec_suspect
+
+- type: securityIcon
+  parent: SecurityIcon
+  id: RMCPoliceIconNJP
+  icon:
+    sprite: /Textures/_RMC14/Interface/Police/security_status.rsi
+    state: hudsec_njp

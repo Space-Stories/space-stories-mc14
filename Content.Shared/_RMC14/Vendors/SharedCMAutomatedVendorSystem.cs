@@ -407,6 +407,11 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
 
         ent.Comp.Hacked = !ent.Comp.Hacked;
         Dirty(ent);
+        if (ent.Comp.Hacked)
+        {
+            var hacked = new RMCAutomatedVendorHackedEvent(args.User);
+            RaiseLocalEvent(ent, ref hacked);
+        }
 
         var msg = ent.Comp.Hacked
             ? Loc.GetString("rmc-vending-machine-hack-finish-remove", ("vendor", ent))

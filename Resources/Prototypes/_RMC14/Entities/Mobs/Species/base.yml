@@ -6,6 +6,7 @@
   name: Urist C.M. McHands
   suffix: RMC14
   components:
+  - type: Fingerprint
   - type: Input
     context: "rmc-human"
   - type: RMCKeybindActions

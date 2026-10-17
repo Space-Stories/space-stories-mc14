@@ -35,6 +35,7 @@ public enum RMCCrtPanelVariant
 public enum RMCCrtButtonVariant
 {
     Danger,
+    Flat,
     Filled,
     Navigation,
     Outline,
@@ -95,7 +96,9 @@ public readonly record struct RMCCrtPalette(
     Color DisabledBackground,
     Color DisabledForeground)
 {
-    public Color HoverBackground => Color.InterpolateBetween(Background, Fill, 0.3f);
+    public Color ButtonBackground => Color.InterpolateBetween(Background, Fill, 0.25f);
+
+    public Color HoverBackground => Color.InterpolateBetween(Background, Fill, 0.5f);
 
     public Color PressedBackground => Color.InterpolateBetween(Background, Fill, 0.65f);
 }
@@ -114,7 +117,11 @@ public static class RMCCrtPalettes
             RMCCrtPalettePreset.Brown => Create("#AC8710", "#0F0F00", "#AC8710"),
             RMCCrtPalettePreset.Green => Create("#00EB4E", "#001000", "#00EB4E"),
             RMCCrtPalettePreset.Purple => Create("#C634D0", "#100302", "#C634D0"),
-            RMCCrtPalettePreset.Red => Create("#D03434", "#100302", "#D03434"),
+            RMCCrtPalettePreset.Red => new RMCCrtPalette(
+                Color.FromHex("#F4B8B8"), Color.FromHex("#14090B"), Color.FromHex("#82464E"),
+                Color.FromHex("#563039"), Color.FromHex("#FFE9E9"), Good, Warning,
+                Color.FromHex("#FF715B"), Color.FromHex("#C39298"),
+                Color.FromHex("#14090B"), Color.FromHex("#805E64")),
             RMCCrtPalettePreset.Spp => Create("#DBBF23", "#511814", "#DBBF23"),
             RMCCrtPalettePreset.White => Create("#CCCCCC", "#666666", "#CCCCCC"),
             RMCCrtPalettePreset.Yellow => Create("#FFD000", "#101000", "#FFD000"),
@@ -142,6 +149,9 @@ public static class RMCCrtPalettes
 
 public static class RMCCrtIcons
 {
+    public const string FilterTexture = "/Textures/Interface/Nano/filter.svg.96dpi.png";
+    public const string PencilTexture = "/Textures/Interface/pencil.png";
+
     public const string Ban = "ban";
     public const string Bullhorn = "bullhorn";
     public const string Cog = "cog";
@@ -158,6 +168,7 @@ public static class RMCCrtIcons
 
 public static class RMCCrtStyleClasses
 {
+    public const string Input = "RMCCrtInput";
     public const string CompactText = "RMCCrtCompactText";
     public const string Heading = "RMCCrtHeading";
     public const string Text = "RMCCrtText";

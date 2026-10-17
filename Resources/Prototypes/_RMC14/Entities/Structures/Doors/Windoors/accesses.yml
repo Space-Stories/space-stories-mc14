@@ -21,6 +21,7 @@
   id: CMWindoorSecureBrig
   suffix: Brig, Locked
   components:
+  - type: DoorSignalControl
   - type: AccessReader
     access: [ [ "CMAccessBrig" ] ]
 

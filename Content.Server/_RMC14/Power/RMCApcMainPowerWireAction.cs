@@ -31,6 +31,8 @@ public sealed partial class RMCApcMainPowerWireAction : BaseWireAction
         WiresSystem.TryCancelWireAction(wire.Owner, RMCApcMainPowerWireActionKey.PulseCancel);
         EntityManager.System<RMCPowerSystem>().SetApcMainPowerWireCut((wire.Owner, null), true);
         EntityManager.System<RMCPowerSystem>().SetApcMainPowerWirePulsed((wire.Owner, null), false);
+        var cut = new RMCApcMainPowerWireCutEvent(user);
+        EntityManager.EventBus.RaiseLocalEvent(wire.Owner, ref cut);
         return true;
     }
 
@@ -51,6 +53,8 @@ public sealed partial class RMCApcMainPowerWireAction : BaseWireAction
         }
 
         EntityManager.System<RMCPowerSystem>().SetApcMainPowerWirePulsed((wire.Owner, apc), true);
+        var pulsed = new RMCApcMainPowerWirePulsedEvent(user);
+        EntityManager.EventBus.RaiseLocalEvent(wire.Owner, ref pulsed);
         WiresSystem.StartWireAction(wire.Owner, _pulseTimeout, RMCApcMainPowerWireActionKey.PulseCancel, new TimedWireEvent(AwaitPulseCancel, wire));
     }
 

@@ -1,4 +1,4 @@
-using System.Linq;
+using Content.Client._RMC14.Guidebook; // RMC14
 using Content.Client.Gameplay;
 using Content.Client.Guidebook;
 using Content.Client.Guidebook.Controls;
@@ -7,7 +7,6 @@ using Content.Client.Players.PlayTimeTracking;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.CCVar;
 using Content.Shared.Guidebook;
-using Content.Shared._RMC14.Prototypes;
 using Content.Shared.Input;
 using Robust.Client.State;
 using Robust.Client.UserInterface;
@@ -184,8 +183,10 @@ public sealed class GuidebookUIController : UIController, IOnStateEntered<LobbyS
 
         if (guides == null)
         {
-            guides = _prototypeManager.EnumerateCM<GuideEntryPrototype>()
-                .ToDictionary(x => new ProtoId<GuideEntryPrototype>(x.ID), x => (GuideEntry) x);
+            // RMC14: Keep server-specific guide branches out of the general guidebook.
+            guides = RMCGuidebookUtils.GetDefaultGuides(_prototypeManager,
+                _configuration.GetCVar(CCVars.DefaultGuide));
+            // RMC14 end
         }
         else if (includeChildren)
         {

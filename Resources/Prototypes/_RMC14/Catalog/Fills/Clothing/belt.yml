@@ -353,7 +353,7 @@
     - id: CMStunbaton
     - id: RMCHandcuffs
 #    - id: Pepperspray # TODO RMC14
-#    - id: ForensicScanner # TODO RMC14 cm clue scanner
+    - id: RMCPoliceForensicScanner
 
 - type: entity
   parent: RMCBeltSecurityWeYa
@@ -367,7 +367,7 @@
     - id: CMStunbaton
     - id: RMCHandcuffs
 #    - id: Pepperspray # TODO RMC14
-#    - id: ForensicScanner # TODO RMC14 cm clue scanner
+    - id: RMCPoliceForensicScanner
 
 - type: entity
   parent: CMBeltSecuritySPP
@@ -394,7 +394,7 @@
     - id: CMFlash
     - id: CMStunbaton
 #    - id: Pepperspray # TODO RMC14
-#    - id: ForensicScanner # TODO RMC14 cm clue scanner
+    - id: RMCPoliceForensicScanner
     - id: RMCHandcuffs
       amount: 2
     - id: RMCGrenadeFlashBang

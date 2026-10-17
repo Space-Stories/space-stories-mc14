@@ -130,7 +130,10 @@ public sealed class StatusIconOverlay : Overlay
                 else
                     handle.UseShader(_unshadedShader);
 
-                var position = new Vector2(xOffset, yOffset);
+                // RMC14 start - Place criminal status icons below visible marine HUD icons.
+                var position = _statusIcon.GetIconPosition(uid, proto, new Vector2(xOffset, yOffset),
+                    texture.Size / (float) EyeManager.PixelsPerMeter);
+                // RMC14 end
                 handle.DrawTexture(texture, position);
             }
 
