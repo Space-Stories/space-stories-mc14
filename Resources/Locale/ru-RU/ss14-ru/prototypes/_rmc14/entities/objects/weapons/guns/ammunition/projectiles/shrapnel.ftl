@@ -6,3 +6,5 @@ ent-RMCMortarShellFragShrapnel = шрапнель осколочного мин�
     .desc = { ent-CMProjectileShrapnel.desc }
 ent-RMCBreachingChargeRubberPellet = резиновая дробь взрывного заряда
     .desc = { ent-CMProjectileShrapnel.desc }
+ent-RMCProjectileShrapnelRubber = резиновая шрапнель
+    .desc = { ent-CMProjectileShrapnel.desc }

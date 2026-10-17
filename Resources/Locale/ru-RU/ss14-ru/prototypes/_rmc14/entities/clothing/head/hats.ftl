@@ -210,3 +210,5 @@ ent-RMCHeadCivilianBrownBeret = коричневый берет
     .desc = Приятный модный берет, популярный среди руководителей.
 ent-CMHeadBeretWO = берет сержанта
     .desc = { ent-CMHeadBeret.desc }
+ent-CMHeadCapBase = { ent-ClothingHeadBase }
+    .desc = { ent-ClothingHeadBase.desc }

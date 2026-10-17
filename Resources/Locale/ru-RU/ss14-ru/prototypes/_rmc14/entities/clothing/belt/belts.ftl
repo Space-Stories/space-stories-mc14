@@ -177,3 +177,5 @@ ent-RMCM300SOCOMBeltDesert = { ent-RMCM300SOCOMBelt }
 ent-RMCM300SOCOMBeltCamo = { ent-RMCM300SOCOMBelt }
     .suffix = Замена камуфляжа
     .desc = { ent-RMCM300SOCOMBelt.desc }
+ent-RMCBeltGunslinger = стрелковый пояс с ручным тиснением
+    .desc = Оружейный пояс с ручным тиснением и парными револьверными кобурами. Выглядит так, будто предназначен для дуэли, которой совершенно не место на боевом корабле.

@@ -58,3 +58,7 @@ ent-CMExplosionEffectShrapnel1 = { "" }
     .desc = { "" }
 ent-CMExplosionEffectShrapnel2 = { ent-CMExplosionEffectShrapnel1 }
     .desc = { ent-CMExplosionEffectShrapnel1.desc }
+ent-RMCGrenadeHEFAToy = игрушечная граната HEFA
+    .desc = Осколочно-фугасная противопехотная граната. Небольшая, но обманчиво мощная осколочная граната, которая вместе с 30-мм HEDP вытесняет осколочные M15. Можно зарядить в гранатомёт или бросить рукой. Погоди, маркировка сбоку говорит, что это игрушка. Какого чёрта?
+ent-RMCGrenadeM15Rubber = граната M15 с резиновыми шариками
+    .desc = Относительно безвредная версия гранаты M15 для подавления беспорядков и боевых учений.

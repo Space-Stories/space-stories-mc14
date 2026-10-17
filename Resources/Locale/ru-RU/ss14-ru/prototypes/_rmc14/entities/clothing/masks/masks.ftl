@@ -58,3 +58,5 @@ ent-RMCMaskKeffiyehRed = { ent-RMCMaskKeffiyeh }
     .desc = { ent-RMCMaskKeffiyeh.desc }
 ent-RMCMaskBalaclavaPMC = бронированная балаклава M8
     .desc = Бронированная балаклава, предназначенная для сокрытия личности оперативника и действующая как воздушный фильтр.
+ent-RMCClothingMaskLuchador = маска лучадора
+    .desc = Её носят крепкие бойцы, взмывающие в воздух, чтобы сокрушить врагов!

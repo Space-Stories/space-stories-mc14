@@ -65523,6 +65523,17 @@ entities:
     - type: Transform
       pos: -113.5,106.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 29660
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
   - uid: 5651
     components:
     - type: Transform
@@ -138198,6 +138209,15 @@ entities:
         actions: !type:Container
           ents:
           - 24769
+- proto: RMCBlackMarketHackingDevice
+  entities:
+  - uid: 29660
+    components:
+    - type: Transform
+      parent: 5650
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: RMCBlockerVehicle
   entities:
   - uid: 18472
@@ -141423,12 +141443,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: -122.5,99.5
       parent: 1
-  - uid: 29643
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -10.5,108.5
-      parent: 1
 - proto: RMCComputerCrewMonitoringCompact
   entities:
   - uid: 822
@@ -141467,8 +141481,7 @@ entities:
   - uid: 19062
     components:
     - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -72.25,103.5
+      pos: -72.0625,103.5
       parent: 1
   - uid: 29025
     components:
@@ -185577,7 +185590,7 @@ entities:
   - uid: 19061
     components:
     - type: Transform
-      pos: -72.5619,103.52811
+      pos: -72.625,103.5
       parent: 1
   - uid: 19067
     components:

@@ -121,7 +121,8 @@ public sealed partial class RMCERTSystem
 
         var text = BuildAdminRequestAnnouncement(request);
         _chat.SendAdminAnnouncement(text);
-        AnnounceRequestCreated(request, GetRequestAnnouncementCall(request));
+        if (args.AnnounceRequest)
+            AnnounceRequestCreated(request, GetRequestAnnouncementCall(request));
 
         NotifyAdminsOfRequest();
 

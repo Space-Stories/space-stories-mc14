@@ -1584,6 +1584,7 @@ ClothingEyesGlassesChemical: RMCGlassesReagentHUDGlasses
 RMCGlassesBiMexYellow: RMCGlassesTriMaxYellow
 RMCGlassesBiMexBronze: RMCGlassesTriMaxBronze
 RMCGlassesBiMexBlack: RMCGlassesTriMaxBlack
+RMCGlassesBiMexPersonal: RMCGlassesTriMaxPersonal # RMC14
 
 # 2025-07-12
 FoamedIronMetal: RMCFoamedIronMetal

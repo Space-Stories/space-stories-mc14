@@ -124,6 +124,8 @@ public sealed partial class RMCERTSystem : EntitySystem
     /// <inheritdoc />
     public override void Initialize()
     {
+        InitializeBlackMarketInvestigation();
+
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
         SubscribeLocalEvent<DropshipArrivedAtDestinationEvent>(OnDropshipArrivedAtDestination);

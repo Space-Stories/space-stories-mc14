@@ -8,3 +8,5 @@ ent-RMCSpawnerBombSupply = случайная бомба
     .desc = Это случайная бомба
 ent-RMCSpawnerRandomTechSupply = случайный спавнер технических средств
     .desc = Это случайная часть технологических принадлежностей.
+ent-RMCSpawnerRandomTechnologyScanner = спавнер случайного сканера
+    .desc = Это случайный технический сканер.

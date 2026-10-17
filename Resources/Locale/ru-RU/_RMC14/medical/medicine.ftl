@@ -69,6 +69,8 @@ rmc-russianred-container-label-text = Рк
 rmc-imidazoline-container-label-text = ИМ
 rmc-dermaline-container-label-text = ДЕ
 rmc-iron-container-label-text = ЖЕ
+rmc-happy-container-label-text = :)
+rmc-mystery-container-label-text = ??
 
 rmc-custom-container-label-text = { $customLabel }
 

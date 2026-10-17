@@ -87,3 +87,15 @@
     amount: 0
   - type: ProjectileMaxRange
     max: 8
+
+- type: entity
+  parent: CMProjectileShrapnel
+  id: RMCProjectileShrapnelRubber
+  name: rubber shrapnel
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage: {}
+    deleteOnCollide: true
+  - type: RMCStaminaDamageOnCollide
+    damage: 25

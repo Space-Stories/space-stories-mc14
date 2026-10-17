@@ -243,6 +243,8 @@ public sealed class RMCERTCreateRequestArgs
     /// </summary>
     public bool AllowSpecificSelection = true;
 
+    public bool AnnounceRequest = true;
+
     /// <summary>
     /// Optional automatic pending-review resolution. Leave null for fully manual admin approval/denial.
     /// </summary>

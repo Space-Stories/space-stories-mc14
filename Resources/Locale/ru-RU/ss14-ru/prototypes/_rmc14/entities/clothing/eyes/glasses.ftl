@@ -140,3 +140,6 @@ ent-RMCGlassesBiMexBronze = { ent-RMCGlassesBiMexYellow }
     .desc = { ent-RMCGlassesBiMexYellow.desc }
 ent-RMCGlassesBiMexBlack = тактические очки БиМех
     .desc = Стильные угловатые очки, созданные для современного оперативника.
+ent-RMCGlassesTriMaxPersonal = персональные солнцезащитные очки TriMax
+    .desc = Дорогая пара солнцезащитных очков TriMax. Похоже, они переживут конец света, а их владелец всё равно будет выглядеть невыносимо самоуверенным.
+    .suffix = { ent-RMCSunglassesBig.suffix }

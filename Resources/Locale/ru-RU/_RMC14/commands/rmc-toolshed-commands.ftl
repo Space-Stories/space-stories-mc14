@@ -38,8 +38,12 @@ command-description-marine-randomizewithjob = Удаляет, а затем по
 
 command-description-removeinvalidweeds = Удаляет с карты все сорняки, которые не должны были нормально распространиться.
 
-command-description-requisitions-addbudget = Добавляет бюджет к счету Поставок по умолчанию.
-command-description-requisitions-removebudget = Удаляет бюджет со счета Поставок по умолчанию.
+command-description-requisitions-addbudget = Пополняет выбранный счёт снабжения. По умолчанию — Cargo.
+command-description-requisitions-removebudget = Списывает средства с выбранного счёта снабжения. По умолчанию — Cargo.
+command-arg-sig-requisitions-addbudget-money = <сумма (int)>
+command-arg-sig-requisitions-addbudget-account = [счёт (Cargo|BlackMarket)]
+command-arg-sig-requisitions-removebudget-money = <сумма (int)>
+command-arg-sig-requisitions-removebudget-account = [счёт (Cargo|BlackMarket)]
 
 command-description-rmcrejuvenate-marineplayersinrange = Омолаживает всех морпехов в определенном радиусе действия, восстанавливая им здоровье, снимая статусные эффекты и т.д.
 
