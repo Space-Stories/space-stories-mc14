@@ -420,6 +420,14 @@
       - cost: 3000
         crate: STCrateMagazineSharpFlechette
       # Stories-SHARP-End
+      # Stories-Juggernaut-Start
+      - cost: 10000
+        crate: STCrateMagazineM134HE
+      - cost: 20000
+        crate: STCrateMagazineM134AP
+      - cost: 4000
+        crate: STCrateBatteryJuggernaut
+      # Stories-Juggernaut-End
 
 
 

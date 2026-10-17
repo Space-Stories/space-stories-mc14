@@ -23,6 +23,12 @@ public sealed partial class RMCRepairableComponent : Component
     [DataField, AutoNetworkedField]
     public int SkillRequired;
 
+    // Stories-Juggernaut-Start
+    /// <summary>Skill whose delay multiplier scales repair time. Defaults to RMCSkillConstruction when unset.</summary>
+    [DataField, AutoNetworkedField]
+    public EntProtoId<SkillDefinitionComponent>? DelaySkill;
+    // Stories-Juggernaut-End
+
     [DataField, AutoNetworkedField]
     public SoundSpecifier? Sound = new SoundPathSpecifier("/Audio/Items/welder.ogg");
 

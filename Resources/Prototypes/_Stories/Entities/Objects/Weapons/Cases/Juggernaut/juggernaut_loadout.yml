@@ -1,0 +1,130 @@
+- type: Tag
+  id: STKitJuggernaut
+
+- type: entity
+  parent: RMCBaseEquipmentCase
+  id: STJuggernautEquipmentCase
+  name: Juggernaut equipment case
+  description: "A massive case containing an M134C-JLCW minigun, a Juggernaut exoskeleton armor set, ammo drums, and a Squire's support kit to hand off to a squadmate.\n\nNOTE: You cannot put items back inside this case."
+  components:
+  - type: Sprite
+    layers:
+    - state: closed
+      map: [ base ]
+    - state: sharp
+      sprite: _Stories/Objects/loadout_kits.rsi
+      map: [ label ]
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,13,1
+  - type: StorageFill
+    contents:
+    - id: STArmorJuggernaut
+    - id: STArmorHoodJuggernaut
+    - id: STWeaponM134CJLCW
+    - id: STBeltM134AP
+      amount: 1
+    - id: STBeltM134HE
+      amount: 2
+    - id: STKitJuggernaut
+  - type: CMChangeUserOnVend
+    addComponents:
+    - type: JuggernautWhitelist
+  - type: IgnoreContentsSize
+    items:
+      tags:
+      - STKitJuggernaut
+
+# Juggernaut kit
+
+- type: entity
+  parent: RMCKitBase
+  id: STKitJuggernaut
+  name: Squire kit
+  description: "A large kit containing all the supplies needed to turn a Private into a Juggernaut's Squire.
+
+    A little infographic series shows how field maintenance should be done:
+
+    Step One: Read the brochure
+
+    Step Two: Take the chestrig, welder, armor, and sidearm
+
+    Step Three: Stay close to the Juggernaut - he's completely dependent on you. Reload his belt or weld his minigun directly while he's holding it, and do both several times faster than he could alone
+
+    Step Four: When the minigun overheats, weld it back down"
+  components:
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,15,1
+  - type: Sprite
+    sprite: _RMC14/Objects/Storage/procase_mini.rsi
+  - type: Icon
+    sprite: _RMC14/Objects/Storage/procase_mini.rsi
+    layers:
+    - state: closed
+      map: [ base ]
+    - state: loader
+      map: [ label ]
+  - type: StorageFill
+    contents:
+    - id: STPamphletSquire
+    - id: RMCSatchelWelderChestrig
+    - id: STWelderSquire
+    - id: CMArmorB12
+    - id: ArmorHelmetM10
+    - id: RMCMK80
+    - id: CMMagazinePistolMK80
+      amount: 2
+  - type: Tag
+    tags:
+    - STKitJuggernaut
+
+# Cargo crates
+
+- type: entity
+  parent: RMCCrateAmmo
+  id: STCrateMagazineM134HE
+  name: M134C-JLCW ammo drum crate (high-explosive, x3)
+  components:
+  - type: StorageFill
+    contents:
+    - id: STBeltM134HE
+      amount: 3
+
+- type: entity
+  parent: RMCCrateAmmo
+  id: STCrateMagazineM134AP
+  name: M134C-JLCW ammo drum crate (armor-piercing, x3)
+  components:
+  - type: StorageFill
+    contents:
+    - id: STBeltM134AP
+      amount: 3
+
+- type: entity
+  parent: RMCCrateAmmo
+  id: STCrateBatteryJuggernaut
+  name: M134C-JLCW power cell crate (4x)
+  components:
+  - type: StorageFill
+    contents:
+    - id: STPowerCellJuggernaut
+      amount: 4
+
+# Welder
+
+- type: entity
+  parent: CMWelder
+  id: STWelderSquire
+  name: Squire's blowtorch
+  description: A blowtorch with an oversized fuel tank, meant for repeated field repairs on a Juggernaut's M134C-JLCW without having to stop and refuel.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      Welder:
+        reagents:
+        - ReagentId: RMCWeldingFuel
+          Quantity: 125
+        maxVol: 125

@@ -1,0 +1,58 @@
+- type: Tag
+  id: STJuggernautArmor
+
+- type: entity
+  parent: RMCBaseMarineArmorLight
+  id: STArmorJuggernaut
+  name: Juggernaut exoskeleton armor
+  description: A massively reinforced suit of armor built around a load-bearing exoskeleton frame, meant to carry the weight of an M134C-JLCW and its ammo drums. There's no room for a backpack, belt or webbing over all that plating. Heavy enough to slow its wearer down considerably, but built to shrug off nearly everything short of a direct hit.
+  components:
+  - type: Sprite
+    sprite: _Stories/Clothing/OuterClothing/juggernaut_armor.rsi
+  - type: CMArmor
+    melee: 40
+    bullet: 35
+    bio: 20
+    explosionArmor: 45
+    immuneToAP: false
+  - type: RMCArmorSpeedTier
+    speedTier: heavy
+  - type: ClothingSpeedModifier
+    walkModifier: 0.5
+    sprintModifier: 0.5
+  - type: ExplosionResistance
+    damageCoefficient: 0.5
+    worn: true
+  - type: Corrodible
+    minimumAcidStrength: Strong
+    meltTimeMult: 2
+  - type: RMCGrantLeapProtection
+  - type: RMCStunResistance
+    resistance: 6
+  - type: ClothingBlockBackpack
+  - type: ClothingBlockWebbing
+  - type: JuggernautArmorRestrict
+  - type: ClothingGrantComponents
+    components:
+    - type: JuggernautArmorWorn
+  - type: Tag
+    tags:
+    - STJuggernautArmor
+
+- type: entity
+  parent: ClothingHeadBase
+  id: STArmorHoodJuggernaut
+  name: Juggernaut blast hood
+  description: A padded, armored hood worn under the Juggernaut's helmet, protecting the head and neck from shrapnel and stray rounds.
+  components:
+  - type: Sprite
+    sprite: _Stories/Clothing/Head/juggernaut_hood.rsi
+  - type: Clothing
+    sprite: _Stories/Clothing/Head/juggernaut_hood.rsi
+    slots:
+    - HEAD
+  - type: CMArmor
+    melee: 20
+    bullet: 20
+    bio: 15
+    explosionArmor: 15

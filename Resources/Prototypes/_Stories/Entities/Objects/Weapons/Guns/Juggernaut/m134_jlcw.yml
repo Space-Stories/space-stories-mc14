@@ -1,0 +1,301 @@
+- type: Tag
+  id: STBeltM134
+
+- type: Tag
+  id: STCartridgeM134AP
+
+- type: Tag
+  id: STCartridgeM134HE
+
+- type: entity
+  id: STWeaponM134CJLCW
+  name: M134C-JLCW
+  description: A drum-fed six-barrel minigun with an inbuilt magnetic harness. It can only be fired while wearing a Juggernaut exoskeleton armor. Has a recoil compensation toggle drawing off an inbuilt power cell - off, its spread is nearly uncontrollable; on and powered, it tightens to 10-15 degrees. Needs a welder to fix once the barrels take enough heat damage.
+  parent: [ CMBaseWeaponGun, BaseItem ]
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Juggernaut/m134_jlcw.rsi
+    layers:
+    - state: icon
+      sprite: _Stories/Objects/Weapons/Guns/Juggernaut/m134_jlcw_icon.rsi
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-0
+      sprite: _Stories/Objects/Weapons/Guns/Juggernaut/m134_jlcw_icon.rsi
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Juggernaut/m134_jlcw.rsi
+    slots:
+    - suitStorage
+    - Back
+  - type: Item
+    size: Huge
+  - type: AmmoCounter
+  - type: StaticPrice
+    price: 500
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance
+  - type: MinigunFiringVisuals
+  - type: MeleeWeapon
+    attackRate: 0.5
+    damage:
+      types:
+        Blunt: 15
+    soundHit:
+      collection: GenericHit
+  - type: Wieldable
+  - type: GunRequiresWield
+  - type: WieldDelay
+    baseDelay: 2
+  - type: WieldableSpeedModifiers
+    base: 0.5
+    light: 0.69
+    medium: 0.75
+    heavy: 0.806
+  - type: Gun
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    cameraRecoilScalar: 3 # uncompensated kick, same as the smartgun's RecoilWielded - GunToggleableRecoil zeroes it back out once the compensator's on
+    soundEmpty:
+      path: /Audio/Weapons/Guns/Empty/lmg_empty.ogg
+  - type: GunSpinup
+    # baseScatter is 90*13: GunSpinup divides by the current rate, so it nets out to 90 degrees at full spin.
+    baseShotDelay: 1.0
+    baseScatter: 1170
+    initialWindupDelay: 0.3
+    spinUpTime: 2
+    graceAfterStop: 2
+    spinDownTime: 1.7
+    minSpinLevel: 1
+    maxSpinLevel: 2
+    rateTiers: [4, 13]
+  - type: RMCWeaponAccuracy
+    accuracyMultiplier: 1
+    accuracyMultiplierUnwielded: 0.2
+  - type: WieldedCrosshair
+    rsi:
+      sprite: _Stories/Interface/MousePointer/m134_mouse.rsi
+      state: all
+  - type: GunToggleableRecoil
+    batteryDrain: 5
+  - type: JuggernautRecoil
+  - type: GunDrainBatteryOnShoot
+    baseDrain: 0 # only the recoil compensator draws power; uncompensated fire is free
+    batteryContainer: cell_slot
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - JuggernautWhitelist
+  - type: GunRequiresSkills
+    skills:
+      RMCSkillSpecialistWeapons: 1
+  - type: GunRequireEquipped
+    whitelist:
+      tags:
+      - STJuggernautArmor
+  - type: Corrodible
+    isCorrodible: false
+  - type: RMCMagneticItem
+  - type: JuggernautBarrelHeat
+  - type: JuggernautBeltReload
+  - type: JuggernautGun # see JuggernautAssistedRepairSystem
+  - type: Damageable
+    damageContainer: StructuralMarine
+  - type: RMCRepairable
+    heal: 60
+    delay: 6
+    skill: RMCSkillEngineer
+    skillRequired: 1
+    delaySkill: STSkillJuggernautMaintenance
+    fuelUsed: 10
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+      cell_slot: !type:ContainerSlot { }
+  - type: MagazineAmmoProvider
+    autoEject: false
+  - type: PowerCellSlot
+    cellSlotId: cell_slot
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Ammo belt
+        startingItem: STBeltM134HE
+        insertSound: /Audio/_RMC14/Weapons/Guns/Reload/m41_reload.ogg
+        ejectSound: /Audio/_RMC14/Weapons/Guns/Reload/m41_reload.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - STBeltM134
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: STPowerCellJuggernaut
+        whitelist:
+          components:
+          - JuggernautBattery
+
+# Power cell
+
+- type: entity
+  parent: RMCPowerCell
+  id: STPowerCellJuggernaut
+  name: M134C-JLCW power cell
+  description: A high-density power cell shaped to lock into the M134C-JLCW's recoil compensator - it won't fit, and nothing else will fit, any other mount.
+  components:
+  - type: Sprite
+    layers:
+    - map: [ "enum.PowerCellVisualLayers.Base" ]
+      state: smartguncell
+  - type: Battery
+    maxCharge: 10000
+    startingCharge: 10000
+  - type: JuggernautBattery
+  - type: PhysicalComposition
+    materialComposition: {}
+
+# Ammo belts
+
+- type: entity
+  parent: CMMagazineRifleBase
+  id: STBeltM134AP
+  name: M134C-JLCW ammo drum (armor-piercing)
+  description: A 450-round ammo drum of 10x28mm armor-piercing rounds for the M134C-JLCW minigun.
+  components:
+  - type: Tag
+    tags:
+    - STBeltM134
+  - type: JuggernautBeltAssistedReload
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - STCartridgeM134AP
+    proto: STCartridgeM134AP
+    capacity: 450
+    deleteWhenEmpty: false
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Ammunition/Magazines/Juggernaut/m134_belt.rsi
+    layers:
+    - state: icon-1
+      map: ["enum.GunVisualLayers.Mag"]
+  # Only 2 art states (full/empty) - no partial-fullness gradient, so 1 step, and forced full until truly 0.
+  - type: MagazineVisuals
+    magState: icon
+    steps: 1
+    zeroVisible: true
+    zeroOnlyOnEmpty: true
+  - type: Clothing
+    slots:
+    - suitStorage
+
+- type: entity
+  parent: STBeltM134AP
+  id: STBeltM134HE
+  name: M134C-JLCW ammo drum (high-explosive)
+  description: A 450-round ammo drum of 10x28mm high-explosive rounds for the M134C-JLCW minigun.
+  components:
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - STCartridgeM134HE
+    proto: STCartridgeM134HE
+    capacity: 450
+    deleteWhenEmpty: false
+
+# Cartridges
+
+- type: entity
+  parent: CMBaseCartridgeRifle
+  id: STCartridgeM134AP
+  name: cartridge (10x28mm armor-piercing)
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/large_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: CartridgeAmmo
+    proto: STBulletM134AP
+  - type: Tag
+    tags:
+    - STCartridgeM134AP
+
+- type: entity
+  parent: CMBaseCartridgeRifle
+  id: STCartridgeM134HE
+  name: cartridge (10x28mm high-explosive)
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/large_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: CartridgeAmmo
+    proto: STBulletM134HE
+  - type: Tag
+    tags:
+    - STCartridgeM134HE
+
+# Projectiles
+
+- type: entity
+  parent: CMBulletBase
+  id: STBulletM134AP
+  name: bullet (10x28mm armor-piercing)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Projectiles/bullet_projectiles.rsi
+    layers:
+    - state: bullet
+      shader: unshaded
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 35
+  - type: CMArmorPiercing
+    amount: 45
+  - type: RMCProjectileDamageFalloff
+    thresholds:
+    - range: 1
+      falloff: 3
+    - range: 15
+      falloff: 9999
+  - type: RMCProjectileAccuracy
+    accuracy: 80
+    thresholds:
+    - range: 8
+      falloff: 8
+
+- type: entity
+  parent: CMBulletBase
+  id: STBulletM134HE
+  name: bullet (10x28mm high-explosive)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Projectiles/bullet_projectiles.rsi
+    layers:
+    - state: bullet
+      shader: unshaded
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 20
+        Blunt: 30
+  - type: CMArmorPiercing
+    amount: 10
+  - type: RMCProjectileDamageFalloff
+    thresholds:
+    - range: 1
+      falloff: 4
+    - range: 12
+      falloff: 9999
+  - type: RMCProjectileAccuracy
+    accuracy: 80
+    thresholds:
+    - range: 8
+      falloff: 8

@@ -84,8 +84,13 @@ public sealed class TackleSystem : EntitySystem
 
         var random = _random.NextFloat(0, 1);
 
-        if ((tracker.Count < tackle.Min || tackle.Chance < random) &&
-            tracker.Count < tackle.Max)
+        // Stories-Juggernaut-Start
+        var thresholds = new TackleGetThresholdsEvent(tackle.Min, tackle.Max);
+        RaiseLocalEvent(target.Owner, ref thresholds);
+        // Stories-Juggernaut-End
+
+        if ((tracker.Count < thresholds.Min || tackle.Chance < random) &&
+            tracker.Count < thresholds.Max)
         {
             _adminLog.Add(LogType.RMCTackle, $"{ToPrettyString(user)} tried to tackle {ToPrettyString(target)}.");
 

@@ -100,6 +100,16 @@
           state: spec_anti_materiel_sniper
         linkedEntries:
         - CMSniperEquipmentCase
+      # Stories-Juggernaut-Start
+      - id: STJuggernautEquipmentCase
+        giveSquadRoleName: st-job-name-weapons-specialist-juggernaut
+        isAppendSquadRoleName: false
+        givePrefix: st-job-prefix-weapons-specialist-juggernaut
+        isAppendPrefix: true
+        giveIcon:
+          sprite: _Stories/Interface/cm_job_icons.rsi
+          state: hudsquad_spec_juggernaut
+      # Stories-Juggernaut-End
     - name: Дополнительные Боеприпасы Для Скаутов
       entries:
       - id: RMCMagazineRifleM4SPRA19Impact
@@ -134,6 +144,14 @@
         points: 40
       - id: STMagazineSharpRifleFlechette
         points: 40
+    # Stories-Juggernaut-Start
+    - name: Патронные Барабаны Джаггернаута
+      entries:
+      - id: STBeltM134HE
+        points: 60
+      - id: STBeltM134AP
+        points: 120
+    # Stories-Juggernaut-End
     - name: Дополнительные Гранаты
       entries:
       - id: CMGrenadeHighExplosive
@@ -312,6 +330,12 @@
         points: 5
       - id: RMCMagazinePistolSU6
         points: 10
+    # Stories-Juggernaut-Start
+    - name: Аккумулятор M134C-JLCW
+      entries:
+      - id: STPowerCellJuggernaut
+        points: 15
+    # Stories-Juggernaut-End
     - name: Предметы Одежды
       entries:
       - id: RMCScabbardMacheteFilled

@@ -1,0 +1,28 @@
+# Trains a Marine into a Juggernaut's Squire.
+- type: entity
+  parent: CMPamphlet
+  id: STPamphletSquire
+  name: squire instructional pamphlet
+  description: A pamphlet used to quickly impart vital knowledge. This one details how to keep a Juggernaut's minigun fed and welded together.
+  components:
+  - type: Sprite
+    state: pamphlet_machinegunner
+  - type: SkillPamphlet
+    bypassSkill: true
+    addComps:
+    - type: SquireWhitelist
+    addSkills:
+      RMCSkillEngineer: 1
+      STSkillJuggernautMaintenance: 1
+    skillCap:
+      RMCSkillEngineer: 2 # In case they read another one first.
+      STSkillJuggernautMaintenance: 1
+    giveJobTitle: st-job-name-squire
+    givePrefix: st-job-prefix-squire
+    isAppendPrefix: false
+    giveIcon:
+      sprite: _Stories/Interface/cm_job_icons.rsi
+      state: hudsquad_squire
+    giveMapBlip:
+      sprite: /Textures/_RMC14/Interface/map_blips.rsi
+      state: loader

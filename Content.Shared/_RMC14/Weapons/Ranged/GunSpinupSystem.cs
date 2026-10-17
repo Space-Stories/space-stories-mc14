@@ -143,7 +143,8 @@ public sealed class GunSpinupSystem : EntitySystem
             var isFiring = IsFiring(spin, now);
             var isSpinActive = IsSpinActive(spin, now);
 
-            if (spin.WasFiring && !isSpinActive && spin.StopSound != null)
+            // Server-only: Update() also runs client-side, PlayPvs isn't prediction-deduped like PlayPredicted (Stories-Juggernaut).
+            if (spin.WasFiring && !isSpinActive && spin.StopSound != null && _net.IsServer)
                 _audio.PlayPvs(spin.StopSound, uid);
 
             if (spin.WasFiring && !isSpinActive)

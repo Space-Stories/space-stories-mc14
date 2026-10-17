@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "hudsquad_ro taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/09583166e0082a417aef46dbb280675fa93a81e8/icons/mob/hud/marine_hud.dmi; hudsquad_spec_sharp created by NikidodikYT for Space Stories.",
+  "copyright": "hudsquad_ro taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/09583166e0082a417aef46dbb280675fa93a81e8/icons/mob/hud/marine_hud.dmi; hudsquad_spec_sharp, hudsquad_spec_juggernaut and hudsquad_squire created by NikidodikYT for Space Stories.",
   "size": {
     "x": 16,
     "y": 16
@@ -12,6 +12,12 @@
         },
         {
             "name": "hudsquad_spec_sharp"
+        },
+        {
+            "name": "hudsquad_spec_juggernaut"
+        },
+        {
+            "name": "hudsquad_squire"
         }
     ]
 }

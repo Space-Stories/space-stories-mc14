@@ -287,6 +287,12 @@
   - type: StandingState
   - type: SlowOnPull
     slowdowns:
+      # Stories-Juggernaut-Start
+      - multiplier: 0.42 # 0.7x the regular Marine slowdown (0.6) - must stay above that entry below
+        whitelist:
+          components:
+          - JuggernautArmorWorn
+      # Stories-Juggernaut-End
       - multiplier: 0.6
         whitelist:
           components:

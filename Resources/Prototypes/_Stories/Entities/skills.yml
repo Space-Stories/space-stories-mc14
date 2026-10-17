@@ -3,3 +3,13 @@
   id: STSkillIllegalTechnology
   name: Illegal Technology
   categories: [ HideSpawnMenu ]
+
+# Squire field-maintenance training: welds the minigun ~3.3x faster than an untrained Juggernaut.
+- type: entity
+  parent: RMCSkillBase
+  id: STSkillJuggernautMaintenance
+  name: Juggernaut Maintenance
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SkillDefinition
+    delayMultipliers: [ 1, 0.3 ]

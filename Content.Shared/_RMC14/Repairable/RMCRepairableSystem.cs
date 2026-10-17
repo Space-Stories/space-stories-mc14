@@ -492,7 +492,8 @@ public sealed class RMCRepairableSystem : EntitySystem
 
     private float GetWeldRepairDelaySeconds(Entity<RMCRepairableComponent> repairable, EntityUid user, FixedPoint2 totalDamage)
     {
-        var multiplier = _skills.GetSkillDelayMultiplier(user, ConstructionSkill);
+        var delaySkill = repairable.Comp.DelaySkill ?? ConstructionSkill; // Stories-Juggernaut
+        var multiplier = _skills.GetSkillDelayMultiplier(user, delaySkill);
         var baseDelaySeconds = (float) repairable.Comp.Delay.TotalSeconds;
 
         if (!_tags.HasTag(repairable.Owner, WallTag))
