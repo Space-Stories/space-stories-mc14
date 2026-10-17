@@ -20,6 +20,6 @@ public sealed partial class XenoHiveRaffleComponent : Component
     [DataField, AutoNetworkedField]
     public Dictionary<int, List<EntProtoId>> LeapfrogTargets = new()
     {
-        [3] = new() { "CMXenoRavager", "CMXenoPraetorian", "RMCXenoCrusher", "RMCXenoBoiler" },
+        [3] = new() { "CMXenoRavager", "CMXenoPraetorian", "RMCXenoCrusher", "RMCXenoBoiler", "STXenoDespoiler" }, // Stories-Despoiler
     };
 }

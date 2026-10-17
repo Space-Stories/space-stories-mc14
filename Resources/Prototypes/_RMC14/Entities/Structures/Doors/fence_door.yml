@@ -9,6 +9,12 @@
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
+  - type: VehicleSmashable # Stories-Balance
+    deleteOnHit: false
+    damageOnHit: 50
+    slowdownBelowWeightClass: Medium
+    slowdownMultiplier: 0.5
+    slowdownDuration: 0.4
   - type: Door
     openSpriteState: open
     closedSpriteState: closed

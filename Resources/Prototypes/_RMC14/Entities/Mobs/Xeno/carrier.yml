@@ -179,6 +179,12 @@
   id: RMCXenoCarrierEggsac
   suffix: Eggsac
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGenerateEggs ]
+      XenoPrimaryThree: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
@@ -228,4 +234,3 @@
   - type: XenoHidden
   - type: RMCActionOrder
     id: RMCXenoCarrierEggsac
-

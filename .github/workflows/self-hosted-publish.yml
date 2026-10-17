@@ -22,6 +22,16 @@ jobs:
         cd RobustToolbox
         git fetch --depth=1
 
+    - name: Apply build patch
+      if: ${{ secrets.SECRET_PATCH != '' }}
+      env:
+        SECRET_PATCH: ${{ secrets.SECRET_PATCH }}
+      shell: bash
+      run: |
+        echo "$SECRET_PATCH" | base64 -d > patch.diff
+        git apply patch.diff
+        rm patch.diff
+
     - name: Build Packaging
       run: dotnet build Content.Packaging --configuration Release /m
       env:
@@ -58,3 +68,11 @@ jobs:
       run: Tools/actions_changelog_rss.py
       env:
         CHANGELOG_RSS_KEY: ${{ secrets.CHANGELOG_RSS_KEY }}
+
+    - name: Clean workspace
+      if: always()
+      shell: bash
+      run: |
+        git checkout .
+        git clean -fd
+

@@ -1,4 +1,4 @@
-﻿- type: department
+- type: department
   parent: CMDepartmentBase
   id: CMXeno
   name: department-CMXeno
@@ -25,6 +25,7 @@
   - CMXenoSentinel
   - CMXenoSpitter
   - CMXenoWarrior
+  - STXenoDespoiler
   - CMXenoSelectableXeno
   departmentRadio: Hivemind # Unlikely to ever be used, just for completeness
   headOfDepartment: CMXenoQueen # Unlikely to ever be used, just for completeness

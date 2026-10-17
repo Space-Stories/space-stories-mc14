@@ -181,6 +181,9 @@
   id: RMCXenoRunnerAcider
   suffix: Acider
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoForTheHive ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Runner/acider_runner.rsi
     layers:

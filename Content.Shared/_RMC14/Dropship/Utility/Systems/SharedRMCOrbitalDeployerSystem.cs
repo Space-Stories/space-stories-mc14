@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Dropship.Utility.Components;
+using Content.Shared._RMC14.Sentry;
 using Content.Shared._RMC14.SupplyDrop;
 using Content.Shared.Coordinates;
 using Content.Shared.Popups;
@@ -52,13 +53,39 @@ public abstract class SharedRMCOrbitalDeployerSystem : EntitySystem
 
         if (deployable.DeployBlacklist is { } blacklist)
         {
-            foreach (var defense in _entityLookup.GetEntitiesInRange(_transform.ToMapCoordinates(dropLocation), deployable.DefenseExclusionRange, LookupFlags.Uncontained))
+            var mapCoords = _transform.ToMapCoordinates(dropLocation);
+            // Stories-SentryDeploy-Start
+            var dropQuery = EntityQueryEnumerator<BeingSupplyDroppedComponent>();
+            while (dropQuery.MoveNext(out _, out var beingDropped))
             {
-                if (!Transform(defense).Anchored)
-                    continue;
+                if (beingDropped.LandingEffect is { } landingEffect &&
+                    TryComp<TransformComponent>(landingEffect, out var effectXform) &&
+                    effectXform.MapID == mapCoords.MapId &&
+                    (effectXform.WorldPosition - mapCoords.Position).Length() <= deployable.DefenseExclusionRange)
+                {
+                    var msg = Loc.GetString("rmc-sentry-too-close", ("defense", landingEffect));
+                    _popup.PopupPredictedCursor(msg, user, PopupType.SmallCaution);
+                    return false;
+                }
+            }
+            // Stories-SentryDeploy-End
 
+            foreach (var defense in _entityLookup.GetEntitiesInRange(mapCoords, deployable.DefenseExclusionRange, LookupFlags.Uncontained))
+            {
                 if (!_whitelist.IsValid(blacklist, defense))
                     continue;
+
+                // Stories-SentryDeploy-Start
+                if (TryComp<SentryComponent>(defense, out var sentryComp))
+                {
+                    if (sentryComp.Mode != SentryMode.On)
+                        continue;
+                }
+                else if (!Transform(defense).Anchored)
+                {
+                    continue;
+                }
+                // Stories-SentryDeploy-End
 
                 var msg = Loc.GetString("rmc-sentry-too-close", ("defense", defense));
                 _popup.PopupPredictedCursor(msg, user, PopupType.SmallCaution);

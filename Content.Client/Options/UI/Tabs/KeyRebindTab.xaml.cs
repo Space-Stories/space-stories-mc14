@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using Content.Client._RMC14.Input;
 using Content.Client.Stylesheets;
@@ -10,7 +11,12 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared;
 using Robust.Shared.Configuration;
+using Robust.Shared.ContentPack;
 using Robust.Shared.Input;
+using Robust.Shared.Serialization.Markdown;
+using Robust.Shared.Serialization.Markdown.Mapping;
+using Robust.Shared.Serialization.Markdown.Sequence;
+using Robust.Shared.Serialization.Markdown.Value;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Robust.Client.UserInterface.Controls.BoxContainer;
@@ -29,13 +35,70 @@ namespace Content.Client.Options.UI.Tabs
 
         [Dependency] private readonly IInputManager _inputManager = default!;
         [Dependency] private readonly IConfigurationManager _cfg = default!;
+        [Dependency] private readonly IGameTiming _timing = default!;
+        [Dependency] private readonly IResourceManager _res = default!;
 
         private BindButton? _currentlyRebinding;
 
         private readonly Dictionary<BoundKeyFunction, KeyControl> _keyControls =
             new();
 
+        // Stories-KeyRebind-Start
+        public static readonly HashSet<string> UnrestrictedCategoryHeaders = new()
+        {
+            "ui-options-header-camera",
+            "ui-options-header-ui",
+            "ui-options-header-misc",
+            "ui-options-header-shuttle",
+            "ui-options-header-map-editor",
+            "ui-options-header-dev",
+            "ui-options-header-text-cursor",
+            "ui-options-header-text-cursor-select",
+            "ui-options-header-text-edit",
+            "ui-options-header-text-chat",
+            "ui-options-header-text-other",
+        };
+
+        public static readonly HashSet<string> RmcHumanCategoryHeaders = new()
+        {
+            "ui-options-header-rmc-human",
+            "ui-options-header-rmc-combat",
+            "ui-options-header-rmc-inventory",
+        };
+
+        public const string RmcXenoCategoryHeader = "ui-options-header-rmc-xeno";
+
+        public static readonly HashSet<BoundKeyFunction> AllowedDuplicateFunctions = new();
+        private readonly HashSet<BoundKeyFunction> _unrestrictedFunctions = new();
+        private readonly HashSet<BoundKeyFunction> _rmcHumanFunctions = new();
+        private readonly HashSet<BoundKeyFunction> _rmcXenoFunctions = new();
+
         private readonly List<Action> _deferCommands = new();
+        private readonly HashSet<(string Function, Keyboard.Key Key, Keyboard.Key Mod1, Keyboard.Key Mod2, Keyboard.Key Mod3)> _defaultRegistrations = new();
+        private readonly Dictionary<BindButton, TimeSpan> _occupiedButtons = new();
+        private readonly List<(Label Header, Control? Spacer, List<Control> Items)> _sections = new();
+
+        public bool IsDuplicateAllowed(BoundKeyFunction function)
+        {
+            return _unrestrictedFunctions.Contains(function) || AllowedDuplicateFunctions.Contains(function);
+        }
+
+        public bool CanConflict(BoundKeyFunction funcA, BoundKeyFunction funcB)
+        {
+            if (IsDuplicateAllowed(funcA) || IsDuplicateAllowed(funcB))
+                return false;
+
+            var aIsHuman = _rmcHumanFunctions.Contains(funcA);
+            var aIsXeno = _rmcXenoFunctions.Contains(funcA);
+            var bIsHuman = _rmcHumanFunctions.Contains(funcB);
+            var bIsXeno = _rmcXenoFunctions.Contains(funcB);
+
+            if ((aIsHuman && bIsXeno) || (aIsXeno && bIsHuman))
+                return false;
+
+            return true;
+        }
+        // Stories-KeyRebind-End
 
         private void HandleToggleUSQWERTYCheckbox(BaseButton.ButtonToggledEventArgs args)
         {
@@ -109,39 +172,89 @@ namespace Content.Client.Options.UI.Tabs
             IoCManager.InjectDependencies(this);
             RobustXamlLoader.Load(this);
 
+            // Stories-KeyRebind-Start
+            LoadDefaultRegistrations();
+            EnforceStandardMouseBindings(_inputManager);
+            // Stories-KeyRebind-End
+
+            // Stories-KeybindSearch-Start
+            SearchBar.OnTextChanged += _ => ApplySearchFilter();
+            // Stories-KeybindSearch-End
+
             ResetAllButton.OnPressed += _ =>
             {
                 _deferCommands.Add(() =>
                 {
                     _inputManager.ResetAllBindings();
+                    // Stories-KeyRebind-Start
+                    EnforceStandardMouseBindings(_inputManager);
+                    // Stories-KeyRebind-End
                     _inputManager.SaveToUserData();
+                    foreach (var control in _keyControls.Values)
+                    {
+                        UpdateKeyControl(control);
+                    }
                 });
             };
 
             var first = true;
+            // Stories-KeybindSearch-Start
+            var currentSectionItems = new List<Control>();
+            // Stories-KeybindSearch-End
+            string? currentHeader = null;
 
             void AddHeader(string headerContents)
             {
+                currentHeader = headerContents;
+                Control? spacer = null;
                 if (!first)
                 {
-                    KeybindsContainer.AddChild(new Control { MinSize = new Vector2(0, 8) });
+                    spacer = new Control { MinSize = new Vector2(0, 8) };
+                    KeybindsContainer.AddChild(spacer);
                 }
 
                 first = false;
-                KeybindsContainer.AddChild(new Label
+                var headerLabel = new Label
                 {
                     Text = Loc.GetString(headerContents),
                     FontColorOverride = StyleNano.NanoGold,
                     StyleClasses = { StyleNano.StyleClassLabelKeyText }
-                });
+                };
+                KeybindsContainer.AddChild(headerLabel);
+
+                // Stories-KeybindSearch-Start
+                currentSectionItems = new List<Control>();
+                _sections.Add((headerLabel, spacer, currentSectionItems));
+                // Stories-KeybindSearch-End
             }
 
             // RMC14
             void AddButton(BoundKeyFunction function, string? description = null)
             {
+                // Stories-KeyRebind-Start
+                if (currentHeader != null)
+                {
+                    if (UnrestrictedCategoryHeaders.Contains(currentHeader))
+                    {
+                        _unrestrictedFunctions.Add(function);
+                    }
+                    else if (RmcHumanCategoryHeaders.Contains(currentHeader))
+                    {
+                        _rmcHumanFunctions.Add(function);
+                    }
+                    else if (currentHeader == RmcXenoCategoryHeader)
+                    {
+                        _rmcXenoFunctions.Add(function);
+                    }
+                }
+                // Stories-KeyRebind-End
+
                 var control = new KeyControl(this, function, description);
                 KeybindsContainer.AddChild(control);
                 _keyControls.Add(function, control);
+                // Stories-KeybindSearch-Start
+                currentSectionItems.Add(control);
+                // Stories-KeybindSearch-End
             }
             // RMC14
 
@@ -152,6 +265,9 @@ namespace Content.Client.Options.UI.Tabs
                 newCheckBox.OnToggled += callBackOnClick;
 
                 KeybindsContainer.AddChild(newCheckBox);
+                // Stories-KeybindSearch-Start
+                currentSectionItems.Add(newCheckBox);
+                // Stories-KeybindSearch-End
             }
 
             void AddToggleCvarCheckBox(string checkBoxName, CVarDef<bool> cvar)
@@ -164,6 +280,9 @@ namespace Content.Client.Options.UI.Tabs
                     _cfg.SaveToFile();
                 };
                 KeybindsContainer.AddChild(newCheckBox);
+                // Stories-KeybindSearch-Start
+                currentSectionItems.Add(newCheckBox);
+                // Stories-KeybindSearch-End
             }
 
             // RMC14
@@ -353,6 +472,252 @@ namespace Content.Client.Options.UI.Tabs
             }
         }
 
+        public static List<KeyBindingRegistration> LoadDefaultKeyBindingRegistrations(IResourceManager res)
+        {
+            var registrations = new List<KeyBindingRegistration>();
+            try
+            {
+                using var reader = res.ContentFileReadText(new ResPath("/keybinds.yml"));
+                var documents = DataNodeParser.ParseYamlStream(reader);
+                var root = documents.FirstOrDefault()?.Root;
+                if (root is MappingDataNode mapping &&
+                    mapping.TryGet("binds", out var bindsNode) &&
+                    bindsNode is SequenceDataNode seq)
+                {
+                    foreach (var entry in seq.Sequence)
+                    {
+                        if (entry is not MappingDataNode entryMap)
+                            continue;
+
+                        var func = entryMap.TryGet<ValueDataNode>("function", out var fNode) ? fNode.Value : null;
+                        var keyStr = entryMap.TryGet<ValueDataNode>("key", out var kNode) ? kNode.Value : null;
+                        if (func == null || keyStr == null)
+                            continue;
+
+                        if (!Enum.TryParse<Keyboard.Key>(keyStr, true, out var key))
+                            continue;
+
+                        var mod1 = Keyboard.Key.Unknown;
+                        var mod2 = Keyboard.Key.Unknown;
+                        var mod3 = Keyboard.Key.Unknown;
+
+                        if (entryMap.TryGet<ValueDataNode>("mod1", out var m1Node))
+                            Enum.TryParse<Keyboard.Key>(m1Node.Value, true, out mod1);
+
+                        if (entryMap.TryGet<ValueDataNode>("mod2", out var m2Node))
+                            Enum.TryParse<Keyboard.Key>(m2Node.Value, true, out mod2);
+
+                        if (entryMap.TryGet<ValueDataNode>("mod3", out var m3Node))
+                            Enum.TryParse<Keyboard.Key>(m3Node.Value, true, out mod3);
+
+                        var type = KeyBindingType.State;
+                        if (entryMap.TryGet<ValueDataNode>("type", out var typeNode) &&
+                            Enum.TryParse<KeyBindingType>(typeNode.Value, true, out var parsedType))
+                        {
+                            type = parsedType;
+                        }
+
+                        var priority = 0;
+                        if (entryMap.TryGet<ValueDataNode>("priority", out var priorityNode) &&
+                            int.TryParse(priorityNode.Value, out var parsedPriority))
+                        {
+                            priority = parsedPriority;
+                        }
+
+                        var canFocus = false;
+                        if (entryMap.TryGet<ValueDataNode>("canFocus", out var canFocusNode) &&
+                            bool.TryParse(canFocusNode.Value, out var parsedCanFocus))
+                        {
+                            canFocus = parsedCanFocus;
+                        }
+
+                        var canRepeat = false;
+                        if (entryMap.TryGet<ValueDataNode>("canRepeat", out var canRepeatNode) &&
+                            bool.TryParse(canRepeatNode.Value, out var parsedCanRepeat))
+                        {
+                            canRepeat = parsedCanRepeat;
+                        }
+
+                        registrations.Add(new KeyBindingRegistration
+                        {
+                            Function = new BoundKeyFunction(func),
+                            BaseKey = key,
+                            Mod1 = mod1,
+                            Mod2 = mod2,
+                            Mod3 = mod3,
+                            Type = type,
+                            Priority = priority,
+                            CanFocus = canFocus,
+                            CanRepeat = canRepeat
+                        });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                registrations.Add(new KeyBindingRegistration
+                {
+                    Function = EngineKeyFunctions.UIClick,
+                    BaseKey = Keyboard.Key.MouseLeft,
+                    Type = KeyBindingType.State,
+                    CanFocus = true,
+                    Priority = 0
+                });
+                registrations.Add(new KeyBindingRegistration
+                {
+                    Function = EngineKeyFunctions.Use,
+                    BaseKey = Keyboard.Key.MouseLeft,
+                    Type = KeyBindingType.State,
+                    CanFocus = true,
+                    Priority = 0
+                });
+                registrations.Add(new KeyBindingRegistration
+                {
+                    Function = EngineKeyFunctions.UIRightClick,
+                    BaseKey = Keyboard.Key.MouseRight,
+                    Type = KeyBindingType.State,
+                    CanFocus = true,
+                    Priority = 10
+                });
+                registrations.Add(new KeyBindingRegistration
+                {
+                    Function = EngineKeyFunctions.UseSecondary,
+                    BaseKey = Keyboard.Key.MouseRight,
+                    Type = KeyBindingType.State,
+                    CanFocus = true,
+                    Priority = -1
+                });
+            }
+            return registrations;
+        }
+
+        // Stories-KeyRebind-Start
+        private readonly List<BindButton> _occupiedToClear = new();
+        private static List<KeyBindingRegistration>? _cachedDefaultRegistrations;
+
+        public static List<KeyBindingRegistration> GetDefaultKeyBindingRegistrations(IResourceManager res)
+        {
+            if (_cachedDefaultRegistrations != null)
+                return _cachedDefaultRegistrations;
+
+            _cachedDefaultRegistrations = LoadDefaultKeyBindingRegistrations(res);
+            return _cachedDefaultRegistrations;
+        }
+
+        private void LoadDefaultRegistrations()
+        {
+            _defaultRegistrations.Clear();
+            var defaults = GetDefaultKeyBindingRegistrations(_res);
+            foreach (var reg in defaults)
+            {
+                _defaultRegistrations.Add((reg.Function.FunctionName, reg.BaseKey, reg.Mod1, reg.Mod2, reg.Mod3));
+            }
+        }
+
+        private bool IsBindingDefault(string functionName, Keyboard.Key key, Keyboard.Key mod1, Keyboard.Key mod2, Keyboard.Key mod3)
+        {
+            return _defaultRegistrations.Contains((functionName, key, mod1, mod2, mod3));
+        }
+
+        private bool IsKeyControlReset(KeyControl control)
+        {
+            if (!_inputManager.IsKeyFunctionModified(control.Function))
+                return true;
+
+            var defaults = _defaultRegistrations
+                .Where(r => r.Function == control.Function.FunctionName)
+                .ToList();
+
+            var active = _inputManager.GetKeyBindings(control.Function);
+            if (active.Count != defaults.Count)
+                return false;
+
+            foreach (var d in defaults)
+            {
+                if (!active.Any(b => b.BaseKey == d.Key && b.Mod1 == d.Mod1 && b.Mod2 == d.Mod2 && b.Mod3 == d.Mod3))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool HasInvalidBinding(KeyControl control)
+        {
+            var active = _inputManager.GetKeyBindings(control.Function);
+            foreach (var b in active)
+            {
+                if (b.BaseKey == Keyboard.Key.MouseLeft || b.BaseKey == Keyboard.Key.MouseRight)
+                {
+                    if (!IsBindingDefault(control.Function.FunctionName, b.BaseKey, b.Mod1, b.Mod2, b.Mod3))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void SetButtonOccupied(BindButton button)
+        {
+            button.Button.Text = Loc.GetString("stories-ui-options-key-occupied");
+            button.Button.Modulate = Color.FromHex("#FF5555");
+            _occupiedButtons[button] = _timing.CurTime + TimeSpan.FromSeconds(1.5);
+        }
+        // Stories-KeyRebind-End
+
+        // Stories-KeybindSearch-Start
+        private void ApplySearchFilter()
+        {
+            var query = SearchBar.Text.Trim();
+            var hasQuery = !string.IsNullOrEmpty(query);
+
+            foreach (var (header, spacer, items) in _sections)
+            {
+                var anyVisible = false;
+                var headerMatches = hasQuery && header.Text?.Contains(query, StringComparison.CurrentCultureIgnoreCase) == true;
+
+                foreach (var item in items)
+                {
+                    if (!hasQuery)
+                    {
+                        item.Visible = true;
+                        anyVisible = true;
+                        continue;
+                    }
+
+                    if (headerMatches)
+                    {
+                        item.Visible = true;
+                        anyVisible = true;
+                        continue;
+                    }
+
+                    if (item is KeyControl keyControl)
+                    {
+                        var match = keyControl.LocalizedName.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
+                                    keyControl.BindButton1.Button.Text?.Contains(query, StringComparison.CurrentCultureIgnoreCase) == true ||
+                                    keyControl.BindButton2.Button.Text?.Contains(query, StringComparison.CurrentCultureIgnoreCase) == true ||
+                                    keyControl.MatchesKey(query, _inputManager);
+
+                        keyControl.Visible = match;
+                        if (match)
+                            anyVisible = true;
+                    }
+                    else if (item is CheckBox checkBox)
+                    {
+                        var match = checkBox.Text?.Contains(query, StringComparison.CurrentCultureIgnoreCase) == true;
+                        checkBox.Visible = match;
+                        if (match)
+                            anyVisible = true;
+                    }
+                }
+
+                header.Visible = anyVisible;
+                if (spacer != null)
+                    spacer.Visible = anyVisible;
+            }
+        }
+        // Stories-KeybindSearch-End
+
         private void UpdateKeyControl(KeyControl control)
         {
             var activeBinds = _inputManager.GetKeyBindings(control.Function);
@@ -377,7 +742,10 @@ namespace Content.Client.Options.UI.Tabs
             control.BindButton2.UpdateText();
 
             control.BindButton2.Button.Disabled = activeBinds.Count == 0;
-            control.ResetButton.Disabled = !_inputManager.IsKeyFunctionModified(control.Function);
+            control.ResetButton.Disabled = IsKeyControlReset(control);
+            // Stories-KeyRebind-Start
+            control.InvalidWarning.Visible = HasInvalidBinding(control);
+            // Stories-KeyRebind-End
         }
 
         protected override void EnteredTree()
@@ -427,6 +795,10 @@ namespace Content.Client.Options.UI.Tabs
             {
                 _currentlyRebinding = null;
             }
+
+            // Stories-KeybindSearch-Start
+            ApplySearchFilter();
+            // Stories-KeybindSearch-End
         }
 
         private void InputManagerOnFirstChanceOnKeyEvent(KeyEventArgs keyEvent, KeyEventType type)
@@ -448,8 +820,6 @@ namespace Content.Client.Options.UI.Tabs
             var key = keyEvent.Key;
 
             // Figure out modifiers based on key event.
-            // TODO: this won't allow for combinations with keys other than the standard modifier keys,
-            // even though the input system totally supports it.
             var mods = new Keyboard.Key[3];
             var i = 0;
             if (keyEvent.Control && key != Keyboard.Key.Control)
@@ -470,12 +840,51 @@ namespace Content.Client.Options.UI.Tabs
                 i += 1;
             }
 
-            // The input system can only handle 3 modifier keys so if you hold all 4 of the modifier keys
-            // then system gets the shaft, I guess.
             if (keyEvent.System && i != 3 && key != Keyboard.Key.LSystem && key != Keyboard.Key.RSystem)
             {
                 mods[i] = Keyboard.Key.LSystem;
             }
+
+            // Stories-KeyRebind-Start
+            var targetFunc = _currentlyRebinding.KeyControl.Function.FunctionName;
+            var isDefaultBindingForTarget = IsBindingDefault(targetFunc, key, mods[0], mods[1], mods[2]);
+            var duplicateAllowed = IsDuplicateAllowed(_currentlyRebinding.KeyControl.Function);
+
+            if ((key == Keyboard.Key.MouseLeft || key == Keyboard.Key.MouseRight) && !isDefaultBindingForTarget && !duplicateAllowed)
+            {
+                SetButtonOccupied(_currentlyRebinding);
+                _currentlyRebinding = null;
+                return;
+            }
+
+            if (!isDefaultBindingForTarget && !duplicateAllowed)
+            {
+                var inputMods = mods.Where(m => m != Keyboard.Key.Unknown).ToHashSet();
+                foreach (var existing in _inputManager.AllBindings)
+                {
+                    if (existing == _currentlyRebinding.Binding)
+                        continue;
+
+                    if (!CanConflict(_currentlyRebinding.KeyControl.Function, existing.Function))
+                        continue;
+
+                    if (existing.BaseKey != key)
+                        continue;
+
+                    var existingMods = new[] { existing.Mod1, existing.Mod2, existing.Mod3 }
+                        .Where(m => m != Keyboard.Key.Unknown)
+                        .ToHashSet();
+
+                    if (!inputMods.SetEquals(existingMods))
+                        continue;
+
+                    // Collision!
+                    SetButtonOccupied(_currentlyRebinding);
+                    _currentlyRebinding = null;
+                    return;
+                }
+            }
+            // Stories-KeyRebind-End
 
             var function = _currentlyRebinding.KeyControl.Function;
             var bindType = KeyBindingType.State;
@@ -499,8 +908,12 @@ namespace Content.Client.Options.UI.Tabs
                 CanRepeat = false
             };
 
+            if (_currentlyRebinding.Binding != null)
+            {
+                _inputManager.RemoveBinding(_currentlyRebinding.Binding);
+            }
+
             _inputManager.RegisterBinding(registration);
-            // OnKeyBindModified will cause _currentlyRebinding to be reset and the UI to update.
             _inputManager.SaveToUserData();
         }
 
@@ -511,23 +924,42 @@ namespace Content.Client.Options.UI.Tabs
                 return;
             }
 
+            // Stories-KeyRebind-Start
+            if (_occupiedButtons.Remove(button))
+            {
+                button.Button.Modulate = Color.White;
+            }
+            // Stories-KeyRebind-End
+
             _currentlyRebinding = button;
             _currentlyRebinding.Button.Text = Loc.GetString("ui-options-key-prompt");
-
-            if (button.Binding != null)
-            {
-                _deferCommands.Add(() =>
-                {
-                    // Have to do defer this or else there will be an exception in InputManager.
-                    // Because this IS fired from an input event.
-                    _inputManager.RemoveBinding(button.Binding);
-                });
-            }
         }
 
         protected override void FrameUpdate(FrameEventArgs args)
         {
             base.FrameUpdate(args);
+
+            // Stories-KeyRebind-Start
+            if (_occupiedButtons.Count > 0)
+            {
+                var curTime = _timing.CurTime;
+                _occupiedToClear.Clear();
+                foreach (var (btn, resetTime) in _occupiedButtons)
+                {
+                    if (curTime >= resetTime)
+                    {
+                        btn.Button.Modulate = Color.White;
+                        btn.UpdateText();
+                        _occupiedToClear.Add(btn);
+                    }
+                }
+
+                foreach (var btn in _occupiedToClear)
+                {
+                    _occupiedButtons.Remove(btn);
+                }
+            }
+            // Stories-KeyRebind-End
 
             if (_deferCommands.Count == 0)
             {
@@ -540,6 +972,15 @@ namespace Content.Client.Options.UI.Tabs
             }
 
             _deferCommands.Clear();
+
+            foreach (var control in _keyControls.Values)
+            {
+                UpdateKeyControl(control);
+            }
+
+            // Stories-KeybindSearch-Start
+            ApplySearchFilter();
+            // Stories-KeybindSearch-End
         }
 
         private sealed class KeyControl : Control
@@ -548,19 +989,56 @@ namespace Content.Client.Options.UI.Tabs
             public readonly BindButton BindButton1;
             public readonly BindButton BindButton2;
             public readonly Button ResetButton;
+            public readonly string LocalizedName;
+
+            // Stories-KeybindSearch-Start
+            public bool MatchesKey(string query, IInputManager inputManager)
+            {
+                if (BindButton1.Binding is { } b1)
+                {
+                    if (b1.BaseKey.ToString().Contains(query, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (inputManager.GetKeyName(b1.BaseKey).Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                        return true;
+                }
+
+                if (BindButton2.Binding is { } b2)
+                {
+                    if (b2.BaseKey.ToString().Contains(query, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                    if (inputManager.GetKeyName(b2.BaseKey).Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                        return true;
+                }
+
+                return false;
+            }
+            // Stories-KeybindSearch-End
+
+            public readonly Label InvalidWarning;
 
             // RMC14
             public KeyControl(KeyRebindTab parent, BoundKeyFunction function, string? description = null)
             {
                 Function = function;
+                LocalizedName = Loc.GetString($"ui-options-function-{CaseConversion.PascalToKebab(function.FunctionName)}");
                 var name = new Label
                 {
-                    Text = Loc.GetString(
-                        $"ui-options-function-{CaseConversion.PascalToKebab(function.FunctionName)}"),
+                    Text = LocalizedName,
                     HorizontalExpand = true,
                     HorizontalAlignment = HAlignment.Left,
                     ToolTip = description == null ? null : Loc.GetString(description),
                 };
+
+                // Stories-KeyRebind-Start
+                InvalidWarning = new Label
+                {
+                    Text = Loc.GetString("stories-ui-options-invalid-bind"),
+                    FontColorOverride = Color.FromHex("#FF5555"),
+                    StyleClasses = { StyleNano.StyleClassLabelKeyText },
+                    Visible = false,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                // Stories-KeyRebind-End
 
                 BindButton1 = new BindButton(parent, this, StyleBase.ButtonOpenRight);
                 BindButton2 = new BindButton(parent, this, StyleBase.ButtonOpenLeft);
@@ -573,6 +1051,7 @@ namespace Content.Client.Options.UI.Tabs
                     {
                         new Control {MinSize = new Vector2(5, 0)},
                         name,
+                        InvalidWarning, // Stories-KeyRebind
                         BindButton1,
                         BindButton2,
                         new Control {MinSize = new Vector2(10, 0)},
@@ -586,6 +1065,7 @@ namespace Content.Client.Options.UI.Tabs
                     {
                         parent._inputManager.ResetBindingsFor(function);
                         parent._inputManager.SaveToUserData();
+                        parent.UpdateKeyControl(this);
                     });
                 };
 
@@ -653,5 +1133,85 @@ namespace Content.Client.Options.UI.Tabs
                 Button.Text = Binding?.GetKeyString() ?? Loc.GetString("ui-options-unbound");
             }
         }
+
+        // Stories-KeyRebind-Start
+        private static HashSet<(string Function, Keyboard.Key Key, Keyboard.Key Mod1, Keyboard.Key Mod2, Keyboard.Key Mod3)>? _cachedDefaultBindings;
+
+        public static HashSet<(string Function, Keyboard.Key Key, Keyboard.Key Mod1, Keyboard.Key Mod2, Keyboard.Key Mod3)> GetDefaultBindings()
+        {
+            if (_cachedDefaultBindings != null)
+                return _cachedDefaultBindings;
+
+            var res = IoCManager.Resolve<IResourceManager>();
+            var defaults = GetDefaultKeyBindingRegistrations(res);
+            _cachedDefaultBindings = defaults
+                .Select(b => (b.Function.FunctionName, b.BaseKey, b.Mod1, b.Mod2, b.Mod3))
+                .ToHashSet();
+
+            return _cachedDefaultBindings;
+        }
+
+        public static bool IsBindingAllowed(IKeyBinding binding)
+        {
+            var isMouse = binding.BaseKey == Keyboard.Key.MouseLeft || binding.BaseKey == Keyboard.Key.MouseRight;
+            if (isMouse)
+            {
+                var defaults = GetDefaultBindings();
+                if (!defaults.Contains((binding.Function.FunctionName, binding.BaseKey, binding.Mod1, binding.Mod2, binding.Mod3)))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsBindingAllowed(KeyBindingRegistration reg, HashSet<(string Function, Keyboard.Key Key, Keyboard.Key Mod1, Keyboard.Key Mod2, Keyboard.Key Mod3)> defaultSet)
+        {
+            var isMouse = reg.BaseKey == Keyboard.Key.MouseLeft || reg.BaseKey == Keyboard.Key.MouseRight;
+            if (isMouse && !defaultSet.Contains((reg.Function.FunctionName, reg.BaseKey, reg.Mod1, reg.Mod2, reg.Mod3)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static void EnforceStandardMouseBindings(IInputManager inputManager)
+        {
+            var res = IoCManager.Resolve<IResourceManager>();
+            var defaults = GetDefaultKeyBindingRegistrations(res);
+            var defaultSet = GetDefaultBindings();
+
+            // Disable any active bindings that violate restrictions (e.g. non-default MouseLeft / MouseRight),
+            // but do NOT delete them from keybinds.yml or user preferences.
+            foreach (var binding in inputManager.AllBindings)
+            {
+                if (binding.BaseKey == Keyboard.Key.MouseLeft || binding.BaseKey == Keyboard.Key.MouseRight)
+                {
+                    if (!defaultSet.Contains((binding.Function.FunctionName, binding.BaseKey, binding.Mod1, binding.Mod2, binding.Mod3)))
+                    {
+                        inputManager.RemoveBinding(binding, markModified: false);
+                    }
+                }
+            }
+
+            var defaultMouseBindings = defaults
+                .Where(b => b.BaseKey == Keyboard.Key.MouseLeft || b.BaseKey == Keyboard.Key.MouseRight)
+                .ToList();
+
+            foreach (var defaultBinding in defaultMouseBindings)
+            {
+                var exists = inputManager.GetKeyBindings(defaultBinding.Function)
+                    .Any(b => b.BaseKey == defaultBinding.BaseKey &&
+                              b.Mod1 == defaultBinding.Mod1 &&
+                              b.Mod2 == defaultBinding.Mod2 &&
+                              b.Mod3 == defaultBinding.Mod3);
+
+                if (!exists)
+                {
+                    inputManager.RegisterBinding(defaultBinding, markModified: false);
+                }
+            }
+        }
+        // Stories-KeyRebind-End
     }
 }

@@ -1,6 +1,13 @@
-﻿<Control xmlns="https://spacestation14.io"
+<Control xmlns="https://spacestation14.io"
          xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls">
     <BoxContainer Orientation="Vertical">
+        <!-- Stories-KeybindSearch-Start -->
+        <BoxContainer Orientation="Horizontal" Margin="8 8 8 0">
+            <LineEdit Name="SearchBar"
+                      PlaceHolder="{Loc 'stories-ui-options-search'}"
+                      HorizontalExpand="True" />
+        </BoxContainer>
+        <!-- Stories-KeybindSearch-End -->
         <ScrollContainer VerticalExpand="True">
             <BoxContainer Name="KeybindsContainer" Orientation="Vertical" Margin="8 8 8 8">
 

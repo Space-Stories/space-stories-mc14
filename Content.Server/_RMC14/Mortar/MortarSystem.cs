@@ -68,6 +68,14 @@ public sealed class MortarSystem : SharedMortarSystem
             return false;
         }
 
+        // Stories-MortarFix-Start
+        if (mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shell.Owner)
+        {
+            _popup.PopupEntity(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, SmallCaution);
+            return false;
+        }
+        // Stories-MortarFix-End
+
         var time = _timing.CurTime;
         if (time < mortar.Comp.LastFiredAt + mortar.Comp.FireDelay)
         {
@@ -225,11 +233,24 @@ public sealed class MortarSystem : SharedMortarSystem
 
     private bool CheckContainerCapacity(Entity<MortarComponent> mortar, Entity<MortarShellComponent> shell, EntityUid user)
     {
-        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container) &&
-            !_container.CanInsert(shell, container))
+        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container))
         {
-            _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
-            return false;
+            // Stories-MortarFix-Start
+            foreach (var contained in container.ContainedEntities)
+            {
+                if (!HasComp<ActiveMortarShellComponent>(contained))
+                {
+                    _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
+                    return false;
+                }
+            }
+
+            if (!_container.CanInsert(shell, container))
+            {
+                _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
+                return false;
+            }
+            // Stories-MortarFix-End
         }
 
         return true;

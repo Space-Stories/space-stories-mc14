@@ -13,6 +13,7 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.DoAfter;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Item;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
@@ -82,6 +83,12 @@ public abstract class SharedXenoAcidSystem : EntitySystem
         SubscribeLocalEvent<InheritAcidComponent, GrenadeContentThrownEvent>(OnGrenadeContentThrown);
         SubscribeLocalEvent<TimedCorrodingComponent, GettingPickedUpAttemptEvent>(OnAcidPickupAttempt);
         SubscribeLocalEvent<DamageableCorrodingComponent, GettingPickedUpAttemptEvent>(OnAcidPickupAttempt);
+        // Stories-Acid-Start
+        SubscribeLocalEvent<TimedCorrodingComponent, GettingInteractedWithAttemptEvent>(OnAcidInteractAttempt);
+        SubscribeLocalEvent<DamageableCorrodingComponent, GettingInteractedWithAttemptEvent>(OnAcidInteractAttempt);
+        SubscribeLocalEvent<TimedCorrodingComponent, GettingUsedAttemptEvent>(OnAcidGettingUsedAttempt);
+        SubscribeLocalEvent<DamageableCorrodingComponent, GettingUsedAttemptEvent>(OnAcidGettingUsedAttempt);
+        // Stories-Acid-End
         SubscribeLocalEvent<TimedCorrodingComponent, VaporHitEvent>(OnAcidVaporHit);
         SubscribeLocalEvent<DamageableCorrodingComponent, VaporHitEvent>(OnAcidVaporHit);
         SubscribeLocalEvent<PickupAttemptEvent>(OnPickupAttempt);
@@ -284,6 +291,26 @@ public abstract class SharedXenoAcidSystem : EntitySystem
         args.Cancel();
         _popup.PopupClient(Loc.GetString("rmc-acid-pickup-blocked", ("target", args.Item)), args.User, args.User, PopupType.SmallCaution);
     }
+
+    // Stories-Acid-Start
+    private void OnAcidInteractAttempt<T>(EntityUid uid, T component, ref GettingInteractedWithAttemptEvent args) where T : Component
+    {
+        if (args.Cancelled)
+            return;
+
+        args.Cancelled = true;
+        _popup.PopupClient(Loc.GetString("rmc-acid-pickup-blocked", ("target", uid)), args.Uid, args.Uid, PopupType.SmallCaution);
+    }
+
+    private void OnAcidGettingUsedAttempt<T>(EntityUid uid, T component, ref GettingUsedAttemptEvent args) where T : Component
+    {
+        if (args.Cancelled)
+            return;
+
+        args.Cancel();
+        _popup.PopupClient(Loc.GetString("rmc-acid-pickup-blocked", ("target", uid)), args.User, args.User, PopupType.SmallCaution);
+    }
+    // Stories-Acid-End
 
     private void OnAcidVaporHit<T>(Entity<T> ent, ref VaporHitEvent args) where T : Component
     {

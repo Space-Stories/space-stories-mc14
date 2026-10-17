@@ -20,6 +20,7 @@ using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
+using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Item;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Pulling.Systems;
@@ -91,6 +92,7 @@ namespace Content.Shared.Interaction
         private EntityQuery<UseDelayComponent> _delayQuery;
         private EntityQuery<ActivatableUIComponent> _uiQuery;
         private EntityQuery<BarbedComponent> _barbedQuery;
+        private EntityQuery<VirtualItemComponent> _virtualItemQuery;
 
         private const CollisionGroup InRangeUnobstructedMask = CollisionGroup.Impassable | CollisionGroup.InteractImpassable;
 
@@ -119,6 +121,7 @@ namespace Content.Shared.Interaction
             _delayQuery = GetEntityQuery<UseDelayComponent>();
             _uiQuery = GetEntityQuery<ActivatableUIComponent>();
             _barbedQuery = GetEntityQuery<BarbedComponent>();
+            _virtualItemQuery = GetEntityQuery<VirtualItemComponent>();
 
             SubscribeLocalEvent<BoundUserInterfaceCheckRangeEvent>(HandleUserInterfaceRangeCheck);
 
@@ -364,8 +367,14 @@ namespace Content.Shared.Interaction
                 return ev.CanInteract;
 
             // Always allow attack in these cases
-            if (target == null || !_handsQuery.TryComp(user, out var hands) || _hands.GetActiveItem((user, hands)) is not null)
+            // Stories-VirtualItemInteract-Start
+            if (target == null || !_handsQuery.TryComp(user, out var hands))
                 return false;
+
+            var activeItem = _hands.GetActiveItem((user, hands));
+            if (activeItem != null && !_virtualItemQuery.HasComp(activeItem))
+                return false;
+            // Stories-VirtualItemInteract-End
 
             // Only eat input if:
             // - Target isn't an item

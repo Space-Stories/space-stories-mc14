@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: [BaseItem, CMBaseWeaponGun, RMCBaseAttachableHolder]
   abstract: true
   id: RMCWeaponRevolverBase
@@ -17,6 +17,7 @@
     - suitStorage
     - belt
   - type: Wieldable
+  - type: Akimbo # Stories-Balance
   - type: Gun
     selectedMode: SemiAuto
     availableModes:
@@ -56,6 +57,9 @@
   - type: GunPointBlank
   - type: RMCWeaponAccuracy
     accuracyMultiplier: 0.85
+  - type: RMCFireGroup # Stories-GunBalance
+    group: Base
+    delay: 0
 
 - type: Tag
   id: RMCMagazineRevolver

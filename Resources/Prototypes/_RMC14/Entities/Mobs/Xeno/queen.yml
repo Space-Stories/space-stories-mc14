@@ -312,9 +312,9 @@
   components:
   - type: RMCKeybindActions
     actions:
-      XenoPrimaryOne: [ ActionXenoHeal ]
-      XenoPrimaryTwo: [ ActionXenoTransferPlasmaQueen ]
-      XenoPrimaryThree: [ ActionXenoPlantWeeds ]
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGut ]
+      XenoPrimaryThree: [ ActionXenoSpitQueen ]
       XenoPrimaryFour: [ ActionXenoChooseStructure ]
       XenoPrimaryFive: [ ActionXenoSecreteStructure ]
   - type: RMCActionOrder

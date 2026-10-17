@@ -64,5 +64,5 @@
           # Other
           CMLiaison: [1, 1]
           RMCWeYaExecutiveBodyguard: [1, 1]
-          RMCJobSynthetic: [1, 1]
-          STJobWorkingJoe: [3, 3]
+          # RMCJobSynthetic: [1, 1]
+          # STJobWorkingJoe: [3, 3]

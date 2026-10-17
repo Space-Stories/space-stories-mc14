@@ -13,9 +13,9 @@
     explosionArmor: 20 # CLOTHING_ARMOR_MEDIUM
   - type: RMCArmorSpeedTier
     speedTier: medium
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_MEDIUM
-    walkModifier: 0.666
-    sprintModifier: 0.666
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.65
+    sprintModifier: 0.65
   - type: Storage
     grid:
     - 0,0,1,1 # 1 slot
@@ -43,9 +43,9 @@
     melee: 30 # CLOTHING_ARMOR_HIGH
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,5,1 # 3 slots
@@ -96,9 +96,9 @@
     sprite: _RMC14/Objects/Clothing/OuterClothing/SPP/commando.rsi
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Tag
     tags:
       - RMCScoutArmor
@@ -154,9 +154,9 @@
     sprite: _RMC14/Objects/Clothing/OuterClothing/SPP/army.rsi
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: CMArmor
     melee: 15 # CLOTHING_ARMOR_MEDIUMLOW
     bullet: 15 # CLOTHING_ARMOR_MEDIUM
@@ -183,9 +183,9 @@
   - type: CMHardArmor
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,7,1 # 4 slots
@@ -218,9 +218,9 @@
   - type: CMHardArmor
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,7,1 # 4 slots
@@ -241,9 +241,9 @@
   - type: CMHardArmor
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,7,1 # 4 slots

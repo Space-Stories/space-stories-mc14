@@ -409,6 +409,7 @@
       - Corrodible
       - DeletedByWeedKiller
       - Xeno
+      - XenoConstructionPlasmaCost
     range: 1.5
   - type: RMCMesonsNonviewable
     xenoVisible: true

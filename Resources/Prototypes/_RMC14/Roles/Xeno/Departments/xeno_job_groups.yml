@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: CMJobsXeno
   categories: [ HideSpawnMenu ]
   components:
@@ -24,6 +24,7 @@
     - CMXenoSentinel
     - CMXenoSpitter
     - CMXenoWarrior
+    - STXenoDespoiler
 
 - type: entity
   id: CMJobsXenoDrones
@@ -52,3 +53,4 @@
     - CMXenoCrusher
     - CMXenoPraetorian
     - CMXenoRavager
+    - STXenoDespoiler

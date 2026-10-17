@@ -13,7 +13,7 @@
   - type: WarpPoint
     follow: true
   - type: RMCIgnoreGhostInteractionLimits
-  - type: RequireProjectileTarget
+  # - type: RequireProjectileTarget Stories-Fix
   - type: GridVehicleMover
     maxSpeed: 6
     acceleration: 5

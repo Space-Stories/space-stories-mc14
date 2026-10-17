@@ -40,7 +40,9 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.DragDrop;
 using Content.Shared.FixedPoint;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Item;
 using Content.Shared.Popups;
 using Content.Shared.Lathe;
 using Content.Shared.Mobs;
@@ -107,6 +109,7 @@ public sealed partial class XenoSystem : EntitySystem
     private EntityQuery<XenoPlasmaComponent> _xenoPlasmaQuery;
     private EntityQuery<XenoRecoveryPheromonesComponent> _xenoRecoveryQuery;
     private EntityQuery<VictimInfectedComponent> _victimInfectedQuery;
+    private EntityQuery<ItemComponent> _itemQuery;
 
     private float _xenoDamageDealtMultiplier;
     private float _xenoDamageReceivedMultiplier;
@@ -126,6 +129,7 @@ public sealed partial class XenoSystem : EntitySystem
         _xenoPlasmaQuery = GetEntityQuery<XenoPlasmaComponent>();
         _xenoRecoveryQuery = GetEntityQuery<XenoRecoveryPheromonesComponent>();
         _victimInfectedQuery = GetEntityQuery<VictimInfectedComponent>();
+        _itemQuery = GetEntityQuery<ItemComponent>();
 
         SubscribeLocalEvent<XenoComponent, MapInitEvent>(OnXenoMapInit, before: [typeof(SharedXenoPheromonesSystem)]);
         SubscribeLocalEvent<XenoComponent, GetAccessTagsEvent>(OnXenoGetAdditionalAccess);
@@ -232,6 +236,19 @@ public sealed partial class XenoSystem : EntitySystem
     {
         if (args.Target is not { } target)
             return;
+
+        // Stories-XenoInteract-Start
+        if (_itemQuery.HasComp(target))
+        {
+            var combatEv = new CombatModeShouldHandInteractEvent(xeno);
+            RaiseLocalEvent(target, ref combatEv);
+            if (!combatEv.Cancelled)
+            {
+                args.Cancel();
+                return;
+            }
+        }
+        // Stories-XenoInteract-End
 
         // TODO RMC14 this still falsely plays the hit red flash effect on xenos if others are hit in a wide swing
         if ((_xenoFriendlyQuery.HasComp(target) && _hive.FromSameHive(xeno.Owner, target)) ||

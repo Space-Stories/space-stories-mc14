@@ -18,9 +18,9 @@
     bullet: 25 # CLOTHING_ARMOR_MEDIUMHIGH
     bio: 20 # CLOTHING_ARMOR_MEDIUM
     explosionArmor: 20 # CLOTHING_ARMOR_MEDIUM
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,3,1 # 2 slots
@@ -79,9 +79,9 @@
     bullet: 20 # CLOTHING_ARMOR_MEDIUM
     bio: 20 # CLOTHING_ARMOR_MEDIUM
     explosionArmor: 15 # CLOTHING_ARMOR_MEDIUMLOW
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
 
 - type: entity
   parent: CMArmorM3VLSynth
@@ -198,9 +198,9 @@
     explosionArmor: 40 # CLOTHING_ARMOR_VERYHIGH
   - type: RMCArmorSpeedTier
     speedTier: medium
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_MEDIUM
-    walkModifier: 0.666
-    sprintModifier: 0.666
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.65
+    sprintModifier: 0.65
   - type: Corrodible
     isCorrodible: false
   - type: IgnoreContentsSize

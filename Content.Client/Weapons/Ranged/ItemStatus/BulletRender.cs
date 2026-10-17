@@ -11,8 +11,22 @@ public abstract class BaseBulletRenderer : Control
     private int _capacity;
     private LayoutParameters _params;
 
+    private int _count;
+
     public int Rows { get; set; } = 2;
-    public int Count { get; set; }
+
+    public int Count
+    {
+        get => _count;
+        set
+        {
+            if (_count == value)
+                return;
+
+            _count = value;
+            InvalidateMeasure();
+        }
+    }
 
     public int Capacity
     {

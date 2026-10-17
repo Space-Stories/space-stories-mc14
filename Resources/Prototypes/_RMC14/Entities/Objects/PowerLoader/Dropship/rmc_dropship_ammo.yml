@@ -335,6 +335,8 @@
   - type: Appearance
   - type: RMCOrbitalDeployable
     deployPrototype: RMCSentryDropship
+    defenseExclusionRange: 2
     deployBlacklist:
       components:
       - Turret
+      - Sentry

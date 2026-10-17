@@ -1,3 +1,4 @@
+using Content.Shared._Stories.Interaction;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Systems;
@@ -14,6 +15,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
+using Robust.Shared.Containers;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Nutrition.EntitySystems;
@@ -22,6 +24,7 @@ public abstract partial class SharedDrinkSystem : EntitySystem
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
     [Dependency] private readonly SharedBodySystem _body = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly FlavorProfileSystem _flavorProfile = default!;
     [Dependency] private readonly FoodSystem _food = default!;
@@ -88,6 +91,11 @@ public abstract partial class SharedDrinkSystem : EntitySystem
             !_body.TryGetBodyOrganEntityComps<StomachComponent>((ev.User, body), out var stomachs))
             return;
 
+        // Stories-BlockContainedInteraction-Start
+        if (HasComp<BlockContainedInteractionComponent>(entity) && _container.IsEntityInContainer(entity.Owner) && !_hands.IsHolding(ev.User, entity.Owner))
+            return;
+        // Stories-BlockContainedInteraction-End
+
         // Make sure the solution exists
         if (!_solutionContainer.TryGetSolution(entity.Owner, entity.Comp.Solution, out var solution))
             return;
@@ -147,6 +155,11 @@ public abstract partial class SharedDrinkSystem : EntitySystem
     /// </summary>
     protected bool TryDrink(EntityUid user, EntityUid target, DrinkComponent drink, EntityUid item)
     {
+        // Stories-BlockContainedInteraction-Start
+        if (HasComp<BlockContainedInteractionComponent>(item) && _container.IsEntityInContainer(item) && !_hands.IsHolding(user, item))
+            return false;
+        // Stories-BlockContainedInteraction-End
+
         if (!HasComp<BodyComponent>(target))
             return false;
 

@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: [ RMCBaseBreechloader, RMCBaseAttachableHolder ]
   name: MOU53 break action shotgun
   id: WeaponShotgunMOU53
@@ -43,9 +43,9 @@
     soundInsert:
       path: /Audio/_RMC14/Weapons/Guns/Reload/gun_mou_reload.ogg
   - type: RMCAmmoEject
-    containerID: ballistic-ammo
     ejectSound:
       path: /Audio/_RMC14/Weapons/Guns/Reload/gun_mou_reload.ogg
+
   - type: UseDelay
   - type: BreechLoaded
     openSound:

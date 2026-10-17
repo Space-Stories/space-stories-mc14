@@ -157,6 +157,12 @@
   id: CMXenoDefenderSteelcrest
   suffix: Steelcrest
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoToggleCrest ]
+      XenoPrimaryTwo: [ ActionXenoHeadbutt ]
+      XenoPrimaryThree: [ ActionXenoSoak ]
+      XenoPrimaryFour: [ ActionXenoFortifySteelcrest ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Defender/steelcrest_defender.rsi
   - type: Xeno

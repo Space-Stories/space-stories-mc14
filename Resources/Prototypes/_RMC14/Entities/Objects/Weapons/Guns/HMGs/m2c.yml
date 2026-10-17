@@ -105,6 +105,7 @@
     tags:
     - RMCMachineGunM2C
   - type: Overheat
+  - type: GunIgnoreContainerOwnerCollision
 
 # Magazines
 - type: entity

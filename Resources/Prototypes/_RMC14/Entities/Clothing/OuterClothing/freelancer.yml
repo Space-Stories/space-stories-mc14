@@ -13,9 +13,9 @@
     explosionArmor: 20
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: ExplosionResistance
     damageCoefficient: 0
     worn: false
@@ -38,9 +38,9 @@
     bullet: 25
     bio: 15
     explosionArmor: 20
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: RMCMagneticArmor
   - type: Clothing
     equipDelay: 2
@@ -144,9 +144,9 @@
     bullet: 25
     bio: 15
     explosionArmor: 20
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: RMCMagneticArmor
   - type: Clothing
     clothingVisuals:

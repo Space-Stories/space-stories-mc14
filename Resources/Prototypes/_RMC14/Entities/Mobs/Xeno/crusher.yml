@@ -149,6 +149,12 @@
   id: RMCXenoCrusherCharger
   suffix: Charger
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoToggleCharging ]
+      XenoPrimaryTwo: [ ActionXenoRam ]
+      XenoPrimaryThree: [ ActionXenoStomp ]
+      XenoPrimaryFour: [ ActionXenoTumble ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Crusher/crusher.rsi
   - type: MobThresholds

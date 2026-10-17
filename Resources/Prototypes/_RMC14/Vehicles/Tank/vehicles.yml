@@ -23,11 +23,13 @@
     xenoBlockMinimumSize: Immobile
     canXenosPush: false
     weightClass: Medium
-  - type: VehicleRideSurface
-    bounds:
-    - -1.3,-1.9,1.3,1.9
-    climbBounds:
-    - -1.8,1.8,1.8,2.8
+  # Stories-RideSurfaceFix-Start
+  # - type: VehicleRideSurface
+  #   bounds:
+  #   - -1.3,-1.9,1.3,1.9
+  #   climbBounds:
+  #   - -1.8,1.8,1.8,2.8
+  # Stories-RideSurfaceFix-End
   - type: VehicleOvercharge
     speedMultiplier: 1.3
     duration: 3
