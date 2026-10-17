@@ -176,11 +176,11 @@
       takeAll: CMStandard
       entries:
       - id: CMVendorBundleFireteamLeaderApparel
-      - id: RMCBackpackRTO
-        replaceSlot: back
+      #- id: RMCBackpackRTO #ST-BundleCrewLeaderRework
+        #replaceSlot: back
       - id: CMMRE
-      #- id: CMMap # TODO: Make a map
       - id: RMCVendorBundleCrewFireteamLeader
+      #- id: CMMap # TODO: Make a map
     - name: Gloves
       choices: { CMHands: 1 }
       entries:
@@ -267,6 +267,11 @@
     - state: laser_cas
   - type: CMVendorBundle
     bundle:
+    #ST-BundleCrewLeaderRework-Start
+    - RMCWhistle
+    - RMCMegaphone
     - RMCPackFlareCAS
-    - RMCPackFlareCAS
+    #- RMCPackFlareCAS
     - RMCLaserDesignator
+    - RMCBackpackRTO
+    #ST-BundleCrewLeaderRework-End
