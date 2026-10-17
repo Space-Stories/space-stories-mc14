@@ -81,6 +81,7 @@ public sealed class FaxSystem : EntitySystem
         SubscribeLocalEvent<FaxMachineComponent, FaxSendMessage>(OnSendButtonPressed);
         SubscribeLocalEvent<FaxMachineComponent, FaxRefreshMessage>(OnRefreshButtonPressed);
         SubscribeLocalEvent<FaxMachineComponent, FaxDestinationMessage>(OnDestinationSelected);
+        SubscribeLocalEvent<FaxMachineComponent, FaxTemplateSelected>(OnFaxTemplateSelected);
     }
 
     public override void Update(float frameTime)
@@ -346,7 +347,12 @@ public sealed class FaxSystem : EntitySystem
     {
         SetDestination(uid, args.Address, component);
     }
-
+    // Stories-fax-templates-Start
+    private void OnFaxTemplateSelected(EntityUid uid, FaxMachineComponent component, FaxTemplateSelected args)
+    {
+        SetTemplate(uid, args.Id_Template, component);
+    }
+    // Stories-fax-templates-Stop
     private void UpdateAppearance(EntityUid uid, FaxMachineComponent? component = null)
     {
         if (!Resolve(uid, ref component))
@@ -379,7 +385,7 @@ public sealed class FaxSystem : EntitySystem
         var canCopy = isPaperInserted &&
                       component.SendTimeoutRemaining <= 0 &&
                       component.InsertingTimeRemaining <= 0;
-        var state = new FaxUiState(component.FaxName, component.KnownFaxes, canSend, canCopy, isPaperInserted, component.DestinationFaxAddress);
+        var state = new FaxUiState(component.FaxName, component.KnownFaxes, canSend, canCopy, isPaperInserted, component.DestinationFaxAddress, component.TemplateSelected);
         _userInterface.SetUiState(uid, FaxUiKey.Key, state);
     }
 
@@ -395,7 +401,17 @@ public sealed class FaxSystem : EntitySystem
 
         UpdateUserInterface(uid, component);
     }
+    // Stories-fax-templates-Start
+    public void SetTemplate(EntityUid uid, string faxTemplate, FaxMachineComponent? component = null)
+    {
+        if (!Resolve(uid, ref component))
+            return;
 
+        component.TemplateSelected = faxTemplate;
+
+        UpdateUserInterface(uid, component);
+    }
+    // Stories-fax-templates-Stop
     /// <summary>
     ///     Clears current known fax info and make network scan ping
     ///     Adds special data to  payload if it was emagged to identify itself as a Syndicate

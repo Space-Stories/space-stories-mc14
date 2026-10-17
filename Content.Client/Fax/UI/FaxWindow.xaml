@@ -108,6 +108,17 @@
 
                 </BoxContainer>
 
+                <BoxContainer Margin="0 4 0 4">
+                    <OptionButton Name="TemplatesSelector"
+                            StyleClasses="OpenRight"
+                            HorizontalExpand="True"/>
+
+                    <Button Name="PrintTemplate"
+                        Text="{Loc 'fax-machine-ui-template-print-button'}"
+                        StyleClasses="OpenLeft"
+                        HorizontalExpand="True"/>
+                </BoxContainer>
+
                 <!-- It would be cool to add a display of the inserted file here. -->
             </BoxContainer>
         </PanelContainer>
