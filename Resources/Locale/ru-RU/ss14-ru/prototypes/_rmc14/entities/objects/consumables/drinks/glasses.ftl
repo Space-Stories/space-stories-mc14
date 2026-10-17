@@ -3,5 +3,5 @@ ent-RMCPintGlass = пивная кружка
 ent-RMCPintGlassFull = { ent-RMCPintGlass }
     .desc = { ent-RMCPintGlass.desc }
     .suffix = Полная
-ent-RMCDrinkGlass = drink glass
-    .desc = Your standard drinking glass.
+ent-RMCDrinkGlass = стакан
+    .desc = Обычный стакан для напитков.

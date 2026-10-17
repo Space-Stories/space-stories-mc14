@@ -1,5 +1,5 @@
 ent-RMCSpaceCash = доллары
-    .desc = Ten hundred-dollar bills, minted by the United Nations Treasury. Each are adorned with the face of a long-forgotten diplomat of a once-powerful planet. These bills are more than mere currency, they feel alive, as though they carry the weight of ancient history and the judgments of those who once controlled vast empires. The faces on each bill seem to watch you with silent intensity, as if each one believes it alone should be in your possession..
+    .desc = Десять стодолларовых купюр, отпечатанных Казначейством США. На каждой изображено лицо давно забытого дипломата некогда могущественной планеты. Эти купюры — больше чем просто деньги: они кажутся живыми, будто несут в себе груз древней истории и суд тех, кто когда-то правил огромными империями. Лица на купюрах словно наблюдают за вами в безмолвном напряжении, будто каждое считает, что именно оно должно быть у вас..
 ent-RMCSpaceCash1 = 1 долларовая купюра
     .desc = Единая банкнота номиналом один доллар, отчеканенная правительством США. На ней напечатано изображение Джорджа Вашингтона. Заставляет плакать большинство людей английского происхождения, но стоит не очень много. В некоторых системах на нее можно купить половину хот-дога.
 ent-RMCSpaceCash10 = { ent-RMCSpaceCash1 }

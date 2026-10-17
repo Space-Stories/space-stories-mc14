@@ -1,2 +1,2 @@
-ent-RMCDeskFanTan = desk fan
-    .desc = A large sturdy tan desk fan which looks like it won't break until the heat-death of the universe, although the warranty expired 2 years after manufacture. The Weston-Yamada logo is plastered on both sides.
+ent-RMCDeskFanTan = настольный вентилятор
+    .desc = Большой прочный бежевый настольный вентилятор, который, похоже, не сломается до тепловой смерти Вселенной, хотя гарантия истекла через 2 года после выпуска. С обеих сторон налеплен логотип Вестон-Ямада.

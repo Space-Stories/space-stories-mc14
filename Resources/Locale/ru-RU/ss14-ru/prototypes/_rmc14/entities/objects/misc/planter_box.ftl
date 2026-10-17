@@ -1,12 +1,12 @@
 ent-RMCPlanterBox = ящик для выращивания
     .desc = Корневая решетка наполовину заглублена внутрь ящика для выращивания.
-    .suffix = Empty, Red sand, Sand, Water
+    .suffix = Пустой, Красный песок, Песок, Вода
 ent-RMCPlanterBox2 = { ent-RMCPlanterBox }
     .desc = { ent-RMCPlanterBox.desc }
-    .suffix = Ice, Grass
+    .suffix = Лёд, Трава
 ent-RMCSoilNet = почвенная сетка
     .desc = Ученые используют эти подвесные сети, чтобы наложить сетку на участок земли для изучения.
     .suffix = RMC
-ent-RMCPlatedGrowBox = plated grow box
-    .desc = The planter box is empty.
-    .suffix = Empty
+ent-RMCPlatedGrowBox = металлический ящик для растений
+    .desc = Ящик для растений пуст.
+    .suffix = Пустой
