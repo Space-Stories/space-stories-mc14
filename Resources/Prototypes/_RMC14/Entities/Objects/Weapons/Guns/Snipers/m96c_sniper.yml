@@ -146,6 +146,7 @@
   name: supersonic sniper bullet (10x99mm)
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Projectiles/bullet_projectiles.rsi
     layers:

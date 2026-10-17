@@ -279,6 +279,10 @@
     - type: XenoCrusherChargable
       instantDestroy: true
       passOnDestroy: true
+    - type: StoriesProjectileCover # Stories-ProjectileCover
+      coverage: 10 # Stories-ProjectileCover
+      directional: true # Stories-ProjectileCover
+      blockThrown: false # Stories-ProjectileCover
 
 - type: entity
   parent: RMCBarricadeHandrail

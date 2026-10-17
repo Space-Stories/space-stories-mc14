@@ -25,6 +25,8 @@ public enum CollisionGroup
     // Y dis door passable when all the others impassable / collision.
     DoorPassable       = 1 << 8, // 256 Allows door to close over top, Like blast doors over conveyors for disposals rooms/cargo.
 
+    ProjectileCover = 1 << 22, // Stories-ProjectileCover
+
     // RMC14
     Marine = 1 << 23,
     MobCollision = 1 << 24,
@@ -86,7 +88,7 @@ public enum CollisionGroup
     ItemMask = Impassable | HighImpassable,
     // #RMC Vapor-only collision mask for extinguishers on items.
     VaporMask = VaporLayer,
-    ThrownItem = Impassable | HighImpassable | BulletImpassable,
+    ThrownItem = Impassable | HighImpassable | BulletImpassable | ProjectileCover, // Stories-ProjectileCover
     WallLayer = Opaque | Impassable | HighImpassable | MidImpassable | LowImpassable | BulletImpassable | InteractImpassable,
     GlassLayer = Impassable | HighImpassable | MidImpassable | LowImpassable | BulletImpassable | InteractImpassable,
     HalfWallLayer = MidImpassable | LowImpassable,

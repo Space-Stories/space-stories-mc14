@@ -143,6 +143,7 @@
   name: bullet (7.62x54mmR)
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Weapons/Guns/Ammunition/Projectiles/bullet_projectiles.rsi
     layers:

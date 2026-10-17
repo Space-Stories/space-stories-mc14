@@ -5,6 +5,8 @@
   name: table
   description: A square metal surface resting on four legs. Useful to put stuff on.
   components:
+  - type: StoriesProjectileCover # Stories-ProjectileCover
+    coverage: 20 # Stories-ProjectileCover
   - type: VehicleSmashable
   - type: Corrodible
     timeToApply: 4

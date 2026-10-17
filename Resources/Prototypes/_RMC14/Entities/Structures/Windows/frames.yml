@@ -53,6 +53,8 @@
   - type: InteractionOutline
   - type: Clickable
   - type: Climbable
+  - type: StoriesProjectileCover # Stories-ProjectileCover
+    coverage: 60 # Stories-ProjectileCover
   - type: RMCWallExplosionDeletable
   - type: DestroyedByExplosionType
   - type: DamageMultiplierFlags
