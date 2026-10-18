@@ -1,0 +1,11 @@
+- type: entity
+  parent: ActionMarineBase
+  id: STActionMarineSilence
+  name: stories-marine-silence-action-name
+  description: stories-marine-silence-action-description
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon: /Textures/Interface/Alerts/Abilities/silenced.png
+  - type: InstantAction
+    event: !type:StoriesMarineSilenceActionEvent
