@@ -45,8 +45,10 @@
         RMCSkillSurgery: 1
         RMCSkillVehicles: 2
     - type: MarineOrders
-    - type: OfficerHonor
-    - type: MarineSilence
+    #Stories-Discipline-Start
+    - type: StoriesOfficerHonor
+    - type: StoriesMarineSilence
+    #Stories-Discipline-End
     - type: CMVendorUser
       id: CMExecutiveOfficer
       points: 45
