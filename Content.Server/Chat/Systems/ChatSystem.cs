@@ -23,7 +23,7 @@ using Content.Shared._RMC14.Language;
 using Content.Shared._RMC14.Language.Prototypes;
 using Content.Shared._RMC14.Language.Systems;
 using Content.Shared._RMC14.Marines;
-using Content.Shared._RMC14.Marines.Honor;
+using Content.Shared._Stories.Marines.Honor;
 using Content.Shared._RMC14.Mentor.ImaginaryFriend;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
@@ -251,11 +251,13 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.EnsurePlayer(player.UserId).AddEntity(GetNetEntity(source));
         }
 
-        if (desiredType == InGameICChatType.Speak && HasComp<OfficerHonorForcedWhisperComponent>(source))
+        // Stories-Discipline-Start
+        if (desiredType == InGameICChatType.Speak && HasComp<StoriesOfficerHonorForcedWhisperComponent>(source))
             desiredType = InGameICChatType.Whisper;
 
-        if (desiredType == InGameICChatType.Speak && HasComp<MarineSilencedForcedWhisperComponent>(source))
+        if (desiredType == InGameICChatType.Speak && HasComp<StoriesMarineSilencedForcedWhisperComponent>(source))
             desiredType = InGameICChatType.Whisper;
+        // Stories-Discipline-End
 
         // RMC14
         var currentLanguage = GetCurrentLanguageForSpeech(source);
