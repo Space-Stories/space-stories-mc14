@@ -46,8 +46,10 @@
       id: CMChiefEngineer
       points: 45
     - type: MarineOrders
-    - type: OfficerHonor
-    - type: MarineSilence
+    #Stories-Discipline-Start
+    - type: StoriesOfficerHonor
+    - type: StoriesMarineSilence
+    #Stories-Discipline-End
     - type: RMCPointing
     - type: JobPrefix
       prefix: cm-job-prefix-chief-engineer
