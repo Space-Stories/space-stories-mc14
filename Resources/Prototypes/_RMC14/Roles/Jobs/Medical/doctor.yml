@@ -29,8 +29,10 @@
         RMCSkillMedical: 3
         RMCSkillSurgery: 2
     - type: RMCUserBulkyArmorIncapable
-    - type: OfficerHonor
-    - type: MarineSilence
+    #Stories-Discipline-Start
+    - type: StoriesOfficerHonor
+    - type: StoriesMarineSilence
+    #Stories-Discipline-End
     - type: JobPrefix
       prefix: rmc-job-prefix-doctor
     - type: CMVendorUser # Stories-Partners
