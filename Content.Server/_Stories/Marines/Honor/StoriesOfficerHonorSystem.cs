@@ -39,34 +39,34 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, StoriesStoriesOfficerHonorActionEvent>(OnHonor);
+        SubscribeLocalEvent<StoriesOfficerHonorComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<StoriesOfficerHonorComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<StoriesOfficerHonorComponent, StoriesOfficerHonorActionEvent>(OnHonor);
     }
 
     public override void Update(float frameTime)
     {
         var now = _timing.CurTime;
-        var query = EntityQueryEnumerator<StoriesStoriesOfficerHonorForcedWhisperComponent>();
+        var query = EntityQueryEnumerator<StoriesOfficerHonorForcedWhisperComponent>();
         while (query.MoveNext(out var uid, out var whisper))
         {
             if (whisper.ExpiresAt <= now)
-                RemCompDeferred<StoriesStoriesOfficerHonorForcedWhisperComponent>(uid);
+                RemCompDeferred<StoriesOfficerHonorForcedWhisperComponent>(uid);
         }
     }
 
-    private void OnMapInit(Entity<StoriesStoriesOfficerHonorComponent> ent, ref MapInitEvent args)
+    private void OnMapInit(Entity<StoriesOfficerHonorComponent> ent, ref MapInitEvent args)
     {
         _actions.AddAction(ent, ref ent.Comp.ActionEntity, ent.Comp.Action);
         _actions.SetUseDelay(ent.Comp.ActionEntity, ent.Comp.Cooldown);
     }
 
-    private void OnShutdown(Entity<StoriesStoriesOfficerHonorComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<StoriesOfficerHonorComponent> ent, ref ComponentShutdown args)
     {
         _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnHonor(Entity<StoriesStoriesOfficerHonorComponent> ent, ref StoriesStoriesOfficerHonorActionEvent args)
+    private void OnHonor(Entity<StoriesOfficerHonorComponent> ent, ref StoriesOfficerHonorActionEvent args)
     {
         if (args.Handled || _mobState.IsDead(ent))
             return;
@@ -100,14 +100,14 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         // The officer announcing a superior must not be affected by their own
         // attention command. Clear any stale honor speech effect before the callout.
         if (seniorOfficer != null)
-            RemComp<StoriesStoriesOfficerHonorForcedWhisperComponent>(ent);
+            RemComp<StoriesOfficerHonorForcedWhisperComponent>(ent);
 
         _chat.TrySendInGameICMessage(ent, Loc.GetString(callout), InGameICChatType.Speak, false);
 
         var honorTarget = seniorOfficer ?? ent.Owner;
         if (!TryGetRankIndex(honorTarget, out var honorTargetRank))
             honorTargetRank = officerRank;
-        if (honorTarget != ent.Owner && TryComp(honorTarget, out StoriesStoriesOfficerHonorComponent? honoredOfficer))
+        if (honorTarget != ent.Owner && TryComp(honorTarget, out StoriesOfficerHonorComponent? honoredOfficer))
         {
             honoredOfficer.NextHonorAt = now + honoredOfficer.Cooldown;
             _actions.SetCooldown(honoredOfficer.ActionEntity, honoredOfficer.Cooldown);
@@ -126,7 +126,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
             QueueHonor(nearby, honorTarget, ent.Comp.Range, ent.Comp.CheckVisibility);
             ApplyCommandSpeechEffects(nearby);
 
-            if (TryComp(nearby, out StoriesStoriesOfficerHonorComponent? officer))
+            if (TryComp(nearby, out StoriesOfficerHonorComponent? officer))
             {
                 officer.NextHonorAt = now + officer.Cooldown;
                 _actions.SetCooldown(officer.ActionEntity, officer.Cooldown);
@@ -198,7 +198,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         });
     }
 
-    private bool CanSee(EntityUid viewer, EntityUid target, StoriesStoriesOfficerHonorComponent command)
+    private bool CanSee(EntityUid viewer, EntityUid target, StoriesOfficerHonorComponent command)
     {
         return CanSee(viewer, target, command.Range, command.CheckVisibility);
     }
@@ -246,7 +246,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     {
         _dazed.TryDaze(marine, TimeSpan.FromSeconds(1), refresh: true, stutter: true);
 
-        var whisper = EnsureComp<StoriesStoriesOfficerHonorForcedWhisperComponent>(marine);
+        var whisper = EnsureComp<StoriesOfficerHonorForcedWhisperComponent>(marine);
         whisper.ExpiresAt = _timing.CurTime + TimeSpan.FromSeconds(13);
 }
 }
