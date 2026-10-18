@@ -2,9 +2,9 @@ using Content.Server.Actions;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Shared._RMC14.Marines;
-using Content.Shared._RMC14.Marines.Honor;
+using Content.Shared._Stories.Marines.Honor;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
-using Content.Shared._RMC14.Marines.Silence;
+using Content.Shared._Stories.Marines.Silence;
 using Content.Shared.Chat;
 using Content.Shared.Dataset;
 using Content.Shared.Examine;
@@ -15,9 +15,9 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
-namespace Content.Server._RMC14.Marines.Silence;
+namespace Content.Server._Stories.Marines.Silence;
 
-public sealed class MarineSilenceSystem : EntitySystem
+public sealed class StoriesMarineSilenceSystem : EntitySystem
 {
     private static readonly ProtoId<DatasetPrototype> RankHierarchy = "RMCMarineRankHierarchy";
 
@@ -37,9 +37,9 @@ public sealed class MarineSilenceSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<MarineSilenceComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<StoriesMarineSilenceComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<MarineSilenceComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<MarineSilenceComponent, MarineSilenceActionEvent>(OnSilence);
+        SubscribeLocalEvent<MarineSilenceComponent, StoriesMarineSilenceActionEvent>(OnSilence);
     }
 
     private void OnMapInit(Entity<MarineSilenceComponent> ent, ref MapInitEvent args)
@@ -84,7 +84,7 @@ public sealed class MarineSilenceSystem : EntitySystem
 
     private void ApplySilence(EntityUid marine, MarineSilenceComponent command)
     {
-        var silence = EnsureComp<MarineSilencedForcedWhisperComponent>(marine);
+        var silence = EnsureComp<StoriesMarineSilencedForcedWhisperComponent>(marine);
         silence.ExpiresAt = _timing.CurTime + command.Duration;
         SendSilencedMessage(marine, command.Authority);
 
@@ -95,13 +95,13 @@ public sealed class MarineSilenceSystem : EntitySystem
         });
     }
 
-    private void SendSilencedMessage(EntityUid marine, MarineSilenceAuthority authority)
+    private void SendSilencedMessage(EntityUid marine, StoriesMarineSilenceAuthority authority)
     {
         if (!_players.TryGetSessionByEntity(marine, out var session))
             return;
 
         var officer = authority == MarineSilenceAuthority.Officer;
-        var message = Loc.GetString(officer ? "rmc-marine-silence-officer-message" : "rmc-marine-silence-sergeant-message");
+        var message = Loc.GetString(officer ? "stories-marine-silence-officer-message" : "rmc-marine-silence-sergeant-message");
         _chatManager.ChatMessageToOne(
             ChatChannel.Local,
             FormattedMessage.RemoveMarkupOrThrow(message),
