@@ -40,33 +40,33 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<StoriesOfficerHonorComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<StoriesOfficerHonorComponent, StoriesStoriesOfficerHonorActionEvent>(OnHonor);
+        SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<StoriesStoriesOfficerHonorComponent, StoriesStoriesOfficerHonorActionEvent>(OnHonor);
     }
 
     public override void Update(float frameTime)
     {
         var now = _timing.CurTime;
-        var query = EntityQueryEnumerator<StoriesOfficerHonorForcedWhisperComponent>();
+        var query = EntityQueryEnumerator<StoriesStoriesOfficerHonorForcedWhisperComponent>();
         while (query.MoveNext(out var uid, out var whisper))
         {
             if (whisper.ExpiresAt <= now)
-                RemCompDeferred<StoriesOfficerHonorForcedWhisperComponent>(uid);
+                RemCompDeferred<StoriesStoriesOfficerHonorForcedWhisperComponent>(uid);
         }
     }
 
-    private void OnMapInit(Entity<StoriesOfficerHonorComponent> ent, ref MapInitEvent args)
+    private void OnMapInit(Entity<StoriesStoriesOfficerHonorComponent> ent, ref MapInitEvent args)
     {
         _actions.AddAction(ent, ref ent.Comp.ActionEntity, ent.Comp.Action);
         _actions.SetUseDelay(ent.Comp.ActionEntity, ent.Comp.Cooldown);
     }
 
-    private void OnShutdown(Entity<StoriesOfficerHonorComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<StoriesStoriesOfficerHonorComponent> ent, ref ComponentShutdown args)
     {
         _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnHonor(Entity<StoriesOfficerHonorComponent> ent, ref StoriesOfficerHonorActionEvent args)
+    private void OnHonor(Entity<StoriesStoriesOfficerHonorComponent> ent, ref StoriesStoriesOfficerHonorActionEvent args)
     {
         if (args.Handled || _mobState.IsDead(ent))
             return;
@@ -107,7 +107,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         var honorTarget = seniorOfficer ?? ent.Owner;
         if (!TryGetRankIndex(honorTarget, out var honorTargetRank))
             honorTargetRank = officerRank;
-        if (honorTarget != ent.Owner && TryComp(honorTarget, out StoriesOfficerHonorComponent? honoredOfficer))
+        if (honorTarget != ent.Owner && TryComp(honorTarget, out StoriesStoriesOfficerHonorComponent? honoredOfficer))
         {
             honoredOfficer.NextHonorAt = now + honoredOfficer.Cooldown;
             _actions.SetCooldown(honoredOfficer.ActionEntity, honoredOfficer.Cooldown);
@@ -126,7 +126,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
             QueueHonor(nearby, honorTarget, ent.Comp.Range, ent.Comp.CheckVisibility);
             ApplyCommandSpeechEffects(nearby);
 
-            if (TryComp(nearby, out StoriesOfficerHonorComponent? officer))
+            if (TryComp(nearby, out StoriesStoriesOfficerHonorComponent? officer))
             {
                 officer.NextHonorAt = now + officer.Cooldown;
                 _actions.SetCooldown(officer.ActionEntity, officer.Cooldown);
@@ -198,7 +198,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         });
     }
 
-    private bool CanSee(EntityUid viewer, EntityUid target, StoriesOfficerHonorComponent command)
+    private bool CanSee(EntityUid viewer, EntityUid target, StoriesStoriesOfficerHonorComponent command)
     {
         return CanSee(viewer, target, command.Range, command.CheckVisibility);
     }
@@ -246,7 +246,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     {
         _dazed.TryDaze(marine, TimeSpan.FromSeconds(1), refresh: true, stutter: true);
 
-        var whisper = EnsureComp<StoriesOfficerHonorForcedWhisperComponent>(marine);
+        var whisper = EnsureComp<StoriesStoriesOfficerHonorForcedWhisperComponent>(marine);
         whisper.ExpiresAt = _timing.CurTime + TimeSpan.FromSeconds(13);
 }
 }
