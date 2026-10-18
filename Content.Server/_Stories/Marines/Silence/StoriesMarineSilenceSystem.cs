@@ -37,23 +37,34 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<StoriesMarineSilenceComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<MarineSilenceComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<MarineSilenceComponent, StoriesMarineSilenceActionEvent>(OnSilence);
+        SubscribeLocalEvent<StoriesStoriesMarineSilenceComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<StoriesMarineSilenceComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<StoriesMarineSilenceComponent, StoriesStoriesMarineSilenceActionEvent>(OnSilence);
     }
 
-    private void OnMapInit(Entity<MarineSilenceComponent> ent, ref MapInitEvent args)
+    public override void Update(float frameTime)
+    {
+        var now = _timing.CurTime;
+        var query = EntityQueryEnumerator<StoriesMarineSilencedForcedWhisperComponent>();
+        while (query.MoveNext(out var uid, out var whisper))
+        {
+            if (whisper.ExpiresAt <= now)
+                RemCompDeferred<StoriesMarineSilencedForcedWhisperComponent>(uid);
+        }
+    }
+
+    private void OnMapInit(Entity<StoriesMarineSilenceComponent> ent, ref MapInitEvent args)
     {
         _actions.AddAction(ent, ref ent.Comp.ActionEntity, ent.Comp.Action);
         _actions.SetUseDelay(ent.Comp.ActionEntity, ent.Comp.Cooldown);
     }
 
-    private void OnShutdown(Entity<MarineSilenceComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<StoriesMarineSilenceComponent> ent, ref ComponentShutdown args)
     {
         _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnSilence(Entity<MarineSilenceComponent> ent, ref MarineSilenceActionEvent args)
+    private void OnSilence(Entity<StoriesMarineSilenceComponent> ent, ref StoriesMarineSilenceActionEvent args)
     {
         if (args.Handled || _mobState.IsDead(ent) || ent.Comp.NextSilenceAt > _timing.CurTime ||
             !TryComp(ent, out TransformComponent? transform) || !TryGetRankIndex(ent.Owner, out var issuerRank))
@@ -82,26 +93,21 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         args.Handled = true;
     }
 
-    private void ApplySilence(EntityUid marine, MarineSilenceComponent command)
+    private void ApplySilence(EntityUid marine, StoriesMarineSilenceComponent command)
     {
-        var silence = EnsureComp<StoriesMarineSilencedForcedWhisperComponent>(marine);
+        var silence = EnsureComp<StoriesStoriesMarineSilencedForcedWhisperComponent>(marine);
         silence.ExpiresAt = _timing.CurTime + command.Duration;
         SendSilencedMessage(marine, command.Authority);
 
-        Timer.Spawn(command.Duration, () =>
-        {
-            if (TryComp(marine, out MarineSilencedForcedWhisperComponent? active) && active.ExpiresAt <= _timing.CurTime)
-                RemCompDeferred<MarineSilencedForcedWhisperComponent>(marine);
-        });
-    }
+}
 
-    private void SendSilencedMessage(EntityUid marine, StoriesMarineSilenceAuthority authority)
+    private void SendSilencedMessage(EntityUid marine, StoriesStoriesMarineSilenceAuthority authority)
     {
         if (!_players.TryGetSessionByEntity(marine, out var session))
             return;
 
-        var officer = authority == MarineSilenceAuthority.Officer;
-        var message = Loc.GetString(officer ? "stories-marine-silence-officer-message" : "rmc-marine-silence-sergeant-message");
+        var officer = authority == StoriesMarineSilenceAuthority.Officer;
+        var message = Loc.GetString(officer ? "stories-marine-silence-officer-message" : "stories-marine-silence-sergeant-message");
         _chatManager.ChatMessageToOne(
             ChatChannel.Local,
             FormattedMessage.RemoveMarkupOrThrow(message),
@@ -139,26 +145,22 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         return HasComp<MarineComponent>(entity) && HasComp<RankComponent>(entity) && !_mobState.IsDead(entity);
     }
 
-    private LocId GetCallout(MarineSilenceComponent command)
+    private LocId GetCallout(StoriesMarineSilenceComponent command)
     {
         if (command.Callouts.Count > 0)
             return _random.Pick(command.Callouts);
 
         return command.Authority switch
         {
-            MarineSilenceAuthority.Officer => _random.Pick(new[]
+            StoriesMarineSilenceAuthority.Officer => _random.Pick(new[]
             {
-                "rmc-marine-silence-officer-1", "rmc-marine-silence-officer-2", "rmc-marine-silence-officer-3",
+                "stories-marine-silence-officer-1", "stories-marine-silence-officer-2", "stories-marine-silence-officer-3",
             }),
-            MarineSilenceAuthority.Sergeant => _random.Pick(new[]
+            StoriesMarineSilenceAuthority.Sergeant => _random.Pick(new[]
             {
-                "rmc-marine-silence-sergeant-1", "rmc-marine-silence-sergeant-2", "rmc-marine-silence-sergeant-3", "rmc-marine-silence-sergeant-4",
+                "stories-marine-silence-sergeant-1", "stories-marine-silence-sergeant-2", "stories-marine-silence-sergeant-3", "stories-marine-silence-sergeant-4",
             }),
-            MarineSilenceAuthority.MilitaryPolice => _random.Pick(new[]
-            {
-                "rmc-marine-silence-mp-1", "rmc-marine-silence-mp-2", "rmc-marine-silence-mp-3",
-            }),
-            _ => throw new ArgumentOutOfRangeException(nameof(command.Authority), command.Authority, null),
+_ => throw new ArgumentOutOfRangeException(nameof(command.Authority), command.Authority, null),
         };
     }
 }
