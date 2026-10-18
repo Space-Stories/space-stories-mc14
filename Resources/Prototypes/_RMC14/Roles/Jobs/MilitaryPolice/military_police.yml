@@ -43,18 +43,6 @@
       prefix: cm-job-prefix-militarypolice
     - type: CMVendorUser # Stories-Partners
     - type: CommandAccent
-    - type: MarineSilence
-      authority: MilitaryPolice
-      range: 6
-      duration: 15
-    - type: TacticalMapIcon
-      icon:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: mp
-      background:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: background_mp
-
 - type: startingGear
   id: CMGearMilitaryPolice
   equipment:
