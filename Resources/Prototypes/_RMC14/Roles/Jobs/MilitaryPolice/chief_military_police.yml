@@ -50,28 +50,9 @@
         RMCSkillOverwatch: 1
         RMCSkillPolice: 2
     - type: MarineOrders
-    - type: OfficerHonor
-    - type: MarineSilence
-      authority: MilitaryPolice
-      range: 6
-      duration: 15
-    - type: RMCPointing
-    - type: JobPrefix
-      prefix: cm-job-prefix-mp
-    - type: CMVendorUser # Stories-Partners
-    - type: ViewIntelObjectives
-    - type: CommandAccent
-    - type: TacticalMapIcon
-      icon:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: cmp
-      background:
-        sprite: /Textures/_RMC14/Interface/map_blips.rsi
-        state: background_mp
-    - type: RMCTrackable
-    - type: RMCAwardRecommendation
-    - type: SeeNewPlayers
-
+    #Stories-Discipline-Start
+    - type: StoriesOfficerHonor
+    #Stories-Discipline-End
 - type: startingGear
   id: CMGearChiefMP
   equipment:
