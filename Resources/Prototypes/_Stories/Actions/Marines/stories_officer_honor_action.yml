@@ -1,0 +1,11 @@
+- type: entity
+  parent: ActionMarineBase
+  id: STActionOfficerHonor
+  name: stories-officer-honor-action-name
+  description: stories-officer-honor-action-description
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon: Interface/Emotes/salute.png
+  - type: InstantAction
+    event: !type:StoriesOfficerHonorActionEvent
