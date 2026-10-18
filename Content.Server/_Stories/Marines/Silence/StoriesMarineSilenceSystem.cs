@@ -38,33 +38,33 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<StoriesStoriesMarineSilenceComponent, MapInitEvent>(OnMapInit);
-        SubscribeLocalEvent<StoriesMarineSilenceComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<StoriesMarineSilenceComponent, StoriesStoriesMarineSilenceActionEvent>(OnSilence);
+        SubscribeLocalEvent<StoriesStoriesMarineSilenceComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<StoriesStoriesMarineSilenceComponent, StoriesStoriesMarineSilenceActionEvent>(OnSilence);
     }
 
     public override void Update(float frameTime)
     {
         var now = _timing.CurTime;
-        var query = EntityQueryEnumerator<StoriesMarineSilencedForcedWhisperComponent>();
+        var query = EntityQueryEnumerator<StoriesStoriesMarineSilencedForcedWhisperComponent>();
         while (query.MoveNext(out var uid, out var whisper))
         {
             if (whisper.ExpiresAt <= now)
-                RemCompDeferred<StoriesMarineSilencedForcedWhisperComponent>(uid);
+                RemCompDeferred<StoriesStoriesMarineSilencedForcedWhisperComponent>(uid);
         }
     }
 
-    private void OnMapInit(Entity<StoriesMarineSilenceComponent> ent, ref MapInitEvent args)
+    private void OnMapInit(Entity<StoriesStoriesMarineSilenceComponent> ent, ref MapInitEvent args)
     {
         _actions.AddAction(ent, ref ent.Comp.ActionEntity, ent.Comp.Action);
         _actions.SetUseDelay(ent.Comp.ActionEntity, ent.Comp.Cooldown);
     }
 
-    private void OnShutdown(Entity<StoriesMarineSilenceComponent> ent, ref ComponentShutdown args)
+    private void OnShutdown(Entity<StoriesStoriesMarineSilenceComponent> ent, ref ComponentShutdown args)
     {
         _actions.RemoveAction(ent.Owner, ent.Comp.ActionEntity);
     }
 
-    private void OnSilence(Entity<StoriesMarineSilenceComponent> ent, ref StoriesMarineSilenceActionEvent args)
+    private void OnSilence(Entity<StoriesStoriesMarineSilenceComponent> ent, ref StoriesStoriesMarineSilenceActionEvent args)
     {
         if (args.Handled || _mobState.IsDead(ent) || ent.Comp.NextSilenceAt > _timing.CurTime ||
             !TryComp(ent, out TransformComponent? transform) || !TryGetRankIndex(ent.Owner, out var issuerRank))
@@ -93,7 +93,7 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         args.Handled = true;
     }
 
-    private void ApplySilence(EntityUid marine, StoriesMarineSilenceComponent command)
+    private void ApplySilence(EntityUid marine, StoriesStoriesMarineSilenceComponent command)
     {
         var silence = EnsureComp<StoriesStoriesMarineSilencedForcedWhisperComponent>(marine);
         silence.ExpiresAt = _timing.CurTime + command.Duration;
@@ -106,7 +106,7 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         if (!_players.TryGetSessionByEntity(marine, out var session))
             return;
 
-        var officer = authority == StoriesMarineSilenceAuthority.Officer;
+        var officer = authority == StoriesStoriesMarineSilenceAuthority.Officer;
         var message = Loc.GetString(officer ? "stories-marine-silence-officer-message" : "stories-marine-silence-sergeant-message");
         _chatManager.ChatMessageToOne(
             ChatChannel.Local,
@@ -145,18 +145,18 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         return HasComp<MarineComponent>(entity) && HasComp<RankComponent>(entity) && !_mobState.IsDead(entity);
     }
 
-    private LocId GetCallout(StoriesMarineSilenceComponent command)
+    private LocId GetCallout(StoriesStoriesMarineSilenceComponent command)
     {
         if (command.Callouts.Count > 0)
             return _random.Pick(command.Callouts);
 
         return command.Authority switch
         {
-            StoriesMarineSilenceAuthority.Officer => _random.Pick(new[]
+            StoriesStoriesMarineSilenceAuthority.Officer => _random.Pick(new[]
             {
                 "stories-marine-silence-officer-1", "stories-marine-silence-officer-2", "stories-marine-silence-officer-3",
             }),
-            StoriesMarineSilenceAuthority.Sergeant => _random.Pick(new[]
+            StoriesStoriesMarineSilenceAuthority.Sergeant => _random.Pick(new[]
             {
                 "stories-marine-silence-sergeant-1", "stories-marine-silence-sergeant-2", "stories-marine-silence-sergeant-3", "stories-marine-silence-sergeant-4",
             }),
