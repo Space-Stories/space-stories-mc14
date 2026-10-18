@@ -12,8 +12,10 @@
   - "RMCRankMasterSergeant"
   - "RMCRankFirstSergeant"
   - "RMCRankMasterGunnerySergeant"
-  - "RMCRankWarrantOfficer"
-  - "RMCRankChiefWarrantOfficer"
+  #Stories-Discipline-Start
+  - "RMCRankWarrantOfficer" #Stories-Discipline
+  - "RMCRankChiefWarrantOfficer" #Stories-Discipline
+  #Stories-Discipline-End
   - "RMCRankSecondLT"
   - "RMCRankFirstLT"
   - "RMCRankCaptain"
