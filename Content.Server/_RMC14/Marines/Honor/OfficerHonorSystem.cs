@@ -1,15 +1,13 @@
 using Content.Server.Actions;
 using Content.Server.Chat.Systems;
-using Content.Server.Roles.Jobs;
 using Content.Shared._RMC14.Marines;
-using Content.Shared._RMC14.Marines.Honor;
+using Content.Shared._Stories.Marines.Honor;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
-using Content.Shared._RMC14.Roles;
+using Content.Shared.Dataset;
 using Content.Shared._RMC14.Stun;
 using Content.Shared.Buckle;
 using Content.Shared.Chat;
 using Content.Shared.Examine;
-using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Standing;
 using Robust.Server.GameObjects;
@@ -17,9 +15,9 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Prototypes;
 
-namespace Content.Server._RMC14.Marines.Honor;
+namespace Content.Server._Stories.Marines.Honor;
 
-public sealed class OfficerHonorSystem : EntitySystem
+public sealed class StoriesOfficerHonorSystem : EntitySystem
 {
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly SharedBuckleSystem _buckle = default!;
@@ -27,21 +25,23 @@ public sealed class OfficerHonorSystem : EntitySystem
     [Dependency] private readonly RMCDazedSystem _dazed = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly ExamineSystemShared _examine = default!;
-    [Dependency] private readonly JobSystem _jobs = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    [Dependency] private readonly SharedRankSystem _ranks = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+
+    private static readonly ProtoId<DatasetPrototype> RankHierarchy = "RMCMarineRankHierarchy";
 
     private readonly HashSet<EntityUid> _nearby = new();
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<OfficerHonorComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<StoriesOfficerHonorComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<OfficerHonorComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<OfficerHonorComponent, OfficerHonorActionEvent>(OnHonor);
+        SubscribeLocalEvent<OfficerHonorComponent, StoriesOfficerHonorActionEvent>(OnHonor);
     }
 
     private void OnMapInit(Entity<OfficerHonorComponent> ent, ref MapInitEvent args)
@@ -68,13 +68,14 @@ public sealed class OfficerHonorSystem : EntitySystem
         _lookup.GetEntitiesInRange(transform.Coordinates, ent.Comp.Range, _nearby);
 
         EntityUid? seniorOfficer = null;
-        var officerAuthority = GetAuthority(ent.Owner);
+        if (!TryGetRankIndex(ent.Owner, out var officerRank))
+            return;
         foreach (var nearby in _nearby)
         {
             if (nearby != ent.Owner &&
                 IsEligibleMarine(nearby) &&
                 CanSee(ent.Owner, nearby, ent.Comp) &&
-                GetAuthority(nearby) > officerAuthority)
+                TryGetRankIndex(nearby, out var nearbyRank) && nearbyRank > officerRank)
             {
                 seniorOfficer = nearby;
                 break;
@@ -82,17 +83,19 @@ public sealed class OfficerHonorSystem : EntitySystem
         }
 
         var callout = seniorOfficer == null
-            ? _random.Pick(new[] { "rmc-officer-honor-attention-1", "rmc-officer-honor-attention-2", "rmc-officer-honor-attention-3" })
+            ? _random.Pick(new[] { "stories-officer-honor-attention-1", "rmc-officer-honor-attention-2", "rmc-officer-honor-attention-3" })
             : "rmc-officer-honor-commander";
 
         // The officer announcing a superior must not be affected by their own
         // attention command. Clear any stale honor speech effect before the callout.
         if (seniorOfficer != null)
-            RemComp<OfficerHonorForcedWhisperComponent>(ent);
+            RemComp<StoriesOfficerHonorForcedWhisperComponent>(ent);
 
         _chat.TrySendInGameICMessage(ent, Loc.GetString(callout), InGameICChatType.Speak, false);
 
         var honorTarget = seniorOfficer ?? ent.Owner;
+        if (!TryGetRankIndex(honorTarget, out var honorTargetRank))
+            honorTargetRank = officerRank;
         if (honorTarget != ent.Owner && TryComp(honorTarget, out OfficerHonorComponent? honoredOfficer))
         {
             honoredOfficer.NextHonorAt = now + honoredOfficer.Cooldown;
@@ -104,7 +107,8 @@ public sealed class OfficerHonorSystem : EntitySystem
             if (nearby == ent.Owner ||
                 nearby == honorTarget ||
                 !IsEligibleMarine(nearby) ||
-                GetAuthority(nearby) >= officerAuthority ||
+                !TryGetRankIndex(nearby, out var nearbyRank) ||
+                nearbyRank >= honorTargetRank ||
                 !CanSee(ent.Owner, nearby, ent.Comp))
                 continue;
 
@@ -200,19 +204,23 @@ public sealed class OfficerHonorSystem : EntitySystem
             _transform.SetWorldRotation(entity, direction.ToWorldAngle());
     }
 
-    private int GetAuthority(EntityUid entity)
+    private bool TryGetRankIndex(EntityUid entity, out int rankIndex)
     {
-        if (TryComp(entity, out OriginalRoleComponent? originalRole) &&
-            originalRole.Job is { } jobId &&
-            _prototypes.TryIndex(jobId, out var originalJob))
+        rankIndex = -1;
+        var rank = _ranks.GetRank(entity);
+        if (rank == null || !_prototypes.TryIndex(RankHierarchy, out var hierarchy))
+            return false;
+
+        for (var index = 0; index < hierarchy.Values.Count; index++)
         {
-            return originalJob.MarineAuthorityLevel;
+            if (hierarchy.Values[index] != rank.ID)
+                continue;
+
+            rankIndex = index;
+            return true;
         }
 
-        return TryComp(entity, out MindContainerComponent? mind) && mind.Mind is { } mindId &&
-               _jobs.MindTryGetJob(mindId, out var job)
-            ? job.MarineAuthorityLevel
-            : 0;
+        return false;
     }
 
     private bool IsEligibleMarine(EntityUid entity)
