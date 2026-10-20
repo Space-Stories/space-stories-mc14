@@ -530,4 +530,5 @@ public enum LogType
 
     // Stories-LogType
     STHunter = 20000,
+    STXenoBanish = 20001,
 }

@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Parasite;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Follower;
 using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
@@ -29,6 +30,7 @@ public sealed class LarvaQueueSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
 
     [ViewVariables]
     public static readonly Dictionary<EntityUid, HashSet<NetUserId>> InfectorSet = new();
@@ -221,6 +223,9 @@ public sealed class LarvaQueueSystem : EntitySystem
             _popup.PopupEntity("You have been removed from the queue.", actorEntity.Value, actorEntity.Value);
             return;
         }
+
+        if (HasComp<STBanishedHiveComponent>(hive) || _banish.IsBannedFromHivePopup(actorEntity.Value, session, hive)) // Stories-Banish
+            return; // Stories-Banish
 
         if ((_gameTiming.CurTime - ghost.TimeOfDeath).TotalSeconds >= larvaWaitTime)
         {

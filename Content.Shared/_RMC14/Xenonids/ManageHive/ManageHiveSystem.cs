@@ -8,6 +8,7 @@ using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.ManageHive.Boons;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared._RMC14.Xenonids.Watch;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chat;
 using Content.Shared.Database;
@@ -88,6 +89,8 @@ public sealed class ManageHiveSystem : EntitySystem
         // TODO RMC14 other options
         var options = new List<DialogOption>
         {
+            new(Loc.GetString("st-hivemanagement-banish"), new STManageHiveBanishEvent()), // Stories-Banish
+            new(Loc.GetString("st-hivemanagement-readmit"), new STManageHiveReadmitEvent()), // Stories-Banish
             new(Loc.GetString("rmc-hivemanagement-deevolve"), new ManageHiveDevolveEvent())
         };
 

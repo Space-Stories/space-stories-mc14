@@ -27,6 +27,7 @@ using Content.Shared._RMC14.Xenonids.Rest;
 using Content.Shared._RMC14.Xenonids.ScissorCut;
 using Content.Shared._RMC14.Xenonids.Weeds;
 using Content.Shared._Stories.Hunter.Marking.Components;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Access.Components;
 using Content.Shared.Actions;
 using Content.Shared.Atmos;
@@ -97,6 +98,7 @@ public sealed partial class XenoSystem : EntitySystem
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
 
     private static readonly ProtoId<DamageTypePrototype> HeatDamage = "Heat";
 
@@ -559,6 +561,9 @@ public sealed partial class XenoSystem : EntitySystem
         // hiveless xenos can attack eachother
         if (_hive.FromSameHive(xeno, target))
             return false;
+
+        if (_banish.IsBanishedFrom(xeno, target)) // Stories-Banish
+            return false; // Stories-Banish
 
         if (_mobState.IsDead(target))
             return false;

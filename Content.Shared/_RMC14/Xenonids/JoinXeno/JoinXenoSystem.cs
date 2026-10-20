@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.GameTicking;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Actions;
 using Content.Shared.GameTicking;
 using Content.Shared.GameTicking.Components;
@@ -86,6 +87,9 @@ public sealed class JoinXenoSystem : EntitySystem
         var hives = EntityQueryEnumerator<HiveComponent>();
         while (hives.MoveNext(out var hiveId, out var hive))
         {
+            if (HasComp<STBanishedHiveComponent>(hiveId)) // Stories-Banish
+                continue; // Stories-Banish
+
             var inQueue = actor != null && _larvaQueue.IsAlreadyQueued(actor.PlayerSession.UserId, hiveId);
             string optionText;
             if (inQueue && actor != null)

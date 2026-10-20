@@ -1,0 +1,32 @@
+- type: entity
+  id: STXenoHiveBanished
+  name: Banished
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Hive
+    lateJoinGainLarva: false
+    tierLimits: {}
+    freeSlots: {}
+    hiveStructureSlots: {}
+  - type: STBanishedHive
+    blockedActionEvents:
+    - XenoPlantWeedsActionEvent
+    - XenoExpandWeedsActionEvent
+    - XenoChooseStructureActionEvent
+    - XenoSecreteStructureActionEvent
+    - XenoOrderConstructionActionEvent
+    - XenoPlaceResinHoleActionEvent
+    - XenoConstructResinHoleActionEvent
+    - XenoDigTunnelActionEvent
+    - XenoFruitChooseActionEvent
+    - XenoFruitPlantActionEvent
+    - XenoResinSurgeActionEvent
+    - XenoDeployTrapsActionEvent
+    - DesignerSelectedDesignToggleActionEvent
+    - DesignerGreaterResinSurgeActionEvent
+    - XenoOpenEvolutionsActionEvent
+    - XenoOpenDevolveActionEvent
+    - XenoTransmuteActionEvent
+    noLarvaRefund:
+    - CMXenoParasite
+    - CMXenoLesserDrone

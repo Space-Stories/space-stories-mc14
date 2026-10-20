@@ -7,6 +7,7 @@ using Content.Shared._RMC14.Xenonids.CriticalGrace;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared._RMC14.Xenonids.Stab;
 using Content.Shared._RMC14.Xenonids.Weeds;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Actions;
 using Content.Shared.Coordinates;
 using Content.Shared.Damage;
@@ -46,6 +47,7 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
 
     private readonly TimeSpan _pheromonePlasmaUseDelay = TimeSpan.FromSeconds(1);
 
@@ -409,8 +411,11 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
 
         for (var i = 0; i < _pheromonesJob.Pheromones.Count; i++)
         {
-            var (_, active, pheromones, _) = _pheromonesJob.Pheromones[i];
+            var (emitter, active, pheromones, _) = _pheromonesJob.Pheromones[i]; // Stories-Banish
             var receivers = _pheromonesJob.Receivers[i].Receivers;
+
+            if (_banish.IsBanished(emitter)) // Stories-Banish
+                continue; // Stories-Banish
 
             switch (active.Pheromones)
             {
@@ -419,6 +424,9 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                     {
                         if (Deleted(receiver) || _mobState.IsDead(receiver))
                             continue;
+
+                        if (_banish.IsBanished(receiver)) // Stories-Banish
+                            continue; // Stories-Banish
 
                         if (receiver.Comp.IgnorePheromones == XenoPheromones.Recovery)
                             continue;
@@ -437,6 +445,9 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                         if (Deleted(receiver) || _mobState.IsDead(receiver))
                             continue;
 
+                        if (_banish.IsBanished(receiver)) // Stories-Banish
+                            continue; // Stories-Banish
+
                         if (receiver.Comp.IgnorePheromones == XenoPheromones.Warding)
                             continue;
 
@@ -453,6 +464,9 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                     {
                         if (Deleted(receiver) || _mobState.IsDead(receiver))
                             continue;
+
+                        if (_banish.IsBanished(receiver)) // Stories-Banish
+                            continue; // Stories-Banish
 
                         if (receiver.Comp.IgnorePheromones == XenoPheromones.Frenzy)
                             continue;

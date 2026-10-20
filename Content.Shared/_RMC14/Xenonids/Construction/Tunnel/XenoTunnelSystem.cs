@@ -11,6 +11,7 @@ using Content.Shared._RMC14.Xenonids.Devour;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared._RMC14.Xenonids.Weeds;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions;
 using Content.Shared.Administration.Logs;
@@ -66,6 +67,7 @@ public sealed class XenoTunnelSystem : EntitySystem
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _xenoWeeds = default!;
     [Dependency] private readonly SharedXenoConstructionSystem _xenoConstruct = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
 
     private readonly List<string> _greekLetters = new()
     {
@@ -446,6 +448,12 @@ public sealed class XenoTunnelSystem : EntitySystem
             _popup.PopupClient(msg, enteringEntity, enteringEntity);
             return;
         }
+
+        if (_banish.IsBanished(enteringEntity)) // Stories-Banish
+        { // Stories-Banish
+            _popup.PopupClient(Loc.GetString("st-banish-tunnel-denied"), enteringEntity, enteringEntity); // Stories-Banish
+            return; // Stories-Banish
+        } // Stories-Banish
 
         if (mobContainer.Count >= xenoTunnel.Comp.MaxMobs)
         {

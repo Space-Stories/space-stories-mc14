@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared._RMC14.Xenonids.HiveLeader;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
@@ -46,6 +47,7 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
     [Dependency] private readonly XenoSystem _xeno = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
 
     private EntityQuery<HiveComponent> _query;
     private EntityQuery<HiveMemberComponent> _memberQuery;
@@ -131,6 +133,9 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         ent.Comp.AnnouncedUnlocks.Clear();
         ent.Comp.Unlocks.Clear();
         ent.Comp.AnnouncementsLeft.Clear();
+
+        if (HasComp<STBanishedHiveComponent>(ent)) // Stories-Banish
+            return; // Stories-Banish
 
         foreach (var prototype in _prototypes.EnumeratePrototypes<EntityPrototype>())
         {
@@ -450,6 +455,9 @@ public abstract class SharedXenoHiveSystem : EntitySystem
 
         if (hive.Comp.BurrowedLarva <= 0)
             return false;
+
+        if (_banish.IsBannedFromHive(session.UserId, hive)) // Stories-Banish
+            return false; // Stories-Banish
 
         EntityUid? larva = null;
 

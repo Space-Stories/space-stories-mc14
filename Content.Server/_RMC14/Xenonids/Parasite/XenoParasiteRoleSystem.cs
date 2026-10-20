@@ -3,8 +3,10 @@ using Content.Server.Ghost.Roles;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Xenonids.Construction.EggMorpher;
 using Content.Shared._RMC14.Xenonids.Egg;
+using Content.Shared._RMC14.Xenonids.Hive; // Stories-Banish
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared._RMC14.Xenonids.Projectile.Parasite;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
 using Content.Shared.Popups;
@@ -33,6 +35,8 @@ public sealed class XenoEggRoleSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly ContainerSystem _container = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
+    [Dependency] private readonly SharedXenoHiveSystem _hive = default!; // Stories-Banish
 
     public override void Initialize()
     {
@@ -169,6 +173,12 @@ public sealed class XenoEggRoleSystem : EntitySystem
     {
         //TODO RMC14 parasite bans should be checked here
         _ui.CloseUi(ent, XenoParasiteGhostUI.Key);
+
+        if (_actor.TryGetSession(user, out var session) && session != null && // Stories-Banish
+            _banish.IsBannedFromHivePopup(user, session.UserId, _hive.GetHive(ent))) // Stories-Banish
+        { // Stories-Banish
+            return false; // Stories-Banish
+        } // Stories-Banish
 
         return UserCheck(user);
     }

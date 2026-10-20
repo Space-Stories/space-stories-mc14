@@ -6,6 +6,7 @@ using Content.Server.Popups;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.JoinXeno;
 using Content.Shared._RMC14.Xenonids.Respawn;
+using Content.Shared._Stories.Xenonids.Banish; // Stories-Banish
 using Content.Shared.Mind;
 using Content.Shared.Popups;
 using Robust.Server.Audio;
@@ -25,10 +26,14 @@ public sealed partial class XenoRespawnSystem : EntitySystem
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly STXenoBanishSystem _banish = default!; // Stories-Banish
     public void RespawnXeno(EntityUid xeno, TimeSpan time, bool atLocation = false, EntityCoordinates? location = null)
     {
         if (!TryComp(xeno, out ActorComponent? actor))
             return;
+
+        if (_banish.IsBanished(xeno)) // Stories-Banish
+            return; // Stories-Banish
 
         RemComp<GhostTakeoverAvailableComponent>(xeno);
         RemComp<CanBeLarvaQueuedComponent>(xeno);
