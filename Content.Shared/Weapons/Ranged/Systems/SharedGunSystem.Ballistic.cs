@@ -24,6 +24,7 @@ public abstract partial class SharedGunSystem
 
     // RMC14
     [Dependency] private readonly SharedRMCStackSystem _rmcStack = default!;
+    [Dependency] private readonly SharedStackSystem _stack = default!;
 
     protected virtual void InitializeBallistic()
     {
@@ -51,6 +52,11 @@ public abstract partial class SharedGunSystem
     {
         if (args.Handled || !component.Cycleable)
             return;
+
+        // Stories-GunBalance-Start
+        if (!HasOtherHandFree(args.User, uid))
+            return;
+        // Stories-GunBalance-End
 
         if (component.CycleDelay > 0)
             BallisticCycleDelayCheck(uid, component, args.User);
@@ -95,6 +101,14 @@ public abstract partial class SharedGunSystem
     {
         if (args.Handled)
             return;
+
+        // Stories-GunBalance-Start
+        if (HasComp<GunComponent>(uid) && !component.Cycleable && !IsGunInHands(args.User, uid))
+        {
+            args.Handled = true;
+            return;
+        }
+        // Stories-GunBalance-End
 
         if (TryAmmoInsert(uid, component, args.Used, args.User, args.Target, component.InsertDelay))
             args.Handled = true;
@@ -172,6 +186,13 @@ public abstract partial class SharedGunSystem
         {
             return;
         }
+
+        // Stories-GunBalance-Start
+        if (HasComp<GunComponent>(args.Target.Value) && !IsGunInHands(args.User, args.Target.Value))
+        {
+            return;
+        }
+        // Stories-GunBalance-End
 
         args.Handled = true;
 
@@ -394,6 +415,11 @@ public abstract partial class SharedGunSystem
         if (!component.Cycleable)
             return;
 
+        // Stories-GunBalance-Start
+        if (user != null && IsGunInHands(user.Value, uid) && !HasOtherHandFree(user.Value, uid))
+            return;
+        // Stories-GunBalance-End
+
         // Reset shotting for cycling
         if (Resolve(uid, ref gunComp, false) &&
             gunComp is { FireRateModified: > 0f } &&
@@ -462,6 +488,10 @@ public abstract partial class SharedGunSystem
                 component.UnspawnedCount--;
                 DirtyField(uid, component, nameof(BallisticAmmoProviderComponent.UnspawnedCount));
                 entity = Spawn(component.Proto, args.Coordinates);
+                // Stories-ShotgunStackFix-Start
+                if (TryComp(entity, out StackComponent? stackComp))
+                    _stack.SetCount(entity, 1, stackComp);
+                // Stories-ShotgunStackFix-End
                 args.Ammo.Add((entity, EnsureShootable(entity)));
             }
         }

@@ -1,0 +1,12 @@
+- type: startingGear
+  id: STGearSurvivorCLFSnow
+  equipment:
+    head: RMCHeadMilitiaHood
+    mask: CMMaskCoif
+    outerClothing: RMCCoatMilitia
+    gloves: RMCHandsBlack
+    shoes: CMBootsBlackFilled
+
+- type: startingGear
+  id: STGearSurvivorCLFNoCamo
+  equipment: {}

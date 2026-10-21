@@ -1,6 +1,7 @@
 - type: guideEntry
   parent: RMC
   id: STMarineLaw
+  serverGuide: Stories
   name: rmc-guide-entry-rules-marine-law
   text: "/ServerInfo/Guidebook/_Stories/Law/STMarineLaw.xml"
   priority: 3
@@ -217,6 +218,7 @@
   - STMarineSOPNONModCommand
   - STMarineSOPNONModDeployment
   - STMarineSOPNONModThirdparty
+  - STMarineSOPNONModCivilLaw
 
 # General Regulations
 - type: guideEntry
@@ -275,3 +277,11 @@
   name: rmc-guide-entry-marine-sop-nonmod-thirdparty
   text: "/ServerInfo/Guidebook/_Stories/SOP/STMarineSOPNONModThirdParty.xml"
   priority: 7
+
+# NON-Modifiable Civil Law
+- type: guideEntry
+  parent: RMC
+  id: STMarineSOPNONModCivilLaw
+  name: stories-guide-entry-marine-sop-nonmod-civil-law
+  text: "/ServerInfo/Guidebook/_Stories/SOP/STMarineSOPNONModCivilLaw.xml"
+  priority: 8

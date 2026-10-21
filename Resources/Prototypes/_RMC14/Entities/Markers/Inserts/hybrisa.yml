@@ -58,11 +58,14 @@
     - spawn: "/Maps/_RMC14/Inserts/Hybrisa/surv_spawn_apartments.yml"
       probability: 0.33
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfspaceport ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Hybrisa/surv_spawn_meridian.yml"
       probability: 0.34
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfspaceport ] # Stories-CLFSurvivor
       offset: 5,-20
     - spawn: "/Maps/_RMC14/Inserts/Hybrisa/surv_spawn_bar.yml"
       probability: 0.33
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfspaceport ] # Stories-CLFSurvivor
       offset: 16,36

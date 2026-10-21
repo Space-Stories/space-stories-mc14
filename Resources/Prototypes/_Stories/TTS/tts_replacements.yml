@@ -1,6 +1,51 @@
 - type: ttsSanitizeConfig
   id: Default
   allowedCharsRegex: "[^a-zA-Zа-яА-ЯёЁ0-9,\\-+?!. ]"
+  multiLetterRules:
+    sch: ш
+    sh: ш
+    ch: ч
+    zh: ж
+    ph: ф
+    th: с
+    ae: э
+    oe: о
+    ie: и
+    ee: и
+    ea: э
+    ai: и
+    qu: кв
+    ck: к
+    ce: се
+    ci: си
+    cy: си
+  singleLetterRules:
+    x: кс
+    q: к
+    w: в
+    y: и
+    j: дж
+    c: к
+    g: г
+    s: с
+    t: т
+    d: д
+    f: ф
+    h: х
+    v: в
+    b: б
+    n: н
+    m: м
+    l: л
+    r: р
+    k: к
+    p: п
+    a: а
+    e: е
+    i: и
+    o: о
+    u: у
+    z: з
   replacements:
     - pattern: 'США'
       replacedWith: 'сэ шэ а'

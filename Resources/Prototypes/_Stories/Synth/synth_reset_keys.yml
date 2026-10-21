@@ -1,0 +1,39 @@
+- type: entity
+  parent: RMCSynthResetKey
+  id: STSynthResetKeySeegson
+  name: Seegson Working Joe reboot key
+  description: Seegson tool required in a repair of Working Joe units that suffered critical failures, reboots unit system to factory settings. Isn't compatible with synthetics of Novaris, Weston-Yamada and other designs. It can only be used once before being reset.
+  components:
+  - type: Sprite
+    layers:
+    - state: seeg_reset_key
+    - state: seeg_reset_key_on
+      map: [ "enum.ToggleableVisuals.Layer" ]
+      visible: false
+  - type: Defibrillator
+    successSound:
+      path: /Audio/_Stories/Synth/ResetKey/seegson_revive.ogg
+      params:
+        volume: -6
+  - type: StoriesSynthResetKeyRestriction
+    whitelist:
+      components:
+      - STSynthVoiceSynthesizer
+
+- type: entity
+  parent: RMCSynthResetKey
+  id: STSynthResetKeyMakeshift
+  name: makeshift synthetic sparker
+  description: A tool resembling a synthetic reset key, but extremely crude and made from spare parts, only capable of rebooting the system of a synthetic, with a small chance of corrupting that system. It can only be used once before being reset.
+  components:
+  - type: Sprite
+    layers:
+    - state: makeshift_key
+    - state: makeshift_key_on
+      map: [ "enum.ToggleableVisuals.Layer" ]
+      visible: false
+  - type: Defibrillator
+    successSound:
+      collection: sparks
+      params:
+        volume: -6

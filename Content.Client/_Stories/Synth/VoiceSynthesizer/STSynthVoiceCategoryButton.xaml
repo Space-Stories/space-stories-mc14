@@ -1,0 +1,5 @@
+<controls:STSynthVoiceCategoryButton
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Client._Stories.Synth.VoiceSynthesizer"
+    ToggleMode="True"
+    HorizontalExpand="True" />

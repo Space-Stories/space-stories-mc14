@@ -12,7 +12,8 @@
       Hawks: RMCPaperCOBriefingLV624Hawks
       Doves: RMCPaperCOBriefingLV624Doves
       Magpies: RMCPaperCOBriefingLV624Magpies
-    announcement: "Получен автоматический сигнал бедствия с археологической площадки 'Пристань Лазаря', на пограничном мире LV-624. Группа реагирования с борта ВКСШ Алмайер будет отправлена в ближайшее время для расследования." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-lv
     #smallHostVariants:
       #- RMCMobSmallHostFarwa
       #- CMMobSmallHostMonkey
@@ -20,13 +21,29 @@
       #- RMCMobSmallHostNeaera
       #- RMCMobSmallHostStok
     nightmareScenarios:
-#   - scenarioName: clf_ship
-#     scenarioProbability: 0.1
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clf_ship
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: asset_protection
       scenarioProbability: 0.1
     - scenarioName: none
-      scenarioProbability: 0.9
+      scenarioProbability: 0.8 # Stories-CLFSurvivor
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivor:
       - CMSurvivor: -1
       - RMCSurvivorCivilianUnique: 1
@@ -46,14 +63,41 @@
       CMSurvivorScientist:
       - CMSurvivorLV624Archeologist: 2
     survivorJobScenarios:
+      clf_ship: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       asset_protection: # Corporate Dome Goons, order of job priority for goons. Scientist is overriden into doctor.
       - CMSurvivorCorporate: 1
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivorSecurity: 1
       - CMSurvivor: -1
     survivorJobVariantScenarios:
+      clf_ship: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       asset_protection: # Corporate Dome Goons
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - CMSurvivorLV624CorporateDomeGoonSynth: 1
+        # Stories-SynthSurvivor-End
         CMSurvivor:
         - CMSurvivorLV624CorporateDomeGoon: -1
         CMSurvivorCorporate:
@@ -67,6 +111,10 @@
         CMSurvivorScientist:
         - CMSurvivor: 0
     survivorJobOverrideScenarios:
+      clf_ship: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       asset_protection: # Corporate Dome Goons
         CMSurvivorScientist: CMSurvivorDoctor
     replacements: # Stories-Survivor
@@ -87,7 +135,8 @@
   - type: RMCPlanetMapPrototype
     map: /Maps/_RMC14/solaris.yml
     camouflage: Desert
-    announcement: "Компания Вестон-Ямада потеряла связь с одним из своих хранилищ биологических образцов, 'Хребет Солярис', на планете LV-1413. Командование Вестон-Ямада запросило ВКСШ Алмайер для расследования причин потери связи." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-solaris
     specialFaxes:
       Liaison: RMCPaperWeYaLiaisonBriefingSolaris
     commandingOfficerBriefings:
@@ -98,12 +147,17 @@
     #smallHostVariants:
       #RMCMobSmallHostNeaera
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfmining
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: crashlanding_offices
       scenarioProbability: 0.2
     - scenarioName: none # 80% chance of regular surv. Reduce to 70% once CLF survs are in.
-      scenarioProbability: 0.8
+      scenarioProbability: 0.7 # Stories-CLFSurvivor
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
     - CMSurvivor: -1
     - CMSurvivorCorporate: 2
     - CMSurvivorDoctor: 3
@@ -111,6 +165,10 @@
     - CMSurvivorSecurity: 2
     - CMSurvivorScientist: 2
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       RMCSurvivorCommandingOfficer:
       - CMSurvivorSolarisCMBMarshal: 1
       CMSurvivor:
@@ -135,17 +193,44 @@
       CMSurvivorScientist:
       - CMSurvivorSolarisScientist: -1
     survivorJobScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       crashlanding_offices: # PMC, order of job priority for PMCs. Scientist is overriden into doctor.
       - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivorSecurity: 1
       - CMSurvivorCorporate: 1
       - CMSurvivor: -1
     survivorJobVariantScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       crashlanding_offices: # PMC
         RMCSurvivorCommandingOfficer:
         - RMCSurvivorSolarisPMCCommander: 1
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - RMCSurvivorPMCSupportSynthetic: 1
+        # Stories-SynthSurvivor-End
         CMSurvivorSecurity:
         - RMCSurvivorSolarisPMCLeader: 1
         CMSurvivorDoctor:
@@ -175,6 +260,10 @@
       #   CMSurvivorScientist:
       #   - : -1
     survivorJobOverrideScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       crashlanding_offices: # PMC
         CMSurvivorScientist: CMSurvivorDoctor
     replacements: # Stories-Survivor
@@ -202,15 +291,39 @@
       Hawks: RMCPaperCOBriefingShivasHawks
       Doves: RMCPaperCOBriefingShivasDoves
       Magpies: RMCPaperCOBriefingShivasMagpies
-    announcement: "Получен автоматический сигнал бедствия с археологической площадки 'Снежный шар Шивы', на пограничном ледяном мире 'Ифрит'. Группа реагирования с борта ВКСШ Алмайер будет отправлена в ближайшее время для расследования." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-shiva
     #smallHostVariants:
       #RMCMobSmallHostYiren
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfraid_shivas
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: panic_room_hold
       scenarioProbability: 0.15
     - scenarioName: none # 85% chance of regular surv. Reduce to 75% (0.75) once CLF survs are in.
-      scenarioProbability: 0.85
+      scenarioProbability: 0.75 # Stories-CLFSurvivor
+    survivorJobOverrideScenarios: # Stories-CLFSurvivor
+      clfraid_shivas: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants: # Civ survivor is default one
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivorCorporate:
       - RMCSurvivorShivasCorporateLiaison: -1
       CMSurvivorDoctor:
@@ -223,14 +336,37 @@
       CMSurvivorScientist:
       - RMCSurvivorShivasResearcher: -1
     survivorJobScenarios:
+      clfraid_shivas: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       panic_room_hold:
       - CMSurvivorSecurity: 1
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivor: 2
       - CMSurvivorCorporate: 1
       - CMSurvivorDoctor: 2
       - CMSurvivorEngineer: 2
       - CMSurvivorScientist: 2
     survivorJobVariantScenarios:
+      clfraid_shivas: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       panic_room_hold:
         CMSurvivorSecurity:
         - RMCSurvivorPMCCommandoShivas: 1
@@ -263,6 +399,10 @@
     map: /Maps/_RMC14/prison.yml
     camouflage: Classic
     minPlayers: 130
+    # Stories-RandomScenarioVariant-Start
+    randomScenarioVariantJobs:
+    - RMCSyntheticColony
+    # Stories-RandomScenarioVariant-End
     specialFaxes:
       Liaison: RMCPaperWeYaLiaisonBriefingFiorina
     commandingOfficerBriefings:
@@ -270,15 +410,34 @@
       Hawks: RMCPaperCOBriefingFiorinaHawks
       Doves: RMCPaperCOBriefingFiorinaDoves
       Magpies: RMCPaperCOBriefingFiorinaMagpies
-    announcement: "Получен автоматический сигнал бедствия из тюрьмы максимальной безопасности 'Орбитальная тюрьма Фиорина'. Группа реагирования с борта ВКСШ Алмайер будет отправлена в ближайшее время для расследования." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-fiorina
     #smallHostVariants:
       #RMCMobSmallHostFarwa
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: rocinante_clf
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: riot_in_progress
       scenarioProbability: 0.15
     - scenarioName: none
-      scenarioProbability: 0.85
+      scenarioProbability: 0.75 # Stories-CLFSurvivor
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivor:
       - CMSurvivor: -1
       - CMSurvivorISR: -1
@@ -296,19 +455,55 @@
       CMSurvivorScientist:
       - CMSurvivorFiorinaResearcher: 2
     survivorJobScenarios:
-      riot_in_progress: # Riot In Progress CMB Team. One as the main CMB RCTL, the rest as supporting officers.
+      rocinante_clf: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
+      riot_in_progress: # Riot In Progress CMB Team. One as the main CMB RCTL, two as specialized roles, the rest as supporting officers.
+        - RMCSyntheticColony: 1 # Stories-SynthSurvivor
         - CMSurvivor: -1
+        - CMSurvivorDoctor: 1
+        - CMSurvivorEngineer: 1
     survivorJobVariantScenarios:
+      rocinante_clf: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       riot_in_progress: # Riot In Progress Riot Control team
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - RMCSurvivorFiorinaRiotInProgressCMBRiotControlSynth: 1
+        - RMCSurvivorFiorinaRiotInProgressCMBSupportSynth: 1
+        # Stories-SynthSurvivor-End
+        CMSurvivorEngineer:
+        - RMCSurvivorFiorinaRiotInProgressCMBRiotControlBreachingTechnician: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorFiorinaRiotInProgressCMBRiotControlMedicalTechnician: 1
         CMSurvivor:
         - RMCSurvivorFiorinaRiotInProgressCMBRiotControlTeamLeader: 1
-        - RMCSurvivorFiorinaRiotInProgressCMBRiotControlOfficer: -1
+        - RMCSurvivorFiorinaRiotInProgressCMBOfficer: -1
     survivorJobOverrideScenarios:
+      rocinante_clf: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       riot_in_progress: # Riot In Progress job overrides.
         CMSurvivorCorporate: CMSurvivor
-        CMSurvivorEngineer: CMSurvivor
-        CMSurvivorDoctor: CMSurvivor
-        CMSurvivorScientist: CMSurvivor
+        CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorSecurity: CMSurvivor
     replacements: # Stories-Survivor
       RMCWeaponMar50LMG: RMCSpawnerRandomGunRifleMed
@@ -334,15 +529,34 @@
       Hawks: RMCPaperCOBriefingTrijentHawks
       Doves: RMCPaperCOBriefingTrijentDoves
       Magpies: RMCPaperCOBriefingTrijentMagpies
-    announcement: "Мы потеряли связь с внесолнечной колонией компании Вестон-Ямада, 'Дамба Триджент', на планете 'Райдзин'. ВКСШ Алмайер отправлен для оказания помощи."
+    announcements:
+    - text: rmc-announcement-planet-trijent
     #smallHostVariants:
       #RMCMobSmallHostStok
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clf_pods
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: none # Reduce this to 0.5 once CLF survivors are in
-      scenarioProbability: 0.6
+      scenarioProbability: 0.5 # Stories-CLFSurvivor
     - scenarioName: spp_bar
       scenarioProbability: 0.4
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivor:
       - CMSurvivor: -1
       - RMCSurvivorCivilianUnique: -1
@@ -360,18 +574,45 @@
       - CMSurvivorTrijentDamTech: 2
       - CMSurvivorTrijentTrucker: 2
       CMSurvivorSecurity:
-      - CMSurvivorTrijentGoon: 1
+      - RMCSurvivorTrijentGoon: 1
       - CMSurvivorCMBDeputy: 1
       CMSurvivorScientist:
       - CMSurvivorTrijentResearcher: 2
     survivorJobScenarios:
+      clf_pods: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       spp_bar:
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorDoctor: 1
       - CMSurvivorEngineer: 1
       - CMSurvivorSecurity: 2
       - CMSurvivor: -1
     survivorJobVariantScenarios:
+      clf_pods: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       spp_bar:
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - RMCSurvivorSPPCrashlandSynth: 1
+        # Stories-SynthSurvivor-End
         CMSurvivorDoctor:
         - RMCSurvivorSPPCrashlandMedic: 1
         CMSurvivorEngineer:
@@ -382,6 +623,10 @@
         CMSurvivor:
         - RMCSurvivorSPPCrashlandSoldier: -1
     survivorJobOverrideScenarios:
+      clf_pods: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       spp_bar:
         CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorCorporate: CMSurvivor
@@ -446,14 +691,26 @@
       Hawks: RMCPaperCOBriefingVaraderoHawks
       Doves: RMCPaperCOBriefingVaraderoDoves
       Magpies: RMCPaperCOBriefingVaraderoMagpies
-    announcement: "Получен автоматический сигнал бедствия с аванпоста США 'Новый-Варадеро'. Группа реагирования с борта ВКСШ Алмайер будет отправлена в ближайшее время для расследования.
-      Обозначение: Островная исследовательская станция и горнодобывающий комплекс
-
-      Население: 47
-      Текущая температура: 20°C Внутри, 36°C Снаружи
-      Командир аванпоста: Представитель США Стив Хайфиш
-      Телекоммуникационная аппаратура: Требуется ремонт
-      На данный момент нет дополнительной информации." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-varadero
+    - text: rmc-announcement-planet-varadero-1
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 300 # 5 minutes
+    - text: rmc-announcement-planet-varadero-2
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 1200 # 20 minutes
+    - text: rmc-announcement-planet-varadero-3
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 2700 # 45 minutes
+    - text: rmc-announcement-planet-varadero-4
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 4800 # 80 minutes
+    - text: rmc-announcement-planet-varadero-5
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 7200 # 120 minutes
+    - text: rmc-announcement-planet-varadero-6
+      announcement: "rmc-announcement-ares-varadero"
+      delay: 9000 # 150 minutes
     #smallHostVariants:
       #CMMobSmallHostKobold
     nightmareScenarios: # 100% chance of regular survivors, reduce to 0.9 once CLF survs are in
@@ -461,6 +718,7 @@
       scenarioProbability: 1
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
     - CMSurvivor: -1
     - CMSurvivorCorporate: 2
     - CMSurvivorDoctor: 3
@@ -471,22 +729,30 @@
       RMCSurvivorCommandingOfficer:
       - RMCSurvivorCommanderNewVaradero: 1
       CMSurvivor:
-      - CMSurvivor: -1
-      - RMCSurvivorCivilianUnique: -1
       - CMSurvivorBeachBum: -1
       - RMCSurvivorHybrisaTMCCMiner: -1
-      - CMSurvivorPriest: 1
+      - RMCSurvivorNewVaraderoChaplain: -1
       CMSurvivorCorporate:
-      - CMSurvivorVaraderoICB: 2
+      - RMCSurvivorNewVaraderoResearchDirector: 1
+      - RMCSurvivorNewVaraderoUNRepresentative: 1
       CMSurvivorDoctor:
       - CMSurvivorMedicalTechnician: 3
+      - RMCSurvivorAirportFirefighter: 3
       CMSurvivorEngineer:
-      - CMSurvivorTechnician: 2
-      - CMSurvivorCargoTechnician: 2
+      - RMCSurvivorUNMCPilot: 2
+      - RMCSurvivorUNMCVehicleCrewman: 2
+      - RMCSurvivorUNMCGroundCrewman: 2
       CMSurvivorSecurity:
-      - CMSurvivorILRCPeacekeeper: 2
+      - RMCSurvivorUNMCRifleman: 2
+      - RMCSurvivorUNMCVeteranRifleman: 2
       CMSurvivorScientist:
+      - RMCSurvivorNewVaraderoXenoarchaeologist: 2
+      - RMCSurvivorNewVaraderoXenobiologist: 2
       - RMCSurvivorNewVaraderoResearcher: 2
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - RMCSurvivorUNMCSynth: 1
+      # Stories-SynthSurvivor-End
     replacements: # Stories-Survivor
       RMCWeaponMar50LMG: RMCSpawnerRandomGunRifleMed
       RMCMagazineMar50LMG: null
@@ -510,16 +776,64 @@
       Hawks: RMCPaperCOBriefingKutjevoHawks
       Doves: RMCPaperCOBriefingKutjevoDoves
       Magpies: RMCPaperCOBriefingKutjevoMagpies
-    announcement: "Получен автоматический сигнал бедствия с колонии Вестон-Ямада 'Перерабатывающий Завод Кутьево', известного ботаническими исследованиями, экспортом и переработкой и очисткой сырья. ВКСШ Алмайер отправлен для расследования." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-kutjevo
     #smallHostVariants:
       #RMCMobSmallHostNeaera
       #RMCMobSmallHostStok
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfsmugglers
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: none # Reduce this to 0.9 once CLF survivors are in at 0.1
-      scenarioProbability: 1
+      scenarioProbability: 0.9 # Stories-CLFSurvivor
     specialFaxes:
       Liaison: RMCPaperWeYaLiaisonBriefingKutjevo
+    survivorJobScenarios: # Stories-CLFSurvivor
+      clfsmugglers: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
+    survivorJobVariantScenarios: # Stories-CLFSurvivor
+      clfsmugglers: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
+    survivorJobOverrideScenarios: # Stories-CLFSurvivor
+      clfsmugglers: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivor:
       - CMSurvivor: -1
       - RMCSurvivorKutjevoChaplain: 1
@@ -560,16 +874,22 @@
       Hawks: RMCPaperCOBriefingChancesHawks
       Doves: RMCPaperCOBriefingChancesDoves
       Magpies: RMCPaperCOBriefingChancesMagpies
-    announcement: "Пан-пан. Говорит командующий офицер ВКСШ Ханьют, КМП США ФОРКОН. В настоящее время мы находимся на планете LV-522 в непосредственной близости от 'Претензии Шанса'. Мы не можем связаться с 'Ханьют', и наши десантные корабли не могут взлететь в данный момент. Мы запрашиваем помощь у любых находящихся поблизости судов; эта трансляция будет повторяться каждые 24 часа." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-chances
     #smallHostVariants:
       #RMCSmallHostMobNaera
       #RMCSmallHostMobStok
     selectRandomSurvivorVariant: false
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
     - RMCSurvivorForeconSupportTech: 1
     - RMCSurvivorForeconBase: 6 # todo 7 when eight survs
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - RMCSurvivorForeconSynth: 1
+      # Stories-SynthSurvivor-End
       RMCSurvivorCommandingOfficer:
       - RMCSurvivorForeconCommander: 1
       RMCSurvivorForeconBase:
@@ -610,15 +930,30 @@
       Hawks: RMCPaperCOBriefingHybrisaHawks
       Doves: RMCPaperCOBriefingHybrisaDoves
       Magpies: RMCPaperCOBriefingHybrisaMagpies
-    announcement: "Получен автоматический сигнал бедствия с колонии Вестон-Ямада, Гибриса Проспера - огромного, похожего на город поселения, известного своим огромным богатством, обширными горнодобывающими операциями и процветающей торговлей. Недавно полностью выкупленная у ИТС, эта бывшая колония теперь является ключевым активом Вестон-Ямады, с разросшимся городским центром, в котором проживают тысячи жителей, и множеством небольших внешних колоний под ее контролем. ВКСШ Алмайер отправлен для расследования ситуации." # Stories-Translate
+    announcements:
+    - text: rmc-announcement-planet-hybrisa
     #smallHostVariants:
       #CMMobSmallHostMonkey
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfspaceport
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: tse_airbase
       scenarioProbability: 0.3
     - scenarioName: none
-      scenarioProbability: 0.7
+      scenarioProbability: 0.6 # Stories-CLFSurvivor
     minPlayers: 130
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
       CMSurvivor:
       - RMCSurvivorHybrisaCivilian: -1
@@ -645,7 +980,25 @@
       CMSurvivorScientist:
       - RMCSurvivorHybrisaXenoarchaeologist: 2
       - RMCSurvivorHybrisaXenobiologist: 2
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - RMCSyntheticColonyHybrisaCivilian: 1
+      - RMCSyntheticColonyHybrisaDetective: 1
+      - RMCSyntheticColonyHybrisaEMT: 1
+      - RMCSyntheticColonyHybrisaEngineer: 1
+      - RMCSyntheticColonyHybrisaExecBodyguard: 1
+      - RMCSyntheticColonyHybrisaTSEPA: 1
+      - RMCSyntheticColonyHybrisaXenoarch: 1
+      # Stories-SynthSurvivor-End
     survivorJobScenarios:
+      clfspaceport: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       tse_airbase: # Order of job priority for paramarines. Scientist is overriden into doctor, Corporate into survivor
       - RMCSurvivorCommandingOfficer: 1
       - RMCSyntheticColony: 1
@@ -654,6 +1007,20 @@
       - CMSurvivorSecurity: 2
       - CMSurvivor: -1
     survivorJobVariantScenarios:
+      clfspaceport: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       tse_airbase: # RCM Paramarines
         RMCSurvivorCommandingOfficer:
         - RMCSurvivorParaCommander: 1
@@ -669,6 +1036,10 @@
         CMSurvivor:
         - RMCSurvivorParamarine: -1
     survivorJobOverrideScenarios:
+      clfspaceport: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       tse_airbase: # RCM Paramarines
         CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorCorporate: CMSurvivor
@@ -699,16 +1070,35 @@
       Hawks: RMCPaperCOBriefingSorokyneHawks
       Doves: RMCPaperCOBriefingSorokyneDoves
       Magpies: RMCPaperCOBriefingSorokyneMagpies
-    announcement: "An automated distress signal has been recieved from a mining colony on border world LV-976, \"Sorokyne Outpost\". A response team from the UNS Almayer will be dispatched shortly to investigate."
+    announcements:
+    - text: rmc-announcement-planet-sorokyne
     #smallHostVariants:
       #RMCMobSmallHostStok
       #CMMobSmallHostKobold
     nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfcamp
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
     - scenarioName: spp_sof
       scenarioProbability: 0.4
     - scenarioName: none # reduce by 0.1 once clf survs are in
-      scenarioProbability: 0.6
+      scenarioProbability: 0.5 # Stories-CLFSurvivor
+    # Stories-SynthSurvivor-Start
+    survivorJobs:
+    - RMCSyntheticColony: 1
+    - CMSurvivorEngineer: 4
+    - CMSurvivorDoctor: 3
+    - CMSurvivorSecurity: 2
+    - CMSurvivorCorporate: 2
+    - CMSurvivorScientist: 2
+    - CMSurvivor: -1
+    # Stories-SynthSurvivor-End
     survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
       CMSurvivor:
       - CMJobSurvivorSoroCivilian: -1
       - CMJobSurvivorSoroMiner: -1
@@ -744,13 +1134,40 @@
 #        CMSurvivorScientist:
 #        - : -1
     survivorJobScenarios:
+      clfcamp: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
       spp_sof:
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
       - CMSurvivorSecurity: 2
       - CMSurvivor: -1
     survivorJobVariantScenarios:
+      clfcamp: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
       spp_sof:
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - RMCSurvivorSPPSOFSynth: 1
+        # Stories-SynthSurvivor-End
         CMSurvivorSecurity:
         - RMCSurvivorSPPSOFSpec: 1
         - RMCSurvivorSPPSOFSL: 1
@@ -761,6 +1178,10 @@
         CMSurvivor:
         - RMCSurvivorSPPSOFSoldier: -1
     survivorJobOverrideScenarios: # Scientist rolls for SOF medic
+      clfcamp: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
       spp_sof :
         CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorCorporate: CMSurvivor

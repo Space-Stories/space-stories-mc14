@@ -69,7 +69,7 @@
       groups:
         Brute: 48
   - type: XenoMeleeSlow
-    slowTime: 2
+    slowTime: 3.5
   - type: Tackle
     chance: 0.25
   - type: MovementSpeedModifier
@@ -149,6 +149,12 @@
   id: RMCXenoCrusherCharger
   suffix: Charger
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoToggleCharging ]
+      XenoPrimaryTwo: [ ActionXenoRam ]
+      XenoPrimaryThree: [ ActionXenoStomp ]
+      XenoPrimaryFour: [ ActionXenoTumble ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Crusher/crusher.rsi
   - type: MobThresholds

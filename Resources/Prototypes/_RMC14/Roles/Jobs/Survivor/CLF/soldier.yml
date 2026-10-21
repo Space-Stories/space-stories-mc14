@@ -1,0 +1,48 @@
+- type: job
+  parent: RMCSurvivorCLFBase
+  id: RMCSurvivorCLFSoldier
+  name: rmc-job-name-clf-survivor-soldier
+  icon: RMCJobIconCLFSoldier
+  spawnMenuRoleName: CLF Soldier (Survivor)
+  antagRole: RMCHostileSurvivor
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: NpcFactionMember
+      factions:
+      - CLF
+    # Stories-CLFSurvivor-Start
+    - type: Skills
+      skills:
+        RMCSkillConstruction: 1
+        RMCSkillEndurance: 2
+        RMCSkillFireman: 2
+        RMCSkillEngineer: 1
+        RMCSkillMedical: 1
+        RMCSkillFirearms: 1
+    # Stories-CLFSurvivor-End
+    - type: JobPrefix
+      prefix: rmc-job-prefix-clf-survivor-soldier
+    - type: RMCSurvivor
+    - type: MotionDetectorTracked
+    # Stories-CLFSurvivor-Start
+    - type: StoriesSurvivorDebuffImmune
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+    # Stories-CLFSurvivor-End
+    - type: EquipSurvivorPreset
+      preset: STSurvivorPresetCLFSoldier # Stories-CLFSurvivor
+  hidden: true
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: CMSpawnPointSurvivorCLFSoldier
+  name: survivor clf soldier spawn point
+  components:
+  - type: SpawnPoint
+    job_id: RMCSurvivorCLFSoldier
+  - type: Sprite
+    state: clf_spawn

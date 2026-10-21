@@ -1,0 +1,9 @@
+stories-ghost-name-spp-hostile-synth = Синтетик поддержки СПН (Враждебный)
+stories-ghost-name-spp-friendly-synth = Синтетик поддержки СПН (Дружественный)
+stories-ert-role-pmc-synth = Синтетик поддержки ЧВК
+stories-ert-role-spp-synth = Синтетик поддержки SPP
+stories-ghost-name-pmc-synth-no-whitelist = Синтетик поддержки ЧВК Ве-Я (Нейтральный, без вайтлиста)
+stories-ghost-name-spp-hostile-synth-no-whitelist = Синтетик поддержки СПН (Враждебный, без вайтлиста)
+stories-ghost-name-spp-friendly-synth-no-whitelist = Синтетик поддержки СПН (Дружественный, без вайтлиста)
+stories-ert-role-pmc-synth-no-whitelist = Синтетик поддержки ЧВК (без вайтлиста)
+stories-ert-role-spp-synth-no-whitelist = Синтетик поддержки SPP (без вайтлиста)

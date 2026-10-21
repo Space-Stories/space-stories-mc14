@@ -4,3 +4,5 @@ ent-RMCBriefcaseStowAway = { ent-RMCBriefcase }
     .desc = { ent-RMCBriefcase.desc }
 ent-RMCBriefcasePaperPen = { ent-RMCBriefcase }
     .desc = { ent-RMCBriefcase.desc }
+ent-RMCWallet = кошелёк
+    .desc = Вмещает несколько небольших личных вещей.

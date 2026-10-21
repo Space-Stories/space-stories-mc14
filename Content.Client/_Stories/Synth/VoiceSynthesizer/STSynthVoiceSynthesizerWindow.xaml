@@ -1,0 +1,17 @@
+<controls:STSynthVoiceSynthesizerWindow
+    xmlns="https://spacestation14.io"
+    xmlns:controls="clr-namespace:Content.Client._Stories.Synth.VoiceSynthesizer"
+    MinSize="500 500">
+    <BoxContainer Orientation="Vertical" Margin="4 4 4 4">
+        <LineEdit Name="SearchBar" Access="Public" HorizontalExpand="True" Margin="0 4 0 4" />
+        <BoxContainer Name="CategoryView" Access="Public" Orientation="Horizontal" VerticalExpand="True" HorizontalExpand="True">
+            <ScrollContainer HScrollEnabled="False" VerticalExpand="True" MinWidth="160" Margin="0 0 4 0">
+                <BoxContainer Name="CategoryButtons" Access="Public" Orientation="Vertical" />
+            </ScrollContainer>
+            <BoxContainer Name="CategoryContents" Access="Public" Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True" />
+        </BoxContainer>
+        <ScrollContainer Name="SearchResultsScroll" Access="Public" VerticalExpand="True" HorizontalExpand="True" Visible="False">
+            <BoxContainer Name="SearchResultsContainer" Access="Public" Orientation="Vertical" />
+        </ScrollContainer>
+    </BoxContainer>
+</controls:STSynthVoiceSynthesizerWindow>

@@ -128,11 +128,13 @@ public sealed partial class DoorComponent : Component
     [DataField, AutoNetworkedField]
     public bool PerformCollisionCheck = true;
 
+    // Stories-DeletedEntityReferences-Start
     /// <summary>
-    /// List of EntityUids of entities we're currently crushing. Cleared in OnPartialOpen().
+    /// Network identities of entities being crushed, retained until the door opens.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public HashSet<EntityUid> CurrentlyCrushing = new();
+    public HashSet<NetEntity> CurrentlyCrushing = new();
+    // Stories-DeletedEntityReferences-End
     #endregion
 
     #region Graphics

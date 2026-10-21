@@ -15,6 +15,8 @@ ui-options-function-cm-holster-tertiary = Unholster tertiary
 ui-options-function-cm-holster-quaternary = Unholster quaternary
 ui-options-function-rmc-pick-up-dropped-items = Pick up dropped items
 ui-options-function-rmc-interact-with-other-hand = Interact with other hand
+ui-options-function-rmc-pushup = Do a pushup
+ui-options-function-rmc-pushup-routine = Start a pushup routine
 ui-options-function-rmc-rest = Rest
 ui-options-function-rmc-resist = Resist
 ui-options-function-rmc-marine-issue-order = Issue order
@@ -31,6 +33,7 @@ ui-options-function-rmc-quick-equip-inventory = Quick equip inventory
 
 rmc-keybind-auto-eject-enabled = Automatic magazine ejection enabled.
 rmc-keybind-auto-eject-disabled = Automatic magazine ejection disabled.
+ui-options-function-rmc-weak-pushup = Do a knee pushup
 
 ui-options-header-rmc-xeno = Xenonid
 
@@ -55,6 +58,9 @@ ui-options-function-rmc-xeno-purchase-strain = Purchase strain
 
 ui-options-description-rmc-rest = Lie down or stand up.
 ui-options-description-rmc-resist = Resist fire, restraints, buckling, snares, and pulling.
+ui-options-description-rmc-pushup = Do one proper pushup while resting.
+ui-options-description-rmc-pushup-routine = Choose a pushup form and continue until stopped or exhausted.
+ui-options-description-rmc-weak-pushup = Do one knee pushup while resting.
 ui-options-description-rmc-marine-issue-order = Choose an available marine order from a radial menu.
 ui-options-description-rmc-marine-issue-order-move = Immediately issue the Move order.
 ui-options-description-rmc-marine-issue-order-hold = Immediately issue the Hold order.

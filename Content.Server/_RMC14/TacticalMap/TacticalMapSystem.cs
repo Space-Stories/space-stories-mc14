@@ -5,12 +5,15 @@ using Content.Server._RMC14.Marines;
 using Content.Server._RMC14.Rules.DistressSignal;
 using Content.Server.Administration.Logs;
 using Content.Server.GameTicking.Events;
+using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dropship.Weapon;
+using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Medical.Unrevivable;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Xenonids.Egg;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared._RMC14.Xenonids.Eye;
@@ -18,6 +21,7 @@ using Content.Shared._RMC14.Xenonids.HiveLeader;
 using Content.Shared._RMC14.Xenonids.Weeds;
 using Content.Shared.Actions;
 using Content.Shared.Atmos.Rotting;
+using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs;
@@ -32,6 +36,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
@@ -41,6 +46,7 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly IAdminLogManager _adminLog = default!;
+    [Dependency] private readonly AnnouncementRouterSystem _announcementRouter = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly CMDistressSignalRuleSystem _distressSignal = default!;
     [Dependency] private readonly XenoEvolutionSystem _evolution = default!;
@@ -53,6 +59,7 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly VehicleSystem _vehicle = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
     [Dependency] private readonly XenoAnnounceSystem _xenoAnnounce = default!;
     [Dependency] private readonly RMCUnrevivableSystem _unrevivableSystem = default!;
@@ -823,11 +830,27 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
 
     private void UpdateTracked(Entity<ActiveTacticalMapTrackedComponent> ent)
     {
-        if (!_transformQuery.TryComp(ent.Owner, out var xform) ||
-            xform.GridUid is not { } gridId ||
+        if (!_transformQuery.TryComp(ent.Owner, out var xform))
+        {
+            BreakTracking(ent);
+            return;
+        }
+
+        var trackedUid = ent.Owner;
+        var trackedXform = xform;
+        if ((xform.GridUid is not { } ownGridId || !_tacticalMapQuery.HasComp(ownGridId)) &&
+            _vehicle.TryGetVehicleFromInterior(ent.Owner, out var vehicle) &&
+            vehicle is { } vehicleUid &&
+            _transformQuery.TryComp(vehicleUid, out var vehicleXform))
+        {
+            trackedUid = vehicleUid;
+            trackedXform = vehicleXform;
+        }
+
+        if (trackedXform.GridUid is not { } gridId ||
             !_mapGridQuery.TryComp(gridId, out var gridComp) ||
             !_tacticalMapQuery.TryComp(gridId, out var tacticalMap) ||
-            !_transform.TryGetGridTilePosition((ent.Owner, xform), out var indices, gridComp))
+            !_transform.TryGetGridTilePosition((trackedUid, trackedXform), out var indices, gridComp))
         {
             BreakTracking(ent);
             return;
@@ -842,10 +865,10 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
             return;
         }
 
-        if (ent.Comp.Map != xform.GridUid)
+        if (ent.Comp.Map != gridId)
         {
             BreakTracking(ent);
-            ent.Comp.Map = xform.GridUid;
+            ent.Comp.Map = gridId;
         }
 
         var status = TacticalMapBlipStatus.Alive;
@@ -997,7 +1020,19 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
 
                 IncludeRangedXenoBlips(mapId, map, map.LastUpdateMarineBlips);
 
-                _marineAnnounce.AnnounceARESStaging(user, "Тактическая карта КМП США была обновлена.", sound);
+                const string announcement = "Тактическая карта КМП США была обновлена.";
+                _marineAnnounce.AnnounceARESStaging(user, announcement, sound);
+                _announcementRouter.Announce(new AnnouncementRequest
+                {
+                    Message = announcement,
+                    Preset = "MarineCommandNoPortrait",
+                    Route = new AnnouncementRoute
+                    {
+                        Target = AnnouncementTarget.Marines,
+                        Source = user,
+                        Channels = AnnouncementChannels.Overlay,
+                    }
+                }, _marineAnnounce.GetMarineFilter());
                 _adminLog.Add(LogType.RMCTacticalMapUpdated, $"{ToPrettyString(user)} updated the marine tactical map for {ToPrettyString(mapId)}");
             }
 

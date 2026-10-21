@@ -1,3 +1,4 @@
+using System.Numerics; // RMC14
 using Content.Shared._RMC14.Stealth;
 using Content.Shared.CCVar;
 using Content.Shared.Ghost;
@@ -66,6 +67,15 @@ public sealed class StatusIconSystem : SharedStatusIconSystem
         RaiseLocalEvent(uid, ref ev);
         return ev.StatusIcons;
     }
+
+    // RMC14 start - Let the marine HUD reserve space above a status icon.
+    public Vector2 GetIconPosition(EntityUid uid, StatusIconData icon, Vector2 position, Vector2 size)
+    {
+        var ev = new GetStatusIconPositionEvent(icon, position, size);
+        RaiseLocalEvent(uid, ref ev);
+        return ev.Position;
+    }
+    // RMC14 end
 
     /// <summary>
     /// For overlay to check if an entity can be seen.

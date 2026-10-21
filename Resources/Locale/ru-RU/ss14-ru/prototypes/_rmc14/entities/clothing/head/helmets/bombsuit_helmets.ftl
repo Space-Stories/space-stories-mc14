@@ -1,6 +1,6 @@
-ent-RMCClothingHeadHelmetBombSuit = bomb hood
-    .desc = Use in case of bomb
+ent-RMCClothingHeadHelmetBombSuit = капюшон сапёра
+    .desc = Использовать в случае бомбы.
     .suffix = RMC
 ent-RMCClothingHeadHelmetBombSuitSecurity = { ent-RMCClothingHeadHelmetBombSuit }
     .desc = { ent-RMCClothingHeadHelmetBombSuit.desc }
-    .suffix = Security, RMC
+    .suffix = Охрана, RMC

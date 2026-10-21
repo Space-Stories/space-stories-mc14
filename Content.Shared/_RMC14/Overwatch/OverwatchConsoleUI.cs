@@ -1,5 +1,4 @@
 using System.Numerics;
-using Content.Shared._RMC14.AntiAir;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared.Mobs;
@@ -29,12 +28,10 @@ public enum OverwatchConsoleUI
 public sealed class OverwatchConsoleBuiState(
     List<OverwatchSquad> squads,
     Dictionary<NetEntity, List<OverwatchMarine>> marines,
-    RMCShipAntiAirStatus antiAir,
     Dictionary<NetEntity, List<OverwatchTripodCamera>> cameras) : BoundUserInterfaceState
 {
     public readonly List<OverwatchSquad> Squads = squads;
     public readonly Dictionary<NetEntity, List<OverwatchMarine>> Marines = marines;
-    public readonly RMCShipAntiAirStatus AntiAir = antiAir;
     public readonly Dictionary<NetEntity, List<OverwatchTripodCamera>> Cameras = cameras;
 }
 
@@ -154,6 +151,18 @@ public sealed class OverwatchConsoleOrbitalCommentBuiMsg(int index, string comme
 
 [Serializable, NetSerializable]
 public sealed class OverwatchConsoleSendMessageBuiMsg(string message) : BoundUserInterfaceMessage
+{
+    public readonly string Message = message;
+}
+
+[Serializable, NetSerializable]
+public sealed class OverwatchConsoleSendMessageResultBuiMsg(bool sent) : BoundUserInterfaceMessage
+{
+    public readonly bool Sent = sent;
+}
+
+[Serializable, NetSerializable]
+public sealed class OverwatchConsoleSendLeaderMessageBuiMsg(string message) : BoundUserInterfaceMessage
 {
     public readonly string Message = message;
 }

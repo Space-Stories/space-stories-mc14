@@ -1,0 +1,137 @@
+
+- type: species
+  id: STWorkingJoe
+  name: st-species-name-working-joe
+  roundStart: false
+  prototype: STMobWorkingJoe
+  sprites: STWorkingJoeSprites
+  defaultSkinTone: "#ffffff"
+  markingLimits: STWorkingJoeMarkingLimits
+  dollPrototype: STMobWorkingJoeDummy
+  skinColoration: TintedHues
+  maleFirstNames: STNamesAverageJoe
+  femaleFirstNames: STNamesAverageJoe
+  lastNames: RMCNamesNumbers
+  sexes:
+  - Unsexed
+
+- type: speciesBaseSprites
+  id: STWorkingJoeSprites
+  sprites:
+    Head: STWorkingJoeHead
+    Hair: MobHumanoidAnyMarking
+    FacialHair: MobHumanoidAnyMarking
+    Snout: MobHumanoidAnyMarking
+    Chest: STWorkingJoeTorso
+    UndergarmentTop: MobHumanoidAnyMarking
+    UndergarmentBottom: MobHumanoidAnyMarking
+    Eyes: MobHumanoidEyes
+    HeadTop: MobHumanoidAnyMarking
+    LArm: STWorkingJoeLArm
+    RArm: STWorkingJoeRArm
+    LHand: STWorkingJoeLHand
+    RHand: STWorkingJoeRHand
+    LLeg: STWorkingJoeLLeg
+    RLeg: STWorkingJoeRLeg
+    LFoot: STWorkingJoeLFoot
+    RFoot: STWorkingJoeRFoot
+
+- type: markingPoints
+  id: STWorkingJoeMarkingLimits
+  points:
+    HeadTop:
+      points: 1
+      required: false
+    Chest:
+      points: 1
+      required: false
+    UndergarmentBottom:
+      points: 1
+      required: false
+    UndergarmentTop:
+      points: 1
+      required: false
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeHead
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: head_m
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeHeadMale
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: head_m
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeHeadFemale
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: head_f
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeTorso
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: torso_m
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeTorsoMale
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: torso_m
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeTorsoFemale
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: torso_f
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeLLeg
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: l_leg
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeLHand
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: l_hand
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeLArm
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: l_arm
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeLFoot
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: l_foot
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeRLeg
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: r_leg
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeRHand
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: r_hand
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeRArm
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: r_arm
+
+- type: humanoidBaseSprite
+  id: STWorkingJoeRFoot
+  baseSprite:
+    sprite: _Stories/Synth/WorkingJoe/body.rsi
+    state: r_foot

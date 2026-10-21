@@ -189,7 +189,7 @@ public sealed partial class BracerSystem : EntitySystem
                 ),
             };
 
-            _dialog.OpenOptions(args.User, ent.Owner, Loc.GetString("st-bracer-install-attachment-title"), options);
+            _dialog.OpenOptions(ent.Owner, args.User, Loc.GetString("st-bracer-install-attachment-title"), options);
             return;
         }
 

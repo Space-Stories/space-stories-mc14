@@ -1,3 +1,4 @@
+using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Systems;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
@@ -7,7 +8,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Weapons.Ranged.Components;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), Access(typeof(SharedGunSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), Access(typeof(SharedGunSystem), typeof(CMGunSystem))] // Stories-RMCAmmoEject
 public sealed partial class BallisticAmmoProviderComponent : Component
 {
     [DataField]

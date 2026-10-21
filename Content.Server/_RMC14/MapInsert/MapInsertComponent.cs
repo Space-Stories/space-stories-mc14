@@ -30,6 +30,11 @@ public sealed partial record SpawnVariation
     [DataField]
     public string NightmareScenario = string.Empty;
 
+    // Stories-CLFSurvivor-Start
+    [DataField]
+    public List<string> AdditionalNightmareScenarios = new();
+    // Stories-CLFSurvivor-End
+
     [DataField]
     public Vector2 Offset;
 

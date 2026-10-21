@@ -1,3 +1,4 @@
+using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.NightVision;
 using Robust.Shared;
 using Robust.Shared.Configuration;
@@ -233,7 +234,7 @@ public sealed partial class RMCCVars : CVars
         CVarDef.Create("rmc.power_update_every_seconds", 1f, CVar.REPLICATED | CVar.SERVER);
 
     public static readonly CVarDef<float> RMCPowerLoadMultiplier =
-        CVarDef.Create("rmc.power_load_multiplier", 0.01f, CVar.REPLICATED | CVar.SERVER);
+        CVarDef.Create("rmc.power_load_multiplier", 1f, CVar.REPLICATED | CVar.SERVER);
 
     public static readonly CVarDef<int> RMCMarinesPerSurvivor =
         CVarDef.Create("rmc.marines_per_survivor", 18, CVar.REPLICATED | CVar.SERVER);
@@ -453,6 +454,9 @@ public sealed partial class RMCCVars : CVars
     public static readonly CVarDef<float> RMCOverwatchConsoleUpdateEverySeconds =
         CVarDef.Create("rmc.overwatch_console_update_every_seconds", 0.5f, CVar.REPLICATED | CVar.SERVER);
 
+    public static readonly CVarDef<float> RMCGroundsideOperationsGeneralQuartersCooldownMinutes =
+        CVarDef.Create("rmc.groundside_operations_general_quarters_cooldown_minutes", 10f, CVar.REPLICATED | CVar.SERVER);
+
     /// <summary>
     ///     If the amount of resin constructs divided by the amount of buildable tiles in an area is higher than this value, the
     ///     plasma cost of new constructs in the area is increased.
@@ -465,6 +469,21 @@ public sealed partial class RMCCVars : CVars
     /// </summary>
     public static readonly CVarDef<bool> RMCUseAlternateSprites =
         CVarDef.Create("rmc.use_alternate_sprites", false, CVar.REPLICATED | CVar.CLIENT | CVar.ARCHIVE);
+
+    public static readonly CVarDef<AnnouncementDisplayPreference> RMCAnnouncementStyle =
+        CVarDef.Create("rmc.announcement_style", AnnouncementDisplayPreference.Stylized, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<int> RMCAnnouncementMaxVisible =
+        CVarDef.Create("rmc.announcement_max_visible", 2, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<string> RMCAnnouncementStyleOverrides =
+        CVarDef.Create("rmc.announcement_style_overrides", string.Empty, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<string> RMCAnnouncementLayout =
+        CVarDef.Create("rmc.announcement_layout", string.Empty, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    public static readonly CVarDef<string> RMCAnnouncementLayoutOverrides =
+        CVarDef.Create("rmc.announcement_layout_overrides", string.Empty, CVar.ARCHIVE | CVar.CLIENTONLY);
 
     public static readonly CVarDef<int> RMCSunsetDuration =
         CVarDef.Create("rmc.lighting_sunset_duration", 280, CVar.REPLICATED | CVar.SERVER);
@@ -493,6 +512,12 @@ public sealed partial class RMCCVars : CVars
     public static readonly CVarDef<int> RMCDistressXenosMinimum =
         CVarDef.Create("rmc.distress_xenos_minimum", 4, CVar.REPLICATED | CVar.SERVER);
 
+    public static readonly CVarDef<float> RMCERTConsoleAutoResolveDelaySeconds =
+        CVarDef.Create("rmc.ert_console_auto_resolve_delay_seconds", 60f, CVar.SERVER | CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> RMCERTConsoleAutoApproveChance =
+        CVarDef.Create("rmc.ert_console_auto_approve_chance", 0.45f, CVar.SERVER | CVar.SERVERONLY);
+
     public static readonly CVarDef<float> VolumeGainCassettes =
         CVarDef.Create("rmc.volume_gain_cassettes", 0.33f, CVar.REPLICATED | CVar.CLIENT | CVar.ARCHIVE);
 
@@ -501,6 +526,9 @@ public sealed partial class RMCCVars : CVars
 
     public static readonly CVarDef<bool> HidePlayerIdentities =
         CVarDef.Create("rmc.hide_player_identities", true, CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<bool> RMCHiveLeaderTackleXenos =
+        CVarDef.Create("rmc.hive_leader_tackle_xenos", true, CVar.CLIENT | CVar.ARCHIVE | CVar.REPLICATED);
 
     public static readonly CVarDef<bool> RMCQueenBuildingBoost =
     CVarDef.Create("rmc.queen_building_boost", true, CVar.REPLICATED | CVar.SERVER);
@@ -532,6 +560,12 @@ public sealed partial class RMCCVars : CVars
     public static readonly CVarDef<bool> RMCChatSquadColorMode =
         CVarDef.Create("rmc.chat_squad_color_mode", true, CVar.CLIENTONLY | CVar.ARCHIVE);
 
+    public static readonly CVarDef<bool> RMCCrtThemeEnabled =
+        CVarDef.Create("rmc.crt_theme_enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<bool> RMCCrtEffectsEnabled =
+        CVarDef.Create("rmc.crt_effects_enabled", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
     public static readonly CVarDef<bool> RMCXenoAbilityPreviews =
         CVarDef.Create("rmc.xeno_ability_previews", true, CVar.CLIENTONLY | CVar.ARCHIVE);
     public static readonly CVarDef<bool> RMCMarineEquipmentPreviews =
@@ -559,6 +593,12 @@ public sealed partial class RMCCVars : CVars
         CVarDef.Create("game.new_to_job_popup_time", 15f, CVar.SERVER | CVar.REPLICATED);
     public static readonly CVarDef<bool> RMCGhostCanBoo =
         CVarDef.Create("rmc.ghosts_can_boo", false, CVar.SERVER | CVar.SERVERONLY);
+
+    public static readonly CVarDef<bool> RMCPostDeathChatMute =
+        CVarDef.Create("rmc.post_death_chat_mute", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<int> RMCPostDeathChatMuteTimeSeconds =
+        CVarDef.Create("rmc.post_death_chat_mute_time_seconds", 10, CVar.SERVER | CVar.SERVERONLY);
 
     public static readonly CVarDef<int> RMCRoyalResinEveryMinutes =
         CVarDef.Create("rmc.royal_resin_every_minutes", 5, CVar.REPLICATED | CVar.SERVER);
@@ -616,4 +656,19 @@ public sealed partial class RMCCVars : CVars
 
     public static readonly CVarDef<float> RMCDoAfterCancelMaxProcessTimeMilliseconds =
         CVarDef.Create("rmc.do_after_cancel_max_process_time_milliseconds", 1f, CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<bool> RMCGMRequestEnabled =
+        CVarDef.Create("rmc.gm_request_enabled", false, CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<int> RMCGMRequestMaxLength =
+        CVarDef.Create("rmc.gm_request_max_length", 300,  CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<int> RMCGMRequestCooldownSeconds =
+        CVarDef.Create("rmc.gm_request_cooldown_seconds", 10, CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<string> RMCGMRequestSound =
+        CVarDef.Create("rmc.gm_request_sound", "/Audio/_RMC14/Effects/Admin/gmrequest.ogg", CVar.ARCHIVE | CVar.CLIENT | CVar.REPLICATED);
+
+    public static readonly CVarDef<bool> RMCGMRequestSoundMuted =
+        CVarDef.Create("rmc.gm_request_sound_muted", false,  CVar.ARCHIVE | CVar.CLIENT | CVar.REPLICATED);
 }

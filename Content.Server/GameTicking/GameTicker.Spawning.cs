@@ -271,6 +271,8 @@ namespace Content.Server.GameTicking
 
             DebugTools.AssertNotNull(data);
 
+            character = _stationSpawning.GetJobProfile(character, new ProtoId<JobPrototype>(jobId)); // Stories-SynthAppearance
+
             var newMind = _mind.CreateMind(data!.UserId, character.Name);
             _mind.SetUserId(newMind, data.UserId);
 

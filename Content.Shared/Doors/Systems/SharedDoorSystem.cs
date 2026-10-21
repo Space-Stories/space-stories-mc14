@@ -542,7 +542,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         var stunTime = door.DoorStunTime + door.OpenTimeOne;
         foreach (var entity in GetColliding(uid, physics))
         {
-            door.CurrentlyCrushing.Add(entity);
+            door.CurrentlyCrushing.Add(GetNetEntity(entity)); // Stories-DeletedEntityReferences
             if (door.CrushDamage != null)
                 _damageableSystem.TryChangeDamage(entity, door.CrushDamage, origin: uid);
 
@@ -611,10 +611,12 @@ public abstract partial class SharedDoorSystem : EntitySystem
 
     private void PreventCollision(EntityUid uid, DoorComponent component, ref PreventCollideEvent args)
     {
-        if (component.CurrentlyCrushing.Contains(args.OtherEntity))
+        // Stories-DeletedEntityReferences-Start
+        if (TryGetNetEntity(args.OtherEntity, out var other) && component.CurrentlyCrushing.Contains(other.Value))
         {
             args.Cancelled = true;
         }
+        // Stories-DeletedEntityReferences-End
     }
 
     /// <summary>

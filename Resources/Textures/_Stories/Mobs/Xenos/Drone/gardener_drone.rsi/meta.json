@@ -72,6 +72,22 @@
     },
     {
       "name": "gardener_dead"
+    },
+    {
+      "name": "drone_egg_left",
+      "directions": 4
+    },
+    {
+      "name": "drone_egg_right",
+      "directions": 4
+    },
+    {
+      "name": "drone_parasite_left",
+      "directions": 4
+    },
+    {
+      "name": "drone_parasite_right",
+      "directions": 4
     }
   ]
 }

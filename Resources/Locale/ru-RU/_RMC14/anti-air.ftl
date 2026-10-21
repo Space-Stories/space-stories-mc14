@@ -13,4 +13,3 @@ rmc-anti-air-ares-target-cleared = Цель MGAD сброшена.
 rmc-anti-air-hijack-deterred = Вражеский летательный аппарат, направлявшийся к зоне { $zone }, успешно отбит.
 rmc-anti-air-dropship-jostles = Корабль сильно трясет от взрывов!
 rmc-anti-air-dropship-turns = Вы чувствуете, как корабль резко поворачивает, меняя курс!
-rmc-overwatch-anti-air-status = Система орудий IX-50 MGAD: { $status } | Цель: { $zone } | { $engagement }

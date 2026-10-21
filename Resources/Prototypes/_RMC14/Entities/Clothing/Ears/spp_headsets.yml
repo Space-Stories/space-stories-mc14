@@ -28,7 +28,8 @@
 - type: radioChannel
   id: SPPMed
   name: chat-radio-spp-med
-  keycode: "ш"
+  keycode: "ь"
+  radioPrefix: "#"
   frequency: 1254
   color: "#9b0612"
   longRange: true

@@ -12,6 +12,7 @@ using Content.Shared.Popups;
 using Content.Shared.Pulling.Events;
 using Content.Shared.Standing;
 using Content.Shared.Stunnable;
+using Content.Shared._RMC14.Medical.Stasis;
 using Robust.Shared.Containers;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Timing;
@@ -21,6 +22,7 @@ namespace Content.Shared._RMC14.Standing;
 public sealed class RMCStandingSystem : EntitySystem
 {
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!; // Stories-StasisBagFix
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly MobStateSystem _mob = default!;
@@ -41,6 +43,7 @@ public sealed class RMCStandingSystem : EntitySystem
         SubscribeLocalEvent<DownOnEnterComponent, EntRemovedFromContainerMessage>(OnLeaveDown);
 
         SubscribeLocalEvent<StandingStateComponent, EvasionRefreshModifiersEvent>(OnStandingStateEvasionRefresh);
+        SubscribeLocalEvent<StandingStateComponent, StandAttemptEvent>(OnStandingStateStandAttempt); // Stories-StasisBagFix
 
         SubscribeLocalEvent<RMCRestComponent, StoodEvent>(OnRestStood);
         SubscribeLocalEvent<RMCRestComponent, StandAttemptEvent>(OnRestStandAttempt);
@@ -55,6 +58,15 @@ public sealed class RMCStandingSystem : EntitySystem
 
                         if (!TryComp(ent, out RMCRestComponent? rest))
                             return;
+
+                        // Stories-StasisBagFix-Start
+                        if (HasComp<CMInStasisComponent>(ent) ||
+                            (_container.TryGetContainingContainer(ent, out var container) &&
+                             (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner))))
+                        {
+                            return;
+                        }
+                        // Stories-StasisBagFix-End
 
                         var time = _timing.CurTime;
                         if (time < rest.LastToggleAt + rest.Cooldown)
@@ -140,7 +152,12 @@ public sealed class RMCStandingSystem : EntitySystem
         if (args.Cancelled)
             return false;
 
-        if (_standing.IsDown(drop))
+        // Stories-StasisBagFix-Start
+        if (_standing.IsDown(drop) ||
+            HasComp<CMInStasisComponent>(drop) ||
+            (_container.TryGetContainingContainer(drop.Owner, out var container) &&
+             (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner))))
+        // Stories-StasisBagFix-End
         {
             args.Cancel();
             return true;
@@ -159,7 +176,7 @@ public sealed class RMCStandingSystem : EntitySystem
         if (HasComp<KnockedDownComponent>(args.Entity) || _mob.IsIncapacitated(args.Entity))
             _standing.Down(args.Entity, false, true, true, true);
         else
-            _standing.Stand(args.Entity);
+            _standing.Stand(args.Entity, force: true); // Stories-StasisBagFix
     }
 
     private void OnStandingStateEvasionRefresh(Entity<StandingStateComponent> entity, ref EvasionRefreshModifiersEvent args)
@@ -182,6 +199,20 @@ public sealed class RMCStandingSystem : EntitySystem
         if (ent.Comp.Resting)
             args.Cancel();
     }
+
+    // Stories-StasisBagFix-Start
+    private void OnStandingStateStandAttempt(Entity<StandingStateComponent> ent, ref StandAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (_container.TryGetContainingContainer(ent.Owner, out var container) &&
+            (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner)))
+        {
+            args.Cancel();
+        }
+    }
+    // Stories-StasisBagFix-End
 
     private void OnRestStartPullAttempt(Entity<RMCRestComponent> ent, ref StartPullAttemptEvent args)
     {

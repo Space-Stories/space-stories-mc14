@@ -2,12 +2,14 @@ using Content.Shared._RMC14.Armor;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Wieldable.Components;
 using Content.Shared._RMC14.Wieldable.Events;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Timing;
+using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Wieldable;
 using Content.Shared.Wieldable.Components;
@@ -144,6 +146,11 @@ public sealed class RMCWieldableSystem : EntitySystem
 #region Wield delay
     private void OnGotEquippedHand(Entity<WieldDelayComponent> wieldable, ref GotEquippedHandEvent args)
     {
+        // Stories-WieldDelay-Start
+        if (wieldable.Comp.BaseDelay <= GunBalanceSystem.GunDrawDelay)
+            return;
+        // Stories-WieldDelay-End
+
         _useDelaySystem.SetLength(wieldable.Owner, wieldable.Comp.ModifiedDelay, WieldUseDelayId);
         _useDelaySystem.TryResetDelay(wieldable.Owner, id: WieldUseDelayId);
     }
@@ -157,15 +164,6 @@ public sealed class RMCWieldableSystem : EntitySystem
         }
 
         args.Handled = true;
-
-        if (!_useDelaySystem.TryGetDelayInfo((wieldable.Owner, useDelayComponent), out var info, WieldUseDelayId))
-        {
-            return;
-        }
-
-        var time = $"{(info.EndTime - _timing.CurTime).TotalSeconds:F1}";
-
-        _popupSystem.PopupClient(Loc.GetString("rmc-wield-use-delay", ("seconds", time), ("wieldable", wieldable.Owner)), args.User, args.User);
     }
 
     public void RefreshWieldDelay(Entity<WieldDelayComponent?> wieldable)
@@ -187,8 +185,33 @@ public sealed class RMCWieldableSystem : EntitySystem
         if (_container.TryGetContainingContainer((wieldable, null), out var container))
             skillModifiedDelay -= TimeSpan.FromSeconds(0.2) * _skills.GetSkill(container.Owner, WieldSkill);
 
-        _useDelaySystem.SetLength(wieldable.Owner, skillModifiedDelay, WieldUseDelayId);
-        _useDelaySystem.TryResetDelay(wieldable.Owner, id: WieldUseDelayId);
+        if (skillModifiedDelay < TimeSpan.Zero)
+            skillModifiedDelay = TimeSpan.Zero;
+
+        // Stories-WieldDelay-Start
+        if (TryComp<GunComponent>(wieldable.Owner, out var gunComp))
+        {
+            var curTime = _timing.CurTime;
+            var wieldTargetTime = curTime + skillModifiedDelay;
+            if (gunComp.NextFire < wieldTargetTime)
+            {
+                gunComp.NextFire = wieldTargetTime;
+                DirtyField(wieldable.Owner, gunComp, nameof(GunComponent.NextFire));
+            }
+
+            var remaining = gunComp.NextFire - curTime;
+            if (remaining > TimeSpan.Zero)
+            {
+                _useDelaySystem.SetLength(wieldable.Owner, remaining, WieldUseDelayId);
+                _useDelaySystem.TryResetDelay(wieldable.Owner, id: WieldUseDelayId);
+            }
+        }
+        else
+        {
+            _useDelaySystem.SetLength(wieldable.Owner, skillModifiedDelay, WieldUseDelayId);
+            _useDelaySystem.TryResetDelay(wieldable.Owner, id: WieldUseDelayId);
+        }
+        // Stories-WieldDelay-End
     }
 
     public void OnShotAttempt(Entity<WieldDelayComponent> wieldable, ref ShotAttemptedEvent args)
@@ -204,11 +227,6 @@ public sealed class RMCWieldableSystem : EntitySystem
         }
 
         args.Cancel();
-
-        var time = $"{(info.EndTime - _timing.CurTime).TotalSeconds:F1}";
-
-        //_popupSystem.PopupClient(Loc.GetString("rmc-shoot-use-delay", ("seconds", time), ("wieldable", wieldable.Owner)), args.User, args.User);
-        // Uncomment when there's a cooldown on popups from a source.
     }
 
 #endregion

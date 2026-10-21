@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from CM-SS13 at https://github.com/cmss13-devs/cmss13/blob/ae42879bbb47e8440e40ac18ba43ca28434db003/icons/mob/hud/sec_hud.dmi. Transparent margins cropped to 8x8 for SS14 status icons.",
+    "size": {
+        "x": 8,
+        "y": 8
+    },
+    "states": [
+        {
+            "name": "hudsec_wanted"
+        },
+        {
+            "name": "hudsec_prisoner"
+        },
+        {
+            "name": "hudsec_released"
+        },
+        {
+            "name": "hudsec_suspect"
+        },
+        {
+            "name": "hudsec_njp"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+- type: emoteSounds
+  id: Predalien
+  parent: Xeno
+  params:
+    variation: 0.125
+  sounds:
+    Growl:
+      path: /Audio/_Stories/Voice/Predalien/predalien_growl.ogg
+    Hiss:
+      path: /Audio/_Stories/Voice/Predalien/predalien_hiss.ogg
+    XenoRoar:
+      path: /Audio/_Stories/Voice/Predalien/predalien_roar.ogg

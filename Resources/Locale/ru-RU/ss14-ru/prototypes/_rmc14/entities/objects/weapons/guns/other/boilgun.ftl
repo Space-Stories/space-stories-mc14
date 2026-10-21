@@ -1,3 +1,3 @@
-ent-RMCWeaponBoilgun = young boilgun
-    .desc = Mother, would you still love us if we were a gun?
-    .suffix = DO NOT MAP
+ent-RMCWeaponBoilgun = юный бойлеромёт
+    .desc = Мама, ты бы любила нас, если бы мы были пушкой?
+    .suffix = НЕ МАППИТЬ

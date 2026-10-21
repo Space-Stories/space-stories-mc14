@@ -1,0 +1,76 @@
+- type: entity
+  parent: RMCSurvivorPresetCLF
+  id: STSurvivorPresetCLFSoldier
+  name: clf soldier survivor preset
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityPreset
+    randomWeapon:
+    - [ RMCWeaponPistolB92FS, RMCMagazinePistolB92FS ]
+    - [ RMCWeaponRevolverSpearhead, RMCSpeedLoader357Hollowpoint ]
+    - [ RMCWeaponPistolMK45, RMCMagazinePistolMK45 ]
+    - [ CMWeaponPistolM1911, CMMagazinePistolM1911 ]
+    - [ RMCWeaponRevolver38Magnum, RMCSpeedLoader38 ]
+    randomGearOther:
+    - # Rebel suit
+      - [ RMCCoatMilitia ]
+      - [ RMCCoatMilitiaVest ]
+      - [ RMCCoatMilitiaBrace ]
+      - [ RMCCoatMilitiaHauberk ]
+      - [ RMCArmorVest ]
+      - [ RMCArmorBulletproof ]
+    - # Rebel helmet
+      - [ RMCHeadMilitiaHood ]
+      - [ RMCHeadMilitiaBucket ]
+      - [ RMCArmorHelmetSecurity ]
+      - [ RMCArmorHelmetSkullcap ]
+      - [ RMCHardHat ]
+      - [ RMCHelmetWelding ]
+      - [ CMHeadBandRed ]
+      - [ CMHeadBandRebel ]
+    - # Rebel shoes
+      - [ RMCShoesBlack ]
+      - [ RMCShoesBrown ]
+      - [ RMCShoesLaceup ]
+      - [ RMCShoesLeather ]
+      - [ RMCShoesCombat ]
+      - [ CMBootsGrey ]
+    - # Rebel gloves
+      - [ RMCHandsBlack ]
+      - [ RMCHandsLeatherBlack ]
+      - [ RMCHandsCombat ]
+      - [ ClothingHandsGlovesLeather ]
+    - # Rebel belt
+      - [ CMBeltUtilityFilled ]
+      - [ CMBeltKnifeFilled ]
+      - [ RMCBeltUtilityGeneral ]
+      - [ RMCScabbardKatanaFilled ]
+      - [ RMCScabbardMacheteFilled ]
+      - [ CMBeltMarine ]
+
+- type: entity
+  parent: RMCSurvivorPresetCLF
+  id: STSurvivorPresetCLFEngineer
+  name: clf engineer survivor preset
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: EntityPreset
+    randomWeapon:
+    - [ RMCGrenadeIED ]
+    - [ RMCM5Bayonet ]
+    - [ RMCPacketGrenadeSmokeFilled ]
+    randomGearOther:
+    - # Rebel suit
+      - [ RMCCoatMilitia ]
+      - [ RMCCoatMilitiaVest ]
+      - [ RMCCoatMilitiaBrace ]
+      - [ RMCCoatMilitiaHauberk ]
+      - [ RMCArmorVest ]
+      - [ RMCArmorBulletproof ]
+    - # Rebel shoes
+      - [ RMCShoesBlack ]
+      - [ RMCShoesBrown ]
+      - [ RMCShoesLaceup ]
+      - [ RMCShoesLeather ]
+      - [ RMCShoesCombat ]
+      - [ CMBootsGrey ]

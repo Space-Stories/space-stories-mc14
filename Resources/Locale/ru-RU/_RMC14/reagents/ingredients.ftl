@@ -63,3 +63,6 @@ reagent-desc-instant-grape = Это просто виногра-а-адно!
 
 reagent-name-instant-pineapple = быстрорастворимый ананасовый сок
 reagent-desc-instant-pineapple = Освежающий, с приятным вкусом и цитрусовой кислинкой.
+
+reagent-name-rmc-macho-sauce = соус мачо
+reagent-desc-rmc-macho-sauce = Скорее воспламенение, чем пищеварение.

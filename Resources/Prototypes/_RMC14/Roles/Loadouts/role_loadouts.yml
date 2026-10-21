@@ -146,9 +146,9 @@
   id: JobCMCommandingOfficer
   points: 7
   groups:
+  - MarineSecureBackpack
   - CommandingOfficerCareerRMC
   - CommandingOfficerAffiliationRMC
-  - MarineLeatherBackpack
   - CommandingOfficerIDRMC
   - CommandingOfficerWeaponRMC
   - CommandingOfficerRoleSpecificRMC
@@ -831,7 +831,7 @@
   id: JobRMCJobSynthetic
   points: 7
   groups:
-  - SynthGenRMC
+  - STSynthSpecializationRMC # Stories-SynthSpecialization
   - SynthBackpackRMC
   - SynthHeadwearRMC
   - SynthGlassesRMC
@@ -1055,6 +1055,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 
@@ -1068,6 +1069,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 
@@ -1081,6 +1083,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 
@@ -1094,6 +1097,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 
@@ -1107,6 +1111,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 
@@ -1119,6 +1124,7 @@
   - MasksRMCPVE
   - HelmetGarbsRMCPVE
   - AccessoriesRMCPVE
+  - WatchesBasicRMC
   - PlushiesRMC
   - WeaponsRMC
 

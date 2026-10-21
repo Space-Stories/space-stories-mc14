@@ -57,9 +57,26 @@ public sealed class XenoParasiteThrowerSystem : SharedXenoParasiteThrowerSystem
 
         _action.SetUseDelay((args.Action, args.Action), TimeSpan.Zero);
 
+        // Stories-XenoParasiteThrow-Start
+        var inRange = _interact.InRangeUnobstructed(xeno, target, range: 1.5f);
+        if (!inRange)
+        {
+            foreach (var ent in _lookup.GetEntitiesIntersecting(target))
+            {
+                if (HasComp<XenoParasiteComponent>(ent) &&
+                    !_mobState.IsDead(ent) &&
+                    _interact.InRangeUnobstructed(xeno.Owner, ent, range: 1.5f))
+                {
+                    inRange = true;
+                    break;
+                }
+            }
+        }
+        // Stories-XenoParasiteThrow-End
+
         // If none of the entities on the selected, in-range tile are parasites, try to pull out a
         // parasite OR try to throw a held parasite
-        if (_interact.InRangeUnobstructed(xeno, target))
+        if (inRange)
         {
             var clickedEntities = _lookup.GetEntitiesIntersecting(target);
             var tileHasParasites = false;

@@ -20,6 +20,7 @@
     - suitStorage
     - belt
   - type: Wieldable
+  - type: Akimbo # Stories-Balance
   - type: WieldDelay
     baseDelay: 0.2
   - type: MeleeWeapon
@@ -84,6 +85,9 @@
           tags:
           - RMCAttachmentBurstFireAssembly
           - RMCAttachmentLaserSight
+  - type: RMCFireGroup # Stories-GunBalance
+    group: Base
+    delay: 0
 
 - type: entity
   abstract: true

@@ -1,6 +1,7 @@
 ﻿- type: guideEntry
   parent: RMC
   id: RMCOverview
+  ruleEntry: true # RMC14
   name: rmc-guide-entry-rules
   priority: 0
   text: "/ServerInfo/Guidebook/_RMC14/Rules/RMCOverview.xml"

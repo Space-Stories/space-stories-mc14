@@ -1,0 +1,92 @@
+- type: job
+  parent: RMCSurvivorCLFBase
+  id: RMCSurvivorCLFLeader
+  name: rmc-job-name-clf-survivor-commander
+  icon: RMCJobIconCLFCellCommander
+  startingGear: RMCGearSurvivorCLFLeader
+  spawnMenuRoleName: CLF Leader (Survivor)
+  antagRole: RMCHostileSurvivor
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: NpcFactionMember
+      factions:
+      - CLF
+    # Stories-CLFSurvivor-Start
+    - type: Skills
+      skills:
+        RMCSkillCqc: 1
+        RMCSkillFirearms: 1
+        RMCSkillEngineer: 1
+        RMCSkillMedical: 1
+        RMCSkillSurgery: 1
+        RMCSkillLeadership: 2
+        RMCSkillOverwatch: 1
+        RMCSkillMeleeWeapons: 1
+        RMCSkillFireman: 1
+        RMCSkillPowerLoader: 1
+        RMCSkillVehicles: 1
+        RMCSkillEndurance: 2
+        RMCSkillJtac: 2
+        RMCSkillConstruction: 1
+    # Stories-CLFSurvivor-End
+    - type: JobPrefix
+      prefix: rmc-job-prefix-clf-survivor-commander
+    - type: RMCSurvivor
+    - type: MotionDetectorTracked
+    # Stories-CLFSurvivor-Start
+    - type: StoriesSurvivorDebuffImmune
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+    # Stories-CLFSurvivor-End
+  hidden: true
+
+
+- type: startingGear
+  id: RMCGearSurvivorCLFLeader
+  equipment:
+    head: RMCHeadBeretAgentIvan
+    ears: RMCHeadsetDistressCLF
+    eyes: RMCGlassesSecurityBlue #TODO SensorMate HUD
+    jumpsuit: RMCJumpsuitCLFSoldier
+    outerClothing: RMCCoatMilitia
+    gloves: CMHandsBlackMarine
+    shoes: CMBootsBlackFilled # TODO RMC14
+    id: RMCIDCardCLFCellCommander # TODO RMC14
+    belt: CMBeltMarine # TODO RMC14
+    back: RMCSatchelLightpack
+    pocket1: RMCPouchSurvivalFill
+    pocket2: RMCPouchFirstAidInjectors
+  inhand:
+    - WeaponRifleMAR40
+  storage:
+    back:
+    - RMCGrenadeIncendiary # TODO IED Incendiary
+    - RMCGrenadeIncendiary
+    - RMCExplosivePlastic
+    - RMCFlashlight
+    - CMScrewdriver
+    - CMMultitool
+    - CMWeaponPistolM1911 # Stories: M1911 as in CM13
+    - CMMagazinePistolM1911
+    - CMMagazinePistolM1911
+    - CMFirstAidKitFilled
+    belt:
+    - RMCMagazineRifleMAR40
+    - RMCMagazineRifleMAR40
+    - RMCMagazineRifleMAR40
+    - RMCMagazineRifleMAR40
+    - RMCMagazineRifleMAR40
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: CMSpawnPointSurvivorCLFLeader
+  name: survivor clf leader spawn point
+  components:
+  - type: SpawnPoint
+    job_id: RMCSurvivorCLFLeader
+  - type: Sprite
+    state: clf_spawn

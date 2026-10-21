@@ -94,9 +94,13 @@ preload = false
 [queue]
 enabled = true
 
+[rmc]
+marine_law_catalogue = "STMarineLaw"
+
 [server]
 rules_file = "STOverview"
 default_guide = "Stories"
+lobby_right_panel_width = 700
 
 [shuttle]
 arrivals_planet = false

@@ -17,6 +17,7 @@ rmc-ui-humanoid = Гуманоид
 rmc-ui-tier = Уровень { $tier }
 
 rmc-ui-admin = Пользовательский интерфейс администратора RMC
+rmc-ui-ert-requests = Запросы ОБР
 rmc-ui-rejuvenate-nearby-marines = Возродить всех ближайших пехотинцев
 rmc-ui-chat-bans = Баны чата
 rmc-ui-delay-round-end = Задержка завершения раунда

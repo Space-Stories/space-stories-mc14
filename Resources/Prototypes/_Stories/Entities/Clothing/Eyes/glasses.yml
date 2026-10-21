@@ -1,0 +1,23 @@
+- type: entity
+  parent: RMCGogglesBallistic
+  id: STGogglesM1A1BallisticBlack
+  name: black marine ballistic goggles
+  description: Standard issue UNMC goggles. While commonly found mounted atop M10 pattern helmets, they are also capable of preventing insects, dust, and other things from getting into one's eyes. This one has black colored day lenses.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+  - type: Clothing
+    sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+  - type: HelmetAccessory
+    rsi:
+      sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+      state: helmet
+    toggledRsi:
+      sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+      state: helmet-down
+    hatRsi:
+      sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+      state: hat
+    hatToggledRsi:
+      sprite: _Stories/Objects/Clothing/Eyes/Glasses/M1A1_Ballistic_goggles_black.rsi
+      state: hat-down

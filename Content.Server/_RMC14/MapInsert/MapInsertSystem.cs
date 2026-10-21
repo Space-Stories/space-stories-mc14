@@ -80,6 +80,7 @@ public sealed class MapInsertSystem : EntitySystem
             cumulativeProbability += variation.Probability;
             if (!forceSpawn &&
                 ((variation.NightmareScenario != _distressSignal.ActiveNightmareScenario) &&
+                 !variation.AdditionalNightmareScenarios.Contains(_distressSignal.ActiveNightmareScenario ?? string.Empty) && // Stories-CLFSurvivor
                  !string.IsNullOrEmpty(variation.NightmareScenario) || //only allows either inserts with the correct scenario or no scenario to spawn
                  cumulativeProbability < randomProbability))
                 continue;
@@ -146,6 +147,7 @@ public sealed class MapInsertSystem : EntitySystem
             () =>
             {
                 _fixture.Merge((EntityUid)mainGrid, insertGrid, coordinatesi, Angle.Zero);
+                _areas.QueueRender(mainGrid.Value); // Stories-TacMapInsert
             });
 
         QueueDel(ent);

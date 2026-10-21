@@ -2,6 +2,63 @@ rmc-announcement-author = Командования
 rmc-announcement-author-shipside = Командования Корабля
 rmc-announcement-author-highcommand = Верховного Командования КМП США
 rmc-announcement-author-queen-mother = Императрицы
+rmc-announcement-speaker-ares = A.R.E.S.
+
+rmc-announcement-preset-name-marine-command = Командование морпехов
+rmc-announcement-preset-name-marine-overwatch = Наблюдение за морпехами
+rmc-announcement-preset-name-alpha-overwatch = Наблюдение «Альфа»
+rmc-announcement-preset-name-bravo-overwatch = Наблюдение «Браво»
+rmc-announcement-preset-name-charlie-overwatch = Наблюдение «Чарли»
+rmc-announcement-preset-name-delta-overwatch = Наблюдение «Дельта»
+rmc-announcement-preset-name-echo-overwatch = Наблюдение «Эхо»
+rmc-announcement-preset-name-foxtrot-overwatch = Наблюдение «Фокстрот»
+rmc-announcement-preset-name-intel-overwatch = Наблюдение разведки
+rmc-announcement-preset-name-first-deployment = Первая высадка
+rmc-announcement-preset-name-xeno-queen = Королева ксеноморфов
+rmc-announcement-preset-name-ares = A.R.E.S.
+rmc-announcement-preset-name-critical = Критическое объявление
+rmc-announcement-preset-name-clf = КОФ
+rmc-announcement-preset-name-evacuation-alert = Эвакуационная тревога
+rmc-announcement-preset-name-green-alert = Зелёный уровень тревоги
+rmc-announcement-preset-name-blue-alert = Синий уровень тревоги
+rmc-announcement-preset-name-red-alert = Красный уровень тревоги
+rmc-announcement-preset-name-delta-alert = Уровень тревоги «Дельта»
+
+rmc-announcement-title-command = >> КОМАНДОВАНИЕ <<
+rmc-announcement-title-overwatch = >> НАБЛЮДЕНИЕ <<
+rmc-announcement-title-alpha-overwatch = >> НАБЛЮДЕНИЕ «АЛЬФА» <<
+rmc-announcement-title-bravo-overwatch = >> НАБЛЮДЕНИЕ «БРАВО» <<
+rmc-announcement-title-charlie-overwatch = >> НАБЛЮДЕНИЕ «ЧАРЛИ» <<
+rmc-announcement-title-delta-overwatch = >> НАБЛЮДЕНИЕ «ДЕЛЬТА» <<
+rmc-announcement-title-echo-overwatch = >> НАБЛЮДЕНИЕ «ЭХО» <<
+rmc-announcement-title-foxtrot-overwatch = >> НАБЛЮДЕНИЕ «ФОКСТРОТ» <<
+rmc-announcement-title-intel-overwatch = >> НАБЛЮДЕНИЕ РАЗВЕДКИ <<
+rmc-announcement-title-queen = >> КОРОЛЕВА <<
+rmc-announcement-title-ares = >> A.R.E.S. <<
+rmc-announcement-title-critical = !! КРИТИЧЕСКОЕ !!
+rmc-announcement-title-clf = >> КОФ <<
+rmc-announcement-title-alert-level = УРОВЕНЬ ТРЕВОГИ
+rmc-announcement-title-alert-level-green = УРОВЕНЬ ТРЕВОГИ: ЗЕЛЁНЫЙ
+rmc-announcement-title-alert-level-blue = УРОВЕНЬ ТРЕВОГИ: СИНИЙ
+rmc-announcement-title-alert-level-red = УРОВЕНЬ ТРЕВОГИ: КРАСНЫЙ
+rmc-announcement-title-alert-level-delta = УРОВЕНЬ ТРЕВОГИ: ДЕЛЬТА
+rmc-announcement-title-red-alert = КРАСНАЯ ТРЕВОГА
+
+rmc-announcement-first-deployment-message = [font="CozetteBold"]{ $operation }[/font]
+    { $time }
+    { $planet }
+    { $assignment }
+rmc-announcement-first-deployment-operation = ОПЕРАЦИЯ { $name }
+rmc-announcement-first-deployment-time = { $time } Ч, { $numericDate }
+rmc-announcement-first-deployment-assignment-combat = 2-я рота «Падающие соколы»
+rmc-announcement-first-deployment-assignment-flight-crew = Лётный состав, { $warship }
+rmc-announcement-first-deployment-assignment-security = Военная полиция, { $warship }
+rmc-announcement-first-deployment-assignment-engineering = Инженерный отдел, { $warship }
+rmc-announcement-first-deployment-assignment-medical = Медицинский отдел, { $warship }
+rmc-announcement-first-deployment-assignment-logistics = Отдел снабжения, { $warship }
+rmc-announcement-first-deployment-assignment-liaison = Корпоративное представительство, { $warship }
+rmc-announcement-first-deployment-assignment-crew = Экипаж, { $warship }
+
 rmc-announcement-message = [font size=14][bold][color=#CECECE]Объявление { $author }[/color][/bold][/font][font size=14][color=red]
 
     { $message }
@@ -30,6 +87,10 @@ rmc-announcement-ares-online = [color=#CECECE][font size=14][bold]ARES в сет
     { $message }[/bold][/font][/color]
 
 rmc-announcement-ares-map = [color=#CECECE][font size=14][bold]Объявление ВКСШ Алмайер[/bold][/font][/color][color=red][font size=14][bold]
+
+    { $message }[/bold][/font][/color]
+
+rmc-announcement-ares-varadero = [color=#CECECE][font size=16][bold]Нью-Варадеро, односторонний аварийный ретранслятор КМП США[/bold][/font][/color][color=red][font size=14][bold]
 
     { $message }[/bold][/font][/color]
 

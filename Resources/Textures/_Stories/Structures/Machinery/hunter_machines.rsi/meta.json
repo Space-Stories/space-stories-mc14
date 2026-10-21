@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "license": null,
-  "copyright": null,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
   "size": {
     "x": 32,
     "y": 32
@@ -241,19 +241,19 @@
       "name": "dispenser"
     },
     {
-      "name": "\u002Bbeaker1"
+      "name": "+beaker1"
     },
     {
-      "name": "\u002Bbeaker2"
+      "name": "+beaker2"
     },
     {
-      "name": "\u002Bbeaker3"
+      "name": "+beaker3"
     },
     {
-      "name": "\u002Bbeaker4"
+      "name": "+beaker4"
     },
     {
-      "name": "\u002Bbeaker5"
+      "name": "+beaker5"
     },
     {
       "name": "soda_dispenser",

@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Server.Chat.Systems;
 using Content.Server.Destructible;
 using Content.Shared._RMC14.Damage;
+using Content.Shared._RMC14.Synth; // Stories-SynthNoPainEmote
 using Content.Shared._RMC14.Xenonids.Charge;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.FixedPoint;
@@ -31,6 +32,11 @@ public sealed class RMCDamageableSystem : SharedRMCDamageableSystem
 
     protected override void DoEmote(EntityUid ent, ProtoId<EmotePrototype> emote)
     {
+        // Stories-SynthNoPainEmote-Start
+        if (HasComp<SynthComponent>(ent))
+            return;
+        // Stories-SynthNoPainEmote-End
+
         _chat.TryEmoteWithoutChat(ent, emote);
     }
 

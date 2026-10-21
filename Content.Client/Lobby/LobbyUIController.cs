@@ -2,6 +2,7 @@ using System.Linq;
 using Content.Client._RMC14.LinkAccount;
 using Content.Client._Stories.Hunter.Profiles.UI;
 using Content.Client._Stories.Sponsors;
+using Content.Client._Stories.Synth.Profile;
 using Content.Client.Guidebook;
 using Content.Client.Humanoid;
 using Content.Client.Inventory;
@@ -55,6 +56,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
     private CharacterSetupGui? _characterSetup;
     private HumanoidProfileEditor? _profileEditor;
     private HunterProfileEditor? _hunterProfileEditor; // Stories
+    private STSynthProfileEditor? _synthProfileEditor; // Stories-SynthProfileTab
     private CharacterSetupGuiSavePanel? _savePanel;
 
     /// <summary>
@@ -163,10 +165,12 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
         _profileEditor?.Dispose();
         _characterSetup?.Dispose();
         _hunterProfileEditor?.Dispose();
+        _synthProfileEditor?.Dispose(); // Stories-SynthProfileTab
 
         _characterSetup = null;
         _profileEditor = null;
         _hunterProfileEditor = null;
+        _synthProfileEditor = null; // Stories-SynthProfileTab
     }
 
     /// <summary>
@@ -317,6 +321,29 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
             _hunterProfileEditor.OnProfileChanged += RefreshLobbyPreview;
         }
         // Stories-End
+
+        // Stories-SynthProfileTab-Start
+        if (_synthProfileEditor == null)
+        {
+            _synthProfileEditor = new STSynthProfileEditor();
+            _profileEditor.SynthTab.AddChild(_synthProfileEditor);
+            _profileEditor.SetTabTitle(_profileEditor.GetSynthTabIndex(), Loc.GetString("st-synth-profile-editor-tab-title"));
+
+            _synthProfileEditor.OnProfileChanged += updated =>
+            {
+                _profileEditor.Profile = updated;
+                _profileEditor.IsDirty = true;
+            };
+
+            _profileEditor.OnProfileSet += _synthProfileEditor.SetProfile;
+
+            _profileEditor.OnTabChanged += tab =>
+            {
+                if (tab == _profileEditor.GetSynthTabIndex())
+                    _synthProfileEditor.SetProfile(_profileEditor.Profile);
+            };
+        }
+        // Stories-SynthProfileTab-End
 
         _characterSetup.CloseButton.OnPressed += _ =>
         {
@@ -522,6 +549,24 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
         {
             // Special type like borg or AI, do not spawn a human just spawn the entity.
             dummyEnt = EntityManager.SpawnEntity(previewEntity, MapCoordinates.Nullspace);
+
+            // Stories-WorkingJoePreviewGear-Start
+            if (job != null &&
+                _prototypeManager.TryIndex(job.DummyStartingGear, out var previewGear) &&
+                _inventory.TryGetSlots(dummyEnt, out var previewSlots))
+            {
+                foreach (var slot in previewSlots)
+                {
+                    var itemType = ((IEquipmentLoadout) previewGear).GetGear(slot.Name);
+                    if (itemType != string.Empty)
+                    {
+                        var item = EntityManager.SpawnEntity(itemType, MapCoordinates.Nullspace);
+                        _inventory.TryEquip(dummyEnt, item, slot.Name, true, true);
+                    }
+                }
+            }
+            // Stories-WorkingJoePreviewGear-End
+
             return dummyEnt;
         }
         else if (humanoid is not null)

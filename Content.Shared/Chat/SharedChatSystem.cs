@@ -2,6 +2,7 @@ using System.Collections.Frozen;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Radio;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared.Popups;
@@ -75,6 +76,11 @@ public abstract class SharedChatSystem : EntitySystem
 
         foreach (var radioChannel in _prototypeManager.EnumeratePrototypes<RadioChannelPrototype>())
         {
+            // RMC14 - The intercom channel is a chat routing sentinel, not a selectable radio channel.
+            if (radioChannel.ID == RMCIntercomConstants.Channel)
+                continue;
+            // RMC14
+
             var keyCode = radioChannel.KeyCode.ToLowerInvariant();
 
             channelDict[$"{radioChannel.RadioPrefix}{keyCode}"] = radioChannel;
@@ -142,6 +148,13 @@ public abstract class SharedChatSystem : EntitySystem
             return;
 
         // RMC14
+        if (RMCIntercomConstants.HasPrefix(input))
+        {
+            prefix = input[..2];
+            output = input[2..];
+            return;
+        }
+
         if (!_validPrefixes.Contains(input[0]))
             return;
 
@@ -232,6 +245,13 @@ public abstract class SharedChatSystem : EntitySystem
         }
 
         // RMC14
+        if (RMCIntercomConstants.HasPrefix(input))
+        {
+            output = SanitizeMessageCapital(input[2..].TrimStart());
+            channel = _prototypeManager.Index<RadioChannelPrototype>(RMCIntercomConstants.Channel);
+            return true;
+        }
+
         if (!_validPrefixes.Contains(input[0]))
             return false;
         // RMC14

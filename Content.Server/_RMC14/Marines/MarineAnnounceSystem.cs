@@ -1,12 +1,15 @@
+using Content.Server._RMC14.Announce;
 using Content.Server._RMC14.Rules.DistressSignal;
 using Content.Server._Stories.TTS;
 using Content.Server.Administration.Logs;
-using Content.Server.Chat.Managers;
 using Content.Server.Radio.EntitySystems;
 using Content.Shared._RMC14.ARES;
 using Content.Shared._RMC14.ARES.Logs;
+using Content.Shared._RMC14.Announce;
+using Content.Shared._RMC14.AlertLevel;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.Marines.GroundsideOperations;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._Stories.SCCVars;
@@ -14,9 +17,9 @@ using Content.Shared._Stories.TTS;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Radio;
-using Robust.Server.Audio;
 using Robust.Shared.Audio;
 using Robust.Shared.Configuration;
+using Robust.Shared.Maths;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -27,8 +30,8 @@ namespace Content.Server._RMC14.Marines;
 public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
 {
     [Dependency] private readonly IAdminLogManager _adminLogs = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly AnnouncementRouterSystem _announcementRouter = default!;
+    [Dependency] private readonly RMCAlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly CMDistressSignalRuleSystem _distressSignal = default!;
     [Dependency] private readonly SharedDropshipSystem _dropship = default!;
@@ -41,6 +44,7 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
     // Stories-TTS-End
 
     private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
+    private static readonly ProtoId<AnnouncementPresetPrototype> PresetMarineOverwatch = "MarineOverwatch";
 
     public override void Initialize()
     {
@@ -49,12 +53,18 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         SubscribeLocalEvent<MarineCommunicationsComputerComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<MarineCommunicationsComputerComponent, BoundUIOpenedEvent>(OnBUIOpened);
 
+        SubscribeLocalEvent<RMCAlertLevelChangedEvent>(OnAlertLevelChanged);
         SubscribeLocalEvent<RMCPlanetComponent, RMCPlanetAddedEvent>(OnPlanetAdded);
 
         Subs.BuiEvents<MarineCommunicationsComputerComponent>(MarineCommunicationsComputerUI.Key,
             subs =>
             {
                 subs.Event<MarineCommunicationsDesignatePrimaryLZMsg>(OnMarineCommunicationsDesignatePrimaryLZMsg);
+            });
+        Subs.BuiEvents<GroundsideOperationsConsoleComponent>(GroundsideOperationsConsoleUi.Key,
+            subs =>
+            {
+                subs.Event<MarineCommunicationsDesignatePrimaryLZMsg>(OnGroundsideOperationsDesignatePrimaryLZMsg);
             });
     }
 
@@ -69,6 +79,16 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
     }
 
     private void OnPlanetAdded(Entity<RMCPlanetComponent> ent, ref RMCPlanetAddedEvent args)
+    {
+        UpdateCommunicationsComputers();
+    }
+
+    private void OnAlertLevelChanged(ref RMCAlertLevelChangedEvent ev)
+    {
+        UpdateCommunicationsComputers();
+    }
+
+    private void UpdateCommunicationsComputers()
     {
         var computers = EntityQueryEnumerator<MarineCommunicationsComputerComponent>();
         while (computers.MoveNext(out var uid, out var computer))
@@ -88,24 +108,38 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
             return;
         }
 
-        _dropship.TryDesignatePrimaryLZ(user, lz.Value);
+        if (!_dropship.TryDesignatePrimaryLZ(user, lz.Value))
+            return;
+
         _core.CreateARESLog(computer, LogCat, (string)$"{Name(args.Actor)} designated Primary LZ as: {Name(lz.Value)}");
+    }
+
+    private void OnGroundsideOperationsDesignatePrimaryLZMsg(
+        Entity<GroundsideOperationsConsoleComponent> ent,
+        ref MarineCommunicationsDesignatePrimaryLZMsg args)
+    {
+        if (TryComp(ent, out MarineCommunicationsComputerComponent? communications))
+            OnMarineCommunicationsDesignatePrimaryLZMsg((ent.Owner, communications), ref args);
     }
 
     private void UpdatePlanetMap(Entity<MarineCommunicationsComputerComponent> computer)
     {
-        var planet = _distressSignal.SelectedPlanetMapName ?? string.Empty;
-        var operation = _distressSignal.OperationName ?? string.Empty;
-        var landingZones = new List<LandingZone>();
+        computer.Comp.Planet = _distressSignal.SelectedPlanetMapName ?? string.Empty;
+        computer.Comp.Operation = _distressSignal.OperationName ?? string.Empty;
+        computer.Comp.LandingZones.Clear();
 
         foreach (var (id, metaData) in _dropship.GetPrimaryLZCandidates())
         {
-            landingZones.Add(new LandingZone(GetNetEntity(id), metaData.EntityName));
+            computer.Comp.LandingZones.Add(new LandingZone(GetNetEntity(id), metaData.EntityName));
         }
 
-        landingZones.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
+        computer.Comp.LandingZones.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.Ordinal));
+        Dirty(computer);
 
-        var state = new MarineCommunicationsComputerBuiState(planet, operation, landingZones);
+        var distressBeaconEnabled = computer.Comp.CanTransmitDistress && _alertLevel.IsRedOrDeltaAlert();
+        var state = new MarineCommunicationsComputerBuiState(
+            computer.Comp.Planet, computer.Comp.Operation,
+            new List<LandingZone>(computer.Comp.LandingZones), distressBeaconEnabled);
         _ui.SetUiState(computer.Owner, MarineCommunicationsComputerUI.Key, state);
     }
 
@@ -113,20 +147,41 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         string message,
         string wrappedMessage,
         SoundSpecifier? sound = null,
-        Filter? filter = null)
+        Filter? filter = null,
+        bool excludeSurvivors = true)
     {
-        filter ??= GetMarineFilter();
+        filter = GetMarineFilter(filter, excludeSurvivors);
 
         var plainMessage = FormattedMessage.RemoveMarkupPermissive(message);
 
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, plainMessage, wrappedMessage, default, false, true, null);
-        _audio.PlayGlobal(sound ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+        _announcementRouter.Announce(new AnnouncementRequest
+        {
+            Message = message,
+            Route = new AnnouncementRoute
+            {
+                Target = AnnouncementTarget.Marines,
+                Channels = AnnouncementChannels.Chat | AnnouncementChannels.Sound,
+            },
+            Chat = new AnnouncementChatOptions
+            {
+                Message = plainMessage,
+                WrappedMessage = wrappedMessage,
+                Channel = ChatChannel.Radio,
+            },
+            Sound = CreateSoundOptions(sound ?? DefaultAnnouncementSound),
+        }, filter);
     }
 
     // Stories-TTS-Start
-    public override void AnnounceSigned(EntityUid sender, string message, string? author = null, string? name = null, SoundSpecifier? sound = null, Filter? filter = null)
+    public override void AnnounceSigned(
+        EntityUid sender,
+        string message,
+        string? author = null,
+        string? name = null,
+        SignedAnnouncementOptions? options = null)
     {
-        base.AnnounceSigned(sender, message, author, name, sound, filter);
+        options ??= new SignedAnnouncementOptions();
+        base.AnnounceSigned(sender, message, author, name, options);
 
         var aresVoice = _configManager.GetCVar(SCCVars.TTSAresVoice);
         var authorVoice = _configManager.GetCVar(SCCVars.TTSCommandVoice);
@@ -139,7 +194,7 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         var cleanHeader = FormattedMessage.RemoveMarkupPermissive(headerMsg).Trim();
         var wordCount = cleanHeader.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
         var delay = TimeSpan.FromSeconds(Math.Max(3.0, wordCount * 0.65));
-        var recipientsFilter = filter ?? GetMarineFilter();
+        var recipientsFilter = GetMarineFilter(options.Filter, options.ExcludeSurvivors);
 
         if (!string.IsNullOrEmpty(aresVoice))
             _tts.PlayGlobalTTS(cleanHeader, aresVoice, recipientsFilter, TTSAudioEffect.Ares, isAnnounce: true);
@@ -248,10 +303,7 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         base.AnnounceSquad(message, squad, sound);
 
         var filter = Filter.Empty().AddWhereAttachedEntity(e => _squad.IsInSquad(e, squad));
-
-        var plainMessage = FormattedMessage.RemoveMarkupPermissive(message);
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, plainMessage, message, default, false, true, null);
-        _audio.PlayGlobal(sound ?? DefaultSquadSound, filter, true, AudioParams.Default.WithVolume(-2f));
+        AnnounceToFilter(message, filter, sound ?? DefaultSquadSound);
     }
 
     public override void AnnounceSquad(string message, EntityUid squad, SoundSpecifier? sound = null)
@@ -259,20 +311,149 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         base.AnnounceSquad(message, squad, sound);
 
         var filter = Filter.Empty().AddWhereAttachedEntity(e => _squad.IsInSquad(e, squad));
-
-        var plainMessage = FormattedMessage.RemoveMarkupPermissive(message);
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, plainMessage, message, default, false, true, null);
-        _audio.PlayGlobal(sound ?? DefaultSquadSound, filter, true, AudioParams.Default.WithVolume(-2f));
+        AnnounceToFilter(message, filter, sound ?? DefaultSquadSound);
     }
 
     public override void AnnounceSingle(string message, EntityUid receiver, SoundSpecifier? sound = null)
     {
         base.AnnounceSingle(message, receiver, sound);
 
-        var plainMessage = FormattedMessage.RemoveMarkupPermissive(message);
-        if (TryComp(receiver, out ActorComponent? actor))
-            _chatManager.ChatMessageToOne(ChatChannel.Radio, plainMessage, message, default, false, actor.PlayerSession.Channel);
+        if (!TryComp(receiver, out ActorComponent? actor))
+            return;
 
-        _audio.PlayEntity(sound, receiver, receiver, AudioParams.Default.WithVolume(-2f));
+        var filter = Filter.Empty().AddPlayer(actor.PlayerSession);
+        AnnounceToFilter(message, filter, sound);
+    }
+
+    protected override void DispatchSignedAnnouncement(
+        EntityUid sender,
+        string message,
+        string wrappedMessage,
+        string author,
+        string name,
+        SignedAnnouncementOptions options)
+    {
+        var dispatchFilter = GetMarineFilter(options.Filter, options.ExcludeSurvivors);
+
+        var channels = AnnouncementChannels.Chat | AnnouncementChannels.Sound;
+        if (options.SendOverlay)
+            channels |= AnnouncementChannels.Overlay;
+        _announcementRouter.Announce(new AnnouncementRequest
+        {
+            Message = message,
+            Preset = AnnouncementRouterSystem.PresetMarineCommand,
+            Route = new AnnouncementRoute
+            {
+                Target = AnnouncementTarget.Marines,
+                Speaker = sender,
+                Source = sender,
+                Channels = channels,
+            },
+            Chat = new AnnouncementChatOptions
+            {
+                Message = FormattedMessage.RemoveMarkupPermissive(message),
+                WrappedMessage = wrappedMessage,
+                Channel = ChatChannel.Radio,
+            },
+            Sound = CreateSoundOptions(options.Sound),
+        }, dispatchFilter);
+    }
+
+    public override void AnnounceOverwatchSquad(
+        EntityUid sender,
+        string message,
+        EntityUid squad,
+        SoundSpecifier? sound = null)
+    {
+        var color = Color.White;
+        ProtoId<AnnouncementPresetPrototype> preset = PresetMarineOverwatch;
+
+        if (TryComp(squad, out SquadTeamComponent? squadComp))
+        {
+            color = squadComp.AccessibleColor ?? squadComp.Color;
+            preset = squadComp.OverwatchAnnouncementPreset;
+        }
+
+        var chatMessage = Loc.GetString(
+            "rmc-overwatch-console-announce-message",
+            ("color", color.ToHex()),
+            ("operatorName", Name(sender)),
+            ("message", message));
+
+        var filter = Filter.Empty().AddWhereAttachedEntity(e => _squad.IsInSquad(e, squad));
+        _announcementRouter.Announce(new AnnouncementRequest
+        {
+            Message = message,
+            Preset = preset,
+            Route = new AnnouncementRoute
+            {
+                Target = AnnouncementTarget.Marines,
+                Speaker = sender,
+                Source = sender,
+                Channels = AnnouncementChannels.Chat | AnnouncementChannels.Overlay | AnnouncementChannels.Sound,
+            },
+            Chat = new AnnouncementChatOptions
+            {
+                Message = chatMessage,
+                WrappedMessage = chatMessage,
+                Channel = ChatChannel.Radio,
+            },
+            Sound = CreateSoundOptions(sound),
+        }, filter);
+    }
+
+    public override void AnnounceAlertLevel(
+        ProtoId<AnnouncementPresetPrototype> preset,
+        string message,
+        Filter? filter = null)
+    {
+        var request = new AnnouncementRequest
+        {
+            Message = message,
+            Preset = preset,
+            Route = new AnnouncementRoute
+            {
+                Target = AnnouncementTarget.Marines,
+                Channels = AnnouncementChannels.Overlay,
+            },
+        };
+
+        if (filter != null)
+            _announcementRouter.Announce(request, filter);
+        else
+            _announcementRouter.Announce(request);
+    }
+
+    private void AnnounceToFilter(string message, Filter filter, SoundSpecifier? sound)
+    {
+        var plainMessage = FormattedMessage.RemoveMarkupPermissive(message);
+
+        _announcementRouter.Announce(new AnnouncementRequest
+        {
+            Message = message,
+            Route = new AnnouncementRoute
+            {
+                Target = AnnouncementTarget.Marines,
+                Channels = AnnouncementChannels.Chat | AnnouncementChannels.Sound,
+            },
+            Chat = new AnnouncementChatOptions
+            {
+                Message = plainMessage,
+                WrappedMessage = message,
+                Channel = ChatChannel.Radio,
+            },
+            Sound = CreateSoundOptions(sound),
+        }, filter);
+    }
+
+    private static AnnouncementSoundOptions? CreateSoundOptions(SoundSpecifier? sound)
+    {
+        if (sound == null)
+            return null;
+
+        return new AnnouncementSoundOptions
+        {
+            Sound = sound,
+        };
     }
 }

@@ -1,0 +1,15 @@
+- type: entity
+  parent: Jug
+  id: STJugSpaceCleanerWorkingJoe
+  name: space cleaner jug
+  description: A large jug of space cleaner for refilling spray bottles.
+  components:
+  - type: Label
+    currentLabel: reagent-name-space-cleaner
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 300
+        reagents:
+        - ReagentId: SpaceCleaner
+          Quantity: 300

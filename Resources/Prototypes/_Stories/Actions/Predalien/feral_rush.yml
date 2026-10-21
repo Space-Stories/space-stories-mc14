@@ -1,0 +1,14 @@
+- type: entity
+  id: ActionSTFeralRush
+  parent: ActionXenoBase
+  name: Feral Rush
+  description: Temporarily increases movement speed and armor.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/predalien_actions.rsi
+      state: feral_rush
+    useDelay: 12
+  - type: InstantAction
+    event: !type:STFeralRushActionEvent

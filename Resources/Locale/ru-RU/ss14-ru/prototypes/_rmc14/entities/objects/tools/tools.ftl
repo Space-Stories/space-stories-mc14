@@ -33,3 +33,5 @@ ent-RMCWireSnappersNormal = { ent-RMCWireSnappers }
     .suffix = Slow
 ent-RMCMaintenanceJack = maintenance jack
     .desc = A heavy synthetic-grade maintenance tool that can pry doors and work as a wrench.
+ent-RMCBlackMarketHackingDevice = модифицированный настройщик охранного доступа
+    .desc = Настройщик охранного доступа, из которого под странными углами торчат провода и контакты. На рукописной этикетке снизу что-то сказано о системе ASRS.

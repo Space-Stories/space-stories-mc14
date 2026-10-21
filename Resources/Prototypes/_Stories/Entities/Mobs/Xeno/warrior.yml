@@ -25,6 +25,11 @@
         0: Alive
         500: Critical
         600: Dead
+    - type: RMCKeybindActions
+      actions:
+        XenoPrimaryOne: [ STActionXenoBoxerJab ]
+        XenoPrimaryTwo: [ STActionXenoBoxerPunch ]
+        XenoPrimaryThree: [ STActionXenoBoxerUppercut ]
     - type: Xeno
       role: CMXenoWarrior
       actionIds:
@@ -140,6 +145,12 @@
         0: Alive
         600: Critical
         700: Dead
+    - type: RMCKeybindActions
+      actions:
+        XenoPrimaryOne: [ STActionXenoBulwarkEncasedPlates ]
+        XenoPrimaryTwo: [ STActionXenoBulwarkPlateBash ]
+        XenoPrimaryThree: [ STActionXenoBulwarkTailSweep ]
+        XenoPrimaryFour: [ STActionXenoBulwarkReflectiveShield ]
     - type: Xeno
       role: CMXenoWarrior
       actionIds:

@@ -41,6 +41,6 @@
       Xeno:
         initialBoostedWordCount: 18
         initialBoostedWordComprehension: 0.4
-    comprehensionThreshold: 0.8
+    comprehensionThreshold: 0.4 # Stories-SynthLanguageThreshold
     learningRange: 8.0
-    baseWordLearningRate: 0.05
+    baseWordLearningRate: 0.075 # Stories-Synth

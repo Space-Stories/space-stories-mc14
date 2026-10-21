@@ -1,6 +1,6 @@
-ent-RMCSuitBombSuit = bomb suit
-    .desc = A suit designed for safety when handling explosives.
+ent-RMCSuitBombSuit = костюм сапёра
+    .desc = Костюм для безопасной работы со взрывчаткой.
     .suffix = RMC
 ent-RMCSuitBombSuitSecurity = { ent-RMCSuitBombSuit }
     .desc = { ent-RMCSuitBombSuit.desc }
-    .suffix = Security, RMC
+    .suffix = Охрана, RMC

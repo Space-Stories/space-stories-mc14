@@ -18,6 +18,14 @@
   - MarineLeatherSatchel
 
 - type: loadoutGroup
+  id: MarineSecureBackpack
+  name: rmc-loadout-group-backpack
+  minLimit: 1
+  hidden: true
+  loadouts:
+  - MarineSecureSatchel
+
+- type: loadoutGroup
   id: LiaisonBackpackRMC
   name: rmc-loadout-group-backpack
   minLimit: 1
@@ -111,6 +119,7 @@
   - HippieGlassesPinkRMC
   - HippieGlassesSunriseRMC
   - HippieGlassesSunsetRMC
+  - STGogglesM1A1Black # Stories-GogglesM1A1Black
 
 - type: loadoutGroup
   id: EyewearRMCPVE
@@ -414,6 +423,7 @@
   - PonchoDesertRMC
   - PonchoUrbanRMC
   - PonchoSnowRMC
+  - STPonchoBlack # Stories-BlackPonchoAdd
   - PatchPeaceRMC
   - PDTLKitRMC
 
@@ -748,7 +758,10 @@
   name: rmc-loadout-group-role-specific-weapon
   loadouts:
   - MatebaRMC
+  - MatebaSpecialRMC
   - HandcannonRMC
+  - HandcannonPolishedRMC
+  - SilverMatebaRMC
   - GoldMatebaRMC
   - GoldHandcannonRMC
 
@@ -835,6 +848,7 @@
   - GogglesPolarizedOrangeRMC
   - GogglesM1A1BlueRMC
   - GlassesSecurityRMC
+  - STGogglesM1A1Black # Stories-GogglesM1A1Black
 
 - type: loadoutGroup
   id: SynthShoesRMC
@@ -949,15 +963,22 @@
   - NeckerchiefWhiteRMC
   - NeckerchiefRedRMC
 
+# Stories-SynthSpecialization-Start
 - type: loadoutGroup
-  id: SynthGenRMC
-  name: rmc-loadout-group-synth
-  maxLimit: 1
+  id: STSynthSpecializationRMC
+  name: st-loadout-group-synth-specialization
   minLimit: 1
+  maxLimit: 1
   loadouts:
-  - RMCSynthGenOne
-  - RMCSynthGenTwo
-  - RMCSynthGenThree
+  - STSynthSpecializationGeneral
+  - STSynthSpecializationCommand
+  - STSynthSpecializationEngineering
+  - STSynthSpecializationMedical
+  - STSynthSpecializationRequisitions
+  - STSynthSpecializationMilitaryPolice
+  - STSynthSpecializationAviation
+  - STSynthSpecializationIntel
+# Stories-SynthSpecialization-End
 # Watches
 - type: loadoutGroup
   id: WatchesBasicRMC

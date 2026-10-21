@@ -2,23 +2,21 @@ using System.Linq;
 using System.Numerics;
 using Content.Client._RMC14.ItemPickup;
 using Content.Client._RMC14.Movement;
-// RMC14
 using Content.Client._RMC14.Vehicle;
 using Content.Client._RMC14.Weapons.Ranged.Prediction;
-// RMC14
 using Content.Client.Animations;
 using Content.Client.Gameplay;
 using Content.Client.Items;
 using Content.Client.Weapons.Ranged.Components;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
-// RMC14
+using Content.Shared.Timing;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
-// RMC14
 using Robust.Client.Animations;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -55,6 +53,7 @@ public sealed partial class GunSystem : SharedGunSystem
     [Dependency] private readonly GunPredictionSystem _gunPrediction = default!;
     [Dependency] private readonly RMCLagCompensationSystem _rmcLagCompensation = default!;
     [Dependency] private readonly VehicleTurretMuzzleOffsetSystem _vehicleTurretMuzzleOffset = default!;
+    [Dependency] private readonly GunBalanceSystem _gunBalance = default!;
     // RMC14
 
     public static readonly EntProtoId HitscanProto = "HitscanEffect";
@@ -194,19 +193,21 @@ public sealed partial class GunSystem : SharedGunSystem
 
         if (_inputSystem.CmdStates.GetState(useKey) != BoundKeyState.Down && !gun.BurstActivated)
         {
-            if (gun.ShotCounter != 0)
+            if (gun.ShotCounter != 0) // Stories-SelectiveFireSemiAutoRecoil
                 RaisePredictiveEvent(new RequestStopShootEvent { Gun = GetNetEntity(gunUid) });
             return;
         }
 
-        if (gun.NextFire > Timing.CurTime)
+        // Stories-GunBalance-Start
+        if (!_gunBalance.CanShoot(gunUid, entity, gun))
             return;
+        // Stories-GunBalance-End
 
         var mousePos = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
 
         if (mousePos.MapId == MapId.Nullspace)
         {
-            if (gun.ShotCounter != 0)
+            if (gun.ShotCounter != 0) // Stories-SelectiveFireSemiAutoRecoil
                 RaisePredictiveEvent(new RequestStopShootEvent { Gun = GetNetEntity(gunUid) });
 
             return;
@@ -231,11 +232,11 @@ public sealed partial class GunSystem : SharedGunSystem
         Log.Debug($"Sending shoot request tick {Timing.CurTick} / {Timing.CurTime}");
 
         // RMC rearm instead of treating every held-fire request as continuous fire.
+        // Stories-HoldToAttackSemiAuto-Start
         var rearmSemiAuto =
             _cfg.GetCVar(CCVars.ControlHoldToAttackRanged) &&
-            gun.SelectedMode == SelectiveFire.SemiAuto &&
-            !HasComp<GunClickToFireComponent>(gunUid) &&
-            (gun.AvailableModes & SelectiveFire.FullAuto) == 0;
+            gun.SelectedMode == SelectiveFire.SemiAuto;
+        // Stories-HoldToAttackSemiAuto-End
         var projectiles = _gunPrediction.ShootRequested(GetNetEntity(gunUid), GetNetCoordinates(coordinates), target, null, session, rearmSemiAuto);
 
         RaisePredictiveEvent(new RequestShootEvent()

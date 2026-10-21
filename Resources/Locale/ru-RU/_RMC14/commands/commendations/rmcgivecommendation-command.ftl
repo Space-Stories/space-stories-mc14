@@ -11,9 +11,9 @@ cmd-rmcgivecommendation-help = Использование: rmcgivecommendation <
   roundId: Номер раунда, по умолчанию — текущий раунд (необязательный аргумент)
 
   Примеры:
-    rmcgivecommendation "UNMC High Command" PlayerName "John Doe" medal 1 "For exceptional bravery"
-    rmcgivecommendation "The Queen Mother" XenoPlayer "XX-Alpha" jelly 2 "For defending the hive"
-    rmcgivecommendation "UNMC High Command" PlayerName "John Doe" medal 1 "For exceptional bravery" 42
+    rmcgivecommendation "КМП США Высшее Командование" PlayerName "John Doe" medal 1 "For exceptional bravery"
+    rmcgivecommendation "Королева Мать" XenoPlayer "XX-Alpha" jelly 2 "For defending the hive"
+    rmcgivecommendation "КМП США Высшее Командование" PlayerName "John Doe" medal 1 "For exceptional bravery" 42
 
 # Errors
 cmd-rmcgivecommendation-invalid-arguments = Неверное количество аргументов!

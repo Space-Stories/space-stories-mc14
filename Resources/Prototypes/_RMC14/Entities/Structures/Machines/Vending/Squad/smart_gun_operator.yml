@@ -3,7 +3,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechSGGear
-  name: ColMarTech squad smart gun operator gear rack
+  name: ASRS squad smart gun operator gear rack
   description: An automated gear rack for Squad Smart Gun Operators.
   components:
   - type: AccessReader
@@ -50,8 +50,8 @@
       entries:
       - id: RMCMagazinePistolM13Ext
         points: 6
-      # - id: RMCSpeedLoader44Heavy
-      #  points: 10
+      - id: RMCSpeedLoader44Heavy
+        points: 10
       - id: RMCSpeedLoader44Marksman
         points: 10
       - id: RMCMagazinePistolM1984HP
@@ -86,8 +86,6 @@
         points: 5
       - id: RMCFulton20
         points: 5
-      - id: RMCPowerCellSmartgun
-        points: 15
     - name: Бинокли
       entries:
       - id: RMCBinoculars
@@ -124,7 +122,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechSGEquipment
-  name: ColMarTech squad Smart Gun equipment rack
+  name: ASRS squad Smart Gun equipment rack
   description: An automated rack hooked up to a colossal storage of Squad Smart Gun standard-issue equipment.
   components:
   - type: AccessReader
@@ -142,6 +140,17 @@
       - id: CMVendorBundleRiflemanApparel
       - id: CMMRE
       #- id: CMMap # TODO: Make a map
+    - name: Головные уборы (необязательно)
+      choices: { CMHelmet: 1 }
+      entries:
+      - id: CMHeadFlapCap
+      - id: CMHeadCap
+      - id: RMCBoonie
+      - id: RMCHeadDurag
+      - id: RMCHeadBandanaTan
+      - id: RMCHeadBeanieGray
+      - id: RMCHeadBandSquad
+      - id: RMCHeadSpecRag
     - name: Пояс
       choices: { CMBelt: 1 }
       entries:

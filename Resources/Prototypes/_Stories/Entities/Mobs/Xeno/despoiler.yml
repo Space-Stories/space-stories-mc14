@@ -57,6 +57,12 @@
       0: Alive
       650: Critical
       750: Dead
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ STActionXenoDespoilerAcidBarrage ]
+      XenoPrimaryTwo: [ STActionXenoDespoilerCausticEmbrace ]
+      XenoPrimaryThree: [ STActionXenoDespoilerOozingWounds ]
+      XenoPrimaryFour: [ STActionXenoDespoilerCatalyze ]
   - type: Xeno
     role: STXenoDespoiler
     tier: 3

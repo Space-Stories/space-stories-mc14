@@ -29,6 +29,13 @@ public sealed partial class AccessComponent : Component
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     [AutoNetworkedField]
     public string? Slot = "id";
+
+    /// <summary>
+    /// Whether this access provider can grant access while held in a hand.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    [AutoNetworkedField]
+    public bool AllowInHands = true;
     // Stories-Hunter-End
 
     /// <summary>

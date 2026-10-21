@@ -75,8 +75,18 @@ rmc-xeno-evolution-failed-early-weeds = Улей еще не настолько 
 rmc-xeno-evolution-failed-bad-location = Мы не можем развиваться здесь.
 rmc-xeno-evolution-failed-marines-dropped = Небесные верзилы уже высадились, мы больше не можем принять эту форму.
 rmc-xeno-evolution-failed-queen-exists = В улье уже есть Королева!
+rmc-xeno-evolution-failed-not-enough-points = Нам нужно больше материала эволюции.
 rmc-xeno-evolution-start-self = Мы начинаем скручиваться и деформироваться.
 rmc-xeno-evolution-start-others = { $xeno } начинает крутиться и извиваться.
+rmc-xeno-evolution-raffle-entered = Мы выдвинули себя, чтобы стать { $caste }. Улей решит, когда откроется место.
+rmc-xeno-evolution-raffle-won = Улей выбрал нас!
+rmc-xeno-evolution-raffle-grace-health = Место открылось для нас, но мы должны быть полностью здоровы! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-grace-location = Место открылось для нас, но мы не можем развиваться здесь! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-grace-weeds = Место открылось для нас, но мы должны быть на сорняках! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-missed = Мы не успели подготовиться вовремя и потеряли свое место в лотерее.
+rmc-xeno-evolution-raffle-blocked-lower = Место открылось для нас, но в улье уже слишком много сестёр ранга { $tier } и выше — одна должна пасть или должно открыться место для ранга { $tier }, прежде чем мы сможем подняться напрямую.
+rmc-xeno-evolution-tab-evolve = Эволюция
+rmc-xeno-evolution-tab-raffle = Лотерея
 
 # Insight
 rmc-xeno-insight-empower = Мы получили достаточно проницательности относительно нашей добычи, чтобы усилить наше следующее размещение ловушек!
@@ -104,6 +114,7 @@ cm-xeno-fortify-cant-headbutt = Вы не можете ударить голов
 cm-xeno-fortify-cant-rest = Вы не можете отдыхать во время укрепления!
 cm-xeno-fortify-cant-tail-sweep = Вы не можете сделать удар хвостом во время укрепления!
 cm-xeno-fortify-cant-toggle-crest = Вы не можете опускать гребень во время укрепления!
+cm-xeno-fortify-cant-vehicle = Транспорт мешает нам укрепиться!
 
 # Headbutt
 rmc-xeno-headbutt-too-far = Мы не можем бить головой с такого расстояния с опущенным гребнем!

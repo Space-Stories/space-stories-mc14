@@ -24,6 +24,7 @@ rmc-mortar-dial-finish-others = { $user } завершает набор { $morta
 rmc-mortar-shell-load-start-self = Вы начинаете загружать { $shell } в { $mortar }.
 rmc-mortar-shell-load-start-others = { $user } начинает загрузку { $shell } в { $mortar }.
 rmc-mortar-shell-load-finish-self = Вы загружаете { $shell } в { $mortar }.
+rmc-mortar-shell-load-finish-others = { $user } загружает { $shell } в { $mortar }.
 rmc-mortar-shell-fire = { CAPITALIZE($mortar) } стреляет!
 rmc-mortar-shell-warning = К ВАШЕМУ { $direction } приближается снаряд.
 rmc-mortar-shell-warning-above = ПРЯМО НАД ВАМИ ПАДАЕТ СНАРЯД.

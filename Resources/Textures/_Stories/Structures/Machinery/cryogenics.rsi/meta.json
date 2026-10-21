@@ -1,41 +1,41 @@
 {
-    "version": 1,
-    "license": null,
-    "copyright": null,
-    "size": {
-        "x": 32,
-        "y": 64
+  "version": 1,
+  "license": "All rights reserved",
+  "copyright": "Created for Space Stories.",
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "states": [
+    {
+      "name": "cell"
     },
-    "states": [
-        {
-            "name": "cell"
-        },
-        {
-            "name": "cell-off-empty"
-        },
-        {
-            "name": "cell-off-occupied"
-        },
-        {
-            "name": "cell-on-empty"
-        },
-        {
-            "name": "cell-on-occupied"
-        },
-        {
-            "name": "pred_cell"
-        },
-        {
-            "name": "pred_cell-off-empty"
-        },
-        {
-            "name": "pred_cell-off-occupied"
-        },
-        {
-            "name": "pred_cell-on-empty"
-        },
-        {
-            "name": "pred_cell-on-occupied"
-        }
-    ]
+    {
+      "name": "cell-off-empty"
+    },
+    {
+      "name": "cell-off-occupied"
+    },
+    {
+      "name": "cell-on-empty"
+    },
+    {
+      "name": "cell-on-occupied"
+    },
+    {
+      "name": "pred_cell"
+    },
+    {
+      "name": "pred_cell-off-empty"
+    },
+    {
+      "name": "pred_cell-off-occupied"
+    },
+    {
+      "name": "pred_cell-on-empty"
+    },
+    {
+      "name": "pred_cell-on-occupied"
+    }
+  ]
 }

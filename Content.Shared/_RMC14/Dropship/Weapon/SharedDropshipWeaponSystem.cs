@@ -20,6 +20,7 @@ using Content.Shared._RMC14.PowerLoader;
 using Content.Shared._RMC14.Rangefinder;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Weapons.Ranged;
+using Content.Shared._Stories.Dropship.Weapon; // Stories-DropshipLaunchEffects
 using Content.Shared.Administration.Logs;
 using Content.Shared.Coordinates;
 using Content.Shared.Coordinates.Helpers;
@@ -746,6 +747,11 @@ public abstract class SharedDropshipWeaponSystem : EntitySystem
         Dirty(ammo);
 
         _audio.PlayPvs(ev.SoundCockpit, weapon.Value);
+        // Stories-DropshipLaunchEffects-Start
+        var launched = new StoriesDropshipWeaponLaunchedEvent();
+        RaiseLocalEvent(weapon.Value, ref launched);
+        // Stories-DropshipLaunchEffects-End
+
         weaponComp.NextFireAt = time + weaponComp.FireDelay;
         Dirty(weapon.Value, weaponComp);
 

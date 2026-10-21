@@ -22,6 +22,28 @@ jobs:
         cd RobustToolbox
         git fetch --depth=1
 
+    - name: Check if patch secret exists
+      id: check_patch
+      env:
+        SECRET_PATCH: ${{ secrets.SECRET_PATCH }}
+      shell: bash
+      run: |
+        if [ -n "$SECRET_PATCH" ]; then
+          echo "has_patch=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_patch=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Apply build patch
+      if: steps.check_patch.outputs.has_patch == 'true'
+      env:
+        SECRET_PATCH: ${{ secrets.SECRET_PATCH }}
+      shell: bash
+      run: |
+        echo "$SECRET_PATCH" | base64 -d > patch.diff
+        git apply patch.diff
+        rm patch.diff
+
     - name: Build Packaging
       run: dotnet build Content.Packaging --configuration Release /m
       env:
@@ -58,3 +80,10 @@ jobs:
       run: Tools/actions_changelog_rss.py
       env:
         CHANGELOG_RSS_KEY: ${{ secrets.CHANGELOG_RSS_KEY }}
+
+    - name: Clean workspace
+      if: always()
+      shell: bash
+      run: |
+        git checkout .
+        git clean -fd

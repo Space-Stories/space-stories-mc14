@@ -206,8 +206,10 @@ public abstract class SharedWeaponMountSystem : EntitySystem
 
     private void OnUseInHand(Entity<WeaponMountComponent> ent, ref UseInHandEvent args)
     {
-        if (ent.Comp.MountedEntity == null)
-            return;
+        // Stories-WeaponMount-Start
+        // if (ent.Comp.MountedEntity == null)
+        //     return;
+        // Stories-WeaponMount-End
 
         args.Handled = true;
 

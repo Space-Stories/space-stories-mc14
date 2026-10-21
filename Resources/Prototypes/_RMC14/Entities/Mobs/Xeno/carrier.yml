@@ -11,9 +11,8 @@
   description: A strange-looking alien creature. It carries a number of scuttling jointed crablike creatures.
   abstract: true
   components:
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
-  - type: GhostRole
-    name: cm-job-name-xeno-carrier
   - type: MobState
     allowedStates:
     - Alive
@@ -24,6 +23,17 @@
       0: Alive
       650: Critical
       750: Dead
+  # Stories-SynthHeavyGrab-Start
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - RMCSynthGrabbable
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     role: CMXenoCarrier
     tier: 2
@@ -170,6 +180,12 @@
   id: RMCXenoCarrierEggsac
   suffix: Eggsac
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGenerateEggs ]
+      XenoPrimaryThree: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
@@ -219,4 +235,3 @@
   - type: XenoHidden
   - type: RMCActionOrder
     id: RMCXenoCarrierEggsac
-

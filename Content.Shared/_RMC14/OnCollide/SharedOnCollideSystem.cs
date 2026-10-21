@@ -55,8 +55,10 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (!ent.Comp.CanRehit)
             return;
 
-        if (ent.Comp.Damaged.Remove(args.OtherEntity))
+        // Stories-DeletedEntityReferences-Start
+        if (TryGetNetEntity(args.OtherEntity, out var other) && ent.Comp.Damaged.Remove(other.Value))
             Dirty(ent);
+        // Stories-DeletedEntityReferences-End
     }
 
     private void OnShutdown(Entity<DamageOnCollideComponent> ent, ref ComponentShutdown args)
@@ -72,8 +74,13 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (ent.Comp.Disabled)
             return;
 
-        if (ent.Comp.Damaged.Contains(other))
+        // Stories-DeletedEntityReferences-Start
+        if (TerminatingOrDeleted(other) || !TryGetNetEntity(other, out var otherNet))
             return;
+
+        if (ent.Comp.Damaged.Contains(otherNet.Value))
+            return;
+        // Stories-DeletedEntityReferences-End
 
         if (!_whitelist.IsWhitelistPassOrNull(ent.Comp.Whitelist, other))
             return;
@@ -90,11 +97,11 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (HasComp<UncloakOnHitComponent>(ent.Owner))
             _cloak.TrySetInvisibility(other, false, true);
 
-        ent.Comp.Damaged.Add(other);
+        ent.Comp.Damaged.Add(otherNet.Value); // Stories-DeletedEntityReferences
         Dirty(ent);
 
         var didEmote = false;
-        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, other))
+        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, otherNet.Value)) // Stories-DeletedEntityReferences
         {
             var damage = ent.Comp.Damage;
             if (ent.Comp.Acidic)
@@ -129,7 +136,7 @@ public abstract class SharedOnCollideSystem : EntitySystem
     {
     }
 
-    private bool AddToChain(Entity<CollideChainComponent?> chain, EntityUid add)
+    private bool AddToChain(Entity<CollideChainComponent?> chain, NetEntity add) // Stories-DeletedEntityReferences
     {
         if (!_collideChainQuery.Resolve(chain, ref chain.Comp, false))
             return true;
@@ -190,6 +197,11 @@ public abstract class SharedOnCollideSystem : EntitySystem
         }
 
         return refs;
+    }
+
+    public DamageSpecifier GetCollideDamage(Entity<DamageOnCollideComponent> ent)
+    {
+        return ent.Comp.Damage;
     }
 
     public void DisableDamageOnCollide(Entity<DamageOnCollideComponent?> ent)

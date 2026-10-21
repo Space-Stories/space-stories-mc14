@@ -10,4 +10,4 @@ ent-RMCOuterClothingExternalWebbingBlack = { ent-RMCOuterClothingExternalWebbing
     .suffix = Черный
 ent-RMCOuterClothingExternalWebbingSPPSurvivor = { ent-RMCOuterClothingExternalWebbing }
     .desc = { ent-RMCOuterClothingExternalWebbing.desc }
-    .suffix = SPP, Survivor, Filled
+    .suffix = СПН, Выживший, Заполненный

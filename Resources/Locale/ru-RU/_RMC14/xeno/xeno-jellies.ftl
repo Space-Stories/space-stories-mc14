@@ -50,3 +50,28 @@ rmc-hivemanagement-cant-deevolve-larva = Вы не можете дезэволю
 rmc-hivemanagement-cant-deevolve-other-hive = Вы не можете дезэволюционировать ксеноморфа из другого улья!
 rmc-hivemanagement-manage-teams = Управлять группами улья
 
+# Права улья
+rmc-hivemanagement-permissions = Права доступа
+rmc-hivemanagement-permissions-title = Права улья
+rmc-hivemanagement-permissions-harming = Причинение вреда
+rmc-hivemanagement-permissions-construction = Строительство
+rmc-hivemanagement-permissions-deconstruction = Разрушение
+rmc-hivemanagement-permissions-unnesting = Освобождение из гнёзд
+rmc-hivemanagement-permissions-current = Текущая настройка: { $value }
+rmc-hivemanagement-permissions-cooldown = Вам нужно подождать ещё { $seconds } секунд, прежде чем снова это изменить.
+rmc-hivemanagement-permissions-already-set = Это уже текущая настройка.
+
+rmc-hivemanagement-permissions-harm-forbidden = Запрещено
+rmc-hivemanagement-permissions-harm-allowed = Разрешено
+
+rmc-hivemanagement-permissions-level-queen = Только королева
+rmc-hivemanagement-permissions-level-leaders = Королева и лидеры
+rmc-hivemanagement-permissions-level-anyone = Любой
+
+rmc-hivemanagement-permissions-unnest-builders = Только касты-строители
+
+rmc-hivemanagement-permissions-harm-announce = Королева установила права на причинение вреда: { $value }
+rmc-hivemanagement-permissions-construction-announce = Королева установила права на строительство: { $value }
+rmc-hivemanagement-permissions-deconstruction-announce = Королева установила права на разрушение: { $value }
+rmc-hivemanagement-permissions-unnest-announce = Королева установила права на освобождение из гнёзд: { $value }
+

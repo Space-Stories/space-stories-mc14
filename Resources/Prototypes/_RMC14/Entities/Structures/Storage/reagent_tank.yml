@@ -113,6 +113,8 @@
     blacklist:
       components:
       - Xeno
+  - type: BlackMarketValue
+    value: 25
 
 - type: entity
   parent: RMCTankReagentEmpty
@@ -141,6 +143,8 @@
           Quantity: 1000
   - type: Label
     currentLabel: reagent-name-water
+  - type: BlackMarketValue
+    value: 0
 
 - type: entity
   parent: RMCTankReagentWater
@@ -201,6 +205,8 @@
     tags:
     - RMCTankFuel
     - RMCTankReagent
+  - type: BlackMarketValue
+    value: 25
 
 - type: Tag
   id: RMCTankFuel

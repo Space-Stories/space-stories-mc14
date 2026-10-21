@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Areas;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Camera;
 using Content.Shared._RMC14.CameraShake;
 using Content.Shared._RMC14.Chat;
@@ -81,6 +81,7 @@ public abstract class SharedMortarSystem : EntitySystem
         SubscribeLocalEvent<MortarComponent, DialMortarDoAfterEvent>(OnMortarDialDoAfter);
         SubscribeLocalEvent<MortarComponent, InteractUsingEvent>(OnMortarInteractUsing);
         SubscribeLocalEvent<MortarComponent, LoadMortarShellDoAfterEvent>(OnMortarLoadDoAfter);
+        SubscribeLocalEvent<MortarComponent, DoAfterAttemptEvent<LoadMortarShellDoAfterEvent>>(OnMortarLoadAttempt); // Stories-MortarFix
         SubscribeLocalEvent<MortarComponent, UnanchorAttemptEvent>(OnMortarUnanchorAttempt);
         SubscribeLocalEvent<MortarComponent, AnchorStateChangedEvent>(OnMortarAnchorStateChanged);
         SubscribeLocalEvent<MortarComponent, ExaminedEvent>(OnMortarExamined);
@@ -269,13 +270,27 @@ public abstract class SharedMortarSystem : EntitySystem
             if (!HasSkillPopup(mortar, user, true))
                 return;
 
+            // Stories-MortarFix-Start
+            if (mortar.Comp.LoadingShell != null)
+            {
+                _popup.PopupPredicted(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, PopupType.SmallCaution);
+                return;
+            }
+            // Stories-MortarFix-End
+
             if (!CanLoadPopup(mortar, (used, shell), user, out _, out _))
                 return;
+
+            // Stories-MortarFix-Start
+            mortar.Comp.LoadingShell = used;
+            Dirty(mortar);
+            // Stories-MortarFix-End
 
             var ev = new LoadMortarShellDoAfterEvent();
             var doAfter = new DoAfterArgs(EntityManager, user, shell.LoadDelay, ev, mortar, mortar, used)
             {
                 BreakOnMove = true,
+                NeedHand = true, // Stories-MortarFix
                 BreakOnHandChange = true,
                 ForceVisible = true,
             };
@@ -292,8 +307,31 @@ public abstract class SharedMortarSystem : EntitySystem
                 if (_net.IsServer)
                     _audio.PlayPvs(mortar.Comp.ReloadSound, mortar);
             }
+            else
+            {
+                // Stories-MortarFix-Start
+                mortar.Comp.LoadingShell = null;
+                Dirty(mortar);
+                // Stories-MortarFix-End
+            }
         }
     }
+
+    // Stories-MortarFix-Start
+    private void OnMortarLoadAttempt(Entity<MortarComponent> mortar, ref DoAfterAttemptEvent<LoadMortarShellDoAfterEvent> args)
+    {
+        if (!mortar.Comp.Deployed)
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (args.DoAfter.Args.Used is { } shellId && mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shellId)
+        {
+            args.Cancel();
+        }
+    }
+    // Stories-MortarFix-End
 
     private void OnMortarLoadDoAfter(Entity<MortarComponent> mortar, ref LoadMortarShellDoAfterEvent args)
     {
@@ -305,6 +343,14 @@ public abstract class SharedMortarSystem : EntitySystem
             return;
         }
         // Stories-AntiGrief-End
+
+        // Stories-MortarFix-Start
+        if (args.Used is { } usedShell && mortar.Comp.LoadingShell == usedShell)
+        {
+            mortar.Comp.LoadingShell = null;
+            Dirty(mortar);
+        }
+        // Stories-MortarFix-End
 
         var user = args.User;
         if (args.Cancelled || args.Handled || args.Used is not { } shellId)
@@ -372,6 +418,7 @@ public abstract class SharedMortarSystem : EntitySystem
 
         var active = new ActiveMortarShellComponent
         {
+            User = user,
             Coordinates = _transform.ToCoordinates(coordinates),
             WarnAt = time + travelTime,
             ImpactWarnAt = time + travelTime + shell.ImpactWarningDelay,
@@ -419,6 +466,7 @@ public abstract class SharedMortarSystem : EntitySystem
             return;
 
         mortar.Comp.Deployed = false;
+        mortar.Comp.LoadingShell = null; // Stories-MortarFix
         Dirty(mortar);
 
         if (_fixture.GetFixtureOrNull(mortar, mortar.Comp.FixtureId) is { } fixture)
@@ -593,7 +641,28 @@ public abstract class SharedMortarSystem : EntitySystem
     {
         travelTime = default;
         coordinates = default;
-        return false;
+
+        // Stories-MortarFix-Start
+        if (mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shell.Owner)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, PopupType.SmallCaution);
+            return false;
+        }
+
+        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container))
+        {
+            foreach (var contained in container.ContainedEntities)
+            {
+                if (!HasComp<ActiveMortarShellComponent>(contained))
+                {
+                    _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, PopupType.SmallCaution);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+        // Stories-MortarFix-End
     }
 
     protected virtual bool ValidateTargetCoordinates(
@@ -701,7 +770,10 @@ public abstract class SharedMortarSystem : EntitySystem
 
                 _transform.SetCoordinates(uid, active.Coordinates);
 
-                var ev = new MortarShellLandEvent(active.Coordinates);
+                EntityUid? user = active.User is { } activeUser && Exists(activeUser)
+                    ? activeUser
+                    : null;
+                var ev = new MortarShellLandEvent(active.Coordinates, user);
                 RaiseLocalEvent(uid, ref ev);
 
                 // Stories-Ordnance-Start
@@ -712,7 +784,7 @@ public abstract class SharedMortarSystem : EntitySystem
                 }
                 else
                 {
-                    _rmcExplosion.TriggerExplosive(uid);
+                    _rmcExplosion.TriggerExplosive(uid, user: user);
                     if (!EntityManager.IsQueuedForDeletion(uid))
                         QueueDel(uid);
                 }

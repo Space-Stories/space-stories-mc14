@@ -1,8 +1,10 @@
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.Actions;
 using Content.Shared.Examine;
 using Content.Shared.Hands;
+using Content.Shared.Timing;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Utility;
@@ -48,6 +50,7 @@ public abstract partial class SharedGunSystem
             Act = () => SelectFire(uid, component, nextMode, args.User),
             Text = Loc.GetString("gun-selector-verb", ("mode", GetLocSelector(nextMode))),
             Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png")),
+            Priority = 1, // Stories-GunCycle
         };
 
         args.Verbs.Add(verb);
@@ -73,6 +76,11 @@ public abstract partial class SharedGunSystem
     {
         if (component.SelectedMode == fire)
             return;
+
+        // Stories-GunBalance-Start
+        if (component.NextCycleMode > Timing.CurTime)
+            return;
+        // Stories-GunBalance-End
 
         DebugTools.Assert((component.AvailableModes  & fire) != 0x0);
         component.SelectedMode = fire;
@@ -102,13 +110,62 @@ public abstract partial class SharedGunSystem
     /// </summary>
     public void CycleFire(EntityUid uid, GunComponent component, EntityUid? user = null)
     {
+        // Stories-GunBalance-Start
+        if (component.NextCycleMode > Timing.CurTime)
+            return;
+        // Stories-GunBalance-End
+
         // Noop
         if (component.SelectedMode == component.AvailableModes)
             return;
 
         DebugTools.Assert((component.AvailableModes & component.SelectedMode) == component.SelectedMode);
-        var nextMode = GetNextMode(component);
-        SelectFire(uid, component, nextMode, user);
+
+        // Stories-GunBalance-Start
+        var modes = new List<SelectiveFire>();
+        foreach (var mode in Enum.GetValues<SelectiveFire>())
+        {
+            if ((mode & component.AvailableModes) == 0x0)
+                continue;
+
+            modes.Add(mode);
+        }
+
+        if (modes.Count > 1)
+        {
+            var index = modes.IndexOf(component.SelectedMode);
+            var nextIndex = (index + 1) % modes.Count;
+            var curTime = Timing.CurTime;
+
+            var nextMode = modes[nextIndex];
+            SelectFire(uid, component, nextMode, user);
+
+            if (nextIndex == 0)
+            {
+                var cycleDelay = GunBalanceSystem.GunCycleModeDelay;
+                component.NextCycleMode = curTime + cycleDelay;
+                if (component.NextFire < curTime + cycleDelay)
+                {
+                    component.NextFire = curTime + cycleDelay;
+                }
+                Dirty(uid, component);
+
+                var useDelay = EnsureComp<UseDelayComponent>(uid);
+                _useDelay.SetLength((uid, useDelay), cycleDelay, GunBalanceSystem.GunCycleModeDelayId);
+                _useDelay.TryResetDelay((uid, useDelay), false, GunBalanceSystem.GunCycleModeDelayId);
+            }
+            else
+            {
+                var debounceDelay = TimeSpan.FromSeconds(0.25);
+                component.NextCycleMode = curTime + debounceDelay;
+                Dirty(uid, component);
+            }
+            return;
+        }
+        // Stories-GunBalance-End
+
+        var defaultNextMode = GetNextMode(component);
+        SelectFire(uid, component, defaultNextMode, user);
     }
 
     // TODO: Actions need doing for guns anyway.
@@ -124,8 +181,46 @@ public abstract partial class SharedGunSystem
 
     private void OnGunSelected(EntityUid uid, GunComponent component, HandSelectedEvent args)
     {
+        // Stories-GunBalance-Start
+        if (Paused(uid))
+            return;
+
+        if (MetaData(uid).EntityLifeStage < EntityLifeStage.MapInitialized)
+            return;
+        // Stories-GunBalance-End
+
+        // Stories-GunBalance-Start
+        if (!HasDualPistols(uid))
+        {
+            var curTime = Timing.CurTime;
+            var drawDelay = TagSystem.HasTag(uid, SidearmTag)
+                ? GunBalanceSystem.SidearmDrawDelay
+                : GunBalanceSystem.GunDrawDelay;
+            var minimum = curTime + drawDelay;
+
+            if (component.NextFire < minimum)
+            {
+                component.NextFire = minimum;
+                component.LastFire = curTime;
+                Dirty(uid, component);
+            }
+
+            var useDelay = EnsureComp<UseDelayComponent>(uid);
+            _useDelay.SetLength((uid, useDelay), drawDelay, GunBalanceSystem.GunDrawDelayId);
+            _useDelay.TryResetDelay((uid, useDelay), false, GunBalanceSystem.GunDrawDelayId);
+
+            var shooter = EnsureComp<MarineShooterComponent>(args.User);
+            if (shooter.NextGlobalFire < minimum)
+            {
+                shooter.NextGlobalFire = minimum;
+                shooter.LastFiredGun = null;
+                Dirty(args.User, shooter);
+            }
+        }
+        // Stories-GunBalance-End
+
         if (Timing.ApplyingState)
-             return;
+            return;
 
         if (component.FireRateModified <= 0)
             return;
@@ -137,17 +232,13 @@ public abstract partial class SharedGunSystem
         if (!component.ResetOnHandSelected)
             return;
 
-        if (Paused(uid))
-            return;
-
         // If someone swaps to this weapon then reset its cd.
-        var curTime = Timing.CurTime;
-        var minimum = curTime + TimeSpan.FromSeconds(fireDelay);
+        var min = Timing.CurTime + TimeSpan.FromSeconds(fireDelay);
 
-        if (minimum < component.NextFire)
-            return;
-
-        component.NextFire = minimum;
-        Dirty(uid, component);
+        if (min > component.NextFire)
+        {
+            component.NextFire = min;
+            DirtyField(uid, component, nameof(GunComponent.NextFire));
+        }
     }
 }

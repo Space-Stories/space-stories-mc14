@@ -8,6 +8,7 @@ using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Synth;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.Strain;
 using Content.Shared.Chat;
 using Content.Shared.GameTicking;
 using Content.Shared.Popups;
@@ -193,7 +194,15 @@ public sealed class XenoHiveSystem : SharedXenoHiveSystem
                         hive.AnnouncedUnlocks.Add(unlock);
 
                         if (_prototypes.TryIndex(unlock, out var prototype))
-                            _announce.Add(prototype.Name);
+                        {
+                            // Stories-HiveAnnounce-Start
+                            if (prototype.TryGetComponent(out XenoStrainComponent? _, _compFactory))
+                                continue;
+
+                            if (!_announce.Contains(prototype.Name))
+                                _announce.Add(prototype.Name);
+                            // Stories-HiveAnnounce-End
+                        }
                     }
                 }
 

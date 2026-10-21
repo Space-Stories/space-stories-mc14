@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: CMBaseStructure
   id: RMCCommunicationsConsoleBase
@@ -7,6 +7,7 @@
     anchored: false
   - type: Physics
     bodyType: Static
+    canCollide: false
   - type: Sprite
     drawdepth: SmallObjects
     sprite: _RMC14/Structures/Machines/rmc_groundside_communications_console.rsi
@@ -52,24 +53,31 @@
   description: This can be used for various important functions.
   components:
   - type: ActivatableUI
-    key: enum.MarineCommunicationsComputerUI.Key
+    key: enum.GroundsideOperationsConsoleUi.Key
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
     access: [ [ "RMCAccessSeniorCommand" ] ]
   - type: UserInterface
     interfaces:
-      enum.MarineCommunicationsComputerUI.Key:
-        type: MarineCommunicationsComputerBui
+      enum.GroundsideOperationsConsoleUi.Key:
+        type: GroundsideOperationsConsoleBui
       enum.OverwatchConsoleUI.Key:
         type: OverwatchConsoleBui
+      enum.MarineControlComputerUi.MedalsPanel:
+        type: MedalsPanelBui
       enum.TacticalMapComputerUi.Key:
         type: TacticalMapComputerBui
       enum.DialogUiKey.Key:
         type: DialogBui
+  - type: GroundsideOperationsConsole
   - type: MarineCommunicationsComputer
+    sendAnnouncementOverlay: true # Stories-Announcements
+    canGiveMedals: true
+    canInitiateEvac: true
+  - type: MarineControlComputer
   - type: OverwatchConsole
-    canMessageSquad: false
-    showAntiAirStatus: true
+    canMessageSquad: true
+  - type: SupplyDropComputer
   - type: TacticalMapComputer
   - type: GuideHelp
     guides:
@@ -78,6 +86,30 @@
     - RMCGuideCommunicationsTowers
     - RMCGuideRoleCombatTechnician
     - RMCGuideRoleMaintenanceTechnician
+
+- type: entity
+  parent: RMCCommunicationsConsoleBase
+  id: RMCPowerMonitoringConsole
+  name: power monitoring console
+  description: A console that displays the power state of its local named network.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/computer.rsi
+    layers:
+    - map: ["base"]
+      state: "power0"
+    - map: ["enum.PowerDeviceVisualLayers.Powered"]
+      state: "power"
+  - type: ActivatableUI
+    key: enum.RMCPowerMonitorUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.RMCPowerMonitorUiKey.Key:
+        type: RMCPowerMonitorBui
+  - type: RMCPowerMonitor
+  - type: GuideHelp
+    guides:
+    - RMCGuidePower
 
 - type: entity
   parent: RMCCommunicationsConsoleBase
@@ -142,6 +174,7 @@
 - type: entity
   parent: RMCOverwatchConsoleBase
   id: RMCOverwatchConsole
+  suffix: Locked Direction
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/computer.rsi
@@ -158,14 +191,14 @@
   id: RMCOverwatchConsoleRotating
   suffix: Rotating
   components:
-  - type: Sprite
-    overrideDir: South
-    enableOverrideDir: false
+   - type: Sprite
+     overrideDir: South
+     enableOverrideDir: false
 
 - type: entity
   parent: RMCOverwatchConsoleRotating
   id: RMCOverwatchConsoleRotatingPowered
-  suffix: Rotating, Powered
+  suffix: Rotating, Always Powered
   components:
   - type: ApcPowerReceiver
     powerLoad: 0
@@ -182,8 +215,8 @@
     state: maptable
     layers: []
   - type: RMCPowerReceiver
-    idleLoad: 0
-    activeLoad: 2
+    idleLoad: 2
+    activeLoad: 0
   - type: InteractionOutline
   - type: ActivatableUI
     key: enum.TacticalMapComputerUi.Key
@@ -235,8 +268,8 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 2
+    activeLoad: 0
     channel: Equipment
   - type: GenericVisualizer
     visuals:

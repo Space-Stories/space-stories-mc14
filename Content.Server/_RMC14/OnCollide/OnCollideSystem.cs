@@ -1,6 +1,7 @@
 using Content.Server.Chat.Systems;
 using Content.Server._RMC14.Emote;
 using Content.Shared._RMC14.OnCollide;
+using Content.Shared._RMC14.Synth; // Stories-SynthNoPainEmote
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Chat.Prototypes;
 using Robust.Shared.Prototypes;
@@ -15,6 +16,11 @@ public sealed class OnCollideSystem : SharedOnCollideSystem
     {
         if (ent.Comp.Emote is not { } emote)
             return;
+
+        // Stories-SynthNoPainEmote-Start
+        if (HasComp<SynthComponent>(other))
+            return;
+        // Stories-SynthNoPainEmote-End
 
 
         if (HasComp<XenoComponent>(other) && ent.Comp.XenoEmote != null)

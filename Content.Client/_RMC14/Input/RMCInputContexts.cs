@@ -28,12 +28,15 @@ public static class RMCInputContexts
         CMKeyFunctions.RMCMarineSpecialistOne,
         CMKeyFunctions.RMCMarineSpecialistTwo,
         CMKeyFunctions.RMCPickUpDroppedItems,
+        CMKeyFunctions.RMCPushup,
+        CMKeyFunctions.RMCPushupRoutine,
         CMKeyFunctions.RMCQuickEquipInventory,
         CMKeyFunctions.RMCRest,
         CMKeyFunctions.RMCResist,
         CMKeyFunctions.RMCToggleAutoEject,
         CMKeyFunctions.RMCToggleIff,
         CMKeyFunctions.RMCUnloadWeapon,
+        CMKeyFunctions.RMCWeakPushup,
     ];
 
     public static readonly IReadOnlyList<BoundKeyFunction> XenoFunctions =

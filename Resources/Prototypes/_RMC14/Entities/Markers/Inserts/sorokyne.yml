@@ -76,11 +76,14 @@
     - spawn: "/Maps/_RMC14/Inserts/Sorokyne/surv_spawn_security.yml"
       probability: 0.34
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfcamp ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Sorokyne/surv_spawn_aerodrom.yml"
       probability: 0.33
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfcamp ] # Stories-CLFSurvivor
       offset: 9,-39
     - spawn: "/Maps/_RMC14/Inserts/Sorokyne/surv_spawn_south_engi.yml"
       probability: 0.33
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfcamp ] # Stories-CLFSurvivor
       offset: -34,-23

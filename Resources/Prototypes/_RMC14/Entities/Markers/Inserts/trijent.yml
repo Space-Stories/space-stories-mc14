@@ -264,15 +264,19 @@
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_bar.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_dam.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 61,59
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_hospital.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 69,-3
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_tunneldorm.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 14,29

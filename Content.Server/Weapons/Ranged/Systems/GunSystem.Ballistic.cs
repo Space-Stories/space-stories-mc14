@@ -22,6 +22,7 @@ public sealed partial class GunSystem
 
             Containers.Remove(existing, component.Container);
             EnsureShootable(existing);
+            ent = existing; // Stories-BallisticCyclePredictionFix
         }
         else if (component.UnspawnedCount > 0)
         {

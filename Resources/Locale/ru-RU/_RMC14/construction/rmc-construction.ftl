@@ -9,6 +9,7 @@ rmc-construction-upgrade-explosive = Вы применили взрывоуст�
 rmc-construction-upgrade-burn = Вы применили биологическоустойчивое обновление.
 rmc-construction-upgrade-brute = Вы применили удароустойчивое обновление.
 rmc-construction-downgrade = Вы снимаете улучшение с { $ent }, превращая её в обычную баррикаду.
+rmc-construction-require-anchored = You need to anchor { THE($ent) } first!
 
 rmc-construction-untrained-build = У вас недостаточно навыков для строительства этого...
 rmc-construction-more-material = Вам нужно больше { $material }, чтобы построить { $object }!

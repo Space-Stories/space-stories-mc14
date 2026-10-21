@@ -45,6 +45,7 @@ rmc-guide-entry-squad-leader = Squad Leader
 rmc-guide-entry-marine-structures = Marine Structures
 rmc-guide-entry-comms-and-sensors = Comms and Sensors
 rmc-guide-entry-mortar = Mortar
+rmc-guide-entry-power-and-apcs = Power and APCs
 rmc-guide-entry-xenonid-castes = Xenonid Castes
 rmc-guide-entry-xenonid-t1 = Tier 1 Xenonids
 rmc-guide-entry-defender = Defender Guide

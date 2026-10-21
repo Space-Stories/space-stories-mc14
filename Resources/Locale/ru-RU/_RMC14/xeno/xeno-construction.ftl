@@ -1,6 +1,9 @@
 cm-xeno-construction-failed-weeds = Здесь нельзя сажать сорняки!
 cm-xeno-construction-failed-need-weeds = Вы можете только формировать на сорняках. Найдите смолу, прежде чем начать строительство!
 cm-xeno-construction-failed-cant-build = Вы не можете строить там!
+rmc-xeno-construction-permission-denied = Королева не позволила нам возводить постройки улья!
+rmc-xeno-construction-permission-denied-deconstruct = Королева не позволила нам разрушать постройки улья!
+rmc-xeno-harm-permission-denied = Королева не позволила нам вредить заражённым носителям!
 cm-xeno-construction-failed-select-structure = Сначала вам нужно выбрать структуру для строительства! Используйте действие "Выбрать структуру из смолы".
 cm-xeno-construction-failed-requires-support = Чтобы { CAPITALIZE(MAKEPLURAL($choice)) } устоял, нужен стена или дверь из смолы рядом.
 
@@ -15,6 +18,7 @@ rmc-xeno-construction-no-map-resin-hole = Здесь нет твердой по�
 rmc-xeno-construction-must-have-weeds-resin-hole = Отверстия из смолы должны быть построены на сорняках.
 rmc-xeno-construction-blocked = Мы не можем здесь это построить.
 rmc-xeno-construction-blocked-resin-hole = Здесь уже что-то построено.
+rmc-xeno-construction-failed-cant-build-resin-hole = We sense this is not a suitable area for creating a resin hole.
 rmc-xeno-construction-blocked-structure = Здесь уже что-то построено.
 rmc-xeno-construction-similar-too-close-resin-hole = Поблизости есть и другие смоляные отверстия!
 rmc-xeno-construction-dead-body = Тело на пути!

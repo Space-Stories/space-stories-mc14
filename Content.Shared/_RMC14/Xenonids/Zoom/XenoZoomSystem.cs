@@ -43,6 +43,14 @@ public sealed class XenoZoomSystem : EntitySystem
 
     private void OnXenoZoomComponentShutdown(Entity<XenoZoomComponent> xeno, ref ComponentShutdown args)
     {
+        // Stories-XenoZoom-Start
+        if (xeno.Comp.Enabled)
+        {
+            _contentEye.SetMaxZoom(xeno, Vector2.One);
+            _contentEye.ResetZoom(xeno);
+        }
+        // Stories-XenoZoom-End
+
         if (!TryComp<ContentEyeComponent>(xeno, out var contentEye))
             return;
         if (!TryComp<EyeComponent>(xeno, out var eye))
@@ -76,6 +84,7 @@ public sealed class XenoZoomSystem : EntitySystem
         }
         else
         {
+            _contentEye.SetMaxZoom(xeno, Vector2.One); // Stories-XenoZoom
             _contentEye.SetZoom(xeno, SharedContentEyeSystem.DefaultZoom);
             xeno.Comp.Offset = Vector2.Zero;
         }
@@ -134,6 +143,7 @@ public sealed class XenoZoomSystem : EntitySystem
             return;
 
         ent.Comp.Enabled = false;
+        _contentEye.SetMaxZoom(ent, Vector2.One); // Stories-XenoZoom
         _contentEye.ResetZoom(ent);
         ent.Comp.Offset = Vector2.Zero;
         Dirty(ent);

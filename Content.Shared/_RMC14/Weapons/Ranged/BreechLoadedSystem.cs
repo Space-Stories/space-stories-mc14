@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Weapons.Common;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -9,6 +10,7 @@ using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.Weapons.Ranged;
 
@@ -16,9 +18,11 @@ public sealed class BreechLoadedSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearanceSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
+    [Dependency] private readonly GunBalanceSystem _gunBalance = default!;
     [Dependency] private readonly SharedGunSystem _gunSystem = default!;
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly UseDelaySystem _useDelay = default!;
 
     public override void Initialize()
@@ -68,6 +72,11 @@ public sealed class BreechLoadedSystem : EntitySystem
 
         args.Handled = true;
 
+        // Stories-GunBalance-Start
+        if (_gunSystem.IsGunInHands(args.UserUid, gun.Owner) && !_gunSystem.HasOtherHandFree(args.UserUid, gun.Owner))
+            return;
+        // Stories-GunBalance-End
+
         if (TryComp<UseDelayComponent>(gun, out var useDelay) && _useDelay.IsDelayed((gun, useDelay), gun.Comp.DelayId))
         {
             var actionLocale = gun.Comp.Open ? Loc.GetString("rmc-breech-loaded-close") : Loc.GetString("rmc-breech-loaded-open");
@@ -79,7 +88,23 @@ public sealed class BreechLoadedSystem : EntitySystem
         gun.Comp.Open = !gun.Comp.Open;
 
         if (!gun.Comp.Open)
+        {
             gun.Comp.Ready = true;
+
+            // Stories-GunBalance-Start
+            if (TryComp<GunComponent>(gun.Owner, out var gunComp))
+            {
+                _gunBalance.ApplyMagazineCooldown((gun.Owner, gunComp));
+
+                if (TryComp<MarineShooterComponent>(args.UserUid, out var shooter))
+                {
+                    shooter.NextGlobalFire = _timing.CurTime + GunBalanceSystem.GunMagazineDelay;
+                    shooter.LastFiredGun = null;
+                    Dirty(args.UserUid, shooter);
+                }
+            }
+            // Stories-GunBalance-End
+        }
 
         if (gun.Comp.ShowBreechOpen && TryComp(gun.Owner, out AppearanceComponent? appearanceComponent))
             _appearanceSystem.SetData(gun, BreechVisuals.Open, gun.Comp.Open, appearanceComponent);

@@ -9,6 +9,7 @@ using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Item;
+using Content.Shared.Weapons.Ranged.Components;
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
@@ -16,6 +17,7 @@ using Robust.Client.UserInterface;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Player;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Client.Hands.Systems
@@ -24,6 +26,7 @@ namespace Content.Client.Hands.Systems
     public sealed class HandsSystem : SharedHandsSystem
     {
         [Dependency] private readonly IPlayerManager _playerManager = default!;
+        [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly IUserInterfaceManager _ui = default!;
 
         [Dependency] private readonly StrippableSystem _stripSys = default!;

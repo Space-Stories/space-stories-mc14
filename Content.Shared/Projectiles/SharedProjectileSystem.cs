@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Shared._RMC14.Emplacements;
 using Content.Shared._RMC14.Projectiles.Penetration;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
 using Content.Shared._RMC14.Weapons.Ranged;
@@ -414,25 +415,34 @@ public abstract partial class SharedProjectileSystem : EntitySystem
             return;
         }
 
-        // RMC14
-        if (component.Weapon == null)
-            return;
-
-        if (!HasComp<GunIgnoreContainerOwnerCollisionComponent>(component.Weapon.Value))
-            return;
-
-        var current = component.Weapon.Value;
-        while (_container.TryGetContainingContainer((current, null), out var container))
+        // Stories-ProjectileCollision-Start
+        if (component.Weapon is { } weapon)
         {
-            if (args.OtherEntity == container.Owner)
+            if (TryComp(weapon, out MountableWeaponComponent? mountable) &&
+                mountable.MountedTo != null &&
+                GetEntity(mountable.MountedTo.Value) == args.OtherEntity)
             {
                 args.Cancelled = true;
                 return;
             }
 
-            current = container.Owner;
+            var current = weapon;
+            while (_container.TryGetContainingContainer((current, null), out var container))
+            {
+                if (args.OtherEntity == container.Owner)
+                {
+                    if (HasComp<WeaponMountComponent>(container.Owner) ||
+                        HasComp<GunIgnoreContainerOwnerCollisionComponent>(weapon))
+                    {
+                        args.Cancelled = true;
+                        return;
+                    }
+                }
+
+                current = container.Owner;
+            }
         }
-        // RMC14
+        // Stories-ProjectileCollision-End
     }
 
     public void SetShooter(EntityUid id, ProjectileComponent component, EntityUid? shooterId = null)

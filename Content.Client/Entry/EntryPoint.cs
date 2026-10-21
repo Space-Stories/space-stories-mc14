@@ -17,6 +17,7 @@ using Content.Client.IoC;
 using Content.Client.Launcher;
 using Content.Client.Lobby;
 using Content.Client.MainMenu;
+using Content.Client.Options.UI.Tabs;
 using Content.Client.Parallax.Managers;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Playtime;
@@ -171,6 +172,36 @@ namespace Content.Client.Entry
 
             // Setup key contexts
             ContentContexts.SetupContexts(_inputManager.Contexts);
+            // Stories-KeyRebind-Start
+            KeyRebindTab.EnforceStandardMouseBindings(_inputManager);
+            _inputManager.OnKeyBindingAdded += binding =>
+            {
+                if (!KeyRebindTab.IsBindingAllowed(binding))
+                {
+                    _inputManager.RemoveBinding(binding, markModified: false);
+                }
+            };
+
+            var consoleHost = IoCManager.Resolve<Robust.Client.Console.IClientConsoleHost>();
+            consoleHost.AnyCommandExecuted += (shell, commandName, argStr, args) =>
+            {
+                if (!commandName.Equals("bind", StringComparison.OrdinalIgnoreCase) || args.Length < 3)
+                    return;
+
+                if (!Enum.TryParse<Keyboard.Key>(args[0], true, out var key))
+                    return;
+
+                if (key == Keyboard.Key.MouseLeft || key == Keyboard.Key.MouseRight)
+                {
+                    var defaults = KeyRebindTab.GetDefaultBindings();
+                    var func = args[2];
+                    if (!defaults.Contains((func, key, Keyboard.Key.Unknown, Keyboard.Key.Unknown, Keyboard.Key.Unknown)))
+                    {
+                        shell.WriteError(Loc.GetString("stories-cmd-bind-disallowed"));
+                    }
+                }
+            };
+            // Stories-KeyRebind-End
 
             _parallaxManager.LoadDefaultParallax();
 

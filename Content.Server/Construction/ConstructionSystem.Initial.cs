@@ -539,8 +539,9 @@ namespace Content.Server.Construction
 
             var mapPos = _transformSystem.ToMapCoordinates(location);
             var predicate = GetPredicate(constructionPrototype.CanBuildInImpassable, mapPos);
+            var range = constructionPrototype.InteractionRange;
 
-            if (!_interactionSystem.InRangeUnobstructed(user, mapPos, predicate: predicate))
+            if (!_interactionSystem.InRangeUnobstructed(user, mapPos, range, predicate: predicate))
             {
                 Cleanup();
                 return;

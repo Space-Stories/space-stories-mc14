@@ -1,8 +1,8 @@
 ent-WeaponRifleM16 = винтовка M16
     .desc = Надежный и старый дизайн, впервые принятый на вооружение американской армией в 1960-х годах.  Такое оружие скорее для музея военной истории. Калибр — 5,56х45 мм.
     .suffix = Заряжена
-ent-RMCWeaponRifleM16A5 = M16A5 Rifle
-    .desc = Modernized version of M16 platform rifle, probably originated from bottomless stockpiles of the United Nations when they switched to more modern rifles. It is chambered in 5.56x45mm.
+ent-RMCWeaponRifleM16A5 = винтовка M16A5
+    .desc = Модернизированная версия винтовки на платформе M16, вероятно, из бездонных запасов США, оставшихся после перехода на более современные винтовки. Под патрон 5.56x45 мм.
     .suffix = { ent-WeaponRifleM16.suffix }
 ent-RMCMagazineRifleM16 = магазин для винтовки M16 (5,56x45 мм)
     .desc = { ent-CMMagazineRifleBase.desc }

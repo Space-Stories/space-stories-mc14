@@ -5,7 +5,7 @@ using Robust.Shared.Utility;
 namespace Content.Shared._Stories.Hunter.Marking.Components;
 
 [RegisterComponent] [NetworkedComponent] [AutoGenerateComponentState]
-[Access(typeof(SharedHunterMarkingSystem))]
+[Access(typeof(SharedHunterMarkingSystem), typeof(Content.Shared._Stories.Xenonids.Predalien.STPredalienSystem))]
 public sealed partial class HunterMarkedComponent : Component
 {
     [DataField] [AutoNetworkedField]

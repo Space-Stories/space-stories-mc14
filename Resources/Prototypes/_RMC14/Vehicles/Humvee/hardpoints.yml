@@ -42,6 +42,7 @@
     repairRate: 0.008
   - type: HardpointIntegrity
     maxIntegrity: 100
+    integrity: 100
   - type: VehicleTurret
     rotateToCursor: true
     stabilizedRotation: false
@@ -55,6 +56,10 @@
     pixelOffsetEast: "-6,16"
     pixelOffsetSouth: "0,15"
     pixelOffsetWest: "6,16"
+  - type: ContainerContainer
+    containers:
+      turret-cannon: !type:ContainerSlot
+      turret-launcher: !type:ContainerSlot
   - type: ItemSlots
     slots:
       turret-cannon:
@@ -67,6 +72,7 @@
         whitelist:
           components:
           - HardpointItem
+  - type: HardpointState
   - type: HardpointSlots
     vehicleFamily: HardpointVehicleFamilyHumvee
     slots:

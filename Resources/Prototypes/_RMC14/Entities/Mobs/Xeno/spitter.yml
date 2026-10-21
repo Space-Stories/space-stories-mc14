@@ -52,6 +52,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     role: CMXenoSpitter
     actionIds:

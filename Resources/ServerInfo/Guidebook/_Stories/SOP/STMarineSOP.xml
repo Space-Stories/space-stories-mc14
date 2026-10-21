@@ -24,5 +24,6 @@
   - [textlink="НЕ изменяемая Командная СОП" link="STMarineSOPNONModCommand"]
   - [textlink="НЕ изменяемые Ограничения Развертывания" link="STMarineSOPNONModDeployment"]
   - [textlink="НЕ изменяемый Персонал Третьих Сторон" link="STMarineSOPNONModThirdparty"]
+  - [textlink="НЕ изменяемый Федеральный Закон" link="STMarineSOPNONModCivilLaw"]
 
 </Document>

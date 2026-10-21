@@ -62,8 +62,8 @@
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/Eyes/Glasses/m42_scoutsight.rsi
   - type: NightVisionItem
-    mesons: true
     defaultState: half
+    mesons: true # Stories-MesonFix
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -117,8 +117,8 @@
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/Eyes/Glasses/m42_scoutsight.rsi
   - type: NightVisionItem
-    mesons: true
     defaultState: half
+    mesons: true # Stories-MesonFix
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -152,7 +152,9 @@
     skills:
       RMCSkillSmartGun: 1
     defaultState: half
+    mesons: true # Stories-MesonFix
   - type: ClothingRequireEquipped
+    handsValid: true
     whitelist:
       components:
       - SmartGun
@@ -194,7 +196,10 @@
         variation: 0.250
   - type: ComponentToggler
     components:
+    # Stories-MesonFix-Start
     - type: NightVisionItem
+      mesons: true
+    # Stories-MesonFix-End
   - type: Appearance
   - type: RMCItemToggleClothingVisuals
   - type: GenericVisualizer
@@ -203,6 +208,10 @@
         enum.ToggleableVisuals.Layer:
           True: {state: icon-on}
           False: {state: icon}
+  # Stories-SynthItemRestriction-Start
+  - type: STSynthItemRestriction
+    denyPopup: st-synth-item-synth-only
+  # Stories-SynthItemRestriction-End
 
 - type: entity
   parent: [ClothingEyesHudMedical, BaseToggleClothing]
@@ -326,10 +335,10 @@
   - type: Appearance
   - type: ItemToggleRequiresSkill
     skills:
-      RMCSkillMedical: 1
+      RMCSkillResearch: 1
   - type: ItemToggleDeactivateUnskilled
     skills:
-      RMCSkillMedical: 1
+      RMCSkillResearch: 1
     popup: rmc-skills-hud-toggle
 
 - type: entity
@@ -826,6 +835,12 @@
       sprite: _RMC14/Objects/Clothing/Eyes/Glasses/bigsunglasses.rsi
       state: helmet
 
+
+- type: entity
+  parent: RMCSunglassesBig
+  id: RMCGlassesTriMaxPersonal
+  name: TriMax personal shades
+  description: These are an expensive pair of TriMax sunglasses. They look like they could survive the end of the world and still make the wearer look insufferably confident.
 
 - type: entity
   parent: RMCSunglassesBig

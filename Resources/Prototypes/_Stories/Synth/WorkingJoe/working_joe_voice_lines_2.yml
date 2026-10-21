@@ -1,0 +1,770 @@
+
+- type: entity
+  id: STWorkingJoeVoiceWarningThink
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-think
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/dumayu.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/dumayu.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningDontDoThat
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-dont-do-that
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_nado.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_nado.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningDontRun
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-dont-run
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_begite.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_begite.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningDontTwitch
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-dont-twitch
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/nedergaytes.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/nedergaytes.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningNoPointHiding
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-no-point-hiding
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/netsmislapryatatsa.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/netsmislapryatatsa.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningBruiseYourself
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-bruise-yourself
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ushibitsa.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ushibitsa.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningHurtYourself
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-hurt-yourself
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/postradat.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/postradat.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningSafetyBreach
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-safety-breach
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/vinarushaete.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/vinarushaete.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningIllExplain
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-ill-explain
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/yavamobyasnyu.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/yavamobyasnyu.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningViolatedRules
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-violated-rules
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/budetenakazani.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/budetenakazani.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningStopHysterics
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-stop-hysterics
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/prekratiteisteriku.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/prekratiteisteriku.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningHealthRisk
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-health-risk
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/pri_gorenii.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/pri_gorenii.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningDangerousItems
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-dangerous-items
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/opasniepredmeti.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/opasniepredmeti.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningPatience
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-patience
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/terp.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/terp.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningCalmDown
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-calm-down
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/uspokoytes.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/uspokoytes.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningReportYou
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-report-you
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/mne.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/mne.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningCareless
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-careless
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/neostorojni.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/neostorojni.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningWhatAreYouDoing
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-what-are-you-doing
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/delaete.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/delaete.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningWillBeHeld
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-will-be-held
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ponesyote.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ponesyote.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningLightingEquipment
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-lighting-equipment
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/osvetitelnogo.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/osvetitelnogo.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningVeryDangerous
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-very-dangerous
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ochen_opasno.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ochen_opasno.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningNicely
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-nicely
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/po_horoshemu.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/po_horoshemu.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningCatchYou
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-catch-you
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/yavaspoymau.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/yavaspoymau.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningDealWithIt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-deal-with-it
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/razberus.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/razberus.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceWarningBeQuiet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-warning
+    text: st-working-joe-line-warning-be-quiet
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/cic.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/cic.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhatHappened
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-what-happened
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/sluchilos.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/sluchilos.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionSomethingWrong
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-something-wrong
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/chtoeto.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/chtoeto.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhatsTheMatter
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-whats-the-matter
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/chemdelo.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/chemdelo.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhatsHappening
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-whats-happening
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/chtoproishodit.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/chtoproishodit.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhatIsIt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-what-is-it
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/chtotakoe.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/chtotakoe.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhoDidThis
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-who-did-this
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ktoetosdelal.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ktoetosdelal.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionThatSound
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-that-sound
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/za_zvuk.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/za_zvuk.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhatAreYouDoingHere
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-what-are-you-doing-here
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/chtovizdesdelaete.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/chtovizdesdelaete.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionAnotherProblem
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-another-problem
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/opyatproblema.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/opyatproblema.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionNotRight
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-not-right
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_tak.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_tak.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionTurnOn
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-turn-on
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/vcluchat.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/vcluchat.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionAreYouPlaying
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-are-you-playing
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/razigrivaete.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/razigrivaete.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionEnough
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-enough
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/dostatochno.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/dostatochno.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhereAreYouGoing
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-where-are-you-going
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/kudasobralis.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/kudasobralis.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhereAreYou
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-where-are-you
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/gde_vi.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/gde_vi.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionNeedAssistance
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-need-assistance
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/nujna_pomotch.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/nujna_pomotch.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhoAreYou
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-who-are-you
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/kto_vi.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/kto_vi.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionIsThisYours
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-is-this-yours
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/etovashe.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/etovashe.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionWhyDidYou
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-why-did-you
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/zachem.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/zachem.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceQuestionToAchieve
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-question
+    text: st-working-joe-line-question-to-achieve
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/dobivaetes.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/dobivaetes.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeCareful
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-careful
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ostorozhnee.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ostorozhnee.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeFirearm
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-firearm
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ognestrelnoeoruzie.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ognestrelnoeoruzie.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeNeedToClarify
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-need-to-clarify
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/nado_viesnit.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/nado_viesnit.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeHopeYouHaveClearance
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-hope-you-have-clearance
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/nadeusuvasestrazre.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/nadeusuvasestrazre.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeReason
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-reason
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/prichina.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/prichina.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeUnknownCreature
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-unknown-creature
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/neizvestnoesuchestvo.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/neizvestnoesuchestvo.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeNeedsRepair
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-needs-repair
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/remontu.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/remontu.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeHaveToCheck
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-have-to-check
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/nado-posmotret.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/nado-posmotret.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeCaughtFire
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-caught-fire
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/zagorelos.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/zagorelos.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeLogIt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-log-it
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/zurnal.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/zurnal.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeStrange
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-strange
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/stranno.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/stranno.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticePotentialHazard
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-potential-hazard
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ugroza.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ugroza.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeCleanupNeeded
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-cleanup-needed
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/uborka.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/uborka.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeCurious
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-curious
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/lybopitno.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/lybopitno.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeDoesntHappen
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-doesnt-happen
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_bivaet.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_bivaet.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeNotAToy
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-not-a-toy
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_igrushka.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_igrushka.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeSomeoneWasHere
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-someone-was-here
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/kto_to_byl.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/kto_to_byl.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticeAnnoying
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-annoying
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/dosadno.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/dosadno.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceNoticePowerSurge
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-notice
+    text: st-working-joe-line-notice-power-surge
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/skachok.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/skachok.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskFollowMe
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-follow-me
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/proydemte.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/proydemte.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskComingIn1
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-coming-in-1
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/podoyducherez1.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/podoyducherez1.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskExistingTasks
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-existing-tasks
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/zadachi.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/zadachi.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskRequestDenied
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-request-denied
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/zapros.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/zapros.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskCantDoThat
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-cant-do-that
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/tak_nelza.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/tak_nelza.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskWontGoThere
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-wont-go-there
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ne_polezu.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ne_polezu.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceTaskBeginningSearch
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-task-update
+    text: st-working-joe-line-task-beginning-search
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/poiski.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/poiski.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceRestrictedCantGoThere
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-restricted-area
+    text: st-working-joe-line-restricted-cant-go-there
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/vamsyduanelza.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/vamsyduanelza.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceRestrictedQuarantineViolation
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-restricted-area
+    text: st-working-joe-line-restricted-quarantine-violation
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/narusheniekarantina.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/narusheniekarantina.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceRestrictedVentCheck
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-restricted-area
+    text: st-working-joe-line-restricted-vent-check
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/ventilyacii.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/ventilyacii.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceFireTemperatureRising
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-fire
+    text: st-working-joe-line-fire-temperature-rising
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/temp.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/temp.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceFireOnlyBeastsAfraid
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-fire
+    text: st-working-joe-line-fire-only-beasts-afraid
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/tolko_zveri.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/tolko_zveri.ogg }
+
+- type: entity
+  id: STWorkingJoeVoiceFireOpenFlame
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthVoiceLine
+    category: st-working-joe-category-fire
+    text: st-working-joe-line-fire-open-flame
+    sound: { path: /Audio/_Stories/Synth/WorkingJoe/otkritogog.ogg }
+    alternateSound: { path: /Audio/_Stories/Synth/WorkingJoe/Hazmat/otkritogog.ogg }

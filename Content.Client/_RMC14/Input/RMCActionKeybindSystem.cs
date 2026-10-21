@@ -2,11 +2,13 @@ using Content.Client.Actions;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Actions;
 using Content.Shared._RMC14.Input;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Pheromones;
 using Content.Shared.Actions.Components;
 using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Shared.Input.Binding;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client._RMC14.Input;
 
@@ -128,11 +130,22 @@ public sealed class RMCActionKeybindSystem : EntitySystem
 
     public EntityUid? FindAction(EntityUid actor, RMCKeybindActionSlot slot)
     {
-        if (!TryComp(actor, out RMCKeybindActionsComponent? mappings) ||
-            !mappings.Actions.TryGetValue(slot, out var candidates))
+        // Stories-KeybindActions-Start
+        List<EntProtoId>? candidates = null;
+
+        if (TryComp(actor, out RMCKeybindActionsComponent? mappings) &&
+            mappings.Actions.TryGetValue(slot, out var slotCandidates))
         {
-            return null;
+            candidates = slotCandidates;
         }
+        else if (HasComp<XenoComponent>(actor))
+        {
+            RMCKeybindActionsComponent.DefaultXenoActions.TryGetValue(slot, out candidates);
+        }
+
+        if (candidates == null)
+            return null;
+        // Stories-KeybindActions-End
 
         var actions = _actions.GetClientActions();
         foreach (var candidate in candidates)

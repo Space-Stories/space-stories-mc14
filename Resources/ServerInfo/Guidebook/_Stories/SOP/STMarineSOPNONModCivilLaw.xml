@@ -1,0 +1,123 @@
+﻿<Document>
+  # НЕ изменяемый Федеральный Закон
+
+  Федеральный Закон Объединённых Америк действует на борту наряду с Военным Законом и в первую очередь применяется к гражданскому персоналу и третьим сторонам. [color=#00CBFE][bold]Командующий Офицер[/bold][/color] не может изменять или отменять его положения.
+
+  - Гражданское Неподчинение применяется только к персоналу, не входящему в КМП США. Военнослужащие КМП США за те же действия отвечают по статье Неповиновение Военного Закона.
+  - Торговлю на Чёрном Рынке и Незаконную Торговлю Оружием преследуют гражданские власти, такие как [color=#ffa500][bold]Бюро Колониальных Маршалов (БКМ)[/bold][/color]. Если представителей БКМ на борту нет, [color=#ff000d][bold]Военная Полиция[/bold][/color] задерживает подозреваемого, изымает контрабанду и передаёт дело БКМ при первой возможности.
+  - Сроки по этим статьям складываются со сроками по Военному Закону по общим правилам.
+
+  <Table Columns="3">
+    <ColorBox>
+      <Box>
+        Обвинение
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box>
+        Описание
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box>
+        Наказание
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Пособничество Терроризму
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Членство в террористической организации или оказание помощи её члену.\n[italic]Не применяется, если подсудимый сам участвовал в террористических атаках. Само по себе не является основанием для казни.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]Пожизненное заключение.[/bold]
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Терроризм
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Совершение террористических атак против Объединённых Америк или их союзников.\n[italic]Не применяется, если подсудимый не участвовал в террористических атаках.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]Пожизненное заключение.[/bold]
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Гражданское Неподчинение - мелкое
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Невыполнение законного приказа сотрудника департамента, к которому прикреплено лицо (если такой есть), а также неуважение к Командиру или Дежурному Офицеру.\n[italic]Только для персонала, не входящего в КМП США.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]5 минут.[/bold]
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Гражданское Неподчинение - тяжкое
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Невыполнение законного приказа Командира или Дежурного Офицера (или главы департамента, к которому прикреплено лицо, если такой есть) во время активной военной операции.\n[italic]Только для персонала, не входящего в КМП США.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]10 минут.[/bold]
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Торговля на Чёрном Рынке
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Незаконное приобретение или продажа запрещённых товаров, за исключением огнестрельного оружия и взрывчатки.\n[italic]Преследуется гражданскими властями, такими как БКМ.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]7,5 минут, конфискация контрабанды.[/bold]
+      </Box>
+    </ColorBox>
+
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Незаконная Торговля Оружием
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        Незаконное приобретение или продажа огнестрельного оружия или взрывчатки.\n[italic]Преследуется гражданскими властями, такими как БКМ.[/italic]
+      </Box>
+    </ColorBox>
+    <ColorBox>
+      <Box HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="3">
+        [bold]15 минут, конфискация контрабанды.[/bold]
+      </Box>
+    </ColorBox>
+  </Table>
+</Document>

@@ -25,8 +25,11 @@ public sealed partial class DamageOnCollideComponent : Component
     [DataField]
     public DamageSpecifier ChainDamage = new();
 
+    // Stories-DeletedEntityReferences-Start
+    // Hit history must remain serializable after a victim is deleted.
     [DataField, AutoNetworkedField]
-    public HashSet<EntityUid> Damaged = new();
+    public HashSet<NetEntity> Damaged = new();
+    // Stories-DeletedEntityReferences-End
 
     [DataField]
     public EntityWhitelist? Whitelist;

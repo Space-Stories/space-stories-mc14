@@ -11,6 +11,7 @@
   name: Hivelord
   description: A builder of really big hives.
   components:
+  - type: XenoBuilderCaste
   - type: MobState
     allowedStates:
     - Alive
@@ -21,6 +22,17 @@
       0: Alive
       550: Critical
       650: Dead
+  # Stories-SynthHeavyGrab-Start
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - RMCSynthGrabbable
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     tier: 2
     hudOffset: 0,0.35

@@ -15,12 +15,12 @@ ent-RMCBasketballReset = кнопка сброса баскетбольного 
 
 rmc-basketball-side-left = Левая сторона
 rmc-basketball-side-right = Правая сторона
-rmc-basketball-shot = {$side} набирает {$points} { $points ->
+rmc-basketball-shot = { $side } набирает { $points } { $points ->
     [one] очко
     [few] очка
     *[other] очков
 }!
-rmc-basketball-dunk = {$side} забивает сверху и получает {$points} { $points ->
+rmc-basketball-dunk = { $side } забивает сверху и получает { $points } { $points ->
     [one] очко
     [few] очка
     *[other] очков

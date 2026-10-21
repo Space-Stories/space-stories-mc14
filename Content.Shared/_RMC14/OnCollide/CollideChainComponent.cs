@@ -6,6 +6,9 @@ namespace Content.Shared._RMC14.OnCollide;
 [Access(typeof(SharedOnCollideSystem))]
 public sealed partial class CollideChainComponent : Component
 {
+    // Stories-DeletedEntityReferences-Start
+    // Keep hit identity without resolving victims again during state serialization.
     [DataField, AutoNetworkedField]
-    public HashSet<EntityUid> Hit = new();
+    public HashSet<NetEntity> Hit = new();
+    // Stories-DeletedEntityReferences-End
 }

@@ -121,7 +121,7 @@ public sealed class LarvaQueueSystem : EntitySystem
 
     private void OnMindRemoved(Entity<CanBeLarvaQueuedComponent> ent, ref MindRemovedMessage _)
     {
-        if (_net.IsClient || !HasComp<XenoComponent>(ent))
+        if (_net.IsClient || TerminatingOrDeleted(ent) || !HasComp<XenoComponent>(ent))
             return;
 
         if (_mobState.IsDead(ent))
@@ -222,7 +222,8 @@ public sealed class LarvaQueueSystem : EntitySystem
             return;
         }
 
-        if ((_gameTiming.CurTime - ghost.TimeOfDeath).TotalSeconds >= larvaWaitTime)
+        var timeSinceDeath = _gameTiming.RealTime - ghost.TimeOfDeath; // Stories-XenoRespawnCooldown
+        if (timeSinceDeath.TotalSeconds >= larvaWaitTime) // Stories-XenoRespawnCooldown
         {
             Queue.GetOrNew(hive).AddLast(session);
             var position = GetQueuePosition(session, hive);
@@ -235,7 +236,7 @@ public sealed class LarvaQueueSystem : EntitySystem
         else
         {
             PreQueue.GetOrNew(hive).Add(session, larvaWaitTime + ghost.TimeOfDeath.TotalSeconds);
-            var timeLeft = TimeSpan.FromSeconds(larvaWaitTime) + ghost.TimeOfDeath - _gameTiming.CurTime;
+            var timeLeft = TimeSpan.FromSeconds(larvaWaitTime) - timeSinceDeath; // Stories-XenoRespawnCooldown
             _popup.PopupEntity(
                 $"You died too recently, and will be added to the queue in {timeLeft.TotalSeconds:F0} seconds.",
                 actorEntity.Value, actorEntity.Value);
@@ -649,7 +650,7 @@ public sealed class LarvaQueueSystem : EntitySystem
         if (!PreQueue.TryGetValue(hiveId, out var pq) || !pq.TryGetValue(userId, out var promotionTime))
             return null;
 
-        var remaining = promotionTime - _gameTiming.CurTime.TotalSeconds;
+        var remaining = promotionTime - _gameTiming.RealTime.TotalSeconds; // Stories-XenoRespawnCooldown
         return TimeSpan.FromSeconds(remaining > 0 ? remaining : 0);
     }
 
@@ -700,6 +701,7 @@ public sealed class LarvaQueueSystem : EntitySystem
             return;
 
         var time = _gameTiming.CurTime;
+        var realTime = _gameTiming.RealTime.TotalSeconds; // Stories-XenoRespawnCooldown
 
         var expiredDisconnected = new List<NetUserId>();
         foreach (var (userId, expiry) in _disconnectExpiresAt)
@@ -723,7 +725,7 @@ public sealed class LarvaQueueSystem : EntitySystem
             var toPromote = new List<NetUserId>();
             foreach (var (userId, userTime) in hivePreQueue)
             {
-                if (userTime <= time.TotalSeconds)
+                if (userTime <= realTime) // Stories-XenoRespawnCooldown
                     toPromote.Add(userId);
             }
 

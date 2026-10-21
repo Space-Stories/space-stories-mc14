@@ -1,0 +1,20 @@
+- type: entity
+  id: ActionSTFeralFrenzy
+  parent: ActionXenoBase
+  name: Feral Frenzy
+  description: Eviscerate a target (or everyone around you, depending on mode) with a devastating strike.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/predalien_actions.rsi
+      state: feral_frenzy
+    useDelay: 15
+  - type: TargetAction
+    range: 2
+    checkCanAccess: false
+    deselectOnMiss: false
+  - type: EntityTargetAction
+    toggleOutline: false
+  - type: WorldTargetAction
+    event: !type:STFeralFrenzyActionEvent

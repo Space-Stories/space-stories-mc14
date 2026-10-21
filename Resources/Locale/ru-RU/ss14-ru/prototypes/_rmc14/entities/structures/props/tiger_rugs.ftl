@@ -1,0 +1,15 @@
+ent-RMCPropTigerRugOrange = tiger rug
+    .desc = A rather tasteless but impressive tiger rug. Must've costed a fortune to get this exported to the rim.
+    .suffix = Orange
+ent-RMCPropTigerRugGrey = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Grey
+ent-RMCPropTigerRugWhite = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = White
+ent-RMCPropTigerRugSkin = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Skin
+ent-RMCPropTigerRugHotline = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Hotline

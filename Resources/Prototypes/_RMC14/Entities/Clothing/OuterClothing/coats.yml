@@ -34,6 +34,9 @@
     blacklist:
       components:
       - Xeno
+  - type: Tag
+    tags:
+    - RMCSynthAllowedArmor
 
 - type: entity
   abstract: True
@@ -115,7 +118,7 @@
     whitelist:
       components:
       - Blowtorch
-      - Gun
+      # - Gun # Stories-Balance
       - RMCLighter
       - Stunbaton
       - CrewMonitoringConsole
@@ -425,6 +428,20 @@
   - type: FoldableClothing
     foldedEquippedPrefix: jacket
     foldedHeldPrefix: jacket
+
+- type: entity
+  parent: RMCBaseJacket
+  id: RMCCoatPilotFighter
+  name: PDU-80 pilot mobility vest
+  description: The PDU-80 is an older-generation vest currently in use by Marine Aerofighter pilots. It is a combination of both a survival vest and a modular body armor system. The chestpiece can be worn alone to provide protection against fragmentation and smaller calibers while allowing the attachment of life preservers and additional armor inserts to suit the individual needs of the pilot.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Coats/pilot_fighter.rsi
+  - type: Clothing
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Coats/pilot_fighter.rsi
+  - type: CMArmor
+    melee: 10
+    bullet: 10
 
 # Commanding Officer
 - type: entity
@@ -1011,11 +1028,11 @@
     sprite: _RMC14/Objects/Clothing/OuterClothing/Coats/Snowsuits/normal.rsi
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/OuterClothing/Coats/Snowsuits/normal.rsi
-  - type: CMArmor
-    melee: 15
-    bullet: 15
+  - type: CMArmor # Stories-Balance
+  #   melee: 15
+  #   bullet: 15
     bio: 20
-    explosionArmor: 0
+  #   explosionArmor: 0
   # TODO give temperature protection
   # TODO 10 internal damage armor
 
@@ -1044,11 +1061,11 @@
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/OuterClothing/Coats/Snowsuits/normal.rsi # TODO cool sprite
   - type: CMHardArmor
-  - type: CMArmor
-    melee: 15
-    bullet: 20
+  - type: CMArmor # Stories-Balance
+    # melee: 15
+    # bullet: 20
     bio: 20
-    explosionArmor: 0
+    # explosionArmor: 0
   - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_VERY_LIGHT
     walkModifier: 0.897
     sprintModifier: 0.897

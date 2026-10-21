@@ -109,6 +109,7 @@
   - type: Tag
     tags:
     - RMCSmartGunMounted
+  - type: GunIgnoreContainerOwnerCollision
 
 - type: entity
   parent: RMCSmartGunMounted
@@ -196,6 +197,13 @@
     - suitStorage
   - type: Item
     size: Large
+
+- type: entity
+  parent: RMCMagazineML66D
+  id: RMCMagazineML66DEmpty
+  suffix: Empty
+  components:
+  - type: RMCEmptyMag
 
 - type: entity
   parent: RMCMagazineML66D

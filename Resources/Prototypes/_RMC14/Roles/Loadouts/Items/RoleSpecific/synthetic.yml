@@ -417,22 +417,3 @@
   id: SatchelWelderRMC
   equipment:
     back: RMCSatchelWelder
-
-# Generations
-- type: loadout
-  id: RMCSynthGenOne
-  componentsAdd: true
-  equipment:
-    none: RMCSynthGenOne
-
-- type: loadout
-  id: RMCSynthGenTwo
-  componentsAdd: true
-  equipment:
-    none: RMCSynthGenTwo
-
-- type: loadout
-  id: RMCSynthGenThree
-  componentsAdd: true
-  equipment:
-    none: RMCSynthGenThree

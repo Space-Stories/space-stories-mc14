@@ -12,6 +12,9 @@ public static class RMCKeybindCatalog
         [
             CMKeyFunctions.RMCRest,
             CMKeyFunctions.RMCResist,
+            CMKeyFunctions.RMCPushup,
+            CMKeyFunctions.RMCPushupRoutine,
+            CMKeyFunctions.RMCWeakPushup,
             CMKeyFunctions.RMCMarineIssueOrder,
             CMKeyFunctions.RMCMarineIssueOrderMove,
             CMKeyFunctions.RMCMarineIssueOrderHold,

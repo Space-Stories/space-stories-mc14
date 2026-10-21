@@ -128,6 +128,13 @@ public sealed class AreaSystem : EntitySystem
         EnsureAreaEntityExists(areaGrid, area);
     }
 
+    // Stories-TacMapInsert
+    public void QueueRender(EntityUid grid)
+    {
+        if (!_toRender.Contains(grid))
+            _toRender.Add(grid);
+    }
+
     public bool SetAlwaysPowered(Entity<AreaComponent> area, bool alwaysPowered)
     {
         if (area.Comp.AlwaysPowered == alwaysPowered)
@@ -531,6 +538,7 @@ public sealed class AreaSystem : EntitySystem
                 }
 
                 areaGrid.Colors.Clear();
+                areaGrid.Labels.Clear(); // Stories-TacMapInsert
                 Dirty(ent, areaGrid);
 
                 var tiles = _map.GetAllTilesEnumerator(ent, mapGrid);

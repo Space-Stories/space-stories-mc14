@@ -1,0 +1,81 @@
+- type: job
+  parent: RMCSurvivorCLFBase
+  id: STSurvivorCLFCoordinator
+  name: st-job-name-clf-survivor-coordinator
+  icon: RMCJobIconCLFCellCommander
+  startingGear: STGearSurvivorCLFCoordinator
+  spawnMenuRoleName: CLF Coordinator (Survivor)
+  antagRole: RMCHostileSurvivor
+  camouflageStartingGear:
+    Snow: STGearSurvivorCLFNoCamo
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: NpcFactionMember
+      factions:
+      - CLF
+    - type: Skills
+      skills:
+        RMCSkillCqc: 2
+        RMCSkillFirearms: 1
+        RMCSkillPolice: 2
+        RMCSkillMeleeWeapons: 1
+        RMCSkillOverwatch: 1
+        RMCSkillFireman: 2
+        RMCSkillConstruction: 2
+        RMCSkillEngineer: 2
+        RMCSkillMedical: 2
+        RMCSkillSurgery: 1
+        RMCSkillVehicles: 2
+        RMCSkillEndurance: 2
+        RMCSkillJtac: 1
+    - type: JobPrefix
+      prefix: st-job-prefix-clf-survivor-coordinator
+    - type: RMCSurvivor
+    - type: MotionDetectorTracked
+    - type: StoriesSurvivorDebuffImmune
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+  hidden: true
+
+- type: startingGear
+  id: STGearSurvivorCLFCoordinator
+  equipment:
+    head: RMCHeadMilitiaHood
+    mask: CMMaskGas
+    ears: RMCHeadsetDistressCLF
+    jumpsuit: STJumpsuitCLFWebbing
+    outerClothing: RMCCoatMilitia
+    gloves: CMHandsBrown
+    shoes: CMBootsBlackFilled
+    id: RMCIDCardCLFCellCommander
+    belt: RMCScabbardKatanaFilled
+    back: RMCSatchelLightpack
+    pocket1: RMCPouchSurvivalFill
+    pocket2: RMCPouchFirstAidInjectors
+  inhand:
+  - RMCWeaponSMGFP9000
+  storage:
+    back:
+    - RMCMRECLF
+    - CMAdvFirstAidKitFilled
+    - CMHealthAnalyzer
+    - CMPaper
+    - RMCMotionDetector
+    - RMCBinocularsCiv
+    - RMCGrenadeMolotov
+    - RMCMagazineSMGFP9000
+    - RMCMagazineSMGFP9000
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: STSpawnPointSurvivorCLFCoordinator
+  name: survivor clf coordinator spawn point
+  components:
+  - type: SpawnPoint
+    job_id: STSurvivorCLFCoordinator
+  - type: Sprite
+    state: clf_spawn

@@ -87,6 +87,7 @@ rmc-job-name-pmc-corporate-goon-engi = Корпоративный техник �
 rmc-job-name-pmc-corporate-goon-medic = Корпоративный медик СБ Ве-Я
 rmc-job-name-pmc-corporate-goon-leader = Руководитель корпоративной СБ Ве-Я
 rmc-job-name-pmc-corporate-goon-secguard = Охранник Ве-Я
+rmc-job-name-pmc-corporate-goon-synth = We-Ya Corporate Security Synthetic
 
 rmc-job-name-pmc-pve-team-leader = Командир группы
 rmc-job-prefix-pmc-pve-team-leader = КГ
@@ -107,6 +108,15 @@ rmc-ghost-name-pmc-whiteout-gunner = Боевой юнит с пулеметом
 rmc-job-name-pmc-whiteout-gunner = Боевой юнит с пулеметом ЧВК Ве-Я "Белая мгла"
 
 rmc-job-prefix-pmc-whiteout = БМ
+
+rmc-ghost-name-weya-commando-leader = Командир отделения коммандо We-Ya (Дружественный)
+rmc-job-name-weya-commando-leader = Командир отделения коммандо
+
+rmc-ghost-name-weya-commando = Коммандо We-Ya (Дружественный)
+rmc-job-name-weya-commando = Коммандо
+
+rmc-ghost-name-weya-commando-gunner = Тяжёлый пулемётчик коммандо We-Ya (Дружественный)
+rmc-job-name-weya-commando-gunner = Тяжёлый пулемётчик коммандо
 
 # Executives
 
@@ -129,6 +139,8 @@ rmc-job-name-corp-dep-director = Заместитель директора Ве-
 
 rmc-ghost-name-corp-director = Директор Ве-Я (нейтральный)
 rmc-job-name-corp-director = Директор Ве-Я
+
+rmc-job-name-corp-admin = Colony Administrator
 
 # CL Bodyguard
 rmc-job-name-executive-bodyguard = Корпоративный телохранитель

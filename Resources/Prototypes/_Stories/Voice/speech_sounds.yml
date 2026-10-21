@@ -6,3 +6,13 @@
     path: /Audio/_Stories/Voice/Hunter/pred_click2.ogg
   exclaimSound:
     path: /Audio/_Stories/Voice/Hunter/pred_click2.ogg
+
+# Stories-Abomination
+- type: speechSounds
+  id: STPredalien
+  saySound:
+    path: /Audio/_Stories/Voice/Predalien/predalien_click.ogg
+  askSound:
+    path: /Audio/_Stories/Voice/Predalien/predalien_click.ogg
+  exclaimSound:
+    path: /Audio/_Stories/Voice/Predalien/predalien_click.ogg

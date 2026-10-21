@@ -71,9 +71,8 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
             args.PushMarkup(Loc.GetString("rmc-examine-text-scatter-max", ("colour", scatterExamineColour), ("scatter", gunComponent.MaxAngleModified.Degrees)));
             args.PushMarkup(Loc.GetString("rmc-examine-text-scatter-min", ("colour", scatterExamineColour), ("scatter", gunComponent.MinAngleModified.Degrees)));
 
-            if (ContainsMods(gun, gunComponent.SelectedMode))
+            if (TryGetEffectiveModifiers(gun, gunComponent.SelectedMode, out var mods))
             {
-                var mods = gun.Comp.Modifiers[gunComponent.SelectedMode];
                 if (mods.ShotsToMaxScatter != null)
                     args.PushMarkup(Loc.GetString("rmc-examine-text-shots-to-max-scatter", ("colour", scatterExamineColour), ("shots", mods.ShotsToMaxScatter)));
             }
@@ -111,9 +110,8 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
         RaiseLocalEvent(gun, ref ev);
         gunComponent.FireRate = ev.FireRate;
 
-        if (ContainsMods(gun, gunComponent.SelectedMode))
+        if (TryGetEffectiveModifiers(gun, gunComponent.SelectedMode, out var mods))
         {
-            var mods = gun.Comp.Modifiers[gunComponent.SelectedMode];
             ev = new GunGetFireRateEvent(1f / (1f / gunComponent.FireRate + mods.FireDelay));
             RaiseLocalEvent(gun, ref ev);
 
@@ -133,7 +131,29 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
 
     public bool ContainsMods(Entity<RMCSelectiveFireComponent> gun, SelectiveFire mode)
     {
-        return gun.Comp.Modifiers.ContainsKey(mode);
+        return TryGetEffectiveModifiers(gun, mode, out _);
+    }
+
+    public bool TryGetEffectiveModifiers(Entity<RMCSelectiveFireComponent> gun, SelectiveFire mode, out SelectiveFireModifierSet modifiers)
+    {
+        modifiers = default;
+        if (gun.Comp.Modifiers.TryGetValue(mode, out var mods))
+        {
+            modifiers = mods;
+            return true;
+        }
+
+        // Stories-SelectiveFireSpread-Start
+        if (mode == SelectiveFire.SemiAuto &&
+            gun.Comp.BaseFireModes.HasFlag(SelectiveFire.FullAuto) &&
+            gun.Comp.Modifiers.TryGetValue(SelectiveFire.FullAuto, out var fullAutoMods))
+        {
+            modifiers = fullAutoMods;
+            return true;
+        }
+        // Stories-SelectiveFireSpread-End
+
+        return false;
     }
 
     public void RefreshWieldableFireModeValues(Entity<RMCSelectiveFireComponent> gun)
@@ -141,16 +161,28 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
         if (!TryComp(gun.Owner, out GunComponent? gunComponent))
             return;
 
+        // Stories-SelectiveFireSpread-Start
         bool wielded = TryComp(gun.Owner, out WieldableComponent? wieldableComponent) && wieldableComponent.Wielded;
 
         gunComponent.CameraRecoilScalar = wielded ? gun.Comp.RecoilWielded : gun.Comp.RecoilUnwielded;
         gunComponent.MinAngle = wielded ? gun.Comp.ScatterWielded : gun.Comp.ScatterUnwielded;
-        gunComponent.MaxAngle = gunComponent.MinAngle;
 
-        RefreshBurstScatter((gun.Owner, gun.Comp));
+        if (TryGetEffectiveModifiers(gun, gunComponent.SelectedMode, out _))
+        {
+            RefreshBurstScatter((gun.Owner, gun.Comp));
+        }
+        else
+        {
+            gunComponent.MaxAngle = gunComponent.MinAngle;
+        }
+
+        if (gunComponent.MaxAngle < gunComponent.MinAngle)
+            gunComponent.MaxAngle = gunComponent.MinAngle;
 
         _gunSystem.RefreshModifiers(gun.Owner);
         gunComponent.CurrentAngle = gunComponent.MinAngleModified;
+        Dirty(gun.Owner, gunComponent);
+        // Stories-SelectiveFireSpread-End
     }
 
     public void RefreshFireModes(Entity<RMCSelectiveFireComponent?> gun, bool forceValueRefresh = false)
@@ -195,9 +227,8 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
 
         bool wielded = TryComp(gun.Owner, out WieldableComponent? wieldableComponent) && wieldableComponent.Wielded;
 
-        if (ContainsMods(gun, gunComponent.SelectedMode))
+        if (TryGetEffectiveModifiers(gun, gunComponent.SelectedMode, out var mods))
         {
-            var mods = gun.Comp.Modifiers[gunComponent.SelectedMode];
             var mult = mods.UseBurstScatterMult ? gun.Comp.BurstScatterMultModified : 1.0;
             gunComponent.MaxAngle = wielded
                 ? Angle.FromDegrees(Math.Max(gunComponent.MinAngle.Degrees + mods.MaxScatterModifier * mult, gunComponent.MinAngle.Degrees))

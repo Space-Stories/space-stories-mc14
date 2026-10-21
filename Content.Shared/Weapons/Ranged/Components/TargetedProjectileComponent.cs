@@ -10,5 +10,5 @@ namespace Content.Shared.Weapons.Ranged.Components;
 public sealed partial class TargetedProjectileComponent : Component
 {
     [DataField, AutoNetworkedField]
-    public EntityUid Target;
+    public NetEntity Target = NetEntity.Invalid; // Stories-DeletedEntityReferences
 }

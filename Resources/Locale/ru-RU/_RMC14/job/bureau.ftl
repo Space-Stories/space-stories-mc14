@@ -17,6 +17,29 @@ rmc-job-prefix-bureau-deputy = Зам БКМ
 
 rmc-job-name-bureau-riot-control-team-leader = Руководитель группы по борьбе с беспорядками БКМ
 rmc-job-prefix-bureau-riot-control-team-leader = РГББ БКМ
+rmc-ghost-name-bureau-riot-control-team-leader = Руководитель группы по борьбе с беспорядками БКМ (Дружественный)
+
+rmc-ghost-name-bureau-riot-control-officer = Офицер группы по борьбе с беспорядками БКМ (Дружественный)
+rmc-job-name-bureau-riot-control-officer = Офицер группы по борьбе с беспорядками БКМ
+rmc-job-prefix-bureau-riot-control-officer = ОГББ БКМ
+
+rmc-ghost-name-bureau-riot-control-medic = Медик группы по борьбе с беспорядками БКМ (Дружественный)
+rmc-job-name-bureau-riot-control-medic = Медик группы по борьбе с беспорядками БКМ
+rmc-job-prefix-bureau-riot-control-medic = МЕД БКМ
+
+rmc-ghost-name-bureau-riot-control-engineer = Техник-взломщик группы по борьбе с беспорядками БКМ (Дружественный)
+rmc-job-name-bureau-riot-control-engineer = Техник-взломщик группы по борьбе с беспорядками БКМ
+rmc-job-prefix-bureau-riot-control-engineer = ТВ БКМ
+
+rmc-ghost-name-bureau-riot-control-specialist = Специалист SWAT группы по борьбе с беспорядками БКМ (Дружественный)
+rmc-job-name-bureau-riot-control-specialist = Специалист SWAT группы по борьбе с беспорядками БКМ
+rmc-job-prefix-bureau-riot-control-specialist = СПЦ БКМ
+
+rmc-job-name-bureau-riot-control-medical-technician = CMB Medical Technician
+rmc-job-prefix-bureau-riot-control-medical-technician = CMB MT
+
+rmc-job-name-bureau-riot-control-breaching-technician = CMB Breaching Technician
+rmc-job-prefix-bureau-riot-control-breaching-technician = CMB BT
 
 rmc-ghost-name-bureau-observer = Наблюдатель за правами разумных существ (Дружелюбный)
 rmc-job-name-bureau-observer = Наблюдатель за правами разумных существ

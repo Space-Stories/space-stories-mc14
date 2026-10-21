@@ -14,9 +14,9 @@
     explosionArmor: 20
   - type: RMCArmorSpeedTier
     speedTier: medium
-  - type: ClothingSpeedModifier
-    walkModifier: 0.666
-    sprintModifier: 0.666
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.65
+    sprintModifier: 0.65
   - type: ExplosionResistance
     damageCoefficient: 0
     worn: false
@@ -154,16 +154,18 @@
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/eod/padded/jungle.rsi
-  - type: CMArmor
+  - type: CMArmor # Stories-Armor-Balance
     melee: 25
-    bullet: 35
+    bullet: 25
     bio: 25
-    explosionArmor: 35
+    explosionArmor: 25
   - type: RMCArmorSpeedTier
     speedTier: heavy
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LOWHEAVY
-    walkModifier: 0.64
-    sprintModifier: 0.64
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.60
+    sprintModifier: 0.60
+  - type: TackleResist # Stories-Armor-Balance
+    multiplier: 1.3
   - type: Storage
     grid:
     - 0,0,3,1 # 2 slots
@@ -285,12 +287,6 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/warden/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/warden/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/warden/urban.rsi
-  - type: ClothingRequireEquipped
-    autoUnequip: true
-    denyReason: rmc-armor-not-warden-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformWarden
 
 - type: entity
   parent: CMArmorM2MP
@@ -307,12 +303,8 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/wo/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/wo/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/wo/urban.rsi
-  - type: ClothingRequireEquipped
-    autoUnequip: true
-    denyReason: rmc-armor-not-cmp-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformCMP
+  - type: BlackMarketValue
+    value: 30
 
 - type: entity
   parent: CMArmorM3Medium
@@ -329,6 +321,24 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/tanker/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/tanker/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/tanker/urban.rsi
+
+# am2
+- type: entity
+  parent: CMArmorM3VLBallistics
+  id: RMCArmorAM2
+  name: AM2 pattern armor
+  description: A non-standard variant of the Marine M2 Pattern Chestplate. Protects the chest from ballistic rounds, bladed objects and accidents. It has a small leather pouch strapped to it for limited storage. Notably, this model of the M2 lacks the rigging and such of the later generation M2's still in use by the UNMC, making it easier to handle.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/tyrargo.rsi # TODO RMC14: sprites
+  - type: CMArmor # TODO RMC14: BODY_FLAG_CHEST|BODY_FLAG_GROIN|BODY_FLAG_LEGS
+    bullet: 20
+    bio: 15
+  - type: Storage
+    grid:
+    - 0,0,5,1 # 3 slots
+  - type: ItemCamouflage
+    camouflageVariations: { }
 
 #Officer armors
 - type: entity
@@ -350,11 +360,8 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/officer/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/officer/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/officer/urban.rsi
-  - type: ClothingRequireEquipped
-    denyReason: rmc-armor-not-marine-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformMarine
+  - type: BlackMarketValue
+    value: 20
 
 - type: entity
   parent: CMArmorM2MP
@@ -379,11 +386,8 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/co/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/co/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/co/urban.rsi
-  - type: ClothingRequireEquipped
-    denyReason: rmc-armor-not-marine-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformMarine
+  - type: BlackMarketValue
+    value: 35
 
 - type: entity
   parent: CMArmorM2MP
@@ -406,11 +410,8 @@
   - type: Item # Intentionally allows the armor to be stored in bags.
     size: Normal
     storedRotation: 0
-  - type: ClothingRequireEquipped
-    denyReason: rmc-armor-not-marine-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformMarine
+  - type: BlackMarketValue
+    value: 20
 
 - type: entity
   parent: CMArmorM3Medium
@@ -427,9 +428,9 @@
     explosionArmor: 40
   - type: RMCArmorSpeedTier
     speedTier: heavy
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_HEAVY
-    walkModifier: 0.62
-    sprintModifier: 0.62
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.65
+    sprintModifier: 0.65
   - type: Corrodible
     isCorrodible: false
   - type: RMCGrantLeapProtection
@@ -453,9 +454,9 @@
     explosionArmor: 30
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # light armor speed
-    walkModifier: .725
-    sprintModifier: .725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Corrodible
     isCorrodible: false
   - type: ItemCamouflage
@@ -481,9 +482,9 @@
     explosionArmor: 15
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier
-    walkModifier: .725
-    sprintModifier: .725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,3,1 # 2 slots
@@ -617,9 +618,9 @@
     isCorrodible: false
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # light armor speed
-    walkModifier: .725
-    sprintModifier: .725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: CMArmor
     melee: 25
   - type: Tag
@@ -653,8 +654,6 @@
     isBulky: false
   - type: ItemCamouflage
     camouflageVariations: { }
-  - type: ClothingRequireEquipped
-    whitelist: null
 
 - type: entity
   parent: CMArmorM3VLBallistics
@@ -688,9 +687,9 @@
     explosionArmor: 0
   - type: RMCArmorSpeedTier
     speedTier: super light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_SUPER_LIGHT
-    walkModifier: 0.949
-    sprintModifier: 0.949
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.9
+    sprintModifier: 0.9
   - type: Storage
     grid:
     - 0,0,5,1 # 3 slots
@@ -703,8 +702,9 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/vl-synth/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/vl-synth/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m3/vl-synth/urban.rsi
-  - type: ClothingRequireEquipped
-    whitelist: null
+  - type: Tag
+    tags:
+    - RMCSynthAllowedArmor
 
 # Forced Camo Variants for Vendor Parity
 - type: entity
@@ -780,6 +780,49 @@
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m4/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m4/urban.rsi
 
+- type: entity
+  parent: CMArmorM4
+  id: CMArmorM4Tyrargo
+  name: Personal Body Armor System
+  description: The Personal Body Armor System is an experimental armor set issued sparingly to the UN Marine Corps, being the contender to the M4 series pattern armor during field trials. Surprisingly uncomfortable, but offering far superior protection to the M3 or M4 series armor. At four times the price.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/tyrargo.rsi
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,5,1 # 3 slots
+  - type: ItemCamouflage
+    camouflageVariations: { }
+
+- type: entity
+  parent: CMArmorM4
+  id: CMArmorM4TyrargoSynth
+  name: Synthetic Body Armor System
+  description: This is a variant of the Personal Body Armor System, it has been modified extensively to be used by UN Marine Corps Synthetics. It offers light protection, maximum mobility and more internal storage than the standardised UNMC counterpart. The cost of this item could outfit an entire squad of UNMC Marines, but you are worth this cost.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/tyrargo_synth.rsi
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,7,1 # 4 slots
+  - type: ItemCamouflage
+    camouflageVariations: { }
+  - type: CMArmor
+    # RMC14: Removed armor
+    melee: 0 # 5
+    bullet: 0 # 15
+    bio: 0 # 5
+    explosionArmor: 0 # 5
+    # armor_laser = CLOTHING_ARMOR_VERYLOW
+    # armor_rad = CLOTHING_ARMOR_MEDIUMLOW
+  - type: RMCArmorSpeedTier
+    speedTier: super light
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.9
+    sprintModifier: 0.9
+
 # m35
 - type: entity
   parent: CMArmorM3Medium
@@ -833,9 +876,9 @@
     bio: 25
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # light armor speed
-    walkModifier: .725
-    sprintModifier: .725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: GhillieSuit
     whitelist:
       components:
@@ -884,9 +927,9 @@
     - 0,0,3,1 # 2 slots
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier
-    walkModifier: .725
-    sprintModifier: .725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Corrodible
     isCorrodible: false
   - type: ClothingBlockBackpack
@@ -917,9 +960,9 @@
     bio: 15
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Armor-Balance
+    walkModifier: 0.80
+    sprintModifier: 0.80
   - type: Storage
     maxItemSize: Small
     grid:
@@ -931,12 +974,8 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/m2/mp/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/m2/mp/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/m2/mp/urban.rsi
-  - type: ClothingRequireEquipped
-    autoUnequip: true
-    denyReason: rmc-armor-not-mp-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformMP
+  - type: BlackMarketValue
+    value: 20
 
 - type: entity
   parent: CMArmorM4

@@ -510,7 +510,7 @@ public sealed class XenoProjectileSystem : EntitySystem
             if (target != null)
             {
                 var targeted = EnsureComp<TargetedProjectileComponent>(projectile);
-                targeted.Target = target.Value;
+                targeted.Target = GetNetEntity(target.Value); // Stories-DeletedEntityReferences
                 Dirty(projectile, targeted);
             }
 

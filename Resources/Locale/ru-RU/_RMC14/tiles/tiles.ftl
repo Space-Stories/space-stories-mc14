@@ -28,6 +28,7 @@ tiles-cm-dirt = грязь
 tiles-cm-desert = песок
 tiles-cm-sand = песок
 tiles-cm-grass = трава
+tiles-cm-grass-weedable = трава (для сорняков)
 tiles-cm-dirt-grass = трава
 tiles-cm-rock = каменная плитка
 tiles-rmc-red-desert = красный песок

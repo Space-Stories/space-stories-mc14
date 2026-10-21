@@ -215,20 +215,28 @@
   text: "/ServerInfo/Guidebook/_RMC14/RMC14.xml"
   priority: 3
   children:
+  - RMCGuidePower
   - RMCGuideCommunicationsTowers
   - RMCGuideRoleMortar
 
 - type: guideEntry
   parent: RMC
-  id: RMCGuideCommunicationsTowers
+  id: RMCGuidePower
   priority: 1
+  name: rmc-guide-entry-power-and-apcs
+  text: "/ServerInfo/Guidebook/_RMC14/Guides/RMCPower.xml"
+
+- type: guideEntry
+  parent: RMC
+  id: RMCGuideCommunicationsTowers
+  priority: 2
   name: rmc-guide-entry-comms-and-sensors
   text: "/ServerInfo/Guidebook/_RMC14/Guides/RMCGuideCommunicationsTowers.xml"
 
 - type: guideEntry
   parent: RMC
   id: RMCGuideRoleMortar
-  priority: 2
+  priority: 3
   name: rmc-guide-entry-mortar
   text: "/ServerInfo/Guidebook/_RMC14/Guides/RMCGuideRoleMortar.xml"
 

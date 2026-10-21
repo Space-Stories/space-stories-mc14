@@ -17,6 +17,7 @@ rmc-hardpoint-ui-integrity = { $current }/{ $max } ({ $percent }%)
 rmc-hardpoint-ui-no-integrity = Нет данных о целостности
 rmc-hardpoint-ui-remove = Снять
 rmc-hardpoint-ui-removing = Снятие...
+rmc-hardpoint-disintegrates = { CAPITALIZE($item) } распадается на бесполезную кучу металлолома от полученных повреждений.
 rmc-vehicle-ammo-loader-no-vehicle = Зарядчик не подключён к транспорту.
 rmc-vehicle-ammo-loader-no-hardpoint = Совместимая точка крепления не установлена.
 rmc-vehicle-ammo-loader-wrong-ammo = Эти боеприпасы не подходят для этого зарядчика.
@@ -99,6 +100,7 @@ rmc-vehicle-look-inside = Заглянуть внутрь
 rmc-vehicle-lock-not-driver = Вы должны быть на месте водителя, чтобы запереть или отпереть транспорт.
 rmc-vehicle-lock-broken = Замок транспорта сломан.
 rmc-vehicle-lock-broken-attempt = Транспорт нельзя запереть, пока сломанный замок не будет отремонтирован.
+rmc-vehicle-lock-frame-destroyed = Транспорт нельзя запереть, пока его каркас разрушен.
 rmc-vehicle-lock-set-locked = Двери транспорта заперты.
 rmc-vehicle-lock-set-unlocked = Двери транспорта отперты.
 rmc-vehicle-lock-broken-success = Вы ломаете замок транспорта.
@@ -117,6 +119,12 @@ rmc-vehicle-key-examine-blank = [color=lightblue]Эту заготовку кл�
 rmc-vehicle-key-examine-duplicator = [color=lightblue]Этой заготовкой ключа можно скопировать существующий ключ, использовав её на нём.[/color]
 rmc-vehicle-key-examine-bound = [color=lightblue]Этот ключ привязан к замку транспорта.[/color]
 rmc-hardpoint-remove-blocked = Эта точка крепления закреплена намертво.
+rmc-vehicle-demolition-frame-intact = Каркас транспорта слишком цел, чтобы закладывать заряды. Сначала уничтожьте его.
+rmc-vehicle-demolition-busy = Кто-то уже минирует эти обломки.
+rmc-vehicle-demolition-start = Вы начинаете минировать обломки взрывчаткой...
+rmc-vehicle-demolition-no-skill = Вы не умеете устанавливать подрывные заряды.
+rmc-vehicle-too-small-to-damage = Мы слишком малы, чтобы нанести этому транспорту сколь-нибудь значительный урон!
+rmc-vehicle-demolition-armed = Заряд установлен и ведёт обратный отсчёт!
 
 rmc-vehicle-supply-stored = Сохраненная техника
 rmc-vehicle-supply-vehicle = Техника

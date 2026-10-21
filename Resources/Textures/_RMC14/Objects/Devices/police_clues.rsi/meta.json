@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from CM-SS13 at https://github.com/cmss13-devs/cmss13/blob/ae42879bbb47e8440e40ac18ba43ca28434db003/icons/effects/fingerprints.dmi; Taken from CM-SS13 at https://github.com/cmss13-devs/cmss13/blob/ae42879bbb47e8440e40ac18ba43ca28434db003/icons/obj/items/spray.dmi",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "prints"
+        },
+        {
+            "name": "spray"
+        }
+    ]
+}

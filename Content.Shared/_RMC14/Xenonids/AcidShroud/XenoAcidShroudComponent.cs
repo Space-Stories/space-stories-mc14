@@ -8,7 +8,7 @@ namespace Content.Shared._RMC14.Xenonids.AcidShroud;
 public sealed partial class XenoAcidShroudComponent : Component
 {
     [DataField, AutoNetworkedField]
-    public TimeSpan DoAfter = TimeSpan.FromSeconds(0.75);
+    public TimeSpan DoAfter = TimeSpan.FromSeconds(1); // Stories-BoilerUpdate
 
     [DataField, AutoNetworkedField]
     public EntProtoId Spawn = "RMCSmokeAcidShroud";

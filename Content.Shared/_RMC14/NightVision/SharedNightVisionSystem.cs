@@ -35,6 +35,7 @@ public abstract class SharedNightVisionSystem : EntitySystem
         SubscribeLocalEvent<NightVisionComponent, ComponentRemove>(OnNightVisionRemove);
         SubscribeLocalEvent<NightVisionComponent, ToggleNightVisionAlertEvent>(OnNightVisionToggle);
 
+        SubscribeLocalEvent<NightVisionItemComponent, ComponentStartup>(OnNightVisionItemStartup); // Stories-MesonFix
         SubscribeLocalEvent<NightVisionItemComponent, GetItemActionsEvent>(OnNightVisionItemGetActions);
         SubscribeLocalEvent<NightVisionItemComponent, ToggleActionEvent>(OnNightVisionItemToggle);
         SubscribeLocalEvent<NightVisionItemComponent, GotEquippedEvent>(OnNightVisionItemGotEquipped);
@@ -78,6 +79,23 @@ public abstract class SharedNightVisionSystem : EntitySystem
     {
         Toggle((ent, ent));
     }
+
+    // Stories-MesonFix-Start
+    private void OnNightVisionItemStartup(Entity<NightVisionItemComponent> ent, ref ComponentStartup args)
+    {
+        if (_timing.ApplyingState)
+            return;
+
+        if (!_inventory.InSlotWithFlags(ent.Owner, ent.Comp.SlotFlags))
+            return;
+
+        var wearer = Transform(ent).ParentUid;
+        if (!wearer.IsValid())
+            return;
+
+        EnableNightVisionItem(ent, wearer);
+    }
+    // Stories-MesonFix-End
 
     private void OnNightVisionItemGetActions(Entity<NightVisionItemComponent> ent, ref GetItemActionsEvent args)
     {
@@ -288,6 +306,11 @@ public abstract class SharedNightVisionSystem : EntitySystem
                 if (nightVision.OnlyHalf && defaultState == NightVisionState.Full)
                     defaultState = NightVisionState.Half;
 
+                // Stories-MesonFix-Start
+                if (nightVision.Innate && nightVision.STInnateState == null)
+                    nightVision.STInnateState = nightVision.State;
+                // Stories-MesonFix-End
+
                 nightVision.State = defaultState;
                 nightVision.Green = item.Comp.Green;
                 nightVision.Mesons = item.Comp.Mesons;
@@ -334,6 +357,18 @@ public abstract class SharedNightVisionSystem : EntitySystem
         {
             RemCompDeferred<NightVisionComponent>(user.Value);
         }
+        // Stories-MesonFix-Start
+        else if (nightVision is { Innate: true, STInnateState: { } innateState } && !_timing.ApplyingState)
+        {
+            nightVision.State = innateState;
+            nightVision.STInnateState = null;
+            nightVision.Green = false;
+            nightVision.Mesons = false;
+            nightVision.BlockScopes = false;
+            Dirty(user!.Value, nightVision);
+            UpdateAlert((user.Value, nightVision));
+        }
+        // Stories-MesonFix-End
     }
 
     private void ToggleNightVisionItemMode(Entity<NightVisionItemComponent> item, EntityUid user)

@@ -1,10 +1,10 @@
 ent-RMCHeadsetDistressICBLiaison = гарнитура связного БМТ
     .desc = { ent-RMCHeadsetLiaison.desc }
     .suffix = ВеЯ, Колония
-ent-CMHeadsetCBRN = CBRN headset
-    .desc = A headset given to CBRN marines.
-ent-CMHeadsetCBRNLeader = CBRN Leader headset
-    .desc = A headset given to CBRN Team Leaders.
+ent-CMHeadsetCBRN = гарнитура РХБЗ
+    .desc = Гарнитура, которую выдают морпехам РХБЗ.
+ent-CMHeadsetCBRNLeader = гарнитура командира РХБЗ
+    .desc = Гарнитура, которую выдают командирам групп РХБЗ.
 ent-RMCHeadsetDistressWeYaColony = { ent-RMCHeadsetLiaison }
     .suffix = ВеЯ, Колония
     .desc = { ent-RMCHeadsetLiaison.desc }

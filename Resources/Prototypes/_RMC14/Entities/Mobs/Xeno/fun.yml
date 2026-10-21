@@ -49,9 +49,9 @@
   components:
   - type: RMCKeybindActions
     actions:
-      XenoPrimaryOne: [ ActionLesserDronePlantWeeds ]
-      XenoPrimaryThree: [ ActionXenoThrowParasite ]
-      XenoPrimaryFour: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryOne: [ ActionXenoThrowParasite ]
+      XenoPrimaryTwo: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryThree: [ ActionLesserDronePlantWeeds ]
   - type: GhostRole
     name: roles-lesser-carrier-name
     description: roles-lesser-carrier-description

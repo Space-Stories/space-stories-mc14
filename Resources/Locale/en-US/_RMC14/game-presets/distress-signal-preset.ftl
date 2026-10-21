@@ -53,3 +53,6 @@ rmc-distress-signal-scuttle-heat-aura = The air around the engine core burns aga
 rmc-distress-signal-scuttle-superheat-aura = The engine-core heat becomes searing!
 
 rmc-xeno-announcement-scuttle-first-overload = The talls are overloading the metal hive's burning hearts. Stop them before the sky-hive tears itself apart.
+
+rmc-roles-antag-hostile-survivor-antagonist-name = Hostile Survivor
+rmc-roles-antag-hostile-survivor-objective = As a member of the CLF, liberate the colony from the UNMC.

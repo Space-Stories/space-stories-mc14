@@ -1,0 +1,74 @@
+- type: entity
+  parent: RMCWebbingDropPouch
+  id: STWebbingDropPouchCMBRiotSynth
+  suffix: Filled, CMB Riot Control Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCHandcuffs
+      amount: 3
+    - id: RMCGrenadeFlashBang
+
+- type: entity
+  parent: CMWebbingBlack
+  id: STWebbingBlackCMBSupportSynth
+  suffix: Filled, CMB Support Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMAutopsy
+    - id: RMCExplosiveBreachingChargeRubber
+    - id: RMCHandcuffs
+      amount: 2
+    - id: RMCPillCanisterImidazoline
+
+- type: entity
+  parent: RMCSwatCMBUniform
+  id: STSwatCMBUniformRiotSynth
+  suffix: CMB Riot Control Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: WebbingClothing
+    startingWebbing: STWebbingDropPouchCMBRiotSynth
+
+- type: entity
+  parent: RMCSwatCMBUniform
+  id: STSwatCMBUniformSupportSynth
+  suffix: CMB Support Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: WebbingClothing
+    startingWebbing: STWebbingBlackCMBSupportSynth
+
+- type: entity
+  parent: CMJumpsuitMaintTech
+  id: STJumpsuitMaintTechForeconSynth
+  suffix: FORECON Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: UniformAccessoryHolder
+    startingAccessories:
+    - RMCPatchUNMC
+
+- type: entity
+  parent: RMCJumpsuitSPPSOF
+  id: STJumpsuitSPPSOFSynth
+  suffix: SPP SOF Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: UniformAccessoryHolder
+    startingAccessories:
+    - RMCPatchSPPAlt
+
+- type: entity
+  parent: RMCJumpsuitSPPPatchAirborne
+  id: STJumpsuitSPPCrashlandSynth
+  suffix: SPP Crashland Synthetic, Survivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: UniformAccessoryHolder
+    startingAccessories:
+    - RMCPatchSPP
+    - RMCPatchSPPVDV

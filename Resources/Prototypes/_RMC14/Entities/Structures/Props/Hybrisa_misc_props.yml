@@ -110,7 +110,7 @@
   description: A colossal cryogenic tube with yellow-tinted glass towers before you, housing a hulking, monstrous entity. Is it alive, or in a deep slumber? Cold mist swirls around the base as a low hum fills the air.
   components:
   - type: Sprite
-    sprite: _RMC14/Structures/hybrisa_misc_props/giant_xeno_cryo.rsi
+    sprite: _Stories/Structures/hybrisa_misc_props/giant_xeno_cryo.rsi # Stories-XenoCryoSpriteUpdate
     state: icon
     offset: "-0.5, 0"
   - type: Fixtures

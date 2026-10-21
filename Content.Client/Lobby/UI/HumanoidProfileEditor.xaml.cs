@@ -105,6 +105,8 @@ namespace Content.Client.Lobby.UI
 
         private List<(string JobId, OptionButton Button, List<ProtoId<RankPrototype>?> RankIds)> _rankPriorities = new();
 
+        private List<(string JobId, OptionButton Button, List<string?> VariantIds)> _variantPriorities = new();
+
         private readonly Dictionary<string, BoxContainer> _jobCategories;
 
         private Direction _previewRotation = Direction.North;
@@ -496,7 +498,7 @@ namespace Content.Client.Lobby.UI
 
             TabContainer.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));
             // TODO RMC14 antags
-            TabContainer.SetTabVisible(2, false);
+            TabContainer.SetTabVisible(2, AntagList.ChildCount > 0); // Stories-CLFSurvivor
 
             RefreshTraits();
 
@@ -593,6 +595,28 @@ namespace Content.Client.Lobby.UI
             TabContainer.SetTabTitle(tab, title);
         }
         // Stories-Hunter-End
+
+        // Stories-SynthProfileTab-Start
+        public int GetSynthTabIndex()
+        {
+            var i = 0;
+            foreach (var child in TabContainer.Children)
+            {
+                if (child == SynthTab)
+                    return i;
+                i++;
+            }
+            return -1;
+        }
+
+        public event Action<int>? OnTabChanged
+        {
+            add => TabContainer.OnTabChanged += value;
+            remove => TabContainer.OnTabChanged -= value;
+        }
+
+        public event Action<HumanoidCharacterProfile?>? OnProfileSet;
+        // Stories-SynthProfileTab-End
 
         /// <summary>
         /// Refreshes the flavor text editor status.
@@ -873,6 +897,8 @@ namespace Content.Client.Lobby.UI
 
                 AntagList.AddChild(antagContainer);
             }
+
+            TabContainer.SetTabVisible(2, AntagList.ChildCount > 0); // Stories-CLFSurvivor
         }
 
         private void SetDirty()
@@ -951,6 +977,7 @@ namespace Content.Client.Lobby.UI
             UpdateSpawnPriorityControls();
             UpdateArmorPreferenceControls();
             UpdatePlaytimeRankPreferenceControls();
+            UpdateVariantPreferenceControls();
             UpdateSquadPreferenceControls();
             UpdateAgeEdit();
             UpdateEyePickers();
@@ -972,6 +999,7 @@ namespace Content.Client.Lobby.UI
             RefreshTraits();
             RefreshFlavorText();
             ReloadPreview();
+            OnProfileSet?.Invoke(Profile); // Stories-SynthProfileTab
         }
 
 
@@ -1019,6 +1047,7 @@ namespace Content.Client.Lobby.UI
             _jobCategories.Clear();
             _jobPriorities.Clear();
             _rankPriorities.Clear();
+            _variantPriorities.Clear(); // Stories-JobVariantPreference
             var firstCategory = true;
 
             // Get all displayed departments
@@ -1237,17 +1266,56 @@ namespace Content.Client.Lobby.UI
                     }
                     // RMC14
 
+                    // Stories-JobVariantPreference-Start
+                    var variantOptions = new OptionButton()
+                    {
+                        Name = "VariantOptionsButton",
+                        HorizontalAlignment = HAlignment.Right,
+                        VerticalAlignment = VAlignment.Center,
+                        Margin = new Thickness(3f, 3f, 0f, 0f)
+                    };
+
+                    var variantIds = new List<string?> { null };
+
+                    if (job.Variants != null && job.SetVariantPreference && !job.HideVariantPreferenceInJobList) // Stories-SynthProfileTab
+                    {
+                        variantOptions.AddItem("Auto");
+
+                        foreach (var (variantId, variantName) in job.Variants)
+                        {
+                            variantOptions.AddItem(Loc.GetString(variantName));
+                            variantIds.Add(variantId);
+                        }
+
+                        if (variantIds.Count <= 2)
+                            variantOptions.Disabled = true;
+
+                        variantOptions.OnItemSelected += args =>
+                        {
+                            variantOptions.SelectId(args.Id);
+                            SetVariantPreference(job.ID, variantIds[args.Id]);
+                        };
+                    }
+                    else
+                    {
+                        variantOptions.Visible = false;
+                    }
+                    // Stories-JobVariantPreference-End
+
                     _jobPriorities.Add((job.ID, selector));
                     _rankPriorities.Add((job.ID, rankOptions, rankProtoIds));
+                    _variantPriorities.Add((job.ID, variantOptions, variantIds));
                     jobContainer.AddChild(selector);
                     jobContainer.AddChild(loadoutWindowBtn);
                     jobContainer.AddChild(rankOptions);
+                    jobContainer.AddChild(variantOptions);
                     category.AddChild(jobContainer);
                 }
             }
 
             UpdateJobPriorities();
             UpdatePlaytimeRankPreferenceControls();
+            UpdateVariantPreferenceControls();
         }
 
         private void OpenLoadout(JobPrototype? jobProto, RoleLoadout roleLoadout, RoleLoadoutPrototype roleLoadoutProto)
@@ -1515,6 +1583,12 @@ namespace Content.Client.Lobby.UI
             SetDirty();
         }
 
+        private void SetVariantPreference(string jobId, string? variantId)
+        {
+            Profile = Profile?.WithVariantPreference(jobId, variantId);
+            SetDirty();
+        }
+
         private void SetSquadPreference(EntProtoId<SquadTeamComponent>? newSquadPreference)
         {
             Profile = Profile?.WithSquadPreference(newSquadPreference);
@@ -1769,6 +1843,26 @@ namespace Content.Client.Lobby.UI
 
             if (preferenceAdjusted)
                 Save?.Invoke();
+        }
+
+        private void UpdateVariantPreferenceControls()
+        {
+            foreach (var (jobID, optionsButton, variantIds) in _variantPriorities)
+            {
+                if (!_prototypeManager.TryIndex(jobID, out JobPrototype? job) || job == null)
+                    continue;
+
+                if (job.Variants == null || !job.SetVariantPreference || job.HideVariantPreferenceInJobList) // Stories-SynthProfileTab
+                    continue;
+
+                string? preferredVariant = null;
+                Profile?.VariantPreferences.TryGetValue(jobID, out preferredVariant);
+                var selectedIndex = variantIds.IndexOf(preferredVariant);
+                if (selectedIndex < 0)
+                    selectedIndex = 0;
+
+                optionsButton.Select(selectedIndex);
+            }
         }
 
         private void UpdateSquadPreferenceControls()

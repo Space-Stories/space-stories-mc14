@@ -9,7 +9,7 @@ namespace Content.Shared.Ghost;
 /// Handles limiting interactions, using ghost abilities, ghost visibility, and ghost warping.
 /// </summary>
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedGhostSystem))]
-[AutoGenerateComponentState(true), AutoGenerateComponentPause]
+[AutoGenerateComponentState(true)] // Stories-XenoRespawnCooldown
 public sealed partial class GhostComponent : Component
 {
     // Actions
@@ -45,16 +45,14 @@ public sealed partial class GhostComponent : Component
 
     // End actions
 
+    // Stories-XenoRespawnCooldown-Start
     /// <summary>
-    /// Time at which the player died and created this ghost.
-    /// Used to determine votekick eligibility.
+    /// Real server uptime when the player died or started observing.
+    /// Used for respawn delays and votekick eligibility, including time spent paused.
     /// </summary>
-    /// <remarks>
-    /// May not reflect actual time of death if this entity has been paused,
-    /// but will give an accurate length of time <i>since</i> death.
-    /// </remarks>
-    [DataField, AutoPausedField]
+    [DataField]
     public TimeSpan TimeOfDeath = TimeSpan.Zero;
+    // Stories-XenoRespawnCooldown-End
 
     /// <summary>
     /// Range of the Boo action.

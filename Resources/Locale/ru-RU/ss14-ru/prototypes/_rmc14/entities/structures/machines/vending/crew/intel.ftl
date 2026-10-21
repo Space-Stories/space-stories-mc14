@@ -7,4 +7,4 @@ ent-ColMarTechIntelWeapons = КолМорТех Стойка Оружия Офи
 ent-RMCVendorBundleIntel = необходимый набор разведчика
     .desc = Содержит ломик, фултоны, детектор данных и бинокль.
 ent-RMCKitIntel = комплект поддержки полевой разведки
-    .desc = { ent-RMCKitBase.desc }
+    .desc = Contains 20 fultons, an intel encryption key, a field intelligence instructional pamphlet, a data detector, and a large document pouch.

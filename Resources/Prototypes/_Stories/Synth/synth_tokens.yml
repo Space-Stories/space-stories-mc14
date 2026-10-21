@@ -1,0 +1,14 @@
+- type: entity
+  parent: BaseItem
+  id: STSynthExperimentalToolsToken
+  name: synthetic experimental tools token
+  description: A Weston-Yamada token authorized for one synthetic support unit to draw from the experimental tools cache.
+  components:
+  - type: Sprite
+    sprite: _Stories/Synth/synth_token.rsi
+    state: coin_synth
+  - type: Item
+    size: Tiny
+  - type: STVendorPointsToken
+    pointsType: ExperimentalTools
+    points: 30

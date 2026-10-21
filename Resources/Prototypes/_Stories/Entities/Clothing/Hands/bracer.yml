@@ -11,6 +11,7 @@
     sprite: _Stories/Objects/Clothing/Hands/Bracer/base.rsi
   - type: Access
     slot: gloves
+    allowInHands: false
   - type: IdCard
     nameLocId: cm-access-id-card-component-owner-name-job-title-text
     fullNameLocId: cm-access-id-card-component-owner-full-name-job-title-text
