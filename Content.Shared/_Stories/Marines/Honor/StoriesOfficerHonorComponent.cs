@@ -15,16 +15,42 @@ public sealed partial class StoriesOfficerHonorComponent : Component
     public EntityUid? ActionEntity;
 
     [DataField]
-    public int Range = 10;
+    public float Range = 10f;
 
     [DataField]
     public bool CheckVisibility = true;
 
     [DataField]
+    public List<LocId> Callouts = new()
+    {
+        "stories-officer-honor-attention-1",
+        "stories-officer-honor-attention-2",
+        "stories-officer-honor-attention-3",
+    };
+
+    [DataField]
     public TimeSpan Cooldown = TimeSpan.FromSeconds(20);
 
-    [ViewVariables]
-    public TimeSpan NextHonorAt;
+    [DataField]
+    public TimeSpan ForcedWhisperDuration = TimeSpan.FromSeconds(13);
+}
+
+[RegisterComponent]
+public sealed partial class StoriesOfficerHonorReactionComponent : Component
+{
+    public EntityUid Target;
+    public float Range;
+    public bool CheckVisibility;
+    public TimeSpan NextStepAt;
+    public StoriesOfficerHonorReactionStep Step;
+}
+
+public enum StoriesOfficerHonorReactionStep : byte
+{
+    Unbuckle,
+    Stand,
+    Face,
+    Salute,
 }
 
 [RegisterComponent]

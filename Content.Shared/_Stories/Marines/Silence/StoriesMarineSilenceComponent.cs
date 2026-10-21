@@ -19,7 +19,7 @@ public sealed partial class StoriesMarineSilenceComponent : Component
     public StoriesMarineSilenceAuthority Authority = StoriesMarineSilenceAuthority.Officer;
 
     [DataField]
-    public int Range = 10;
+    public float Range = 10f;
 
     [DataField]
     public bool CheckVisibility = true;
@@ -33,8 +33,6 @@ public sealed partial class StoriesMarineSilenceComponent : Component
     [DataField]
     public TimeSpan Cooldown = TimeSpan.FromSeconds(30);
 
-    [ViewVariables]
-    public TimeSpan NextSilenceAt;
 }
 
 public enum StoriesMarineSilenceAuthority : byte

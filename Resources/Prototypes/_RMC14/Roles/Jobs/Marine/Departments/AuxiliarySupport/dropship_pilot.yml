@@ -49,14 +49,14 @@
     - type: RMCPointing
     #Stories-Discipline-Start
     - type: StoriesOfficerHonor
-      checkVisibility: false
+      checkVisibility: true
     - type: StoriesMarineSilence
-    #Stories-Discipline-End
-      checkVisibility: false
+      checkVisibility: true
       callouts:
       - stories-marine-silence-dropship-pilot-1
       - stories-marine-silence-dropship-pilot-2
       - stories-marine-silence-dropship-pilot-3
+    #Stories-Discipline-End
     - type: JobPrefix
       prefix: cm-job-prefix-dropship-pilot
     - type: ViewIntelObjectives

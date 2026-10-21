@@ -45,14 +45,14 @@
     - type: MarineOrders
     #Stories-Discipline-Start
     - type: StoriesOfficerHonor
-      checkVisibility: false
+      checkVisibility: true
     - type: StoriesMarineSilence
-    #Stories-Discipline-End
-      checkVisibility: false
+      checkVisibility: true
       callouts:
       - stories-marine-silence-gunship-pilot-1
       - stories-marine-silence-gunship-pilot-2
       - stories-marine-silence-gunship-pilot-3
+    #Stories-Discipline-End
     - type: CMVendorUser
       id: CMPilotGunship
       points: 45

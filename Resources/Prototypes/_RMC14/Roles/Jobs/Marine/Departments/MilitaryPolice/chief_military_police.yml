@@ -53,9 +53,7 @@
       id: CMChiefMP
       points: 45
     - type: MarineOrders
-    #Stories-Discipline-Start
     - type: StoriesOfficerHonor
-    #Stories-Discipline-End
     - type: RMCPointing
     - type: JobPrefix
       prefix: cm-job-prefix-mp

@@ -54,14 +54,14 @@
       points: 45
     #Stories-Discipline-Start
     - type: StoriesOfficerHonor
-      checkVisibility: false
+      checkVisibility: true
     - type: StoriesMarineSilence
-    #Stories-Discipline-End
-      checkVisibility: false
+      checkVisibility: true
       callouts:
       - stories-marine-silence-crew-chief-1
       - stories-marine-silence-crew-chief-2
       - stories-marine-silence-crew-chief-3
+    #Stories-Discipline-End
     - type: RMCPointing
     - type: JobPrefix
       prefix: cm-job-prefix-dcc

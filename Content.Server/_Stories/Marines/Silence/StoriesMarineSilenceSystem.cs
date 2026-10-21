@@ -19,7 +19,7 @@ namespace Content.Server._Stories.Marines.Silence;
 
 public sealed class StoriesMarineSilenceSystem : EntitySystem
 {
-    private static readonly ProtoId<DatasetPrototype> RankHierarchy = "RMCMarineRankHierarchy";
+    private static readonly ProtoId<DatasetPrototype> RankHierarchy = "StoriesMarineRankHierarchy";
 
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
@@ -66,7 +66,7 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
 
     private void OnSilence(Entity<StoriesMarineSilenceComponent> ent, ref StoriesMarineSilenceActionEvent args)
     {
-        if (args.Handled || _mobState.IsDead(ent) || ent.Comp.NextSilenceAt > _timing.CurTime ||
+        if (args.Handled || _mobState.IsDead(ent) ||
             !TryComp(ent, out TransformComponent? transform) || !TryGetRankIndex(ent.Owner, out var issuerRank))
             return;
 
@@ -88,8 +88,6 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
             ApplySilence(nearby, ent.Comp);
         }
 
-        ent.Comp.NextSilenceAt = _timing.CurTime + ent.Comp.Cooldown;
-        _actions.SetCooldown(ent.Comp.ActionEntity, ent.Comp.Cooldown);
         args.Handled = true;
     }
 
@@ -98,8 +96,7 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
         var silence = EnsureComp<StoriesMarineSilencedForcedWhisperComponent>(marine);
         silence.ExpiresAt = _timing.CurTime + command.Duration;
         SendSilencedMessage(marine, command.Authority);
-
-}
+    }
 
     private void SendSilencedMessage(EntityUid marine, StoriesMarineSilenceAuthority authority)
     {
@@ -160,7 +157,7 @@ public sealed class StoriesMarineSilenceSystem : EntitySystem
             {
                 "stories-marine-silence-sergeant-1", "stories-marine-silence-sergeant-2", "stories-marine-silence-sergeant-3", "stories-marine-silence-sergeant-4",
             }),
-_ => throw new ArgumentOutOfRangeException(nameof(command.Authority), command.Authority, null),
+            _ => throw new ArgumentOutOfRangeException(nameof(command.Authority), command.Authority, null),
         };
     }
 }

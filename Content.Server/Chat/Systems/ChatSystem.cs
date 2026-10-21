@@ -250,14 +250,6 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.EnsurePlayer(player.UserId).AddEntity(GetNetEntity(source));
         }
 
-        // Stories-Discipline-Start
-        if (desiredType == InGameICChatType.Speak && HasComp<StoriesOfficerHonorForcedWhisperComponent>(source))
-            desiredType = InGameICChatType.Whisper;
-
-        if (desiredType == InGameICChatType.Speak && HasComp<StoriesMarineSilencedForcedWhisperComponent>(source))
-            desiredType = InGameICChatType.Whisper;
-        // Stories-Discipline-End
-
         // RMC14
         var currentLanguage = GetCurrentLanguageForSpeech(source);
         // RMC14
@@ -268,6 +260,14 @@ public sealed partial class ChatSystem : SharedChatSystem
             checkRadioPrefix = false;
             message = message[1..];
         }
+
+        // Stories-Discipline-Start
+        if (desiredType == InGameICChatType.Speak && HasComp<StoriesOfficerHonorForcedWhisperComponent>(source))
+            desiredType = InGameICChatType.Whisper;
+
+        if (desiredType == InGameICChatType.Speak && HasComp<StoriesMarineSilencedForcedWhisperComponent>(source))
+            desiredType = InGameICChatType.Whisper;
+        // Stories-Discipline-End
 
         bool shouldCapitalize = (desiredType != InGameICChatType.Emote);
         bool shouldPunctuate = _configurationManager.GetCVar(CCVars.ChatPunctuation) || player != null && _netConfigManager.GetClientCVar(player.Channel, RMCCVars.RMCAutoPunctuate);

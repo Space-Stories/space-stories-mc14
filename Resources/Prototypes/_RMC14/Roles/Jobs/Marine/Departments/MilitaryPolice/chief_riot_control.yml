@@ -12,9 +12,19 @@
   special:
   - !type:AddComponentSpecial
     components:
+    - type: JobPrefix
+      prefix: rmc-job-prefix-rmpl
+    - type: TacticalMapIcon
+      icon:
+        sprite: /Textures/_RMC14/Interface/map_blips.rsi
+        state: crmp
+      background:
+        sprite: /Textures/_RMC14/Interface/map_blips.rsi
+        state: background_mp
     #Stories-Discipline-Start
     - type: StoriesOfficerHonor
     #Stories-Discipline-End
+
 - type: startingGear
   parent: RMCGearRiotControl
   id: RMCGearRiotControlLeader

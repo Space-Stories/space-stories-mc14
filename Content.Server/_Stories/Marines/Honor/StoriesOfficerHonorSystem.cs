@@ -1,15 +1,19 @@
 using Content.Server.Actions;
 using Content.Server.Chat.Systems;
 using Content.Shared._RMC14.Marines;
+using Content.Shared._RMC14.PowerLoader;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._Stories.Marines.Honor;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared.Dataset;
-using Content.Shared._RMC14.Stun;
 using Content.Shared.Buckle;
+using Content.Shared.Buckle.Components;
 using Content.Shared.Chat;
 using Content.Shared.Examine;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Standing;
+using Content.Shared.Tag;
+using Content.Shared.Vehicle.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -22,7 +26,6 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     [Dependency] private readonly ActionsSystem _actions = default!;
     [Dependency] private readonly SharedBuckleSystem _buckle = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly RMCDazedSystem _dazed = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly ExamineSystemShared _examine = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
@@ -30,10 +33,12 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly SharedRankSystem _ranks = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
+    [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
 
-    private static readonly ProtoId<DatasetPrototype> RankHierarchy = "RMCMarineRankHierarchy";
+    private static readonly ProtoId<DatasetPrototype> RankHierarchy = "StoriesMarineRankHierarchy";
+    private const string SeatTag = "RMCSeat";
 
     private readonly HashSet<EntityUid> _nearby = new();
 
@@ -47,6 +52,55 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
     public override void Update(float frameTime)
     {
         var now = _timing.CurTime;
+        var reactions = EntityQueryEnumerator<StoriesOfficerHonorReactionComponent>();
+        while (reactions.MoveNext(out var uid, out var reaction))
+        {
+            if (reaction.NextStepAt > now)
+                continue;
+
+            if (!IsEligibleMarine(uid) ||
+                !Exists(reaction.Target) ||
+                !CanSee(uid, reaction.Target, reaction.Range, reaction.CheckVisibility))
+            {
+                RemCompDeferred<StoriesOfficerHonorReactionComponent>(uid);
+                continue;
+            }
+
+            switch (reaction.Step)
+            {
+                case StoriesOfficerHonorReactionStep.Unbuckle:
+                    if (TryComp(uid, out BuckleComponent? buckle) &&
+                        buckle.BuckledTo is { } strap &&
+                        _tags.HasTag(strap, SeatTag) &&
+                        !HasComp<StrapVehicleComponent>(strap) &&
+                        !HasComp<PowerLoaderComponent>(strap) &&
+                        !HasComp<VehicleDriverSeatComponent>(strap) &&
+                        !HasComp<VehicleWeaponsSeatComponent>(strap) &&
+                        !HasComp<VehiclePortGunSeatComponent>(strap))
+                    {
+                        _buckle.TryUnbuckle(uid, uid, popup: false);
+                    }
+
+                    reaction.Step = StoriesOfficerHonorReactionStep.Stand;
+                    ScheduleNextReactionStep(reaction, 0.15f, 0.75f);
+                    break;
+                case StoriesOfficerHonorReactionStep.Stand:
+                    _standing.Stand(uid);
+                    reaction.Step = StoriesOfficerHonorReactionStep.Face;
+                    ScheduleNextReactionStep(reaction, 0.15f, 0.9f);
+                    break;
+                case StoriesOfficerHonorReactionStep.Face:
+                    Face(uid, _transform.GetWorldPosition(reaction.Target));
+                    reaction.Step = StoriesOfficerHonorReactionStep.Salute;
+                    ScheduleNextReactionStep(reaction, 0.35f, 1.2f);
+                    break;
+                case StoriesOfficerHonorReactionStep.Salute:
+                    _chat.TryEmoteWithChat(uid, "Salute", forceEmote: true);
+                    RemCompDeferred<StoriesOfficerHonorReactionComponent>(uid);
+                    break;
+            }
+        }
+
         var query = EntityQueryEnumerator<StoriesOfficerHonorForcedWhisperComponent>();
         while (query.MoveNext(out var uid, out var whisper))
         {
@@ -71,8 +125,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         if (args.Handled || _mobState.IsDead(ent))
             return;
 
-        var now = _timing.CurTime;
-        if (ent.Comp.NextHonorAt > now || !TryComp(ent, out TransformComponent? transform))
+        if (!TryComp(ent, out TransformComponent? transform))
             return;
 
         _nearby.Clear();
@@ -81,21 +134,26 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         EntityUid? seniorOfficer = null;
         if (!TryGetRankIndex(ent.Owner, out var officerRank))
             return;
+        var seniorOfficerRank = officerRank;
         foreach (var nearby in _nearby)
         {
             if (nearby != ent.Owner &&
                 IsEligibleMarine(nearby) &&
                 CanSee(ent.Owner, nearby, ent.Comp) &&
-                TryGetRankIndex(nearby, out var nearbyRank) && nearbyRank > officerRank)
+                TryGetRankIndex(nearby, out var nearbyRank) && nearbyRank > seniorOfficerRank)
             {
                 seniorOfficer = nearby;
-                break;
+                seniorOfficerRank = nearbyRank;
             }
         }
 
-        var callout = seniorOfficer == null
-            ? _random.Pick(new[] { "stories-officer-honor-attention-1", "stories-officer-honor-attention-2", "stories-officer-honor-attention-3" })
-            : "stories-officer-honor-commander";
+        LocId callout;
+        if (seniorOfficer != null)
+            callout = "stories-officer-honor-commander";
+        else if (ent.Comp.Callouts.Count > 0)
+            callout = _random.Pick(ent.Comp.Callouts);
+        else
+            callout = _random.Pick(DefaultCallouts);
 
         // The officer announcing a superior must not be affected by their own
         // attention command. Clear any stale honor speech effect before the callout.
@@ -105,13 +163,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
         _chat.TrySendInGameICMessage(ent, Loc.GetString(callout), InGameICChatType.Speak, false);
 
         var honorTarget = seniorOfficer ?? ent.Owner;
-        if (!TryGetRankIndex(honorTarget, out var honorTargetRank))
-            honorTargetRank = officerRank;
-        if (honorTarget != ent.Owner && TryComp(honorTarget, out StoriesOfficerHonorComponent? honoredOfficer))
-        {
-            honoredOfficer.NextHonorAt = now + honoredOfficer.Cooldown;
-            _actions.SetCooldown(honoredOfficer.ActionEntity, honoredOfficer.Cooldown);
-        }
+        var honorTargetRank = seniorOfficer == null ? officerRank : seniorOfficerRank;
 
         foreach (var nearby in _nearby)
         {
@@ -124,13 +176,7 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
                 continue;
 
             QueueHonor(nearby, honorTarget, ent.Comp.Range, ent.Comp.CheckVisibility);
-            ApplyCommandSpeechEffects(nearby);
-
-            if (TryComp(nearby, out StoriesOfficerHonorComponent? officer))
-            {
-                officer.NextHonorAt = now + officer.Cooldown;
-                _actions.SetCooldown(officer.ActionEntity, officer.Cooldown);
-            }
+            ApplyCommandSpeechEffects(nearby, ent.Comp.ForcedWhisperDuration);
         }
 
         if (seniorOfficer != null)
@@ -138,64 +184,22 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
             QueueHonor(ent.Owner, seniorOfficer.Value, ent.Comp.Range, ent.Comp.CheckVisibility);
         }
 
-        ent.Comp.NextHonorAt = now + ent.Comp.Cooldown;
-        _actions.SetCooldown(ent.Comp.ActionEntity, ent.Comp.Cooldown);
         args.Handled = true;
     }
 
     private void QueueHonor(EntityUid marine, EntityUid honorTarget, float range, bool checkVisibility)
     {
-        // Keep a short acknowledgement delay, then give every movement in the
-        // response substantial independent jitter so salutes do not synchronize.
-        var reactionDelay = TimeSpan.FromSeconds(_random.NextFloat(0.35f, 0.75f));
-        Timer.Spawn(reactionDelay, () =>
-        {
-            if (!IsEligibleMarine(marine) ||
-                !Exists(honorTarget) ||
-                !CanSee(marine, honorTarget, range, checkVisibility))
-            {
-                return;
-            }
+        var reaction = EnsureComp<StoriesOfficerHonorReactionComponent>(marine);
+        reaction.Target = honorTarget;
+        reaction.Range = range;
+        reaction.CheckVisibility = checkVisibility;
+        reaction.Step = StoriesOfficerHonorReactionStep.Unbuckle;
+        ScheduleNextReactionStep(reaction, 0.35f, 0.75f);
+    }
 
-            _buckle.TryUnbuckle(marine, marine, popup: false);
-
-            var standDelay = TimeSpan.FromSeconds(_random.NextFloat(0.15f, 0.75f));
-            Timer.Spawn(standDelay, () =>
-            {
-                if (!IsEligibleMarine(marine) ||
-                    !Exists(honorTarget) ||
-                    !CanSee(marine, honorTarget, range, checkVisibility))
-                {
-                    return;
-                }
-
-                _standing.Stand(marine);
-
-                var turnDelay = TimeSpan.FromSeconds(_random.NextFloat(0.15f, 0.9f));
-                Timer.Spawn(turnDelay, () =>
-                {
-                    if (!IsEligibleMarine(marine) ||
-                        !Exists(honorTarget) ||
-                        !CanSee(marine, honorTarget, range, checkVisibility))
-                    {
-                        return;
-                    }
-
-                    Face(marine, _transform.GetWorldPosition(honorTarget));
-
-                    var saluteDelay = TimeSpan.FromSeconds(_random.NextFloat(0.35f, 1.2f));
-                    Timer.Spawn(saluteDelay, () =>
-                    {
-                        if (IsEligibleMarine(marine) &&
-                            Exists(honorTarget) &&
-                            CanSee(marine, honorTarget, range, checkVisibility))
-                        {
-                            _chat.TryEmoteWithChat(marine, "Salute", forceEmote: true);
-                        }
-                    });
-                });
-            });
-        });
+    private void ScheduleNextReactionStep(StoriesOfficerHonorReactionComponent reaction, float minSeconds, float maxSeconds)
+    {
+        reaction.NextStepAt = _timing.CurTime + TimeSpan.FromSeconds(_random.NextFloat(minSeconds, maxSeconds));
     }
 
     private bool CanSee(EntityUid viewer, EntityUid target, StoriesOfficerHonorComponent command)
@@ -205,7 +209,16 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
 
     private bool CanSee(EntityUid viewer, EntityUid target, float range, bool checkVisibility)
     {
-        return !checkVisibility || _examine.InRangeUnOccluded(viewer, target, range);
+        if (checkVisibility)
+            return _examine.InRangeUnOccluded(viewer, target, range);
+
+        var viewerCoordinates = _transform.GetMapCoordinates(viewer);
+        var targetCoordinates = _transform.GetMapCoordinates(target);
+        if (viewerCoordinates.MapId != targetCoordinates.MapId)
+            return false;
+
+        var distance = viewerCoordinates.Position - targetCoordinates.Position;
+        return range <= 0 || distance.LengthSquared() <= range * range;
     }
 
     private void Face(EntityUid entity, System.Numerics.Vector2 targetPosition)
@@ -242,11 +255,16 @@ public sealed class StoriesOfficerHonorSystem : EntitySystem
                !_mobState.IsDead(entity);
     }
 
-    private void ApplyCommandSpeechEffects(EntityUid marine)
+    private void ApplyCommandSpeechEffects(EntityUid marine, TimeSpan whisperDuration)
     {
-        _dazed.TryDaze(marine, TimeSpan.FromSeconds(1), refresh: true, stutter: true);
-
         var whisper = EnsureComp<StoriesOfficerHonorForcedWhisperComponent>(marine);
-        whisper.ExpiresAt = _timing.CurTime + TimeSpan.FromSeconds(13);
-}
+        whisper.ExpiresAt = _timing.CurTime + whisperDuration;
+    }
+
+    private static readonly LocId[] DefaultCallouts =
+    {
+        "stories-officer-honor-attention-1",
+        "stories-officer-honor-attention-2",
+        "stories-officer-honor-attention-3",
+    };
 }
