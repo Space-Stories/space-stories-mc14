@@ -270,8 +270,10 @@
     #ST-BundleCrewLeaderRework-Start
     - RMCWhistle
     - RMCMegaphone
+    - RMCExplosivePlastic
     - RMCPackFlareCAS
-    #- RMCPackFlareCAS
+    - RMCPackFlareCAS
     - RMCLaserDesignator
+    - CMFireExtinguisherPortable
     - RMCBackpackRTO
     #ST-BundleCrewLeaderRework-End
