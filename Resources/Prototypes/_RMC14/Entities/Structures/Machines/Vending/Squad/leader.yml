@@ -328,10 +328,10 @@
     #ST-BundleCrewLeaderRework-Start
     - RMCWhistle
     - RMCMegaphone
-    #- RMCExplosivePlastic
+    - RMCExplosivePlastic
     - RMCPackFlareCAS
     - RMCLaserDesignator
-    #- CMFireExtinguisherPortable
+    - CMFireExtinguisherPortable
     - RMCBackpackRTO
     #ST-BundleCrewLeaderRework-End
 
