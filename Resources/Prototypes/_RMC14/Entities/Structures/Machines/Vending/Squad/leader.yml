@@ -232,7 +232,7 @@
       takeAll: CMStandard
       entries:
       - id: CMVendorBundleSquadLeaderApparel
-      #- id: RMCBackpackRTO #ST-BundleCrewLeaderRework
+      - id: RMCBackpackRTO
         replaceSlot: back
       - id: CMMRE
       - id: RMCVendorBundleCrewLeader #Stories-BundleCrewLeaderRework
