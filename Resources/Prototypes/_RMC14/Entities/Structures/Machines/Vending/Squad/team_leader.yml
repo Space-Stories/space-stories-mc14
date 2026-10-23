@@ -176,7 +176,7 @@
       takeAll: CMStandard
       entries:
       - id: CMVendorBundleFireteamLeaderApparel
-      #- id: RMCBackpackRTO #ST-BundleCrewLeaderRework
+      - id: RMCBackpackRTO
         #replaceSlot: back
       - id: CMMRE
       - id: RMCVendorBundleCrewFireteamLeader
