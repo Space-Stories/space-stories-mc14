@@ -15,7 +15,7 @@
     jobs:
     - CMSquadLeader
     sections:
-    #- name: Squad Leader Kit #ST-BundleCrewLeaderRework
+    #- name: Squad Leader Kit #Stories-BundleCrewLeaderRework
       #takeAll: CMStandard
       #entries:
       #- id: RMCVendorBundleCrewLeader
