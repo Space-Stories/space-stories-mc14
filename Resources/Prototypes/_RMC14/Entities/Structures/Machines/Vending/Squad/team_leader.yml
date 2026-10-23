@@ -177,7 +177,7 @@
       entries:
       - id: CMVendorBundleFireteamLeaderApparel
       - id: RMCBackpackRTO
-        #replaceSlot: back
+        replaceSlot: back
       - id: CMMRE
       - id: RMCVendorBundleCrewFireteamLeader
       #- id: CMMap # TODO: Make a map
