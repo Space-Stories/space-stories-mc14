@@ -334,7 +334,7 @@
     - RMCLaserDesignator
     - CMFireExtinguisherPortable
     - RMCBackpackRTO
-    #ST-BundleCrewLeaderRework-End
+    #Stories-BundleCrewLeaderRework-End
 
 - type: entity
   parent: RMCKitBase
