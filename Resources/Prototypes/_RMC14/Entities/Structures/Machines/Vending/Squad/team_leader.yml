@@ -267,7 +267,7 @@
     - state: laser_cas
   - type: CMVendorBundle
     bundle:
-    #ST-BundleCrewLeaderRework-Start
+    #Stories-BundleCrewLeaderRework-Start
     - RMCWhistle
     - RMCMegaphone
     - RMCExplosivePlastic
