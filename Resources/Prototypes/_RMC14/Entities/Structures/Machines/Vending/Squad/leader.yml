@@ -233,7 +233,7 @@
       entries:
       - id: CMVendorBundleSquadLeaderApparel
       #- id: RMCBackpackRTO #ST-BundleCrewLeaderRework
-        #replaceSlot: back
+        replaceSlot: back
       - id: CMMRE
       - id: RMCVendorBundleCrewLeader #ST-BundleCrewLeaderRework
       #- id: CMMap # TODO: Make a map
