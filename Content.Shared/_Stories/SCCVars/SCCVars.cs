@@ -224,6 +224,24 @@ public sealed class SCCVars
     public static readonly CVarDef<bool> AutoClimb =
         CVarDef.Create("rmc.autoclimb", true, CVar.ARCHIVE | CVar.CLIENT | CVar.REPLICATED);
 
+    /// <summary>
+    /// Coefficient k in threshold = sqrt(online) * k.
+    /// </summary>
+    public static readonly CVarDef<float> HijackMarineSqrtCoeff =
+        CVarDef.Create("st.hijack_marine_sqrt_coeff", 1.4f, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Minimum threshold for the marine check, regardless of online count.
+    /// </summary>
+    public static readonly CVarDef<int> HijackMinMarinesFloor =
+        CVarDef.Create("st.hijack_min_marines_floor", 3, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Minutes after round start before the hijack refuse button becomes usable
+    /// </summary>
+    public static readonly CVarDef<float> HijackTimerMinutes =
+        CVarDef.Create("st.hijack_timer_minutes", 45f, CVar.SERVERONLY);
+
     /*
      * Stories Hunter
      */

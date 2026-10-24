@@ -2,11 +2,15 @@
     xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Client._RMC14.Dropship"
     xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
-    Title="Dropship Hijack"
+    Title="{Loc dropship-hijacker-window-title}" 
     MinSize="200 300">
     <BoxContainer Orientation="Vertical">
         <RichTextLabel Name="Header" Access="Public" />
         <cc:HSeparator Color="#4972A1" Margin="0 0 0 5" />
         <BoxContainer Name="Destinations" Access="Public" Orientation="Vertical" />
+        <!--Stories-Refuse-Hijack-Start-->
+        <cc:HSeparator Color="#4972A1" Margin="0 5 0 0" />
+        <Button Name="RefuseButton" Access="Public" Text="{Loc dropship-hijacker-window-refuse-button}" StyleClasses="Caution" />
+        <!--Stories-Refuse-Hijack-End-->
     </BoxContainer>
 </controls:DropshipHijackerWindow>
