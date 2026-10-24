@@ -179,8 +179,8 @@
       - id: RMCBackpackRTO
         replaceSlot: back
       - id: CMMRE
-      #- id: CMMap # TODO: Make a map
       - id: RMCVendorBundleCrewFireteamLeader
+      #- id: CMMap # TODO: Make a map
     - name: Gloves
       choices: { CMHands: 1 }
       entries:
@@ -267,6 +267,12 @@
     - state: laser_cas
   - type: CMVendorBundle
     bundle:
+    #Stories-BundleCrewLeaderRework-Start
+    - RMCWhistle
+    - RMCMegaphone
+    - RMCExplosivePlastic
     - RMCPackFlareCAS
     - RMCPackFlareCAS
     - RMCLaserDesignator
+    - CMFireExtinguisherPortable
+    #Stories-BundleCrewLeaderRework-End
