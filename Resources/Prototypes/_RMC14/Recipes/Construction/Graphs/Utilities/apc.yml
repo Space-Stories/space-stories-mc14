@@ -54,12 +54,12 @@
   - node: apcFrameElectronics
     entity: CMApcFrameElectronics
     edges:
-    - to: apc
-      conditions:
-      - !type:RMCApcAreaAvailable
-      steps:
-      - tool: Screwing
-        doAfter: 2
+    # - to: apc
+    #   conditions:
+    #   - !type:RMCApcAreaAvailable
+    #   steps:
+    #   - tool: Screwing
+    #     doAfter: 2
 
     - to: apcFrameWired
       completed:

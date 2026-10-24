@@ -4,6 +4,13 @@ rmc-apc-construction-area-occupied = [color=red]В этой зоне уже ес
 
 rmc-apc-skill-fail = Вы не знаете, как пользоваться интерфейсом { $apc }.
 
+rmc-apc-xeno-already-broken = Электроника ЛКП уже разбита.
+rmc-apc-xeno-too-small = Вы недостаточно крупный, чтобы разбить электронику ЛКП.
+rmc-apc-xeno-wires-exposed = Вы срываете панель ЛКП, обнажая провода.
+rmc-apc-xeno-wires-cut = Вы разрываете провода ЛКП.
+rmc-apc-xeno-electronics-destroyed = Вы разбиваете электронику ЛКП.
+rmc-apc-examine-wires-damaged = Провода ЛКП повреждены. Восстановите их [color=cyan]кусачками[/color] через панель проводов, затем закройте панель [color=cyan]отвёрткой[/color]. Плата и батарея целы.
+
 rmc-apc-examine-working =
     Используйте:
     - [color=cyan]Инженерную ID-карту[/color], чтобы заблокировать или разблокировать интерфейс.
@@ -14,7 +21,7 @@ rmc-apc-examine-cover-open-battery = Используйте [color=cyan]пуст
 rmc-apc-examine-cover-removed-battery = Используйте [color=cyan]пустую руку[/color], чтобы извлечь батарею.
 rmc-apc-examine-broken = ЛКП сломан. Ударьте по нему прочным инструментом, чтобы сбить крышку.
 rmc-apc-examine-broken-cover-removed-battery = ЛКП сломан. Извлеките [color=cyan]батарею[/color], затем удалите повреждённую электронику.
-rmc-apc-examine-broken-cover-removed-no-battery = ЛКП сломан. Удалите повреждённую электронику, затем восстановите переднюю часть с помощью [color=cyan]каркаса ЛКП[/color].
+rmc-apc-examine-broken-cover-removed-no-battery = ЛКП сломан. Удалите повреждённую электронику, затем восстановите корпус [color=cyan]включённой сваркой[/color] (базовое время — 4 секунды). После этого подключите кабель и установите плату и батарею.
 rmc-apc-examine-maintenance = ЛКП не собран до конца. Нужны [color=cyan]кабель[/color], [color=cyan]модуль управления питанием[/color] и [color=cyan]отвёртка[/color].
 rmc-apc-examine-connect-terminal = Используйте [color=cyan]кабель ({ $amount })[/color], чтобы подключить терминал.
 rmc-apc-examine-install-electronics = Используйте [color=cyan]модуль управления питанием[/color], чтобы установить электронику.
