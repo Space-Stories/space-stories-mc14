@@ -117239,6 +117239,13 @@ entities:
     - type: Transform
       pos: 6.5,22.5
       parent: 1
+- proto: RMCMapChancesClaimWesternReactor
+  entities:
+  - uid: 33663
+    components:
+    - type: Transform
+      pos: -55.5,80.5
+      parent: 1
 - proto: RMCMarkerAreaLabel
   entities:
   - uid: 12772
