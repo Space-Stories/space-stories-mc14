@@ -9,6 +9,7 @@ using Content.Shared.Coordinates;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared._RMC14.Emote;
 using Content.Shared._RMC14.Synth; // Stories-SynthNoPainEmote
+using Content.Shared._Stories.Xenonids.AcidBloodSplash; // Stories-AcidBloodDodge
 using Content.Shared.Popups;
 using Robust.Shared.Player;
 using Content.Shared._RMC14.Xenonids;
@@ -83,6 +84,11 @@ public sealed class AcidBloodSplashSystem : EntitySystem
 
             if (closeRangeTargets.Contains(target))
                 hitProbability += 30;
+
+            // Stories-AcidBloodDodge-Start
+            if (TryComp<AcidBloodDodgeComponent>(target, out var dodge))
+                hitProbability -= dodge.Chance;
+            // Stories-AcidBloodDodge-End
 
             hitProbability /= 100f; // Reduce the value to decimal
 

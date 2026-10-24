@@ -7,6 +7,8 @@
   - type: HumanoidAppearance
     species: STHunter
   - type: Unparalyzable
+  - type: AcidBloodDodge
+    chance: 70
   - type: Vocal
     sounds:
       Male: STHunter
