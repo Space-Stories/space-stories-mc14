@@ -15,10 +15,12 @@
     jobs:
     - CMSquadLeader
     sections:
-    #- name: Squad Leader Kit #Stories-BundleCrewLeaderRework
+    # Stories-BundleCrewLeaderRework-Start
+    #- name: Squad Leader Kit
       #takeAll: CMStandard
       #entries:
       #- id: RMCVendorBundleCrewLeader
+    # Stories-BundleCrewLeaderRework-End
     - name: Squad Kit (for yourself or your squad)
       choices: { RMCKitBase: 1 }
       entries:
