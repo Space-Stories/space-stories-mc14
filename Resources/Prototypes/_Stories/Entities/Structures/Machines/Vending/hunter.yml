@@ -184,7 +184,7 @@
       choices: { STAdd: 2 }
       entries:
       # - id: STWeaponPlasmaCasterEbony
-      # - id: STWeaponPlasmaPistol
+      - id: STWeaponPlasmaPistol
       # - id: STFalconDrone
       # - id: STSmartDisc
       # - id: STWeaponShieldRiotHunter
@@ -375,7 +375,7 @@
       choices: { STAdd: 2 }
       entries:
       # - id: STWeaponPlasmaCasterEbony
-      # - id: STWeaponPlasmaPistol
+      - id: STWeaponPlasmaPistol
       # - id: STFalconDrone
       # - id: STSmartDisc
       # - id: STWeaponShieldRiotHunter

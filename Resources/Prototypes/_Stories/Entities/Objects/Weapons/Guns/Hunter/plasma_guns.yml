@@ -1,0 +1,114 @@
+- type: entity
+  parent: STHunterBaseItem
+  id: STWeaponPlasmaPistol
+  name: plasma pistol
+  description: A plasma pistol capable of rapid fire. It has an integrated battery. Can be used to set fires, either to braziers or on people.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_pistol.rsi
+    layers:
+    - state: plasma-pistol
+      map: [ "base" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.WieldableVisuals.Wielded:
+        base:
+          True: { state: wielded-inhand-right }
+          False: { state: plasma-pistol }
+  - type: Clothing
+    slots:
+    - suitstorage
+    - belt
+  - type: Item
+    size: Small
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      collection: STPulseShotCollection
+  - type: RMCSelectiveFire
+    baseFireModes:
+    - SemiAuto
+    recoilUnwielded: 0
+    scatterWielded: 5
+    scatterUnwielded: 7
+    baseFireRate: 2
+  - type: Wieldable
+  - type: ProjectileBatteryAmmoProvider
+    proto: STPistolBolt
+    fireCost: 1
+  - type: Battery
+    maxCharge: 4000
+    startingCharge: 4000
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 100
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: GunSwitch
+  - type: UniqueAction
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - STHunterLeader
+      - STHunterYoung
+      - STHunter
+
+#- type: entity
+  #parent: STHunterBaseItem
+  #id: STPlasmaCarbine
+  #name: plasma carbine
+  #description: A short-barreled rapid-fire assault weapon only given to military caste soldiers, unsuitable for hunting actual prey. Features a deadly burst-fire mode, alongside incendiary or impact-explosive rounds. Although more accurate when wielded, it can be fired with one hand.
+  #components:
+  #- type: Sprite
+    #sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_carbine.rsi
+    #layers:
+      #state: base
+      #map: ["enum.GunVisualLayers.Base"]
+  #- type: Clothing
+    #slots:
+    #- suitstorage
+    #- backpack
+  #- type: Item
+    #size: Large
+  #- type: Gun
+    #selectedMode: SemiAuto
+    #availableModes:
+    #- SemiAuto
+    #soundGunshot:
+      #collection: STPulseShotCollection
+  #- type: RMCSelectiveFire
+    #baseFireModes:
+    #- SemiAuto
+    #recoilUnwielded: 0
+    #scatterWielded: 2
+    #scatterUnwielded: 15
+    #baseFireRate: 3
+  #- type: Wieldable
+  #- type: ProjectileBatteryAmmoProvider
+    #proto: STPlasmaBoltLethalProjectile
+    #Capacity: 40
+    #Firecost: 5
+    #Shots: 40
+  #- type: Battery
+    #maxCharge: 4000
+    #startingCharge: 4000
+  #- type: BatterySelfRecharger
+    #autoRecharge: true
+    #autoRechargeRate: 100
+  #- type: MagazineVisuals
+    #magState: mag
+    #steps: 5
+    #zeroVisible: true
+  #- type: GunSwitch
+  #- type: UniqueAction
+  #- type: GunUserWhitelist
+    #whitelist:
+      #components:
+      #- STHunterLeader
+      #- STHunterYoung
+      #- STHunter
