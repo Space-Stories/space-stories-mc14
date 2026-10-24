@@ -1,0 +1,508 @@
+# Stories-fax-templates
+# Command-start
+- type: faxTemplate
+  id: COM-101
+  label: "Служебная переписка с Региональным командованием КОМ-101"
+  content: |
+      [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-101[/color]
+      [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+      [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+      [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                          [head=2][color=CornflowerBlue]Служебная переписка с
+              Региональным командованием[/color][/head]
+                                                  [color=#383838]✦✧✦✧✦[/color]
+
+      [bold]Кому:[/bold] [italic][color=#1b67a5]Региональному Командованию КМП США[/italic][/color] | [bolditalic][color=#cb0000]ГСO Чинук-91"[/color] [/bolditalic]
+      [bold]От:[/bold] [italic][color=#FF6347][form][/color][/italic] | [color=#1b67a5][bolditalic]УДКТ Алмайер[/bolditalic][/color]
+      [bold]Тема:[/bold] [italic][form][/italic]
+      ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+      [italic][form]
+      [/italic]
+
+      [bold]С уважением,[/bold]
+      [color=#1b67a5][italic][signature][/italic][/color]
+      [color=#AAAAAA]===================================================[/color]
+      [italic][color=#E41B1B][bold]Эта корреспонденция должна быть направлена Верховному командованию КМП США в ближайшее время.[/bold]
+      Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-102
+  label: "Меморандум для протокола КОМ-102"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-102[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                    [head=2][color=CornflowerBlue]Меморандум для протокола[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+    [bold]Кому:[/bold] [italic][color=#1b67a5][form][/italic][/color] | [bolditalic][color=#cb0000][form][/color] [/bolditalic]
+    [bold]От:[/bold] [italic][color=#FF6347][form][/color][/italic] | [color=#1b67a5][bolditalic]УДКТ Алмайер[/bolditalic][/color]
+    [bold]Тема:[/bold] [italic]Принятие мер по пересмотру операции "[form]"[/italic]
+    [italic][color=#1b67a5]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color][/italic]
+    [head=3][bold]Сфера деятельности:[/bold] [/head]
+    [italic]Расследование сигнала SOS с колонии "[form]",при помощи оперативного реагирования "УДКТ Алмайер".[/italic]
+    [bold]Задействованные силы:[/bold] [italic][form][/italic]
+    [italic][color=#134975][bold]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/bold][/color][/italic]
+
+    [bold]Задачи операции:[/bold] [italic][form][/italic]
+    [bold]Наблюдения:[/bold][italic]
+    [bullet][form]
+    [bold]Проведение анализа:[/bold]
+    [bullet][form]
+    [bold]Рекомендации:[/bold]
+    [bullet][form]
+
+    [italic][color=#1b67a5]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color][/italic][/italic]
+    [bold]Составлено:[/bold]
+    [italic][color=#1b67a5][signature][/italic][/color]
+
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-103
+  label: "Отчет о численности отрядов КОМ-103"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-103[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                [head=2][color=CornflowerBlue]Отчет о численности отрядов[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [color=Crimson][head=3][bold]Отряд "Альфа":[/bold][/head][/color]
+    ■ [bold]Общее число:[/bold] [form]
+    ■ [bold]Командиры Огневых Групп:[/bold] [form]
+    ■ [bold]Специалист:[/bold] [form]
+    ■ [bold]Оператор Смартгана:[/bold] [form]
+    ■ [bold]Санитаров Госпиталя:[/bold] [form]
+    ■ [bold]Боевых техников:[/bold] [form]
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [color=GoldenRod][head=3][bold]Отряд "Браво":[/bold][/head][/color]
+    ■ [bold]Общее число:[/bold] [form]
+    ■ [bold]Командиры Огневых Групп:[/bold] [form]
+    ■ [bold]Специалист:[/bold] [form]
+    ■ [bold]Оператор Смартгана:[/bold] [form]
+    ■ [bold]Санитаров Госпиталя:[/bold] [form]
+    ■ [bold]Боевых техников:[/bold] [form]
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [color=DarkViolet][head=3][bold]Отряд "Чарли":[/bold][/head][/color]
+    ■ [bold]Общее число:[/bold] [form]
+    ■ [bold]Командиры Огневых Групп:[/bold] [form]
+    ■ [bold]Специалист:[/bold] [form]
+    ■ [bold]Оператор Смартгана:[/bold] [form]
+    ■ [bold]Санитаров Госпиталя:[/bold] [form]
+    ■ [bold]Боевых техников:[/bold] [form]
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [color=MediumBlue][head=3][bold]Отряд "Дельта":[/bold][/head][/color]
+    ■ [bold]Общее число:[/bold] [form]
+    ■ [bold]Командиры Огневых Групп:[/bold] [form]
+    ■ [bold]Специалист:[/bold] [form]
+    ■ [bold]Оператор Смартгана:[/bold] [form]
+    ■ [bold]Санитаров Госпиталя:[/bold] [form]
+    ■ [bold]Боевых техников:[/bold] [form]
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [head=3][color=black][bold]Общие данные роты:[/bold][/color][/head]
+    ■ [bold]Общее число:[/bold] [form]
+    ■ [bold]Командиры Огневых Групп:[/bold] [form]
+    ■ [bold]Специалисты:[/bold] [form]
+    ■ [bold]Оператор Смартгана:[/bold] [form]
+    ■ [bold]Санитаров Госпиталя:[/bold] [form]
+    ■ [bold]Боевых техников:[/bold] [form]
+    [color=#134975]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+
+    [bold]Составлено:[/bold]
+    [bolditalic][signature][/bolditalic]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-104
+  label: "Запрос на проведение высадки КОМ-104"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-104[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                 [head=2][color=CornflowerBlue]Запрос на проведение высадки[/color][/head]
+                                                [color=#383838]✦✧✦✧✦[/color]
+
+    [italic]Эта форма служит запросом на отправку на передовую оперативную базу и/или в безопасные районы для выполнения возложенных на вас обязанностей.
+    В случае требования выхода за пределы вышеописанных зон, данное должно быть учтено в документе.[/italic]
+    [bold]Состав высаживающихся лиц:[/bold][italic]
+    [bullet] [form]
+    [bullet] [form]
+    [/italic][bold]Причин(-а/-ы):[/bold][italic]
+    [bullet] [form]
+    [bullet] [form]
+    [/italic]
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [italic][bullet]Я понимаю, что во время развертывания все законы и положения в рамках СОП и морского права по-прежнему действуют и не должны нарушаться.
+    [bullet]Я понимаю, что несоблюдение границ, обозначенных как передовая оперативная база или безопасные районы, приведет к предъявлению мне обвинений.
+    [bullet]Я понимаю, что это развертывание может быть отменено по усмотрению командования.
+    [bullet]Я понимаю, что в случае крупной атаки на передовую оперативную базу или в случае отмены статуса безопасных зон я должен вернуться на "Алмайер" как можно скорее.
+
+    Примечание: В связи с задачей моего пребывания в зоне боевых действий, я намерен покинуть безопасные зоны для их выполнения - [color=Red]([form])[/color]
+    | При наличии в настоящем документе отметки [color=Red]«Намерен»[/color], заверенной уполномоченным командованием, нахождение вне безопасных районов в рамках выполнения задач не является нарушением настоящего соглашения и не может служить основанием для предъявления обвинений по вышеуказанным пунктам. | [/italic]
+    [bold]Подписано:[/bold]
+    [italic][color=DarkKhaki][signature][/color][/italic]
+     [color=DarkGray]- При оформлении документа на двух и более лиц каждый участник высадки обязан лично ознакомиться с документом и поставить свою подпись. (КОПИРОВАТЬ "Шаблон")[/color]
+
+    [bold]Утверждено:[/bold]
+    [italic][color=#cb0000][signature][/color][/italic]
+
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic][/italic]
+
+- type: faxTemplate
+  id: COM-105
+  label: "Рекомендация к награждению военнослужащего КМП США КОМ-105"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-105[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                  [head=2][color=goldenrod]Рекомендация к награждению
+               военнослужащего КМП США[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [italic]За действия, выходящие за рамки служебного долга, исключительную храбрость, выдающиеся качества, галантность или примерное поведение.[/italic]
+    - [bold][color=#1b67a5]Рекомендуемый[/bold][/color] -
+    [bold]Имя и Фамилия: [/bold] [italic][form][/italic]
+    [bold]Звание:[/bold] [italic][form][/italic]
+    [bold]Причина награждения:[/bold]
+    [bullet][italic][form][/italic]
+    [color=#1b67a5]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [bold]Наград(-а/-ы) на которые рекомендуется:[/bold]
+    < [check] > [color=Plum]Медаль "Бронзовое Сердце"[/color]
+    < [check] > [color=LightSalmon]Медаль "За Выдающиеся Заслуги"[/color]
+    < [check] > [color=LightSteelBlue]Медаль "За Отвагу"[/color]
+    < [check] > [color=Goldenrod]Медаль "За Исключительный Героизм"[/color]
+    [bold]Посмертно:[/bold] ДА <  [check]  >    НЕТ <  [check]  >
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Подписано:[/bold]
+    [color=#1b67a5][italic][signature][/italic][/color]
+
+    [bold]Утверждено:[/bold]
+    [color=#cb0000][italic][signature][/italic][/color]
+    [bold]Командующий Офицер | [color=#1b67a5][bolditalic]УДКТ Алмайер[/bolditalic][/color][/bold]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-106
+  label: "Отчет о потерях в ходе операции КОМ-106"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-106[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+             [head=2][color=CornflowerBlue]Отчет о потерях в ходе операции[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [italic]Документ предназначен для учета потерь личного состава в ходе проведения операции. Заполняется уполномоченным должностным лицом в целях регистрации понесенных потерь, ведения оперативного учета и подтверждения возможности дальнейшего выполнения патрульных задач силами УДКТ "Алмайер".[/italic]
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [head=3][bold]Общая фиксация потерь:[/bold][/head]
+    [color=DarkGray]Форма: (ЖИВЫХ) / (МЕРТВЫХ)[/color]
+    [bold][color=Crimson]Отряд "Альфа":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=GoldenRod]Отряд "Браво":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=DarkViolet]Отряд "Чарли":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=MediumBlue]Отряд "Дельта":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=LightSeaGreen]Отряд "Эхо":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=SaddleBrown]Отряд "Фокстрот":[/color][/bold] [italic][form] / [form][/italic]
+    [bold][color=darkgreen]Отряд "Разведка":[/bold][/color] [italic][form] / [form][/italic]
+
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Сведения о потерях офицерского состава "УДКТ Алмайер":[/bold]
+    [color=DarkGray]Форма: (ФИО) / (ДОЛЖНОСТЬ[/color]
+    •
+    •
+
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Сведения о потерях младшего командного состава "УДКТ Алмайер":[/bold]
+
+    [bold]Командир(-ы) отряд(-а/-ов):[/bold] [italic][form][/italic]
+    [bold]Командир(-ов) Огнев(-ых/-ой) Групп(-ы):[/bold] [italic][form][/italic]
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Утверждено:[/bold]
+    [color=#1b67a5][italic][signature][/italic][/color]
+
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-107
+  label: "Уведомление об использовании ядерного арсенала КОМ-107"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-107[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                 [head=2][color=CornflowerBlue]Уведомление об использовании
+                        ядерного арсенала [/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [bold]Кому:[/bold] [italic][color=#1b67a5]Региональному Командованию КМП США[/italic][/color] | [bolditalic][color=#cb0000]ГСO Чинук-91"[/color] [/bolditalic]
+    [bold]От:[/bold] [italic][color=#FF6347][form][/color][/italic] | [color=#1b67a5][bolditalic]УДКТ Алмайер[/bolditalic][/color]
+    [bold]Тема:[/bold] [italic]Уведомление[/italic]
+    [color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
+    [mono]Статус переписки: "[color=#cb0000][bolditalic]СРОЧНОЕ ПИСЬМО[/color][/bolditalic]"[/mono].
+    [color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
+    [italic]Я, [color=#1b67a5][form][/color], Командующий офицер УДКТ "Алмайер", настоящим официально уведомляю Региональное командование о принятом решении на применение ядерного боеприпаса на территории колонии "[bolditalic][form][/bolditalic]" по следующим основаниям:
+    • [form][/italic]
+
+    [color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
+    [italic]• Я подтверждаю, что применение ядерного боеприпаса является необходимой и соразмерной мерой для предотвращения критической угрозы Соединенным Штатам Америки, их гражданам, военнослужащим и иным охраняемым интересам.
+    • Я осознаю и принимаю персональную ответственность за принятое решение, а также понимаю, что в случае технической неисправности, несанкционированного применения, утраты боеприпаса либо иных инцидентов, связанных с использованием средств ядерного вооружения, ко мне могут быть применены меры дисциплинарной, служебной или иной ответственности в соответствии с действующими нормативными актами.[/italic]
+
+    [bold]Подписано:[/bold]
+    [italic][color=#1b67a5][signature][/color][/italic]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: COM-108
+  label: "Приказ о назначении ВрИО НВП КОМ-108"
+  content: |
+    [color=#1b67a5]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#1b67a5]█[/color]▀[/color] [head=3]  [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]КОМ-108[/color]
+    [color=#383838]▀▄▄[color=#1b67a5]▀[/color] ▄[/color][color=#1b67a5]█[/color] [color=#AAAAAA][italic] УДКТ "Алмайер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#383838]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#1b67a5]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                            [head=2]Приказ о назначении[/head]
+
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    Я, [form], действующий командир на корабле УДКТ Алмайер, назначаю военного надзирателя, [form], как временно исполняющего обязанности начальника военной полиции согласно пункту начальника военной полиции в определении военного закона.
+
+    Военный надзиратель теряет данные полномочия в случае появления действующего начальника военной полиции, утверждённого региональным командованием и офисом провост-маршалла.
+
+    [bold]Утверждающий:[/bold]
+    [color=#1b67a5][italic][signature][/italic][/color]
+    [bolditalic]Ротный Штаб корабля УДКТ Алмайер[/bolditalic]
+
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа ...[/color][/italic]
+    [italic][color=#E41B1B]Документ считается действительным только при наличии штампа печати утверждающего лица.[/color][/italic]
+
+# Command-stop
+# Auxiliary-support-Start
+- type: faxTemplate
+  id: AS-101
+  label: "Предполётный контрольный список проверки оборудования ВОП-101"
+  content: |
+    [color=#5f698a]█[/color][color=#ffffff]░░[/color][color=#5f698a]█ [color=#f39f27]█[/color]▀[/color]   [head=3] [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]ВОП-101[/color]
+    [color=#5f698a]▀▄▄▀ ▄[/color][color=#f39f27]█[/color] [color=#AAAAAA][italic]  УДКТ "Алмаер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#f39f27]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+           [head=2][color=#1b67a5]Предполётный контрольный список
+                  проверки оборудования[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [bold]Наименование десантника AUD-25:[/bold] [italic] Шаттл "[form]"[/italic]
+
+    [italic][bold][color=#f39f27]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+
+    [bold]Элементы предполетной проверки:[/bold]
+    - < [check] > Внутренняя инспекция
+    - < [check] > Проверка уровня топлива
+    - < [check] > Проверка системы гидравлики
+    - < [check] > Проверка системы электропитания
+    - < [check] > Проверка навигационной системы
+    - < [check] > Проверка системы коммуникаций
+    - < [check] > Проверка работоспособности двигателя
+    - < [check] > Проверка системы управления полетами
+    - < [check] > Проверка системы вооружений
+    - < [check] > Проверка защитного оборудования
+
+    [bold]Заметки:[/bold]
+    [italic][form][/italic]
+    [italic][bold][color=#f39f27]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [italic]Я подтверждаю, что я выполнил все предполетные проверки, перечисленные выше, и что воздушное судно признано пригодным к полетам в соответствии с протоколами безопасности, учрежденными КМП США.
+    О любых обнаруженных несоответствиях было сообщено в инженерно-технический отдел корабля.[/italic]
+
+    [bold]Подписано:[/bold]
+    [head=3][color=#AA8760][italic][signature][/italic][/color][/head]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: AS-102
+  label: "Послеполетный аудит проверки оборудования ВОП-102"
+  content: |
+    [color=#5f698a]█[/color][color=#ffffff]░░[/color][color=#5f698a]█ [color=#f39f27]█[/color]▀[/color]   [head=3] [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]ВОП-102[/color]
+    [color=#5f698a]▀▄▄▀ ▄[/color][color=#f39f27]█[/color] [color=#AAAAAA][italic]  УДКТ "Алмаер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#f39f27]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                         [head=2][color=#1b67a5]Послеполетный аудит
+                 проверки оборудования[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+
+    [bold]Наименование десантника AUD-25:[/bold] [italic] Шаттл "[form]"[/italic]
+
+    [italic][bold][color=#f39f27]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [head=3][bold]Пункты послеполётного аудита:[/bold][/head]
+    Отметки:
+    • [color=#00bd09][bold]Отличное[/bold][/color],
+    • [color=#1b67a5][bold]Удовлетворительное[/bold][/color],
+    • [color=#f39f27][bold]Плохое[/bold][/color],
+    • [color=#E41B1B][bold]Критичное[/bold][/color],[color=black] или [bold]Потерянное[/bold] для каждого элемента.
+    [italic]
+    [bold]Состояние корпуса[/bold]: [form]
+    Заметки: [form]
+
+    [bold]Состояние кабины:[/bold] [form]
+    [italic]Заметки: [form]
+
+    [bold]Состояние ячеек для вооружения:[/bold] [form]
+    Заметки: [form]
+
+    [bold]Состояние ячеек вспомогательного оборудования:[/bold] [form]
+    Заметки: [form]
+
+    [bold]Состояние шасси:[/bold] [form]
+    Заметки: [form]
+
+    [bold]Состояние двигателя CCTR-35:[/bold] [form]
+    Заметки: [form]
+
+    [bold]Состояние бортового оборудования:[/bold] [form]
+    Заметки: [form][/italic]
+
+
+    [bold]Дополнительные пункты:[/bold]
+    [italic]Отметка [bold]X[/bold], если выполнено.[/italic]
+
+    - < [check] > Кабина пилота убрана
+    - < [check] > Ячейки оборудования очищены
+    - < [check] > Удален второстепенный персонал
+    - < [check] > Автопилот отключен
+
+    [bold]Дополнительная информация:[/bold]
+     - [italic][form][/italic]
+
+    [italic][bold][color=#f39f27]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [italic]Я подтверждаю, что выполнил все предусмотренные настоящим аудитом проверки, перечисленные выше, и по их результатам воздушное судно признано [color=Red]пригодным/НЕ пригодным[/color] к дальнейшей эксплуатации в соответствии с регламентами Корпуса морской пехоты США и действующими протоколами безопасности.
+    Обо всех выявленных неисправностях и несоответствиях сообщено в установленном порядке.[/italic]
+
+    [bold]Подписано:[/bold]
+    [color=#1b67a5][italic][signature][/italic][/color]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: AS-103
+  label: "Запрос перевода в отдел разведки ВОП-103"
+  content: |
+    [color=#5f698a]█[/color][color=#ffffff]░░[/color][color=#5f698a]█ [color=#f39f27]█[/color]▀[/color]   [head=3] [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]ВОП-103[/color]
+    [color=#5f698a]▀▄▄▀ ▄[/color][color=#f39f27]█[/color] [color=#AAAAAA][italic]  УДКТ "Алмаер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#f39f27]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+           [head=2][color=#1b67a5]Запрос перевода в отдел разведки[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [italic]Я, [color=#287015][bolditalic][form][/bolditalic][/color], настоящим направляю запрос на временное прикрепление к Офицеру разведки - [color=#287015][bolditalic][form][/bolditalic][/color]  для выполнения разведывательных задач в рамках текущей операции.[/italic]
+    [bold]Текущий отряд:[/bold] [italic][form][/italic]
+    [bold]Причина для перевода:[/bold]
+    • [italic][form][/italic]
+
+    [bold]Подписано:[/bold]
+    [bolditalic][signature][/bolditalic]
+    [italic][bold][color=#AAAAAA]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [color=#72856d][italic]Подписание данного документа никоим образом не гарантирует прикрепление к офицеру разведки или перевод в разведывательный отряд. Принимающий сотрудник командования может отклонить этот запрос по любой причине.[/italic][/color]
+    [color=#383838]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [head=2]В запросе на перевод[/head]
+    [color=green]ОДОБРЕНО[/color] ([check])
+    [color=red]ОТКАЗАНО[/color] ([check])
+    [color=#383838]▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬[/color]
+    [bold]Утверждено:[/bold]
+    [color=#287015][italic][signature][/italic][/color]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+- type: faxTemplate
+  id: AS-104
+  label: "Список депортамента разведки ВОП-104"
+  content: |
+    [color=#5f698a]█[/color][color=#ffffff]░░[/color][color=#5f698a]█ [color=#f39f27]█[/color]▀[/color]   [head=3] [/head][bold]Корпус [head=3][/head]Морской [head=3][/head]Пехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]ВОП-104[/color]
+    [color=#5f698a]▀▄▄▀ ▄[/color][color=#f39f27]█[/color] [color=#AAAAAA][italic]  УДКТ "Алмаер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#f39f27]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+
+                   [head=2][color=#1b67a5]Список депортамента разведки[/color][/head]
+                                                 [color=#383838]✦✧✦✧✦[/color]
+
+    [bold][color=#287015]Офицер(-ы) разведки:[/bold][/color]
+        [bold]Имя и фамилия:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Задачи:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Огневая группа [color=#AAAAAA][italic](если имеется)[/italic][/color]:[/bold] [color=#72856d][italic]№[form][/italic][/color]
+            [bold]Члены огневой группы:[/bold]
+                [bullet] [color=#72856d][italic][form][/italic][/color]
+                                          ---
+        [bold]Имя и фамилия:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Задачи:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Огневая группа [color=#AAAAAA][italic](если имеется)[/italic][/color]:[/bold] [color=#72856d][italic]№[form][/italic][/color]
+            [bold]Члены огневой группы:[/bold]
+                [bullet] [color=#72856d][italic][form][/italic][/color]
+                                          ---
+        [bold]Имя и фамилия:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Задачи:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Огневая группа [color=#AAAAAA][italic](если имеется)[/italic][/color]:[/bold] [color=#72856d][italic]№[form][/italic][/color]
+            [bold]Члены огневой группы:[/bold]
+                [bullet] [color=#72856d][italic][form][/italic][/color]
+                                          ---
+    [bold][color=#287015]Персонал поддержки:[/color][/bold] [color=#AAAAAA][italic]
+    (Указывать военнослужащих не входящих в огневые группы Офицеров разведки)[/italic][/color]
+        [bold]Имя и фамилия:[/bold] [color=#72856d][italic][form][/italic][/color]
+        [bold]Задачи:[/bold] [color=#72856d][italic][form][/italic][/color]
+    [color=#AAAAAA][italic]
+    (СКОПИРОВАТЬ => Повторить при нужде)[/italic][/color]
+
+    [bold]Общее количество:[/bold] [form] Человек.
+
+    [italic][bold][color=#f39f27]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Утверждено:[/bold]
+    [bolditalic][signature][/bolditalic]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+# Auxiliary-support-Stop
+# Military-police-Start
+- type: faxTemplate
+  id: MP-116
+  label: "Подтверждение лояльности к КМП США ВП-116"
+  content: |
+    [color=#8c0000]█[/color][color=#ffffff]░░[/color][color=#383838]█ [color=#8c0000]█[/color]▀[/color][head=3]К[/head][bold]орпус [head=3]М[/head]орской [head=3]П[/head]ехоты[/bold]      [bold]Форма:  [/bold][color=#ff0000]ВП-116[/color]
+    [color=#383838]▀▄▄▀ ▄[/color][color=#8c0000]█[/color] [color=#AAAAAA][italic]УДКТ "Алмаер"; 4-ая рота "Пикирующие Соколы"[/color][/italic]
+    [color=#8c0000]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#383838]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+                [head=2]Подтверждение лояльности к
+                                КМП США[/head]
+
+    [bolditalic]Заявитель: [signature][/bolditalic]
+
+    Я, [italic][form][/italic], находясь на борту патрульного корабля [italic]УДКТ "Алмаер"[/italic], подтверждаю лояльность добровольно, без принуждения, силы, угроз, поощрений или обещаний вознаграждения.
+    [color=#8c0000]▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄[/color]
+    [color=#383838]▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀[/color]
+    [bolditalic]Я обязуюсь:[/bolditalic]
+
+    [italic]Лояльно относиться к [bold]КМП США[/bold], силам [bold]КМП США[/bold] и интересам [bold]КМП США[/bold].
+    Лояльно относиться к силам или действиям, работающим на [bold]КМП США[/bold] или в интересах [bold]КМП США[/bold].
+    Нейтрально или дружественно относиться к нейтрально настроенным или союзникам по отношению к [bold]КМП США[/bold] [/italic]
+
+    [color=DarkRed][italic]Я принимаю, что за нарушения Морского устава, Стандартных оперативных процедур или Военного закона дополнительным обвинением будет - [bold]Диверсия.[/bold][/italic][/color]
+    [italic][bold][color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color][/bold][/italic]
+    [bold]Заверяющий:[/bold]
+    [color=#134975][italic][signature][/italic][/color]
+    [color=#AAAAAA]===================================================[/color]
+    [italic][color=#E41B1B]Использование данного документа в нарушение законов США и политики КМП США MIL-891 является нарушением федерального закона и приведет к судебному преследованию.[/color][/italic]
+
+# Military-police-Stop
