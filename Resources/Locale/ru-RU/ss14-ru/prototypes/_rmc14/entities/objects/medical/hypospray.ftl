@@ -8,4 +8,4 @@ ent-CMHyposprayFilledTricord = { ent-CMHyposprayWithVial }
     .suffix = Полный, Трикордразин
 ent-RMCHyposprayFilledEpi = { ent-CMHypospray }
     .desc = { ent-CMHypospray.desc }
-    .suffix = Filled, Epinephrine
+    .suffix = Заполненный, Эпинефрин

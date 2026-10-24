@@ -1,8 +1,8 @@
 ent-RMCKatana = катана
     .desc = Искусно сделанный японский меч с хорошо заточенным клинком. Клинок отточен до молекулярной остроты и чрезвычайно смертоносен. Часто встречается в руках наёмников и якудза.
     .suffix = RMC14
-ent-RMCKatanaDull = replica katana
-    .desc = A cheap knock-off commonly found in regular knife stores. Can still do some damage.
+ent-RMCKatanaDull = копия катаны
+    .desc = Дешёвая подделка, которую часто можно найти в обычных ножевых магазинах. Всё ещё может нанести некоторый урон.
     .suffix = { ent-RMCKatana.suffix }
 ent-RMCKatanaSharp = абсурдно острая катана
     .desc =

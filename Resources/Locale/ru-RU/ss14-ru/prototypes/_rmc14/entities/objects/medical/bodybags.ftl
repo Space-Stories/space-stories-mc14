@@ -1,5 +1,5 @@
-ent-RMCBaseStorageBag = storage bag
-    .desc = A foldable storage container.
+ent-RMCBaseStorageBag = сумка для хранения
+    .desc = Складной контейнер для хранения.
 ent-CMBodyBag = мешок для трупов
     .desc = Сложенный мешок, предназначенный для хранения и транспортировки трупов.
 ent-CMBodyBagFolded = { ent-CMBodyBag }
