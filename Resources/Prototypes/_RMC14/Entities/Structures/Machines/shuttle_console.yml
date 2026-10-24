@@ -59,7 +59,7 @@
     showPrimaryDestinationLabel: false
     showIndividualDoorControls: false
     showLaunchAlarmControls: false
-    showRemoteControlControls: false
+    showAutopilotControls: false
   - type: AccessReader
     access: [["CMAccessERT"]]
   - type: UserInterface
@@ -143,30 +143,8 @@
     anchored: false
 
 - type: entity
-  parent: CMComputerDropship
+  parent: RMCComputerDropshipRemoteControl
   id: CMComputerDropshipNavigationPlanetside
-  name: dropship navigation computer
-  description: A flight computer that can be used to direct linked dropships.
-  suffix: Planetside
-  components:
-  - type: Sprite
-    sprite: _RMC14/Structures/Machines/dropship_nav_computer.rsi
-    layers:
-    - map: ["base"]
-      state: off
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "on"
-  - type: Appearance
-  - type: ActivatableUI
-    key: enum.DropshipTerminalUiKey.Key
-  - type: AccessReader
-    access: [["CMAccessDropship"], ["CMAccessSquadLeaderPrep"], ["CMAccessXeno"]] # Xeno have access as to not cause the "Access denied!" popup.
-  - type: ActivatableUIRequiresAccess
-  - type: DropshipTerminal
-  - type: UserInterface
-    interfaces:
-      enum.DropshipTerminalUiKey.Key:
-        type: DropshipTerminalBui
 
 - type: entity
   parent: CMComputerDropship
