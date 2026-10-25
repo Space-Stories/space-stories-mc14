@@ -158,6 +158,7 @@
   name: shotgun spit
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesStoppedByCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
@@ -184,6 +185,7 @@
   name: bone chips
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesStoppedByCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Materials/shards.rsi
     layers:
@@ -240,6 +242,7 @@
   name: glob of acid gas
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
@@ -297,6 +300,7 @@
   name: glob of neurotoxin gas
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesIgnoreCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
@@ -469,6 +473,7 @@
   name: tail hook
   categories: [ HideSpawnMenu ]
   components:
+  - type: StoriesStoppedByCover # Stories-ProjectileCover
   - type: Sprite
     sprite: _RMC14/Effects/beam.rsi
     state: oppressor_tail_hook
