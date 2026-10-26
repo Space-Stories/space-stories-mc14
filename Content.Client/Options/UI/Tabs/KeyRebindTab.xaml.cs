@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Numerics;
 using Content.Client._RMC14.Input;
-using Content.Shared._Stories.Input; // Stories-CustomPhrases
 using Content.Client.Stylesheets;
 using Content.Shared.CCVar;
 using Content.Shared.Input;
@@ -385,7 +384,6 @@ namespace Content.Client.Options.UI.Tabs
             AddButton(ContentKeyFunctions.OpenAHelp);
             AddButton(ContentKeyFunctions.OpenActionsMenu);
             AddButton(ContentKeyFunctions.OpenEmotesMenu);
-            AddButton(StoriesKeyFunctions.OpenCustomPhrases); // Stories-CustomPhrases
             AddButton(ContentKeyFunctions.ToggleRoundEndSummaryWindow);
             AddButton(ContentKeyFunctions.OpenEntitySpawnWindow);
             AddButton(ContentKeyFunctions.OpenSandboxWindow);

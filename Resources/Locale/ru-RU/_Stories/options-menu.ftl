@@ -3,5 +3,3 @@ stories-ui-options-search = Поиск...
 stories-ui-options-invalid-bind = Недопустимый бинд!
 stories-cmd-bind-disallowed = Назначение этой клавиши на данное действие запрещено!
 stories-gun-ammo-eject-hands-full = Ваши руки заняты!
-
-ui-options-function-stories-open-custom-phrases = Открыть сохранённые фразы

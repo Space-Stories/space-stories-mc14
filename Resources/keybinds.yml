@@ -195,11 +195,6 @@ binds:
 - function: OpenEmotesMenu
   type: State
   key: Y
-# Stories-CustomPhrases-Start
-- function: StoriesOpenCustomPhrases
-  type: State
-  key: U
-# Stories-CustomPhrases-End
 - function: TextCursorSelect
   # TextCursorSelect HAS to be above ExamineEntity
   # So that LineEdit receives it correctly.
