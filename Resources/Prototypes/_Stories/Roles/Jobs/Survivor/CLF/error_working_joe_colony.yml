@@ -6,3 +6,9 @@
   - Colony
   - ColonistSynthShipside
   - ColonistCorporate
+# Экипировка сломанного Рабочего Джо
+- type: startingGear
+  parent: STGearWorkingJoeEquipped
+  id: STGearWorkingJoeErrorGhostRole
+  equipment:
+    id: RMCIdCardWorkingJoeErrorColony
