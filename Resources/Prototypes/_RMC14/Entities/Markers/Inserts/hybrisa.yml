@@ -72,5 +72,4 @@
     - spawn: "/Maps/_Stories/Inserts/Hybrisa/AIAPOLLO.yml"
       probability: 0.5
       nightmareScenario: none
-      additionalNightmareScenarios: none
       offset: -67,-138
