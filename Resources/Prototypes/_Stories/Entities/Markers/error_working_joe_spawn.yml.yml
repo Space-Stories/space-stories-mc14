@@ -1,0 +1,21 @@
+# Спавнер сломанного Рабочего Джо
+- type: entity
+  parent: MarkerBase
+  id: STGhostRoleWorkingJoeSpawner
+  name: working joe ghost role spawner
+  suffix: Ghost Role, Working Joe
+  description: Spawn point for a Working Joe ghost role.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Markers/landmarks.rsi
+    state: wj_spawn
+  - type: GhostRole
+    name: st-job-name-working-joe
+    description: st-ghost-role-information-working-joe-description
+    rules: st-ghost-role-information-working-joe-rules
+    reregister: false
+    job: STJobWorkingJoe
+    raffle:
+      settings: short
+  - type: GhostRoleMobSpawner
+    prototype: STMobWorkingJoeGhostRole

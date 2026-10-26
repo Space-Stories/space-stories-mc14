@@ -1,0 +1,8 @@
+# Профиль колониального синтетика для ID-карты
+- type: job
+  parent: RMCSyntheticColony
+  id: RMCWorkingJoeColony
+  accessGroups:
+  - Colony
+  - ColonistSynthShipside
+  - ColonistCorporate
