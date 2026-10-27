@@ -13,10 +13,10 @@ public sealed partial class XenoRetrieveComponent : Component
 {
     [DataField, AutoNetworkedField]
     public RMCSizes SizeLimit = RMCSizes.Big;
-
+    //Stories-Valkiriabuff
     [DataField, AutoNetworkedField]
     public TimeSpan Delay = TimeSpan.FromSeconds(0.2);
-
+    
     [DataField, AutoNetworkedField]
     public TimeSpan Cooldown = TimeSpan.FromSeconds(10);
 
