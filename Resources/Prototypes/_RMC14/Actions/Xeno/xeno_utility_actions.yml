@@ -313,6 +313,7 @@
     icon:
       sprite: _Stories/Actions/xeno_actions.rsi
       state: tail_seize
+      #Stories-Valkiriabuff
     useDelay: 6
   - type: TargetAction
     range: 2
