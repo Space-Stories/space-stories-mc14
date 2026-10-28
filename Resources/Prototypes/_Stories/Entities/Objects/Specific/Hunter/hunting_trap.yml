@@ -1,0 +1,59 @@
+- type: entity
+  parent: [STHunterBaseItem, BaseItem]
+  id: STHunterTrap
+  name: hunting trap
+  description: A bizarre Hunter device used for trapping and killing prey.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Specific/Hunter/hunting_trap.rsi
+    drawdepth: BelowMobs
+    layers:
+    - state: yauttrap0
+      map: [ "enum.HunterTrapVisuals.State" ]
+  - type: Item
+    size: Normal
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.HunterTrapVisuals.State:
+        enum.HunterTrapVisuals.State:
+          Disarmed: { state: yauttrap0 }
+          Armed: { state: yauttrap1 }
+          Grass: { state: yauttrapgrass }
+          Dirt: { state: yauttrapdirt }
+          Caught: { state: yauttrap0 }
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 20
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
+      trigger:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.3,-0.3,0.3,0.3"
+        hard: false
+        mask:
+        - MobLayer
+  - type: CollisionWake
+    enabled: false
+  - type: StepTrigger
+    active: false
+    requiredTriggeredSpeed: 0
+    intersectRatio: 0.2
+  - type: HunterTrap
+    configurable: true
+    announce: true
+    catchSound:
+      path: /Audio/_Stories/Effects/Hunter/hunting_trap_trigger.ogg
+    animalDamage:
+      types:
+        Piercing: 20
+  - type: Tag
+    tags:
+    - STPredatorGear

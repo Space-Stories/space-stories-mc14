@@ -190,6 +190,14 @@
       # - id: STWeaponShieldRiotHunter
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
+    - name: Запасное снаряжение
+      entries:
+      - id: STHunterTrap
+        points: 10
+      - id: STArrowHunter
+        points: 10
+      - id: STArrowHunterSnare
+        points: 15
     - name: Clothing Accessory
       choices: { STAccessories: 1 }
       entries:
@@ -383,6 +391,14 @@
       # - id: STWeaponShieldAncientAlt
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
+    - name: Запасное снаряжение
+      entries:
+      - id: STHunterTrap
+        points: 10
+      - id: STArrowHunter
+        points: 10
+      - id: STArrowHunterSnare
+        points: 15
     - name: Clothing Accessory
       choices: { STAccessories: 1 }
       entries:

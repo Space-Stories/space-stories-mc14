@@ -96,7 +96,12 @@ public sealed partial class BracerSystem
             return;
         }
 
-        var severity = ContentHelpers.RoundToLevels(MathF.Max(0f, bracer.Comp.Charge), bracer.Comp.MaxCharge, 10);
-        _alerts.ShowAlert(wearer, bracer.Comp.BracerPowerAlert, (short)severity);
+        var charge = MathF.Max(0f, bracer.Comp.Charge);
+        var severity = ContentHelpers.RoundToLevels(charge, bracer.Comp.MaxCharge, 10);
+        var message = Loc.GetString("stories-alerts-bracer-power-charge",
+            ("charge", (int) MathF.Floor(charge / 10f) * 10),
+            ("max", (int) bracer.Comp.MaxCharge));
+
+        _alerts.ShowAlert(wearer, bracer.Comp.BracerPowerAlert, (short)severity, dynamicMessage: message);
     }
 }

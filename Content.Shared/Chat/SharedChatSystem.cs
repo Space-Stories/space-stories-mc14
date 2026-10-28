@@ -11,6 +11,7 @@ using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared._Stories.Hunter.Marking.Components; // Stories-Hunter
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 
 namespace Content.Shared.Chat;
 
@@ -38,6 +39,7 @@ public abstract class SharedChatSystem : EntitySystem
     public static readonly string DefaultChannelPrefix = $"{RadioChannelPrefix}{DefaultChannelKey}";
     public static readonly ProtoId<SpeechVerbPrototype> DefaultSpeechVerb = "Default";
 
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly XenoEvolutionSystem _xenoEvolution = default!;
@@ -241,6 +243,16 @@ public abstract class SharedChatSystem : EntitySystem
             }
             // RMC14
 
+            // Stories-HiveInterference-Start
+            if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
+            {
+                if (!quiet)
+                    _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
+
+                return false;
+            }
+            // Stories-HiveInterference-End
+
             return true;
         }
 
@@ -320,6 +332,16 @@ public abstract class SharedChatSystem : EntitySystem
             return false;
         }
         // RMC14
+
+        // Stories-HiveInterference-Start
+        if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
+        {
+            if (!quiet)
+                _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
+
+            return false;
+        }
+        // Stories-HiveInterference-End
 
         var prefixEv = new ChatGetPrefixEvent(channel);
         RaiseLocalEvent(source, ref prefixEv);

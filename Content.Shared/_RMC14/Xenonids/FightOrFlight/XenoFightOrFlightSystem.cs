@@ -1,6 +1,7 @@
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Xenonids.Energy;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
 using Content.Shared.Coordinates;
 using Content.Shared.Jittering;
 using Content.Shared.Popups;
@@ -18,6 +19,7 @@ public sealed class XenoFightOrFlightSystem : EntitySystem
     [Dependency] private readonly XenoEnergySystem _energy = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
+    [Dependency] private readonly SharedHiveInterferenceSystem _hiveInterference = default!; // Stories-HiveInterference
     [Dependency] private readonly SharedStatusEffectsSystem _statusEffect = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
     [Dependency] private readonly SharedJitteringSystem _jitter = default!;
@@ -69,6 +71,7 @@ public sealed class XenoFightOrFlightSystem : EntitySystem
             }
 
             EntityManager.RemoveComponents(otherXeno, xeno.Comp.ComponentsRemove);
+            _hiveInterference.Cleanse(otherXeno); // Stories-HiveInterference
 
             _jitter.DoJitter(otherXeno, xeno.Comp.Jitter, true, 80, 8, true);
 

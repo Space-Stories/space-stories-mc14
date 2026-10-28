@@ -3,6 +3,8 @@
   parent: [STHunterBaseItem, RMCBaseMeleeWeapon]
   id: STHunterBaseMeleeWeapon
   components:
+  - type: Parry
+    chance: 15
   - type: Tag
     tags:
     - STPredatorGear
@@ -18,6 +20,8 @@
   name: large harpoon
   description: A huge metal spike with a hook at the end. It's carved with mysterious alien writing.
   components:
+  - type: Parry
+    chance: 0
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/spike.rsi
     state: icon
@@ -40,6 +44,8 @@
   name: ceremonial dagger
   description: A viciously sharp dagger inscribed with ancient Hunter markings. Smells thickly of blood. Carried by some hunters.
   components:
+  - type: Parry
+    chance: 0
   - type: Tag
     tags:
     - Knife
@@ -67,6 +73,8 @@
   name: chainwhip
   description: A segmented, lightweight whip made of durable, acid-resistant metal. Not very common among Hunter Hunters, but still a dangerous weapon capable of shredding prey.
   components:
+  - type: Parry
+    chance: 0
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/chainwhip.rsi
     state: icon
@@ -90,6 +98,8 @@
   name: clan sword
   description: An expertly crafted Hunter blade carried by hunters who wish to fight up close. Razor sharp and capable of cutting flesh into ribbons. Commonly carried by aggressive and lethal hunters.
   components:
+  - type: Parry
+    chance: 20
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/clan_sword.rsi
     state: icon
@@ -133,6 +143,9 @@
   name: cruel staff
   description: A wicked and battered staff wrapped in worn crimson rags. A crescent shaped blade adorns the top, while the bottom is rounded and blunt.
   components:
+  - type: Parry
+    chance: 20
+    blockPounce: true
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/staff.rsi
     state: icon
@@ -149,6 +162,8 @@
   name: war axe
   description: A swift weapon designed to gouge and gore the hunter's prey. A chain is attached to the hilt, allowing for a quick retrieval.
   components:
+  - type: Parry
+    chance: 5
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/war_axe.rsi
     state: icon
@@ -169,6 +184,9 @@
   name: dual war scythe
   description: A huge, incredibly sharp dual blade used for hunting dangerous prey. This weapon is commonly carried by Hunter who wish to disable and slice apart their foes.
   components:
+  - type: Parry
+    chance: 15
+    blockPounce: true
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/predscythe.rsi
     state: icon
@@ -198,6 +216,8 @@
   parent: STHunterBaseMeleeWeapon
   id: STHunterBaseTwoHandedMeleeWeapon
   components:
+  - type: Parry
+    chance: 0
   - type: Wieldable
   - type: MeleeWeapon
     soundHit:
@@ -229,6 +249,7 @@
   name: war glaive
   description: Two huge, powerful blades on a metallic pole. Mysterious writing is carved into the weapon.
   components:
+  - type: Unblockable
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/glaive_alt.rsi
     state: icon
@@ -255,15 +276,21 @@
     state: icon
 
 - type: entity
-  parent: STWarGlaive
+  parent: STHunterBaseTwoHandedMeleeWeapon
   id: STAncientWarGlaive
   name: ancient war glaive
   description: A huge, powerful blade on a metallic pole. This one is ancient and has suffered serious acid damage, making it near-useless.
   components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Melee/glaive_alt.rsi
+    state: icon
+  - type: Item
+    size: Large
   - type: MeleeWeapon
     damage:
       types:
         Slash: 5
+    attackRate: 0.71
   - type: IncreaseDamageOnWield
     damage:
       types:
@@ -275,6 +302,7 @@
   name: longaxe
   description: A frighteningly big axe. The blade edge is chipped and gnarled from thousands of bone-crushing blows.
   components:
+  - type: Unblockable
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/longaxe.rsi
     state: icon
@@ -291,6 +319,8 @@
   name: duelling blade
   description: A primitive yet deadly sword used in Hunter rituals and duels.
   components:
+  - type: Parry
+    chance: 5
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/duelling_sword.rsi
     state: icon
@@ -308,6 +338,10 @@
   name: duelling club
   description: A crude metal club adorned with a skull. Used as a non-lethal training weapon.
   components:
+  - type: Parry
+    chance: 5
+    sound:
+      path: /Audio/_Stories/Weapons/Parry/block_shield.ogg
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/duelling_club.rsi
     state: icon
@@ -326,6 +360,8 @@
   name: duelling hatchet
   description: A short ceremonial duelling hatchet, designed for ritual combat.
   components:
+  - type: Parry
+    chance: 5
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/duelling_hatchet.rsi
     state: icon
@@ -342,6 +378,8 @@
   name: duelling knife
   description: A length of leather-bound wood studded with razor-sharp teeth. How crude.
   components:
+  - type: Parry
+    chance: 0
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Melee/duelling_knife.rsi
     state: icon

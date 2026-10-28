@@ -17,6 +17,7 @@ public sealed class RMCResistKeybindSystem : EntitySystem
         "Ensnared",
         "Buckled",
         "Pulled",
+        "STTethered", // Stories-Tether
     ];
 
     public override void Initialize()

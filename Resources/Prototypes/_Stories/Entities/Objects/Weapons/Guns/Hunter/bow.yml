@@ -18,6 +18,7 @@
   - type: Appearance
   - type: Gun
     resetOnHandSelected: false
+  - type: HunterProjectileRangeGun
   - type: ItemMapper
     spriteLayers:
     - arrow
@@ -27,6 +28,7 @@
         whitelist:
           tags:
           - STHunterArrow
+          - STHunterArrowSnare
       explosive:
         whitelist:
           tags:
@@ -53,6 +55,7 @@
           tags:
           - STHunterArrow
           - STHunterArrowExplosive
+          - STHunterArrowSnare
   - type: Tag
     tags:
     - STPredatorGear
@@ -69,7 +72,16 @@
     size: Small
   - type: Sprite
     sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/arrows.rsi
-    state: arrow
+    layers:
+    - state: arrow
+      map: [ "enum.HunterArrowVisuals.Active" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.HunterArrowVisuals.Active:
+        enum.HunterArrowVisuals.Active:
+          True: { state: arrow_explosive }
+          False: { state: arrow }
   - type: Fixtures
     fixtures:
       fix1:
@@ -113,50 +125,115 @@
     whitelist:
       components:
       - Xeno
+  - type: HunterArrow
+    activeName: ent-STArrowHunterExplosive
+    inactiveName: ent-STArrowHunter
+    activeTag: STHunterArrowExplosive
+    inactiveTag: STHunterArrow
+    stunTime: 2
+    dazeTime: 6
+    pushMaxRange: 7
+    detachFromNonHumans: true
+    inactiveComponents:
+    - type: Projectile
+      deleteOnCollide: false
+      onlyCollideWhenShot: true
+      damage:
+        types:
+          Piercing: 110
+    activeComponents:
+    - type: Projectile
+      deleteOnCollide: true
+      onlyCollideWhenShot: true
+      damage:
+        types:
+          Heat: 110
+    - type: HunterTriggerOnHit
+    - type: HunterProjectileMaxRange
+      range: 14
+    - type: ExplodeOnTrigger
+    - type: Explosive
+      explosionType: RMC
+      maxIntensity: 30
+      intensitySlope: 12
+      totalIntensity: 170
+      maxTileBreak: 0
+    - type: CMExplosionEffect
+    - type: RMCScorchEffect
 
 - type: entity
   parent: STArrowHunter
   id: STArrowHunterExplosive
   name: explosive arrow
   description: A sharp hunter arrow.
+  suffix: Activated
   components:
-  - type: Sprite
-    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/arrows.rsi
-    state: arrow_explosive
-  - type: Tag
-    tags:
-    - STPredatorGear
-    - STHunterArrowExplosive
-  - type: TriggerOnCollide
-    fixtureID: projectile
+  - type: HunterArrowStartActive
+
+- type: entity
+  parent: BaseItem
+  id: STArrowHunterSnare
+  name: snare arrow
+  description: A bow launched snare.
+  components:
+  - type: Item
+    size: Small
   - type: Fixtures
     fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.2
+        density: 5
+        mask:
+        - ItemMask
+        restitution: 0.3
+        friction: 0.2
       projectile:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.15,-0.15,0.15,0.15"
+          bounds: "-0.1,-0.1,0.1,0.1"
         hard: false
         mask:
         - Impassable
         - BulletImpassable
-        restitution: 0.0
-        density: 20
+  - type: ThrowingAngle
+    angle: 0
+  - type: Ammo
+    muzzleFlash: null
+  - type: Sprite
+    sprite: _Stories/Objects/Specific/Hunter/snare_arrow.rsi
+    drawdepth: BelowMobs
+    layers:
+    - state: arrow_trap
+      map: [ "enum.HunterTrapVisuals.State" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.HunterTrapVisuals.State:
+        enum.HunterTrapVisuals.State:
+          Disarmed: { state: arrow_trap }
+          Armed: { state: arrow_trap }
+          Grass: { state: arrow_trap }
+          Dirt: { state: arrow_trap }
+          Caught: { state: arrow_trap_active }
+  - type: Tag
+    tags:
+    - STPredatorGear
+    - STHunterArrowSnare
   - type: Projectile
     deleteOnCollide: true
-    onlyCollideWhenShot: false
+    onlyCollideWhenShot: true
     damage:
       types:
         Piercing: 30
-  - type: ExplodeOnTrigger
-  - type: Explosive
-    explosionType: RMC
-    maxIntensity: 30
-    intensitySlope: 10
-    totalIntensity: 290
-    maxTileBreak: 0
-  - type: CMExplosionEffect
-  - type: RMCScorchEffect
-  - type: IgnorePredictionHide
+  - type: CMArmorPiercing
+    amount: 15
+  - type: HunterSnareProjectile
+    deployed: STArrowHunterSnare
+  - type: HunterTrap
+    armable: false
+    catchSound:
+      path: /Audio/_Stories/Effects/Hunter/hunting_trap_trigger.ogg
 
 - type: entity
   parent: [CMBeltBaseStorage, STHunterBaseItem]
@@ -185,6 +262,7 @@
       tags:
       - STHunterArrow
       - STHunterArrowExplosive
+      - STHunterArrowSnare
       - STPredatorBow
   - type: FixedItemSizeStorage
   - type: CMHolster
@@ -203,6 +281,7 @@
         tags:
         - STHunterArrow
         - STHunterArrowExplosive
+        - STHunterArrowSnare
   - type: CMStorageVisualizer
     storageClosed: null
     storageOpen: null

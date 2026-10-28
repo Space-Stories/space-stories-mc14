@@ -133,6 +133,8 @@
     factions:
     - STHunter
   - type: MotionDetectorTracked
+  - type: CMVendorUser
+    points: 50
   - type: Skills
     skills:
       RMCSkillCqc: 5

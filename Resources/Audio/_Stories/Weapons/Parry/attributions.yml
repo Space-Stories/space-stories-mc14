@@ -1,0 +1,4 @@
+- files: ["parry.ogg", "block_shield.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from cmss13 (sound/items/parry.ogg converted to mono, sound/items/block_shield.ogg)"
+  source: "https://github.com/cmss13-devs/cmss13/tree/5419c94a5e10b0328ade2c861acaf8c9a4becda6/sound/items"
