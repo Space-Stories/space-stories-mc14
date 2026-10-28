@@ -2,7 +2,7 @@ using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared.Projectiles;
 using Content.Shared.Construction.Components;
 using Content.Shared.Mobs.Components;
-using Robust.Shared.Physics.Components; // Стандартный компонент физики в Robust Toolbox
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 
 namespace Content.Server._RMC14.Weapons.Ranged;
@@ -28,14 +28,11 @@ public sealed class WallPenetrationSystem : EntitySystem
         if (!TryComp<ProjectileComponent>(uid, out var projectile))
             return;
 
-        // Разрешаем пуле лететь сквозь объект
         args.Cancelled = true;
 
-        // Уменьшаем пробитие и режем урон
         component.PenetrationPower--;
         projectile.Damage *= component.DamageMultiplier;
 
-        // Если лимит пробитий исчерпан, снимаем компонент
         if (component.PenetrationPower <= 0)
         {
             RemCompDeferred<WallPenetratorComponent>(uid);
@@ -48,11 +45,9 @@ public sealed class WallPenetrationSystem : EntitySystem
         if (HasComp<MobStateComponent>(target))
             return false;
 
-        // Пробиваем прикручиваемые объекты (баррикады, укрепления и т.д.)
         if (HasComp<AnchorableComponent>(target))
             return true;
 
-        // Пробиваем любые физические объекты (стены, преграды с твердым телом)
         if (HasComp<PhysicsComponent>(target))
             return true;
 
