@@ -86,12 +86,6 @@
         volume: -4
   - type: RMCHealthExaminable
     speciesType: Xeno
-  # Stories-BloodStains-Start
-  - type: Bloody
-    bloodColor: "#BED700"
-    canBeStained: false
-    leavesTracks: false
-  # Stories-BloodStains-End
   - type: AcidBloodSplash
     closeSplashRadius: 0.5
     standardSplashRadius: 1.5

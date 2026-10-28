@@ -1,4 +1,0 @@
-- type: shader
-  id: STBloodStain
-  kind: source
-  path: "/Textures/_Stories/Shaders/blood_stain.swsl"
