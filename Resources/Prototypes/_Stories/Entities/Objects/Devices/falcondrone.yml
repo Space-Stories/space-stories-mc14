@@ -1,0 +1,18 @@
+- type: entity
+  parent: STHunterBaseItem
+  id: STDeviceFalconDrone
+  name: falcon drone
+  description: An agile drone used by Yautja to survey the hunting grounds.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Devices/falcon_drone.rsi
+    state: falcon-drone
+  - type: Item
+    size: Small
+    sprite: _Stories/Objects/Devices/falcon_drone.rsi
+  - type: MovementIgnoreGravity
+  - type: MovementSpeedModifier
+  - type: Clothing
+    slots:
+    - ears
+  - type: FalconDrone

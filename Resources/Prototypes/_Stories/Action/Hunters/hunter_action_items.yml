@@ -177,3 +177,33 @@
     useDelay: 0.5
   - type: InstantAction
     event: !type:ToggleTranslatorEvent
+
+- type: entity
+  parent: STActionHunterBase
+  id: STActionControlFalconDrone
+  name: Control falcon drone
+  description: Deploy or recall your falcon drone for reconnaissance.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/hunter_actions.rsi
+      state: falcon_drone
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:FalconControlActionEvent
+
+- type: entity
+  parent: STActionHunterBase
+  id: STActionRecallFalconDrone
+  name: Recall falcon drone
+  description: Recall your deployed falcon drone.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/hunter_actions.rsi
+      state: falcon_drone
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:FalconRecallActionEvent

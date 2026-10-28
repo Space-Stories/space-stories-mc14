@@ -1,0 +1,9 @@
+- type: entity
+  parent: STHunterBaseItem
+  id: STDeviceFalconDroneDestroyed
+  name: destroyed falcon drone
+  description: A destroyed agile drone used by Yautja to survey the hunting grounds.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Devices/falcon_drone.rsi
+    state: falcon-drone-destroyed
