@@ -1,9 +1,11 @@
 using System.IO;
+using System.Linq; // Stories-fax-templates
 using System.Threading.Tasks;
 using Content.Shared.Fax;
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
+using Robust.Shared.Prototypes; // Stories-fax-templates
 
 namespace Content.Client.Fax.UI;
 
@@ -11,6 +13,10 @@ namespace Content.Client.Fax.UI;
 public sealed class FaxBoundUi : BoundUserInterface
 {
     [Dependency] private readonly IFileDialogManager _fileDialogManager = default!;
+    // Stories-fax-templates-Start
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    private readonly List<FaxTemplatePrototype> _templates;
+    // Stories-fax-templates-Stop
 
     [ViewVariables]
     private FaxWindow? _window;
@@ -19,19 +25,44 @@ public sealed class FaxBoundUi : BoundUserInterface
 
     public FaxBoundUi(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
+        _templates = _prototypeManager.EnumeratePrototypes<FaxTemplatePrototype>().ToList(); // Stories-fax-templates
     }
 
     protected override void Open()
     {
         base.Open();
-
         _window = this.CreateWindow<FaxWindow>();
         _window.FileButtonPressed += OnFileButtonPressed;
         _window.CopyButtonPressed += OnCopyButtonPressed;
         _window.SendButtonPressed += OnSendButtonPressed;
         _window.RefreshButtonPressed += OnRefreshButtonPressed;
         _window.PeerSelected += OnPeerSelected;
+        // Stories-fax-templates-Start
+        _window.TemplateSelected += OnTemplateSelected;
+        _window.PrintTemplatePressed += OnPrintTemplatePressed;
     }
+
+    private void OnPrintTemplatePressed(string select_id)
+    {
+        foreach(var template in _templates)
+        {
+            if (_window == null || _window.Disposed)
+                return;
+            if (template.ID == select_id)
+            {
+                SendMessage(new FaxFileMessage(
+                   template.Label?[..Math.Min(template.Label.Length, FaxFileMessageValidation.MaxLabelSize)],
+                   template.Content[..Math.Min(template.Content.Length, FaxFileMessageValidation.MaxContentSize)],
+                   _window.OfficePaper));
+            }
+        }
+    }
+
+    private void OnTemplateSelected(string id)
+    {
+        SendMessage(new FaxTemplateSelected(id));
+    }
+    // Stories-fax-templates-Start
 
     private async void OnFileButtonPressed()
     {
@@ -98,7 +129,6 @@ public sealed class FaxBoundUi : BoundUserInterface
 
         if (_window == null || state is not FaxUiState cast)
             return;
-
-        _window.UpdateState(cast);
+        _window.UpdateState(cast, _templates);
     }
 }
