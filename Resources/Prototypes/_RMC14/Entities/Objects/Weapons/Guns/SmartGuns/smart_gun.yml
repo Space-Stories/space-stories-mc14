@@ -1,5 +1,4 @@
-﻿
-- type: entity
+﻿- type: entity
   abstract: true
   parent: [ CMBaseWeaponGun, BaseItem, RMCBaseAttachableHolder ]
   id: RMCSmartGunNoCamo
@@ -113,6 +112,10 @@
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_normal
+      components:
+      - type: WallPenetrator
+        penetrationPower: 3
+        damageMultiplier: 0.5
     - damage:
         types:
           Piercing: 20
@@ -121,6 +124,10 @@
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_ap
+      components:
+      - type: WallPenetrator
+        penetrationPower: 3
+        damageMultiplier: 0.5
   - type: RMCMagneticItem
   - type: GunRequiresSkills
     skills:
@@ -181,13 +188,6 @@
     - sprite: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
       state: m56_barrel
       offset: 0.625, 0
-  # - type: ItemCamouflage
-  #   colors:
-  #     Jungle: "#ccd08d"
-  #     Desert: "#ffd2a6"
-  #     Snow: "#ddcbc9"
-  #     Classic: "#c7e7d9"
-  #     Urban: "#acb8c7"
 
 - type: entity
   parent: RMCSmartGun
@@ -234,7 +234,7 @@
         whitelist:
           tags:
           - RMCMagazineSmartGunirradiated
-          - RMCMagazineSmartGun #For some reason when this is removed mags literally becomes unusable :confused:
+          - RMCMagazineSmartGun
       cell_slot:
         name: power-cell-slot-component-slot-name-default
         startingItem: RMCPowerCellSmartgun
@@ -245,20 +245,28 @@
     settings:
     - damage:
         types:
-          Piercing: 40
+          Piercing: 30
       armorPiercing: 0
       name: rmc-toggleable-ammo-highly-precise
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_normal
+      components:
+      - type: WallPenetrator
+        penetrationPower: 3
+        damageMultiplier: 0.5
     - damage:
         types:
-          Piercing: 30
-      armorPiercing: 35
+          Piercing: 20
+      armorPiercing: 40
       name: rmc-toggleable-ammo-armor-shredding
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_ap
+      components:
+      - type: WallPenetrator
+        penetrationPower: 3
+        damageMultiplier: 0.5
 
 - type: entity
   parent: RMCSmartGunPMC
@@ -486,6 +494,9 @@
     thresholds:
     - range: 5
       falloff: 10
+  - type: WallPenetrator
+    penetrationPower: 3
+    damageMultiplier: 0.5
 
 - type: entity
   parent: CMBulletSmartGun10x30mm

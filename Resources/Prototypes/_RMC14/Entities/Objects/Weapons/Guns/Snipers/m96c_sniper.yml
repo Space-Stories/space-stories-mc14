@@ -172,6 +172,9 @@
       buildup: true
   - type: AimedShotEffect
     extraHits: 2
+  - type: WallPenetrator
+    penetrationPower: 5
+    damageMultiplier: 0.7
 
 - type: Tag
   id: CMM96CSniperRifle

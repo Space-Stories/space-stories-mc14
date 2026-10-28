@@ -293,6 +293,9 @@
   - type: AimedShotEffect
     extraHits: 1
   - type: IgnoreSwiftSteps
+  - type: WallPenetrator
+    penetrationPower: 5
+    damageMultiplier: 0.7
 
 - type: entity
   parent: RMCBaseBullet
@@ -319,6 +322,9 @@
   - type: AimedShotEffect
     extraHits: 1
   - type: IgnoreSwiftSteps
+  - type: WallPenetrator
+    penetrationPower: 5
+    damageMultiplier: 0.7
 
 - type: Tag
   id: RMCL112SniperRifle

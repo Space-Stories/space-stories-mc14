@@ -168,6 +168,10 @@
       falloff: 10
       buildup: true
   - type: IgnoreSwiftSteps
+  - type: WallPenetrator
+    penetrationPower: 5
+    damageMultiplier: 0.7
+    
 
 - type: Tag
   id: RMCType88SniperRifle

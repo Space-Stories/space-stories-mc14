@@ -278,6 +278,9 @@
     thresholds:
     - range: 8
       falloff: 10
+  - type: WallPenetrator
+    penetrationPower: 4
+    damageMultiplier: 0.6
 
 # Tags
 

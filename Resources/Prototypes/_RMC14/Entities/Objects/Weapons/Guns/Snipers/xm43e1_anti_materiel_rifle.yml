@@ -145,6 +145,9 @@
   - type: RMCStoppingPower
   - type: AimedShotEffect
     extraHits: 0.8
+  - type: WallPenetrator
+    penetrationPower: 7
+    damageMultiplier: 0.85
 
 - type: Tag
   id: RMCXM43E1AntiMaterielRifle
