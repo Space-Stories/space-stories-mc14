@@ -113,10 +113,6 @@
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_normal
-      components:
-      - type: WallPenetrator
-        penetrationPower: 3
-        damageMultiplier: 0.5
     - damage:
         types:
           Piercing: 20
@@ -125,10 +121,9 @@
       icon:
         sprite: _RMC14/Actions/marine_smart_gun_actions.rsi
         state: ammo_swap_ap
-      components:
-      - type: WallPenetrator
-        penetrationPower: 3
-        damageMultiplier: 0.5
+  - type: WallPenetrator
+    penetrationPower: 3
+    damageMultiplier: 0.5
   - type: RMCMagneticItem
   - type: GunRequiresSkills
     skills:
