@@ -315,7 +315,6 @@
       state: tail_seize
       #Stories-Valkiriabuff-Start
     useDelay: 6 # Stories-Valkiriabuff
-      #Stories-Valkiriabuff-End
   - type: TargetAction
     range: 2
   - type: EntityTargetAction
