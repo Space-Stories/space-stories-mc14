@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from CMSS13 at https://github.com/cmss13-devs/cmss13/blob/b3a7ffe2813a31ddcf429a5a864b4048851d66b0/icons/mob/humans/onmob/inhands/weapons/guns/pred_guns_lefthand.dmi, https://github.com/cmss13-devs/cmss13/blob/b3a7ffe2813a31ddcf429a5a864b4048851d66b0/icons/mob/humans/onmob/inhands/weapons/guns/pred_guns_righthand.dmi, https://github.com/cmss13-devs/cmss13/blob/master/icons/obj/items/weapons/guns/guns_by_faction/pred.dmi, https://github.com/cmss13-devs/cmss13/blob/52be8a8ceeb165c6a0becc77ecc3c9a644b88fd2/icons/mob/humans/onmob/clothing/back/guns_by_type/pred_guns.dmi. License and authorship per CMSS13 README: assets are CC BY-SA 3.0 unless otherwise indicated; authorship defined as the active CMSS13 development team unless stated by commit/file metadata.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "plasma-rifle",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.6
+        ]
+      ]
+    },
+    {
+        "name": "inhand-left",
+        "directions": 4
+    },
+    {
+        "name": "inhand-right",
+        "directions": 4
+    },
+    {
+        "name": "equipped-BACKPACK",
+        "directions": 4
+    },
+    {
+        "name": "equipped-SUITSTORAGE",
+        "directions": 4
+    },
+    {
+        "name": "wielded-inhand-left",
+        "directions": 4
+    },
+    {
+        "name": "wielded-inhand-right",
+        "directions": 4
+    },
+    {
+        "name": "empty"
+    }
+  ]
+}
