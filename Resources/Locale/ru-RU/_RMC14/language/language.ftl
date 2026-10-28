@@ -5,7 +5,7 @@ language-menu-learning-tab = Изучаемые языки
 
 # Language names
 language-English-name = Английский
-language-Xeno-name = Ксенонидский
+language-Xeno-name = Ксеноморфский
 language-Spanish-name = Испанский
 language-French-name = Французский
 language-Japanese-name = Японский
@@ -18,7 +18,7 @@ language-Primitive-name = Примитивный
 
 # Language descr
 language-English-description = Земной язык.
-language-Xeno-description = Инопланетный язык ксенонидов.
+language-Xeno-description = Инопланетный язык ксеноморфов.
 language-Xeno-first-contact = Звуки следуют узорам инопланетного улья.
 language-Spanish-description = Земной язык.
 language-French-description = Земной язык.

@@ -1,5 +1,2 @@
 rmc-execution = Казнить
-rmc-executed = [color=#99FFFF]{ CAPITALIZE(SUBJECT($victim)) } { GENDER($victim) ->
-    [epicene] кажется
-    *[other] кажется
-} to have had { POSS-ADJ($victim) } мозг вырван с насилием.[/color]
+rmc-executed = [color=#99FFFF]Похоже, { POSS-ADJ($victim) } мозг был жестоко вырван.[/color]

@@ -41,10 +41,10 @@ cm-chatsan-word-xx-121-marine = xx-121
 cm-chatsan-replacement-xx-121-marine = xenonids
 
 cm-chatsan-word-xenoid = xenoid
-cm-chatsan-replacement-xenoid = ксенонид
+cm-chatsan-replacement-xenoid = ксеноморф
 
 cm-chatsan-word-xenoids = xenoids
-cm-chatsan-replacement-xenoids = ксенониды
+cm-chatsan-replacement-xenoids = ксеноморфы
 
 cm-chatsan-word-beno = beno
 cm-chatsan-replacement-beno = ксено

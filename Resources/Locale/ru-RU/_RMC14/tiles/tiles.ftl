@@ -20,7 +20,7 @@ tiles-cm-cargo = грузовая плитка
 tiles-cm-plating = плитка
 tiles-cm-striped = полосатая плитка
 tiles-cm-test = тестовая плитка
-tiles-cm-wy = плитка WY
+tiles-cm-wy = плитка Ве-Я
 tiles-cm-cult = плитка культова
 tiles-cm-engine = моторная плитка
 
