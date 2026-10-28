@@ -76,3 +76,7 @@ st-hunter-cleaner-already-melting = Этот предмет уже раство�
 st-hunter-cleaner-start = Вы начинаете лить растворяющий гель на { $target }...
 st-hunter-cleaner-success = { $target } тает и исчезает без следа.
 st-hunter-vendor-hands-full = Ваши руки заняты.
+st-plasma-pistol-mode = Летальный
+st-plasma-pistol-mode-changed = Режим пистолета: { $mode }.
+st-plasma-pistol-mode-lethal = Летальный
+st-plasma-pistol-mode-incendiary = Зажигательный

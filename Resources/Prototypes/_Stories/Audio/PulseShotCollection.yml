@@ -1,0 +1,5 @@
+- type: soundCollection
+  id: STPulseShotCollection
+  files:
+    - /Audio/_Stories/Weapons/pred_plasma_pistol1.ogg
+    - /Audio/_Stories/Weapons/pred_plasma_pistol2.ogg
