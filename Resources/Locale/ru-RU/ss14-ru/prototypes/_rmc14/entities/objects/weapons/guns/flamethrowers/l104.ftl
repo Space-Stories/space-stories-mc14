@@ -3,6 +3,6 @@ ent-RMCWeaponIncineratorL104 = инсинератор L104
     .suffix = PVE, Королевский
 ent-RMCWeaponIncineratorL104Unloaded = { ent-RMCWeaponIncineratorL104 }
     .desc = { ent-RMCWeaponIncineratorL104.desc }
-    .suffix = Незаряженный
+    .suffix = Незагруженный
 ent-RMCTankIncineratorL104 = топливный бак инсинератора L104
     .desc = Большой бак, совместимый с инсинератором L104, предназначенный для хранения легковоспламеняющегося топлива под огромным давлением.

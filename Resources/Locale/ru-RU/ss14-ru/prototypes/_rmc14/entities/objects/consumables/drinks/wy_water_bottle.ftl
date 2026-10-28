@@ -1,13 +1,13 @@
 ent-CMDrinkWEYAWaterBottle30 = бутилированная родниковая вода Ве-Я
     .desc = Родниковая вода по завышенной цене. Разливается в бутылки корпорацией Ве-Я.
     .suffix = { ent-DrinkBottlePlasticBaseFull.suffix }
-ent-RMCDrinkWEYABugJuice = протеиновый напиток Вестон-Ямада «Жучиный сок»
+ent-RMCDrinkWEYABugJuice = протеиновый напиток Вестон-Ямада "Жучиный сок"
     .desc = Пластиковая бутылка Ве-Я, полная ядовитой на вид зелёной жижи. На вкус как киви, но вы уверены, что киви тут и близко нет.
     .suffix = { ent-CMDrinkWEYAWaterBottle30.suffix }
 ent-RMCDrinkWEYACocoMilk = кокосовое молоко Вестон-Ямада в бутылке
     .desc = Богато витаминами и (искусственным) вкусом, утоляет жажду за пару глотков. Разлито корпорацией Вестон-Ямада.
     .suffix = { ent-CMDrinkWEYAWaterBottle30.suffix }
-ent-RMCDrinkWEYASoylent = шоколадный сойлент Вестон-Ямада «Премиум»
+ent-RMCDrinkWEYASoylent = шоколадный сойлент Вестон-Ямада "Премиум"
     .desc = Пластиковая бутылка, полная тягучего добра со вкусом шоколада. В одной бутылке хватит калорий на обед — не пейте всё за раз, лучше не рисковать животом.
     .suffix = { ent-CMDrinkWEYAWaterBottle30.suffix }
 ent-CMDrinkWYWaterBottle30 = бутылка воды Вестон Ямада

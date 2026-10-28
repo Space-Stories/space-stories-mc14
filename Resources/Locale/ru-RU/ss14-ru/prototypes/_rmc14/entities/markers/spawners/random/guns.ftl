@@ -1,4 +1,4 @@
-ent-RMCSpawnerRandomGunBase = генератор случайного оружия
+ent-RMCSpawnerRandomGunBase = спавнер оружия
     .desc = Привет, это генератор случайного оружия
     .suffix = Базовый
 ent-RMCSpawnerRandomGunPistol = генератор пистолетов

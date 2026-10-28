@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorHalcyonDynamicsLiaison = точка появления связист "Halcyon Dynamics"
+ent-RMCSpawnPointSurvivorHalcyonDynamicsLiaison = точка появления связного "Халькон Дайнемикс"
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetHalcyonDynamicsLiaison = предустановка связист "Halcyon Dynamics"
+ent-RMCGearSurvivorPresetHalcyonDynamicsLiaison = пресет связного "Халькон Дайнемикс"
     .desc = { ent-RMCSurvivorPresetCivilian.desc }

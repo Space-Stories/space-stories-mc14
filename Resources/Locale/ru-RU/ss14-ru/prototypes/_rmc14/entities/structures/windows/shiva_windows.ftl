@@ -1,6 +1,6 @@
 ent-RMCWindowFrameShiva = { ent-RMCBaseWindowFrame }
     .desc = { ent-RMCBaseWindowFrame.desc }
-ent-CMWindowShiva = Окно в поликевлоновой раме
+ent-CMWindowShiva = окно в поликевлоновой раме
     .desc = Полупрозрачный (не совсем непрозрачный) лист материала, помещенный в поликевлоновую раму. Очень легко разбивается.
 ent-CMWindowShivaOrange = окно в поликевлоновой раме
     .desc = Полупрозрачный (не совсем непрозрачный) лист материала, помещенный в поликевлоновую раму. Очень легко разбивается.

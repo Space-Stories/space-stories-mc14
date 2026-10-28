@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorLV624Archeologist = точка появления археолога, выжившего lv624
+ent-RMCSpawnPointSurvivorLV624Archeologist = точка появления выжившего археолога LV-624
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetLV624Archeologist = пресет поселенца археолога lv624
+ent-RMCGearSurvivorPresetLV624Archeologist = пресет колониста-археолога LV-624
     .desc = { ent-RMCSurvivorPresetScientist.desc }

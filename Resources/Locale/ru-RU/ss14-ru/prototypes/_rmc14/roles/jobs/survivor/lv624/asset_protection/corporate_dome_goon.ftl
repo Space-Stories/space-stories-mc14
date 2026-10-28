@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorLV624CorporateDomeGoon = точка возрождения корпоративного гСША-выжившего уровня 624
+ent-RMCSpawnPointSurvivorLV624CorporateDomeGoon = точка появления особого выжившего охранника LV-624
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetLV624CorporateDomeGoon = набор выжившего колониста уровня 624
+ent-RMCGearSurvivorPresetLV624CorporateDomeGoon = пресет колониста LV-624
     .desc = { ent-RMCSurvivorPresetSecurity.desc }

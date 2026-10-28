@@ -5,5 +5,5 @@ ent-RMCPlayingCard = { ent-RMCPlayingCardBase }
 ent-RMCPlayingCardHand = карты в руке
     .desc = { ent-BaseItem.desc }
 ent-RMCPlayingCardDeck = колода карт
-    .desc = Клянусь, игра называлась «Золотая рыбка»!
+    .desc = Клянусь, игра называлась "Золотая рыбка"!
     .suffix = RMC

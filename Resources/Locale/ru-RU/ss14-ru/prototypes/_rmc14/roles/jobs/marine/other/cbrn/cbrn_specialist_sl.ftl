@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNSquadLeader = роль призрака командира отделения РХБЗ
+ent-RMCRandomHumanoidCBRNSquadLeader = роль призрака командира отряда РХБЗ
     .desc = { "" }
     .suffix = Спавнер, Игрок

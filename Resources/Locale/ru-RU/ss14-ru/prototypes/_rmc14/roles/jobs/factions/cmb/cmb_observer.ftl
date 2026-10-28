@@ -1,3 +1,3 @@
 ent-RMCRandomHumanoidBureauObserver = роль призрака межзвездный наблюдатель за правами разумных существ
     .desc = { "" }
-    .suffix = Роль
+    .suffix = Спавнер, Игрок, Дружелюбный

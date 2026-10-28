@@ -1,5 +1,5 @@
 ent-RMCWeaponRifleL83A2 = винтовка L83A2
-    .desc = Безгильзовая винтовка гражданского образца, используемая сотрудниками TSEPA.
+    .desc = Безгильзовая винтовка гражданского образца, используемая сотрудниками ИТСПД.
     .suffix = Заполненный
 ent-RMCWeaponRifleL83A2Stripped = { ent-RMCWeaponRifleL83A2 }
     .desc = { ent-RMCWeaponRifleL83A2.desc }
@@ -25,8 +25,8 @@ ent-RMCCartridgeRifleL83AAP = бронебойный патрон (5.56x45)
 ent-BulletRifle556x45mmAP = { ent-BulletRifle10x24mm }
     .desc = { ent-BulletRifle10x24mm.desc }
 ent-WeaponRifleL83A2 = винтовка L83A2
-    .desc = Безгильзовая винтовка гражданского образца, используемая сотрудниками TSEPA.
-    .suffix = Заполненная
+    .desc = Безгильзовая винтовка гражданского образца, используемая сотрудниками ИТСПД.
+    .suffix = Заполненный
 ent-RMCCartridgeRifleL83A2 = патрон (5.56x45)
     .desc = Винтовочный патрон 5.56x45 мм
 ent-RMCMagazineRifleL83A2extended = удлиненный магазин L83A2 (5.56x45 мм)

@@ -202,6 +202,6 @@ ent-RMCPamphletAdminVehicles2 = учебное пособие по техник�
 ent-RMCPamphletAdminVehicles3 = учебное пособие по технике 3
     .desc = { ent-RMCPamphletAdmin.desc }
     .suffix = { ent-RMCPamphletAdmin.suffix }
-ent-RMCPamphletAdminVulture1 = учебное пособие «Стервятника» 1
+ent-RMCPamphletAdminVulture1 = учебное пособие "Стервятника" 1
     .desc = { ent-RMCPamphletAdmin.desc }
     .suffix = { ent-RMCPamphletAdmin.suffix }

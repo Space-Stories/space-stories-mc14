@@ -1,4 +1,4 @@
-ent-RMCSpawnPointSurvivorTechnician = точка появления выжившего icb
+ent-RMCSpawnPointSurvivorTechnician = точка появления выжившего техника
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
 ent-RMCGearSurvivorPresetTechnician = предустановка колониста техника

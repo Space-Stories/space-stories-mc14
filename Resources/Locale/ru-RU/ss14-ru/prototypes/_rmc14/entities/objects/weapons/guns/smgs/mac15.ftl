@@ -6,4 +6,4 @@ ent-RMCMagazineSMGMAC15 = магазин MAC-15 (9 мм)
 ent-RMCMagazineSMGMAC15Ext = удлиненный магазин MAC-15 (9 мм)
     .desc = { ent-RMCMagazineSMGMAC15.desc }
 ent-RMCCartridge9mmSMGMAC15 = { ent-CMCartridge9mmSMG }
-    .desc = 9-мм патрон для пистолета-пулемета mac-15.
+    .desc = 9-мм патрон для пистолета-пулемета MAC-15.

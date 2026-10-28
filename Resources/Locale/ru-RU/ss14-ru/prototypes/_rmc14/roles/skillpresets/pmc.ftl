@@ -1,12 +1,12 @@
 ent-RMCSkillPresetSurvivorWeYaPMCStandard = Выживший ЧВК
     .desc = { ent-RMCSkillPresetSurvivor.desc }
-ent-RMCSkillPresetSurvivorWeYaPMCMedic = Выживший ЧВК Медик
+ent-RMCSkillPresetSurvivorWeYaPMCMedic = Выживший ЧВК медик
     .desc = { ent-RMCSkillPresetSurvivor.desc }
-ent-RMCSkillPresetSurvivorWeYaPMCEngineer = Выживший ЧВК Инженер
+ent-RMCSkillPresetSurvivorWeYaPMCEngineer = Выживший ЧВК инженер
     .desc = { ent-RMCSkillPresetSurvivor.desc }
 ent-RMCSkillPresetSurvivorWeYaPMCLeader = Выживший ЧВК СЛ
     .desc = { ent-RMCSkillPresetSurvivor.desc }
 ent-RMCSkillPresetSurvivorWeYaPMCCommander = Выживший ЧВК КНО
     .desc = { ent-RMCSkillPresetSurvivor.desc }
-ent-RMCSkillPresetPMCCommando = Выживший коммандо "Ве-Я"
+ent-RMCSkillPresetPMCCommando = Выживший коммандо Ве-Я
     .desc = { ent-RMCSkillPresetSurvivor.desc }

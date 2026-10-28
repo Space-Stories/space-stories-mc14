@@ -1,8 +1,8 @@
 ent-RMCSkillPresetSurvivorMarshalCO = Выживший командир заместителей маршала
     .desc = { ent-RMCSkillPresetSurvivor.desc }
-ent-RMCSkillPresetSurvivorMarshal = Выживший Заместитель Маршала
+ent-RMCSkillPresetSurvivorMarshal = Выживший заместитель маршала
     .desc = { ent-RMCSkillPresetSurvivor.desc }
-ent-RMCSkillPresetSurvivorRiotControlTeamLeader = Выживший Руководитель группы по борьбе с массовыми беспорядками БКМ
+ent-RMCSkillPresetSurvivorRiotControlTeamLeader = Выживший руководитель группы по борьбе с массовыми беспорядками БКМ
     .desc = { ent-RMCSkillPresetSurvivorMarshal.desc }
 ent-RMCSkillPresetSurvivorRiotControlMedicalTechnician = Медицинский техник группы по борьбе с беспорядками БКМ
     .desc = { ent-RMCSkillPresetSurvivorMarshal.desc }

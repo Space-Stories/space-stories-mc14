@@ -1,6 +1,6 @@
 ent-RMCBoxShotgunBase = коробка с патронами для дробовика
     .desc = { ent-BaseStorageItem.desc }
-ent-RMCBoxShotgunBuckshot = коробка патронами для дробовика
+ent-RMCBoxShotgunBuckshot = коробка с картечью
     .desc = Коробка с дробовыми патронами. Калибр 12.
 ent-RMCBoxShotgunSlugs = коробка с пулями
     .desc = Коробка со свинцовыми пулями для дробовика.  Классика. Калибр 12.

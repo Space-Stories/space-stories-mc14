@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorHybrisaEMTParamedic = точка появления парамедика emt
+ent-RMCSpawnPointSurvivorHybrisaEMTParamedic = точка появления парамедика скорой помощи
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetHybrisaEMTParamedic = пресет парамедика emt
+ent-RMCGearSurvivorPresetHybrisaEMTParamedic = пресет парамедика скорой помощи
     .desc = { ent-RMCSurvivorPresetDoctor.desc }

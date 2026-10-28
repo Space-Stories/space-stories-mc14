@@ -1,3 +1,3 @@
 ent-CMSurgeryTrayFull = { ent-CMSurgeryTray }
-    .suffix = Полный
+    .suffix = Заполненный
     .desc = { ent-CMSurgeryTray.desc }

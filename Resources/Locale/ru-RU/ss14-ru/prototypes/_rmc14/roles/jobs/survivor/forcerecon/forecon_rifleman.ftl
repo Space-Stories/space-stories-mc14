@@ -1,3 +1,3 @@
-ent-CMSpawnPointForeconRifleman = точка спавна стрелка ФОРКОН
+ent-CMSpawnPointForeconRifleman = точка появления стрелка ФОРКОН
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

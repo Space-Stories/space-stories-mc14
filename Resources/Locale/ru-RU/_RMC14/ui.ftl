@@ -1,7 +1,7 @@
 cm-ui-rmc14 = RMC14
 
 rmc-ui-options-cassettes-volume = Громкость кассет:
-rmc-ui-options-hijack-song-volume = Громкость песен захвата:
+rmc-ui-options-hijack-song-volume = Громкость песен угона:
 rmc-ui-options-xeno-ability-previews = Показать предварительный просмотр способностей ксеноморфов
 rmc-ui-options-marine-equipment-previews = Показать предварительный просмотр снаряжения морпехов
 rmc-ui-options-post-death-chat-mute = Кратковременно заглушать чат после смерти

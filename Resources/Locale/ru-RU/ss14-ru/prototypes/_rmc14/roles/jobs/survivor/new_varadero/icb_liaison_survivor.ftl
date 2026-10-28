@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorVaraderoICB = точка появления выжившего icb
+ent-RMCSpawnPointSurvivorVaraderoICB = точка появления выжившего связного МКБ
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetICB = набор выжившего icb
+ent-RMCGearSurvivorPresetICB = пресет выжившего связного МКБ
     .desc = { ent-RMCSurvivorPresetCorporate.desc }

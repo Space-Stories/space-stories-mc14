@@ -1,4 +1,4 @@
-ent-RMCSpawnPointSurvivorHybrisaCivilian = точка появления гибриса гражданского
+ent-RMCSpawnPointSurvivorHybrisaCivilian = точка появления гражданского Гибрисы
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
 ent-RMCGearSurvivorPresetHybrisaCivilian = пресет гибриса гражданского

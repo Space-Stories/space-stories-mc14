@@ -1,13 +1,13 @@
-ent-RMCRandomHumanoidPMCStandardM63B2 = роль призрака ЧВК Ве-Я стандарт m39b2
+ent-RMCRandomHumanoidPMCStandardM63B2 = роль призрака ЧВК Ве-Я стандарт M39B2
     .desc = { "" }
     .suffix = Спавнер, Игрок
-ent-RMCSpawnPointPMCStandardM63B2 = точка появления ЧВК Ве-Я стандарт m39b2
+ent-RMCSpawnPointPMCStandardM63B2 = точка появления ЧВК Ве-Я стандарт M39B2
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = M63B2
-ent-RMCRandomHumanoidPMCStandardSSG45 = роль призрака ЧВК Ве-Я стандарт ssg45
+ent-RMCRandomHumanoidPMCStandardSSG45 = роль призрака ЧВК Ве-Я стандарт SSG45
     .desc = { "" }
     .suffix = Спавнер, Игрок
-ent-RMCSpawnPointPMCStandardSSG45 = точка появления ЧВК Ве-Я стандарт ssg45
+ent-RMCSpawnPointPMCStandardSSG45 = точка появления ЧВК Ве-Я стандарт SSG45
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = SSG45
 ent-RMCRandomHumanoidPMCStandardM54C2 = роль призрака ЧВК Ве-Я стандарт m41a2

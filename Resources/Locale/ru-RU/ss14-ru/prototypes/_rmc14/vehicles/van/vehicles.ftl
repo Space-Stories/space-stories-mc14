@@ -1,4 +1,4 @@
-ent-VehicleVanBase = Фургон
+ent-VehicleVanBase = фургон
     .desc = Прочный транспортный фургон.
 ent-VehicleVan = { ent-VehicleVanBase }
     .desc = { ent-VehicleVanBase.desc }

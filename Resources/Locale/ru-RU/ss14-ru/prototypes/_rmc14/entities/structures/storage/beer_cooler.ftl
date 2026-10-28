@@ -1,4 +1,4 @@
-ent-RMCBeerCoolerBase = ящик морозильника
+ent-RMCBeerCoolerBase = морозильный ящик
     .desc = Уютный охладитель для вашего пива и других напитков.
     .suffix = Пустой
 ent-RMCBeerCooler = { ent-RMCBeerCoolerBase }

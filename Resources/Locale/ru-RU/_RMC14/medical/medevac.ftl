@@ -6,6 +6,6 @@ rmc-medevac-inactivate-beacon = Носилочный маяк теперь не�
 
 rmc-medevac-no-target = Цель не найдена.
 
-rmc-medevac-stretcher-examine-id = Идентификатор отслеживания для CAS: { $id }.
+rmc-medevac-stretcher-examine-id = Идентификатор отслеживания для КАС: { $id }.
 
 rmc-medevac-stretcher-failure = Носилки цели не настроены должным образом.

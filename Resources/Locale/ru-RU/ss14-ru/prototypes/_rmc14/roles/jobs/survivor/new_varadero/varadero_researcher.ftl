@@ -1,4 +1,4 @@
-ent-RMCSpawnPointSurvivorNewVaraderoResearcher = точка появления исследователя из нового Варадеро
+ent-RMCSpawnPointSurvivorNewVaraderoResearcher = точка появления исследователя Нью-Варадеро
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
 ent-RMCSurvivorPresetNVResearcher = пресет исследователя Варадеро

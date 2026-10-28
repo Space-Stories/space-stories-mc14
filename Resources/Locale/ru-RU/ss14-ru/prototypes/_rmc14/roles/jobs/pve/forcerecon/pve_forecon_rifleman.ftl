@@ -1,3 +1,3 @@
-ent-RMCSpawnPointFORECONPVERifleman = точка появления стрелка форкон
+ent-RMCSpawnPointFORECONPVERifleman = точка появления стрелка ФОРКОН
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = PVE

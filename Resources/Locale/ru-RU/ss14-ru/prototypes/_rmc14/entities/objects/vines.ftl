@@ -1,4 +1,4 @@
-ent-CMVinesBase = виноградники
+ent-CMVinesBase = виноградные лозы
     .desc = { "" }
 ent-CMVinesLight = виноградные лозы
     .desc = Масса скрученных лоз.

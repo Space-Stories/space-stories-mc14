@@ -1,6 +1,6 @@
 ent-RMCToxicWaterShallow = вода
     .desc = Что-то в этой воде кажется неправильным. Лучше держаться от неё подальше.
-    .suffix = Токсичная
+    .suffix = Токсичный
 ent-RMCToxicWaterDeep = вода
     .desc = Что-то в этой воде кажется неправильным. Лучше держаться от неё подальше.
     .suffix = { ent-RMCToxicWaterShallow.suffix }

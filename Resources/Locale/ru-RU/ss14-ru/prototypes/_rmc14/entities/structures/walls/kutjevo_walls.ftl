@@ -1,4 +1,4 @@
-ent-RMCWallKutjevoRock = скальная стена
+ent-RMCWallKutjevoRock = каменная стена
     .desc = Высокие песчаные скалы. Впечатляющие. Впечатляет. Привлекают внимание.
 ent-RMCWallKutjevoRockBorder = { ent-RMCWallKutjevoRock }
     .desc = { ent-RMCWallKutjevoRock.desc }

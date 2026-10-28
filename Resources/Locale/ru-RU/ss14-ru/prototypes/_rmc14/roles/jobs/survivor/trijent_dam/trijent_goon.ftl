@@ -3,5 +3,5 @@ ent-RMCSpawnPointSurvivorGoonTrijent = точка появления выжив�
     .suffix = { ent-CMSpawnPointJobBase.suffix }
 ent-RMCSurvivorPresetGoonTrijent = пресет выжившего охранника Плотины Триджент
     .desc = { "" }
-ent-RMCGearSurvivorPresetTrijentGoon = пресет триджента-гСШАа-колониста
+ent-RMCGearSurvivorPresetTrijentGoon = пресет охранника Плотины Триджент
     .desc = { ent-RMCSurvivorPresetSecurity.desc }

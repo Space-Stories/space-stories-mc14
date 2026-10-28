@@ -1,2 +1,2 @@
-ent-RMCSurvivorPresetHybrisaCommercialPilot = пресет гибриса корпоративный связной
+ent-RMCSurvivorPresetHybrisaCommercialPilot = пресет корпоративного связного Гибрисы
     .desc = { ent-RMCSurvivorPresetCorporate.desc }

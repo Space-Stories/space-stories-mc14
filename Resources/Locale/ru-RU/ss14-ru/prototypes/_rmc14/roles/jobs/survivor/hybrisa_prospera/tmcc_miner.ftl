@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorHybrisaTMCCMiner = точка появления шахтера tmcc
+ent-RMCSpawnPointSurvivorHybrisaTMCCMiner = точка появления шахтера TMCC
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetHybrisaTMCCMiner = предустановка шахтера tmcc
+ent-RMCGearSurvivorPresetHybrisaTMCCMiner = пресет шахтера TMCC
     .desc = { ent-RMCSurvivorPresetCivilian.desc }

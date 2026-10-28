@@ -1,6 +1,6 @@
 ent-RMCSpawnerRandomSentry = спавнер турелей
     .desc = Это случайная турель для выживших.
-    .suffix = Гарантированно
+    .suffix = Гарантированный
 ent-RMCSpawnerRandomSentryLowChance = { ent-RMCSpawnerRandomSentry }
     .desc = { ent-RMCSpawnerRandomSentry.desc }
     .suffix = Низкий шанс

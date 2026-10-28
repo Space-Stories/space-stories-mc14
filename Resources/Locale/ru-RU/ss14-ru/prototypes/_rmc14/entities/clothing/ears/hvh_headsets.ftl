@@ -1,5 +1,5 @@
 ent-RMCHeadsetHvHWeYaPMC = корпоративная гарнитура Ве-Я
-    .desc = Специальная гарнитура корпоративного персонала.
+    .desc = Специальная гарнитура, используемая корпоративным персоналом.
     .suffix = Ве-Я, ЧВК, HvH
 ent-RMCHeadsetHvHWeYaPMCMedic = гарнитура ЧВК-МЕД
     .desc = { ent-RMCHeadsetHvHWeYaPMC.desc }

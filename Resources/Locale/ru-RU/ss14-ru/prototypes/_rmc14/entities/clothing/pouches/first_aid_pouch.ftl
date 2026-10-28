@@ -1,7 +1,7 @@
 ent-RMCPouchFirstAid = подсумок первой помощи
     .desc = По умолчанию в ней хранятся автоинъекторы. Но в ней также могут храниться мази, бинты и пакеты с таблетками.
 ent-RMCPouchFirstAidInjectors = { ent-RMCPouchFirstAid }
-    .desc = Содержит набор автоинъекторов для быстрого лечения ранений.
+    .desc = Содержит различные автоинъекторы для быстрого лечения травм.
     .suffix = Инъекторы
 ent-RMCPouchFirstAidSplintsGauzeOintment = { ent-RMCPouchFirstAid }
     .desc = { ent-RMCPouchFirstAid.desc }

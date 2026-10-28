@@ -1,9 +1,9 @@
 ent-CMLinenBin = корзина для белья
     .desc = Корзина для белья. Выглядит довольно уютно.
-    .suffix = Пустая
+    .suffix = Пустой
 ent-CMLinenBinFilled = { ent-CMLinenBin }
     .desc = { ent-CMLinenBin.desc }
-    .suffix = Заполенная
+    .suffix = Заполненный
 ent-CMLinenBinFilledUnanchored = { ent-CMLinenBinFilled }
     .desc = { ent-CMLinenBinFilled.desc }
-    .suffix = Заполенная, Не Закрепленная
+    .suffix = Заполненный, Не Закрепленная

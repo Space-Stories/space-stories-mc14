@@ -1,5 +1,5 @@
-ent-RMCBoxDonutEmpty = пончики «Ням!»
-    .desc = Коробка аппетитных пончиков марки «Ням!»
+ent-RMCBoxDonutEmpty = пончики "Ням!"
+    .desc = Коробка аппетитных пончиков марки "Ням!"
     .suffix = Пустой
 ent-RMCBoxDonut = { ent-RMCBoxDonutEmpty }
     .desc = { ent-RMCBoxDonutEmpty.desc }
