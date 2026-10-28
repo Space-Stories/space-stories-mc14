@@ -2,3 +2,13 @@
   license: "CC-BY-SA-3.0"
   copyright: "Taken from CM-SS13"
   source: "https://github.com/cmss13-devs/cmss13/blob/8a583493f634e4fa9e983ac78c8f2306f31d6159/sound/effects/spike_hit.ogg"
+
+- files: ["clan_sword_hit_1"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from CM-SS13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/weapons/clan_sword_hit_1.ogg"
+
+- files: ["clan_sword_hit_2"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from CM-SS13"
+  source: "https://github.com/cmss13-devs/cmss13/blob/master/sound/weapons/clan_sword_hit_2.ogg"
