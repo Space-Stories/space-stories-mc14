@@ -1,0 +1,119 @@
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodFootprintBareLeft
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: bare-left
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodFootprintBareRight
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: bare-right
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodFootprintShoes
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: shoes
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag1
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag-1
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag2
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag-2
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag3
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag-3
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag4
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag-4
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodDrag5
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_tracks.rsi
+    state: drag-5
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter1
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor1
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter2
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor2
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter3
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor3
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter4
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor4
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter5
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor5
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter6
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor6
+
+- type: decal
+  parent: CMDecalBase
+  id: STDecalBloodSplatter7
+  showMenu: false
+  sprite:
+    sprite: _Stories/Effects/blood_splatter.rsi
+    state: floor7

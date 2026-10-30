@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/master/icons/effects/blood.dmi via RMC-14 (_RMC14/Decals/blood.rsi, _RMC14/Decals/blood_floor.rsi), converted to grayscale",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "spray1"
+    },
+    {
+      "name": "spray2"
+    },
+    {
+      "name": "spray3"
+    },
+    {
+      "name": "floor1"
+    },
+    {
+      "name": "floor2"
+    },
+    {
+      "name": "floor3"
+    },
+    {
+      "name": "floor4"
+    },
+    {
+      "name": "floor5"
+    },
+    {
+      "name": "floor6"
+    },
+    {
+      "name": "floor7"
+    }
+  ]
+}

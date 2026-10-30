@@ -290,4 +290,26 @@ public sealed class SCCVars
 
     public static readonly CVarDef<int> FunFactsMaxPerSide =
         CVarDef.Create("stories.fun_facts_max_per_side", 5, CVar.SERVERONLY);
+
+    /*
+     * Blood
+     */
+
+    public static readonly CVarDef<float> BloodSplatterDryTime =
+        CVarDef.Create("stories.blood.splatter_dry_time", 60f, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> BloodWetSplatterCharges =
+        CVarDef.Create("stories.blood.wet_splatter_charges", 2, CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> BloodWetPruneInterval =
+        CVarDef.Create("stories.blood.wet_prune_interval", 10f, CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> BloodSplatterStainRange =
+        CVarDef.Create("stories.blood.splatter_stain_range", 1f, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> BloodMaxTracksPerTile =
+        CVarDef.Create("stories.blood.max_tracks_per_tile", 4, CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> BloodMaxFloorSplattersPerTile =
+        CVarDef.Create("stories.blood.max_floor_splatters_per_tile", 3, CVar.SERVERONLY);
 }
