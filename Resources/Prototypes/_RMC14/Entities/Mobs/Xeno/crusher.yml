@@ -176,7 +176,7 @@
     - ActionXenoDevolve
   - type: CMArmor
     xenoArmor: 20
-    frontalArmor: 40 # Stories-CrusherBuff
+    frontalArmor: 30 
     sideArmor: 15
   - type: MeleeWeapon
     damage:
