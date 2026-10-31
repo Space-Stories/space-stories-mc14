@@ -118,7 +118,7 @@ public sealed partial class RMCERTSystem
             return false;
         }
 
-        if (!CanCreateRequest(console, out reason))
+        if (!CanCreateRequest(console, out reason, RMCERTRequestSource.Console)) // Stories-Ares
             return false;
 
         return true;
@@ -197,24 +197,9 @@ public sealed partial class RMCERTSystem
 
     private void CreateConsoleDistressRequest(EntityUid console, EntityUid user, string reason)
     {
-        var calls = GetCallOptions(new RMCERTCallQueryArgs
-        {
-            EnabledOnly = true,
-            Source = RMCERTRequestSource.Console,
-        }).Select(c => new ProtoId<RMCERTCallPrototype>(c.Id)).ToList();
-        var autoResolution = GetConsoleAutoResolutionOptions();
-
-        var result = CreateRequest(new RMCERTCreateRequestArgs
-        {
-            Source = RMCERTRequestSource.Console,
-            SourceEntity = console,
-            Requester = user,
-            Reason = reason,
-            AllowedCalls = calls,
-            AllowRandomSelection = true,
-            AllowSpecificSelection = false,
-            AutoResolution = autoResolution,
-        });
+        // Stories-Ares-Start
+        var result = RequestConsoleDistress(console, user, reason, Comp<MarineCommunicationsComputerComponent>(console).DistressReasonLimit);
+        // Stories-Ares-End
 
         if (!result.Success && !string.IsNullOrWhiteSpace(result.Error))
             _popup.PopupEntity(result.Error, console, user, PopupType.MediumCaution);

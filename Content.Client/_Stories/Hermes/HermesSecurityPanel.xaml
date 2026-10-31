@@ -1,0 +1,30 @@
+<local:HermesSecurityPanel xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Orientation="Vertical" HorizontalExpand="True">
+    <crt:RMCCrtPanel HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="10">
+            <crt:RMCCrtLabel Name="SecurityStatus" Access="Public" Tone="Muted" />
+            <crt:RMCCrtPanel Variant="Inset">
+                <crt:RMCCrtTwoColumnContainer Margin="8" ColumnSeparation="6">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True"
+                        VerticalAlignment="Center" SeparationOverride="3">
+                        <crt:RMCCrtLabel Text="{Loc stories-hermes-lockdown-control}" Heading="True" />
+                        <crt:RMCCrtLabel Name="LockdownStatus" Access="Public" />
+                    </BoxContainer>
+                    <Control MinWidth="0" MaxWidth="0" />
+                    <crt:RMCCrtActionButton Name="Lockdown" Access="Public" Variant="DangerOutline"
+                        IconState="ban" IconSize="14" ContentMargin="8 5"
+                        VerticalAlignment="Center" HorizontalAlignment="Right" />
+                </crt:RMCCrtTwoColumnContainer>
+            </crt:RMCCrtPanel>
+            <BoxContainer Orientation="Vertical" SeparationOverride="5">
+                <crt:RMCCrtLabel Text="{Loc stories-hermes-iff-label}" Heading="True" />
+                <crt:RMCCrtOptionButton Name="Iff" Access="Public" />
+            </BoxContainer>
+            <crt:RMCCrtSeparator Margin="0 2" />
+            <crt:RMCCrtLabel Text="{Loc stories-hermes-gas-control}" Heading="True" />
+            <BoxContainer Name="Vents" Access="Public" Orientation="Vertical" SeparationOverride="6" />
+        </BoxContainer>
+    </crt:RMCCrtPanel>
+</local:HermesSecurityPanel>

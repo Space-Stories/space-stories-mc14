@@ -1,0 +1,12 @@
+<local:AresAdminConversationRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.ARES.Administration"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt">
+    <crt:RMCCrtPanel Variant="Inset" HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="4">
+            <crt:RMCCrtLabel Name="User" Access="Public" Heading="True" />
+            <crt:RMCCrtLabel Name="Status" Access="Public" Tone="Muted" />
+            <crt:RMCCrtLabel Name="Preview" Access="Public" />
+            <crt:RMCCrtActionButton Name="Read" Access="Public" Text="{Loc stories-ares-read}" />
+        </BoxContainer>
+    </crt:RMCCrtPanel>
+</local:AresAdminConversationRow>

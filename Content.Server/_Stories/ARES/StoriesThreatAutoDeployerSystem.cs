@@ -5,6 +5,7 @@ using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Weeds;
+using Content.Shared._Stories.Hermes;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
 using Content.Shared.Mobs.Systems;
@@ -45,6 +46,14 @@ public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
                 continue;
 
             auto.NextCheck = now + auto.CheckInterval;
+
+            if (TryComp(uid, out HermesSentryComponent? sentry) && sentry.LockedDown)
+            {
+                auto.PendingAnnouncement = false;
+                if (!deployer.IsDeployed)
+                    _deployer.TryDeploy(uid, true, equipmentDeployerComponent: deployer);
+                continue;
+            }
 
             if (HasThreat((uid, auto)))
             {
@@ -93,9 +102,31 @@ public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
             return !_mobState.IsDead(target);
 
         if (HasComp<UserIFFComponent>(target))
-            return !_mobState.IsDead(target) && !_iff.IsInFaction(target, ent.Comp.FriendlyFaction);
+        {
+            if (_mobState.IsDead(target))
+                return false;
+            if (!ent.Comp.HermesControlled)
+                return !_iff.IsInFaction(target, ent.Comp.FriendlyFaction);
+            foreach (var faction in ent.Comp.HermesFriendlyFactions)
+            {
+                if (_iff.IsInFaction(target, faction))
+                    return false;
+            }
+            return true;
+        }
 
         return false;
+    }
+
+    public void SetFriendlyFactions(Entity<StoriesThreatAutoDeployerComponent> ent, HashSet<string> factions)
+    {
+        ent.Comp.HermesControlled = true;
+        ent.Comp.HermesFriendlyFactions.Clear();
+        foreach (var faction in factions)
+        {
+            if (Content.Shared._RMC14.Sentry.SharedSentryTargetingSystem.SentryFactionToIff.TryGetValue(faction, out var iff))
+                ent.Comp.HermesFriendlyFactions.Add(iff);
+        }
     }
 
     private void Announce(Entity<StoriesThreatAutoDeployerComponent> ent, TimeSpan now)

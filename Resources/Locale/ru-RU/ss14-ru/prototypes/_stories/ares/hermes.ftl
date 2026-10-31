@@ -1,0 +1,15 @@
+ent-STVentSecurityCN20 = защитная вентиляция ARES
+    .desc = Усиленный вентиляционный выход, подключённый к запасу защитного газа CN20-X ядра ИИ.
+ent-STHermesLockdownShutter = защитные ставни ядра ИИ
+    .desc = { ent-RMCPodDoorAIBlackLockdown.desc }
+    .suffix = { ent-RMCPodDoorAIBlackLockdown.suffix }
+ent-STHermesCoreDoor = дверь в ядро ИИ
+    .desc = { ent-RMCPodDoorAI.desc }
+ent-STGasCN20X = нервный газ CN20-X
+    .desc = { "" }
+ent-STGasCN20 = нервный газ CN20
+    .desc = { ent-STGasCN20X.desc }
+ent-STHermesMovementSensor = датчик движения ГЕРМЕС
+    .desc = Сообщает о несанкционированном движении по каналу ГЕРМЕС.
+ent-STHermesAccessControlSensor = датчик выхода ГЕРМЕС
+    .desc = Отзывает временный доступ к ядру ИИ при выходе владельца пропуска в настроенном направлении.

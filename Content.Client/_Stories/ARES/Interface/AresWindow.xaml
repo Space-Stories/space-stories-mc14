@@ -1,0 +1,49 @@
+<local:AresWindow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.ARES.Interface"
+    xmlns:hermes="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Title="{Loc stories-ares-title}" MinSize="560 420" SetSize="900 650">
+    <crt:RMCCrtThemeScope Palette="Blue" Effects="HorizontalScanlines" ScanlineOpacity="0.04">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+            <crt:RMCCrtTwoColumnContainer ColumnSeparation="6">
+                <crt:RMCCrtLabel Name="Identity" Access="Public" Heading="True" VerticalAlignment="Center" />
+                <Control MinWidth="0" MaxWidth="0" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="6"
+                    HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <crt:RMCCrtActionButton Name="Logs" Access="Public" Text="{Loc stories-ares-open-logs}" />
+                    <crt:RMCCrtActionButton Name="Login" Access="Public" Text="{Loc stories-hermes-login}" />
+                    <crt:RMCCrtActionButton Name="Logout" Access="Public" Text="{Loc stories-hermes-logout}" />
+                </BoxContainer>
+            </crt:RMCCrtTwoColumnContainer>
+            <crt:RMCCrtLabel Name="Feedback" Access="Public" Tone="Warning" />
+            <crt:RMCCrtPanel Name="LoginPanel" Access="Public" VerticalExpand="True">
+                <crt:RMCCrtLabel Text="{Loc stories-hermes-login-hint}" Margin="15" VerticalAlignment="Center" />
+            </crt:RMCCrtPanel>
+            <BoxContainer Name="Program" Access="Public" Orientation="Vertical" VerticalExpand="True" SeparationOverride="6">
+                <BoxContainer Name="Tabs" Access="Public" Orientation="Horizontal" SeparationOverride="6">
+                    <crt:RMCCrtActionButton Name="TalkTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-ares-page-Talk}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="SecurityTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-ares-page-CoreSecurity}" HorizontalExpand="True" />
+                </BoxContainer>
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6">
+                        <hermes:HermesSecurityPanel Name="CoreSecurity" Access="Public" />
+                        <BoxContainer Name="Entries" Access="Public" Orientation="Vertical" SeparationOverride="6" />
+                        <crt:RMCCrtLabel Name="Empty" Access="Public" Text="{Loc stories-hermes-empty}" Tone="Muted" Margin="8" />
+                        <crt:RMCCrtPanel Name="Compose" Access="Public" Variant="Inset">
+                            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+                                <crt:RMCCrtTextEdit Name="Message" Access="Public" MinHeight="90" MaxHeight="140" />
+                                <crt:RMCCrtLabel Name="Counter" Access="Public" Tone="Muted" />
+                                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                    <crt:RMCCrtActionButton Name="Send" Access="Public" Text="{Loc stories-ares-send}" Variant="Filled" />
+                                    <crt:RMCCrtActionButton Name="ClearConversation" Access="Public" Text="{Loc stories-ares-clear-conversation}" />
+                                </BoxContainer>
+                            </BoxContainer>
+                        </crt:RMCCrtPanel>
+                    </BoxContainer>
+                </ScrollContainer>
+            </BoxContainer>
+        </BoxContainer>
+    </crt:RMCCrtThemeScope>
+</local:AresWindow>

@@ -80,7 +80,7 @@ public sealed partial class RMCERTSystem
     {
         var allowedCalls = args.AllowedCalls.Distinct().ToList();
         if (args.SourceEntity is { Valid: true } sourceEntity &&
-            !CanCreateRequest(sourceEntity, out var error))
+            !CanCreateRequest(sourceEntity, out var error, args.Source)) // Stories-Ares
         {
             return ResultFailure(Guid.Empty, null, error);
         }
@@ -304,7 +304,7 @@ public sealed partial class RMCERTSystem
 
         // Start the source cooldown only after approval succeeds, preserving the previous approval while checking a new request.
         if (request.SourceEntity is { Valid: true } cooldownSource)
-            _sourceCooldowns[cooldownSource] = _timing.CurTime;
+            _sourceCooldowns[GetRequestSource(request.Source, cooldownSource)] = _timing.CurTime; // Stories-Ares
 
         var adminText = GetAdminActorText(admin, adminName);
         Log.Info($"ERT request {request.Id} approved as {call.ID} by {adminText}");
@@ -460,7 +460,7 @@ public sealed partial class RMCERTSystem
         }
 
         if (request.SourceEntity is { Valid: true } source &&
-            _sourceCooldowns.TryGetValue(source, out var last) &&
+            _sourceCooldowns.TryGetValue(GetRequestSource(request.Source, source), out var last) && // Stories-Ares
             _timing.CurTime < last + call.Requirements.Cooldown)
         {
             error = Loc.GetString("rmc-ert-error-source-cooldown", ("call", call.Name));
@@ -470,13 +470,16 @@ public sealed partial class RMCERTSystem
         return true;
     }
 
-    private bool CanCreateRequest(EntityUid source, out string reason)
+    private bool CanCreateRequest(EntityUid source, out string reason, RMCERTRequestSource type = RMCERTRequestSource.Handheld) // Stories-Ares
     {
         reason = string.Empty;
 
         foreach (var request in _requests.Values)
         {
-            if (request.SourceEntity != source)
+            // Stories-Ares-Start
+            if (request.SourceEntity is not { } requestSource ||
+                GetRequestSource(request.Source, requestSource) != GetRequestSource(type, source))
+            // Stories-Ares-End
                 continue;
 
             if (!IsTerminal(request.State))

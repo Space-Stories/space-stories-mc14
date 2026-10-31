@@ -9,7 +9,7 @@
   joinNotifyCrew: false
   lateJoinAnnouncement: stories-latejoin-arrival-announcement-working-joe
   lateJoinChannels:
-  - STApolloLink
+  - STHermesLink
   whitelisted: true
   supervisors: st-job-supervisors-ares
   accessGroups:

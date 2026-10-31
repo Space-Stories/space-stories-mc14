@@ -116,11 +116,11 @@
   - type: IntrinsicRadioTransmitter
     channels:
     - Binary
-    - STApolloLink
+    - STHermesLink
   - type: ActiveRadio
     channels:
     - Binary
-    - STApolloLink
+    - STHermesLink
   - type: STSetGenderOnMapInit
     gender: Neuter
   - type: STUnstrippableWhileAble

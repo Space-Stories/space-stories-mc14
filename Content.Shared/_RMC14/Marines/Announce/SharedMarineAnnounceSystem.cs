@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Content.Shared._RMC14.ARES;
+using Content.Shared._Stories.ARES.Interface; // Stories-Ares
 using Content.Shared._RMC14.ARES.Logs;
 using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Dialog;
@@ -328,6 +329,13 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
         SoundSpecifier? sound = null,
         LocId? announcement = null)
     {
+        // Stories-Ares-Start
+        if (_net.IsServer)
+        {
+            var ev = new AresAnnouncementEvent(source, message, announcement);
+            RaiseLocalEvent(ref ev);
+        }
+        // Stories-Ares-End
     }
 
     public void AnnounceARES(

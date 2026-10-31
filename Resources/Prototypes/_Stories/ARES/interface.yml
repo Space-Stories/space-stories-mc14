@@ -1,0 +1,30 @@
+- type: accessLevel
+  id: STAccessAresCorporateCommand
+  name: stories-ares-corporate-command-access
+
+- type: entity
+  parent: MasterARESLogType
+  id: STARESTabBioscanLogs
+  name: Bioscan logs
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ARESLogType
+    permissions: [ RMCAccessCommand ]
+
+- type: entity
+  parent: MasterARESLogType
+  id: STARESTabSecurityLogs
+  name: Security logs
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ARESLogType
+    permissions: [ RMCAccessSeniorCommand, RMCAccessSynth, STAccessHermes ]
+
+- type: entity
+  parent: MasterARESLogType
+  id: STARESTabAccessLogs
+  name: ARES access logs
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ARESLogType
+    permissions: [ CMAccessCE, CMAccessCO, CMAccessHighCommand, STAccessHermesTechnician ]
