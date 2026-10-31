@@ -186,6 +186,9 @@
   components:
   # Stories-Ares-Start
   - type: AresTerminal
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
   - type: ActivatableUI
     singleUser: true
     key: enum.AresUiKey.Key
@@ -233,6 +236,9 @@
   # Stories-Hermes-Start
   - type: HermesTerminal
   - type: AresTerminal
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
   - type: ActivatableUI
     key: enum.HermesUiKey.Key
   - type: UserInterface

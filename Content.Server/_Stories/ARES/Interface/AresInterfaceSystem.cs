@@ -31,8 +31,8 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
     [Dependency] private readonly ARESCoreSystem _ares = default!;
     [Dependency] private readonly ActionBlockerSystem _blocker = default!;
     [Dependency] private readonly HermesSystem _hermes = default!;
-    [Dependency] private readonly AresIdentitySystem _identity = default!;
     [Dependency] private readonly SharedIdCardSystem _idCard = default!;
+    [Dependency] private readonly AresIdentitySystem _identity = default!;
     [Dependency] private readonly GunIFFSystem _iff = default!;
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly SharedGameTicker _ticker = default!;
@@ -46,6 +46,7 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeLocalEvent<AresTerminalComponent, BoundUserInterfaceMessageAttempt>(OnUiMessageAttempt);
         SubscribeLocalEvent<AresTerminalComponent, AresActionMessage>(OnAction);
         SubscribeLocalEvent<AresTerminalComponent, BoundUIOpenedEvent>(OnOpened);
         SubscribeLocalEvent<AresTerminalComponent, BoundUIClosedEvent>(OnClosed);
@@ -61,10 +62,21 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRestart);
     }
 
+    private void OnUiMessageAttempt(Entity<AresTerminalComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (HasComp<XenoComponent>(args.Actor))
+            args.Cancel();
+    }
+
     private void OnOpened(Entity<AresTerminalComponent> ent, ref BoundUIOpenedEvent args)
     {
         if (args.UiKey is not AresUiKey)
             return;
+        if (HasComp<XenoComponent>(args.Actor))
+        {
+            _ui.CloseUi(ent.Owner, args.UiKey, args.Actor);
+            return;
+        }
         if (ent.Comp.Operator is { } actor && actor != args.Actor && IsAresUiOpen(ent, actor))
         {
             _ui.CloseUi(ent.Owner, args.UiKey, args.Actor);
@@ -173,7 +185,9 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
     {
         card = default;
         access = null;
-        return !HasComp<XenoComponent>(actor) && _power.IsPowered(terminal) && _blocker.CanInteract(actor, terminal) &&
+        return !HasComp<XenoComponent>(actor) &&
+            (TryComp(terminal, out HermesTerminalComponent? hermes) && hermes.Portable || _power.IsPowered(terminal)) &&
+            _blocker.CanInteract(actor, terminal) &&
             _idCard.TryFindIdCard(actor, out card) && !string.IsNullOrWhiteSpace(card.Comp.FullName) &&
             _iff.HasFaction(card, terminal.Comp.Faction) && TryComp(card, out access) && access.Enabled;
     }
@@ -215,6 +229,8 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
         {
             Logout(ent);
             Refresh(ent);
+            if (args.Action == AresAction.SendMessage)
+                SendMessageResult(ent, args, false);
             return;
         }
         ent.Comp.Feedback = string.Empty;
@@ -224,7 +240,7 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
                 _ui.OpenUi(ent.Owner, AresUiKey.Logs, args.Actor);
                 break;
             case AresAction.SelectPage:
-                if (CanView(level, args.Page))
+                if (ent.Comp.Pages.Contains(args.Page) && CanView(level, args.Page))
                 {
                     ent.Comp.Page = args.Page;
                     if (args.Page == AresPage.Talk) ent.Comp.ConversationId = null;
@@ -261,7 +277,9 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
             case AresAction.SendMessage:
             case AresAction.ClearConversation:
             case AresAction.ReadConversation:
-                ConversationAction(ent, core, level, args);
+                var sent = ConversationAction(ent, core, level, args);
+                if (args.Action == AresAction.SendMessage)
+                    SendMessageResult(ent, args, sent);
                 break;
             default:
                 EmergencyAction(ent, core, level, args);
@@ -329,7 +347,8 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
         terminal.Comp.Pages = [AresPage.Talk];
         if (CanUseSecurity(level))
             terminal.Comp.Pages.Add(AresPage.CoreSecurity);
-        if (!CanView(level, terminal.Comp.Page)) terminal.Comp.Page = AresPage.Talk;
+        if (!terminal.Comp.Pages.Contains(terminal.Comp.Page))
+            terminal.Comp.Page = AresPage.Talk;
         terminal.Comp.Security = CanUseSecurity(level) && TryComp(core, out HermesCoreComponent? security) && _hermes.IsOnline((core, security))
             ? _hermes.GetSecurityView((core, security)) : null;
         terminal.Comp.Evacuating = _evacuation.IsEvacuationEnabled();

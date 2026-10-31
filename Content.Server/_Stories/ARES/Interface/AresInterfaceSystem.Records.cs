@@ -2,6 +2,7 @@ using System.Text;
 using Content.Server.Paper;
 using Content.Shared._Stories.ARES.Interface;
 using Content.Shared._Stories.Hermes;
+using Content.Shared.Access.Components;
 using Content.Shared.Database;
 using Content.Shared.Paper;
 
@@ -41,7 +42,9 @@ public sealed partial class AresInterfaceSystem
                 terminal.Comp.Records.Add(new AresRecordView(i, FormatLine(new AresTalkLine(entry.Time, entry.Author, entry.Message))));
             }
         }
-        else if (core.Comp.LogTypes.TryGetValue(page, out var type) && _ares.PullARESLogs(core, type, out var records) && records != null)
+        else if (core.Comp.LogTypes.TryGetValue(page, out var type) &&
+                 TryComp(terminal.Comp.Card, out AccessComponent? access) && CanReadLog(type, access) &&
+                 _ares.PullARESLogs(core, type, out var records) && records != null)
         {
             var count = Math.Min(records.Count, core.Comp.MaxRecords);
             for (var i = records.Count - 1; i >= records.Count - count; i--)
@@ -55,10 +58,13 @@ public sealed partial class AresInterfaceSystem
     private void RecordAction(Entity<AresTerminalComponent> terminal, Entity<AresInterfaceCoreComponent> core,
         AresAccess level, AresActionMessage message)
     {
+        if (!TryComp(terminal.Comp.Card, out AccessComponent? access))
+            return;
         if (message.Action == AresAction.DeleteRecord)
         {
             if (!CanDelete(level, terminal.Comp.Page) ||
                 !terminal.Comp.LogReferences.TryGetValue(message.Record, out var record) || message.Text != record.Text ||
+                !CanReadLog(record.Type, access) ||
                 !_ares.DeleteLog(core, record.Type, record.Index, record.Text))
                 return;
             var text = Loc.GetString("stories-ares-deleted-event", ("page", Loc.GetString($"stories-ares-page-{terminal.Comp.Page}")),
@@ -69,6 +75,7 @@ public sealed partial class AresInterfaceSystem
         }
         else if (CanView(level, AresPage.Requisitions) && _timing.CurTime >= core.Comp.PrinterReadyAt &&
                  core.Comp.LogTypes.TryGetValue(AresPage.Requisitions, out var type) &&
+                 CanReadLog(type, access) &&
                  _ares.PullARESLogs(core, type, out var records) && records is { Count: > 0 })
         {
             var content = new StringBuilder(Loc.GetString("stories-ares-print-title"));

@@ -23,6 +23,7 @@ stories-ares-sudo = Set identity
 stories-ares-end-sudo = Restore identity
 stories-ares-emergency-hint = Emergency protocols require authorization. Supply a reason below for a distress request.
 stories-ares-send = Send
+stories-ares-message-cooldown = Please wait before sending another message. Your text has been saved.
 stories-ares-clear-conversation = Archive conversation
 stories-ares-print = Print ASRS audit
 stories-ares-read = Read

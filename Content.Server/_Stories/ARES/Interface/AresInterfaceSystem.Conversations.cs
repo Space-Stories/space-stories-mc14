@@ -16,21 +16,28 @@ public sealed partial class AresInterfaceSystem
 
     [Dependency] private readonly SharedAudioSystem _audio = default!;
 
-    private void ConversationAction(Entity<AresTerminalComponent> terminal, Entity<AresInterfaceCoreComponent> core,
+    private bool ConversationAction(Entity<AresTerminalComponent> terminal, Entity<AresInterfaceCoreComponent> core,
         AresAccess level, AresActionMessage message)
     {
         if (message.Action == AresAction.ReadConversation)
         {
             if (level >= AresAccess.HighCommand && core.Comp.Conversations.Any(c => c.Id == message.Record))
                 terminal.Comp.ConversationId = message.Record;
-            return;
+            return false;
         }
         if (terminal.Comp.Card is not { } card || terminal.Comp.Page != AresPage.Talk)
-            return;
+            return false;
         var text = message.Text.Trim();
-        if (message.Action == AresAction.SendMessage && (text.Length == 0 || text.Length > core.Comp.MaxTextLength ||
-            core.Comp.NextMessages.TryGetValue(card, out var ready) && _timing.CurTime < ready))
-            return;
+        if (message.Action == AresAction.SendMessage)
+        {
+            if (text.Length == 0 || text.Length > core.Comp.MaxTextLength)
+                return false;
+            if (core.Comp.NextMessages.TryGetValue(card, out var ready) && _timing.CurTime < ready)
+            {
+                terminal.Comp.Feedback = Loc.GetString("stories-ares-message-cooldown");
+                return false;
+            }
+        }
         var conversation = core.Comp.Conversations.FirstOrDefault(c => !c.Archived && c.Card == card && c.User == terminal.Comp.User);
         if (message.Action == AresAction.SendMessage && conversation == null)
         {
@@ -40,16 +47,18 @@ public sealed partial class AresInterfaceSystem
                 Loc.GetString("stories-ares-greeting", ("name", conversation.User))), core.Comp.MaxLines);
             terminal.Comp.ConversationId = conversation.Id;
         }
-        if (conversation == null) return;
+        if (conversation == null)
+            return false;
         if (message.Action == AresAction.ClearConversation)
         {
             conversation.Archived = true;
             ConversationsChanged();
             terminal.Comp.ConversationId = null;
             Audit(core, RealUser(terminal), Loc.GetString("stories-ares-conversation-archived", ("id", conversation.Id)));
-            return;
+            return true;
         }
-        if (message.Action != AresAction.SendMessage) return;
+        if (message.Action != AresAction.SendMessage)
+            return false;
         core.Comp.NextMessages[card] = _timing.CurTime + core.Comp.MessageCooldown;
         AppendBounded(conversation.Lines, new AresTalkLine(_ticker.RoundDuration(), terminal.Comp.User, text), core.Comp.MaxLines);
         var announcement = Loc.GetString("stories-ares-admin-message", ("core", GetNetEntity(core).ToString()),
@@ -58,7 +67,12 @@ public sealed partial class AresInterfaceSystem
         ConversationsChanged();
         _adminLog.Add(LogType.Action, LogImpact.Low,
             $"ARES 1:1: {ToPrettyString(terminal.Comp.Operator):user} as {terminal.Comp.User} sent to conversation {conversation.Id}: {text}");
+        return true;
     }
+
+    private void SendMessageResult(Entity<AresTerminalComponent> terminal, AresActionMessage message, bool success)
+        => _ui.ServerSendUiMessage(terminal.Owner, AresUiKey.Key,
+            new AresMessageResultMessage(message.Text, success), message.Actor);
 
     private void RefreshConversation(Entity<AresTerminalComponent> terminal, Entity<AresInterfaceCoreComponent> core, AresAccess access)
     {

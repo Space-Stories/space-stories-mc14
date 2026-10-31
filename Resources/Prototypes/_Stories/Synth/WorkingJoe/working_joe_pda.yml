@@ -13,6 +13,9 @@
   - type: AresTerminal
   - type: HermesTerminal
     portable: true
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
   - type: ActivatableUI
     key: enum.HermesUiKey.Key
     inHandsOnly: true

@@ -50,6 +50,7 @@ public sealed partial class HermesSystem : SharedHermesSystem
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeLocalEvent<HermesTerminalComponent, BoundUserInterfaceMessageAttempt>(OnUiMessageAttempt);
         Subs.BuiEvents<HermesTerminalComponent>(HermesUiKey.Key, subs =>
         {
             subs.Event<HermesActionMessage>(OnAction);
@@ -68,8 +69,19 @@ public sealed partial class HermesSystem : SharedHermesSystem
         InitializeSensors();
     }
 
+    private void OnUiMessageAttempt(Entity<HermesTerminalComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (HasComp<XenoComponent>(args.Actor))
+            args.Cancel();
+    }
+
     private void OnOpened(Entity<HermesTerminalComponent> ent, ref BoundUIOpenedEvent args)
     {
+        if (HasComp<XenoComponent>(args.Actor))
+        {
+            _ui.CloseUi(ent.Owner, args.UiKey, args.Actor);
+            return;
+        }
         if (TryCore(ent, out var core))
             Refresh(core);
         else

@@ -23,6 +23,7 @@ stories-ares-sudo = Установить имя
 stories-ares-end-sudo = Вернуть имя
 stories-ares-emergency-hint = Аварийные протоколы требуют полномочий. Для запроса помощи укажите причину ниже.
 stories-ares-send = Отправить
+stories-ares-message-cooldown = Подождите перед отправкой следующего сообщения. Ваш текст сохранён.
 stories-ares-clear-conversation = В архив
 stories-ares-print = Печать аудита ASRS
 stories-ares-read = Прочитать

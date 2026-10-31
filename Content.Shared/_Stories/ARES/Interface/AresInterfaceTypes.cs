@@ -51,6 +51,13 @@ public sealed class AresActionMessage(AresAction action, AresPage page = AresPag
     public readonly HermesIff Iff = iff;
 }
 
+[Serializable, NetSerializable]
+public sealed class AresMessageResultMessage(string text, bool success) : BoundUserInterfaceMessage
+{
+    public readonly string Text = text;
+    public readonly bool Success = success;
+}
+
 [ByRefEvent]
 public readonly record struct HermesCoreUpdatedEvent(EntityUid Core);
 

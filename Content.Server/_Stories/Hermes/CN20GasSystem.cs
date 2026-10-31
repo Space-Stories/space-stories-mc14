@@ -10,12 +10,10 @@ using Content.Shared.Damage;
 using Content.Shared.GameTicking;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Inventory;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.StatusEffect;
 using Content.Shared.Stunnable;
-using Content.Shared.Tag;
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Prototypes;
@@ -33,15 +31,12 @@ public sealed class CN20GasSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damage = default!;
     [Dependency] private readonly SharedDeafnessSystem _deafness = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
-    [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly RMCSlowSystem _slow = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
-    private static readonly ProtoId<TagPrototype> GasMask = "GasMask";
     private static readonly ProtoId<StatusEffectPrototype> Blinded = "Blinded";
     private TimeSpan _nextUpdate;
 
@@ -71,19 +66,10 @@ public sealed class CN20GasSystem : EntitySystem
     private void OnEndCollide(Entity<CN20GasComponent> ent, ref EndCollideEvent args)
         => ent.Comp.Touching.Remove(args.OtherEntity);
 
-    public bool IsProtected(EntityUid target)
-    {
-        if (HasComp<SynthComponent>(target))
-            return true;
-        if (_inventory.TryGetSlotEntity(target, "mask", out var mask) && mask is { } maskUid && _tags.HasTag(maskUid, GasMask))
-            return true;
-        return _inventory.TryGetSlotEntity(target, "head", out var head) && head is { } headUid && _tags.HasTag(headUid, GasMask);
-    }
-
     public void Affect(Entity<CN20GasComponent> gas, EntityUid target)
     {
         if (TerminatingOrDeleted(target) || !HasComp<MobStateComponent>(target) ||
-            _mobState.IsDead(target) || IsProtected(target) ||
+            _mobState.IsDead(target) || HasComp<SynthComponent>(target) ||
             HasComp<XenoComponent>(target) && !gas.Comp.AffectsXenos)
             return;
         var attempt = new SmokeReactionAttemptEvent(target);

@@ -18,6 +18,7 @@ public sealed class AresBui(EntityUid owner, Enum uiKey) : BoundUserInterface(ow
     private AresWindow? _window;
     private HermesConfirmWindow? _confirmation;
     private AresPage _lastPage;
+    private bool _sending;
 
     protected override void Open()
     {
@@ -30,8 +31,11 @@ public sealed class AresBui(EntityUid owner, Enum uiKey) : BoundUserInterface(ow
         _window.SecurityTab.OnPressed += _ => Select(AresPage.CoreSecurity);
         _window.Send.OnPressed += _ =>
         {
+            if (_window.Send.Disabled)
+                return;
+            _sending = true;
             SendMessage(new AresActionMessage(AresAction.SendMessage, text: _window.Message.Text));
-            _window.SetMessageText(string.Empty);
+            RefreshInput();
         };
         _window.Message.Input.OnTextChanged += _ => RefreshInput();
         _window.ClearConversation.OnPressed += _ => Confirm(new AresActionMessage(AresAction.ClearConversation),
@@ -48,6 +52,17 @@ public sealed class AresBui(EntityUid owner, Enum uiKey) : BoundUserInterface(ow
     private void Send(AresAction action) => SendMessage(new AresActionMessage(action));
 
     private void Select(AresPage page) => SendMessage(new AresActionMessage(AresAction.SelectPage, page));
+
+    protected override void ReceiveMessage(BoundUserInterfaceMessage message)
+    {
+        base.ReceiveMessage(message);
+        if (message is not AresMessageResultMessage result)
+            return;
+        _sending = false;
+        if (result.Success && _window != null && _window.Message.Text == result.Text)
+            _window.SetMessageText(string.Empty);
+        RefreshInput();
+    }
 
     public void Refresh()
     {
@@ -96,7 +111,8 @@ public sealed class AresBui(EntityUid owner, Enum uiKey) : BoundUserInterface(ow
         var length = _window.Message.Text.Trim().Length;
         _window.Counter.Text = Loc.GetString("stories-hermes-counter", ("length", length), ("max", max));
         _window.Counter.Tone = length > max ? RMCCrtTone.Danger : RMCCrtTone.Muted;
-        _window.Send.Disabled = length == 0 || length > max;
+        _window.Send.Disabled = _sending || data is not { Connected: true } ||
+            data.Access == AresAccess.LoggedOut || length == 0 || length > max;
     }
 
     private void Confirm(AresActionMessage message, string text)
