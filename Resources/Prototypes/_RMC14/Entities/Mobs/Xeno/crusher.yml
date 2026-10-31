@@ -56,7 +56,7 @@
     maxPlasma: 400
     plasmaRegenOnWeeds: 4
   - type: CMArmor
-    xenoArmor: 30
+    xenoArmor: 40 # Stories-CrusherBuff
     explosionArmor: 100
   - type: XenoClaws
     clawType: VerySharp
@@ -176,7 +176,7 @@
     - ActionXenoDevolve
   - type: CMArmor
     xenoArmor: 20
-    frontalArmor: 30
+    frontalArmor: 40 # Stories-CrusherBuff
     sideArmor: 15
   - type: MeleeWeapon
     damage:
