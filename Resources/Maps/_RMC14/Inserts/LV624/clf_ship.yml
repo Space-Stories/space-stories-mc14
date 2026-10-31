@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 07/04/2026 11:16:09
-  entityCount: 1380
+  time: 10/31/2026 21:49:38
+  entityCount: 1390
 maps: []
 grids:
 - 1
@@ -2604,22 +2604,38 @@ entities:
       rot: 3.141592653589793 rad
       pos: 17.5,28.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 730
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 18.5,28.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 731
     components:
     - type: Transform
       pos: 17.5,31.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 732
     components:
     - type: Transform
       pos: 18.5,31.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
 - proto: CMFirstAidKit
   entities:
   - uid: 1314
@@ -3077,12 +3093,63 @@ entities:
     - type: Transform
       pos: 8.5,31.5
       parent: 1
+    - type: RMCSmes
+      chargePercentage: 1
+      charge: 200000000
 - proto: CMSoap
   entities:
   - uid: 783
     components:
     - type: Transform
       pos: 26.586714,26.42292
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFEngineer
+  entities:
+  - uid: 1382
+    components:
+    - type: Transform
+      pos: 7.5,29.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFLeader
+  entities:
+  - uid: 1388
+    components:
+    - type: Transform
+      pos: 17.5,39.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFMedic
+  entities:
+  - uid: 1383
+    components:
+    - type: Transform
+      pos: 9.5,25.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFSoldier
+  entities:
+  - uid: 1381
+    components:
+    - type: Transform
+      pos: 13.5,29.5
+      parent: 1
+  - uid: 1384
+    components:
+    - type: Transform
+      pos: 19.5,26.5
+      parent: 1
+  - uid: 1385
+    components:
+    - type: Transform
+      pos: 14.5,20.5
+      parent: 1
+  - uid: 1386
+    components:
+    - type: Transform
+      pos: 21.5,20.5
+      parent: 1
+  - uid: 1387
+    components:
+    - type: Transform
+      pos: 18.5,18.5
       parent: 1
 - proto: CMTableAlmayer
   entities:
@@ -9243,7 +9310,7 @@ entities:
     - type: Transform
       pos: 20.5,19.5
       parent: 1
-- proto: RMCWeaponShotgunHG3712
+- proto: RMCWeaponShotgunM12
   entities:
   - uid: 753
     components:
@@ -9271,6 +9338,20 @@ entities:
     components:
     - type: Transform
       pos: 12.5,17.5
+      parent: 1
+- proto: STSpawnPointSurvivorCLFCoordinator
+  entities:
+  - uid: 1389
+    components:
+    - type: Transform
+      pos: 14.5,39.5
+      parent: 1
+- proto: STSpawnPointSurvivorCLFSynth
+  entities:
+  - uid: 1390
+    components:
+    - type: Transform
+      pos: 27.5,28.5
       parent: 1
 - proto: VehicleCLFVan
   entities:
