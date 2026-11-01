@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/31/2026 21:49:38
-  entityCount: 1390
+  time: 11/01/2026 13:32:57
+  entityCount: 1393
 maps: []
 grids:
 - 1
@@ -3150,6 +3150,21 @@ entities:
     components:
     - type: Transform
       pos: 18.5,18.5
+      parent: 1
+  - uid: 1391
+    components:
+    - type: Transform
+      pos: 8.5,19.5
+      parent: 1
+  - uid: 1392
+    components:
+    - type: Transform
+      pos: 27.5,26.5
+      parent: 1
+  - uid: 1393
+    components:
+    - type: Transform
+      pos: 25.5,24.5
       parent: 1
 - proto: CMTableAlmayer
   entities:

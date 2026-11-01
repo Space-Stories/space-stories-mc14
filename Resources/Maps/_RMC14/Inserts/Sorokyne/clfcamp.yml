@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/31/2026 22:18:58
-  entityCount: 1163
+  time: 11/01/2026 13:35:23
+  entityCount: 1166
 maps: []
 grids:
 - 1
@@ -2008,6 +2008,21 @@ entities:
     components:
     - type: Transform
       pos: 13.5,5.5
+      parent: 1
+  - uid: 1164
+    components:
+    - type: Transform
+      pos: 11.5,21.5
+      parent: 1
+  - uid: 1165
+    components:
+    - type: Transform
+      pos: 11.5,23.5
+      parent: 1
+  - uid: 1166
+    components:
+    - type: Transform
+      pos: 17.5,11.5
       parent: 1
 - proto: CMTableWoodenPoor
   entities:

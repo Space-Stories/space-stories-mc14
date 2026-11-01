@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/31/2026 22:22:32
-  entityCount: 382
+  time: 11/01/2026 13:36:28
+  entityCount: 385
 maps: []
 grids:
 - 1
@@ -1196,6 +1196,21 @@ entities:
     components:
     - type: Transform
       pos: 22.5,-8.5
+      parent: 1
+  - uid: 383
+    components:
+    - type: Transform
+      pos: 13.5,-11.5
+      parent: 1
+  - uid: 384
+    components:
+    - type: Transform
+      pos: 22.5,-22.5
+      parent: 1
+  - uid: 385
+    components:
+    - type: Transform
+      pos: 5.5,-3.5
       parent: 1
 - proto: CMTable
   entities:

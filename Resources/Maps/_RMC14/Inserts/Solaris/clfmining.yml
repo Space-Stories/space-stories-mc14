@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/31/2026 22:14:37
+  time: 11/01/2026 13:30:25
   entityCount: 700
 maps: []
 grids:
@@ -1063,6 +1063,43 @@ entities:
     components:
     - type: Transform
       pos: 21.5,20.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFSoldier
+  entities:
+  - uid: 688
+    components:
+    - type: Transform
+      pos: 21.5,18.5
+      parent: 1
+  - uid: 689
+    components:
+    - type: Transform
+      pos: 20.5,18.5
+      parent: 1
+  - uid: 690
+    components:
+    - type: Transform
+      pos: 19.5,18.5
+      parent: 1
+  - uid: 691
+    components:
+    - type: Transform
+      pos: 18.5,18.5
+      parent: 1
+  - uid: 692
+    components:
+    - type: Transform
+      pos: 18.5,19.5
+      parent: 1
+  - uid: 693
+    components:
+    - type: Transform
+      pos: 21.5,21.5
+      parent: 1
+  - uid: 694
+    components:
+    - type: Transform
+      pos: 19.5,21.5
       parent: 1
 - proto: CMTable
   entities:
@@ -4121,41 +4158,6 @@ entities:
     components:
     - type: Transform
       pos: 18.5,20.5
-      parent: 1
-  - uid: 688
-    components:
-    - type: Transform
-      pos: 18.5,19.5
-      parent: 1
-  - uid: 689
-    components:
-    - type: Transform
-      pos: 18.5,18.5
-      parent: 1
-  - uid: 690
-    components:
-    - type: Transform
-      pos: 19.5,18.5
-      parent: 1
-  - uid: 691
-    components:
-    - type: Transform
-      pos: 20.5,18.5
-      parent: 1
-  - uid: 692
-    components:
-    - type: Transform
-      pos: 21.5,18.5
-      parent: 1
-  - uid: 693
-    components:
-    - type: Transform
-      pos: 19.5,21.5
-      parent: 1
-  - uid: 694
-    components:
-    - type: Transform
-      pos: 21.5,21.5
       parent: 1
 - proto: WeaponNailgun
   entities:
