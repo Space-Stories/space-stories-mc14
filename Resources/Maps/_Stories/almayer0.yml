@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 264.0.2-fix-physics
+  engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/01/2026 14:31:58
-  entityCount: 14931
+  time: 11/01/2026 18:54:29
+  entityCount: 14942
 maps:
 - 1
 grids:
@@ -74302,6 +74302,25 @@ entities:
     - type: Transform
       pos: -5.5,26.5
       parent: 1
+- proto: RMCComputerCrewMonitoringCompact
+  entities:
+  - uid: 14938
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -53.5,-4.3125
+      parent: 1
+  - uid: 14939
+    components:
+    - type: Transform
+      pos: -43.21875,1.5
+      parent: 1
+  - uid: 14940
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -19.25,-2.5
+      parent: 1
 - proto: RMCCondiment
   entities:
   - uid: 10359
@@ -79625,6 +79644,16 @@ entities:
     - type: Transform
       pos: 17.346792,23.645473
       parent: 1
+- proto: RMCFusionFuelRecycler
+  entities:
+  - uid: 14932
+    components:
+    - type: Transform
+      pos: 79.5,0.5
+      parent: 1
+    missingComponents:
+    - Damageable
+    - Destructible
 - proto: RMCGasPipeBend
   entities:
   - uid: 10465
@@ -91323,7 +91352,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -91352,6 +91383,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -96788,48 +96820,80 @@ entities:
       rot: 3.141592653589793 rad
       pos: -99.5,-22.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13768
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -98.5,-22.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13769
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -97.5,-22.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13770
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -96.5,-22.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13771
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -99.5,-20.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13772
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -98.5,-20.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13773
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -97.5,-20.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13774
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -96.5,-20.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13775
     components:
     - type: Transform
@@ -96962,48 +97026,80 @@ entities:
       rot: 3.141592653589793 rad
       pos: -99.5,21.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13797
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -98.5,21.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13798
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -97.5,21.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13799
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -96.5,21.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13800
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -99.5,23.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13801
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -98.5,23.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13802
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -97.5,23.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13803
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -96.5,23.5
       parent: 1
+    - type: Tag
+      tags:
+      - Structure
+      - RMCShuttleAirlockExternalHangar
   - uid: 13804
     components:
     - type: Transform
@@ -98828,6 +98924,18 @@ entities:
     - type: Transform
       pos: 27.5,-6.5
       parent: 1
+- proto: RMCPowerMonitoringConsole
+  entities:
+  - uid: 14930
+    components:
+    - type: Transform
+      pos: 77.5,0.5
+      parent: 1
+  - uid: 14931
+    components:
+    - type: Transform
+      pos: 89.5,3.5
+      parent: 1
 - proto: RMCPropAverageJoey
   entities:
   - uid: 13962
@@ -98939,6 +99047,63 @@ entities:
     - type: Transform
       pos: 22.5,1.5
       parent: 1
+- proto: RMCRestrictedShuttleDestinationExternalHangar
+  entities:
+  - uid: 14933
+    components:
+    - type: MetaData
+      name: Almayer starboard hangar airlock
+    - type: Transform
+      anchored: False
+      rot: 1.5707963267948966 rad
+      pos: -101.5,33.5
+      parent: 1
+    - type: DropshipDestination
+      dockBounds: -9,-15,9,15
+    - type: RMCDockingPortAirlockControl
+      searchRadius: 14
+  - uid: 14934
+    components:
+    - type: MetaData
+      name: Almayer port hangar airlock
+    - type: Transform
+      anchored: False
+      rot: -1.5707963267948966 rad
+      pos: -94.5,-33
+      parent: 1
+    - type: DropshipDestination
+      dockBounds: -9,-15,9,15
+    - type: RMCDockingPortAirlockControl
+      searchRadius: 14
+- proto: RMCRestrictedShuttleDestinationInternal
+  entities:
+  - uid: 14935
+    components:
+    - type: MetaData
+      name: Almayer starboard landing pad
+    - type: Transform
+      pos: -33.5,39.5
+      parent: 1
+    - type: DropshipDestination
+      dockBounds: -4,-8.5,4,8.5
+  - uid: 14936
+    components:
+    - type: MetaData
+      name: Almayer port landing pad
+    - type: Transform
+      pos: -33.5,-38.5
+      parent: 1
+    - type: DropshipDestination
+      dockBounds: -4,-8.5,4,8.5
+  - uid: 14937
+    components:
+    - type: MetaData
+      name: Almayer stern landing pad
+    - type: Transform
+      pos: 111.5,0.5
+      parent: 1
+    - type: DropshipDestination
+      dockBounds: -4,-8.5,4,8.5
 - proto: RMCRollerBedHospitalSheet2
   entities:
   - uid: 13974

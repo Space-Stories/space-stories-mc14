@@ -54,6 +54,18 @@
     canCrush: false
     canPry: false
   - type: Appearance
+  # Stories-DoorLinking-Start
+  - type: DoorSignalControl
+  - type: DeviceLinkSink
+    ports:
+    - Open
+    - Close
+    - Toggle
+    - DoorBolt
+  - type: DeviceLinkSource
+    ports:
+    - DoorStatus
+  # Stories-DoorLinking-End
   - type: UserInterface
     interfaces:
       enum.WiresUiKey.Key:

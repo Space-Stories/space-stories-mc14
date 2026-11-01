@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/31/2026 21:43:36
+  time: 11/01/2026 20:06:16
   entityCount: 29625
 maps:
 - 1
@@ -33391,16 +33391,12 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -52.5,103.5
       parent: 1
-    - type: DoorSignalControl
-      openPort: Entrance to the Center
   - uid: 146
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -52.5,101.5
       parent: 1
-    - type: DoorSignalControl
-      openPort: Entrance to the Center
   - uid: 147
     components:
     - type: Transform
@@ -188682,18 +188678,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell1
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26749
     components:
     - type: Transform
@@ -188701,18 +188685,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26750
     components:
     - type: Transform
@@ -188720,18 +188692,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell3
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26751
     components:
     - type: Transform
@@ -188739,18 +188699,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell4
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26752
     components:
     - type: Transform
@@ -188758,18 +188706,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell5
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26753
     components:
     - type: Transform
@@ -188777,18 +188713,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell6
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26754
     components:
     - type: Transform
@@ -188796,18 +188720,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell1
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26756
     components:
     - type: Transform
@@ -188815,18 +188727,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26757
     components:
     - type: Transform
@@ -188834,18 +188734,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26758
     components:
     - type: Transform
