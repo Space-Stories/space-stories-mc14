@@ -1,8 +1,11 @@
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._Stories.Sponsors;
 using Content.Server.Chat.Systems;
+using Content.Server.Players.RateLimiting;
 using Content.Server.Radio.EntitySystems;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Mentor.ImaginaryFriend;
@@ -18,10 +21,12 @@ using Content.Shared.Ghost;
 using Content.Shared.Humanoid;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.Players.RateLimiting;
 using Content.Shared._RMC14.Language.Systems;
 using Content.Shared._RMC14.Language.Prototypes;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
+using Robust.Shared.Enums;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -41,6 +46,12 @@ public sealed partial class TTSSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SponsorsManager _sponsorsManager = default!;
     [Dependency] private readonly SharedLanguageSystem _language = default!;
+
+    private const string PreviewRateLimitKey = "TTSPreview";
+    [Dependency] private readonly PlayerRateLimitManager _rateLimit = default!;
+    private readonly ConcurrentDictionary<(string VoiceId, bool IsHunter), (byte[] SoundData, string Text)> _previewCache = new();
+    private readonly HashSet<NetUserId> _inFlightRequests = new();
+    private readonly SemaphoreSlim _previewSemaphore = new(2, 2);
 
     private readonly List<string> _sampleText =
         new()
@@ -66,6 +77,15 @@ public sealed partial class TTSSystem : EntitySystem
 
         SubscribeNetworkEvent<RequestPreviewTTSEvent>(OnRequestPreviewTTS);
 
+        _rateLimit.Register(
+            PreviewRateLimitKey,
+            new RateLimitRegistration(
+                SCCVars.TTSPreviewRateLimitPeriod,
+                SCCVars.TTSPreviewRateLimitCount,
+                playerLimitedAction: null));
+
+        _playerManager.PlayerStatusChanged += OnPlayerStatusChanged;
+
         SubscribeLocalEvent<XenoWordQueenSpokenEvent>(OnXenoWordQueenSpoken);
         SubscribeLocalEvent<OverwatchConsoleMessageSentEvent>(OnOverwatchMessageSent);
         SubscribeLocalEvent<OverwatchConsoleObjectiveSetEvent>(OnOverwatchObjectiveSet);
@@ -73,26 +93,92 @@ public sealed partial class TTSSystem : EntitySystem
         InitializeSanitize();
     }
 
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        _playerManager.PlayerStatusChanged -= OnPlayerStatusChanged;
+    }
+
+    private void OnPlayerStatusChanged(object? sender, SessionStatusEventArgs e)
+    {
+        if (e.NewStatus == SessionStatus.Disconnected)
+        {
+            _inFlightRequests.Remove(e.Session.UserId);
+        }
+    }
+
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
     {
         _ttsManager.ResetCache();
+        _previewCache.Clear();
+        _inFlightRequests.Clear();
     }
 
     private async void OnRequestPreviewTTS(RequestPreviewTTSEvent ev, EntitySessionEventArgs args)
     {
+        if (args.SenderSession is not { } session || session.Status == SessionStatus.Disconnected)
+            return;
+
+        if (_rateLimit.CountAction(session, PreviewRateLimitKey) != RateLimitStatus.Allowed)
+            return;
+
         if (!_isEnabled ||
             !_prototypeManager.TryIndex<TTSVoicePrototype>(ev.VoiceId, out var protoVoice))
             return;
 
-        var previewText = _rng.Pick(_sampleText);
-        var soundData = await GenerateTTS(previewText, protoVoice.Speaker);
-        if (soundData is null)
+        if (protoVoice.SponsorOnly)
+        {
+            if (!_sponsorsManager.TryGetInfo(session.UserId, out var sponsorInfo) ||
+                sponsorInfo.AllowedTTSVoices == null ||
+                !sponsorInfo.AllowedTTSVoices.Contains(protoVoice.ID))
+            {
+                return;
+            }
+        }
+
+        var cacheKey = (ev.VoiceId, ev.IsHunter);
+        if (_previewCache.TryGetValue(cacheKey, out var cachedData))
+        {
+            RaiseNetworkEvent(new PlayTTSEvent(cachedData.SoundData, cachedData.Text), Filter.SinglePlayer(session));
+            return;
+        }
+
+        if (!_inFlightRequests.Add(session.UserId))
             return;
 
-        if (ev.IsHunter)
-            soundData = await _ttsAudio.ApplyPlaybackEffects(soundData, TTSAudioEffect.Hunter);
+        try
+        {
+            if (!await _previewSemaphore.WaitAsync(TimeSpan.FromSeconds(3)))
+                return;
 
-        RaiseNetworkEvent(new PlayTTSEvent(soundData, previewText), Filter.SinglePlayer(args.SenderSession));
+            try
+            {
+                if (_previewCache.TryGetValue(cacheKey, out var cachedAfterWait))
+                {
+                    RaiseNetworkEvent(new PlayTTSEvent(cachedAfterWait.SoundData, cachedAfterWait.Text), Filter.SinglePlayer(session));
+                    return;
+                }
+
+                var previewText = ev.IsHunter ? _sampleText[2] : _sampleText[0];
+                var soundData = await GenerateTTS(previewText, protoVoice.Speaker);
+                if (soundData is null)
+                    return;
+
+                if (ev.IsHunter)
+                    soundData = await _ttsAudio.ApplyPlaybackEffects(soundData, TTSAudioEffect.Hunter);
+
+                _previewCache[cacheKey] = (soundData, previewText);
+                RaiseNetworkEvent(new PlayTTSEvent(soundData, previewText), Filter.SinglePlayer(session));
+            }
+            finally
+            {
+                _previewSemaphore.Release();
+            }
+        }
+        finally
+        {
+            _inFlightRequests.Remove(session.UserId);
+        }
     }
 
     private void OnXenoWordQueenSpoken(XenoWordQueenSpokenEvent ev)

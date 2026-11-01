@@ -1,3 +1,4 @@
+using Robust.Shared.Timing;
 using System.Globalization;
 using Content.Client._Stories.Chat;
 using Content.Shared._RMC14.Marines;
@@ -20,6 +21,10 @@ public sealed class TTSSystem : EntitySystem
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly ChatFilterSystem _chatFilter = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+
+    private TimeSpan _lastPreviewRequest;
+    private static readonly TimeSpan PreviewCooldown = TimeSpan.FromSeconds(1.0);
 
     private MemoryContentRoot? _contentRoot;
     private static readonly ResPath Prefix = ResPath.Root / "TTS";
@@ -49,6 +54,11 @@ public sealed class TTSSystem : EntitySystem
 
     public void RequestPreviewTTS(string voiceId, bool isHunter = false)
     {
+        var curTime = _timing.CurTime;
+        if (curTime < _lastPreviewRequest + PreviewCooldown)
+            return;
+
+        _lastPreviewRequest = curTime;
         RaiseNetworkEvent(new RequestPreviewTTSEvent(voiceId, isHunter));
     }
 
