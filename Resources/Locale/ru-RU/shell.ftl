@@ -8,7 +8,7 @@ shell-invalid-command-specific = Неверная команда { $commandName 
 shell-cannot-run-command-from-server = Вы не можете выполнить эту команду с сервера.
 shell-only-players-can-run-this-command = Только игроки могут выполнять эту команду.
 shell-must-be-attached-to-entity = Для выполнения этой команды вы должны быть прикреплены к сущности.
-shell-must-have-body = You must have a body to run this command.
+shell-must-have-body = Чтобы выполнить эту команду, у вас должно быть тело.
 
 ## Arguments
 

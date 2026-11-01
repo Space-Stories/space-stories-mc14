@@ -50,17 +50,17 @@ focus-order-callout-17 = Смотрите вперед и стреляйте!!
 focus-order-callout-18 = Прицел, народ!!
 focus-order-callout-19 = Удар!!
 
-move-order-callout-1-swat = Make entry, move!!
-move-order-callout-2-swat = Breach and clear!!
-move-order-callout-3-swat = GO, GO, GO!!
-move-order-callout-4-swat = MOVE, MOVE, MOVE!!
+move-order-callout-1-swat = Заходим, двигаемся!!
+move-order-callout-2-swat = Штурм и зачистка!!
+move-order-callout-3-swat = ПОШЁЛ, ПОШЁЛ, ПОШЁЛ!!
+move-order-callout-4-swat = ДВИГАЕМСЯ, ДВИГАЕМСЯ, ДВИГАЕМСЯ!!
 
-hold-order-callout-1-swat = Watch your sectors!!
-hold-order-callout-2-swat = Maintain perimeter!!
-hold-order-callout-3-swat = Watch those corners!!
-hold-order-callout-4-swat = Secure positions!!
+hold-order-callout-1-swat = Следите за своими секторами!!
+hold-order-callout-2-swat = Держите периметр!!
+hold-order-callout-3-swat = Следите за углами!!
+hold-order-callout-4-swat = Закрепиться на позициях!!
 
-focus-order-callout-1-swat = AOR is hot, clear to engage!!
-focus-order-callout-2-swat = Dial in targets, weapons hot!!
-focus-order-callout-3-swat = Weapons cleared hot, engage!!
-focus-order-callout-4-swat = Lock and load, weapons cleared hot!!
+focus-order-callout-1-swat = Зона горячая, огонь разрешён!!
+focus-order-callout-2-swat = Наводитесь на цели, оружие к бою!!
+focus-order-callout-3-swat = Огонь разрешён, атакуем!!
+focus-order-callout-4-swat = Заряжай, огонь разрешён!!

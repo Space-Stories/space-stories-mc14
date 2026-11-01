@@ -6,8 +6,8 @@ guidebook-placeholder-text-2 = Если вы новичок, то начните
 
 guidebook-filter-placeholder-text = Фильтр
 
-guidebook-parser-error = Parser Error
-guidebook-error-message = Error Message
+guidebook-parser-error = Ошибка парсера
+guidebook-error-message = Сообщение об ошибке
 
 guidebook-monkey-unspin = Отперевернуть обезьяну
 guidebook-monkey-disco = Диско обезьяна

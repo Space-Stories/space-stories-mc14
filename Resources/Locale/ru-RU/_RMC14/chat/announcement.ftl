@@ -90,7 +90,7 @@ rmc-announcement-ares-map = [color=#CECECE][font size=14][bold]Объявлен�
 
     { $message }[/bold][/font][/color]
 
-rmc-announcement-ares-varadero = [color=#CECECE][font size=16][bold]Нью-Варадеро, односторонний аварийный ретранслятор КМП США[/bold][/font][/color][color=red][font size=14][bold]
+rmc-announcement-ares-varadero = [color=#CECECE][font size=16][bold]Новый Варадеро, односторонний аварийный ретранслятор КМП США[/bold][/font][/color][color=red][font size=14][bold]
 
     { $message }[/bold][/font][/color]
 
@@ -126,3 +126,10 @@ rmc-announcement-unidentified-lifesigns = [color=#CECECE][font size=14][bold]В�
     Обнаружены неопознанные формы жизни ({ $count }) на борту десантного корабля { $name }. Рекомендация: блокировка внешних портов доступа, включая вентиляционные каналы и шахты.[/bold][/font][/color]
 
 rmc-announcement-shipside-header = Пожалуйста, напишите сообщение для экипажа
+rmc-announcement-echo-confirm-title = Подтвердите активацию
+rmc-announcement-echo-confirm-message = Подтвердите активацию отряда "Эхо" для { $message }
+rmc-announcement-echo-reason-title = Какова цель отряда "Эхо"?
+rmc-announcement-overwatch-untrained = Вы не обучены работе с наблюдением!
+rmc-announcement-evacuation-confirm = Подтвердить?
+rmc-announcement-evacuation-cancel = Отменить эвакуацию
+rmc-announcement-evacuation-initiate = Начать эвакуацию

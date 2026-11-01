@@ -40,13 +40,13 @@ rmc-attachable-examinable-verb-message = Изучите модификаторы
 
 rmc-attachable-examine-condition-always = [bold]Всегда:[/bold]
 rmc-attachable-examine-condition-when = Когда
-rmc-attachable-examine-condition-wielded = держатель [полужирный]владеет[/bold]
+rmc-attachable-examine-condition-wielded = держатель [bold]держит оружие двумя руками[/bold]
 rmc-attachable-examine-condition-unwielded = Держатель [bold]не владеет[/bold].
 rmc-attachable-examine-condition-active = { $attachable } является [bold]активным[/bold].
 rmc-attachable-examine-condition-inactive = { $attachable } является [bold]неактивным[/bold].
 
 rmc-attachable-examine-condition-whitelist-comps = держатель [bold]имеет { $compNumber }[/bold] следующих компонентов: [bold]{ $comps }[/bold]
-rmc-attachable-examine-condition-whitelist-sizes = держатель [bold]имеет один из следующих размеров: [bold]{ $sizes }[/bold]
+rmc-attachable-examine-condition-whitelist-sizes = держатель [bold]имеет[/bold] один из следующих размеров: [bold]{ $sizes }[/bold]
 rmc-attachable-examine-condition-whitelist-tags = держатель [bold]имеет { $tagNumber }[/bold] следующих тегов: [bold]{ $tags }[/bold]
 
 rmc-attachable-examine-condition-blacklist-comps = держатель [bold]не хватает { $compNumber }[/bold] следующих компонентов: [bold]{ $comps }[/bold]

@@ -35,11 +35,11 @@ rmc-ghost-name-bureau-riot-control-specialist = Специалист SWAT гру
 rmc-job-name-bureau-riot-control-specialist = Специалист SWAT группы по борьбе с беспорядками БКМ
 rmc-job-prefix-bureau-riot-control-specialist = СПЦ БКМ
 
-rmc-job-name-bureau-riot-control-medical-technician = CMB Medical Technician
-rmc-job-prefix-bureau-riot-control-medical-technician = CMB MT
+rmc-job-name-bureau-riot-control-medical-technician = Медицинский техник БКМ
+rmc-job-prefix-bureau-riot-control-medical-technician = МТ БКМ
 
-rmc-job-name-bureau-riot-control-breaching-technician = CMB Breaching Technician
-rmc-job-prefix-bureau-riot-control-breaching-technician = CMB BT
+rmc-job-name-bureau-riot-control-breaching-technician = Техник-взломщик БКМ
+rmc-job-prefix-bureau-riot-control-breaching-technician = ТВЗ БКМ
 
 rmc-ghost-name-bureau-observer = Наблюдатель за правами разумных существ (Дружелюбный)
 rmc-job-name-bureau-observer = Наблюдатель за правами разумных существ

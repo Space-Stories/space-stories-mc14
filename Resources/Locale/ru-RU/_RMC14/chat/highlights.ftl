@@ -36,8 +36,8 @@ highlights-provost-inspector = Провост-инспектор, Инспект
 highlights-corporate-liaison = Корпоративный связной, "КС", Представитель, Вестон-Ямада, Вестон Ямада, "ВеЯ", Ве-Я
 highlights-correspondent = Корреспондент, "КК", Новости
 highlights-mess-technician = Техник столовой, "ТСТ", Техник по питанию, Столовая, Кухня, Еда, Голодный
-highlights-executive-bodyguard = Executive Bodyguard, "EB", Bodyguard, "CL", "PPO", "Alert", Liaison, Corporate Liaison
-highlights-unmc-synthetic = Synthetic, Synth, "ARES"
+highlights-executive-bodyguard = Корпоративный телохранитель, "КТ", Телохранитель, "КС", "PPO", "Alert", Связной, Корпоративный связной
+highlights-unmc-synthetic = Синтетик, Синт, "ARES"
 
 # Marines
 highlights-squad-leader = Командир отряда, "КО", Командование, Королева, "ОБ", Координаты, Снабжение, Тактическая карта, Связь, Карта, "ОГ", Огневая группа, Отделение

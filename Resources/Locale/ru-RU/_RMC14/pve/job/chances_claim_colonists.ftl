@@ -18,11 +18,11 @@ CMSurvivorAdministrativeClerk = Административный клерк
 rmc-job-name-colonist-operations-supervisor = Операционный супервайзер
 CMSurvivorOperationsSupervisor = Операционный супервайзер
 
-rmc-job-name-colonist-chances-medic = Медик "Притензии Шанса"
-CMSurvivorChancesMedic = Медик "Притензии Шанса"
+rmc-job-name-colonist-chances-medic = Медик "Претензии Шанса"
+CMSurvivorChancesMedic = Медик "Претензии Шанса"
 
-rmc-job-name-colonist-chances-paramedic = Парамедик "Притензии Шанса"
-CMSurvivorChancesParamedic = Парамедик "Притензии Шанса"
+rmc-job-name-colonist-chances-paramedic = Парамедик "Претензии Шанса"
+CMSurvivorChancesParamedic = Парамедик "Претензии Шанса"
 
 rmc-job-name-colonist-environmental-researcher = Исследователь окружающей среды
 CMSurvivorChancesEnvironmentalResearcher= Исследователь окружающей среды
@@ -42,6 +42,6 @@ CMSurvivorChancesColonyMaintTech = Техник по обслуживанию к
 rmc-job-name-colonist-cargo-tech = Складской рабочий
 CMSurvivorChancesCargoTech = Складской рабочий
 
-rmc-job-name-colonist-chances-goon = Корпоративная безопасность "Притензии Шанса"
-CMSurvivorChancesGoon = Корпоративная безопасность "Притензии Шанса"
+rmc-job-name-colonist-chances-goon = Корпоративная безопасность "Претензии Шанса"
+CMSurvivorChancesGoon = Корпоративная безопасность "Претензии Шанса"
 
