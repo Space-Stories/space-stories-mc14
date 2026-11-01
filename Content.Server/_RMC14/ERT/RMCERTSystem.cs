@@ -30,7 +30,7 @@ using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.GroundsideOperations;
 using Content.Shared._RMC14.Rules;
-using Content.Shared._Stories.ZLevels.Core.EntitySystems; // Stories-ZLevels
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Buckle;
 using Content.Shared.Database;
 using Content.Shared.Doors.Components;
@@ -103,7 +103,7 @@ public sealed partial class RMCERTSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly WarshipSystem _warship = default!;
-    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
 
     private readonly Dictionary<Guid, RMCERTRequest> _requests = new();
     private readonly Dictionary<EntityUid, TimeSpan> _sourceCooldowns = new();

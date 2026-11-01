@@ -76,7 +76,6 @@
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
     priority: 30
-  # Stories-SynthERT-Start
   - id: synth
     name: stories-ert-role-pmc-synth
     job: RMCPMCSynthetic
@@ -102,7 +101,6 @@
     roleTags: [ synth, medic ]
     seatTags: [ medic, troop ]
     priority: 40
-  # Stories-SynthERT-End
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
@@ -203,7 +201,6 @@
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
     priority: 30
-  # Stories-SynthERT-Start
   - id: synth
     name: stories-ert-role-pmc-synth
     job: RMCPMCSynthetic
@@ -229,7 +226,6 @@
     roleTags: [ synth, medic ]
     seatTags: [ medic, troop ]
     priority: 40
-  # Stories-SynthERT-End
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
