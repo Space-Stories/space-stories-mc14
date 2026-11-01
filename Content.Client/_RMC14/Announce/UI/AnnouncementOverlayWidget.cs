@@ -12,6 +12,7 @@ public sealed class AnnouncementOverlayWidget : UIWidget
     private readonly LayoutContainer _layout;
     private readonly List<AnnouncementWidget> _announcements = new();
     private readonly List<AnnouncementWidget> _managedAnnouncements = new();
+    private readonly List<AnnouncementWidget> _stackAnnouncements = new();
 
     public IReadOnlyList<AnnouncementWidget> Announcements => _announcements;
 
@@ -74,35 +75,90 @@ public sealed class AnnouncementOverlayWidget : UIWidget
 
         _announcements.Clear();
         _managedAnnouncements.Clear();
+        _stackAnnouncements.Clear();
         Visible = false;
     }
 
     public void Reflow()
     {
-        if (_managedAnnouncements.Count == 0)
-            return;
+        for (var i = 0; i < _managedAnnouncements.Count; i++)
+        {
+            var announcement = _managedAnnouncements[i];
+            if (announcement.ActiveAnnouncement == null)
+                continue;
 
-        var sizes = new Vector2[_managedAnnouncements.Count];
+            var positioned = false;
+            for (var j = 0; j < i; j++)
+            {
+                if (!CanShareStack(announcement, _managedAnnouncements[j]))
+                    continue;
+
+                positioned = true;
+                break;
+            }
+
+            if (positioned)
+                continue;
+
+            _stackAnnouncements.Clear();
+            for (var j = i; j < _managedAnnouncements.Count; j++)
+            {
+                if (CanShareStack(announcement, _managedAnnouncements[j]))
+                    _stackAnnouncements.Add(_managedAnnouncements[j]);
+            }
+
+            ReflowStack(_stackAnnouncements);
+        }
+
+        _stackAnnouncements.Clear();
+    }
+
+    private static bool CanShareStack(AnnouncementWidget first, AnnouncementWidget second)
+    {
+        if (first.ActiveAnnouncement is not { } firstAnnouncement ||
+            second.ActiveAnnouncement is not { } secondAnnouncement)
+        {
+            return false;
+        }
+
+        if (firstAnnouncement.Data.ScreenPositionOverride is { } customPosition)
+            return secondAnnouncement.Data.ScreenPositionOverride == customPosition;
+
+        return secondAnnouncement.Data.ScreenPositionOverride == null &&
+               firstAnnouncement.ResolvedStyle.LayoutConfig.Position ==
+               secondAnnouncement.ResolvedStyle.LayoutConfig.Position;
+    }
+
+    private static void ReflowStack(List<AnnouncementWidget> announcements)
+    {
+        if (announcements.Count == 1)
+        {
+            var layout = announcements[0].ResolveLayout();
+            announcements[0].ApplyManagedLayout(layout.Position, layout.Size);
+            return;
+        }
+
+        var sizes = new Vector2[announcements.Count];
         var stackWidth = 0f;
         var stackHeight = 0f;
 
-        for (var i = 0; i < _managedAnnouncements.Count; i++)
+        for (var i = 0; i < announcements.Count; i++)
         {
-            var layout = _managedAnnouncements[i].ResolveLayout();
+            var layout = announcements[i].ResolveLayout();
             sizes[i] = layout.Size;
             stackWidth = MathF.Max(stackWidth, layout.Size.X);
             stackHeight += layout.Size.Y;
         }
 
-        stackHeight += StackSeparation * (_managedAnnouncements.Count - 1);
+        stackHeight += StackSeparation * (announcements.Count - 1);
         var stackSize = new Vector2(stackWidth, stackHeight);
-        var anchorLayout = _managedAnnouncements[0].ResolveLayout(stackSize);
-        var alignment = _managedAnnouncements[0].ResolveStackAlignment();
+        var anchorLayout = announcements[0].ResolveLayout(stackSize);
+        var alignment = announcements[0].ResolveStackAlignment();
         var positions = CalculateStackPositions(anchorLayout.Position, stackWidth, sizes, alignment, StackSeparation);
 
-        for (var i = 0; i < _managedAnnouncements.Count; i++)
+        for (var i = 0; i < announcements.Count; i++)
         {
-            _managedAnnouncements[i].ApplyManagedLayout(positions[i], sizes[i]);
+            announcements[i].ApplyManagedLayout(positions[i], sizes[i]);
         }
     }
 
