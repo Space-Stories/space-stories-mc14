@@ -1,0 +1,8 @@
+- type: entity
+  id: STZLevelEye
+  save: false
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform
+    gridTraversal: false
+  - type: Eye

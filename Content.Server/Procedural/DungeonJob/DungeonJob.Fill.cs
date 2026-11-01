@@ -15,6 +15,11 @@ public sealed partial class DungeonJob
         {
             foreach (var tile in dungeon.AllTiles)
             {
+                // Stories-ZLevels-Start
+                if (!ValidateResume())
+                    return;
+
+                // Stories-ZLevels-End
                 if (reservedTiles.Contains(tile))
                     continue;
 
@@ -28,11 +33,16 @@ public sealed partial class DungeonJob
                     continue;
 
                 var gridPos = _maps.GridTileToLocal(_gridUid, _grid, tile);
+                // Stories-ZLevels-Start
+                if (!gridPos.IsValid(_entManager))
+                    return;
+
+                // Stories-ZLevels-End
                 _entManager.SpawnEntity(fill.Entity, gridPos);
 
                 await SuspendDungeon();
                 if (!ValidateResume())
-                    break;
+                    return; // Stories-ZLevels
             }
         }
     }

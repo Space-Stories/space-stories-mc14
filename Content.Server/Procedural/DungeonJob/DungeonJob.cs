@@ -328,7 +328,7 @@ public sealed partial class DungeonJob : Job<List<Dungeon>>
     [Pure]
     private bool ValidateResume()
     {
-        if (_entManager.Deleted(_gridUid))
+        if (_entManager.Deleted(_gridUid) || !_entManager.EntityExists(_gridUid) || _entManager.IsQueuedForDeletion(_gridUid)) // Stories-ZLevels
         {
             return false;
         }

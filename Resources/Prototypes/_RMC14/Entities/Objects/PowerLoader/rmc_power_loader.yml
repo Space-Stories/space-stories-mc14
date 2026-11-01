@@ -95,6 +95,9 @@
             max: 1
       - !type:DoActsBehavior
         acts: ["Destruction"]
+  # Stories-ZLevels-Start
+  - type: ZPhysics
+  # Stories-ZLevels-End
 
 # Wreckages
 - type: entity

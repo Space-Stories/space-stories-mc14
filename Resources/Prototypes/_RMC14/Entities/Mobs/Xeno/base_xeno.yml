@@ -406,6 +406,7 @@
   - type: EmoteCooldown
   - type: TTS # Stories-TTS
     voice: clinkz_dota_2
+  - type: ZPhysics # Stories-ZLevels
   - type: IgnoreInteractionRange
     whitelist:
       components:

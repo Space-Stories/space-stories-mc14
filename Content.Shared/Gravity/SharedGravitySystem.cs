@@ -53,6 +53,19 @@ namespace Content.Shared.Gravity
 
             return _gravityQuery.HasComp(entity.Comp.GridUid) ||
                    _gravityQuery.HasComp(entity.Comp.MapUid);
+        // Stories-ZLevels-Start
+        }
+
+        public void RefreshWeightless(EntityUid uid, AlertsComponent? alerts = null)
+        {
+            if (!Resolve(uid, ref alerts, false))
+                return;
+
+            if (IsWeightless(uid))
+                _alerts.ShowAlert(uid, WeightlessAlert);
+            else
+                _alerts.ClearAlert(uid, WeightlessAlert);
+        // Stories-ZLevels-End
         }
 
 

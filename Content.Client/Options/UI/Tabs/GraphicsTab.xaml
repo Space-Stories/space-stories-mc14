@@ -1,4 +1,4 @@
-﻿<tabs:GraphicsTab xmlns="https://spacestation14.io"
+<tabs:GraphicsTab xmlns="https://spacestation14.io"
           xmlns:tabs="clr-namespace:Content.Client.Options.UI.Tabs"
           xmlns:ui="clr-namespace:Content.Client.Options.UI">
     <BoxContainer Orientation="Vertical">
@@ -15,6 +15,13 @@
                 <CheckBox Name="ViewportLowResCheckBox" Text="{Loc 'ui-options-vp-low-res'}" />
                 <CheckBox Name="ParallaxLowQualityCheckBox" Text="{Loc 'ui-options-parallax-low-quality'}" />
                 <CheckBox Name="AmbientOcclusionCheckBox" Text="{Loc 'ui-options-ambient-occlusion'}" />
+
+                <!-- Stories-ZLevels-Start -->
+                <!-- Z-Levels -->
+                <Label Text="{Loc 'stories-ui-options-zlevels-label'}" StyleClasses="LabelKeyText"/>
+                <ui:OptionSlider Name="ZLevelsMaxLevelsSlider" Title="{Loc 'stories-ui-options-zlevels-max-levels'}" />
+                <CheckBox Name="ZLevelsBlurShaderCheckBox" Text="{Loc 'stories-ui-options-zlevels-blur-shader'}" />
+                <!-- Stories-ZLevels-End -->
 
                 <!-- Interface -->
                 <Label Text="{Loc 'ui-options-interface-label'}" StyleClasses="LabelKeyText"/>

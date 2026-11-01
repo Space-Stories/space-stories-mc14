@@ -7,6 +7,8 @@ namespace Content.Server._RMC14.Camera;
 public sealed class RMCCameraSystem : SharedRMCCameraSystem
 {
     [Dependency] private readonly ViewSubscriberSystem _viewSubscriber = default!;
+    [Dependency] private readonly Content.Server._Stories.ZLevels.Core.ZLevelsSystem _zLevels = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private EntityQuery<ActorComponent> _actorQuery;
 
@@ -33,8 +35,14 @@ public sealed class RMCCameraSystem : SharedRMCCameraSystem
     {
         foreach (var netOverride in ent.Comp.Overrides)
         {
-            if (TryGetEntity(netOverride, out var over))
-                _viewSubscriber.RemoveViewSubscriber(over.Value, args.Player);
+            // Stories-ZLevels-Start
+            if (!TryGetEntity(netOverride, out var over))
+                continue;
+
+            _viewSubscriber.RemoveViewSubscriber(over.Value, args.Player);
+            if (MetaData(over.Value).EntityPrototype?.ID == "STZLevelEye")
+                QueueDel(over.Value);
+            // Stories-ZLevels-End
         }
     }
 
@@ -65,6 +73,36 @@ public sealed class RMCCameraSystem : SharedRMCCameraSystem
 
             watcherComp ??= EnsureComp<RMCCameraWatcherComponent>(watcher);
             watcherComp.Overrides.Add(GetNetEntity(current));
+
+            // Stories: also subscribe to Z-levels below/above camera so they stream via PVS
+            if (TryComp<TransformComponent>(current, out var camXform) &&
+                camXform.MapUid is { } camMapUid &&
+                _zLevels.TryGetMapNetwork(camMapUid, out _))
+            {
+                var camWorldPos = _transform.GetWorldPosition(camXform);
+                for (var offset = 1; offset <= Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem.MaxZLevelsBelowRendering; offset++)
+                {
+                    if (!_zLevels.TryMapOffset(camMapUid, -offset, out var mapBelow))
+                        break;
+
+                    var eye = SpawnAtPosition("STZLevelEye", new Robust.Shared.Map.EntityCoordinates(mapBelow, camWorldPos));
+                    Transform(eye).GridTraversal = false;
+                    _viewSubscriber.AddViewSubscriber(eye, actor.PlayerSession);
+                    watcherComp.Overrides.Add(GetNetEntity(eye));
+                }
+
+                for (var offset = 1; offset <= Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem.MaxZLevelsAboveRendering; offset++)
+                {
+                    if (!_zLevels.TryMapOffset(camMapUid, offset, out var mapAbove))
+                        break;
+
+                    var eye = SpawnAtPosition("STZLevelEye", new Robust.Shared.Map.EntityCoordinates(mapAbove, camWorldPos));
+                    Transform(eye).GridTraversal = false;
+                    _viewSubscriber.AddViewSubscriber(eye, actor.PlayerSession);
+                    watcherComp.Overrides.Add(GetNetEntity(eye));
+                }
+            }
+
             Dirty(watcher, watcherComp);
         }
     }
@@ -89,6 +127,10 @@ public sealed class RMCCameraSystem : SharedRMCCameraSystem
                 continue;
 
             _viewSubscriber.RemoveViewSubscriber(over.Value, watcher.Comp2.PlayerSession);
+            // Stories-ZLevels-Start
+            if (MetaData(over.Value).EntityPrototype?.ID == "STZLevelEye")
+                QueueDel(over.Value);
+            // Stories-ZLevels-End
         }
 
         watcher.Comp1.Overrides.Clear();

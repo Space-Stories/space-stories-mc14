@@ -47,6 +47,8 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.Xenonids.Leap;
@@ -79,6 +81,7 @@ public sealed class XenoLeapSystem : EntitySystem
     [Dependency] private readonly RMCSizeStunSystem _size = default!;
     [Dependency] private readonly RMCObstacleSlammingSystem _obstacleSlamming = default!;
     [Dependency] private readonly SharedDirectionalAttackBlockSystem _directionalBlock = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<FixturesComponent> _fixturesQuery;
@@ -203,6 +206,18 @@ public sealed class XenoLeapSystem : EntitySystem
         _rmcPulling.TryStopAllPullsFromAndOn(xeno);
 
         var origin = _transform.GetMapCoordinates(xeno);
+        // Stories-ZLevels-Start
+        if (Transform(xeno).MapUid is { } mapUid && TryComp<ZLevelViewerComponent>(xeno, out var viewer) && viewer.LookUp)
+        {
+            var worldPos = _transform.GetWorldPosition(xeno);
+            if (!_zLevels.HasOpaqueAbove(worldPos, mapUid))
+            {
+                _zLevels.TryMoveUp(xeno);
+                origin = _transform.GetMapCoordinates(xeno);
+            }
+        }
+
+        // Stories-ZLevels-End
         var target = _transform.ToMapCoordinates(args.Coordinates);
         var direction = target.Position - origin.Position;
 

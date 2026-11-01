@@ -1,0 +1,55 @@
+- type: entity
+  parent: BaseToggleAction
+  id: STActionToggleLookUp
+  name: Look up
+  description: You lift your head and look up at the sky.
+  components:
+  - type: Action
+    checkCanInteract: false
+    icon:
+      sprite: _Stories/Interface/ladders.rsi
+      state: up
+    iconOn:
+      sprite: _Stories/Interface/ladders.rsi
+      state: up
+
+- type: entity
+  id: STActionZFlightUp
+  name: Move up
+  description: Move up one Z-Level
+  components:
+  - type: Action
+    useDelay: 1.5
+    icon:
+      sprite: _Stories/Interface/ladders.rsi
+      state: up
+  - type: InstantAction
+    event: !type:ZFlightActionUp
+
+- type: entity
+  id: STActionZFlightDown
+  name: Move down
+  description: Move down one Z-Level
+  components:
+  - type: Action
+    useDelay: 1.5
+    icon:
+      sprite: _Stories/Interface/ladders.rsi
+      state: down
+  - type: InstantAction
+    event: !type:ZFlightActionDown
+
+- type: entity
+  parent: BaseToggleAction
+  id: STActionZFlightToggle
+  name: Toggle flight mode
+  description: Toggle flight mode on or off
+  components:
+  - type: Action
+    useDelay: 1.5
+    icon:
+      sprite: _Stories/Interface/ladders.rsi
+      state: up
+    iconOn:
+      sprite: _Stories/Interface/ladders.rsi
+      state: up

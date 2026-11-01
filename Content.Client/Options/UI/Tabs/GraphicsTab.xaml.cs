@@ -23,6 +23,10 @@ public sealed partial class GraphicsTab : Control
         Control.AddOptionCheckBox(CCVars.AmbientOcclusion, AmbientOcclusionCheckBox);
         Control.AddOption(new OptionFullscreen(Control, _cfg, FullscreenCheckBox));
         Control.AddOption(new OptionLightingQuality(Control, _cfg, DropDownLightingQuality));
+        // Stories-ZLevels-Start
+        Control.AddOptionSlider(CCVars.ZLevelsRenderingMaxLevels, ZLevelsMaxLevelsSlider, 0, 5, (_, value) => Loc.GetString("stories-ui-options-zlevels-max-levels-value", ("count", value)));
+        Control.AddOptionCheckBox(CCVars.ZLevelsRenderingBlurShader, ZLevelsBlurShaderCheckBox);
+        // Stories-ZLevels-End
 
         Control.AddOptionDropDown(
             CVars.DisplayUIScale,

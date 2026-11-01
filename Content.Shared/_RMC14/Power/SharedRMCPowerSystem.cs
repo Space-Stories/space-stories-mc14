@@ -1,4 +1,6 @@
 using Content.Shared._RMC14.Areas;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
+using Robust.Shared.Map.Components;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Sprite;
 using Content.Shared._RMC14.Tools;
@@ -69,6 +71,10 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     [Dependency] private readonly SharedToolSystem _tool = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedWiresSystem _wires = default!;
+    // Stories-ZLevels-Start
+    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
+    // Stories-ZLevels-End
 
     protected readonly HashSet<EntityUid> ToUpdate = new();
     private readonly Dictionary<MapId, HashSet<EntityUid>> _reactorPoweredLights = new();
@@ -258,7 +264,16 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         var powerNet = string.IsNullOrWhiteSpace(area.Value.Comp.PowerNet)
             ? "default"
             : area.Value.Comp.PowerNet;
-        key = new RMCPowerNetworkKey(map, powerNet);
+        // Stories-ZLevels-Start
+
+        var networkMap = map;
+        if (_zLevels.TryGetMapNetwork(map, out var zLevelNetwork))
+        {
+            networkMap = zLevelNetwork.Owner;
+        }
+
+        key = new RMCPowerNetworkKey(networkMap, powerNet);
+        // Stories-ZLevels-End
         return true;
     }
 
@@ -2232,6 +2247,36 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
     private bool AnyReactorsOn(MapId map)
     {
+        // Stories-ZLevels-Start
+        if (CheckReactors(map))
+            return true;
+
+        if (_mapManager.MapExists(map))
+        {
+            var mapUid = _mapManager.GetMapEntityId(map);
+            if (_zLevels.TryGetMapNetwork(mapUid, out var zNet) && zNet.Comp != null)
+            {
+                foreach (var (_, otherMapUid) in zNet.Comp.ZLevels)
+                {
+                    if (otherMapUid == null)
+                        continue;
+
+                    if (TryComp<MapComponent>(otherMapUid.Value, out var otherMapComp) &&
+                        otherMapComp.MapId != map &&
+                        CheckReactors(otherMapComp.MapId))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckReactors(MapId map)
+    {
+        // Stories-ZLevels-End
         if (!_reactorsByMap.TryGetValue(map, out var reactors))
             return false;
 
@@ -2257,6 +2302,20 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     {
         var mapId = _transform.GetMapId(ent.Owner);
         _reactorsUpdated.Add(mapId);
+        // Stories-ZLevels-Start
+
+        if (Transform(ent.Owner).MapUid is { } mapUid &&
+            _zLevels.TryGetMapNetwork(mapUid, out var zNet))
+        {
+            foreach (var (_, otherMapUid) in zNet.Comp.ZLevels)
+            {
+                if (otherMapUid != null && TryComp<MapComponent>(otherMapUid.Value, out var otherMapComp))
+                {
+                    _reactorsUpdated.Add(otherMapComp.MapId);
+                }
+            }
+        }
+        // Stories-ZLevels-End
     }
 
     protected void UpdateReceiverPower(EntityUid receiver, ref PowerChangedEvent ev)

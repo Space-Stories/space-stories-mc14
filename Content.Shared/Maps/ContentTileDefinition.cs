@@ -99,6 +99,13 @@ namespace Content.Shared.Maps
         [DataField("isSpace")] public bool MapAtmosphere { get; private set; }
 
         /// <summary>
+        // Stories-ZLevels-Start
+        /// Whether or not the tile is visually transparent, allowing viewing lower Z-levels.
+        /// </summary>
+        [DataField("transparent")] public bool Transparent { get; private set; }
+
+        /// <summary>
+        // Stories-ZLevels-End
         ///     Friction override for mob mover in <see cref="SharedMoverController"/>
         /// </summary>
         [DataField("mobFriction")]
@@ -111,6 +118,14 @@ namespace Content.Shared.Maps
         public float? MobAcceleration { get; private set; }
 
         [DataField("sturdy")] public bool Sturdy { get; private set; } = true;
+
+        // Stories-ZLevels-Start
+        /// <summary>
+        /// Shields everything on the zlevels below from weather (independent of Transparent)
+        /// </summary>
+        [DataField]
+        public bool BlocksWeather = true;
+        // Stories-ZLevels-End
 
         /// <summary>
         /// Can weather affect this tile.

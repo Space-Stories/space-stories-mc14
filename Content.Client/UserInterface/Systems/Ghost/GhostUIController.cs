@@ -1,8 +1,10 @@
-﻿using Content.Client.Gameplay;
+using Content.Client.Gameplay; // Stories-ZLevels
 using Content.Client.Ghost;
 using Content.Client._RMC14.UserInterface.Systems.Ghost;
 using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Client.UserInterface.Systems.Ghost.Widgets;
+// Stories-ZLevels
+using Content.Shared._Stories.ZLevels.Ghost;
 using Content.Shared.Ghost;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
@@ -126,6 +128,10 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
         Gui.RequestWarpsPressed += RequestWarps;
         Gui.ReturnToBodyPressed += ReturnToBody;
         Gui.GhostRolesPressed += GhostRolesPressed;
+        // Stories-ZLevels-Start
+        Gui.ZLevelUpPressed += OnZLevelUpPressed;
+        Gui.ZLevelDownPressed += OnZLevelDownPressed;
+        // Stories-ZLevels-End
         Gui.TargetWindow.WarpClicked += OnWarpClicked;
         Gui.TargetWindow.OnGhostnadoClicked += OnGhostnadoClicked;
 
@@ -140,6 +146,10 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
         Gui.RequestWarpsPressed -= RequestWarps;
         Gui.ReturnToBodyPressed -= ReturnToBody;
         Gui.GhostRolesPressed -= GhostRolesPressed;
+        // Stories-ZLevels-Start
+        Gui.ZLevelUpPressed -= OnZLevelUpPressed;
+        Gui.ZLevelDownPressed -= OnZLevelDownPressed;
+        // Stories-ZLevels-End
         Gui.TargetWindow.WarpClicked -= OnWarpClicked;
 
         Gui.Hide();
@@ -159,4 +169,18 @@ public sealed class GhostUIController : UIController, IOnSystemChanged<GhostSyst
     {
         _system?.OpenGhostRoles();
     }
+
+    // Stories-ZLevels-Start
+    private void OnZLevelUpPressed()
+    {
+        var msg = new ZLevelGhostMoveMessage(true);
+        _net.SendSystemNetworkMessage(msg);
+    }
+
+    private void OnZLevelDownPressed()
+    {
+        var msg = new ZLevelGhostMoveMessage(false);
+        _net.SendSystemNetworkMessage(msg);
+    }
+    // Stories-ZLevels-End
 }

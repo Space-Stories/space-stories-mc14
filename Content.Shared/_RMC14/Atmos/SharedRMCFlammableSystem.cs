@@ -9,8 +9,11 @@ using Content.Shared._RMC14.OnCollide;
 using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids.Plasma;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
+using Robust.Shared.Map.Components; // Stories-ZLevels
 using Content.Shared.Atmos.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
@@ -72,6 +75,7 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     [Dependency] private readonly SharedRMCEmoteSystem _emote = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private static readonly ProtoId<ReagentPrototype> WaterReagent = "Water";
     private static readonly ProtoId<TagPrototype> StructureTag = "Structure";
@@ -283,6 +287,23 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     {
         var rotation = _transform.GetWorldRotation(ent);
         var coordinates = _transform.GetMoverCoordinates(ent);
+        // Stories-ZLevels-Start
+
+        if (args.User is { } user &&
+            TryComp<ZLevelViewerComponent>(user, out var viewer) &&
+            viewer.LookUp)
+        {
+            var shooterMapUid = Transform(user).MapUid;
+            if (shooterMapUid != null && _zLevels.TryMapUp(shooterMapUid.Value, out var mapAbove))
+            {
+                if (TryComp<MapComponent>(mapAbove.Owner, out var mapAboveComp))
+                {
+                    var mapCoords = _transform.ToMapCoordinates(coordinates);
+                    coordinates = _transform.ToCoordinates(mapAbove.Owner, new MapCoordinates(mapCoords.Position, mapAboveComp.MapId));
+                }
+            }
+        }
+        // Stories-ZLevels-End
 
         if (ent.Comp.OffsetForward)
             coordinates = coordinates.Offset(rotation.ToWorldVec() / 2);
@@ -502,11 +523,46 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     public int SpawnFire(EntityCoordinates target, EntProtoId spawn, EntityUid chain, int range, int? intensity, int? duration, out bool cont, Color? burnColor = null) // Stories-Ordnance
     {
         cont = false;
+        // Stories-ZLevels-Start
+        var mapCoords = _transform.ToMapCoordinates(target);
+        var mapUid = _map.GetMapEntityId(mapCoords.MapId);
+        var worldPos = mapCoords.Position;
+
+        // Stories-ZLevels-End
         if (!_rmcMap.TryGetTileDef(target, out var tile) ||
-            tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            tile.ID == ContentTileDefinition.SpaceID ||
+            _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
         {
-            cont = true;
-            return range;
+            if (_zLevels.TryMapDown(mapUid, out var mapBelow))
+            {
+                var checkMap = mapBelow;
+                while (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (!_zLevels.TryMapDown(checkMap.Owner, out var nextBelow))
+                        break;
+                    checkMap = nextBelow;
+                }
+
+                if (!_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (TryComp<MapComponent>(checkMap.Owner, out var mapBelowComp))
+                    {
+                        target = _transform.ToCoordinates(checkMap.Owner, new MapCoordinates(worldPos, mapBelowComp.MapId));
+                    }
+                }
+                else
+                {
+                    cont = true;
+                    return range;
+                }
+            }
+            else
+            {
+                cont = true;
+                return range;
+            }
+            // Stories-ZLevels-End
         }
 
         if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(target, out var oldTileFire))
@@ -655,10 +711,35 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     /// </summary>
     private bool CheckViableTile(Entity<DirectionalTileFireOnTriggerComponent> ent, EntityCoordinates target)
     {
+        // Stories-ZLevels-Start
+        var mapCoords = _transform.ToMapCoordinates(target);
+        var mapUid = _map.GetMapEntityId(mapCoords.MapId);
+        var worldPos = mapCoords.Position;
+
+        // Stories-ZLevels-End
         if (!_rmcMap.TryGetTileDef(target, out var tile) ||
-            tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            tile.ID == ContentTileDefinition.SpaceID ||
+            _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
         {
-            return false;
+            if (_zLevels.TryMapDown(mapUid, out var mapBelow))
+            {
+                var checkMap = mapBelow;
+                while (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (!_zLevels.TryMapDown(checkMap.Owner, out var nextBelow))
+                        break;
+                    checkMap = nextBelow;
+                }
+
+                if (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+            // Stories-ZLevels-End
         }
 
         if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(target, out var oldTileFire))

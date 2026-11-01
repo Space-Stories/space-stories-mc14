@@ -63,23 +63,49 @@ public sealed class RMCTemporaryDisabledLightSystem : EntitySystem
         var query = EntityQueryEnumerator<PointLightComponent, ItemComponent>();
         while (query.MoveNext(out var uid, out var light, out _))
         {
-            if (TryComp(uid, out RMCTemporaryDisabledLightComponent? disabledLight) && disabledLight.NextCheckAt > time)
+            // Stories-ZLevels-Start
+            var hasDisabledComp = TryComp(uid, out RMCTemporaryDisabledLightComponent? disabledLight);
+            if (hasDisabledComp && disabledLight!.NextCheckAt > time)
+            // Stories-ZLevels-End
                 continue;
+            // Stories-ZLevels-Start
+
+            var isActivated = (_expendableLightQuery.TryComp(uid, out var expendable) && expendable.Activated) ||
+                              (_handHeldLightQuery.TryComp(uid, out var toggle) && toggle.Activated);
+
+            if (!isActivated)
+            {
+                if (hasDisabledComp)
+                    RemComp<RMCTemporaryDisabledLightComponent>(uid);
+                continue;
+            }
+
+            if (_container.TryGetContainingContainer(uid, out var container) && container.OccludesLight)
+            {
+                if (hasDisabledComp)
+                    RemComp<RMCTemporaryDisabledLightComponent>(uid);
+                continue;
+            }
+            // Stories-ZLevels-End
 
             _nearbyLights.Clear();
             _entityLookup.GetEntitiesInRange(_transform.GetMapCoordinates(uid), _maxNearbyLightCheckRange, _nearbyLights);
             _nearbyLights.RemoveWhere(ent => uid == ent.Owner ||
-                                             _container.TryGetContainingContainer(ent.Owner, out var container) && container.OccludesLight ||
-                                             (!_expendableLightQuery.TryComp(ent, out var expendable) || !expendable.Activated) &&
-                                             (!_handHeldLightQuery.TryComp(ent, out var toggle) || !toggle.Activated));
+                                             // Stories-ZLevels-Start
+                                             _container.TryGetContainingContainer(ent.Owner, out var c) && c.OccludesLight ||
+                                             (!_expendableLightQuery.TryComp(ent, out var exp) || !exp.Activated) &&
+                                             (!_handHeldLightQuery.TryComp(ent, out var tog) || !tog.Activated));
+                                             // Stories-ZLevels-End
 
             if (_nearbyLights.Count <= _maxNearbyLights)
             {
                 RemComp<RMCTemporaryDisabledLightComponent>(uid);
 
                 var enableLight =
-                    _expendableLightQuery.TryComp(uid, out var expendable) && expendable.Activated ||
-                    _handHeldLightQuery.TryComp(uid, out var toggle) && toggle.Activated;
+                    // Stories-ZLevels-Start
+                    _expendableLightQuery.TryComp(uid, out var exp) && exp.Activated ||
+                    _handHeldLightQuery.TryComp(uid, out var tog) && tog.Activated;
+                    // Stories-ZLevels-End
 
                 if (enableLight)
                     _pointLight.SetEnabled(uid, true, light);

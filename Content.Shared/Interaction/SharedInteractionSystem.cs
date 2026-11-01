@@ -1,3 +1,4 @@
+using Content.Shared._Stories.ZLevels.Core.Components;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._RMC14.Barricade.Components;
@@ -93,6 +94,7 @@ namespace Content.Shared.Interaction
         private EntityQuery<ActivatableUIComponent> _uiQuery;
         private EntityQuery<BarbedComponent> _barbedQuery;
         private EntityQuery<VirtualItemComponent> _virtualItemQuery;
+        private EntityQuery<ZPhysicsComponent> _zPhysicsQuery; // Stories-ZLevels
 
         private const CollisionGroup InRangeUnobstructedMask = CollisionGroup.Impassable | CollisionGroup.InteractImpassable;
 
@@ -107,6 +109,7 @@ namespace Content.Shared.Interaction
 
         [Dependency] private readonly SharedRMCLagCompensationSystem _rmcLagCompensation = default!;
         [Dependency] private readonly INetManager _net = default!;
+        [Dependency] private readonly Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem _zLevels = default!;
 
         public override void Initialize()
         {
@@ -122,6 +125,7 @@ namespace Content.Shared.Interaction
             _uiQuery = GetEntityQuery<ActivatableUIComponent>();
             _barbedQuery = GetEntityQuery<BarbedComponent>();
             _virtualItemQuery = GetEntityQuery<VirtualItemComponent>();
+            _zPhysicsQuery = GetEntityQuery<ZPhysicsComponent>(); // Stories-ZLevels
 
             SubscribeLocalEvent<BoundUserInterfaceCheckRangeEvent>(HandleUserInterfaceRangeCheck);
 
@@ -433,6 +437,19 @@ namespace Content.Shared.Interaction
 
             if (target != null && Deleted(target.Value))
                 return;
+            // Stories-ZLevels-Start
+
+            if (target != null && Transform(target.Value).MapID != Transform(user).MapID)
+                return;
+
+            if (target != null &&
+                _zPhysicsQuery.TryComp(user, out var userZ) &&
+                _zPhysicsQuery.TryComp(target.Value, out var targetZ) &&
+                MathF.Abs(userZ.LocalPosition - targetZ.LocalPosition) > 1.5f)
+            {
+                return;
+            }
+            // Stories-ZLevels-End
 
             if (!altInteract && _combatQuery.TryComp(user, out var combatMode) && combatMode.IsInCombatMode)
             {
@@ -683,7 +700,6 @@ namespace Content.Shared.Interaction
             Ignored? predicate = null,
             bool checkAccess = true)
         {
-            // Have to be on same map regardless.
             if (other.MapId != origin.MapId)
                 return false;
 
@@ -828,6 +844,23 @@ namespace Content.Shared.Interaction
             MapCoordinates originPos = default;
             var targetPos = _transform.ToMapCoordinates(otherCoordinates);
             Angle targetRot = _transform.GetWorldRotation(otherCoordinates.EntityId) + otherAngle;
+            // Stories-ZLevels-Start
+
+            if (Resolve(origin, ref origin.Comp, false))
+                originPos = _transform.GetMapCoordinates(origin, xform: origin.Comp);
+            else
+                originPos = _transform.GetMapCoordinates(origin, origin);
+
+            if (originPos.MapId != targetPos.MapId)
+                return false;
+
+            if (_zPhysicsQuery.TryComp(origin, out var zPhysOrigin) &&
+                _zPhysicsQuery.TryComp(other, out var zPhysOther) &&
+                MathF.Abs(zPhysOrigin.LocalPosition - zPhysOther.LocalPosition) > 1.5f)
+            {
+                return false;
+            }
+            // Stories-ZLevels-End
 
             // So essentially:
             // 1. If fixtures available check nearest point. We take in coordinates / angles because we might want to use a lag compensated position

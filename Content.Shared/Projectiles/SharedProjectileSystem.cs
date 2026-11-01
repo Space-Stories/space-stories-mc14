@@ -452,6 +452,11 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
         component.Shooter = shooterId;
         Dirty(id, component);
+        // Stories-ZLevels-Start
+
+        var ev = new ProjectileSetShooterEvent(shooterId.Value);
+        RaiseLocalEvent(id, ref ev);
+        // Stories-ZLevels-End
     }
 
     [Serializable, NetSerializable]
@@ -460,6 +465,11 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         public override DoAfterEvent Clone() => this;
     }
 }
+// Stories-ZLevels-Start
+
+[ByRefEvent]
+public record struct ProjectileSetShooterEvent(EntityUid Shooter);
+// Stories-ZLevels-End
 
 [Serializable, NetSerializable]
 public sealed class ImpactEffectEvent : EntityEventArgs

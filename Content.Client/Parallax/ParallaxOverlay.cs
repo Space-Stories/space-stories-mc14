@@ -34,6 +34,11 @@ public sealed class ParallaxOverlay : Overlay
 
     protected override bool BeforeDraw(in OverlayDrawArgs args)
     {
+        // Stories-ZLevels-Start
+        if (args.Viewport.Eye is Content.Client.Viewport.ScalingViewport.ZEye zeye && zeye.Depth != zeye.LowestDepth)
+            return false;
+
+        // Stories-ZLevels-End
         if (args.MapId == MapId.Nullspace || _entManager.HasComponent<BiomeComponent>(_mapSystem.GetMapOrInvalid(args.MapId)))
             return false;
 

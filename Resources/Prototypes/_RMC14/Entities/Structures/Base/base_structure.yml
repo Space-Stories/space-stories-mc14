@@ -96,6 +96,9 @@
     drawdepth: Walls
   - type: PlacementReplacement
     key: walls
+  # Stories-ZLevels-Start
+  - type: ZLevelHighGround
+  # Stories-ZLevels-End
   - type: Occluder
   - type: Airtight
   - type: Fixtures

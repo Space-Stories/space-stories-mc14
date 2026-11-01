@@ -1,0 +1,156 @@
+- type: entity
+  id: STZLevelStairs
+  name: z-level stairs
+  description: A single-flight of stairs connecting Z-levels.
+  parent: RMCStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsUp
+  name: z-level stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsDown
+  name: z-level stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsKutjevoUp
+  name: Kutjevo stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCStairsKutjevo
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsKutjevoDown
+  name: Kutjevo stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCStairsKutjevo
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsIceUp
+  name: ice colony stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCStairsIce
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsIceDown
+  name: ice colony stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCStairsIce
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsAlmayerUp
+  name: Almayer stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCAlmayerStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+      - 1.05
+      - 1.05
+      - 0.1
+
+- type: entity
+  id: STZLevelStairsAlmayerDown
+  name: Almayer stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCAlmayerStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsTempleUp
+  name: temple stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCTempleStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsTempleDown
+  name: temple stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCTempleStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsSoroUp
+  name: Sorokyne stairs (up)
+  description: Single-flight stairs leading up to the Z-level above.
+  parent: RMCSoroStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
+
+- type: entity
+  id: STZLevelStairsSoroDown
+  name: Sorokyne stairs (down)
+  description: Single-flight stairs leading down to the Z-level below.
+  parent: RMCSoroStairs
+  components:
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 0.0
+    - 1.05
