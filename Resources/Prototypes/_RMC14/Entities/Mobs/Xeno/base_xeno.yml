@@ -405,6 +405,7 @@
       - Marine
   - type: EmoteCooldown
   - type: TTS # Stories-TTS
+  - type: ZPhysics # Stories-ZLevels
     voice: clinkz_dota_2
   - type: IgnoreInteractionRange
     whitelist:

@@ -128,7 +128,10 @@ public sealed partial class DungeonJob
                 }
 
                 await SuspendIfOutOfTime();
-                ValidateResume();
+                // Stories-ZLevels-Start
+                if (!ValidateResume())
+                    return new Dungeon(rooms);
+                // Stories-ZLevels-End
             }
 
             var center = Vector2.Zero;
@@ -141,7 +144,10 @@ public sealed partial class DungeonJob
             center /= roomTiles.Count;
             rooms.Add(new DungeonRoom(roomTiles, center, roomArea, new HashSet<Vector2i>()));
             await SuspendIfOutOfTime();
-            ValidateResume();
+            // Stories-ZLevels-Start
+            if (!ValidateResume())
+                return new Dungeon(rooms);
+            // Stories-ZLevels-End
         }
 
         _maps.SetTiles(_gridUid, _grid, tiles);

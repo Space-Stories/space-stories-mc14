@@ -18,6 +18,14 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
 
     [DataField, AutoNetworkedField]
     public CamouflageType Camouflage = CamouflageType.Jungle;
+    // Stories-ZLevels-Start
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsBelow = new();
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsAbove = new();
+    // Stories-ZLevels-End
 
     [DataField, AutoNetworkedField]
     public int MinPlayers;

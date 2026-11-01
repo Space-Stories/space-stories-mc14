@@ -11,6 +11,7 @@ using Content.Shared.NPC.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
 using Content.Shared.Whitelist;
+using Robust.Shared.Map; // Stories-ZLevels
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
@@ -207,8 +208,15 @@ public sealed class RMCProjectileSystem : EntitySystem
 
     private void OnSpawnOnTerminatingMapInit(Entity<SpawnOnTerminateComponent> ent, ref MapInitEvent args)
     {
-        ent.Comp.Origin = _transform.GetMoverCoordinates(ent);
-        Dirty(ent);
+        // Stories-ZLevels-Start
+        var xform = Transform(ent);
+        if (xform.MapUid is { } mapUid)
+        {
+            var worldPos = _transform.GetWorldPosition(xform);
+            ent.Comp.Origin = new EntityCoordinates(mapUid, worldPos);
+            Dirty(ent);
+        }
+        // Stories-ZLevels-End
     }
 
     private void OnSpawnOnTerminatingTerminate(Entity<SpawnOnTerminateComponent> ent, ref EntityTerminatingEvent args)

@@ -9,6 +9,7 @@ using Content.Shared._RMC14.Light;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Acid;
 using Content.Shared._RMC14.Xenonids.Announce;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Damage;
 using Content.Shared.Decals;
@@ -67,6 +68,27 @@ public sealed class RMCWeatherSystem : EntitySystem
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    // Stories-ZLevels-Start
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
+
+    public bool IsSameMapOrZNetwork(MapId map1, MapId map2)
+    {
+        if (map1 == map2)
+            return true;
+
+        var mapEnt1 = _mapSystem.GetMapOrInvalid(map1);
+        var mapEnt2 = _mapSystem.GetMapOrInvalid(map2);
+
+        if (mapEnt1.IsValid() && mapEnt2.IsValid() &&
+            _zLevels.TryGetMapNetwork(mapEnt1, out var zNet1) &&
+            _zLevels.TryGetMapNetwork(mapEnt2, out var zNet2))
+        {
+            return zNet1.Owner == zNet2.Owner;
+        }
+
+        return false;
+    }
+    // Stories-ZLevels-End
 
     private EntityQuery<BlockWeatherComponent> _blockQuery;
     // RMC weather blockers can protect only part of a tile, so cache the lookup set for point-in-bounds checks.
@@ -255,7 +277,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var weatherQuery = EntityQueryEnumerator<RMCWeatherCycleComponent>();
         while (weatherQuery.MoveNext(out var uid, out var cycle))
         {
-            if (Transform(uid).MapID != mapId ||
+            if (!IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || // Stories-ZLevels
                 cycle.State != RMCWeatherCycleState.Running ||
                 cycle.CurrentScreenOverlay == RMCWeatherScreenOverlay.None ||
                 (byte) cycle.CurrentScreenOverlay <= (byte) overlay)
@@ -278,7 +300,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var weatherQuery = EntityQueryEnumerator<RMCWeatherCycleComponent>();
         while (weatherQuery.MoveNext(out var uid, out var cycle))
         {
-            if (Transform(uid).MapID != mapId ||
+            if (!IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || // Stories-ZLevels
                 cycle.State != RMCWeatherCycleState.Running ||
                 cycle.CurrentScreenOverlay == RMCWeatherScreenOverlay.None)
             {
@@ -506,7 +528,20 @@ public sealed class RMCWeatherSystem : EntitySystem
         ent.Comp.AdminForcedEvent = adminForced;
         // One-shot weather interactions, like acid dilution, key off this to avoid shrinking every effect tick.
         ent.Comp.EventSequence++;
-        _weather.SetWeather(mapId, weatherProto, endTime);
+        // Stories-ZLevels-Start
+        if (_zLevels.TryGetMapNetwork(ent.Owner, out var zNetStart))
+        {
+            foreach (var layerUid in zNetStart.Comp.ZLevels.Values)
+            {
+                if (TryComp<MapComponent>(layerUid, out var mapComp))
+                    _weather.SetWeather(mapComp.MapId, weatherProto, endTime);
+            }
+        }
+        else
+        {
+            _weather.SetWeather(mapId, weatherProto, endTime);
+        }
+        // Stories-ZLevels-End
         Dirty(ent);
 
         var ev = new RMCWeatherStartedEvent(
@@ -526,7 +561,21 @@ public sealed class RMCWeatherSystem : EntitySystem
             : (TimeSpan?) null;
         var adminForced = ent.Comp.AdminForcedEvent;
 
-        _weather.SetWeather(mapId, null, null);
+        // Stories-ZLevels-Start
+        if (_zLevels.TryGetMapNetwork(ent.Owner, out var zNetEnd))
+        {
+            foreach (var layerUid in zNetEnd.Comp.ZLevels.Values)
+            {
+                if (TryComp<MapComponent>(layerUid, out var mapComp))
+                    _weather.SetWeather(mapComp.MapId, null, null);
+            }
+        }
+        else
+        {
+            _weather.SetWeather(mapId, null, null);
+        }
+
+        // Stories-ZLevels-End
         ent.Comp.State = RMCWeatherCycleState.Cooldown;
         ent.Comp.CurrentScreenOverlay = RMCWeatherScreenOverlay.None;
         ent.Comp.CurrentEventIndex = null;
@@ -553,7 +602,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var weatherQuery = EntityQueryEnumerator<RMCWeatherCycleComponent>();
         while (weatherQuery.MoveNext(out var uid, out var comp))
         {
-            if (Transform(uid).MapID != mapId)
+            if (!IsSameMapOrZNetwork(Transform(uid).MapID, mapId)) // Stories-ZLevels
                 continue;
 
             cycle = (uid, comp);
@@ -663,7 +712,7 @@ public sealed class RMCWeatherSystem : EntitySystem
 
         bool IsOnWeatherMap(EntityUid uid) =>
             TryComp(uid, out TransformComponent? xform) &&
-            xform.MapID == mapId;
+            IsSameMapOrZNetwork(xform.MapID, mapId); // Stories-ZLevels
 
         var marineMessage = Loc.GetString("rmc-weather-warning-marine", ("weather", displayName));
         var marineFilter = Filter.Empty().AddWhereAttachedEntity(e =>
@@ -771,7 +820,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var query = EntityQueryEnumerator<FlammableComponent, OnFireComponent>();
         while (query.MoveNext(out var uid, out var flammable, out _))
         {
-            if (!flammable.OnFire || Transform(uid).MapID != mapId || !IsWeatherExposed(uid, mapId))
+            if (!flammable.OnFire || !IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || !IsWeatherExposed(uid, mapId)) // Stories-ZLevels
                 continue;
 
             _flammable.AdjustStacks((uid, flammable), -fireSmotheringStrength);
@@ -785,7 +834,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var query = EntityQueryEnumerator<TileFireComponent>();
         while (query.MoveNext(out var uid, out var fire))
         {
-            if (Transform(uid).MapID != mapId || !IsWeatherExposed(uid, mapId))
+            if (!IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || !IsWeatherExposed(uid, mapId)) // Stories-ZLevels
                 continue;
 
             var remaining = fire.SpawnedAt + fire.Duration - _timing.CurTime;
@@ -807,7 +856,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         var query = EntityQueryEnumerator<CampfireComponent>();
         while (query.MoveNext(out var uid, out var campfire))
         {
-            if (!campfire.Lit || Transform(uid).MapID != mapId || !IsWeatherExposed(uid, mapId))
+            if (!campfire.Lit || !IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || !IsWeatherExposed(uid, mapId)) // Stories-ZLevels
                 continue;
 
             var ev = new CampfireWeatherSmotherEvent(reduction);
@@ -870,7 +919,7 @@ public sealed class RMCWeatherSystem : EntitySystem
             return false;
         }
 
-        if (Transform(uid).MapID != mapId)
+        if (!IsSameMapOrZNetwork(Transform(uid).MapID, mapId)) // Stories-ZLevels
             return false;
 
         if (!IsWeatherExposed(uid, mapId))
@@ -891,7 +940,7 @@ public sealed class RMCWeatherSystem : EntitySystem
         {
             if (!_mobState.IsAlive(uid, mobState) ||
                 HasComp<GhostComponent>(uid) ||
-                Transform(uid).MapID != mapId ||
+                !IsSameMapOrZNetwork(Transform(uid).MapID, mapId) || // Stories-ZLevels
                 !IsWeatherExposed(uid, mapId))
             {
                 continue;

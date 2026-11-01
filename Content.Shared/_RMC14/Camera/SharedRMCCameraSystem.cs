@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis; // Stories-ZLevels
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Dropship.Weapon;
 using Content.Shared._RMC14.Power;
@@ -261,7 +261,10 @@ public abstract class SharedRMCCameraSystem : EntitySystem
                 if (index >= 0)
                 {
                     comp.CameraIds.RemoveAt(index);
-                    comp.CameraNames.RemoveAt(index);
+                    // Stories-ZLevels-Start
+                    if (index < comp.CameraNames.Count)
+                        comp.CameraNames.RemoveAt(index);
+                    // Stories-ZLevels-End
                 }
 
                 if (comp.CurrentCamera == camera)

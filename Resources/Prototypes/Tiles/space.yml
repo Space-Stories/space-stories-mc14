@@ -1,9 +1,14 @@
 - type: tile
   id: Space
   name: tiles-space
-  friction: 0
+  # Stories-ZLevels-Start
+  friction: 1
+  # Stories-ZLevels-End
   isSubfloor: true
   isSpace: true
+  # Stories-ZLevels-Start
+  transparent: true
+  # Stories-ZLevels-End
   sturdy: false
   thermalConductivity: 0.4
   heatCapacity: 700000

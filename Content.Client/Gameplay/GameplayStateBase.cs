@@ -125,6 +125,36 @@ namespace Content.Client.Gameplay
             return GetClickableEntities(coordinates, _eyeManager.CurrentEye, excludeFaded);
         }
 
+        // Stories-ZLevels-Start
+        private List<(EntityUid, int, uint, float)> QueryClickableEntitiesForMap(
+            MapId mapId,
+            Vector2 position,
+            IEye eye,
+            bool excludeFaded,
+            bool ignoreInteractionTransparency,
+            SpriteTreeSystem spriteTree,
+            EntityQuery<ClickableComponent> clickQuery,
+            ClickableSystem clickables)
+        {
+            var entities = spriteTree.QueryAabb(mapId, Box2.CenteredAround(position, new Vector2(1, 1)));
+            var foundEntities = new List<(EntityUid, int, uint, float)>(entities.Count);
+
+            foreach (var entity in entities)
+            {
+                if (!ignoreInteractionTransparency && _entitySystemManager.GetEntitySystem<RMCClientInteractionSystem>().IsInteractionTransparency(entity.Uid, _playerManager.LocalEntity, eye))
+                    continue;
+
+                if (clickQuery.TryGetComponent(entity.Uid, out var component) &&
+                    clickables.CheckClick((entity.Uid, component, entity.Component, entity.Transform), position, eye, excludeFaded, out var drawDepthClicked, out var renderOrder, out var bottom))
+                {
+                    foundEntities.Add((entity.Uid, drawDepthClicked, renderOrder, bottom));
+                }
+            }
+
+            return foundEntities;
+        }
+
+        // Stories-ZLevels-End
         public IEnumerable<EntityUid> GetClickableEntities(MapCoordinates coordinates, IEye? eye, bool excludeFaded = true, bool ignoreInteractionTransparency = false)
         {
             /*
@@ -136,35 +166,58 @@ namespace Content.Client.Gameplay
             if (eye == null)
                 return Array.Empty<EntityUid>();
 
-            // Find all the entities intersecting our click
             var spriteTree = _entityManager.EntitySysManager.GetEntitySystem<SpriteTreeSystem>();
-            var entities = spriteTree.QueryAabb(coordinates.MapId, Box2.CenteredAround(coordinates.Position, new Vector2(1, 1)));
-
-            // Check the entities against whether or not we can click them
-            var foundEntities = new List<(EntityUid, int, uint, float)>(entities.Count);
             var clickQuery = _entityManager.GetEntityQuery<ClickableComponent>();
             var clickables = _entityManager.System<ClickableSystem>();
 
-            foreach (var entity in entities)
+            if (_playerManager.LocalEntity is { } localPlayer &&
+                _entityManager.TryGetComponent<Content.Shared._Stories.ZLevels.Core.Components.ZLevelViewerComponent>(localPlayer, out var viewer) &&
+                _entitySystemManager.TryGetEntitySystem<Content.Client._Stories.ZLevels.Core.ClientZLevelsSystem>(out var zLevels) &&
+                _entityManager.GetComponent<TransformComponent>(localPlayer).MapUid is { } playerMapUid)
             {
-                // RMC14: Filter by InteractionTransparencyComponent (if not ignored)
-                if (!ignoreInteractionTransparency && _entitySystemManager.GetEntitySystem<RMCClientInteractionSystem>().IsInteractionTransparency(entity.Uid, _playerManager.LocalEntity, eye))
-                    continue;
+                var mapQuery = _entityManager.GetEntityQuery<Robust.Shared.Map.Components.MapComponent>();
 
-                if (clickQuery.TryGetComponent(entity.Uid, out var component) &&
-                    clickables.CheckClick((entity.Uid, component, entity.Component, entity.Transform), coordinates.Position, eye, excludeFaded, out var drawDepthClicked, out var renderOrder, out var bottom))
+                // If viewer is looking UP, check upper map first
+                if (viewer.LookUp && zLevels.TryMapUp(playerMapUid, out var mapAbove) && mapQuery.TryComp(mapAbove.Owner, out var mapCompAbove))
                 {
-                    foundEntities.Add((entity.Uid, drawDepthClicked, renderOrder, bottom));
+                    var upperEntities = QueryClickableEntitiesForMap(mapCompAbove.MapId, coordinates.Position, eye, excludeFaded, ignoreInteractionTransparency, spriteTree, clickQuery, clickables);
+                    if (upperEntities.Count > 0)
+                    {
+                        upperEntities.Sort(_comparer);
+                        return upperEntities.Select(a => a.Item1);
+                    }
                 }
+
+                // Check current player map
+                var currentEntities = QueryClickableEntitiesForMap(coordinates.MapId, coordinates.Position, eye, excludeFaded, ignoreInteractionTransparency, spriteTree, clickQuery, clickables);
+                if (currentEntities.Count > 0)
+                {
+                    currentEntities.Sort(_comparer);
+                    return currentEntities.Select(a => a.Item1);
+                }
+
+                // If no entity on current map, check if tile is open/empty/transparent, and check map below
+                if (zLevels.TryMapDown(playerMapUid, out var mapBelow) && zLevels.IsTileTransparentOrEmpty(playerMapUid, coordinates.Position) && mapQuery.TryComp(mapBelow.Owner, out var mapCompBelow))
+                {
+                    var lowerEntities = QueryClickableEntitiesForMap(mapCompBelow.MapId, coordinates.Position, eye, excludeFaded, ignoreInteractionTransparency, spriteTree, clickQuery, clickables);
+                    if (lowerEntities.Count > 0)
+                    {
+                        lowerEntities.Sort(_comparer);
+                        return lowerEntities.Select(a => a.Item1);
+                    }
+                }
+
+                return Array.Empty<EntityUid>();
+            // Stories-ZLevels-Start
             }
 
-            if (foundEntities.Count == 0)
+            var defaultEntities = QueryClickableEntitiesForMap(coordinates.MapId, coordinates.Position, eye, excludeFaded, ignoreInteractionTransparency, spriteTree, clickQuery, clickables);
+            if (defaultEntities.Count == 0)
                 return Array.Empty<EntityUid>();
 
-            // Do drawdepth & y-sorting. First index is the top-most sprite (opposite of normal render order).
-            foundEntities.Sort(_comparer);
-
-            return foundEntities.Select(a => a.Item1);
+            defaultEntities.Sort(_comparer);
+            return defaultEntities.Select(a => a.Item1);
+            // Stories-ZLevels-End
         }
 
         private sealed class ClickableEntityComparer : IComparer<(EntityUid clicked, int depth, uint renderOrder, float bottom)>

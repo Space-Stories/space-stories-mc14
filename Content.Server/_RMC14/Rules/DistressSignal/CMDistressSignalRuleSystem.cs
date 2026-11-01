@@ -6,6 +6,7 @@ using Content.Server._RMC14.Nuke;
 using Content.Server._RMC14.Power;
 using Content.Server._RMC14.Stations;
 using Content.Server._RMC14.Xenonids.Hive;
+using Content.Server._Stories.ZLevels.Core;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Chat.Managers;
@@ -125,6 +126,7 @@ public sealed partial class CMDistressSignalRuleSystem : GameRuleSystem<CMDistre
     [Dependency] private readonly StunSystem _stuns = default!;
     [Dependency] private readonly MapInsertSystem _mapInsert = default!;
     [Dependency] private readonly RMCAmbientLightSystem _rmcAmbientLight = default!;
+    [Dependency] private readonly ZLevelsSystem _zLevels = default!; // Stories-ZLevels
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly IVoteManager _voteManager = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;

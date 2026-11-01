@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable; // Stories-ZLevels
 using System.Linq;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Power;
@@ -257,6 +257,12 @@ public sealed class RMCPlanetSystem : EntitySystem
 
         EnsureComp<RMCPlanetComponent>(map.Value);
         EnsureComp<TacticalMapComponent>(map.Value);
+        // Stories-ZLevels-Start
+
+        var ev = new RMCPlanetMapLoadedEvent(map.Value.Owner, path);
+        RaiseLocalEvent(ref ev);
+
+        // Stories-ZLevels-End
         _rmcPower.RecalculatePower();
         return map.Value.Comp.MapId;
     }

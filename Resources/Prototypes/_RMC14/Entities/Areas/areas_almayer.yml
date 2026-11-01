@@ -1,6 +1,11 @@
-﻿- type: entity
+# Stories-ZLevels-Start
+- type: entity
+# Stories-ZLevels-End
   parent: RMCAreaBase
   id: RMCAreaAlmayer
+  # Stories-ZLevels-Start
+  name: Almayer
+  # Stories-ZLevels-End
   suffix: Almayer Area
   components:
   - type: Sprite
@@ -10,13 +15,18 @@
     CAS: true
     fulton: true
     mortarPlacement: false
-    mortarFire: false # TODO RMC14 true
+    # Stories-ZLevels-Start
+    mortarFire: false
+    # Stories-ZLevels-End
     lasing: false
     medevac: false
     paradropping: false
     OB: true
     supplyDrop: true
     powerNet: almayer
+    # Stories-ZLevels-Start
+    weatherEnabled: false
+    # Stories-ZLevels-End
     hijackEvacuationArea: false
     hijackEvacuationWeight: 0
     hijackEvacuationType: None
@@ -38,9 +48,7 @@
     state: cic
   - type: Area
     zLevel: 1
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -54,6 +62,18 @@
 
 - type: entity
   parent: RMCAreaAlmayerCommand
+  # Stories-ZLevels-Start
+  id: RMCAreaAlmayerCommandCicconference
+  name: CIC Conference Room
+  components:
+  - type: Sprite
+    state: cic
+  - type: Area
+    zLevel: 1
+
+- type: entity
+  parent: RMCAreaAlmayerCommand
+  # Stories-ZLevels-End
   id: RMCAreaAlmayerCommandAiroom
   name: AI Core
   components:
@@ -61,7 +81,6 @@
     state: airoom
   - type: Area
     zLevel: 1
-    avoidBioscan: false
     noTunnel: true
     unweedable: true
     buildSpecial: false
@@ -71,13 +90,14 @@
 - type: entity
   parent: RMCAreaAlmayerCommand
   id: RMCAreaAlmayerCommandSecurestorage
-  name: Upper Deck Secure Storage
+  # Stories-ZLevels-Start
+  name: Computer Lab Secure Storage
+  # Stories-ZLevels-End
   components:
   - type: Sprite
     state: corporatespace
   - type: Area
     zLevel: 1
-    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -88,7 +108,6 @@
     state: ceroom
   - type: Area
     zLevel: 1
-    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -99,9 +118,7 @@
     state: tcomms
   - type: Area
     zLevel: 1
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -112,9 +129,7 @@
     state: selfdestruct
   - type: Area
     zLevel: 1
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -137,6 +152,28 @@
     zLevel: 1
 
 - type: entity
+  # Stories-ZLevels-Start
+  parent: RMCAreaAlmayerCommand
+  id: RMCAreaAlmayerCommandIntelBunks
+  name: Upper Deck Intel Officer's Bunks
+  components:
+  - type: Sprite
+    state: blue
+  - type: Area
+    zLevel: 1
+
+- type: entity
+  parent: RMCAreaAlmayerCommand
+  id: RMCAreaAlmayerCommandLifeboat
+  name: Lifeboat Docking Port
+  components:
+  - type: Sprite
+    state: selfdestruct
+  - type: Area
+    zLevel: 1
+
+- type: entity
+  # Stories-ZLevels-End
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerEngineering
   components:
@@ -215,9 +252,10 @@
   id: RMCAreaAlmayerEngineeringUpperEngineeringNotunnel
   components:
   - type: Area
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
+    # Stories-ZLevels-Start
+    alwaysPowered: true
+    # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerEngineering
@@ -260,6 +298,18 @@
     zLevel: 1
 
 - type: entity
+  # Stories-ZLevels-Start
+  parent: RMCAreaAlmayerEngineering
+  id: RMCAreaAlmayerEngineeringAirmix
+  components:
+  - type: Sprite
+    state: selfdestruct
+  - type: Area
+    alwaysPowered: true
+    noTunnel: true
+
+- type: entity
+  # Stories-ZLevels-End
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerShipboard
   components:
@@ -324,9 +374,7 @@
   id: RMCAreaAlmayerShipboardWeaponRoomNotunnel
   components:
   - type: Area
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerShipboard
@@ -381,7 +429,9 @@
 - type: entity
   parent: RMCAreaAlmayerShipboardBrig
   id: RMCAreaAlmayerShipboardBrigMpBunks
-  name: Brig MP Bunks
+  # Stories-ZLevels-Start
+  name: MP Bunks
+  # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerShipboardBrig
@@ -410,6 +460,23 @@
 
 - type: entity
   parent: RMCAreaAlmayerShipboardBrig
+  # Stories-ZLevels-Start
+  id: RMCAreaAlmayerShipboardBrigVisitation
+  name: Brig Visitation
+
+- type: entity
+  parent: RMCAreaAlmayerShipboardBrig
+  id: RMCAreaAlmayerShipboardBrigVisitationWaiting
+  name: Brig Visitation Waiting Room
+
+- type: entity
+  parent: RMCAreaAlmayerShipboardBrig
+  id: RMCAreaAlmayerShipboardBrigYard
+  name: Brig Yard
+
+- type: entity
+  parent: RMCAreaAlmayerShipboardBrig
+  # Stories-ZLevels-End
   id: RMCAreaAlmayerShipboardBrigGeneralEquipment
   name: Brig General Equipment
 
@@ -417,6 +484,13 @@
   parent: RMCAreaAlmayerShipboardBrig
   id: RMCAreaAlmayerShipboardBrigEvidenceStorage
   name: Brig Evidence Storage
+# Stories-ZLevels-Start
+
+- type: entity
+  parent: RMCAreaAlmayerShipboardBrig
+  id: RMCAreaAlmayerShipboardBrigLower
+  name: Brig Lower Level
+# Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerShipboardBrig
@@ -498,7 +572,6 @@
     zLevel: 2
 
 - type: entity
-  abstract: true
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerHallways
 
@@ -649,13 +722,46 @@
 - type: entity
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerStairClone
-  name: Lower Deck Stairs
+  # Stories-ZLevels-Start
+  name: Stairs
   components:
   - type: Sprite
     state: stairs_lowerdeck
   - type: Area
-    zLevel: 2
     resinConstructionAllowed: false
+
+- type: entity
+  parent: RMCAreaAlmayerStairClone
+  id: RMCAreaAlmayerStairCloneLower
+  # Stories-ZLevels-End
+  name: Lower Deck Stairs
+  components:
+  - type: Sprite
+    # Stories-ZLevels-Start
+    state: stairs_upperdeck
+  - type: Area
+    zLevel: 2
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneLower
+  id: RMCAreaAlmayerStairCloneLowerStarboardAft
+  name: Lower Deck Starboard Aft Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneLower
+  id: RMCAreaAlmayerStairCloneLowerPortAft
+  name: Lower Deck Port Aft Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneLower
+  id: RMCAreaAlmayerStairCloneLowerStarboardFore
+  name: Lower Deck Starboard Fore Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneLower
+  id: RMCAreaAlmayerStairCloneLowerPortFore
+  name: Lower Deck Port Fore Stairs
+    # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerStairClone
@@ -668,6 +774,28 @@
     zLevel: 1
 
 - type: entity
+  # Stories-ZLevels-Start
+  parent: RMCAreaAlmayerStairCloneUpper
+  id: RMCAreaAlmayerStairCloneUpperStarboardAft
+  name: Upper Deck Starboard Aft Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneUpper
+  id: RMCAreaAlmayerStairCloneUpperPortAft
+  name: Upper Deck Port Aft Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneUpper
+  id: RMCAreaAlmayerStairCloneUpperStarboardFore
+  name: Upper Deck Starboard Fore Stairs
+
+- type: entity
+  parent: RMCAreaAlmayerStairCloneUpper
+  id: RMCAreaAlmayerStairCloneUpperPortFore
+  name: Upper Deck Port Fore Stairs
+
+- type: entity
+  # Stories-ZLevels-End
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerMaint
 
@@ -772,6 +900,13 @@
 
 - type: entity
   parent: RMCAreaAlmayerMaintHullLower
+  # Stories-ZLevels-Start
+  id: RMCAreaAlmayerMaintHullLowerLowerAstronav
+  name: Lower Deck Weapons Control Maintenance
+
+- type: entity
+  parent: RMCAreaAlmayerMaintHullLower
+  # Stories-ZLevels-End
   id: RMCAreaAlmayerMaintHullLowerSBow
   name: Lower Deck Starboard-Bow Hull
 
@@ -875,22 +1010,14 @@
   id: RMCAreaAlmayerLiving
   components:
   - type: Area
-    minimapColor: '#6C6767D8'
+    # Stories-ZLevels-Start
+    minimapColor: '#3DBF75EE'
+    # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerLiving
   id: RMCAreaAlmayerLivingTankerbunks
   name: Lower Deck Vehicle Crew Bunks
-  components:
-  - type: Sprite
-    state: livingspace
-  - type: Area
-    zLevel: 2
-
-- type: entity
-  parent: RMCAreaAlmayerLiving
-  id: RMCAreaAlmayerLivingAuxiliaryOfficerOffice
-  name: Lower Deck Auxiliary Support Officer office
   components:
   - type: Sprite
     state: livingspace
@@ -999,6 +1126,28 @@
 
 - type: entity
   parent: RMCAreaAlmayerLiving
+  # Stories-ZLevels-Start
+  id: RMCAreaAlmayerLivingAuxiliaryOfficerOffice
+  name: Upper Deck Auxiliary Support Officer office
+  components:
+  - type: Sprite
+    state: livingspace
+  - type: Area
+    zLevel: 1
+
+- type: entity
+  parent: RMCAreaAlmayerLiving
+  id: RMCAreaAlmayerLivingIntel
+  name: Intelligence Officer's Bunks
+  components:
+  - type: Sprite
+    state: livingspace
+  - type: Area
+    zLevel: 1
+
+- type: entity
+  parent: RMCAreaAlmayerLiving
+  # Stories-ZLevels-End
   id: RMCAreaAlmayerLivingCafeteriaPort
   name: Cafeteria Port
   components:
@@ -1044,6 +1193,18 @@
   components:
   - type: Sprite
     state: briefing
+  # Stories-ZLevels-Start
+  - type: Area
+    zLevel: 2
+
+- type: entity
+  parent: RMCAreaAlmayerLivingOffices
+  id: RMCAreaAlmayerLivingOfficesCryo
+  name: Support Crew Cryogenics Bay
+  components:
+  - type: Sprite
+    state: cryo
+  # Stories-ZLevels-End
   - type: Area
     zLevel: 2
 
@@ -1127,7 +1288,9 @@
   id: RMCAreaAlmayerMedical
   components:
   - type: Area
-    minimapColor: '#3DBF75EE'
+    # Stories-ZLevels-Start
+    minimapColor: '#812DA2EE'
+    # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerMedical
@@ -1158,7 +1321,6 @@
     state: operating
   - type: Area
     zLevel: 1
-  - type: IntelRecoverCorpsesArea
 
 - type: entity
   parent: RMCAreaAlmayerMedical
@@ -1209,7 +1371,6 @@
     state: science
   - type: Area
     zLevel: 1
-    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerMedical
@@ -1228,27 +1389,24 @@
   components:
   - type: Sprite
     state: science
-  - type: Area
-    zLevel: 1
-  - type: IntelRecoverCorpsesArea
 
 - type: entity
   parent: RMCAreaAlmayerMedicalContainment
   id: RMCAreaAlmayerMedicalContainmentCell
   name: Medical Research containment cells
   components:
-  - type: Sprite
-    state: science
+  # Stories-ZLevels-Start
   - type: Area
-    zLevel: 1
+  # Stories-ZLevels-End
     avoidBioscan: true
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerMedicalContainmentCell
   id: RMCAreaAlmayerMedicalContainmentCellCl
-  name: Containment
+  # Stories-ZLevels-Start
+  name: Storage Room
+  # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerMedical
@@ -1367,30 +1525,24 @@
 - type: entity
   parent: RMCAreaAlmayer
   id: RMCAreaAlmayerPowered
+  # Stories-ZLevels-Start
+  name: Powered
+  components:
+  - type: Sprite
+    state: selfdestruct
+  - type: Area
+    alwaysPowered: true
+  # Stories-ZLevels-End
 
 - type: entity
   parent: RMCAreaAlmayerPowered
   id: RMCAreaAlmayerPoweredAgent
   name: Unknown Area
   components:
-  - type: Sprite
-    state: selfdestruct
   - type: Area
     zLevel: 2
     avoidBioscan: true
     noTunnel: true
-    unweedable: false
-
-- type: entity
-  parent: RMCAreaAlmayerEngineering
-  id: RMCAreaAlmayerEngineeringAirmix
-  components:
-  - type: Sprite
-    state: selfdestruct
-  - type: Area
-    avoidBioscan: false
-    noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayer
@@ -1426,17 +1578,6 @@
   name: Port-Aft Lifeboat Fuel Pump
 
 - type: entity
-  parent: RMCAreaAlmayerCommand
-  id: RMCAreaAlmayerCommandLifeboat
-  name: Lifeboat Docking Port
-  components:
-  - type: Sprite
-    state: selfdestruct
-  - type: Area
-    zLevel: 1
-
-- type: entity
-  abstract: true
   parent: RMCAreaSpace
   id: RMCAreaSpaceAlmayer
 
@@ -1450,9 +1591,7 @@
     state: lifeboat
   - type: Area
     zLevel: 1
-    avoidBioscan: false
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayer
@@ -1462,9 +1601,10 @@
     sprite: _RMC14/Areas/areas.rsi
     state: shuttle2
   - type: Area
-    avoidBioscan: false
+    # Stories-ZLevels-Start
+    alwaysPowered: true
+    # Stories-ZLevels-End
     noTunnel: true
-    unweedable: false
 
 - type: entity
   parent: RMCAreaAlmayerEvacuation
@@ -1613,3 +1753,140 @@
 - type: entity
   parent: RMCAreaAlmayerEvacuationStranded
   id: RMCAreaAlmayerEvacuationStrandedPod18
+
+# Stories-ZLevels-Start
+- type: entity
+  parent: RMCAreaAlmayer
+  id: RMCAreaAlmayerMiddeck
+  name: USS Almayer - Middle Deck
+  components:
+  - type: Sprite
+    state: lowerhull
+  - type: Area
+    buildSpecial: false
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckHanger
+  name: Middle Deck - Hangerbay Catwalks
+  components:
+  - type: Sprite
+    state: hangar
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckMedical
+  name: Middle Deck - Medical Catwalks
+  components:
+  - type: Sprite
+    state: medical
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckEngineer
+  name: Middle Deck - Engineering Catwalks
+  components:
+  - type: Sprite
+    state: workshop
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckReq
+  name: Middle Deck - Requisition Catwalks
+  components:
+  - type: Sprite
+    state: req
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckBriefing
+  name: Middle Deck - Briefing Catwalks
+  components:
+  - type: Sprite
+    state: briefing
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeck
+  id: RMCAreaAlmayerMiddeckMaintenance
+  name: Middle Deck Maintenance - Parent
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceBow
+  name: Middle Deck Maintenance - Bow
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenancePb
+  name: Middle Deck Maintenance - Port-Bow
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceSb
+  name: Middle Deck Maintenance - Starboard-Bow
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceAmidship
+  name: Middle Deck Maintenance - Amidship
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceSf
+  name: Middle Deck Maintenance - Starboard-Fore
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceSp
+  name: Middle Deck Maintenance - Port-Fore
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceAft
+  name: Middle Deck Maintenance - Aft
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenanceSaft
+  name: Middle Deck Maintenance - Starboard-Aft
+
+- type: entity
+  parent: RMCAreaAlmayerMiddeckMaintenance
+  id: RMCAreaAlmayerMiddeckMaintenancePaft
+  name: Middle Deck Maintenance - Port-Aft
+
+- type: entity
+  parent: RMCAreaAlmayer
+  id: RMCAreaAlmayerUnderdeck
+  name: USS Almayer - Under Deck
+  components:
+  - type: Sprite
+    state: lowerhull
+  - type: Area
+    buildSpecial: false
+
+- type: entity
+  parent: RMCAreaAlmayerUnderdeck
+  id: RMCAreaAlmayerUnderdeckHangar
+  name: USS Almayer - Under Deck Hangar
+  components:
+  - type: Sprite
+    state: hangar
+
+- type: entity
+  parent: RMCAreaAlmayerUnderdeck
+  id: RMCAreaAlmayerUnderdeckReq
+  name: USS Almayer - Under Deck Cargo
+  components:
+  - type: Sprite
+    state: req
+
+- type: entity
+  parent: RMCAreaAlmayerUnderdeck
+  id: RMCAreaAlmayerUnderdeckVehicle
+  name: USS Almayer - Under Deck Vehicle Bay
+  components:
+  - type: Sprite
+    state: req
+
+# Stories-ZLevels-End

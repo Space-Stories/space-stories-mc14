@@ -1,0 +1,12 @@
+- type: alert
+  id: STZLayerLookUp
+  icons:
+  - sprite: /Textures/_Stories/Interface/Alerts/z_layers.rsi
+    state: uphint0
+  - sprite: /Textures/_Stories/Interface/Alerts/z_layers.rsi
+    state: uphint1
+  minSeverity: 0
+  maxSeverity: 1
+  clickEvent: !type:ToggleLookUpAlertEvent
+  name: stories-z-level-look-up-name
+  description: stories-z-level-look-up-desc

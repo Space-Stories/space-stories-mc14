@@ -24,6 +24,7 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -57,6 +58,7 @@ public sealed class SentrySystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     [Dependency] private readonly SharedSentryTargetingSystem _targeting = default!;
     [Dependency] private readonly SharedPointLightSystem _pointLight = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private readonly HashSet<EntityUid> _toUpdate = new();
 
@@ -74,6 +76,7 @@ public sealed class SentrySystem : EntitySystem
         SubscribeLocalEvent<SentryComponent, ExaminedEvent>(OnSentryExamined);
         SubscribeLocalEvent<SentryComponent, CombatModeShouldHandInteractEvent>(OnSentryShouldInteract);
         SubscribeLocalEvent<SentryComponent, BeforeDamageChangedEvent>(OnBeforeDamageChanged);
+        SubscribeLocalEvent<SentryComponent, ZLevelFallMapEvent>(OnSentryFall); // Stories-ZLevels
         SubscribeLocalEvent<SentrySpikesComponent, AttackedEvent>(OnSentrySpikesAttacked);
 
         Subs.BuiEvents<SentryComponent>(SentryUiKey.Key,
@@ -377,6 +380,17 @@ public sealed class SentrySystem : EntitySystem
         }
     }
 
+    // Stories-ZLevels-Start
+    private void OnSentryFall(Entity<SentryComponent> sentry, ref ZLevelFallMapEvent args)
+    {
+        sentry.Comp.Mode = SentryMode.Off;
+        RemCompDeferred<MaxRotationComponent>(sentry);
+        _transform.Unanchor(sentry.Owner, Transform(sentry));
+        UpdateState(sentry);
+        Dirty(sentry);
+    }
+
+    // Stories-ZLevels-End
     private bool CanDeployPopup(
         Entity<SentryComponent> sentry,
         EntityUid user,
@@ -399,6 +413,17 @@ public sealed class SentrySystem : EntitySystem
         var direction = rotation.GetCardinalDir();
         coordinates = coordinates.Offset(direction.ToVec());
         if (!_rmcMap.CanBuildOn(coordinates))
+        // Stories-ZLevels-Start
+        {
+            var msg = Loc.GetString("rmc-sentry-need-open-area", ("sentry", sentry));
+            _popup.PopupClient(msg, user, user, PopupType.SmallCaution);
+            return false;
+        }
+
+        var mapCoords = _transform.ToMapCoordinates(coordinates);
+        var worldPos = mapCoords.Position;
+        if (Transform(user).MapUid is { } mapUid && _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
+        // Stories-ZLevels-End
         {
             var msg = Loc.GetString("rmc-sentry-need-open-area", ("sentry", sentry));
             _popup.PopupClient(msg, user, user, PopupType.SmallCaution);

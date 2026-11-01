@@ -687,6 +687,11 @@ public sealed class RMCStorageSystem : EntitySystem
             {
                 foreach (var toClose in _toClose)
                 {
+                    // Stories-ZLevels-Start
+                    if (TerminatingOrDeleted(toClose) || !Exists(toClose) || !HasComp<TransformComponent>(toClose))
+                        continue;
+
+                    // Stories-ZLevels-End
                     var locked = _lock.IsLocked(toClose);
                     if (locked)
                         _lock.Unlock(toClose, null);

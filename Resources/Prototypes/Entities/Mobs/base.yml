@@ -46,6 +46,9 @@
   - type: TTS # Stories-TTS
   - type: RequireProjectileTarget
     active: False
+  # Stories-ZLevels-Start
+  - type: ZPhysics
+  # Stories-ZLevels-End
 
 - type: entity
   save: false

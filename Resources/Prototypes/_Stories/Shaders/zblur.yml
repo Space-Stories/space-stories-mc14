@@ -1,0 +1,4 @@
+- type: shader
+  id: ZBlur
+  kind: source
+  path: "/Textures/_Stories/Shaders/zblur.swsl"

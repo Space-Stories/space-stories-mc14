@@ -23,11 +23,13 @@ using Robust.Server.Player;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components; // Stories-ZLevels
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 
 namespace Content.Server.Explosion.EntitySystems;
 
@@ -52,6 +54,7 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private EntityQuery<FlammableComponent> _flammableQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
@@ -413,6 +416,33 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
         // So actually maybe don't use Filter.Pvs at all and only use AddInRange?
         var audioRange = Math.Min(iterationIntensity.Count * 2, MaxExplosionAudioRange);
         var filter = Filter.Pvs(pos).AddInRange(pos, audioRange);
+        var farAudioRange = iterationIntensity.Count * 5;
+        var farFilter = Filter.Empty().AddInRange(pos, farAudioRange).RemoveInRange(pos, audioRange);
+
+        // Stories: Propagate explosion audio to adjacent Z-levels
+        if (_map.TryGetMap(pos.MapId, out var mapUid))
+        {
+            for (var i = 1; i <= SharedZLevelsSystem.MaxZLevelsAboveRendering; i++)
+            {
+                if (_zLevels.TryMapOffset(mapUid.Value, i, out var mapAbove) && TryComp<MapComponent>(mapAbove, out var compAbove))
+                {
+                    var coordsAbove = new MapCoordinates(pos.Position, compAbove.MapId);
+                    filter.AddPlayersByPvs(coordsAbove).AddInRange(coordsAbove, audioRange);
+                    farFilter.AddInRange(coordsAbove, farAudioRange).RemoveInRange(coordsAbove, audioRange);
+                }
+            }
+
+            for (var i = 1; i <= SharedZLevelsSystem.MaxZLevelsBelowRendering; i++)
+            {
+                if (_zLevels.TryMapOffset(mapUid.Value, -i, out var mapBelow) && TryComp<MapComponent>(mapBelow, out var compBelow))
+                {
+                    var coordsBelow = new MapCoordinates(pos.Position, compBelow.MapId);
+                    filter.AddPlayersByPvs(coordsBelow).AddInRange(coordsBelow, audioRange);
+                    farFilter.AddInRange(coordsBelow, farAudioRange).RemoveInRange(coordsBelow, audioRange);
+                }
+            }
+        }
+
         var sound = iterationIntensity.Count < queued.Proto.SmallSoundIterationThreshold
             ? queued.Proto.SmallSound
             : queued.Proto.Sound;
@@ -421,8 +451,6 @@ public sealed partial class ExplosionSystem : SharedExplosionSystem
 
         // play far sound
         // far sound should play for anyone who wasn't in range of any of the effects of the bomb
-        var farAudioRange = iterationIntensity.Count * 5;
-        var farFilter = Filter.Empty().AddInRange(pos, farAudioRange).RemoveInRange(pos, audioRange);
         var farSound = iterationIntensity.Count < queued.Proto.SmallSoundIterationThreshold
             ? queued.Proto.SmallSoundFar
             : queued.Proto.SoundFar;

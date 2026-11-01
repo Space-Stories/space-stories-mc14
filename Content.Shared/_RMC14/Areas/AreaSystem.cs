@@ -98,6 +98,10 @@ public sealed class AreaSystem : EntitySystem
     {
         _toRender.Add(ent);
 
+        // Stories-ZLevels-Start
+        ent.Comp.AreaEntities.Clear();
+
+        // Stories-ZLevels-End
         var areas = ent.Comp.Areas.Values.DistinctBy(a => a.Id);
         foreach (var area in areas)
         {
@@ -126,6 +130,24 @@ public sealed class AreaSystem : EntitySystem
         areaGrid.Areas[position] = area;
 
         EnsureAreaEntityExists(areaGrid, area);
+    // Stories-ZLevels-Start
+    }
+
+    public void SetArea(AreaGridComponent areaGrid, Vector2i position, EntProtoId<AreaComponent> area)
+    {
+        areaGrid.Areas[position] = area;
+    }
+
+    public void RemoveArea(AreaGridComponent areaGrid, Vector2i position)
+    {
+        areaGrid.Areas.Remove(position);
+    }
+
+    public void ClearAreaEntities(Entity<AreaGridComponent> grid)
+    {
+        grid.Comp.AreaEntities.Clear();
+        Dirty(grid);
+    // Stories-ZLevels-End
     }
 
     // Stories-TacMapInsert
