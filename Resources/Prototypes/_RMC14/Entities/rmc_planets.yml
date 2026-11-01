@@ -23,12 +23,12 @@
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clf_ship
-      scenarioProbability: 0.1
+      scenarioProbability: 0.2 # Stories-Parity
     # Stories-CLFSurvivor-End
     - scenarioName: asset_protection
       scenarioProbability: 0.1
     - scenarioName: none
-      scenarioProbability: 0.8 # Stories-CLFSurvivor
+      scenarioProbability: 0.7 # Stories-CLFSurvivor
     # Stories-SynthSurvivor-Start
     survivorJobs:
     - RMCSyntheticColony: 1
