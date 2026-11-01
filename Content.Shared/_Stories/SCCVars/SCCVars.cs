@@ -88,6 +88,18 @@ public sealed class SCCVars
         CVarDef.Create("tts.max_cache", 250, CVar.SERVERONLY | CVar.ARCHIVE);
 
     /// <summary>
+    /// Rate limit period for TTS voice preview requests in seconds.
+    /// </summary>
+    public static readonly CVarDef<float> TTSPreviewRateLimitPeriod =
+        CVarDef.Create("tts.preview_rate_limit_period", 2.0f, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Maximum number of TTS voice preview requests allowed per rate limit period per player.
+    /// </summary>
+    public static readonly CVarDef<int> TTSPreviewRateLimitCount =
+        CVarDef.Create("tts.preview_rate_limit_count", 2, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
     /// Enable a radio effect for TTS messages sent over radio channels.
     /// </summary>
     public static readonly CVarDef<bool> TTSRadioEffect =
