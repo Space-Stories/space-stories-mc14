@@ -533,22 +533,9 @@ public sealed partial class AnnouncementWidget
         if (Parent is not Control parent || ActiveAnnouncement == null)
             return default;
 
-        var screenSize = parent.Size.X > 0f && parent.Size.Y > 0f
-            ? parent.Size
-            : ResolveScreenSize();
-
-        // Position within the gameplay viewport
-        var viewportOffset = Vector2.Zero;
-        var positioningSize = screenSize;
-        if (ForcedScreenSize == null)
-        {
-            var viewport = _uiManager.ActiveScreen?.GetWidget<MainViewport>();
-            if (viewport is { Size.X: > 0f, Size.Y: > 0f })
-            {
-                positioningSize = viewport.Size;
-                viewportOffset = viewport.GlobalPosition - parent.GlobalPosition;
-            }
-        }
+        var viewportBounds = ResolveViewportBounds();
+        var viewportOffset = viewportBounds.TopLeft;
+        var positioningSize = viewportBounds.Size;
 
         Vector2 widgetSize;
         if (sizeOverride is { } resolvedSize)
@@ -576,6 +563,18 @@ public sealed partial class AnnouncementWidget
             style);
 
         return new AnnouncementWidgetLayout(position, widgetSize);
+    }
+
+    internal UIBox2 ResolveViewportBounds()
+    {
+        if (ForcedScreenSize == null && Parent is Control parent)
+        {
+            var viewport = _uiManager.ActiveScreen?.GetWidget<MainViewport>();
+            if (viewport is { Size.X: > 0f, Size.Y: > 0f })
+                return UIBox2.FromDimensions(viewport.GlobalPosition - parent.GlobalPosition, viewport.Size);
+        }
+
+        return UIBox2.FromDimensions(Vector2.Zero, ResolveScreenSize());
     }
 
     internal HAlignment ResolveStackAlignment()
