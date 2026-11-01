@@ -1,0 +1,22 @@
+<local:HermesTicketRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt">
+    <crt:RMCCrtPanel HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="4">
+            <crt:RMCCrtLabel Name="Header" Access="Public" Heading="True" />
+            <crt:RMCCrtLabel Name="Submitter" Access="Public" Tone="Muted" />
+            <crt:RMCCrtLabel Name="Details" Access="Public" />
+            <crt:RMCCrtLabel Name="Assignee" Access="Public" Tone="Muted" />
+            <GridContainer Columns="3">
+                <crt:RMCCrtActionButton Name="Claim" Access="Public" Text="{Loc stories-hermes-claim}" />
+                <crt:RMCCrtActionButton Name="Complete" Access="Public" Text="{Loc stories-hermes-complete}" />
+                <crt:RMCCrtActionButton Name="Reject" Access="Public" Text="{Loc stories-hermes-reject}" />
+                <crt:RMCCrtActionButton Name="Priority" Access="Public" Text="{Loc stories-hermes-priority}" />
+                <crt:RMCCrtActionButton Name="Grant" Access="Public" Text="{Loc stories-hermes-grant}" />
+                <crt:RMCCrtActionButton Name="Revoke" Access="Public" Text="{Loc stories-hermes-revoke}" />
+                <crt:RMCCrtActionButton Name="Return" Access="Public" Text="{Loc stories-hermes-return}" />
+                <crt:RMCCrtActionButton Name="Cancel" Access="Public" Text="{Loc stories-hermes-cancel}" />
+            </GridContainer>
+        </BoxContainer>
+    </crt:RMCCrtPanel>
+</local:HermesTicketRow>

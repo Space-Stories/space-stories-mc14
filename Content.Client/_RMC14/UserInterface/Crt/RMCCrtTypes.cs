@@ -35,6 +35,7 @@ public enum RMCCrtPanelVariant
 public enum RMCCrtButtonVariant
 {
     Danger,
+    DangerOutline,
     Flat,
     Filled,
     Navigation,

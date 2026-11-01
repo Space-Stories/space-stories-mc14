@@ -610,7 +610,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         OnOpenMedalsPanel(new Entity<MarineControlComputerComponent>(ent.Owner, controlComp), ref args);
     }
 
-    private bool CanToggleEvacuation()
+    public bool CanToggleEvacuation() // Stories-Ares
     {
         if (_evacuation.IsEvacuationEnabled())
             return true;

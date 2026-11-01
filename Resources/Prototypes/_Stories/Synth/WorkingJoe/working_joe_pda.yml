@@ -10,11 +10,18 @@
     state: icon
   - type: Item
     size: Small
-  - type: ARESExternalTerminal
-    showsLogs: true
+  - type: AresTerminal
+  - type: HermesTerminal
+    portable: true
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
   - type: ActivatableUI
-    key: enum.ARESExternalTerminalUIKey.Key
+    key: enum.HermesUiKey.Key
+    inHandsOnly: true
   - type: UserInterface
     interfaces:
-      enum.ARESExternalTerminalUIKey.Key:
-        type: ARESExternalTerminalBui
+      enum.HermesUiKey.Key:
+        type: HermesBui
+      enum.AresUiKey.Logs:
+        type: AresLogsBui

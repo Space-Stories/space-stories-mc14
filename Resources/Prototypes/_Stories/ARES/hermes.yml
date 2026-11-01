@@ -1,0 +1,149 @@
+- type: entity
+  id: STFactionARES
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IFFFaction
+
+- type: accessLevel
+  id: STAccessHermes
+  parent: RMCBaseARESAccess
+  name: stories-hermes-permission-core
+
+- type: accessLevel
+  id: STAccessHermesTemporary
+  parent: RMCBaseARESAccess
+  name: stories-hermes-permission-temporary
+
+- type: accessLevel
+  id: STAccessHermesTechnician
+  parent: RMCBaseARESAccess
+  name: stories-hermes-permission-technician
+
+- type: sourcePort
+  id: STHermesSecurity
+  name: stories-hermes-port-name
+  description: stories-hermes-port-description
+  defaultLinks: [ STHermesSecurity ]
+
+- type: sinkPort
+  id: STHermesSecurity
+  name: stories-hermes-port-name
+  description: stories-hermes-port-description
+
+- type: entity
+  parent: CMVentPump
+  id: STVentSecurityCN20
+  name: ARES security air vent
+  description: A reinforced ventilation outlet connected to the AI core's CN20-X security gas reserve.
+  components:
+  - type: HermesSecurityVent
+  - type: DeviceLinkSink
+    ports: [ STHermesSecurity ]
+
+- type: entity
+  parent: RMCPodDoorAIBlackLockdown
+  id: STHermesLockdownShutter
+  name: AI core security shutter
+  components:
+  - type: HermesLockdownDoor
+  - type: DeviceLinkSink
+    ports: [ STHermesSecurity ]
+
+- type: entity
+  parent: RMCPodDoorAI
+  id: STHermesCoreDoor
+  name: AI core access door
+  components:
+  - type: AccessReader
+    access:
+    - [ STAccessHermes ]
+    - [ STAccessHermesTemporary ]
+    - [ STAccessHermesTechnician ]
+    - [ CMAccessCO ]
+    - [ CMAccessCE ]
+    - [ RMCAccessSynth ]
+
+- type: entity
+  id: STGasCN20X
+  name: CN20-X nerve gas
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform
+    anchored: true
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      gas:
+        hard: false
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.4,-0.4,0.4,0.4"
+        mask: [ MobMask ]
+        layer: [ MidImpassable ]
+  - type: Sprite
+    drawdepth: Effects
+    sprite: _RMC14/Effects/smoke.rsi
+    state: smoke2
+    color: "#2da9da99"
+  - type: TimedDespawn
+    lifetime: 12
+  - type: Tag
+    tags: [ HideContextMenu ]
+  - type: ActiveEdgeSpreader
+  - type: EdgeSpreader
+    id: RMCSmokeAcid
+  - type: EvenSmoke
+    spawn: STGasCN20X
+    range: 6
+  - type: CN20Gas
+    resistant:
+      components: [ Hunter ]
+
+- type: entity
+  parent: STGasCN20X
+  id: STGasCN20
+  name: CN20 nerve gas
+  components:
+  - type: Sprite
+    color: "#80c7e499"
+  - type: EvenSmoke
+    spawn: STGasCN20
+    range: 6
+  - type: CN20Gas
+    affectsXenos: false
+    knockdownChance: 0.2
+
+- type: entity
+  parent: MarkerBase
+  id: STHermesMovementSensor
+  name: HERMES core movement sensor
+  description: Reports unauthorized movement to the HERMES link.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Markers/landmarks.rsi
+    layers:
+    - state: trigger
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      sensor:
+        hard: false
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49"
+        mask: [ MobLayer ]
+        layer: [ HighImpassable ]
+  - type: HermesSensor
+  - type: DeviceLinkSink
+    ports: [ STHermesSecurity ]
+
+- type: entity
+  parent: STHermesMovementSensor
+  id: STHermesAccessControlSensor
+  name: HERMES visitation exit sensor
+  description: Revokes temporary AI core access when its holder leaves in the configured exit direction.
+  components:
+  - type: HermesSensor
+    revokeOnExit: true
+    exitDirection: South

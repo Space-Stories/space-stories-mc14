@@ -1,11 +1,11 @@
 meta:
   format: 7
   category: Map
-  engineVersion: 264.0.2-fix-physics
+  engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 10/18/2026 13:52:57
-  entityCount: 29594
+  time: 10/31/2026 21:43:36
+  entityCount: 29625
 maps:
 - 1
 grids:
@@ -62148,7 +62148,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -223375.02
+      secondsUntilStateChange: -223912.95
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -62172,7 +62172,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -223375.02
+      secondsUntilStateChange: -223912.95
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -80118,45 +80118,6 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -90.5,94.5
-      parent: 1
-    - type: AtmosPipeColor
-      color: '#0000FFFF'
-  - uid: 8454
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 117.5,49.5
-      parent: 1
-    - type: AtmosPipeColor
-      color: '#0000FFFF'
-  - uid: 8455
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 123.5,49.5
-      parent: 1
-    - type: AtmosPipeColor
-      color: '#0000FFFF'
-  - uid: 8456
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 121.5,52.5
-      parent: 1
-    - type: AtmosPipeColor
-      color: '#0000FFFF'
-  - uid: 8457
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 130.5,55.5
-      parent: 1
-    - type: AtmosPipeColor
-      color: '#0000FFFF'
-  - uid: 8458
-    components:
-    - type: Transform
-      pos: 120.5,59.5
       parent: 1
     - type: AtmosPipeColor
       color: '#0000FFFF'
@@ -136148,6 +136109,167 @@ entities:
     - type: Transform
       pos: 120.5,62.5
       parent: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        8454:
+        - - STHermesSecurity
+          - STHermesSecurity
+        8455:
+        - - STHermesSecurity
+          - STHermesSecurity
+        8456:
+        - - STHermesSecurity
+          - STHermesSecurity
+        8457:
+        - - STHermesSecurity
+          - STHermesSecurity
+        8458:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29595:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29596:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29262:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29263:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29264:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29265:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29266:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29267:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29268:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26739:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26740:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26741:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26742:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26743:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26744:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26745:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26746:
+        - - STHermesSecurity
+          - STHermesSecurity
+        26747:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29597:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29598:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29599:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29600:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29601:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29602:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29603:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29604:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29605:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29606:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29607:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29608:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29609:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29610:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29611:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29612:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29613:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29614:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29615:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29616:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29617:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29618:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29619:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29620:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29621:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29622:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29623:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29624:
+        - - STHermesSecurity
+          - STHermesSecurity
+        29625:
+        - - STHermesSecurity
+          - STHermesSecurity
+        18818:
+        - - STHermesSecurity
+          - STHermesSecurity
 - proto: RMCAICoreCPU
   entities:
   - uid: 18809
@@ -150941,7 +151063,7 @@ entities:
       pos: 71.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369962.66
+      secondsUntilStateChange: -370500.6
       state: Opening
   - uid: 21501
     components:
@@ -150949,7 +151071,7 @@ entities:
       pos: 72.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369962.22
+      secondsUntilStateChange: -370500.16
       state: Opening
   - uid: 21502
     components:
@@ -150957,7 +151079,7 @@ entities:
       pos: 73.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369961.8
+      secondsUntilStateChange: -370499.75
       state: Opening
   - uid: 21503
     components:
@@ -150965,7 +151087,7 @@ entities:
       pos: 71.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369956.28
+      secondsUntilStateChange: -370494.22
       state: Opening
   - uid: 21504
     components:
@@ -150973,7 +151095,7 @@ entities:
       pos: 72.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369956.7
+      secondsUntilStateChange: -370494.62
       state: Opening
   - uid: 21505
     components:
@@ -150981,7 +151103,7 @@ entities:
       pos: 73.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -369957.1
+      secondsUntilStateChange: -370495.03
       state: Opening
   - uid: 21506
     components:
@@ -150991,7 +151113,7 @@ entities:
       pos: 11.5,91.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -102502.8
+      secondsUntilStateChange: -103040.73
       state: Opening
   - uid: 21507
     components:
@@ -153494,6 +153616,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 117.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: VentCrawlable
       travelDirection: NEBend
     - type: AtmosPipeColor
@@ -153504,6 +153628,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 124.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: VentCrawlable
       travelDirection: NEBend
     - type: AtmosPipeColor
@@ -153514,6 +153640,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 124.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: VentCrawlable
       travelDirection: NEBend
     - type: AtmosPipeColor
@@ -153524,6 +153652,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 129.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: VentCrawlable
       travelDirection: NEBend
     - type: AtmosPipeColor
@@ -153534,6 +153664,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 129.5,55.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: VentCrawlable
       travelDirection: NEBend
     - type: AtmosPipeColor
@@ -154907,6 +155039,8 @@ entities:
     - type: Transform
       pos: 120.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 22025
@@ -154914,6 +155048,8 @@ entities:
     - type: Transform
       pos: 120.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 22026
@@ -163474,6 +163610,8 @@ entities:
     - type: Transform
       pos: 129.5,54.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23131
@@ -163481,6 +163619,8 @@ entities:
     - type: Transform
       pos: 129.5,53.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23132
@@ -163489,6 +163629,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 127.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23133
@@ -163497,6 +163639,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 126.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23134
@@ -163505,6 +163649,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 125.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23135
@@ -163513,6 +163659,8 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 128.5,52.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23136
@@ -163521,6 +163669,8 @@ entities:
       rot: 3.141592653589793 rad
       pos: 124.5,51.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23137
@@ -163529,6 +163679,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 121.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23138
@@ -163537,6 +163689,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 122.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23139
@@ -163545,6 +163699,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 119.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23140
@@ -163553,6 +163709,8 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 118.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23141
@@ -163560,6 +163718,8 @@ entities:
     - type: Transform
       pos: 120.5,51.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23142
@@ -163567,6 +163727,8 @@ entities:
     - type: Transform
       pos: 120.5,53.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23143
@@ -163574,6 +163736,8 @@ entities:
     - type: Transform
       pos: 120.5,54.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23144
@@ -163581,6 +163745,8 @@ entities:
     - type: Transform
       pos: 120.5,55.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23145
@@ -163588,6 +163754,8 @@ entities:
     - type: Transform
       pos: 120.5,56.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23146
@@ -163595,6 +163763,8 @@ entities:
     - type: Transform
       pos: 120.5,57.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23147
@@ -163602,6 +163772,8 @@ entities:
     - type: Transform
       pos: 120.5,58.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23148
@@ -163609,6 +163781,8 @@ entities:
     - type: Transform
       pos: 120.5,48.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23149
@@ -163616,6 +163790,8 @@ entities:
     - type: Transform
       pos: 120.5,49.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23150
@@ -163623,6 +163799,8 @@ entities:
     - type: Transform
       pos: 120.5,46.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23151
@@ -163630,6 +163808,8 @@ entities:
     - type: Transform
       pos: 120.5,45.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23152
@@ -163637,6 +163817,8 @@ entities:
     - type: Transform
       pos: 120.5,44.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23153
@@ -163644,6 +163826,8 @@ entities:
     - type: Transform
       pos: 120.5,43.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23154
@@ -163651,6 +163835,8 @@ entities:
     - type: Transform
       pos: 120.5,42.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23155
@@ -163658,6 +163844,8 @@ entities:
     - type: Transform
       pos: 120.5,47.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 23156
@@ -174465,6 +174653,8 @@ entities:
     - type: Transform
       pos: 123.5,50.5
       parent: 1
+    - type: RMCHijackRandomDamageTarget
+      enabled: False
     - type: AtmosPipeColor
       color: '#0000FFFF'
   - uid: 24524
@@ -176525,11 +176715,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176559,7 +176749,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -176588,6 +176780,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -176628,11 +176821,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176662,7 +176855,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -176691,6 +176886,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -176731,11 +176927,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176765,7 +176961,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -176794,6 +176992,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -176834,11 +177033,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176868,7 +177067,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -176897,6 +177098,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -176936,11 +177138,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176970,7 +177172,9 @@ entities:
       - CMAccessResearch
       - CMAccessSmartPrep
       - CMAccessDropship
+      - STAccessHermesTechnician
       - CMAccessDelta
+      - STAccessHermes
       - RMCAccessVehicleCrew
       - CMAccessAlpha
       - CMAccessEngineering
@@ -176999,6 +177203,7 @@ entities:
       - CMAccessBravo
       - CMAccessMarinePrep
       - RMCAccessLogs
+      - STAccessHermesTemporary
       - CMAccessCE
       - CMAccessFTLPrep
       - CMAccessArmory
@@ -188196,78 +188401,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 39.5,129.5
       parent: 1
-- proto: RMCPodDoorAI
-  entities:
-  - uid: 26704
-    components:
-    - type: Transform
-      pos: 120.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26705
-    components:
-    - type: Transform
-      pos: 121.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26706
-    components:
-    - type: Transform
-      pos: 119.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26707
-    components:
-    - type: Transform
-      pos: 116.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 6
-  - uid: 26708
-    components:
-    - type: Transform
-      pos: 115.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 6
-  - uid: 26709
-    components:
-    - type: Transform
-      pos: 124.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 9
-  - uid: 26710
-    components:
-    - type: Transform
-      pos: 125.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 9
-  - uid: 26711
-    components:
-    - type: Transform
-      pos: 120.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
-  - uid: 26712
-    components:
-    - type: Transform
-      pos: 119.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
-  - uid: 26713
-    components:
-    - type: Transform
-      pos: 121.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
 - proto: RMCPodDoorAIBlackLockdown
   entities:
   - uid: 26714
@@ -188454,49 +188587,85 @@ entities:
     - type: Transform
       pos: 119.5,48.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26740
     components:
     - type: Transform
       pos: 121.5,48.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26741
     components:
     - type: Transform
       pos: 120.5,48.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26742
     components:
     - type: Transform
       pos: 119.5,55.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26743
     components:
     - type: Transform
       pos: 120.5,55.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26744
     components:
     - type: Transform
       pos: 121.5,55.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26745
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 116.5,60.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26746
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 116.5,59.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
   - uid: 26747
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 116.5,58.5
       parent: 1
+    - type: HermesLockdownDoor
+    - type: DeviceLinkSink
+      ports:
+      - STHermesSecurity
 - proto: RMCPodDoorAlmayer
   entities:
   - uid: 6293
@@ -192355,6 +192524,16 @@ entities:
       id: ARES Door 11
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27124
     components:
     - type: Transform
@@ -192364,6 +192543,16 @@ entities:
       id: ARES Door 11
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27125
     components:
     - type: Transform
@@ -192373,6 +192562,16 @@ entities:
       id: ARES Door 6
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27126
     components:
     - type: Transform
@@ -192382,6 +192581,16 @@ entities:
       id: ARES Door 6
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27127
     components:
     - type: Transform
@@ -192391,6 +192600,17 @@ entities:
       id: ARES Door 5
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27128
     components:
     - type: Transform
@@ -192400,6 +192620,17 @@ entities:
       id: ARES Door 5
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27129
     components:
     - type: Transform
@@ -192409,6 +192640,16 @@ entities:
       id: ARES Door 9
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27130
     components:
     - type: Transform
@@ -192418,6 +192659,16 @@ entities:
       id: ARES Door 9
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27131
     components:
     - type: Transform
@@ -192427,6 +192678,17 @@ entities:
       id: ARES Door 5
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27132
     components:
     - type: Transform
@@ -192436,6 +192698,17 @@ entities:
       id: ARES Door 5
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27133
     components:
     - type: Transform
@@ -192445,6 +192718,16 @@ entities:
       id: ARES Door 7
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27134
     components:
     - type: Transform
@@ -192454,6 +192737,16 @@ entities:
       id: ARES Door 7
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27135
     components:
     - type: Transform
@@ -192463,6 +192756,16 @@ entities:
       id: ARES Door 8
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27136
     components:
     - type: Transform
@@ -192472,6 +192775,16 @@ entities:
       id: ARES Door 8
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27137
     components:
     - type: Transform
@@ -192481,6 +192794,17 @@ entities:
       id: ARES Door 13
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27138
     components:
     - type: Transform
@@ -192490,6 +192814,17 @@ entities:
       id: ARES Door 13
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27139
     components:
     - type: Transform
@@ -192499,6 +192834,17 @@ entities:
       id: ARES Door 13
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27140
     components:
     - type: Transform
@@ -192508,6 +192854,17 @@ entities:
       id: ARES Door 13
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTemporary
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27141
     components:
     - type: Transform
@@ -192517,6 +192874,16 @@ entities:
       id: ARES Door 10
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27142
     components:
     - type: Transform
@@ -192526,6 +192893,16 @@ entities:
       id: ARES Door 10
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27143
     components:
     - type: Transform
@@ -192806,6 +193183,16 @@ entities:
       id: AILockdown
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27171
     components:
     - type: Transform
@@ -195574,6 +195961,16 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES Door 10
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27574
     components:
     - type: Transform
@@ -196364,6 +196761,16 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES Door 7
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27675
     components:
     - type: Transform
@@ -196372,6 +196779,16 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES Door 8
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27676
     components:
     - type: Transform
@@ -196379,6 +196796,16 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES Door 11
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27677
     components:
     - type: Transform
@@ -196386,6 +196813,16 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES Door 11
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+      denyTags: []
   - uid: 27678
     components:
     - type: Transform
@@ -206301,6 +206738,353 @@ entities:
     - type: Transform
       pos: -69.35269,95.72933
       parent: 1
+- proto: STHermesAccessControlSensor
+  entities:
+  - uid: 29616
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: южный выход'
+    - type: Transform
+      pos: 119.5,49.5
+      parent: 1
+  - uid: 29617
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: южный выход'
+    - type: Transform
+      pos: 120.5,49.5
+      parent: 1
+  - uid: 29618
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: южный выход'
+    - type: Transform
+      pos: 121.5,49.5
+      parent: 1
+  - uid: 29619
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный выход'
+    - type: Transform
+      pos: 117.5,58.5
+      parent: 1
+    - type: HermesSensor
+      exitDirection: West
+  - uid: 29620
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный выход'
+    - type: Transform
+      pos: 117.5,59.5
+      parent: 1
+    - type: HermesSensor
+      exitDirection: West
+  - uid: 29621
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный выход'
+    - type: Transform
+      pos: 117.5,60.5
+      parent: 1
+    - type: HermesSensor
+      exitDirection: West
+  - uid: 29622
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: восточный выход'
+    - type: Transform
+      pos: 126.5,52.5
+      parent: 1
+    - type: HermesSensor
+      exitDirection: East
+  - uid: 29623
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: выход к лестнице'
+    - type: Transform
+      pos: 129.5,51.5
+      parent: 1
+  - uid: 29624
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: выход к лестнице'
+    - type: Transform
+      pos: 130.5,51.5
+      parent: 1
+  - uid: 29625
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: выход синтетиков'
+    - type: Transform
+      pos: 130.5,57.5
+      parent: 1
+    - type: HermesSensor
+      exitDirection: North
+- proto: STHermesCoreDoor
+  entities:
+  - uid: 26704
+    components:
+    - type: Transform
+      pos: 120.5,55.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 13
+  - uid: 26705
+    components:
+    - type: Transform
+      pos: 121.5,55.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 13
+  - uid: 26706
+    components:
+    - type: Transform
+      pos: 119.5,55.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 13
+  - uid: 26707
+    components:
+    - type: Transform
+      pos: 116.5,48.5
+      parent: 1
+    - type: AccessReader
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+    - type: RMCPodDoor
+      id: ARES Door 6
+  - uid: 26708
+    components:
+    - type: Transform
+      pos: 115.5,48.5
+      parent: 1
+    - type: AccessReader
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+    - type: RMCPodDoor
+      id: ARES Door 6
+  - uid: 26709
+    components:
+    - type: Transform
+      pos: 124.5,48.5
+      parent: 1
+    - type: AccessReader
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+    - type: RMCPodDoor
+      id: ARES Door 9
+  - uid: 26710
+    components:
+    - type: Transform
+      pos: 125.5,48.5
+      parent: 1
+    - type: AccessReader
+      access:
+      - - STAccessHermes
+      - - STAccessHermesTechnician
+      - - CMAccessCO
+      - - CMAccessCE
+      - - RMCAccessSynth
+    - type: RMCPodDoor
+      id: ARES Door 9
+  - uid: 26711
+    components:
+    - type: Transform
+      pos: 120.5,48.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 5
+  - uid: 26712
+    components:
+    - type: Transform
+      pos: 119.5,48.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 5
+  - uid: 26713
+    components:
+    - type: Transform
+      pos: 121.5,48.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 5
+- proto: STHermesMovementSensor
+  entities:
+  - uid: 29597
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: вход в комплекс'
+    - type: Transform
+      pos: 119.5,50.5
+      parent: 1
+  - uid: 29598
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: вход в комплекс'
+    - type: Transform
+      pos: 120.5,50.5
+      parent: 1
+  - uid: 29599
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: вход в комплекс'
+    - type: Transform
+      pos: 121.5,50.5
+      parent: 1
+  - uid: 29600
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: зал ядра'
+    - type: Transform
+      pos: 119.5,56.5
+      parent: 1
+  - uid: 29601
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: зал ядра'
+    - type: Transform
+      pos: 120.5,56.5
+      parent: 1
+  - uid: 29602
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: зал ядра'
+    - type: Transform
+      pos: 121.5,56.5
+      parent: 1
+  - uid: 29603
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный проход ядра'
+    - type: Transform
+      pos: 117.5,58.5
+      parent: 1
+  - uid: 29604
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный проход ядра'
+    - type: Transform
+      pos: 117.5,59.5
+      parent: 1
+  - uid: 29605
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный проход ядра'
+    - type: Transform
+      pos: 117.5,60.5
+      parent: 1
+  - uid: 29606
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: западный пост'
+    - type: Transform
+      pos: 117.5,50.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresTerminals
+  - uid: 29607
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: восточный пост'
+    - type: Transform
+      pos: 123.5,50.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresTerminals
+  - uid: 29608
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: процессорный отсек'
+    - type: Transform
+      pos: 115.5,47.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresMainframe
+  - uid: 29609
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: процессорный отсек'
+    - type: Transform
+      pos: 116.5,47.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresMainframe
+  - uid: 29610
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: отсек связи'
+    - type: Transform
+      pos: 124.5,47.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: TComms
+  - uid: 29611
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: отсек связи'
+    - type: Transform
+      pos: 125.5,47.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: TComms
+  - uid: 29612
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: восточный коридор'
+    - type: Transform
+      pos: 126.5,52.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresTerminals
+  - uid: 29613
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: восточная лестница'
+    - type: Transform
+      pos: 129.5,51.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresMainframe
+  - uid: 29614
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: восточная лестница'
+    - type: Transform
+      pos: 130.5,51.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: AresMainframe
+  - uid: 29615
+    components:
+    - type: MetaData
+      name: 'ГЕРМЕС: отсек синтетиков'
+    - type: Transform
+      pos: 130.5,56.5
+      parent: 1
+    - type: HermesSensor
+      allowTemporary: False
+      group: SynthBay
 - proto: STHunterFeed5
   entities:
   - uid: 29270
@@ -206747,6 +207531,77 @@ entities:
     - type: Transform
       pos: -28.5,-23.5
       parent: 1
+- proto: STVentSecurityCN20
+  entities:
+  - uid: 8454
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 117.5,49.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Западный операционный пост
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 8455
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 123.5,49.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Восточный операционный пост
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 8456
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 121.5,52.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Центральный проход
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 8457
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 130.5,55.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Отсек синтетиков
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 8458
+    components:
+    - type: Transform
+      pos: 120.5,59.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Зал ядра
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 29595
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 115.5,44.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Процессорный отсек
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
+  - uid: 29596
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 125.5,44.5
+      parent: 1
+    - type: HermesSecurityVent
+      label: Отсек связи
+    - type: AtmosPipeColor
+      color: '#0000FFFF'
 - proto: STWorkingJoeStorageCloset
   entities:
   - uid: 29336

@@ -7,6 +7,13 @@
   components: #has no collission in 13 they have invisible walls behind it
   - type: InteractionOutline
   - type: ARESCore
+  - type: AresInterfaceCore # Stories-Ares
+  # Stories-Hermes-Start
+  - type: HermesCore
+  - type: DeviceLinkSource
+    ports: [ STHermesSecurity ]
+    range: 200
+  # Stories-Hermes-End
   - type: Clickable
   - type: Corrodible
     isCorrodible: false
@@ -133,6 +140,11 @@
   name: ARES Processor (HERMES)
   description: The external component of ARES' HERMES processor. Primarily responsible for coordinating Average Joes and Maintenance Drones. It definitely wasn't stolen from Novaris Industries.
   components:
+  # Stories-Hermes-Start
+  - type: HermesProcessor
+  - type: DeviceLinkSink
+    ports: [ STHermesSecurity ]
+  # Stories-Hermes-End
   - type: Sprite
     sprite: _RMC14/Structures/Machines/AIStuff/aicoremachinery.rsi
     layers:
@@ -172,6 +184,21 @@
   name: ARES Interface
   description: A console built to interface with ARES, allowing for 1:1 communication.
   components:
+  # Stories-Ares-Start
+  - type: AresTerminal
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
+  - type: ActivatableUI
+    singleUser: true
+    key: enum.AresUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.AresUiKey.Key:
+        type: AresBui
+      enum.AresUiKey.Logs:
+        type: AresLogsBui
+  # Stories-Ares-End
   - type: Sprite
     sprite: _RMC14/Structures/Machines/AIStuff/aicoremachinery.rsi
     state: console
@@ -206,14 +233,21 @@
   - type: ApcPowerReceiver
     powerLoad: 0
     needsPower: false # Intentional
-  - type: ARESExternalTerminal
-    showsLogs: true
+  # Stories-Hermes-Start
+  - type: HermesTerminal
+  - type: AresTerminal
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
   - type: ActivatableUI
-    key: enum.ARESExternalTerminalUIKey.Key
+    key: enum.HermesUiKey.Key
   - type: UserInterface
     interfaces:
-      enum.ARESExternalTerminalUIKey.Key:
-        type: ARESExternalTerminalBui
+      enum.HermesUiKey.Key:
+        type: HermesBui
+      enum.AresUiKey.Logs:
+        type: AresLogsBui
+  # Stories-Hermes-End
 
 - type: entity
   abstract: true

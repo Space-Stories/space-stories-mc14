@@ -14,6 +14,9 @@
   name: ARES sentry deployment system
   description: A floor hatch housing an ARES core defence turret. It deploys automatically when xenomorphs, resin or personnel without UNMC IFF are detected nearby.
   components:
+  - type: HermesSentry
+  - type: DeviceLinkSink
+    ports: [ STHermesSecurity ]
   - type: RMCEquipmentDeployer
     deployPrototype: STTurretARES
     isDeployableByHand: false

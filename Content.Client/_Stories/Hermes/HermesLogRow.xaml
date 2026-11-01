@@ -1,0 +1,7 @@
+<local:HermesLogRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt">
+    <crt:RMCCrtPanel HorizontalExpand="True">
+        <crt:RMCCrtLabel Name="Message" Access="Public" Margin="8" />
+    </crt:RMCCrtPanel>
+</local:HermesLogRow>
