@@ -134,9 +134,9 @@
   components:
   - type: RMCPlanetMapPrototype
     map: /Maps/_RMC14/solaris.yml
-    mapsAbove:
-    - /Maps/_Stories/solaris+1.yml
-    - /Maps/_Stories/solaris+2.yml
+    # mapsAbove:
+    # - /Maps/_Stories/solaris+1.yml
+    # - /Maps/_Stories/solaris+2.yml
     camouflage: Desert
     announcements:
     - text: rmc-announcement-planet-solaris
