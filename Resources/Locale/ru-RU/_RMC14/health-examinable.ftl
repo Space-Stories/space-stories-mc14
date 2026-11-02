@@ -6,8 +6,8 @@ rmc-health-examinable-Humanoid-Burn-25 = [color=yellow]{ CAPITALIZE(SUBJECT($tar
 rmc-health-examinable-Humanoid-Burn-50 = [color=orange]{ CAPITALIZE(SUBJECT($target)) } { CONJUGATE-HAVE($target) } сильные ожоги по всему телу.[/color]
 rmc-health-examinable-Humanoid-Burn-75 = [color=orange]{ CAPITALIZE(SUBJECT($target)) } { CONJUGATE-HAVE($target) } тяжёлые ожоги третьей степени по всему телу![/color]
 
-rmc-health-examinable-Humanoid-Airloss-25 = [color=lightblue]У { GENITIVE($target) } синеют губы.[/color]
-rmc-health-examinable-Humanoid-Airloss-75 = [color=lightblue]У { GENITIVE($target) } синеет лицо.[/color]
+rmc-health-examinable-Humanoid-Airloss-25 = [color=lightblue]{ CAPITALIZE(POSS-ADJ($target)) } губы синеют.[/color]
+rmc-health-examinable-Humanoid-Airloss-75 = [color=lightblue]{ CAPITALIZE(POSS-ADJ($target)) } лицо синеет.[/color]
 
 rmc-health-examinable-Mechanical-Brute-25 = [color=yellow]{ CAPITALIZE(SUBJECT($target)) } { CONJUGATE-HAVE($target) } несколько вмятин.[/color]
 rmc-health-examinable-Mechanical-Brute-50 = [color=orange]{ CAPITALIZE(SUBJECT($target)) } { CONJUGATE-BASIC($target, "выглядят", "выглядит") } слегка потрёпанно.[/color]
