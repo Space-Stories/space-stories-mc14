@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/01/2026 19:46:20
-  entityCount: 14080
+  time: 11/01/2026 23:00:39
+  entityCount: 14068
 maps:
 - 1
 grids:
@@ -66379,6 +66379,7 @@ entities:
   - uid: 14027
     components:
     - type: Transform
+      rot: 4.71238898038469 rad
       pos: -34.5,8.2
       parent: 1
   - uid: 14028
@@ -68092,16 +68093,6 @@ entities:
     components:
     - type: Transform
       pos: 63.5,-24.5
-      parent: 1
-  - uid: 9619
-    components:
-    - type: Transform
-      pos: 64.5,-24.5
-      parent: 1
-  - uid: 9620
-    components:
-    - type: Transform
-      pos: 65.5,-24.5
       parent: 1
   - uid: 9621
     components:
@@ -70044,16 +70035,6 @@ entities:
     components:
     - type: Transform
       pos: 63.5,25.5
-      parent: 1
-  - uid: 10003
-    components:
-    - type: Transform
-      pos: 64.5,25.5
-      parent: 1
-  - uid: 10004
-    components:
-    - type: Transform
-      pos: 65.5,25.5
       parent: 1
   - uid: 10005
     components:
@@ -97880,48 +97861,6 @@ entities:
     components:
     - type: Transform
       pos: 21.5,-32.5
-      parent: 1
-- proto: VehicleInvisibleWallNoVision
-  entities:
-  - uid: 13976
-    components:
-    - type: Transform
-      pos: 64.5,-23.5
-      parent: 1
-  - uid: 13977
-    components:
-    - type: Transform
-      pos: 65.5,-23.5
-      parent: 1
-  - uid: 13978
-    components:
-    - type: Transform
-      pos: 64.5,-20.5
-      parent: 1
-  - uid: 13979
-    components:
-    - type: Transform
-      pos: 65.5,-20.5
-      parent: 1
-  - uid: 14042
-    components:
-    - type: Transform
-      pos: 64.5,21.5
-      parent: 1
-  - uid: 14043
-    components:
-    - type: Transform
-      pos: 65.5,21.5
-      parent: 1
-  - uid: 14053
-    components:
-    - type: Transform
-      pos: 64.5,24.5
-      parent: 1
-  - uid: 14054
-    components:
-    - type: Transform
-      pos: 65.5,24.5
       parent: 1
 - proto: VehicleSupplyConsole
   entities:
