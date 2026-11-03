@@ -1,2 +1,2 @@
-cm-grenade-primed-user = Вы используете { $used }!
-cm-grenade-primed-others = { $user } преумножает a { $used }!
+cm-grenade-primed-user = Вы взводите { $used }!
+cm-grenade-primed-others = { $user } взводит { $used }!

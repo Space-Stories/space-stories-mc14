@@ -1,2 +1,2 @@
-rmc-unfold-cardboard-component-verb = Разверните коробку
-rmc-unfold-cardboard-component-failed-not-empty = { $entityName } не пуст.
+rmc-unfold-cardboard-component-verb = Развернуть коробку
+rmc-unfold-cardboard-component-failed-not-empty = { CAPITALIZE($entityName) } не пуста.

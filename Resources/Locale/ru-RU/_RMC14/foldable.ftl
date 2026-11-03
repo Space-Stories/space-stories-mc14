@@ -3,21 +3,21 @@
 rmc-dogtag-verb-hide = Спрятать жетоны
 rmc-dogtag-verb-show = Показать жетоны
 
-rmc-jacket-verb-fold = Завернуть рукава куртки
-rmc-jacket-verb-unfold = Развернуть рукава куртки
+rmc-jacket-verb-fold = Снять куртку
+rmc-jacket-verb-unfold = Надеть куртку
 
 rmc-sleeves-verb-fold = Закатать рукава
 rmc-sleeves-verb-unfold = Раскатать рукава
 
-rmc-pants-verb-fold = Подвернуть штанины
-rmc-pants-verb-unfold = Отвернуть штанины
+rmc-pants-verb-fold = Закатать штанины
+rmc-pants-verb-unfold = Раскатать штанины
 
-rmc-buttons-verb-fold = Переключить кнопки
+rmc-buttons-verb-fold = Застегнуть/расстегнуть пуговицы
 
-rmc-jacket-verb = Завернуть куртку
-rmc-sleeves-verb = Засучить рукава
+rmc-jacket-verb = Переключить куртку
+rmc-sleeves-verb = Переключить рукава
 
-rmc-sleeves-cannot = Вы не можете закатать рукава! Попробуйте надеть пиджак.
+rmc-sleeves-cannot = Вы не можете закатать рукава! Попробуйте надеть куртку.
 
 # Weapons
 rmc-gun-foldable-launcher-unfold-self = Вы начинаете разворачивать и раскрывать { $weapon }
@@ -35,4 +35,4 @@ rmc-gun-foldable-launcher-unfold-finish-others = { $user } заканчивае�
 rmc-gun-foldable-launcher-examine = [bold]Нажмите кнопку [color=cyan]уникального действия[/color] (по умолчанию Пробел), чтобы сложить оружие.[/bold]
 rmc-gun-foldable-launcher-examine-unfold = [bold]Нажмите кнопку [color=cyan]активации в руке[/color] (по умолчанию Z), чтобы развернуть оружие.[/bold]
 
-rmc-gun-foldable-launcher-fold-already-fired-attempt = { $weapon } уже выстрелило — вы не можете сложить его обратно!
+rmc-gun-foldable-launcher-fold-already-fired-attempt = { $weapon } уже выстрелил — вы не можете сложить его обратно!
