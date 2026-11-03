@@ -38,7 +38,10 @@ public sealed partial class ZLevelsSystem
     {
         base.OnViewerMove(ent, ref args);
 
-        var worldPosition = args.NewPosition.ToMapPos(EntityManager, _transform);
+        if (TerminatingOrDeleted(ent) || !_transform.IsValid(args.NewPosition))
+            return;
+
+        var worldPosition = _transform.ToMapCoordinates(args.NewPosition).Position;
         foreach (var eye in ent.Comp.Eyes)
         {
             if (TerminatingOrDeleted(eye))
