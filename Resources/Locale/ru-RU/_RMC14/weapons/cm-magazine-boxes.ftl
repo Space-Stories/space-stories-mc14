@@ -6,7 +6,7 @@ cm-magazine-box-examine-empty = Кажется, тут пусто.
 cm-magazine-box-examine-almost-empty = Кажется, тут почти пусто.
 cm-magazine-box-examine-half-full = Кажется, она наполовину полна.
 cm-magazine-box-examine-almost-full = Кажется, она почти полна.
-cm-magazine-box-examine-magazines = cm-magazine-box-examine-magazines = В ней { $filled } { $filled ->
+cm-magazine-box-examine-magazines = В ней { $filled } { $filled ->
     [one] магазин
     [few] магазина
    *[other] магазинов

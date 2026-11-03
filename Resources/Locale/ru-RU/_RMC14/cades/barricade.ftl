@@ -1,5 +1,5 @@
 rmc-barricade-examine-tip = Для максимальной эффективности рекомендуется [color=cyan]стоять на одном уровне[/color] с баррикадой или на расстоянии [color=cyan]более четырех плиток[/color].
-rmc-barricade-examine-barbed = Поверх этой баррикады натянута колючая проволока.
+rmc-barricade-examine-barbed = Поверх неё натянута колючая проволока.
 
 rmc-barricade-damaged-1 = [color=lightgreen]Похоже, она в хорошем состоянии.[/color]
 rmc-barricade-damaged-2 = [color=yellow]Она слегка повреждена, но всё ещё вполне рабочая.[/color]

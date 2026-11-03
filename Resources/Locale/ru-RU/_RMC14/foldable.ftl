@@ -14,10 +14,10 @@ rmc-pants-verb-unfold = Раскатать штанины
 
 rmc-buttons-verb-fold = Застегнуть/расстегнуть пуговицы
 
-rmc-jacket-verb = Переключить куртку
-rmc-sleeves-verb = Переключить рукава
+rmc-jacket-verb = Снять/надеть куртку
+rmc-sleeves-verb = Закатать/раскатать рукава
 
-rmc-sleeves-cannot = Вы не можете закатать рукава! Попробуйте надеть куртку.
+rmc-sleeves-cannot = Вы не можете закатать рукава! Сперва наденьте куртку.
 
 # Weapons
 rmc-gun-foldable-launcher-unfold-self = Вы начинаете разворачивать и раскрывать { $weapon }
