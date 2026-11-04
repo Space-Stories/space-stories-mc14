@@ -1,11 +1,13 @@
 using System.Linq;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
+using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 
@@ -14,6 +16,7 @@ namespace Content.Shared._Stories.Weapons.Guns;
 public sealed class AkimboSystem : EntitySystem
 {
     [Dependency] private readonly SharedContainerSystem _containers = default!;
+    [Dependency] private readonly SharedGunSystem _gun = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -22,9 +25,28 @@ public sealed class AkimboSystem : EntitySystem
     {
         base.Initialize();
 
+        SubscribeLocalEvent<AkimboComponent, GotEquippedHandEvent>(OnAkimboEquippedHand);
+        SubscribeLocalEvent<AkimboComponent, GotUnequippedHandEvent>(OnAkimboUnequippedHand);
         SubscribeLocalEvent<AkimboComponent, GetWeaponAccuracyEvent>(OnAkimboGetWeaponAccuracy);
         SubscribeLocalEvent<AkimboComponent, GunRefreshModifiersEvent>(OnAkimboRefreshModifiers);
         SubscribeLocalEvent<AkimboUserComponent, ShotAttemptedEvent>(OnAkimboShotAttempted);
+    }
+
+    private void OnAkimboEquippedHand(Entity<AkimboComponent> gun, ref GotEquippedHandEvent args)
+    {
+        RefreshAkimboModifiers(gun);
+    }
+
+    private void OnAkimboUnequippedHand(Entity<AkimboComponent> gun, ref GotUnequippedHandEvent args)
+    {
+        RefreshAkimboModifiers(gun);
+    }
+
+    private void RefreshAkimboModifiers(Entity<AkimboComponent> gun)
+    {
+        _gun.RefreshModifiers(gun.Owner);
+        if (TryGetOtherAkimboGun(gun, out var otherGun))
+            _gun.RefreshModifiers(otherGun.Owner);
     }
 
     private void OnAkimboShotAttempted(Entity<AkimboUserComponent> ent, ref ShotAttemptedEvent args)
@@ -32,7 +54,10 @@ public sealed class AkimboSystem : EntitySystem
         if (args.Cancelled || !HasComp<AkimboComponent>(args.Used))
             return;
 
-        if (ent.Comp.NextFire > _timing.CurTime && ent.Comp.LastFiredGun != args.Used.Owner)
+        if (!TryGetAkimboGuns(args.Used.Owner, out _, out _))
+            return;
+
+        if (ent.Comp.NextFire > _timing.CurTime)
             args.Cancel();
     }
 
@@ -197,6 +222,7 @@ public sealed class AkimboSystem : EntitySystem
         }
 
         return (held, gun);
+
     }
 
     public void ApplyAkimboShootDelay(EntityUid gunUid, GunComponent gun, EntityUid user, TimeSpan curTime)

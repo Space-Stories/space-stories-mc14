@@ -24,7 +24,7 @@
     recoilWielded: 2
     recoilUnwielded: 4
     scatterWielded: 9
-    scatterUnwielded: 18
+    scatterUnwielded: 20 # Stories-Balance
     baseFireRate: 4
     burstScatterMult: 1
   - type: RMCWeaponAccuracy
@@ -52,7 +52,8 @@
       path: /Audio/_RMC14/Weapons/Guns/Breech/pkd_open_chamber.ogg
     closeSound:
       path: /Audio/_RMC14/Weapons/Guns/Breech/pkd_close_chamber.ogg
-    toggleDelay: 1.1
+    toggleDelay: 1.5 # Stories-Balance
+  - type: GunClickToFire # Stories-Balance
   - type: AttachableHolder
     slots:
       rmc-aslot-barrel:

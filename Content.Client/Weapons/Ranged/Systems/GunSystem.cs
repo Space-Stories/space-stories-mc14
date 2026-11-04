@@ -10,6 +10,7 @@ using Content.Client.Items;
 using Content.Client.Weapons.Ranged.Components;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
 using Content.Shared.Weapons.Ranged.Components;
@@ -198,6 +199,15 @@ public sealed partial class GunSystem : SharedGunSystem
         if (gun.NextFire > Timing.CurTime)
             return;
 
+        // Stories-Akimbo-Start
+        if (TryGetAkimboGuns(gunUid, out _, out _) &&
+            TryComp<AkimboUserComponent>(entity, out var akimboUser) &&
+            akimboUser.NextFire > Timing.CurTime)
+        {
+            return;
+        }
+        // Stories-Akimbo-End
+
         var mousePos = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
 
         if (mousePos.MapId == MapId.Nullspace)
@@ -230,7 +240,8 @@ public sealed partial class GunSystem : SharedGunSystem
         // Stories-HoldToAttackSemiAuto-Start
         var rearmSemiAuto =
             _cfg.GetCVar(CCVars.ControlHoldToAttackRanged) &&
-            gun.SelectedMode == SelectiveFire.SemiAuto;
+            gun.SelectedMode == SelectiveFire.SemiAuto &&
+            !HasComp<GunClickToFireComponent>(gunUid);
         // Stories-HoldToAttackSemiAuto-End
         var projectiles = _gunPrediction.ShootRequested(GetNetEntity(gunUid), GetNetCoordinates(coordinates), target, null, session, rearmSemiAuto);
 

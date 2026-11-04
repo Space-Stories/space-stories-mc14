@@ -7,7 +7,7 @@
   - type: RMCSelectiveFire
     scatterWielded: 8
     scatterUnwielded: 8
-    baseFireRate: 10
+    baseFireRate: 8
   - type: Sprite
     sprite: _RMC14/Objects/Weapons/Guns/Pistols/b92fs.rsi
   - type: Clothing

@@ -244,9 +244,28 @@ public abstract partial class SharedGunSystem : EntitySystem
         }
 
         if (userGun != gun)
+        {
+            // Stories-Akimbo-Start
+            if (TryGetAkimboGuns(gunUid, out _, out var otherAkimbo) &&
+                TryComp<GunComponent>(otherAkimbo.Owner, out var otherGun) &&
+                userGun == otherGun)
+            {
+                StopShooting(gunUid, gun);
+                StopShooting(otherAkimbo.Owner, otherGun);
+                return;
+            }
+            // Stories-Akimbo-End
             return;
+        }
 
         StopShooting(gunUid, gun);
+        // Stories-Akimbo-Start
+        if (TryGetAkimboGuns(gunUid, out _, out var otherAkimboGun) &&
+            TryComp<GunComponent>(otherAkimboGun.Owner, out var otherGunComponent))
+        {
+            StopShooting(otherAkimboGun.Owner, otherGunComponent);
+        }
+        // Stories-Akimbo-End
     }
 
     public bool CanShoot(GunComponent component)
