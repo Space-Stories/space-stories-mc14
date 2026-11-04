@@ -69,7 +69,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.Vendors;
 
-public abstract class SharedCMAutomatedVendorSystem : EntitySystem
+public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
 {
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
@@ -478,6 +478,14 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
 
     protected virtual void OnVendBui(Entity<CMAutomatedVendorComponent> vendor, ref CMVendorVendBuiMsg args)
     {
+        VendFromMenu(vendor, ref args);
+    }
+
+    private void VendFromMenu(
+        Entity<CMAutomatedVendorComponent> vendor,
+        ref CMVendorVendBuiMsg args,
+        bool autoGrab = true)
+    {
         _audio.PlayPredicted(vendor.Comp.Sound, vendor, args.Actor);
         _rmcAnimation.TryFlick(vendor.Owner, vendor.Comp.AnimationSprite, vendor.Comp.BaseSprite);
 
@@ -791,7 +799,7 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
             {
                 // Only apply partial stack to the specific item that has it
                 var bundledPartialAmount = toVend == currentPartialItemId ? currentPartialAmount : null;
-                Vend(vendor, actor, toVend, offset, bundledPartialAmount, entry.ReplaceSlot);
+                Vend(vendor, actor, toVend, offset, bundledPartialAmount, entry.ReplaceSlot, autoGrab);
             }
             // Stories-Hunter-End
         }
@@ -803,7 +811,14 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
         }
     }
 
-    private void Vend(EntityUid vendor, EntityUid player, EntProtoId toVend, Vector2 offset, int? partialStackAmount = null, SlotFlags? replaceSlot = null)
+    private void Vend(
+        EntityUid vendor,
+        EntityUid player,
+        EntProtoId toVend,
+        Vector2 offset,
+        int? partialStackAmount = null,
+        SlotFlags? replaceSlot = null,
+        bool autoGrab = true)
     {
         if (_prototypes.Index(toVend).TryGetComponent(out CMVendorMapToSquadComponent? mapTo, _compFactory))
         {
@@ -841,7 +856,7 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
             RaiseLocalEvent(vendor, ref vendedEv);
             // Stories-Hunter-End
 
-            AfterVend(spawn, player, vendor, offset, true, replaceSlot);
+            AfterVend(spawn, player, vendor, offset, true, replaceSlot, autoGrab);
         }
         else
         {
@@ -856,11 +871,18 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
             RaiseLocalEvent(vendor, ref vendedEv);
             // Stories-Hunter-End
 
-            AfterVend(spawn, player, vendor, offset, replaceSlot: replaceSlot);
+            AfterVend(spawn, player, vendor, offset, replaceSlot: replaceSlot, autoGrab: autoGrab);
         }
     }
 
-    private void AfterVend(EntityUid spawn, EntityUid player, EntityUid vendor, Vector2 offset, bool vended = false, SlotFlags? replaceSlot = null)
+    private void AfterVend(
+        EntityUid spawn,
+        EntityUid player,
+        EntityUid vendor,
+        Vector2 offset,
+        bool vended = false,
+        SlotFlags? replaceSlot = null,
+        bool autoGrab = true)
     {
         _rmcPower.AddOneOffEnergy(vendor, Comp<CMAutomatedVendorComponent>(vendor).VendEnergy);
 
@@ -879,7 +901,7 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
 
         if (!vended)
         {
-            var grabbed = Grab(player, spawn, replaceSlot);
+            var grabbed = autoGrab && Grab(player, spawn, replaceSlot);
             if (!grabbed && TryComp(spawn, out TransformComponent? xform))
                 _transform.SetLocalPosition(spawn, xform.LocalPosition + offset, xform);
         }
@@ -970,6 +992,8 @@ public abstract class SharedCMAutomatedVendorSystem : EntitySystem
 
     public void AmountUpdated(Entity<CMAutomatedVendorComponent> vendor, CMVendorEntry entry)
     {
+        var changed = new RequisitionsStockChangedEvent();
+        RaiseLocalEvent(ref changed);
         foreach (var section in vendor.Comp.Sections)
         {
             if (!section.HasBoxes)
