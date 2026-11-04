@@ -112,7 +112,7 @@
     back:
     - RMCBlackMarketTradebandDevice
     - RMCUniversalRecorder
-    - RMCHandheldDistressBeaconCMB
+    - RMCHandheldDistressBeaconCMBMarshal
 
 - type: playTimeTracker
   id: RMCJobBureauMarshal
