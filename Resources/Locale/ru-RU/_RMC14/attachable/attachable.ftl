@@ -55,7 +55,7 @@ rmc-attachable-examine-condition-blacklist-tags = владелец [bold]не и
 
 rmc-attachable-examine-ranged-accuracy = [color={ $colour }]{ $sign }{ $accuracy }[/color] множитель точности.
 rmc-attachable-examine-ranged-scatter = [color={ $colour }]{ $sign }{ $scatter }[/color] град. разброса.
-rmc-attachable-examine-ranged-burst-scatter = [color={ $colour }]{ $sign }{ $burstScatterMult }[/color] множитель разброса очереди.
+rmc-attachable-examine-ranged-burst-scatter = [color={ $colour }]{ $sign }{ $burstScatterMult }[/color] град. разброса очереди.
 rmc-attachable-examine-ranged-shots-per-burst = [color={ $colour }]{ $sign }{ $shots }[/color] выстрелов в очереди.
 rmc-attachable-examine-ranged-fire-delay = [color={ $colour }]{ $sign }{ TOSTRING($fireDelay, "F2") }[/color] сек. задержки между выстрелами.
 rmc-attachable-examine-ranged-recoil = [color={ $colour }]{ $sign }{ $recoil }[/color] отдача.
