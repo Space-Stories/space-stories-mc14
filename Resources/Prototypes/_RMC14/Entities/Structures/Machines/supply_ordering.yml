@@ -2,8 +2,7 @@
   parent: CMASRSConsole
   id: RMCSupplyOrderingConsole
   name: supply ordering console
-  description: >-
-    A console for requesting supplies from Requisitions. Prints a requisition form for each submitted request.
+  description: Prints supply requisition forms.
   components:
   - type: RequisitionsComputer
     requestOnly: true
