@@ -1,3 +1,4 @@
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared._RMC14.Barricade;
 using Content.Shared._RMC14.CameraShake;
 using Content.Shared._RMC14.Stun;
@@ -43,6 +44,7 @@ public abstract class SharedXenoTailStabSystem : EntitySystem
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
     [Dependency] private readonly XenoSystem _xeno = default!;
     [Dependency] private readonly XenoRotateSystem _rotate = default!;
     [Dependency] private readonly RMCDazedSystem _daze = default!;
@@ -81,7 +83,7 @@ public abstract class SharedXenoTailStabSystem : EntitySystem
             return;
 
         var targetCoords = _transform.ToMapCoordinates(args.Target);
-        if (userCoords.MapId != targetCoords.MapId)
+        if (userCoords.MapId != targetCoords.MapId && !_zLevels.AreInSameNetwork(userCoords.MapId, targetCoords.MapId)) // Stories-ZLevels
             return;
 
         if (TryComp(stab, out MeleeWeaponComponent? melee))

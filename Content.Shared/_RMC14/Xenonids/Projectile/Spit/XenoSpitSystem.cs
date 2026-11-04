@@ -1,3 +1,4 @@
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Armor;
 using Content.Shared._RMC14.Atmos;
@@ -48,6 +49,7 @@ public sealed class XenoSpitSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+
     [Dependency] private readonly AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _colorFlash = default!;
@@ -72,6 +74,7 @@ public sealed class XenoSpitSystem : EntitySystem
     [Dependency] private readonly RMCSlowSystem _slow = default!;
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private readonly XenoSystem _xeno = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private static readonly ProtoId<AlertPrototype> FireAlert = "Fire";
     private static readonly ProtoId<ReagentPrototype> AcidRemovedBy = "Water";
@@ -346,7 +349,7 @@ public sealed class XenoSpitSystem : EntitySystem
         var target = GetCoordinates(args.Coordinates);
         var targetMap = _transform.ToMapCoordinates(target);
         var origin = _transform.GetMapCoordinates(ent);
-        if (origin.MapId != targetMap.MapId)
+        if (origin.MapId != targetMap.MapId && !_zLevels.AreInSameNetwork(origin.MapId, targetMap.MapId)) // Stories-ZLevels
             return;
 
         var direction = targetMap.Position - origin.Position;

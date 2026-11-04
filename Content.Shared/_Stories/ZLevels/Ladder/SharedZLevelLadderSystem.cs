@@ -1,6 +1,11 @@
+using System.Numerics;
+using Content.Shared._RMC14.Fireman;
 using Content.Shared._RMC14.Ladder;
 using Content.Shared._RMC14.Teleporter;
+using Content.Shared._Stories.ZLevels.Core.Components;
 using Content.Shared._Stories.ZLevels.Core.EntitySystems;
+using Content.Shared._Stories.ZLevels.Pulling;
+using Content.Shared.ActionBlocker;
 using Content.Shared.Coordinates;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
@@ -9,9 +14,11 @@ using Content.Shared.Ghost;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Maps;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
+using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.UserInterface;
 using Content.Shared.Verbs;
@@ -20,6 +27,9 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
@@ -28,6 +38,7 @@ namespace Content.Shared._Stories.ZLevels.Ladder;
 
 public abstract class SharedZLevelLadderSystem : EntitySystem
 {
+    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedEyeSystem _eye = default!;
@@ -35,12 +46,14 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly PullingSystem _pulling = default!;
     [Dependency] private readonly SharedRMCTeleporterSystem _rmcTeleporter = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedZLevelsSystem _zLevel = default!;
 
@@ -59,6 +72,8 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
         SubscribeLocalEvent<ZLevelLadderComponent, CanDropDraggedEvent>(OnCanDropDragged);
         SubscribeLocalEvent<ZLevelLadderComponent, CanDragEvent>(OnCanDrag);
         SubscribeLocalEvent<ZLevelLadderComponent, DragDropDraggedEvent>(OnDragDropDragged);
+        SubscribeLocalEvent<ZLevelLadderComponent, CanDropTargetEvent>(OnCanDropTarget);
+        SubscribeLocalEvent<ZLevelLadderComponent, DragDropTargetEvent>(OnDragDropTarget);
     }
 
     private void OnInteractHand(Entity<ZLevelLadderComponent> ent, ref InteractHandEvent args)
@@ -396,14 +411,25 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
 
         var hasPairedLadder = TryGetDestinationLadder(ent.Owner, offset, out var destLadder);
 
-        // Check if user is pulling an entity
+        // Check if user is carrying someone or pulling an entity
+        EntityUid? carriedEnt = null;
+        if (TryComp<CanFiremanCarryComponent>(user, out var carrierComp) && carrierComp.Carrying is { } c && Exists(c))
+        {
+            carriedEnt = c;
+            EnsureComp<ZLevelTransitioningComponent>(user);
+            EnsureComp<ZLevelTransitioningComponent>(c);
+        }
+
         EntityUid? pulledEnt = null;
         if (TryComp<PullerComponent>(user, out var puller) &&
             puller.Pulling is { } pulling &&
+            pulling != carriedEnt &&
             TryComp<PullableComponent>(pulling, out var pulledComp))
         {
             pulledEnt = pulling;
-            _pulling.TryStopPull(pulling, pulledComp, user);
+            EnsureComp<ZLevelTransitioningComponent>(user);
+            EnsureComp<ZLevelTransitioningComponent>(pulling);
+            _pulling.RemovePullJointDuringTransition(pulling, pulledComp);
         }
 
         bool moved;
@@ -421,59 +447,113 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
                 userZPhys.CachedGroundHeight = 0f;
                 userZPhys.CachedStickyGround = false;
                 userZPhys.VisualZApplied = false;
-                DirtyField(user, userZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.LocalPosition));
-                DirtyField(user, userZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.Velocity));
+                DirtyField(user, userZPhys, nameof(ZPhysicsComponent.LocalPosition));
+                DirtyField(user, userZPhys, nameof(ZPhysicsComponent.Velocity));
             }
 
+            var destCoords = hasPairedLadder ? Transform(destLadder.Owner).Coordinates : Transform(user).Coordinates;
             if (hasPairedLadder)
             {
-                var destCoords = Transform(destLadder.Owner).Coordinates;
-                _transform.SetCoordinates(user, destCoords);
-                if (pulledEnt is { } pulled)
+                var ladderWorldPos = _transform.GetWorldPosition(destLadder.Owner);
+                var targetMapUid = Transform(destLadder.Owner).MapUid;
+                if (targetMapUid != null &&
+                    _zLevel.TryFindGridAt(targetMapUid.Value, ladderWorldPos, out var gUid, out var grid))
                 {
-                    _zLevel.TryMove(pulled, offset);
-                    _transform.SetCoordinates(pulled, destCoords);
-                    if (TryComp<Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent>(pulled, out var pulledZPhys))
+                    var ladderTile = _map.WorldToTile(gUid, grid, ladderWorldPos);
+                    if (_turf.IsTileBlocked(gUid, ladderTile, CollisionGroup.Impassable | CollisionGroup.MidImpassable, grid))
                     {
-                        pulledZPhys.LocalPosition = 0f;
-                        pulledZPhys.Velocity = 0f;
-                        pulledZPhys.CachedGroundHeight = 0f;
-                        pulledZPhys.CachedStickyGround = false;
-                        pulledZPhys.VisualZApplied = false;
-                        DirtyField(pulled, pulledZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.LocalPosition));
-                        DirtyField(pulled, pulledZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.Velocity));
+                        var ladderRot = _transform.GetWorldRotation(destLadder.Owner);
+                        var stepDir = ladderRot.ToWorldVec();
+                        if (stepDir == Vector2.Zero)
+                            stepDir = new Vector2(0, -1);
+
+                        var stepPos = ladderWorldPos + stepDir;
+                        if (!_zLevel.IsTileTransparentOrEmpty(targetMapUid.Value, stepPos))
+                        {
+                            var tile = _map.WorldToTile(gUid, grid, stepPos);
+                            if (!_turf.IsTileBlocked(gUid, tile, CollisionGroup.Impassable | CollisionGroup.MidImpassable, grid))
+                            {
+                                destCoords = _transform.ToCoordinates(destLadder.Owner, new MapCoordinates(stepPos, Transform(destLadder.Owner).MapID));
+                            }
+                        }
                     }
-                    _pulling.TryStartPull(user, pulled);
                 }
 
-                if (_net.IsServer && destLadder.Comp.Direction == ZLevelLadderDirection.Both)
+                _transform.SetCoordinates(user, destCoords);
+            }
+
+            if (carriedEnt is { } carried && Exists(carried))
+            {
+                _transform.SetCoordinates(carried, destCoords);
+                _transform.SetParent(carried, user);
+                _transform.SetLocalPosition(carried, Vector2.Zero);
+                if (TryComp<ZPhysicsComponent>(carried, out var carriedZPhys))
                 {
-                    var destHasUp = HasLadderAtDestination(destLadder.Owner, 1);
-                    var destHasDown = HasLadderAtDestination(destLadder.Owner, -1);
-                    if (destHasUp || destHasDown)
+                    carriedZPhys.LocalPosition = 0f;
+                    carriedZPhys.Velocity = 0f;
+                    carriedZPhys.CachedGroundHeight = 0f;
+                    carriedZPhys.CachedStickyGround = false;
+                    carriedZPhys.VisualZApplied = false;
+                    DirtyField(carried, carriedZPhys, nameof(ZPhysicsComponent.LocalPosition));
+                    DirtyField(carried, carriedZPhys, nameof(ZPhysicsComponent.Velocity));
+                }
+                RemCompDeferred<ZLevelTransitioningComponent>(carried);
+            }
+
+            if (pulledEnt is { } pulled && Exists(pulled))
+            {
+                var pulledCoords = destCoords;
+                if (hasPairedLadder)
+                {
+                    var ladderWorldPos = _transform.GetWorldPosition(destLadder.Owner);
+                    var targetMapUid = Transform(destLadder.Owner).MapUid;
+                    if (targetMapUid != null &&
+                        _zLevel.TryFindGridAt(targetMapUid.Value, ladderWorldPos, out var lGridUid, out var lGrid))
                     {
-                        EnsureComp<UserInterfaceComponent>(destLadder.Owner);
-                        _ui.TryOpenUi(destLadder.Owner, ZLevelLadderUiKey.Key, user);
-                        destLadder.Comp.HasUp = destHasUp;
-                        destLadder.Comp.HasDown = destHasDown;
-                        Dirty(destLadder);
+                        var lTile = _map.WorldToTile(lGridUid, lGrid, ladderWorldPos);
+                        if (_turf.IsTileBlocked(lGridUid, lTile, CollisionGroup.Impassable | CollisionGroup.MidImpassable, lGrid))
+                        {
+                            pulledCoords = Transform(user).Coordinates;
+                        }
                     }
                 }
-            }
-            else if (pulledEnt is { } pulled)
-            {
-                _zLevel.TryMove(pulled, offset);
-                if (TryComp<Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent>(pulled, out var pulledZPhys))
+
+                _transform.SetCoordinates(pulled, pulledCoords);
+                if (TryComp<ZPhysicsComponent>(pulled, out var pulledZPhys))
                 {
                     pulledZPhys.LocalPosition = 0f;
                     pulledZPhys.Velocity = 0f;
                     pulledZPhys.CachedGroundHeight = 0f;
                     pulledZPhys.CachedStickyGround = false;
                     pulledZPhys.VisualZApplied = false;
-                    DirtyField(pulled, pulledZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.LocalPosition));
-                    DirtyField(pulled, pulledZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.Velocity));
+                    DirtyField(pulled, pulledZPhys, nameof(ZPhysicsComponent.LocalPosition));
+                    DirtyField(pulled, pulledZPhys, nameof(ZPhysicsComponent.Velocity));
                 }
+                if (TryComp<PhysicsComponent>(pulled, out var pullPhysics) && pullPhysics.BodyType != BodyType.Static)
+                {
+                    _physics.WakeBody(pulled, body: pullPhysics);
+                    _physics.SetAwake(pulled, pullPhysics, true);
+                }
+
                 _pulling.TryStartPull(user, pulled);
+                RemCompDeferred<ZLevelTransitioningComponent>(pulled);
+            }
+
+            if (carriedEnt != null || pulledEnt != null)
+                RemCompDeferred<ZLevelTransitioningComponent>(user);
+
+            if (hasPairedLadder && _net.IsServer && destLadder.Comp.Direction == ZLevelLadderDirection.Both)
+            {
+                var destHasUp = HasLadderAtDestination(destLadder.Owner, 1);
+                var destHasDown = HasLadderAtDestination(destLadder.Owner, -1);
+                if (destHasUp || destHasDown)
+                {
+                    EnsureComp<UserInterfaceComponent>(destLadder.Owner);
+                    _ui.TryOpenUi(destLadder.Owner, ZLevelLadderUiKey.Key, user);
+                    destLadder.Comp.HasUp = destHasUp;
+                    destLadder.Comp.HasDown = destHasDown;
+                    Dirty(destLadder);
+                }
             }
 
             if (_net.IsServer)
@@ -483,8 +563,7 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
                 _popup.PopupPredicted(finishText, othersMessage, user, user);
             }
 
-            var coordinates = _transform.GetMapCoordinates(user);
-            _rmcTeleporter.HandlePulling(user, coordinates);
+
         }
 
         ent.Comp.LastDoAfterEnt = null;
@@ -563,9 +642,100 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
     private void OnDragDropDragged(Entity<ZLevelLadderComponent> ent, ref DragDropDraggedEvent args)
     {
         var user = args.User;
-        if (user != args.Target)
+        if (args.Target != user)
             return;
 
         args.Handled = TryInteractLadder(ent, user);
+    }
+
+    private void OnCanDropTarget(Entity<ZLevelLadderComponent> ent, ref CanDropTargetEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!_actionBlocker.CanInteract(args.User, args.Dragged) ||
+            !_actionBlocker.CanInteract(args.User, ent.Owner))
+        {
+            return;
+        }
+
+        if (Transform(args.Dragged).Anchored)
+            return;
+
+        args.CanDrop = true;
+        args.Handled = true;
+    }
+
+    private void OnDragDropTarget(Entity<ZLevelLadderComponent> ent, ref DragDropTargetEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!_actionBlocker.CanInteract(args.User, args.Dragged) ||
+            !_actionBlocker.CanInteract(args.User, ent.Owner))
+        {
+            return;
+        }
+
+        if (Transform(args.Dragged).Anchored)
+            return;
+
+        args.Handled = TrySendEntityThroughLadder(ent, args.Dragged, args.User);
+    }
+
+    public bool TrySendEntityThroughLadder(Entity<ZLevelLadderComponent> ent, EntityUid dragged, EntityUid user)
+    {
+        var offset = ent.Comp.Direction == ZLevelLadderDirection.Down ? -1 : 1;
+        if (ent.Comp.Direction == ZLevelLadderDirection.Both)
+            offset = HasLadderAtDestination(ent.Owner, 1) ? 1 : -1;
+
+        var hasPairedLadder = TryGetDestinationLadder(ent.Owner, offset, out var destLadder);
+
+        EnsureComp<ZLevelTransitioningComponent>(dragged);
+
+        var moved = offset > 0 ? _zLevel.TryMoveUp(dragged) : _zLevel.TryMoveDown(dragged);
+
+        if (moved)
+        {
+            if (hasPairedLadder)
+            {
+                var ladderWorldPos = _transform.GetWorldPosition(destLadder.Owner);
+                var ladderRot = _transform.GetWorldRotation(destLadder.Owner);
+                var stepDir = ladderRot.ToWorldVec();
+                if (stepDir == Vector2.Zero)
+                    stepDir = new Vector2(0, -1);
+
+                var stepPos = ladderWorldPos + stepDir;
+                var targetMapUid = Transform(destLadder.Owner).MapUid;
+                var destCoords = Transform(destLadder.Owner).Coordinates;
+                if (targetMapUid != null &&
+                    !_zLevel.IsTileTransparentOrEmpty(targetMapUid.Value, stepPos) &&
+                    _zLevel.TryFindGridAt(targetMapUid.Value, stepPos, out var gUid, out var grid))
+                {
+                    var tile = _map.WorldToTile(gUid, grid, stepPos);
+                    var ladderTile = _map.WorldToTile(gUid, grid, ladderWorldPos);
+                    if (_turf.IsTileBlocked(gUid, ladderTile, CollisionGroup.Impassable | CollisionGroup.MidImpassable, grid) &&
+                        !_turf.IsTileBlocked(gUid, tile, CollisionGroup.Impassable | CollisionGroup.MidImpassable, grid))
+                    {
+                        destCoords = _transform.ToCoordinates(destLadder.Owner, new MapCoordinates(stepPos, Transform(destLadder.Owner).MapID));
+                    }
+                }
+                _transform.SetCoordinates(dragged, destCoords);
+            }
+
+            if (TryComp<ZPhysicsComponent>(dragged, out var zPhys))
+            {
+                zPhys.LocalPosition = 0f;
+                zPhys.Velocity = 0f;
+                zPhys.CachedGroundHeight = 0f;
+                zPhys.CachedStickyGround = false;
+                zPhys.VisualZApplied = false;
+                DirtyField(dragged, zPhys, nameof(ZPhysicsComponent.LocalPosition));
+                DirtyField(dragged, zPhys, nameof(ZPhysicsComponent.Velocity));
+            }
+        }
+
+        RemCompDeferred<ZLevelTransitioningComponent>(dragged);
+        return moved;
     }
 }
