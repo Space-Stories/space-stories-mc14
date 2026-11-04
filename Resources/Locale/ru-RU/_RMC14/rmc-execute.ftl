@@ -1,2 +1,2 @@
-rmc-execute-start-self = Ты целишься из { $gun } в голову { $target }!
-rmc-execute-start-others = { $user } целится из своего { $gun } в голову { $target }!
+rmc-execute-start-self = Вы наводите { $gun } на голову { $target }!
+rmc-execute-start-others = { $user } наводит { $gun } на голову { $target }!
