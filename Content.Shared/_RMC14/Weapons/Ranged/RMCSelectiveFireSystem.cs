@@ -55,10 +55,33 @@ public sealed class RMCSelectiveFireSystem : EntitySystem
         }
 
         if (userGun != gunComponent)
+        {
+            // Stories-Akimbo-Start
+            if (_gunSystem.TryGetAkimboGuns(gunUid, out _, out var otherAkimbo) &&
+                TryComp<GunComponent>(otherAkimbo.Owner, out var otherGun) &&
+                userGun == otherGun)
+            {
+                gunComponent.CurrentAngle = gunComponent.MinAngleModified;
+                Dirty(gunUid, gunComponent);
+                otherGun.CurrentAngle = otherGun.MinAngleModified;
+                Dirty(otherAkimbo.Owner, otherGun);
+                return;
+            }
+            // Stories-Akimbo-End
             return;
+        }
 
         gunComponent.CurrentAngle = gunComponent.MinAngleModified;
         Dirty(gunUid, gunComponent);
+
+        // Stories-Akimbo-Start
+        if (_gunSystem.TryGetAkimboGuns(gunUid, out _, out var otherAkimboGun) &&
+            TryComp<GunComponent>(otherAkimboGun.Owner, out var otherGunComp))
+        {
+            otherGunComp.CurrentAngle = otherGunComp.MinAngleModified;
+            Dirty(otherAkimboGun.Owner, otherGunComp);
+        }
+        // Stories-Akimbo-End
     }
 
     private void OnExamine(Entity<RMCSelectiveFireComponent> gun, ref ExaminedEvent args)

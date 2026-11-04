@@ -18,6 +18,7 @@
     - belt
   - type: Wieldable
   - type: Akimbo # Stories-Balance
+  - type: GunClickToFire
   - type: Gun
     selectedMode: SemiAuto
     availableModes:
@@ -54,6 +55,8 @@
     angleIncrease: 5
   - type: GunDualWielding
     weaponGroup: Handgun
+    accuracyAddMult: -0.5 # Stories-Akimbo-Balance
+    scatterModifier: 10 # Stories-Akimbo-Balance
   - type: GunPointBlank
   - type: RMCWeaponAccuracy
     accuracyMultiplier: 0.85
