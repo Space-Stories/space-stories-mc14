@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 06/24/2026 22:02:28
+  time: 11/01/2026 20:20:43
   entityCount: 10115
 maps:
 - 1
@@ -59175,6 +59175,62 @@ entities:
     - type: Transform
       pos: -67.581085,-125.28374
       parent: 1
+- proto: RMCERTShuttleStartPadEvent
+  entities:
+  - uid: 10110
+    components:
+    - type: Transform
+      pos: -19.5,-87.5
+      parent: 1
+- proto: RMCERTShuttleStartPadFreelancers
+  entities:
+  - uid: 10107
+    components:
+    - type: Transform
+      pos: -21.5,-118.5
+      parent: 1
+- proto: RMCERTShuttleStartPadHostile
+  entities:
+  - uid: 10108
+    components:
+    - type: Transform
+      pos: -48.5,-13.5
+      parent: 1
+- proto: RMCERTShuttleStartPadLaw
+  entities:
+  - uid: 6956
+    components:
+    - type: Transform
+      pos: -47.5,-89.5
+      parent: 1
+- proto: RMCERTShuttleStartPadSPP
+  entities:
+  - uid: 10111
+    components:
+    - type: Transform
+      pos: -17.5,-56.5
+      parent: 1
+- proto: RMCERTShuttleStartPadTSE
+  entities:
+  - uid: 10114
+    components:
+    - type: Transform
+      pos: -11.5,-13.5
+      parent: 1
+- proto: RMCERTShuttleStartPadUNMC
+  entities:
+  - uid: 10109
+    components:
+    - type: Transform
+      pos: -62.5,-116.5
+      parent: 1
+- proto: RMCERTShuttleStartPadWeYa
+  entities:
+  - uid: 3371
+    components:
+    - type: Transform
+      pos: -40.5,-51.5
+      parent: 1
 - proto: RMCFloraTree04
   entities:
   - uid: 7871
@@ -69060,62 +69116,6 @@ entities:
     components:
     - type: Transform
       pos: -62.64428,-21.463293
-      parent: 1
-- proto: RMCERTShuttleStartPadFreelancers
-  entities:
-  - uid: 10107
-    components:
-    - type: Transform
-      pos: -21.5,-118.5
-      parent: 1
-- proto: RMCERTShuttleStartPadHostile
-  entities:
-  - uid: 10108
-    components:
-    - type: Transform
-      pos: -48.5,-13.5
-      parent: 1
-- proto: RMCERTShuttleStartPadUNMC
-  entities:
-  - uid: 10109
-    components:
-    - type: Transform
-      pos: -62.5,-116.5
-      parent: 1
-- proto: RMCERTShuttleStartPadEvent
-  entities:
-  - uid: 10110
-    components:
-    - type: Transform
-      pos: -19.5,-87.5
-      parent: 1
-- proto: RMCERTShuttleStartPadLaw
-  entities:
-  - uid: 6956
-    components:
-    - type: Transform
-      pos: -47.5,-89.5
-      parent: 1
-- proto: RMCERTShuttleStartPadSPP
-  entities:
-  - uid: 10111
-    components:
-    - type: Transform
-      pos: -17.5,-56.5
-      parent: 1
-- proto: RMCERTShuttleStartPadTSE
-  entities:
-  - uid: 10114
-    components:
-    - type: Transform
-      pos: -11.5,-13.5
-      parent: 1
-- proto: RMCERTShuttleStartPadWeYa
-  entities:
-  - uid: 3371
-    components:
-    - type: Transform
-      pos: -39.5,-51.5
       parent: 1
 - proto: RMCSpawnerRandomFolder
   entities:

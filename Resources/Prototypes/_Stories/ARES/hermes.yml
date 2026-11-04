@@ -47,7 +47,7 @@
   components:
   - type: HermesLockdownDoor
   - type: DeviceLinkSink
-    ports: [ STHermesSecurity ]
+    ports: [ Open, Close, Toggle, DoorBolt, STHermesSecurity ]
 
 - type: entity
   parent: RMCPodDoorAI

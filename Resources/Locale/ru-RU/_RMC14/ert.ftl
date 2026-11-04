@@ -72,7 +72,7 @@ rmc-ert-prompt-handheld-reason = Укажите причину для {$title}.
 rmc-ert-console-request-announcement = Аварийный маяк запущен. Верховное командование рассматривает запрос.
 
 rmc-ert-admin-actor-server = сервер
-rmc-ert-admin-actor-auto-resolve = автоматический таймер ответа
+rmc-ert-admin-actor-auto-resolve = автоматический ответ
 rmc-ert-launcher-automatic = автоматический таймер запуска
 rmc-ert-response-team-fallback = группа реагирования
 rmc-ert-ship-fallback = корабль

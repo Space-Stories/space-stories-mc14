@@ -341,7 +341,7 @@ public sealed partial class RMCERTSystem
             if (dropshipDestination.Ship != null || returnDestinations.Contains(uid))
                 continue;
 
-            if (Transform(uid).MapID != warshipMap)
+            if (!_zLevels.TryGetZLevelOffset(warshipMap, Transform(uid).MapID, out _))
             {
                 continue;
             }

@@ -61,10 +61,10 @@ public sealed partial class RMCERTSystem
 {
 
     /// <summary>
-    /// Creates a new pending ERT request for admin review.
+    /// Creates an ERT request and applies its optional automatic response policy.
     /// The caller supplies the already-prepared allowed call set and approval modes; this method materializes the internal request,
     /// checks for duplicate non-terminal requests from the same source entity when one exists,
-    /// announces the pending request, and returns its id.
+    /// announces the request, and returns its id and current state.
     /// </summary>
     /// <remarks>
     /// This method intentionally does not re-check prototype <c>AllowedSources</c>.
@@ -73,14 +73,15 @@ public sealed partial class RMCERTSystem
     /// </remarks>
     /// <param name="args">Creation parameters prepared by the caller.</param>
     /// <returns>
-    /// Success with the new request id and <see cref="RMCERTRequestState.PendingAdmin"/>, or failure with an error when the request
-    /// cannot be created.
+    /// Success with the new request id and state after any immediate automatic response,
+    /// or failure when creation or preflight fails.
+    /// Without an automatic response policy, the request remains <see cref="RMCERTRequestState.PendingAdmin"/>.
     /// </returns>
     public RMCERTRequestResult CreateRequest(RMCERTCreateRequestArgs args)
     {
         var allowedCalls = args.AllowedCalls.Distinct().ToList();
         if (args.SourceEntity is { Valid: true } sourceEntity &&
-            !CanCreateRequest(sourceEntity, out var error, args.Source)) // Stories-Ares
+            !CanCreateRequest(sourceEntity, out var error, args.Source))
         {
             return ResultFailure(Guid.Empty, null, error);
         }
@@ -118,12 +119,8 @@ public sealed partial class RMCERTSystem
             GetRequesterLogText(request),
             extra: $"allowedCalls=[{string.Join(", ", allowedCalls.Select(c => c.Id))}], allowRandom={request.AllowRandomSelection}, allowSpecific={request.AllowSpecificSelection}");
 
-        var text = BuildAdminRequestAnnouncement(request);
-        _chat.SendAdminAnnouncement(text);
         if (args.AnnounceRequest)
             AnnounceRequestCreated(request, GetRequestAnnouncementCall(request));
-
-        NotifyAdminsOfRequest();
 
         if (request.Source == RMCERTRequestSource.Handheld)
             UpdateSourceVisual(request, true);
@@ -134,8 +131,17 @@ public sealed partial class RMCERTSystem
             _popup.PopupEntity(GetRequestSuccessText(popupSource, request.Source), popupSource, popupRequester, PopupType.Medium);
         }
 
+        TryAutoResolvePendingRequest(request);
+        if (request.State == RMCERTRequestState.PendingAdmin)
+        {
+            _chat.SendAdminAnnouncement(BuildAdminRequestAnnouncement(request));
+            NotifyAdminsOfRequest();
+        }
+
         DirtyState(request);
-        return ResultSuccess(request);
+        return request.State == RMCERTRequestState.Failed
+            ? ResultFailure(request.Id, request.State, request.LastError)
+            : ResultSuccess(request);
     }
 
     /// <summary>
@@ -298,13 +304,14 @@ public sealed partial class RMCERTSystem
         }
 
         request.State = RMCERTRequestState.PendingDispatch;
+        request.AutoResolveAt = null;
         request.SelectedCall = callId;
         request.LastError = string.Empty;
         request.LastWarning = string.Empty;
 
         // Start the source cooldown only after approval succeeds, preserving the previous approval while checking a new request.
         if (request.SourceEntity is { Valid: true } cooldownSource)
-            _sourceCooldowns[GetRequestSource(request.Source, cooldownSource)] = _timing.CurTime; // Stories-Ares
+            _sourceCooldowns[GetRequestSource(request.Source, cooldownSource)] = _timing.CurTime;
 
         var adminText = GetAdminActorText(admin, adminName);
         Log.Info($"ERT request {request.Id} approved as {call.ID} by {adminText}");
@@ -336,6 +343,7 @@ public sealed partial class RMCERTSystem
             return RequestUnavailable(args.Request);
 
         request.State = RMCERTRequestState.Denied;
+        request.AutoResolveAt = null;
         request.LastError = string.Empty;
         request.LastWarning = string.Empty;
 
@@ -376,6 +384,7 @@ public sealed partial class RMCERTSystem
             return RequestTerminal(request);
 
         request.State = RMCERTRequestState.Cancelled;
+        request.AutoResolveAt = null;
         request.LastError = string.Empty;
         request.LastWarning = string.Empty;
         request.RecruitmentEndsAt = null;
@@ -460,7 +469,7 @@ public sealed partial class RMCERTSystem
         }
 
         if (request.SourceEntity is { Valid: true } source &&
-            _sourceCooldowns.TryGetValue(GetRequestSource(request.Source, source), out var last) && // Stories-Ares
+            _sourceCooldowns.TryGetValue(GetRequestSource(request.Source, source), out var last) &&
             _timing.CurTime < last + call.Requirements.Cooldown)
         {
             error = Loc.GetString("rmc-ert-error-source-cooldown", ("call", call.Name));
@@ -470,16 +479,14 @@ public sealed partial class RMCERTSystem
         return true;
     }
 
-    private bool CanCreateRequest(EntityUid source, out string reason, RMCERTRequestSource type = RMCERTRequestSource.Handheld) // Stories-Ares
+    private bool CanCreateRequest(EntityUid source, out string reason, RMCERTRequestSource type = RMCERTRequestSource.Handheld)
     {
         reason = string.Empty;
 
         foreach (var request in _requests.Values)
         {
-            // Stories-Ares-Start
             if (request.SourceEntity is not { } requestSource ||
                 GetRequestSource(request.Source, requestSource) != GetRequestSource(type, source))
-            // Stories-Ares-End
                 continue;
 
             if (!IsTerminal(request.State))
