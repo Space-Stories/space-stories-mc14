@@ -33,7 +33,7 @@ attachable-popup-activate-lock = Вы запираете { $attachable }.
 attachable-popup-deactivate-unlock = Вы разблокируете { $attachable }.
 
 attachable-popup-switch-to-generic = Вы переключаетесь на { $attachable }.
-attachable-popup-switch-from-generic = Вы перестаете { $attachable }.
+attachable-popup-switch-from-generic = Вы перестаёте использовать { $attachable }.
 
 rmc-attachable-examinable-verb-text = Модификаторы обвеса
 rmc-attachable-examinable-verb-message = Изучите модификаторы, применяемые этим прикрепляемым объектом.
@@ -42,8 +42,8 @@ rmc-attachable-examine-condition-always = [bold]Всегда:[/bold]
 rmc-attachable-examine-condition-when = Когда
 rmc-attachable-examine-condition-wielded = оружие [bold]держат двумя руками[/bold]
 rmc-attachable-examine-condition-unwielded = оружие [bold]держат в одной руке[/bold]
-rmc-attachable-examine-condition-active = { $attachable } [bold]активирован[/bold]
-rmc-attachable-examine-condition-inactive = обвес { $attachable } [bold]не активирован[/bold]
+rmc-attachable-examine-condition-active = "{ $attachable }" [bold]активирован[/bold]
+rmc-attachable-examine-condition-inactive = обвес "{ $attachable }" [bold]не активирован[/bold]
 
 rmc-attachable-examine-condition-whitelist-comps = владелец [bold]имеет { $compNumber }[/bold] следующих компонентов: [bold]{ $comps }[/bold]
 rmc-attachable-examine-condition-whitelist-sizes = владелец [bold]имеет[/bold] один из следующих размеров: [bold]{ $sizes }[/bold]
