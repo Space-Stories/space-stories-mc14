@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
+using System.Linq;
 using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Scaling;
@@ -33,6 +34,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
     [Dependency] private readonly RMCReagentSystem _rmcReagent = default!;
     [Dependency] private readonly ScalingSystem _scaling = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly InventorySystem _inventory = default!; // Stories-Ordnance
 
@@ -321,7 +323,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
             slot.ContainerSlot?.ContainedEntity is not { } contained ||
             !_solution.TryGetMixableSolution(contained, out var solutionEnt, out _) ||
             !ent.Comp.Reagents.Contains(args.Reagent) ||
-            !TryGetStorage(ent.Comp.Network, out var storage))
+            !TryGetStorage(ent.Owner, ent.Comp.Network, out var storage))
         {
             return;
         }
@@ -346,6 +348,14 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
 
     public bool TryGetStorage(EntProtoId network, out Entity<RMCChemicalStorageComponent> storage)
     {
+        return TryGetStorage(EntityUid.Invalid, network, out storage);
+    }
+
+    public bool TryGetStorage(EntityUid dispenserUid, EntProtoId network, out Entity<RMCChemicalStorageComponent> storage)
+    {
+        var dispenserTransform = dispenserUid.IsValid() ? Transform(dispenserUid) : null;
+        Entity<RMCChemicalStorageComponent>? fallback = null;
+
         var storages = EntityQueryEnumerator<RMCChemicalStorageComponent>();
         while (storages.MoveNext(out var storageId, out var storageComp))
         {
@@ -354,9 +364,28 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
 
             if (storageComp.Network == network)
             {
-                storage = (storageId, storageComp);
-                return true;
+                if (dispenserTransform == null)
+                {
+                    storage = (storageId, storageComp);
+                    return true;
+                }
+
+                var storageTransform = Transform(storageId);
+                if (storageTransform.GridUid == dispenserTransform.GridUid ||
+                    _zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid))
+                {
+                    storage = (storageId, storageComp);
+                    return true;
+                }
+
+                fallback ??= (storageId, storageComp);
             }
+        }
+
+        if (fallback != null)
+        {
+            storage = fallback.Value;
+            return true;
         }
 
         storage = default;
@@ -368,11 +397,19 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         storage.Comp.Energy = FixedPoint2.Clamp(energy, FixedPoint2.Zero, storage.Comp.MaxEnergy);
         Dirty(storage);
 
+        var storageTransform = Transform(storage);
         var dispensers = EntityQueryEnumerator<RMCChemicalDispenserComponent>();
         while (dispensers.MoveNext(out var dispenserId, out var dispenserComp))
         {
             if (dispenserComp.Network != storage.Comp.Network)
                 continue;
+
+            var dispenserTransform = Transform(dispenserId);
+            if (storageTransform.GridUid != dispenserTransform.GridUid &&
+                !_zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid))
+            {
+                continue;
+            }
 
             dispenserComp.Energy = energy;
             Dirty(dispenserId, dispenserComp);
@@ -410,8 +447,12 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
             {
                 var dispenserTransform = Transform(dispenserId);
 
-                if (dispenser.Network == storage.Network && storageTransform.GridUid == dispenserTransform.GridUid)
+                if (dispenser.Network == storage.Network &&
+                    (storageTransform.GridUid == dispenserTransform.GridUid ||
+                     _zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid)))
+                {
                     _dispensers.Add((dispenserId, dispenser));
+                }
             }
 
             var baseMax = storage.BaseMax;

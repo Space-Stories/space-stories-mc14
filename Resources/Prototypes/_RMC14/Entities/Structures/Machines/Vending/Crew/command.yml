@@ -771,7 +771,7 @@
       - CMExecutiveOfficer
       takeAll: CMEquipment
       entries:
-      - id: RMCArmorVestSeniorOfficer
+      # - id: RMCArmorVestSeniorOfficer # Stories-Balance
       - id: RMCArmorM3SO
       - id: RMCArmorHelmetM10SO
       - id: CMBootsBlackFilled
@@ -936,7 +936,7 @@
       - CMChiefMP
       choices: { CMArmor: 1 }
       entries:
-      - id: RMCArmorVestMP
+      - id: CMArmorM3WO # Stories-Balance
     - name: Hat
       jobs:
       - CMChiefMP

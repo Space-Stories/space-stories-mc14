@@ -5,6 +5,8 @@ using Content.Shared._RMC14.Weapons.Ranged.Prediction;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Xenonids.Damage;
 using Content.Shared._RMC14.Xenonids.Projectile;
+using Content.Shared._Stories.ZLevels.Core;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Camera;
 using Content.Shared.Damage;
@@ -50,6 +52,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     [Dependency] private readonly SharedGunSystem _guns = default!;
     [Dependency] private readonly SharedCameraRecoilSystem _sharedCameraRecoil = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     public override void Initialize()
     {
@@ -129,7 +132,24 @@ public abstract partial class SharedProjectileSystem : EntitySystem
             RaiseLocalEvent(target, ref popupEv);
         //
 
-        var filter = Filter.Pvs(coordinates, entityMan: EntityManager);
+        // Stories-ZLevels-Start
+        var isCrossZ = false;
+        var shooterEntity = component.Shooter ?? (TryComp(projectile, out PredictedProjectileServerComponent? sp) ? sp.Shooter?.AttachedEntity : null);
+        if (shooterEntity != null && Exists(shooterEntity.Value))
+        {
+            var sMap = Transform(shooterEntity.Value).MapID;
+            var tMap = _transform.GetMapId(coordinates);
+            if (sMap != tMap && sMap != MapId.Nullspace && tMap != MapId.Nullspace && _zLevels.AreInSameNetwork(sMap, tMap))
+            {
+                isCrossZ = true;
+            }
+        }
+
+        var filter = isCrossZ
+            ? StoriesFilter.ZPvs(target, EntityManager)
+            : Filter.Pvs(coordinates, entityMan: EntityManager);
+        // Stories-ZLevels-End
+
         if (_guns.GunPrediction)
         {
             // TODO RMC14 clean this up once gun prediction is using new lag compensation

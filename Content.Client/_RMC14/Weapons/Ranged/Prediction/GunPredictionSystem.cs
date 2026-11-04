@@ -64,7 +64,12 @@ public sealed class GunPredictionSystem : SharedGunPredictionSystem
         while (query.MoveNext(out var uid, out var predicted))
         {
             if (predicted.Coordinates is { } coordinates)
-                _transform.SetCoordinates(uid, coordinates);
+            {
+                // Stories-ZLevels-Start
+                if (_transform.GetMapId(coordinates) == Transform(uid).MapID)
+                    _transform.SetCoordinates(uid, coordinates);
+                // Stories-ZLevels-End
+            }
 
             predicted.Coordinates = null;
         }

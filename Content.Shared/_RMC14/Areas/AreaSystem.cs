@@ -150,6 +150,17 @@ public sealed class AreaSystem : EntitySystem
     // Stories-ZLevels-End
     }
 
+    // Stories-TacMap-Start
+    public bool TryGetAreaEntity(Entity<AreaGridComponent?> grid, EntProtoId<AreaComponent> proto, out EntityUid areaEnt)
+    {
+        areaEnt = default;
+        if (!Resolve(grid, ref grid.Comp, false))
+            return false;
+
+        return grid.Comp.AreaEntities.TryGetValue(proto, out areaEnt);
+    }
+    // Stories-TacMap-End
+
     // Stories-TacMapInsert
     public void QueueRender(EntityUid grid)
     {

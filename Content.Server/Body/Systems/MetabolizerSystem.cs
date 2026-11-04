@@ -79,23 +79,20 @@ namespace Content.Server.Body.Systems
         {
             base.Update(frameTime);
 
-            var metabolizers = new ValueList<(EntityUid Uid, MetabolizerComponent Component)>(Count<MetabolizerComponent>());
+            // Stories-Optimization-Start
+            var curTime = _gameTiming.CurTime;
             var query = EntityQueryEnumerator<MetabolizerComponent>();
 
             while (query.MoveNext(out var uid, out var comp))
             {
-                metabolizers.Add((uid, comp));
-            }
-
-            foreach (var (uid, metab) in metabolizers)
-            {
                 // Only update as frequently as it should
-                if (_gameTiming.CurTime < metab.NextUpdate)
+                if (curTime < comp.NextUpdate)
                     continue;
 
-                metab.NextUpdate += metab.AdjustedUpdateInterval;
-                TryMetabolize((uid, metab));
+                comp.NextUpdate += comp.AdjustedUpdateInterval;
+                TryMetabolize((uid, comp));
             }
+            // Stories-Optimization-End
         }
 
         private void TryMetabolize(Entity<MetabolizerComponent, OrganComponent?, SolutionContainerManagerComponent?> ent)
