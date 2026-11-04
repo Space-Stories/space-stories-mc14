@@ -7647,6 +7647,18 @@ entities:
     - type: Transform
       pos: 2.5,-18.5
       parent: 1
+- proto: STGhostRoleWorkingJoeSpawner
+  entities:
+  - uid: 1015
+    components:
+    - type: Transform
+      pos: 4.5,-25.5
+      parent: 1
+  - uid: 1017
+    components:
+    - type: Transform
+      pos: 3.5,-25.5
+      parent: 1
 - proto: STHunterFeed1
   entities:
   - uid: 723
