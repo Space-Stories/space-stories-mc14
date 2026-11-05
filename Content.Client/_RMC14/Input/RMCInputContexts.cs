@@ -82,7 +82,6 @@ public static class RMCInputContexts
         ContentKeyFunctions.ReleasePulledObject,
         ContentKeyFunctions.OpenEmotesMenu,
         ContentKeyFunctions.MouseMiddle,
-        ContentKeyFunctions.ToggleLookUp, // Stories-ZLevels
     ];
 
     public static void Setup(IInputContextContainer contexts)

@@ -135,10 +135,8 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                 var source = weeds.IsSource ? uid : weeds.Source;
                 var sourceWeeds = CompOrNull<XenoWeedsComponent>(source);
 
-                // Stories-Optimization-Start
-                // if (source != null && sourceWeeds != null)
-                //     Dirty(source.Value, sourceWeeds);
-                // Stories-Optimization-End
+                if (source != null && sourceWeeds != null)
+                    Dirty(source.Value, sourceWeeds);
 
                 if (!Exists(source) ||
                     !TryComp(source, out TransformComponent? transform) ||
@@ -173,6 +171,7 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
 
                 _hive.SetSameHive(uid, neighborWeeds);
 
+                EnsureComp<ActiveEdgeSpreaderComponent>(neighborWeeds);
 
                 for (var j = 0; j < 4; j++)
                 {

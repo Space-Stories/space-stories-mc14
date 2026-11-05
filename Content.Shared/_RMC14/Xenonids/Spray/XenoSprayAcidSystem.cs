@@ -67,22 +67,20 @@ public sealed class XenoSprayAcidSystem : EntitySystem
         if (!_xenoPlasma.HasPlasmaPopup(xeno.Owner, xeno.Comp.PlasmaCost))
             return;
 
-        // Stories-ZLevels-Start
-        var targetMapCoords = _transform.ToMapCoordinates(args.Target);
-        var xenoMapCoords = _transform.GetMapCoordinates(xeno);
-        var diff = targetMapCoords.Position - xenoMapCoords.Position;
-        var length = diff.Length();
+        var target = GetNetCoordinates(args.Target);
 
-        var targetCoords = args.Target;
-        if (length > xeno.Comp.Range && length > 0.001f)
+        var xenoCoords = _transform.GetMoverCoordinates(xeno);
+
+        var length = (target.Position - xenoCoords.Position).Length();
+
+        if (length > xeno.Comp.Range)
         {
-            var direction = diff / length;
-            var newWorldPos = xenoMapCoords.Position + direction * xeno.Comp.Range;
-            targetCoords = _transform.ToCoordinates(args.Target.EntityId, new MapCoordinates(newWorldPos, targetMapCoords.MapId));
+            var direction = (target.Position - xenoCoords.Position).Normalized();
+            var newTile = direction * xeno.Comp.Range;
+            target = new NetCoordinates(GetNetEntity(args.Target.EntityId), xenoCoords.Position + newTile);
         }
 
-        var ev = new XenoSprayAcidDoAfter(GetNetCoordinates(targetCoords));
-        // Stories-ZLevels-End
+        var ev = new XenoSprayAcidDoAfter(target);
         var doAfter = new DoAfterArgs(EntityManager, xeno, xeno.Comp.DoAfter, ev, xeno) { BreakOnMove = true };
         _doAfter.TryStartDoAfter(doAfter);
     }
@@ -188,7 +186,7 @@ public sealed class XenoSprayAcidSystem : EntitySystem
 
     public void CreateLine(EntityUid user, EntityCoordinates start, EntityCoordinates end, TimeSpan delay, float range, EntProtoId acid, bool ignoreBlocker = true)
     {
-        var tiles = _line.DrawLine(start, end, delay, range, out var blocker, user: user); // Stories-ZLevels
+        var tiles = _line.DrawLine(start, end, delay, range, out var blocker);
         if (!ignoreBlocker && blocker != null)
             return;
 

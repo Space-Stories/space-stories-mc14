@@ -10,11 +10,10 @@ namespace Content.Shared._Stories.ZLevels.Pulling;
 
 public sealed partial class ZLevelPullingSystem : EntitySystem
 {
-    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
-    [Dependency] private readonly PullingSystem _pulling = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
+    [Dependency] private ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] private PullingSystem _pulling = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
 
     private EntityQuery<ZLevelPullingTransitionComponent> _transitionQuery;
     private EntityQuery<ZPhysicsComponent> _zPhysicsQuery;
@@ -74,9 +73,6 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         if (!_timing.IsFirstTimePredicted)
             return;
 
-        if (HasComp<ZLevelTransitioningComponent>(ent.Owner))
-            return;
-
         if (!TryComp<PullerComponent>(ent, out var puller) || puller.Pulling == null)
             return;
 
@@ -90,7 +86,7 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         transComp.TargetPuller = ent;
         transComp.StartPosition = _transform.GetWorldPosition(pulledEntity);
         transComp.TargetPosition = pullerPos;  // Save puller's position at the moment of transition
-        transComp.TargetZLevel = args.CurrentZLevel;
+        transComp.TargetZLevel = args.CurrentZLevel + args.Offset;
 
         var distance = Vector2.Distance(transComp.StartPosition, transComp.TargetPosition);
         var duration = TimeSpan.FromSeconds(distance / transComp.TransitionSpeed);
@@ -119,20 +115,6 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         // If still transitioning and entity didn't move to target level, stop transition
         if (!Exists(uid) || !_transitionQuery.HasComp(uid))
             return;
-
-        if (comp.TargetPuller is { } puller && Exists(puller))
-        {
-            var pullerMap = Transform(puller).MapUid;
-            var pulledMap = Transform(uid).MapUid;
-            if (pulledMap != pullerMap && pulledMap != null && pullerMap != null)
-            {
-                if (_zLevels.TryGetZLevelOffset(pulledMap.Value, pullerMap.Value, out var offset) && offset != 0)
-                {
-                    _zLevels.TryMove(uid, offset);
-                    _transform.SetWorldPosition(uid, comp.TargetPosition);
-                }
-            }
-        }
 
         TryResumePulling(uid, comp);
     }

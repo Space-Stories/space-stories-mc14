@@ -62,7 +62,7 @@
   - type: DisposalUnit
   - type: ThrowInsertContainer
     containerId: disposals
-    probability: 1 # Stories-Fix
+    probability: 0
   - type: InteractedBlacklist
     blacklist:
       components:

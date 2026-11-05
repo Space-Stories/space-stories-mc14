@@ -428,8 +428,6 @@ namespace Content.Server.Decals
             return ModifyDecal(gridId, decalId, x => x.WithId(id), comp);
         }
 
-        private float _decalUpdateAccumulator; // Stories-Optimization
-
         public override void Update(float frameTime)
         {
             base.Update(frameTime);
@@ -445,14 +443,6 @@ namespace Content.Server.Decals
                 _dirtyChunks.Clear();
                 return;
             }
-
-            // Stories-Optimization-Start
-            _decalUpdateAccumulator += frameTime;
-            if (_dirtyChunks.Count == 0 && _decalUpdateAccumulator < 0.2f)
-                return;
-
-            _decalUpdateAccumulator = 0f;
-            // Stories-Optimization-End
 
             if (PvsEnabled)
             {

@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Content.Shared._RMC14.Sprite;
 using Robust.Shared.Network;
 
@@ -16,24 +16,22 @@ public sealed class RMCLightOffsetSystem : EntitySystem
         SubscribeLocalEvent<RMCLightOffsetComponent, ComponentStartup>(OnLightStartup);
         SubscribeLocalEvent<RMCLightOffsetComponent, MapInitEvent>(OnLightUpdate);
         SubscribeLocalEvent<RMCLightOffsetComponent, EntParentChangedMessage>(OnLightUpdate);
-        SubscribeLocalEvent<RMCLightOffsetComponent, MoveEvent>(OnLightMove); // Stories-LightOffset
     }
-
-    // Stories-LightOffset-Start
-    private void OnLightMove(Entity<RMCLightOffsetComponent> ent, ref MoveEvent args)
-    {
-        if (args.NewRotation != args.OldRotation)
-            OffsetLight(ent);
-    }
-    // Stories-LightOffset-End
 
     private void OnLightStartup(Entity<RMCLightOffsetComponent> ent, ref ComponentStartup args)
     {
-        OffsetLight(ent);
+        if (_net.IsClient)
+            OffsetLight(ent);
     }
 
     private void OnLightUpdate<T>(Entity<RMCLightOffsetComponent> ent, ref T args)
     {
+        if (!TryComp(ent, out MetaDataComponent? metaData) ||
+            metaData.EntityLifeStage < EntityLifeStage.MapInitialized)
+        {
+            return;
+        }
+
         ToUpdate.Add(ent);
 
         if (_net.IsClient)
@@ -48,7 +46,7 @@ public sealed class RMCLightOffsetSystem : EntitySystem
     private void OffsetLight(Entity<RMCLightOffsetComponent> ent)
     {
         var sprite = EnsureComp<SpriteSetRenderOrderComponent>(ent);
-        switch (Transform(ent).LocalRotation.GetCardinalDir()) // Stories-LightOffset
+        switch (Transform(ent).LocalRotation.GetDir())
         {
             case Direction.South:
                 _sprite.SetOffset(ent, new Vector2(0.45f, -0.32f));

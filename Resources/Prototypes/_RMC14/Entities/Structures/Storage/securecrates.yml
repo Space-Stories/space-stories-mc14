@@ -209,7 +209,6 @@
   id: RMCCrateOpenableBase
   components:
   - type: VehicleSmashable
-  - type: ZPhysics # Stories-ZLevels
   - type: CrateOpenable
     spawn:
     - id: RMCPlankWood2

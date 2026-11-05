@@ -1,4 +1,3 @@
-using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using System.Numerics;
 using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Light;
@@ -14,8 +13,6 @@ using Content.Shared.FixedPoint;
 using Content.Shared.GameTicking;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Projectiles;
-using Content.Shared._Stories.ZLevels.Combat;
-using Content.Shared._Stories.ZLevels.Core.Components;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
@@ -37,7 +34,6 @@ namespace Content.Shared._RMC14.Xenonids.Projectile;
 
 public sealed class XenoProjectileSystem : EntitySystem
 {
-    [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedGunSystem _gun = default!;
     [Dependency] private readonly SharedGunPredictionSystem _gunPrediction = default!;
@@ -51,7 +47,6 @@ public sealed class XenoProjectileSystem : EntitySystem
     [Dependency] private readonly RMCPseudoRandomSystem _rmcPseudoRandom = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
     [Dependency] private readonly XenoSystem _xeno = default!;
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
 
@@ -453,12 +448,7 @@ public sealed class XenoProjectileSystem : EntitySystem
 
         var origin = _transform.GetMapCoordinates(xeno);
         var targetMap = _transform.ToMapCoordinates(targetCoords);
-        if (target != null && Exists(target.Value))
-        {
-            targetMap = _transform.GetMapCoordinates(target.Value);
-        }
-
-        if ((origin.MapId != targetMap.MapId && !_zLevels.AreInSameNetwork(origin.MapId, targetMap.MapId)) ||
+        if (origin.MapId != targetMap.MapId ||
             origin.Position == targetMap.Position)
         {
             return false;
@@ -499,63 +489,6 @@ public sealed class XenoProjectileSystem : EntitySystem
             diff *= speed / diff.Length();
 
             _gun.ShootProjectile(projectile, diff, Vector2.Zero, xeno, xeno, speed);
-
-            // Stories-ZLevels-Start
-            var originMapUid = _mapManager.GetMapEntityId(origin.MapId);
-            var targetMapUid = _mapManager.GetMapEntityId(targetMap.MapId);
-            var zOffset = 0;
-
-            if (origin.MapId != targetMap.MapId)
-            {
-                _zLevels.TryGetZLevelOffset(originMapUid, targetMapUid, out zOffset);
-            }
-            else
-            {
-                var lookUp = TryComp<ZLevelViewerComponent>(xeno, out var viewer) && viewer.LookUp;
-                var elevated = TryComp<ZPhysicsComponent>(xeno, out var xenoZ) && xenoZ.LocalPosition > 0.2f;
-
-                if ((lookUp || elevated) && _zLevels.TryMapUp(originMapUid, out var mapAbove))
-                {
-                    zOffset = 1;
-                    targetMapUid = mapAbove.Owner;
-                }
-                else if (!lookUp && _zLevels.TryMapDown(originMapUid, out var mapBelow))
-                {
-                    if (_zLevels.IsTileTransparentOrEmpty(originMapUid, targetMap.Position))
-                    {
-                        zOffset = -1;
-                        targetMapUid = mapBelow.Owner;
-                    }
-                    else
-                    {
-                        var flightDir = diff.Normalized();
-                        for (var step = 1; step <= 3; step++)
-                        {
-                            var checkPos = origin.Position + flightDir * step;
-                            if (_zLevels.IsTileTransparentOrEmpty(originMapUid, checkPos))
-                            {
-                                zOffset = -1;
-                                targetMapUid = mapBelow.Owner;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (zOffset != 0)
-            {
-                var totalDist = Math.Max(0.5f, originalDiff.Length());
-
-                var traj = EnsureComp<ZLevelProjectileTrajectoryComponent>(projectile);
-                traj.StartPos = origin.Position;
-                traj.TargetPos = targetMap.Position;
-                traj.TotalDistance = totalDist;
-                traj.TargetMapUid = targetMapUid;
-                traj.ZOffset = zOffset;
-                traj.HasTransferred = false;
-            }
-            // Stories-ZLevels-End
 
             var ev = new ProjectileShotEvent(xeno, predicted);
             RaiseLocalEvent(projectile, ref ev);

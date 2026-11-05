@@ -1,8 +1,5 @@
-using System.Numerics;
 using Content.Shared._RMC14.Fireman;
 using Content.Shared._RMC14.Pulling;
-using Content.Shared._Stories.ZLevels.Core.EntitySystems;
-using Content.Shared._Stories.ZLevels.Pulling;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Alert;
@@ -28,12 +25,9 @@ using Content.Shared.Pulling.Events;
 using Content.Shared.Standing;
 using Content.Shared.Verbs;
 using Robust.Shared.Containers;
-using Robust.Shared.Map;
 using Robust.Shared.Input.Binding;
-using Robust.Shared.Network;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
-using Robust.Shared.Physics.Dynamics.Joints;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
@@ -47,25 +41,22 @@ namespace Content.Shared.Movement.Pulling.Systems;
 /// </summary>
 public sealed class PullingSystem : EntitySystem
 {
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly AlertsSystem _alertsSystem = default!;
     [Dependency] private readonly ActionBlockerSystem _blocker = default!;
-    [Dependency] private readonly HeldSpeedModifierSystem _clothingMoveSpeed = default!;
+    [Dependency] private readonly AlertsSystem _alertsSystem = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _modifierSystem = default!;
+    [Dependency] private readonly SharedJointSystem _joints = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
     [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
-    [Dependency] private readonly SharedJointSystem _joints = default!;
-    [Dependency] private readonly MovementSpeedModifierSystem _modifierSystem = default!;
-    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly HeldSpeedModifierSystem _clothingMoveSpeed = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedVirtualItemSystem _virtual = default!;
-    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
 
-    private bool _isRecreatingJoint;
+    // RMC14
+    [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
 
     public override void Initialize()
     {
@@ -96,114 +87,10 @@ public sealed class PullingSystem : EntitySystem
 
         SubscribeLocalEvent<PullableComponent, StrappedEvent>(OnBuckled);
         SubscribeLocalEvent<PullableComponent, BuckledEvent>(OnGotBuckled);
-        // Stories-ZLevels-Start
-        SubscribeLocalEvent<PullableComponent, EntParentChangedMessage>(OnPullableParentChanged);
-        SubscribeLocalEvent<PullerComponent, EntParentChangedMessage>(OnPullerParentChanged);
-        // Stories-ZLevels-End
 
         CommandBinds.Builder
             .Bind(ContentKeyFunctions.ReleasePulledObject, InputCmdHandler.FromDelegate(OnReleasePulledObject, handle: false))
             .Register<PullingSystem>();
-    }
-
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        // Stories-ZLevels-Start
-        if (_net.IsClient)
-            return;
-        // Stories-ZLevels-End
-
-        var query = EntityQueryEnumerator<ActivePullerComponent, PullerComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out _, out var pullerComp, out var xform))
-        {
-            if (pullerComp.Pulling is not { } pulledUid || !TryComp<PullableComponent>(pulledUid, out var pullableComp))
-                continue;
-
-            if (HasComp<ZLevelTransitioningComponent>(uid) || HasComp<ZLevelTransitioningComponent>(pulledUid))
-                continue;
-
-            if (HasComp<BeingFiremanCarriedComponent>(pulledUid))
-                continue;
-
-            var pulledXform = Transform(pulledUid);
-            if (xform.MapID != pulledXform.MapID || xform.MapID == MapId.Nullspace)
-            {
-                // Stories-ZLevels-Start
-                if (xform.MapID != MapId.Nullspace && pulledXform.MapID != MapId.Nullspace &&
-                    _zLevels.AreInSameNetwork(xform.MapID, pulledXform.MapID))
-                {
-                    // Ensure any stale cross-map physics joint is removed immediately to avoid engine joint errors
-                    if (pullableComp.PullJointId != null &&
-                        TryComp<JointComponent>(pulledUid, out var jComp) &&
-                        jComp.GetJoints.TryGetValue(pullableComp.PullJointId, out var existingJoint))
-                    {
-                        _isRecreatingJoint = true;
-                        try
-                        {
-                            _joints.RemoveJoint(existingJoint);
-                        }
-                        finally
-                        {
-                            _isRecreatingJoint = false;
-                        }
-                    }
-
-                    var userPos = _transform.ToMapCoordinates(xform.Coordinates).Position;
-                    var pulledPos = _transform.ToMapCoordinates(pulledXform.Coordinates).Position;
-                    var zDist = Vector2.Distance(userPos, pulledPos);
-                    if (zDist > 3.5f)
-                    {
-                        TryStopPull(pulledUid, pullableComp);
-                        continue;
-                    }
-
-                    if (TryComp<PhysicsComponent>(pulledUid, out var pulledPhysics) &&
-                        pulledPhysics.BodyType != BodyType.Static)
-                    {
-                        var dir = userPos - pulledPos;
-                        var distSq = dir.LengthSquared();
-                        if (distSq > 0.04f)
-                        {
-                            var pullDir = Vector2.Normalize(dir);
-                            var speed = Math.Clamp(zDist * 2.5f, 3.5f, 6.0f);
-                            _physics.SetLinearVelocity(pulledUid, pullDir * speed, body: pulledPhysics);
-                        }
-                    }
-                    continue;
-                }
-                // Stories-ZLevels-End
-
-                TryStopPull(pulledUid, pullableComp);
-                continue;
-            }
-
-            if (!xform.Coordinates.TryDistance(EntityManager, pulledXform.Coordinates, out var dist) || dist > 3.5f)
-            {
-                TryStopPull(pulledUid, pullableComp);
-                continue;
-            }
-
-            if (!_timing.ApplyingState)
-            {
-                var hasJoint = pullableComp.PullJointId != null &&
-                               TryComp<JointComponent>(pulledUid, out var jointComp) &&
-                               jointComp.GetJoints.ContainsKey(pullableComp.PullJointId);
-
-                if (!hasJoint)
-                {
-                    if (dist > 3.5f || !CanPull(uid, pulledUid, pullerComp))
-                    {
-                        TryStopPull(pulledUid, pullableComp);
-                    }
-                    else
-                    {
-                        TryStartPull(uid, pulledUid, pullerComp, pullableComp);
-                    }
-                }
-            }
-        }
     }
 
     private void HandlePullStarted(EntityUid uid, HandsComponent component, PullStartedMessage args)
@@ -224,22 +111,6 @@ public sealed class PullingSystem : EntitySystem
     {
         if (args.PullerUid != uid)
             return;
-
-        // Stories-ZLevels-Start
-        if (_isRecreatingJoint)
-            return;
-
-        if (HasComp<ZLevelTransitioningComponent>(args.PullerUid) || HasComp<ZLevelTransitioningComponent>(args.PulledUid))
-            return;
-
-        if (Exists(args.PullerUid) && Exists(args.PulledUid))
-        {
-            var mapA = Transform(args.PullerUid).MapID;
-            var mapB = Transform(args.PulledUid).MapID;
-            if (mapA != mapB && mapA != MapId.Nullspace && mapB != MapId.Nullspace && _zLevels.AreInSameNetwork(mapA, mapB))
-                return;
-        }
-        // Stories-ZLevels-End
 
         // Try find hand that is doing this pull.
         // and clear it.
@@ -286,107 +157,10 @@ public sealed class PullingSystem : EntitySystem
     private void OnAfterState(Entity<PullerComponent> ent, ref AfterAutoHandleStateEvent args)
     {
         if (ent.Comp.Pulling == null)
-        {
             RemComp<ActivePullerComponent>(ent.Owner);
-
-            // Stories-ZLevels-Start
-            if (_net.IsClient)
-            {
-                if (TryComp<HandsComponent>(ent.Owner, out var handsComp))
-                {
-                    foreach (var held in _handsSystem.EnumerateHeld((ent.Owner, handsComp)))
-                    {
-                        if (TryComp<VirtualItemComponent>(held, out _))
-                            _handsSystem.TryDrop((ent.Owner, handsComp), held);
-                    }
-                }
-                _alertsSystem.ClearAlert(ent.Owner, ent.Comp.PullingAlert);
-            }
-            // Stories-ZLevels-End
-        }
         else
-        {
             EnsureComp<ActivePullerComponent>(ent.Owner);
-
-            // Stories-ZLevels-Start
-            if (_net.IsClient && ent.Comp.NeedsHands && Exists(ent.Comp.Pulling))
-            {
-                var pulledUid = ent.Comp.Pulling.Value;
-                var hasVirtualItem = false;
-                if (TryComp<HandsComponent>(ent.Owner, out var handsComp))
-                {
-                    foreach (var held in _handsSystem.EnumerateHeld((ent.Owner, handsComp)))
-                    {
-                        if (TryComp<VirtualItemComponent>(held, out var vItem) && vItem.BlockingEntity == pulledUid)
-                        {
-                            hasVirtualItem = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasVirtualItem)
-                        _virtual.TrySpawnVirtualItemInHand(pulledUid, ent.Owner);
-                }
-                _alertsSystem.ShowAlert(ent.Owner, ent.Comp.PullingAlert);
-            }
-            // Stories-ZLevels-End
-        }
     }
-
-    // Stories-ZLevels-Start
-    private void OnPullableParentChanged(Entity<PullableComponent> ent, ref EntParentChangedMessage args)
-    {
-        if (ent.Comp.Puller is not { } puller)
-            return;
-
-        var myMap = Transform(ent.Owner).MapID;
-        var pullerMap = Transform(puller).MapID;
-        if (myMap != pullerMap || myMap == MapId.Nullspace)
-        {
-            if (ent.Comp.PullJointId != null &&
-                TryComp<JointComponent>(ent.Owner, out var jComp) &&
-                jComp.GetJoints.TryGetValue(ent.Comp.PullJointId, out var existingJoint))
-            {
-                _isRecreatingJoint = true;
-                try
-                {
-                    _joints.RemoveJoint(existingJoint);
-                }
-                finally
-                {
-                    _isRecreatingJoint = false;
-                }
-            }
-        }
-    }
-
-    private void OnPullerParentChanged(Entity<PullerComponent> ent, ref EntParentChangedMessage args)
-    {
-        if (ent.Comp.Pulling is not { } pulled)
-            return;
-
-        var myMap = Transform(ent.Owner).MapID;
-        var pulledMap = Transform(pulled).MapID;
-        if (myMap != pulledMap || myMap == MapId.Nullspace)
-        {
-            if (TryComp<PullableComponent>(pulled, out var pullableComp) &&
-                pullableComp.PullJointId != null &&
-                TryComp<JointComponent>(pulled, out var jComp) &&
-                jComp.GetJoints.TryGetValue(pullableComp.PullJointId, out var existingJoint))
-            {
-                _isRecreatingJoint = true;
-                try
-                {
-                    _joints.RemoveJoint(existingJoint);
-                }
-                finally
-                {
-                    _isRecreatingJoint = false;
-                }
-            }
-        }
-    }
-    // Stories-ZLevels-End
 
     private void OnDropHandItems(EntityUid uid, PullerComponent pullerComp, DropHandItemsEvent args)
     {
@@ -556,33 +330,6 @@ public sealed class PullingSystem : EntitySystem
         if (args.Joint.ID != component.PullJointId || component.Puller == null)
             return;
 
-        // Stories-ZLevels-Start
-        if (_isRecreatingJoint)
-            return;
-
-        var pullerUid = component.Puller.Value;
-        if (HasComp<ZLevelTransitioningComponent>(uid) || HasComp<ZLevelTransitioningComponent>(pullerUid))
-            return;
-
-        if (Exists(pullerUid) && Exists(uid))
-        {
-            if (HasComp<BeingFiremanCarriedComponent>(uid) ||
-                (TryComp<CanFiremanCarryComponent>(pullerUid, out var carrier) && carrier.Carrying == uid))
-            {
-                // Fireman carry entities are parented to the carrier and do not rely on Box2D physics joints
-                return;
-            }
-
-            var mapA = Transform(uid).MapID;
-            var mapB = Transform(pullerUid).MapID;
-            if (mapA != mapB && mapA != MapId.Nullspace && mapB != MapId.Nullspace && _zLevels.AreInSameNetwork(mapA, mapB))
-            {
-                // Cross-Z pulling continues virtually without Box2D joint!
-                return;
-            }
-        }
-        // Stories-ZLevels-End
-
         StopPulling(uid, component);
     }
 
@@ -593,17 +340,6 @@ public sealed class PullingSystem : EntitySystem
     {
         if (pullableComp.Puller == null)
             return;
-
-        // Stories-ZLevels-Start
-        if (_isRecreatingJoint)
-            return;
-
-        if (HasComp<ZLevelTransitioningComponent>(pullableUid) ||
-            (pullableComp.Puller is { } p && HasComp<ZLevelTransitioningComponent>(p)))
-        {
-            return;
-        }
-        // Stories-ZLevels-End
 
         if (!_timing.ApplyingState)
         {
@@ -687,13 +423,6 @@ public sealed class PullingSystem : EntitySystem
     public bool CanPull(EntityUid puller, EntityUid pullableUid, PullerComponent? pullerComp = null)
     {
         if (!Resolve(puller, ref pullerComp, false))
-        {
-            return false;
-        }
-
-        var pullerXform = Transform(puller);
-        var pullableXform = Transform(pullableUid);
-        if (pullerXform.MapID == MapId.Nullspace || pullerXform.MapID != pullableXform.MapID)
         {
             return false;
         }
@@ -782,82 +511,7 @@ public sealed class PullingSystem : EntitySystem
         }
 
         if (pullerComp.Pulling == pullableUid)
-        {
-            // Stories-ZLevels-Start
-            if (!_timing.ApplyingState &&
-                TryComp(pullerUid, out PhysicsComponent? pPhysics) &&
-                TryComp(pullableUid, out PhysicsComponent? bPhysics))
-            {
-                var pullerXform = Transform(pullerUid);
-                var pullableXform = Transform(pullableUid);
-                if (pullerXform.MapID == MapId.Nullspace || pullerXform.MapID != pullableXform.MapID)
-                    return false;
-
-                if (pPhysics.BodyType == BodyType.Static || bPhysics.BodyType == BodyType.Static)
-                    return false;
-
-                pullableComp.PullJointId ??= $"pull-joint-{GetNetEntity(pullableUid)}";
-
-                if (TryComp<JointComponent>(pullableUid, out var jointComp) &&
-                    jointComp.GetJoints.TryGetValue(pullableComp.PullJointId, out var existingJoint))
-                {
-                    _isRecreatingJoint = true;
-                    try
-                    {
-                        _joints.RemoveJoint(existingJoint);
-                    }
-                    finally
-                    {
-                        _isRecreatingJoint = false;
-                    }
-                }
-
-                var joint = _joints.CreateDistanceJoint(pullableUid, pullerUid,
-                        bPhysics.LocalCenter, pPhysics.LocalCenter,
-                        id: pullableComp.PullJointId, minimumDistance: 1);
-                if (joint != null)
-                {
-                    joint.CollideConnected = false;
-                    joint.MaxLength = Math.Max(joint.Length + 0.15f, 1.5f);
-                    joint.MinLength = 0f;
-                    joint.Stiffness = 0f;
-                }
-                _physics.SetFixedRotation(pullableUid, pullableComp.FixedRotationOnPull, body: bPhysics);
-
-                _physics.WakeBody(pullerUid, body: pPhysics);
-                _physics.WakeBody(pullableUid, body: bPhysics);
-
-                EnsureComp<ActivePullerComponent>(pullerUid);
-                pullerComp.Pulling = pullableUid;
-                pullableComp.Puller = pullerUid;
-
-                _alertsSystem.ShowAlert(pullerUid, pullerComp.PullingAlert);
-                _alertsSystem.ShowAlert(pullableUid, pullableComp.PulledAlert);
-
-                if (_net.IsServer && pullerComp.NeedsHands && TryComp<HandsComponent>(pullerUid, out var handsComp))
-                {
-                    var hasVirtual = false;
-                    foreach (var held in _handsSystem.EnumerateHeld((pullerUid, handsComp)))
-                    {
-                        if (TryComp<VirtualItemComponent>(held, out var vItem) && vItem.BlockingEntity == pullableUid)
-                        {
-                            hasVirtual = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasVirtual)
-                    {
-                        _virtual.TrySpawnVirtualItemInHand(pullableUid, pullerUid);
-                    }
-                }
-
-                Dirty(pullerUid, pullerComp);
-                Dirty(pullableUid, pullableComp);
-            }
             return true;
-            // Stories-ZLevels-End
-        }
 
         if (!CanPull(pullerUid, pullableUid))
             return false;
@@ -909,30 +563,21 @@ public sealed class PullingSystem : EntitySystem
         // joint state handling will manage its own state
         if (!_timing.ApplyingState)
         {
-            var pullerXform = Transform(pullerUid);
-            var pullableXform = Transform(pullableUid);
-            if (pullerXform.MapID != MapId.Nullspace && pullerXform.MapID == pullableXform.MapID &&
-                pullerPhysics.BodyType != BodyType.Static && pullablePhysics.BodyType != BodyType.Static)
-            {
-                var joint = _joints.CreateDistanceJoint(pullableUid, pullerUid,
-                        pullablePhysics.LocalCenter, pullerPhysics.LocalCenter,
-                        id: pullableComp.PullJointId, minimumDistance: 1);
-                if (joint != null)
-                {
-                    joint.CollideConnected = false;
-                    // This maximum has to be there because if the object is constrained too closely, the clamping goes backwards and asserts.
-                    // Internally, the joint length has been set to the distance between the pivots.
-                    // Add an additional 15cm (pretty arbitrary) to the maximum length for the hard limit.
-                    joint.MaxLength = joint.Length + 0.15f;
-                    joint.MinLength = 0f;
-                    // Set the spring stiffness to zero. The joint won't have any effect provided
-                    // the current length is beteen MinLength and MaxLength. At those limits, the
-                    // joint will have infinite stiffness.
-                    joint.Stiffness = 0f;
-                }
+            var joint = _joints.CreateDistanceJoint(pullableUid, pullerUid,
+                    pullablePhysics.LocalCenter, pullerPhysics.LocalCenter,
+                    id: pullableComp.PullJointId, minimumDistance: 1);
+            joint.CollideConnected = false;
+            // This maximum has to be there because if the object is constrained too closely, the clamping goes backwards and asserts.
+            // Internally, the joint length has been set to the distance between the pivots.
+            // Add an additional 15cm (pretty arbitrary) to the maximum length for the hard limit.
+            joint.MaxLength = joint.Length + 0.15f;
+            joint.MinLength = 0f;
+            // Set the spring stiffness to zero. The joint won't have any effect provided
+            // the current length is beteen MinLength and MaxLength. At those limits, the
+            // joint will have infinite stiffness.
+            joint.Stiffness = 0f;
 
-                _physics.SetFixedRotation(pullableUid, pullableComp.FixedRotationOnPull, body: pullablePhysics);
-            }
+            _physics.SetFixedRotation(pullableUid, pullableComp.FixedRotationOnPull, body: pullablePhysics);
         }
 
         // Messaging
@@ -975,27 +620,4 @@ public sealed class PullingSystem : EntitySystem
         StopPulling(pullableUid, pullable);
         return true;
     }
-
-    // Stories-ZLevels-Start
-    public void RemovePullJointDuringTransition(EntityUid pullableUid, PullableComponent? pullableComp = null)
-    {
-        if (!Resolve(pullableUid, ref pullableComp, false))
-            return;
-
-        if (pullableComp.PullJointId != null &&
-            TryComp<JointComponent>(pullableUid, out var jComp) &&
-            jComp.GetJoints.TryGetValue(pullableComp.PullJointId, out var existingJoint))
-        {
-            _isRecreatingJoint = true;
-            try
-            {
-                _joints.RemoveJoint(existingJoint);
-            }
-            finally
-            {
-                _isRecreatingJoint = false;
-            }
-        }
-    }
-    // Stories-ZLevels-End
 }

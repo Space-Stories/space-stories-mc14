@@ -1,9 +1,5 @@
-// ReSharper disable CheckNamespace
-
 using System.Numerics;
 using Content.Client._Stories.ZLevels.Core;
-using Robust.Client.Input;
-using Robust.Client.Placement;
 using Content.Shared._Stories.ZLevels.Core.Components;
 using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Maps;
@@ -26,7 +22,6 @@ public sealed partial class ScalingViewport
     [Dependency] private readonly IEyeManager _eyeManager = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly IOverlayManager _overlayManager = default!;
-    [Dependency] private readonly IPlacementManager _placement = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly ITileDefinitionManager _tile = default!;
 
@@ -531,7 +526,7 @@ public sealed partial class ScalingViewport
         if (SharedZLevelsSystem.ZLevelOffset != 0f)
         {
             var rotation = -_fallbackEye.Rotation;
-            rotationOffsetUnit = rotation.RotateVec(new Vector2(0, SharedZLevelsSystem.ZLevelOffset));
+            rotationOffsetUnit = rotation.ToWorldVec() * SharedZLevelsSystem.ZLevelOffset;
         }
         else
         {
@@ -545,26 +540,8 @@ public sealed partial class ScalingViewport
             {
                 if (depth == 0)
                 {
-                    var canDrawPlacement = true;
-                    if (_placement.IsActive && _placement.CurrentMode is { } currentMode)
-                    {
-                        var mouseMapId = _transformSystem?.GetMapId(currentMode.MouseCoords);
-                        if (mouseMapId != _fallbackEye!.Position.MapId)
-                        {
-                            currentMode.AlignPlacementMode(_inputManager.MouseScreenPosition);
-                            mouseMapId = _transformSystem?.GetMapId(currentMode.MouseCoords);
-                            if (mouseMapId != _fallbackEye!.Position.MapId)
-                                canDrawPlacement = false;
-                        }
-                    }
-
-                    if (placementOverlay != null)
-                    {
-                        if (canDrawPlacement && !_overlayManager.HasOverlay(placementOverlay.GetType()))
-                            _overlayManager.AddOverlay(placementOverlay);
-                        else if (!canDrawPlacement && _overlayManager.HasOverlay(placementOverlay.GetType()))
-                            _overlayManager.RemoveOverlay(placementOverlay);
-                    }
+                    if (placementOverlay != null && !_overlayManager.HasOverlay(placementOverlay.GetType()))
+                        _overlayManager.AddOverlay(placementOverlay);
 
                     var zeye = GetOrUpdateZEye(lowestDepth, 0, lookUp);
                     zeye.Position = _fallbackEye!.Position;

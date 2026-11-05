@@ -55,14 +55,6 @@ public sealed class StoriesThreatAutoDeployerSystem : EntitySystem
                 continue;
             }
 
-            if (deployer.IsDeployed && now < auto.LastThreat + auto.RetractDelay)
-            {
-                if (auto.PendingAnnouncement)
-                    Announce((uid, auto), now);
-
-                continue;
-            }
-
             if (HasThreat((uid, auto)))
             {
                 auto.LastThreat = now;

@@ -7,9 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using Content.Shared.Input;
-using Robust.Shared.Input.Binding;
-using Robust.Shared.Player;
 
 namespace Content.Shared._Stories.ZLevels.Core.EntitySystems;
 
@@ -41,7 +38,7 @@ public abstract partial class SharedZLevelsSystem
     public bool IsTileTransparentOrEmpty(EntityUid mapUid, Vector2 worldPos)
     {
         if (!TryFindGridAt(mapUid, worldPos, out var gridUid, out var grid))
-            return true;
+            return false;
 
         if (!_map.TryGetTileRef(gridUid, grid, worldPos, out var tileRef) || tileRef.Tile.IsEmpty)
             return true;
@@ -115,10 +112,6 @@ public abstract partial class SharedZLevelsSystem
 
     private void InitializeView()
     {
-        CommandBinds.Builder
-            .Bind(ContentKeyFunctions.ToggleLookUp, InputCmdHandler.FromDelegate(HandleToggleLookUp, handle: false))
-            .Register<SharedZLevelsSystem>();
-
         SubscribeLocalEvent<ZLevelViewerComponent, ToggleActionEvent>(OnToggleLookUp);
         SubscribeLocalEvent<ZLevelViewerComponent, ToggleLookUpAlertEvent>(OnToggleLookUpAlert);
         SubscribeLocalEvent<ZLevelViewerComponent, MoveEvent>(OnViewerMove);
@@ -147,43 +140,6 @@ public abstract partial class SharedZLevelsSystem
         UpdateLookUpAlert(entity);
     }
 
-    private void HandleToggleLookUp(ICommonSession? session)
-    {
-        if (session?.AttachedEntity is not { } player)
-            return;
-
-        if (TryComp<ZLevelViewerComponent>(player, out var viewer))
-        {
-            ToggleLookUp((player, viewer));
-        }
-    }
-
-    [PublicAPI]
-    public void ToggleLookUp(Entity<ZLevelViewerComponent?> entity)
-    {
-        if (!Resolve(entity.Owner, ref entity.Comp, false))
-            return;
-
-        if (!CanLookUp(entity.Owner))
-        {
-            if (entity.Comp.LookUp)
-            {
-                entity.Comp.LookUp = false;
-                DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
-                if (entity.Comp.ActionEntity != null)
-                    _actions.SetToggled(entity.Comp.ActionEntity, false);
-            }
-            UpdateLookUpAlert((entity.Owner, entity.Comp));
-            return;
-        }
-
-        entity.Comp.LookUp = !entity.Comp.LookUp;
-        DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
-        if (entity.Comp.ActionEntity != null)
-            _actions.SetToggled(entity.Comp.ActionEntity, entity.Comp.LookUp);
-        UpdateLookUpAlert((entity.Owner, entity.Comp));
-    }
-
     private void OnToggleLookUp(Entity<ZLevelViewerComponent> entity, ref ToggleActionEvent args)
     {
         if (args.Handled)
@@ -192,7 +148,24 @@ public abstract partial class SharedZLevelsSystem
             return;
         args.Handled = true;
 
-        ToggleLookUp((entity.Owner, entity.Comp));
+        if (!CanLookUp(entity))
+        {
+            if (entity.Comp.LookUp)
+            {
+                entity.Comp.LookUp = false;
+                DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
+                if (entity.Comp.ActionEntity != null)
+                    _actions.SetToggled(entity.Comp.ActionEntity, false);
+            }
+            UpdateLookUpAlert(entity);
+            return;
+        }
+
+        entity.Comp.LookUp = !entity.Comp.LookUp;
+        DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
+        if (entity.Comp.ActionEntity != null)
+            _actions.SetToggled(entity.Comp.ActionEntity, entity.Comp.LookUp);
+        UpdateLookUpAlert(entity);
     }
 
     private void OnToggleLookUpAlert(Entity<ZLevelViewerComponent> entity, ref ToggleLookUpAlertEvent args)
@@ -201,7 +174,24 @@ public abstract partial class SharedZLevelsSystem
             return;
         args.Handled = true;
 
-        ToggleLookUp((entity.Owner, entity.Comp));
+        if (!CanLookUp(entity))
+        {
+            if (entity.Comp.LookUp)
+            {
+                entity.Comp.LookUp = false;
+                DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
+                if (entity.Comp.ActionEntity != null)
+                    _actions.SetToggled(entity.Comp.ActionEntity, false);
+            }
+            UpdateLookUpAlert(entity);
+            return;
+        }
+
+        entity.Comp.LookUp = !entity.Comp.LookUp;
+        DirtyField(entity, entity.Comp, nameof(ZLevelViewerComponent.LookUp));
+        if (entity.Comp.ActionEntity != null)
+            _actions.SetToggled(entity.Comp.ActionEntity, entity.Comp.LookUp);
+        UpdateLookUpAlert(entity);
     }
 
     [PublicAPI]

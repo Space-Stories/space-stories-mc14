@@ -1,4 +1,3 @@
-using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared._Stories.ZLevels.Core.Components;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -110,7 +109,7 @@ namespace Content.Shared.Interaction
 
         [Dependency] private readonly SharedRMCLagCompensationSystem _rmcLagCompensation = default!;
         [Dependency] private readonly INetManager _net = default!;
-        [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
+        [Dependency] private readonly Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem _zLevels = default!;
 
         public override void Initialize()
         {
@@ -701,16 +700,8 @@ namespace Content.Shared.Interaction
             Ignored? predicate = null,
             bool checkAccess = true)
         {
-            // Stories-ZLevels-Start
             if (other.MapId != origin.MapId)
-            {
-                if (origin.MapId == MapId.Nullspace || other.MapId == MapId.Nullspace ||
-                    !_zLevels.AreInSameNetwork(origin.MapId, other.MapId))
-                {
-                    return false;
-                }
-            }
-            // Stories-ZLevels-End
+                return false;
 
             if (!checkAccess)
                 return true;
@@ -752,28 +743,6 @@ namespace Content.Shared.Interaction
                     }
                 }
             }
-
-            // Stories-ZLevels-Start
-            if (other.MapId != origin.MapId)
-            {
-                var rayDest = new CollisionRay(origin.Position, dir.Normalized(), combinedMask);
-                var rayResultsDest = _broadphase.IntersectRayWithPredicate(other.MapId, rayDest, length, predicate.Invoke, false);
-
-                foreach (var result in rayResultsDest)
-                {
-                    if (_barbedQuery.TryComp(result.HitEntity, out var barbed) && barbed.IsBarbed)
-                        return false;
-
-                    if (_physicsQuery.TryComp(result.HitEntity, out var physics))
-                    {
-                        if ((physics.CollisionLayer & (int) collisionMask) != 0)
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-            // Stories-ZLevels-End
 
             return true;
         }
