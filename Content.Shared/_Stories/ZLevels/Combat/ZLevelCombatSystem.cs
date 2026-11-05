@@ -34,11 +34,10 @@ public sealed class ZLevelCombatSystem : EntitySystem
                 continue;
 
             var currentPos = _transform.GetWorldPosition(xform);
-            var distTraveled = (currentPos - traj.StartPos).Length();
 
             if (traj.ZOffset < 0)
             {
-                if (distTraveled >= 0.2f && _zLevels.IsTileTransparentOrEmpty(currentMapUid, currentPos))
+                if (_zLevels.IsTileTransparentOrEmpty(currentMapUid, currentPos))
                 {
                     if (_zLevels.TryMoveDown(uid))
                     {
@@ -52,7 +51,8 @@ public sealed class ZLevelCombatSystem : EntitySystem
             }
             else if (traj.ZOffset > 0)
             {
-                if (distTraveled >= 0.2f && !_zLevels.HasOpaqueAbove(currentPos, currentMapUid))
+                var traveled = (currentPos - traj.StartPos).Length();
+                if (traveled >= traj.TotalDistance * 0.4f)
                 {
                     if (_zLevels.TryMoveUp(uid))
                     {
@@ -132,48 +132,35 @@ public sealed class ZLevelCombatSystem : EntitySystem
 
         if (zOffset == 0 && lookUp)
         {
-            for (var offset = 1; offset <= 2; offset++)
+            for (var offset = 2; offset >= -2; offset--)
             {
-                if (_zLevels.TryMapOffset(shooterMapUid, offset, out var mapAbove))
+                if (_zLevels.TryMapOffset(shooterMapUid, offset, out var mapAtOffset))
                 {
-                    zOffset = offset;
-                    targetMapUid = mapAbove.Owner;
-                    break;
-                }
-            }
-        }
-
-        if (zOffset == 0 && !lookUp)
-        {
-            if (TryComp<ZPhysicsComponent>(shooter, out var shooterZPhys) && shooterZPhys.LocalPosition > 0.2f)
-            {
-                if (_zLevels.TryMapOffset(shooterMapUid, 1, out var mapAbove))
-                {
-                    zOffset = 1;
-                    targetMapUid = mapAbove.Owner;
-                }
-            }
-        }
-
-        if (zOffset == 0 && !lookUp)
-        {
-            if (_zLevels.TryMapOffset(shooterMapUid, -1, out var mapBelow))
-            {
-                var hasLedgeAhead = false;
-                for (var step = 1; step <= 3; step++)
-                {
-                    var checkPos = shooterWorldPos + dir * step;
-                    if (_zLevels.IsTileTransparentOrEmpty(shooterMapUid, checkPos))
+                    if (!_zLevels.IsTileTransparentOrEmpty(mapAtOffset.Owner, targetWorldPos))
                     {
-                        hasLedgeAhead = true;
+                        zOffset = offset;
+                        targetMapUid = mapAtOffset.Owner;
                         break;
                     }
                 }
+            }
+        }
 
-                if (hasLedgeAhead || _zLevels.IsTileTransparentOrEmpty(shooterMapUid, targetWorldPos))
+        if (zOffset == 0 && !lookUp)
+        {
+            if (_zLevels.IsTileTransparentOrEmpty(shooterMapUid, targetWorldPos))
+            {
+                for (var offset = -1; offset >= -2; offset--)
                 {
-                    zOffset = -1;
-                    targetMapUid = mapBelow.Owner;
+                    if (_zLevels.TryMapOffset(shooterMapUid, offset, out var mapBelow))
+                    {
+                        if (!_zLevels.IsTileTransparentOrEmpty(mapBelow.Owner, targetWorldPos))
+                        {
+                            zOffset = offset;
+                            targetMapUid = mapBelow.Owner;
+                            break;
+                        }
+                    }
                 }
             }
         }

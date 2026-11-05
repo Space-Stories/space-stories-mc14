@@ -109,12 +109,4 @@ public sealed partial class ProjectileComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool QueueDeletion;
-
-    // Stories-Projectiles-Start
-    /// <summary>
-    /// Last recorded world position for continuous collision detection (CCD raycast).
-    /// </summary>
-    [ViewVariables]
-    public System.Numerics.Vector2? LastCcdPosition;
-    // Stories-Projectiles-End
 }

@@ -1,4 +1,4 @@
-version: 1 # Not used right now, whatever.
+﻿version: 1 # Not used right now, whatever.
 binds:
 - function: UIClick
   type: State
@@ -730,6 +730,3 @@ binds:
   type: State
   key: H
   mod1: Alt
-- function: ToggleLookUp
-  type: State
-  key: PageUp

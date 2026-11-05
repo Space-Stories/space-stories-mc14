@@ -326,7 +326,6 @@ namespace Content.Client.Options.UI.Tabs
             AddButton(ContentKeyFunctions.ZoomIn);
             AddButton(ContentKeyFunctions.ZoomOut);
             AddButton(ContentKeyFunctions.ResetZoom);
-            AddButton(ContentKeyFunctions.ToggleLookUp); // Stories-ZLevels
 
             AddHeader("ui-options-header-interaction-basic");
             AddButton(EngineKeyFunctions.Use);

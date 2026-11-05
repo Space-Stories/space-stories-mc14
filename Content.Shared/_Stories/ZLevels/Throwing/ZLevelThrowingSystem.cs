@@ -46,9 +46,15 @@ public sealed partial class ZLevelThrowingSystem : EntitySystem
         }
         else if (_zLevels.TryMapOffset(mapUid, -1, out var mapBelow))
         {
+            // If user is throwing down over an opening / pit tile
             var userWorldPos = _transform.GetWorldPosition(userXform);
-            // Only drop the thrown item immediately if the thrower is standing over an opening or chasm
-            if (_zLevels.IsTileTransparentOrEmpty(mapUid, userWorldPos))
+            var targetPos = userWorldPos;
+            if (TryComp<PhysicsComponent>(args.Thrown, out var physics) && physics.LinearVelocity != Vector2.Zero)
+            {
+                targetPos = userWorldPos + physics.LinearVelocity.Normalized() * 5f;
+            }
+
+            if (_zLevels.TryFindZShotOpening(mapUid, mapBelow, -1, userWorldPos, targetPos, out _))
             {
                 _zLevels.TryMoveDown(args.Thrown);
             }

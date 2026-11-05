@@ -108,34 +108,6 @@ public abstract partial class SharedZLevelsSystem
         return TryGetZLevelOffset(mapUidA, mapUidB, out offset);
     }
 
-    [PublicAPI]
-    public bool AreInSameNetwork(EntityUid? mapA, EntityUid? mapB)
-    {
-        if (mapA == null || mapB == null)
-            return false;
-
-        if (mapA.Value == mapB.Value)
-            return true;
-
-        if (!_zMapQuery.TryComp(mapA.Value, out var zMapA) || !_zMapQuery.TryComp(mapB.Value, out var zMapB))
-            return false;
-
-        return zMapA.NetworkUid == zMapB.NetworkUid && zMapA.NetworkUid != EntityUid.Invalid;
-    }
-
-    [PublicAPI]
-    public bool AreInSameNetwork(MapId mapA, MapId mapB)
-    {
-        if (mapA == mapB && mapA != MapId.Nullspace)
-            return true;
-
-        if (mapA == MapId.Nullspace || mapB == MapId.Nullspace ||
-            !_mapManager.MapExists(mapA) || !_mapManager.MapExists(mapB))
-            return false;
-
-        return AreInSameNetwork(_mapManager.GetMapEntityId(mapA), _mapManager.GetMapEntityId(mapB));
-    }
-
     /// <summary>
     /// Returns a list of all maps above the specified map. The closest map at the top is returned first.
     /// </summary>

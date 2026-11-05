@@ -22,7 +22,6 @@
       map: ["enum.RMCTankVisualLayers.TransferMode"]
       visible: false
     # Stories-Ordnance-End
-  - type: ZPhysics # Stories-ZLevels
   - type: Fixtures
     fixtures:
       fix1:

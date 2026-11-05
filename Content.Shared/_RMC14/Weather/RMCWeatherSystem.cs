@@ -1035,9 +1035,6 @@ public sealed class RMCWeatherSystem : EntitySystem
 
     private bool IsRMCWeatherBlocked(MapId mapId, Vector2 position)
     {
-        if (Count<RMCBlockWeatherComponent>() == 0) // Stories-Optimization
-            return false;
-
         // RMC blockers use sprite bounds, allowing small shelters to block weather without changing whole tiles.
         _weatherBlockers.Clear();
         var radius = RMCWeatherConstants.BlockerLookupRadius;

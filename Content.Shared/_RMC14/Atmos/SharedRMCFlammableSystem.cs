@@ -89,7 +89,6 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     private EntityQuery<ProjectileComponent> _projectileQuery;
     private EntityQuery<TileFireComponent> _tileFireQuery;
     private EntityQuery<InventoryComponent> _inventoryQuery;
-    private float _igniteAccumulator; // Stories-Optimization
 
     public override void Initialize()
     {
@@ -1129,23 +1128,14 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
                     continue;
                 }
 
-                // Stories-Optimization-Start
-                TileFireVisuals visual;
                 if (time < fire.SpawnedAt + fire.BigFireDuration)
-                    visual = TileFireVisuals.Four;
+                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Four);
                 else if (timeLeft < fire.Duration * 0.33)
-                    visual = TileFireVisuals.One;
+                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.One);
                 else if (timeLeft < fire.Duration * 0.66)
-                    visual = TileFireVisuals.Two;
+                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Two);
                 else
-                    visual = TileFireVisuals.Three;
-
-                if (fire.LastVisual != visual)
-                {
-                    fire.LastVisual = visual;
-                    _appearance.SetData(uid, TileFireLayers.Base, visual);
-                }
-                // Stories-Optimization-End
+                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Three);
             }
         }
         catch (Exception e)
@@ -1225,11 +1215,8 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             var steppingQuery = EntityQueryEnumerator<SteppingOnFireComponent, PhysicsComponent>();
             while (steppingQuery.MoveNext(out var uid, out var stepping, out var body))
             {
-                if (stepping.ArmorMultiplier != 1)
-                {
-                    stepping.ArmorMultiplier = 1;
-                    Dirty(uid, stepping);
-                }
+                stepping.ArmorMultiplier = 1;
+                Dirty(uid, stepping);
 
                 var isStepping = false;
                 foreach (var contact in _physics.GetContactingEntities(uid, body, approximate: true))
@@ -1269,15 +1256,7 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        // Stories-Optimization-Start
-        _igniteAccumulator += frameTime;
-        if (_igniteAccumulator >= 0.2f)
-        {
-            _igniteAccumulator = 0f;
-            RunIgniteOnCollide();
-        }
-        // Stories-Optimization-End
-
+        RunIgniteOnCollide();
         RunTileFires();
         RunExtinguishFire();
         RunSprayExtinguishTileFire();

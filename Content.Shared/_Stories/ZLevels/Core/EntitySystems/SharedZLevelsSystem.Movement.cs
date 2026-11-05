@@ -1,16 +1,10 @@
 using System.Numerics;
-using Content.Shared._RMC14.Fireman;
-using Content.Shared._Stories.ZLevels.Core.Components;
-using Content.Shared._Stories.ZLevels.Pulling;
-using Content.Shared.Inventory;
-using Content.Shared.Movement.Pulling.Components;
-using Content.Shared.Movement.Pulling.Systems;
-using JetBrains.Annotations;
 using Robust.Shared.Analyzers;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared.Inventory;
+using JetBrains.Annotations;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Physics;
-using Robust.Shared.Physics.Components;
 
 namespace Content.Shared._Stories.ZLevels.Core.EntitySystems;
 
@@ -302,70 +296,11 @@ public abstract partial class SharedZLevelsSystem
             return false;
         if (!_mapQuery.TryComp(targetMap, out var targetMapComp))
             return false;
-
-        EntityUid? carried = null;
-        if (TryComp<CanFiremanCarryComponent>(ent, out var carrierComp) && carrierComp.Carrying is { } c && Exists(c))
-        {
-            carried = c;
-            EnsureComp<ZLevelTransitioningComponent>(ent);
-            EnsureComp<ZLevelTransitioningComponent>(c);
-        }
-
         var worldRot = _transform.GetWorldRotation(ent);
-        var entOldWorldPos = _transform.GetWorldPosition(ent);
         var beforeEv = new ZLevelBeforeMapMoveEvent(offset, targetMap.Comp.Depth);
         RaiseLocalEvent(ent, ref beforeEv);
-
-        var linVel = Vector2.Zero;
-        var angVel = 0f;
-        if (TryComp<PhysicsComponent>(ent, out var oldPhysics) && oldPhysics.BodyType != BodyType.Static)
-        {
-            linVel = oldPhysics.LinearVelocity;
-            angVel = oldPhysics.AngularVelocity;
-        }
-
-        if (TryComp<PullerComponent>(ent, out var pullerComp) &&
-            pullerComp.Pulling is { } pullingUid &&
-            TryComp<PullableComponent>(pullingUid, out var pullingComp))
-        {
-            _pulling.RemovePullJointDuringTransition(pullingUid, pullingComp);
-        }
-
-        if (TryComp<PullableComponent>(ent, out var entPullable))
-        {
-            _pulling.RemovePullJointDuringTransition(ent, entPullable);
-        }
-
-        _transform.SetMapCoordinates(ent, new MapCoordinates(entOldWorldPos, targetMapComp.MapId));
+        _transform.SetMapCoordinates(ent, new MapCoordinates(_transform.GetWorldPosition(ent), targetMapComp.MapId));
         _transform.SetWorldRotation(ent, worldRot);
-
-        if (TryComp<PhysicsComponent>(ent, out var entPhysics) && entPhysics.BodyType != BodyType.Static)
-        {
-            _physics.WakeBody(ent, body: entPhysics);
-            _physics.SetAwake(ent, entPhysics, true);
-            if (linVel != Vector2.Zero)
-                _physics.SetLinearVelocity(ent, linVel, body: entPhysics);
-            if (angVel != 0f)
-                _physics.SetAngularVelocity(ent, angVel, body: entPhysics);
-        }
-
-        if (carried is { } carriedUid && Exists(carriedUid))
-        {
-            _transform.SetMapCoordinates(carriedUid, new MapCoordinates(entOldWorldPos, targetMapComp.MapId));
-            _transform.SetParent(carriedUid, ent);
-            _transform.SetLocalPosition(carriedUid, Vector2.Zero);
-            if (TryComp<ZPhysicsComponent>(carriedUid, out var carriedZPhys))
-            {
-                carriedZPhys.Velocity = 0f;
-                carriedZPhys.LocalPosition = 0f;
-                SyncCurrentZLevel((carriedUid, carriedZPhys));
-            }
-            RemCompDeferred<ZLevelTransitioningComponent>(carriedUid);
-        }
-
-        if (carried != null)
-            RemCompDeferred<ZLevelTransitioningComponent>(ent);
-
         var ev = new ZLevelMapMoveEvent(offset, targetMap.Comp.Depth);
         RaiseLocalEvent(ent, ref ev);
         return true;

@@ -1,16 +1,8 @@
-using Robust.Shared.Input.Binding;
 using System.Diagnostics.CodeAnalysis;
-using Content.Shared._RMC14.Fireman;
 using Content.Shared._Stories.ZLevels.Core.Components;
-using Content.Shared._Stories.ZLevels.Pulling;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions;
-using Content.Shared.Alert;
 using Content.Shared.CCVar;
-using Content.Shared.Light.EntitySystems;
-using Content.Shared.Maps;
-using Content.Shared.Movement.Pulling.Components;
-using Content.Shared.Movement.Pulling.Systems;
 using Content.Shared.Popups;
 using JetBrains.Annotations;
 using Robust.Shared.Audio.Systems;
@@ -20,7 +12,6 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.ZLevels.Core.EntitySystems;
@@ -28,7 +19,7 @@ namespace Content.Shared._Stories.ZLevels.Core.EntitySystems;
 public abstract partial class SharedZLevelsSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] protected readonly AlertsSystem _alerts = default!;
+    [Dependency] protected readonly Content.Shared.Alert.AlertsSystem _alerts = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ActionBlockerSystem _blocker = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -38,14 +29,12 @@ public abstract partial class SharedZLevelsSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly PullingSystem _pulling = default!;
-    [Dependency] private readonly SharedRoofSystem _roof = default!;
+    [Dependency] private readonly Content.Shared.Light.EntitySystems.SharedRoofSystem _roof = default!;
     [Dependency] private readonly ITileDefinitionManager _tileDef = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly TurfSystem _turf = default!;
 
-    public static readonly ProtoId<AlertPrototype> LookUpAlert = "STZLayerLookUp";
+    public static readonly Robust.Shared.Prototypes.ProtoId<Content.Shared.Alert.AlertPrototype> LookUpAlert = "STZLayerLookUp";
 
     protected EntityQuery<ZPhysicsComponent> ZPhysicsQuery;
 
@@ -91,11 +80,5 @@ public abstract partial class SharedZLevelsSystem : EntitySystem
         InitializeCacheHooks();
         InitializeMovement();
         InitializeView();
-    }
-
-    public override void Shutdown()
-    {
-        base.Shutdown();
-        CommandBinds.Unregister<SharedZLevelsSystem>();
     }
 }

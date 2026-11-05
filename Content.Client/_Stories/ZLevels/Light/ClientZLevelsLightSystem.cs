@@ -367,14 +367,14 @@ public sealed partial class ClientZLevelsLightSystem : SharedZLevelsLightSystem
 
             var distToOpening = MathF.Sqrt(bestDistSq);
 
-            // If the light is not directly at the opening, raycast to the opening
+            // If the light is not directly at the opening, raycast ONLY ONCE to the closest opening
             if (distToOpening > 0.5f)
             {
                 var dir = (bestOpening - lightPos) / distToOpening;
                 var ray = new CollisionRay(lightPos, dir, (int)CollisionGroup.Opaque);
                 var occluded = false;
                 foreach (var _ in _physics.IntersectRayWithPredicate(sourceMapId, ray, lightUid,
-                    (uid, ignored) => uid == ignored || !Transform(uid).Anchored,
+                    (uid, ignored) => uid == ignored || !_occluderQuery.TryComp(uid, out var o) || !o.Enabled,
                     distToOpening, returnOnFirstHit: true))
                 {
                     occluded = true;
@@ -386,23 +386,7 @@ public sealed partial class ClientZLevelsLightSystem : SharedZLevelsLightSystem
             }
 
             // Light enters the adjacent level AT THE OPENING, not through solid floor!
-            var proxyPos = bestOpening;
-
-            // If shining up to an upper level, verify that the opening tile on the upper level is actually open/transparent
-            if (targetDepth > sourceDepth)
-            {
-                if (_zLevels.TryFindGridAt(_mapManager.GetMapEntityId(targetMapId), proxyPos, out var targetGridUid, out var targetGrid))
-                {
-                    var targetTile = _map.GetTileRef(targetGridUid, targetGrid, _map.WorldToTile(targetGridUid, targetGrid, proxyPos));
-                    if (!targetTile.Tile.IsEmpty)
-                    {
-                        var tileDef = (ContentTileDefinition)_tileDef[targetTile.Tile.TypeId];
-                        if (!tileDef.Transparent)
-                            continue;
-                    }
-                }
-            }
-
+            var proxyPos = distToOpening <= 0.75f ? lightPos : bestOpening;
             var falloff = Math.Clamp(1f - (distToOpening / lightComp.Radius), 0.15f, 1f);
             var proxyRadius = Math.Clamp(lightComp.Radius - (distToOpening * 0.4f), 0.5f, lightComp.Radius);
             var proxyEnergy = lightComp.Energy * AttenuationFactor * falloff;
