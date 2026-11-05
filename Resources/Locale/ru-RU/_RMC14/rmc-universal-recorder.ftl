@@ -59,3 +59,5 @@ rmc-universal-recorder-tape-popup-unwind = Вы вытягиваете всю л
 rmc-universal-recorder-tape-popup-respool-start = Вы начинаете наматывать ленту обратно...
 rmc-universal-recorder-tape-popup-respool-cancel = Вы прекращаете перемотку ленты.
 rmc-universal-recorder-tape-popup-respool-finish = Вы наматываете ленту обратно.
+
+rmc-universal-recorder-duration = {$minutes}m {$seconds}s

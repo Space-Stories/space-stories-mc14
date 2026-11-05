@@ -163,3 +163,5 @@ rmc-intel-tech-announcement-wake-troops = Дополнительные войс�
 rmc-intel-tech-announcement-wake-specialist = Дополнительный специалист выводится из криосна.
 rmc-intel-tech-announcement-tier-4 = УРОВЕНЬ ОЦЕНКИ УГРОЗЫ ПОВЫШЕН ДО 4. Средства УРОВНЯ 4 разрешены для реагирования на ситуацию.
 rmc-intel-tech-announcement-nuclear-device = Развертывание ядерного боеприпаса разрешено. Он будет доставлен в отдел снабжения через ASRS.
+
+rmc-intel-tech-console-title = Tech Control Console

@@ -111,7 +111,7 @@ public sealed class MarineAnnounceSystem : SharedMarineAnnounceSystem
         if (!_dropship.TryDesignatePrimaryLZ(user, lz.Value))
             return;
 
-        _core.CreateARESLog(computer, LogCat, (string)$"{Name(args.Actor)} designated Primary LZ as: {Name(lz.Value)}");
+        _core.CreateARESLog(computer, LogCat, Loc.GetString("rmc-ares-log-primary-lz", ("user", Name(args.Actor)), ("lz", Name(lz.Value))));
     }
 
     private void OnGroundsideOperationsDesignatePrimaryLZMsg(

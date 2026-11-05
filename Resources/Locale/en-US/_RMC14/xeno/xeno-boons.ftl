@@ -123,3 +123,5 @@ rmc-boon-king-announcement-hatch-marine = [color=#CECECE][font size=16][bold]ARE
 
     CAUTION IS ADVISED.
 rmc-boon-king-announcement-hatch-xeno = All hail the King.
+
+    We will now grow royal resin from this pylon. Hold it!
