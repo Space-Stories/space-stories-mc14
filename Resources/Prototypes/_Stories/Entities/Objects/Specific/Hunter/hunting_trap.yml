@@ -54,6 +54,27 @@
     animalDamage:
       types:
         Piercing: 20
+    grassTiles:
+    - CMPlanetGrass
+    - CMPlanetGrass1
+    - CMPlanetGrass1Weedable
+    - CMPlanetGrass2
+    - CMPlanetGrass3
+    - CMPlanetMattedGrass
+    - CMPlanetMattedGrass3
+    - CMPlanetMattedGrassTyrargo
+    - CMPlanetMattedGrass3Tyrargo
+    - FloorGrass
+    - FloorGrassDark
+    - FloorGrassJungle
+    - FloorGrassLight
+    - FloorPlanetGrass
+    dirtTiles:
+    - CMPlanetDirt
+    - CMPlanetMarsDirt
+    - RMCPlanetHybrisaDirt
+    - FloorDirt
+    - FloorPlanetDirt
   - type: Tag
     tags:
     - STPredatorGear

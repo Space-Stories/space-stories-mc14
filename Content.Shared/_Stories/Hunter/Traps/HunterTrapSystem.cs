@@ -4,6 +4,7 @@ using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared._Stories.Tether;
 using Content.Shared._Stories.Xenonids.HiveInterference;
+using Content.Shared.Buckle.Components;
 using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Damage;
 using Content.Shared.DoAfter;
@@ -12,6 +13,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Item;
+using Content.Shared.Maps;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
@@ -24,6 +26,7 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.Hunter.Traps;
@@ -40,6 +43,7 @@ public sealed class HunterTrapSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly RMCSizeStunSystem _sizeStun = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
@@ -169,6 +173,9 @@ public sealed class HunterTrapSystem : EntitySystem
     private void OnStepTriggerAttempt(Entity<HunterTrapComponent> ent, ref StepTriggerAttemptEvent args)
     {
         if (!ent.Comp.Armed || !TryComp(args.Tripper, out MobStateComponent? _) || HasComp<HunterComponent>(args.Tripper))
+            return;
+
+        if (TryComp(args.Tripper, out BuckleComponent? buckle) && buckle.Buckled)
             return;
 
         args.Continue = true;
@@ -371,20 +378,23 @@ public sealed class HunterTrapSystem : EntitySystem
         _appearance.SetData(ent, HunterTrapVisuals.State, state);
     }
 
-    private HunterTrapVisualState GetCamouflage(EntityUid trap)
+    private HunterTrapVisualState GetCamouflage(Entity<HunterTrapComponent> trap)
     {
         var xform = Transform(trap);
         if (xform.GridUid is not { } gridUid || !TryComp(gridUid, out MapGridComponent? grid))
             return HunterTrapVisualState.Armed;
 
         var tile = _map.GetTileRef(gridUid, grid, xform.Coordinates);
-        var id = _tileDefinitions[tile.Tile.TypeId].ID;
+        var tileId = _tileDefinitions[tile.Tile.TypeId].ID;
 
-        if (id.Contains("grass", StringComparison.OrdinalIgnoreCase))
-            return HunterTrapVisualState.Grass;
+        foreach (var definition in _prototype.EnumerateParents<ContentTileDefinition>(tileId, includeSelf: true))
+        {
+            if (trap.Comp.GrassTiles.Contains(definition.ID))
+                return HunterTrapVisualState.Grass;
 
-        if (id.Contains("dirt", StringComparison.OrdinalIgnoreCase))
-            return HunterTrapVisualState.Dirt;
+            if (trap.Comp.DirtTiles.Contains(definition.ID))
+                return HunterTrapVisualState.Dirt;
+        }
 
         return HunterTrapVisualState.Armed;
     }

@@ -151,12 +151,12 @@
     jobs:
     - STHunter
     sections:
-    - name: Essential Hunting Supplies
+    - name: stories-hunter-vendor-section-essential
       takeAll: CMEquipment
       entries:
       - id: STVendorBundleHunterEssential
       - id: STVendorBundleHunterArmor
-    - name: Main Weapons
+    - name: stories-hunter-vendor-section-main-weapons
       choices: { STWeapon: 1 }
       entries:
       - id: STClanSword
@@ -175,12 +175,12 @@
       - id: STVendorBundleHunterScimitars
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
-    - name: Bracer Attachments
+    - name: stories-hunter-vendor-section-bracer-attachments
       choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
       - id: STBracerAttachmentShield
-    - name: Secondary Equipment
+    - name: stories-hunter-vendor-section-secondary-equipment
       choices: { STAdd: 2 }
       entries:
       # - id: STWeaponPlasmaCasterEbony
@@ -190,7 +190,7 @@
       # - id: STWeaponShieldRiotHunter
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
-    - name: Запасное снаряжение
+    - name: stories-hunter-vendor-section-spare-equipment
       entries:
       - id: STHunterTrap
         points: 10
@@ -198,7 +198,7 @@
         points: 10
       - id: STArrowHunterSnare
         points: 15
-    - name: Clothing Accessory
+    - name: stories-hunter-vendor-section-clothing-accessory
       choices: { STAccessories: 1 }
       entries:
       - id: STHunterCapeThird
@@ -263,12 +263,12 @@
     jobs:
     - STHunterYoung
     sections:
-    - name: Essential Hunting Supplies
+    - name: stories-hunter-vendor-section-essential
       takeAll: CMEquipment
       entries:
       - id: STVendorBundleHunterYoungEssential
       - id: STVendorBundleHunterArmor
-    - name: Main Weapons
+    - name: stories-hunter-vendor-section-main-weapons
       choices: { STWeapon: 1 }
       entries:
       - id: STClanSword
@@ -287,7 +287,7 @@
       - id: STVendorBundleHunterScimitars
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
-    - name: Bracer Attachments
+    - name: stories-hunter-vendor-section-bracer-attachments
       choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
@@ -350,12 +350,12 @@
     jobs:
     - STHunterLeader
     sections:
-    - name: Essential Hunting Supplies
+    - name: stories-hunter-vendor-section-essential
       takeAll: CMEquipment
       entries:
       - id: STVendorBundleHunterEssential
       - id: STVendorBundleHunterArmor
-    - name: Main Weapons
+    - name: stories-hunter-vendor-section-main-weapons
       choices: { STWeapon: 1 }
       entries:
       - id: STClanSword
@@ -374,12 +374,12 @@
       - id: STVendorBundleHunterScimitars
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
-    - name: Bracer Attachments
+    - name: stories-hunter-vendor-section-bracer-attachments
       choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
       - id: STBracerAttachmentShield
-    - name: Secondary Equipment
+    - name: stories-hunter-vendor-section-secondary-equipment
       choices: { STAdd: 2 }
       entries:
       # - id: STWeaponPlasmaCasterEbony
@@ -391,7 +391,7 @@
       # - id: STWeaponShieldAncientAlt
       - id: STFullArmorClanHunterEbony
       - id: STQuiverHunterFilled
-    - name: Запасное снаряжение
+    - name: stories-hunter-vendor-section-spare-equipment
       entries:
       - id: STHunterTrap
         points: 10
@@ -399,7 +399,7 @@
         points: 10
       - id: STArrowHunterSnare
         points: 15
-    - name: Clothing Accessory
+    - name: stories-hunter-vendor-section-clothing-accessory
       choices: { STAccessories: 1 }
       entries:
       - id: STHunterCapeThird

@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Stun;
+using Content.Shared._RMC14.Weapons.Ranged.Prediction;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Humanoid;
 using Content.Shared.Interaction.Events;
@@ -8,6 +9,7 @@ using Content.Shared.Projectiles;
 using Content.Shared.Standing;
 using Content.Shared.Stunnable;
 using Content.Shared.Tag;
+using Content.Shared.Weapons.Ranged.Events;
 using Robust.Shared.Network;
 
 namespace Content.Shared._Stories.Hunter.Weapons;
@@ -35,6 +37,8 @@ public sealed class HunterArrowSystem : EntitySystem
         SubscribeLocalEvent<HunterArrowComponent, UseInHandEvent>(OnUseInHand);
         SubscribeLocalEvent<HunterArrowComponent, ProjectileHitEvent>(OnProjectileHit);
         SubscribeLocalEvent<HunterArrowComponent, ProjectileEmbedEvent>(OnProjectileEmbed);
+
+        SubscribeLocalEvent<HunterUnpredictedProjectileGunComponent, AmmoShotEvent>(OnUnpredictedGunShot);
     }
 
     private void OnMapInit(Entity<HunterArrowComponent> ent, ref MapInitEvent args)
@@ -127,6 +131,17 @@ public sealed class HunterArrowSystem : EntitySystem
             return;
 
         _projectile.EmbedDetach(ent, null);
+    }
+
+    private void OnUnpredictedGunShot(Entity<HunterUnpredictedProjectileGunComponent> ent, ref AmmoShotEvent args)
+    {
+        if (_net.IsClient)
+            return;
+
+        foreach (var projectile in args.FiredProjectiles)
+        {
+            RemComp<PredictedProjectileServerComponent>(projectile);
+        }
     }
 
     private bool IsHuman(EntityUid target)

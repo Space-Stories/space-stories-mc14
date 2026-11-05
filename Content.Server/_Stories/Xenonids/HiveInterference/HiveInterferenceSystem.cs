@@ -9,10 +9,11 @@ namespace Content.Server._Stories.Xenonids.HiveInterference;
 
 public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
 {
+    [Dependency] private readonly SharedEyeSystem _eye = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly XenoWatchSystem _watch = default!;
 
-    private readonly List<EntityUid> _toUnwatch = new();
+    private readonly HashSet<EntityUid> _toUnwatch = new();
 
     public override void Initialize()
     {
@@ -56,26 +57,63 @@ public sealed class HiveInterferenceSystem : SharedHiveInterferenceSystem
             _toUnwatch.Add(xeno);
 
         if (TryComp(xeno, out XenoWatchedComponent? watched))
-            _toUnwatch.AddRange(watched.Watching);
+            _toUnwatch.UnionWith(watched.Watching);
+
+        var watchers = EntityQueryEnumerator<XenoWatchingComponent>();
+        while (watchers.MoveNext(out var uid, out var watching))
+        {
+            if (watching.Watching == xeno)
+                _toUnwatch.Add(uid);
+        }
+
+        var eyes = EntityQueryEnumerator<EyeComponent>();
+        while (eyes.MoveNext(out var uid, out var eye))
+        {
+            if (uid != xeno && eye.Target == xeno)
+                _toUnwatch.Add(uid);
+        }
 
         foreach (var watcher in _toUnwatch)
         {
+            if (TerminatingOrDeleted(watcher))
+                continue;
+
             Unwatch(watcher, watcher == xeno ? "stories-hive-interference-watch-blocked" : "stories-hive-interference-watch-target-blocked");
         }
     }
 
     private void Unwatch(EntityUid watcher, LocId message)
     {
-        ICommonSession? session = null;
+        var popupTarget = watcher;
+        if (TryComp(watcher, out QueenEyeComponent? queenEye) && queenEye.Queen is { } queen)
+            popupTarget = queen;
+
+        if (GetSession(watcher) is { } session)
+        {
+            _watch.Unwatch(watcher, session);
+        }
+        else
+        {
+            _eye.SetTarget(watcher, null);
+            var ev = new XenoUnwatchEvent();
+            RaiseLocalEvent(watcher, ref ev);
+            RemCompDeferred<XenoWatchingComponent>(watcher);
+        }
+
+        if (TryComp(watcher, out QueenEyeActionComponent? action) && action.Eye is { } eyeEnt && !TerminatingOrDeleted(eyeEnt))
+            _eye.SetTarget(watcher, eyeEnt);
+
+        _popup.PopupEntity(Loc.GetString(message), popupTarget, popupTarget, PopupType.MediumCaution);
+    }
+
+    private ICommonSession? GetSession(EntityUid watcher)
+    {
         if (TryComp(watcher, out ActorComponent? actor))
-            session = actor.PlayerSession;
-        else if (TryComp(watcher, out QueenEyeComponent? eye) && TryComp(eye.Queen, out ActorComponent? eyeActor))
-            session = eyeActor.PlayerSession;
+            return actor.PlayerSession;
 
-        if (session == null)
-            return;
+        if (TryComp(watcher, out QueenEyeComponent? eye) && TryComp(eye.Queen, out ActorComponent? eyeActor))
+            return eyeActor.PlayerSession;
 
-        _watch.Unwatch(watcher, session);
-        _popup.PopupEntity(Loc.GetString(message), watcher, watcher, PopupType.MediumCaution);
+        return null;
     }
 }

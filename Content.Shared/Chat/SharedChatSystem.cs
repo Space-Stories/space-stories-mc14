@@ -244,13 +244,8 @@ public abstract class SharedChatSystem : EntitySystem
             // RMC14
 
             // Stories-HiveInterference-Start
-            if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
-            {
-                if (!quiet)
-                    _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
-
+            if (channel?.ID == HivemindChannel.Id && !_hiveInterference.CanUseHivemind(source, quiet))
                 return false;
-            }
             // Stories-HiveInterference-End
 
             return true;
@@ -334,13 +329,8 @@ public abstract class SharedChatSystem : EntitySystem
         // RMC14
 
         // Stories-HiveInterference-Start
-        if (channel?.ID == HivemindChannel.Id && _hiveInterference.IsInterfered(source))
-        {
-            if (!quiet)
-                _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
-
+        if (channel?.ID == HivemindChannel.Id && !_hiveInterference.CanUseHivemind(source, quiet))
             return false;
-        }
         // Stories-HiveInterference-End
 
         var prefixEv = new ChatGetPrefixEvent(channel);

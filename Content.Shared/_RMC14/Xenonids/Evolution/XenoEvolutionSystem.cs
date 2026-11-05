@@ -33,6 +33,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Prototypes;
+using Content.Shared._Stories.Xenonids.Evolution; // Stories-HiveInterference
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Containers;
@@ -249,6 +250,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
             return;
         }
 
+        if (IsCasteChangeBlocked(xeno)) // Stories-HiveInterference
+            return; // Stories-HiveInterference
+
         if (!ContainedCheckPopup(xeno))
             return;
 
@@ -426,6 +430,15 @@ public sealed class XenoEvolutionSystem : EntitySystem
         Transmute(xeno, args.Choice);
     }
 
+    // Stories-HiveInterference-Start
+    private bool IsCasteChangeBlocked(EntityUid xeno, bool doPopup = true)
+    {
+        var attempt = new XenoEvolveAttemptEvent(doPopup);
+        RaiseLocalEvent(xeno, ref attempt);
+        return attempt.Cancelled;
+    }
+    // Stories-HiveInterference-End
+
     private bool ContainedCheckPopup(EntityUid xeno, bool doPopup = true)
     {
         if (!_container.IsEntityInContainer(xeno))
@@ -453,6 +466,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private bool CanTransmutePopup(Entity<XenoComponent> xeno, bool doPopup = true)
     {
+        if (IsCasteChangeBlocked(xeno, doPopup)) // Stories-HiveInterference
+            return false; // Stories-HiveInterference
+
         if (xeno.Comp.Tier is <= 0 or > 3)
         {
             if (doPopup)
@@ -545,6 +561,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private bool CanEvolvePopup(Entity<XenoEvolutionComponent> xeno, EntProtoId newXeno, bool doPopup = true, bool ignoreEvolvesTo = false, int reservedTierSlots = 0, bool ignoreFixable = false)
     {
+        if (IsCasteChangeBlocked(xeno, doPopup)) // Stories-HiveInterference
+            return false; // Stories-HiveInterference
+
         var isEarlyEvo = xeno.Comp.EarlyEvolvesTo.Contains(newXeno);
         if (!ignoreEvolvesTo &&
             !xeno.Comp.EvolvesTo.Contains(newXeno) && !xeno.Comp.EvolvesToWithoutPoints.Contains(newXeno) && !isEarlyEvo)
@@ -1334,6 +1353,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private void TryDevolve(Entity<XenoDevolveComponent> xeno, EntProtoId to, bool damagedCheck = true)
     {
+        if (IsCasteChangeBlocked(xeno, _net.IsServer)) // Stories-HiveInterference
+            return; // Stories-HiveInterference
+
         if (damagedCheck && !DamagedCheckPopup(xeno))
             return;
 

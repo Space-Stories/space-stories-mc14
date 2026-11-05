@@ -1,5 +1,8 @@
+using System.Linq;
+using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Evolution;
+using Content.Shared._Stories.Xenonids.Evolution;
 using Content.Shared.Alert;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
@@ -28,6 +31,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         SubscribeLocalEvent<HiveInterferenceComponent, XenoOpenEvolutionsActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
         SubscribeLocalEvent<HiveInterferenceComponent, XenoOpenDevolveActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
         SubscribeLocalEvent<HiveInterferenceComponent, XenoTransmuteActionEvent>(OnBlockedAction, before: [typeof(XenoEvolutionSystem)]);
+        SubscribeLocalEvent<HiveInterferenceComponent, XenoEvolveAttemptEvent>(OnEvolveAttempt);
     }
 
     private void OnShutdown(Entity<HiveInterferenceComponent> ent, ref ComponentShutdown args)
@@ -44,9 +48,30 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         _popup.PopupClient(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
     }
 
+    private void OnEvolveAttempt(Entity<HiveInterferenceComponent> ent, ref XenoEvolveAttemptEvent args)
+    {
+        if (args.Cancelled || !IsInterfered((ent, ent.Comp)))
+            return;
+
+        args.Cancelled = true;
+        if (args.DoPopup)
+            _popup.PopupEntity(Loc.GetString("stories-hive-interference-blocked"), ent, ent, PopupType.MediumCaution);
+    }
+
     public bool IsInterfered(Entity<HiveInterferenceComponent?> ent)
     {
         return Resolve(ent, ref ent.Comp, false) && !ent.Comp.Immune;
+    }
+
+    public bool CanUseHivemind(EntityUid source, bool quiet)
+    {
+        if (!IsInterfered(source))
+            return true;
+
+        if (!quiet)
+            _popup.PopupEntity(Loc.GetString("stories-hive-interference-hivemind-blocked"), source, source, PopupType.LargeCaution);
+
+        return false;
     }
 
     public void Apply(EntityUid xeno, float amount, float maxBuildup = 100f)
@@ -84,6 +109,7 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         _popup.PopupEntity(Loc.GetString("stories-hive-interference-applied"), xeno, xeno, PopupType.LargeCaution);
         _ui.CloseUi(xeno, XenoEvolutionUIKey.Key);
         _ui.CloseUi(xeno, XenoDevolveUIKey.Key);
+        CloseTransmuteDialog(xeno);
         CancelEvolution(xeno);
         OnInterferenceStarted(xeno);
     }
@@ -97,6 +123,12 @@ public abstract class SharedHiveInterferenceSystem : EntitySystem
         comp.ImmuneUntil = _timing.CurTime + comp.ImmunityDuration;
         Dirty(xeno, comp);
         _alerts.ClearAlert(xeno, comp.Alert);
+    }
+
+    private void CloseTransmuteDialog(EntityUid xeno)
+    {
+        if (TryComp(xeno, out DialogComponent? dialog) && dialog.Options.Any(option => option.Event is XenoTransmuteChosenEvent))
+            _ui.CloseUi(xeno, DialogUiKey.Key);
     }
 
     private void CancelEvolution(EntityUid xeno)

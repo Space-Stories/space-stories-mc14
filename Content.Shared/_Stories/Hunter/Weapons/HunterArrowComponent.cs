@@ -57,6 +57,10 @@ public sealed partial class HunterArrowComponent : Component
 [Access(typeof(HunterArrowSystem))]
 public sealed partial class HunterArrowStartActiveComponent : Component;
 
+[RegisterComponent, NetworkedComponent]
+[Access(typeof(HunterArrowSystem))]
+public sealed partial class HunterUnpredictedProjectileGunComponent : Component;
+
 [Serializable, NetSerializable]
 public enum HunterArrowVisuals : byte
 {

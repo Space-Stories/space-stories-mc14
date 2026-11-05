@@ -19,6 +19,7 @@
   - type: Gun
     resetOnHandSelected: false
   - type: HunterProjectileRangeGun
+  - type: HunterUnpredictedProjectileGun
   - type: ItemMapper
     spriteLayers:
     - arrow

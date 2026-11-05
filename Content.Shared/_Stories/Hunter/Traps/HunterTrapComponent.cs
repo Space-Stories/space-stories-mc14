@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared.Damage;
+using Content.Shared.Maps;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -58,4 +59,10 @@ public sealed partial class HunterTrapComponent : Component
 
     [DataField]
     public EntProtoId<SkillDefinitionComponent> Skill = "STSkillIllegalTechnology";
+
+    [DataField]
+    public List<ProtoId<ContentTileDefinition>> GrassTiles = new();
+
+    [DataField]
+    public List<ProtoId<ContentTileDefinition>> DirtTiles = new();
 }
