@@ -107,7 +107,7 @@
       message: rmc-ert-announcement-pmc-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 6
@@ -232,7 +232,7 @@
       message: rmc-ert-announcement-pmc-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 3m
     maxCallsPerRound: 1
     minRequiredSlots: 8
 
@@ -273,7 +273,7 @@
       sound: /Audio/_RMC14/AI/distressreceived.ogg
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -311,7 +311,7 @@
     seatTags: [ command ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -348,7 +348,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -385,7 +385,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -422,7 +422,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -472,7 +472,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 2
@@ -575,7 +575,7 @@
       message: rmc-ert-announcement-wy-commando-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 6
