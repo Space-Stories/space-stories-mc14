@@ -21,6 +21,7 @@ using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -43,6 +44,10 @@ public sealed class TackleSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedGunSystem _gunSystem = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+
+    // Stories-EnduranceTackle-Start
+    private static readonly EntProtoId<SkillDefinitionComponent> EnduranceSkill = "RMCSkillEndurance";
+    // Stories-EnduranceTackle-End
 
     private readonly List<EntityUid> _trackersToRemove = new();
 
@@ -110,6 +115,12 @@ public sealed class TackleSystem : EntitySystem
             chance = Math.Clamp(chance / resist, 0f, 1f);
         }
         // Stories-TackleResist-End
+
+        // Stories-EnduranceTackle-Start
+        var enduranceBonus = GetEnduranceTackleBonus(target);
+        min += enduranceBonus;
+        max += enduranceBonus;
+        // Stories-EnduranceTackle-End
 
         if ((tracker.Count < min || chance < random) &&
             tracker.Count < max)
@@ -426,4 +437,11 @@ public sealed class TackleSystem : EntitySystem
         return 0.5f;
     }
     // Stories-TackleResist-End
+
+    // Stories-EnduranceTackle-Start
+    private int GetEnduranceTackleBonus(EntityUid target)
+    {
+        return Math.Max(0, _skills.GetSkill(target, EnduranceSkill) - 1);
+    }
+    // Stories-EnduranceTackle-End
 }
