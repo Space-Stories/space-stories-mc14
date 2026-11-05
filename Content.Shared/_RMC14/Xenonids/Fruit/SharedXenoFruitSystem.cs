@@ -45,7 +45,7 @@ using Robust.Shared.Spawners;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Content.Shared.Physics.CollisionGroup;
-using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
+using Content.Shared._Stories.Xenonids.HiveInterference;
 
 namespace Content.Shared._RMC14.Xenonids.Fruit;
 

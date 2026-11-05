@@ -11,7 +11,7 @@ using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Shared._Stories.Hunter.Marking.Components; // Stories-Hunter
-using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
+using Content.Shared._Stories.Xenonids.HiveInterference;
 
 namespace Content.Shared.Chat;
 

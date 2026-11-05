@@ -48,7 +48,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using ItemToggleMeleeWeaponComponent = Content.Shared.Item.ItemToggle.Components.ItemToggleMeleeWeaponComponent;
-using Content.Shared._Stories.Weapons.Parry; // Stories-Parry
+using Content.Shared._Stories.Weapons.Parry;
 
 namespace Content.Shared.Weapons.Melee;
 

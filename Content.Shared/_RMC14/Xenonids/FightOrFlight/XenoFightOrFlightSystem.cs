@@ -1,7 +1,7 @@
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Xenonids.Energy;
 using Content.Shared._RMC14.Xenonids.Hive;
-using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
+using Content.Shared._Stories.Xenonids.HiveInterference;
 using Content.Shared.Coordinates;
 using Content.Shared.Jittering;
 using Content.Shared.Popups;

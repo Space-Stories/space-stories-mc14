@@ -27,7 +27,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Content.Shared._Stories.Xenonids.HiveInterference; // Stories-HiveInterference
+using Content.Shared._Stories.Xenonids.HiveInterference;
 
 namespace Content.Shared._RMC14.Xenonids.Heal;
 
