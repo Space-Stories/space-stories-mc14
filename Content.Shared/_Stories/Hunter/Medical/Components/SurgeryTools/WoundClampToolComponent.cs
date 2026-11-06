@@ -6,5 +6,5 @@ namespace Content.Shared._Stories.Hunter.Medical.Components.SurgeryTools;
 [RegisterComponent] [NetworkedComponent]
 public sealed partial class WoundClampToolComponent : Component, ICMSurgeryToolComponent
 {
-    public string ToolName => "a wound clamp";
+    public LocId ToolName => "a wound clamp";
 }
