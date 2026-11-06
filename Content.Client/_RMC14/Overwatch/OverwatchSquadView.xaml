@@ -1,10 +1,13 @@
-﻿<controls:OverwatchSquadView
+﻿<!-- Stories-ZLevels-Start -->
+<controls:OverwatchSquadView
     xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Client._RMC14.Overwatch"
     xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
     xmlns:ui="clr-namespace:Content.Client._RMC14.UserInterface"
     xmlns:uiControls="clr-namespace:Content.Client.UserInterface.Controls"
+    xmlns:targeting="clr-namespace:Content.Client._Stories.ZLevels.Planet"
     VerticalExpand="True">
+    <!-- Stories-ZLevels-End -->
     <BoxContainer Orientation="Vertical" VerticalExpand="True">
         <PanelContainer>
             <PanelContainer.PanelOverride>
@@ -244,6 +247,13 @@
                                                 <BoxContainer Name="LatitudeContainer" Access="Public" Orientation="Vertical">
                                                     <Label Text="{Loc rmc-overwatch-console-latitude}" />
                                                 </BoxContainer>
+                                                <!-- Stories-ZLevels-Start -->
+                                                <BoxContainer Orientation="Vertical">
+                                                    <Label Text="{Loc stories-targeting-z-label}" />
+                                                    <targeting:ZLevelSpinBox Name="ZLevel" Access="Public" MinWidth="70"
+                                                             ToolTip="{Loc stories-targeting-z-tooltip}" />
+                                                </BoxContainer>
+                                                <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Orientation="Vertical">
                                                     <RichTextLabel Name="CrateStatus" Access="Public"
                                                                    Text="{Loc rmc-overwatch-console-no-crate-loaded}" />
@@ -264,6 +274,9 @@
                                             <BoxContainer Orientation="Horizontal">
                                                 <BoxContainer Name="Longitudes" Access="Public" Orientation="Vertical" />
                                                 <BoxContainer Name="Latitudes" Access="Public" Orientation="Vertical" />
+                                                <!-- Stories-ZLevels-Start -->
+                                                <BoxContainer Name="ZLevels" Access="Public" Orientation="Vertical" />
+                                                <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Name="Comments" Access="Public" Orientation="Vertical" HorizontalExpand="True" />
                                                 <BoxContainer Name="Loads" Access="Public" Orientation="Vertical" />
                                             </BoxContainer>
@@ -301,6 +314,13 @@
                                                 <BoxContainer Name="OrbitalLatitudeContainer" Access="Public" Orientation="Vertical">
                                                     <Label Text="{Loc rmc-overwatch-console-latitude}" />
                                                 </BoxContainer>
+                                                <!-- Stories-ZLevels-Start -->
+                                                <BoxContainer Orientation="Vertical">
+                                                    <Label Text="{Loc stories-targeting-z-label}" />
+                                                    <targeting:ZLevelSpinBox Name="OrbitalZLevel" Access="Public"
+                                                        MinWidth="70" ToolTip="{Loc stories-targeting-z-tooltip}" />
+                                                </BoxContainer>
+                                                <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Orientation="Vertical">
                                                     <RichTextLabel Name="OrbitalStatus" Access="Public"
                                                                    Text="{Loc rmc-overwatch-console-no-warhead-loaded}" />
@@ -321,6 +341,10 @@
                                             <BoxContainer Orientation="Horizontal">
                                                 <BoxContainer Name="OrbitalLongitudes" Access="Public" Orientation="Vertical" />
                                                 <BoxContainer Name="OrbitalLatitudes" Access="Public" Orientation="Vertical" />
+                                                <!-- Stories-ZLevels-Start -->
+                                                <BoxContainer Name="OrbitalZLevels" Access="Public"
+                                                              Orientation="Vertical" />
+                                                <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Name="OrbitalComments" Access="Public" Orientation="Vertical" HorizontalExpand="True" />
                                                 <BoxContainer Name="OrbitalLoads" Access="Public" Orientation="Vertical" />
                                             </BoxContainer>
