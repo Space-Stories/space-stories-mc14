@@ -252,6 +252,7 @@ public sealed class RadioSystem : EntitySystem
             var sourceServerExempt = _exemptQuery.HasComp(radioSource);
 
             var ttsRecipients = new HashSet<ICommonSession>();
+            var speakerRelays = new List<EntityUid>();
             var radioQuery = EntityQueryEnumerator<ActiveRadioComponent, TransformComponent>();
             while (canSend && radioQuery.MoveNext(out var receiver, out var radio, out var transform))
             {
@@ -323,7 +324,10 @@ public sealed class RadioSystem : EntitySystem
                     repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));
 
                 var chatMsg = new MsgChatMessage { Message = chat };
-                var ev = new RadioReceiveEvent(actualMessage, messageSource, channel, radioSource, chatMsg, currentLanguage);
+                var ev = new RadioReceiveEvent(actualMessage, messageSource, channel, radioSource, chatMsg, currentLanguage)
+                {
+                    SpeakerRelays = speakerRelays,
+                };
                 // RMC14
                 RaiseLocalEvent(receiver, ref ev);
 
@@ -339,6 +343,12 @@ public sealed class RadioSystem : EntitySystem
                 {
                     ttsRecipients.Add(actor.PlayerSession);
                 }
+            }
+
+            if (speakerRelays.Count > 0)
+            {
+                _chat.SendRadioSpeakersWhisperWithLanguage(
+                    speakerRelays, message, currentLanguage, evt.VoiceName, messageSource);
             }
 
             if (canSend && ttsRecipients.Count > 0)
