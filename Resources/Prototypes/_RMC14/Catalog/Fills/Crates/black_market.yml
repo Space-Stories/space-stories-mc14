@@ -58,6 +58,18 @@
 
 - type: entity
   parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketMAR50
+  name: MAR-50 light machine gun crate
+  description: Includes a MAR-50 light machine gun and three spare drum magazines.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCWeaponMar50LMG
+    - id: RMCMagazineMar50LMG
+      amount: 3
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
   id: RMCCrateBlackMarketHuntingRifle
   name: Basira-Armstrong bolt-action hunting rifle crate
   description: Includes a Basira-Armstrong bolt-action hunting rifle and five magazines.
@@ -789,6 +801,16 @@
   - type: StorageFill
     contents:
     - id: RMCBoxMagazineRifleMAR30
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketAmmoMAR50
+  name: MAR-50 drum magazine box crate
+  description: Contains one box with three MAR-50 drum magazines.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCBoxMagazineRifleMAR50
 
 - type: entity
   parent: RMCCrateWoodenBuildable

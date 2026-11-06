@@ -59,6 +59,13 @@
           entity: RMCWeaponRifleMAR30
       - cost: 0
         blackMarket: true
+        blackMarketCost: 100
+        blackMarketHeat: 5
+        crate: RMCCrateBlackMarketMAR50
+        icon:
+          entity: RMCWeaponMar50LMG
+      - cost: 0
+        blackMarket: true
         blackMarketCost: 5
         blackMarketHeat: 5
         crate: RMCCrateBlackMarketHuntingRifle
@@ -388,6 +395,13 @@
         crate: RMCCrateBlackMarketAmmoMAR30
         icon:
           entity: RMCBoxMagazineRifleMAR30
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 5
+        crate: RMCCrateBlackMarketAmmoMAR50
+        icon:
+          entity: RMCBoxMagazineRifleMAR50
       - cost: 0
         blackMarket: true
         blackMarketCost: 35
