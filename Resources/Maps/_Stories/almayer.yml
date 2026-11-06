@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/05/2026 23:44:41
-  entityCount: 29622
+  time: 11/06/2026 10:09:54
+  entityCount: 29623
 maps:
 - 1
 grids:
@@ -689,7 +689,7 @@ entities:
           version: 7
         -3,7:
           ind: -3,7
-          tiles: FQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAABaAgAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAE4AAAAAAAAVAAAAAAAAUwAAAAAAAEsAAAAAAABLAAAAAAAASwAAAAAAABQAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAADQAAAAAAAA8AAAAAAABOAAAAAAAAFQAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAFQAAAAAAAA0AAAAAAAAPAAAAAAAAUgAAAAAAAEwAAAAAAABMAAAAAAAATAAAAAAAAEwAAAAAAAB+AAAAAAAAFAAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAFoCAAAAAABaAgAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAXAAAAAAAAFwAAAAAAABcAAAAAAAAVAAAAAAAAFAAAAAAAABQAAAAAAAB+AAAAAAAAGwAAAAAAABwAAAAAAAB+AAAAAAAAfgAAAAAAABsAAAAAAAAcAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAWAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAfgAAAAAAABkAAAAAAAAaAAAAAAAAfgAAAAAAAH4AAAAAAAAZAAAAAAAAGgAAAAAAAH4AAAAAAAB+AAAAAAAAfgAAAAAAABYAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAAH4AAAAAAAAdAAAAAAAAHgAAAAAAAH4AAAAAAAB+AAAAAAAAHQAAAAAAAB4AAAAAAAB+AAAAAAAAfgAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABYAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAB+AAAAAAAAFQAAAAAAABUAAAAAAAB+AAAAAAAAfgAAAAAAABUAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAfgAAAAAAABYAAAAAAAAWAAAAAAAAfgAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAAH4AAAAAAAAWAAAAAAAAFgAAAAAAAH4AAAAAAAB+AAAAAAAAfgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAABaAgAAAAAAFAAAAAAAABQAAAAAAAAXAAAAAAAAFwAAAAAAABcAAAAAAAAXAAAAAAAAGwAAAAAAAH4AAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABkAAAAAAAB+AAAAAAAAFQAAAAAAAB4AAAAAAAAYAAAAAAAAHQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABYAAAAAAAAUAAAAAAAAFAAAAAAAABYAAAAAAAAZAAAAAAAAfgAAAAAAABUAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAGQAAAAAAAH4AAAAAAAAVAAAAAAAAHAAAAAAAABcAAAAAAAAbAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAGAAAAAAAABgAAAAAAAAYAAAAAAAAGAAAAAAAAB0AAAAAAAB+AAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAA==
+          tiles: FQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAABaAgAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAE4AAAAAAAAVAAAAAAAAUwAAAAAAAEsAAAAAAABLAAAAAAAASwAAAAAAABQAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAADQAAAAAAAA8AAAAAAABOAAAAAAAAFQAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAFQAAAAAAAA0AAAAAAAAPAAAAAAAAUgAAAAAAAEwAAAAAAABMAAAAAAAATAAAAAAAAEwAAAAAAAB+AAAAAAAAFAAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAANAAAAAAAADwAAAAAAAFoCAAAAAABaAgAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAWgIAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAXAAAAAAAAFwAAAAAAABcAAAAAAAAVAAAAAAAAFAAAAAAAABQAAAAAAAB+AAAAAAAAGwAAAAAAABwAAAAAAAB+AAAAAAAAfgAAAAAAABsAAAAAAAAcAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAWAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAfgAAAAAAABkAAAAAAAAaAAAAAAAAfgAAAAAAAH4AAAAAAAAZAAAAAAAAGgAAAAAAAH4AAAAAAAB+AAAAAAAAfgAAAAAAABYAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAAH4AAAAAAAAdAAAAAAAAHgAAAAAAAH4AAAAAAAB+AAAAAAAAHQAAAAAAAB4AAAAAAAB+AAAAAAAAfgAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABYAAAAAAAAVAAAAAAAAFAAAAAAAABUAAAAAAAB+AAAAAAAAFQAAAAAAABUAAAAAAAB+AAAAAAAAfgAAAAAAABUAAAAAAAAVAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABQAAAAAAAAVAAAAAAAAfgAAAAAAABYAAAAAAAAWAAAAAAAAfgAAAAAAAH4AAAAAAAAWAAAAAAAAFQAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAUAAAAAAAAFQAAAAAAAH4AAAAAAAAWAAAAAAAAFgAAAAAAAH4AAAAAAAB+AAAAAAAAfgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAABaAgAAAAAAFAAAAAAAABQAAAAAAAAXAAAAAAAAFwAAAAAAABcAAAAAAAAXAAAAAAAAGwAAAAAAAH4AAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABkAAAAAAAB+AAAAAAAAFQAAAAAAAB4AAAAAAAAYAAAAAAAAHQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABYAAAAAAAAUAAAAAAAAFAAAAAAAABYAAAAAAAAZAAAAAAAAfgAAAAAAABUAAAAAAAAWAAAAAAAAFgAAAAAAABYAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAGQAAAAAAAH4AAAAAAAAVAAAAAAAAHAAAAAAAABcAAAAAAAAbAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAGAAAAAAAABgAAAAAAAAYAAAAAAAAGAAAAAAAAB0AAAAAAAB+AAAAAAAAFgAAAAAAABYAAAAAAAAWAAAAAAAAFgAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAABUAAAAAAAAVAAAAAAAAFQAAAAAAAA==
           version: 7
         -4,4:
           ind: -4,4
@@ -35470,11 +35470,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 43.5,100.5
       parent: 1
-  - uid: 466
-    components:
-    - type: Transform
-      pos: 130.5,58.5
-      parent: 1
 - proto: CMAirlockSecurityLocked
   entities:
   - uid: 467
@@ -36825,13 +36820,6 @@ entities:
     components:
     - type: Transform
       pos: 52.5,7.5
-      parent: 1
-- proto: CMASRSConsolePowered
-  entities:
-  - uid: 657
-    components:
-    - type: Transform
-      pos: -58.5,109.5
       parent: 1
 - proto: CMAutolathe
   entities:
@@ -61837,6 +61825,18 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -34.5,9.5
       parent: 1
+  - uid: 5296
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -9.5,93.5
+      parent: 1
+  - uid: 5297
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -10.5,93.5
+      parent: 1
 - proto: CMDoubleDoorMedicalGlassLocked
   entities:
   - uid: 5236
@@ -62144,7 +62144,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -228856.36
+      secondsUntilStateChange: -231513.66
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -62168,7 +62168,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -228856.36
+      secondsUntilStateChange: -231513.66
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -62225,29 +62225,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -9.5,96.5
-      parent: 1
-  - uid: 5296
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -9.5,93.5
-      parent: 1
-  - uid: 5297
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -10.5,93.5
-      parent: 1
-  - uid: 5298
-    components:
-    - type: Transform
-      pos: -17.5,95.5
-      parent: 1
-  - uid: 5299
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -17.5,94.5
       parent: 1
 - proto: CMDoubleDoorSecurityGlassLocked
   entities:
@@ -81914,11 +81891,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: -98.5,15.5
       parent: 1
-  - uid: 8737
-    components:
-    - type: Transform
-      pos: -38.5,115.5
-      parent: 1
   - uid: 8738
     components:
     - type: Transform
@@ -89851,16 +89823,6 @@ entities:
     - type: Transform
       pos: -34.5,116.5
       parent: 1
-  - uid: 10276
-    components:
-    - type: Transform
-      pos: -39.5,112.5
-      parent: 1
-  - uid: 10277
-    components:
-    - type: Transform
-      pos: -40.5,112.5
-      parent: 1
   - uid: 10278
     components:
     - type: Transform
@@ -93270,11 +93232,6 @@ entities:
     - type: Transform
       pos: -39.5,117.5
       parent: 1
-  - uid: 10938
-    components:
-    - type: Transform
-      pos: -39.5,116.5
-      parent: 1
   - uid: 10939
     components:
     - type: Transform
@@ -93324,16 +93281,6 @@ entities:
     components:
     - type: Transform
       pos: -42.5,88.5
-      parent: 1
-  - uid: 10949
-    components:
-    - type: Transform
-      pos: -40.5,115.5
-      parent: 1
-  - uid: 10950
-    components:
-    - type: Transform
-      pos: -39.5,115.5
       parent: 1
   - uid: 10951
     components:
@@ -93395,11 +93342,6 @@ entities:
     - type: Transform
       pos: -41.5,92.5
       parent: 1
-  - uid: 10963
-    components:
-    - type: Transform
-      pos: -40.5,114.5
-      parent: 1
   - uid: 10964
     components:
     - type: Transform
@@ -93454,11 +93396,6 @@ entities:
     - type: Transform
       pos: -52.5,116.5
       parent: 1
-  - uid: 10974
-    components:
-    - type: Transform
-      pos: -40.5,113.5
-      parent: 1
   - uid: 10975
     components:
     - type: Transform
@@ -93497,11 +93434,6 @@ entities:
     components:
     - type: Transform
       pos: -40.5,117.5
-      parent: 1
-  - uid: 10982
-    components:
-    - type: Transform
-      pos: -40.5,116.5
       parent: 1
   - uid: 10983
     components:
@@ -96135,35 +96067,10 @@ entities:
     - type: Transform
       pos: -16.5,-34.5
       parent: 1
-  - uid: 11472
-    components:
-    - type: Transform
-      pos: -63.5,92.5
-      parent: 1
   - uid: 11473
     components:
     - type: Transform
       pos: -58.5,116.5
-      parent: 1
-  - uid: 11474
-    components:
-    - type: Transform
-      pos: -57.5,97.5
-      parent: 1
-  - uid: 11475
-    components:
-    - type: Transform
-      pos: -57.5,95.5
-      parent: 1
-  - uid: 11476
-    components:
-    - type: Transform
-      pos: -57.5,98.5
-      parent: 1
-  - uid: 11477
-    components:
-    - type: Transform
-      pos: -57.5,96.5
       parent: 1
   - uid: 11478
     components:
@@ -96269,51 +96176,6 @@ entities:
     components:
     - type: Transform
       pos: -63.5,89.5
-      parent: 1
-  - uid: 11499
-    components:
-    - type: Transform
-      pos: -57.5,93.5
-      parent: 1
-  - uid: 11500
-    components:
-    - type: Transform
-      pos: -57.5,94.5
-      parent: 1
-  - uid: 11501
-    components:
-    - type: Transform
-      pos: -59.5,92.5
-      parent: 1
-  - uid: 11502
-    components:
-    - type: Transform
-      pos: -64.5,92.5
-      parent: 1
-  - uid: 11503
-    components:
-    - type: Transform
-      pos: -58.5,92.5
-      parent: 1
-  - uid: 11504
-    components:
-    - type: Transform
-      pos: -60.5,92.5
-      parent: 1
-  - uid: 11505
-    components:
-    - type: Transform
-      pos: -61.5,92.5
-      parent: 1
-  - uid: 11506
-    components:
-    - type: Transform
-      pos: -62.5,92.5
-      parent: 1
-  - uid: 11507
-    components:
-    - type: Transform
-      pos: -58.5,93.5
       parent: 1
   - uid: 11508
     components:
@@ -96501,11 +96363,6 @@ entities:
     components:
     - type: Transform
       pos: -58.5,99.5
-      parent: 1
-  - uid: 11545
-    components:
-    - type: Transform
-      pos: -70.5,95.5
       parent: 1
   - uid: 11546
     components:
@@ -96747,16 +96604,6 @@ entities:
     - type: Transform
       pos: -71.5,107.5
       parent: 1
-  - uid: 11594
-    components:
-    - type: Transform
-      pos: -68.5,93.5
-      parent: 1
-  - uid: 11595
-    components:
-    - type: Transform
-      pos: -66.5,93.5
-      parent: 1
   - uid: 11596
     components:
     - type: Transform
@@ -96781,11 +96628,6 @@ entities:
     components:
     - type: Transform
       pos: -65.5,122.5
-      parent: 1
-  - uid: 11601
-    components:
-    - type: Transform
-      pos: -64.5,93.5
       parent: 1
   - uid: 11602
     components:
@@ -96817,11 +96659,6 @@ entities:
     - type: Transform
       pos: -71.5,110.5
       parent: 1
-  - uid: 11608
-    components:
-    - type: Transform
-      pos: -70.5,96.5
-      parent: 1
   - uid: 11609
     components:
     - type: Transform
@@ -96851,26 +96688,6 @@ entities:
     - type: Transform
       pos: -57.5,118.5
       parent: 1
-  - uid: 11614
-    components:
-    - type: Transform
-      pos: -65.5,93.5
-      parent: 1
-  - uid: 11615
-    components:
-    - type: Transform
-      pos: -70.5,94.5
-      parent: 1
-  - uid: 11616
-    components:
-    - type: Transform
-      pos: -69.5,93.5
-      parent: 1
-  - uid: 11617
-    components:
-    - type: Transform
-      pos: -67.5,93.5
-      parent: 1
   - uid: 11618
     components:
     - type: Transform
@@ -96890,11 +96707,6 @@ entities:
     components:
     - type: Transform
       pos: -62.5,89.5
-      parent: 1
-  - uid: 11622
-    components:
-    - type: Transform
-      pos: -69.5,94.5
       parent: 1
   - uid: 11623
     components:
@@ -102870,16 +102682,6 @@ entities:
     - type: Transform
       pos: -56.5,77.5
       parent: 1
-  - uid: 12700
-    components:
-    - type: Transform
-      pos: -59.5,112.5
-      parent: 1
-  - uid: 12701
-    components:
-    - type: Transform
-      pos: -60.5,112.5
-      parent: 1
   - uid: 12702
     components:
     - type: Transform
@@ -102890,40 +102692,10 @@ entities:
     - type: Transform
       pos: -68.5,107.5
       parent: 1
-  - uid: 12704
-    components:
-    - type: Transform
-      pos: -62.5,112.5
-      parent: 1
   - uid: 12705
     components:
     - type: Transform
       pos: -65.5,107.5
-      parent: 1
-  - uid: 12706
-    components:
-    - type: Transform
-      pos: -65.5,110.5
-      parent: 1
-  - uid: 12707
-    components:
-    - type: Transform
-      pos: -61.5,112.5
-      parent: 1
-  - uid: 12708
-    components:
-    - type: Transform
-      pos: -63.5,112.5
-      parent: 1
-  - uid: 12709
-    components:
-    - type: Transform
-      pos: -64.5,111.5
-      parent: 1
-  - uid: 12710
-    components:
-    - type: Transform
-      pos: -64.5,112.5
       parent: 1
   - uid: 12711
     components:
@@ -102959,16 +102731,6 @@ entities:
     components:
     - type: Transform
       pos: -72.5,127.5
-      parent: 1
-  - uid: 12719
-    components:
-    - type: Transform
-      pos: -57.5,106.5
-      parent: 1
-  - uid: 12720
-    components:
-    - type: Transform
-      pos: -57.5,105.5
       parent: 1
   - uid: 12721
     components:
@@ -103009,16 +102771,6 @@ entities:
     components:
     - type: Transform
       pos: -60.5,128.5
-      parent: 1
-  - uid: 12729
-    components:
-    - type: Transform
-      pos: -57.5,110.5
-      parent: 1
-  - uid: 12730
-    components:
-    - type: Transform
-      pos: -57.5,111.5
       parent: 1
   - uid: 12731
     components:
@@ -103135,21 +102887,6 @@ entities:
     - type: Transform
       pos: -68.5,75.5
       parent: 1
-  - uid: 12754
-    components:
-    - type: Transform
-      pos: -65.5,111.5
-      parent: 1
-  - uid: 12755
-    components:
-    - type: Transform
-      pos: -57.5,107.5
-      parent: 1
-  - uid: 12756
-    components:
-    - type: Transform
-      pos: -57.5,108.5
-      parent: 1
   - uid: 12757
     components:
     - type: Transform
@@ -103159,16 +102896,6 @@ entities:
     components:
     - type: Transform
       pos: -60.5,105.5
-      parent: 1
-  - uid: 12760
-    components:
-    - type: Transform
-      pos: -58.5,112.5
-      parent: 1
-  - uid: 12761
-    components:
-    - type: Transform
-      pos: -58.5,111.5
       parent: 1
   - uid: 12763
     components:
@@ -103269,11 +102996,6 @@ entities:
     components:
     - type: Transform
       pos: -7.5,75.5
-      parent: 1
-  - uid: 12785
-    components:
-    - type: Transform
-      pos: -57.5,109.5
       parent: 1
   - uid: 12786
     components:
@@ -104120,60 +103842,6 @@ entities:
     components:
     - type: Transform
       pos: 28.5,105.5
-      parent: 1
-  - uid: 12968
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 64.5,-0.5
-      parent: 1
-  - uid: 12969
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 65.5,-0.5
-      parent: 1
-  - uid: 12970
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 66.5,-0.5
-      parent: 1
-  - uid: 12971
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 67.5,-0.5
-      parent: 1
-  - uid: 12972
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 68.5,-0.5
-      parent: 1
-  - uid: 12973
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 69.5,-0.5
-      parent: 1
-  - uid: 12974
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 70.5,-0.5
-      parent: 1
-  - uid: 12975
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 71.5,-0.5
-      parent: 1
-  - uid: 12976
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 72.5,-0.5
       parent: 1
   - uid: 12977
     components:
@@ -117529,26 +117197,6 @@ entities:
     - type: Transform
       pos: -16.5,-33.5
       parent: 1
-  - uid: 15543
-    components:
-    - type: Transform
-      pos: -65.5,102.5
-      parent: 1
-  - uid: 15544
-    components:
-    - type: Transform
-      pos: -57.5,100.5
-      parent: 1
-  - uid: 15545
-    components:
-    - type: Transform
-      pos: -57.5,104.5
-      parent: 1
-  - uid: 15546
-    components:
-    - type: Transform
-      pos: -6.5,89.5
-      parent: 1
   - uid: 15547
     components:
     - type: Transform
@@ -117564,20 +117212,10 @@ entities:
     - type: Transform
       pos: -15.5,89.5
       parent: 1
-  - uid: 15550
-    components:
-    - type: Transform
-      pos: -5.5,89.5
-      parent: 1
-  - uid: 15551
-    components:
-    - type: Transform
-      pos: -3.5,89.5
-      parent: 1
   - uid: 15552
     components:
     - type: Transform
-      pos: -2.5,89.5
+      pos: -34.5,-15.5
       parent: 1
   - uid: 15553
     components:
@@ -119393,11 +119031,6 @@ entities:
     components:
     - type: Transform
       pos: -92.5,10.5
-      parent: 1
-  - uid: 15916
-    components:
-    - type: Transform
-      pos: -34.5,-15.5
       parent: 1
   - uid: 15917
     components:
@@ -121274,23 +120907,6 @@ entities:
     components:
     - type: Transform
       pos: 33.5,-6.5
-      parent: 1
-- proto: ColMarTechCommandingOfficerClothing
-  entities:
-  - uid: 16277
-    components:
-    - type: Transform
-      pos: -39.5,113.5
-      parent: 1
-  - uid: 16278
-    components:
-    - type: Transform
-      pos: -39.5,114.5
-      parent: 1
-  - uid: 16279
-    components:
-    - type: Transform
-      pos: -69.5,118.5
       parent: 1
 - proto: ColMarTechCommandingOfficerEquipment
   entities:
@@ -136836,6 +136452,26 @@ entities:
       parent: 1
 - proto: RMCAutomatedPersonalUniformCloset
   entities:
+  - uid: 10949
+    components:
+    - type: Transform
+      pos: -39.5,113.5
+      parent: 1
+  - uid: 15916
+    components:
+    - type: Transform
+      pos: -39.5,115.5
+      parent: 1
+  - uid: 16277
+    components:
+    - type: Transform
+      pos: -39.5,114.5
+      parent: 1
+  - uid: 16278
+    components:
+    - type: Transform
+      pos: -69.5,118.5
+      parent: 1
   - uid: 16280
     components:
     - type: Transform
@@ -141880,10 +141516,10 @@ entities:
       parent: 1
 - proto: RMCComputerCrewMonitoring
   entities:
-  - uid: 19799
+  - uid: 657
     components:
     - type: Transform
-      pos: -64.5,110.5
+      pos: -58.5,110.5
       parent: 1
   - uid: 19800
     components:
@@ -151065,7 +150701,7 @@ entities:
       pos: 71.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375444
+      secondsUntilStateChange: -378101.3
       state: Opening
   - uid: 21501
     components:
@@ -151073,7 +150709,7 @@ entities:
       pos: 72.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375443.56
+      secondsUntilStateChange: -378100.88
       state: Opening
   - uid: 21502
     components:
@@ -151081,7 +150717,7 @@ entities:
       pos: 73.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375443.16
+      secondsUntilStateChange: -378100.47
       state: Opening
   - uid: 21503
     components:
@@ -151089,7 +150725,7 @@ entities:
       pos: 71.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375437.62
+      secondsUntilStateChange: -378094.94
       state: Opening
   - uid: 21504
     components:
@@ -151097,7 +150733,7 @@ entities:
       pos: 72.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375438.03
+      secondsUntilStateChange: -378095.34
       state: Opening
   - uid: 21505
     components:
@@ -151105,7 +150741,7 @@ entities:
       pos: 73.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -375438.44
+      secondsUntilStateChange: -378095.75
       state: Opening
   - uid: 21506
     components:
@@ -151115,7 +150751,7 @@ entities:
       pos: 11.5,91.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -107984.13
+      secondsUntilStateChange: -110641.44
       state: Opening
   - uid: 21507
     components:
@@ -151753,6 +151389,11 @@ entities:
     components:
     - type: Transform
       pos: -8.5,5.5
+      parent: 1
+  - uid: 26705
+    components:
+    - type: Transform
+      pos: 128.5,54.5
       parent: 1
 - proto: RMCExtinguisherCabinetFilled
   entities:
@@ -176687,11 +176328,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176793,11 +176434,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176899,11 +176540,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -177005,11 +176646,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -177110,11 +176751,11 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
-      - Pilot
       - DropshipCrewChief
+      - Pilot
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -177352,6 +176993,11 @@ entities:
       parent: 1
 - proto: RMCKeycardDevice
   entities:
+  - uid: 5298
+    components:
+    - type: Transform
+      pos: -44.5,110.5
+      parent: 1
   - uid: 24811
     components:
     - type: Transform
@@ -185631,6 +185277,11 @@ entities:
       parent: 1
 - proto: RMCMagazineBootsN160
   entities:
+  - uid: 16279
+    components:
+    - type: Transform
+      pos: -67.378456,117.22021
+      parent: 1
   - uid: 26241
     components:
     - type: Transform
@@ -186045,12 +185696,6 @@ entities:
     components:
     - type: Transform
       pos: -72.625,103.5
-      parent: 1
-  - uid: 26309
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -60.523792,108.43411
       parent: 1
   - uid: 26310
     components:
@@ -188516,6 +188161,11 @@ entities:
       parent: 1
 - proto: RMCPodDoorAILockdown
   entities:
+  - uid: 26309
+    components:
+    - type: Transform
+      pos: 115.5,48.5
+      parent: 1
   - uid: 26739
     components:
     - type: Transform
@@ -188525,6 +188175,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26740
     components:
     - type: Transform
@@ -188534,6 +188187,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26741
     components:
     - type: Transform
@@ -188543,6 +188199,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26742
     components:
     - type: Transform
@@ -188552,6 +188211,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26743
     components:
     - type: Transform
@@ -188561,6 +188223,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26744
     components:
     - type: Transform
@@ -188570,6 +188235,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26745
     components:
     - type: Transform
@@ -188580,6 +188248,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26746
     components:
     - type: Transform
@@ -188590,6 +188261,9 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
   - uid: 26747
     components:
     - type: Transform
@@ -188600,6 +188274,24 @@ entities:
     - type: DeviceLinkSink
       ports:
       - STHermesSecurity
+      - Open
+      - Close
+      - Toggle
+  - uid: 27001
+    components:
+    - type: Transform
+      pos: 124.5,48.5
+      parent: 1
+  - uid: 27065
+    components:
+    - type: Transform
+      pos: 125.5,48.5
+      parent: 1
+  - uid: 27066
+    components:
+    - type: Transform
+      pos: 116.5,48.5
+      parent: 1
 - proto: RMCPodDoorAlmayer
   entities:
   - uid: 6293
@@ -188616,18 +188308,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell1
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26749
     components:
     - type: Transform
@@ -188635,18 +188315,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26750
     components:
     - type: Transform
@@ -188654,18 +188322,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell3
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26751
     components:
     - type: Transform
@@ -188673,18 +188329,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell4
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26752
     components:
     - type: Transform
@@ -188692,18 +188336,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell5
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26753
     components:
     - type: Transform
@@ -188711,18 +188343,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Cell6
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26754
     components:
     - type: Transform
@@ -188730,18 +188350,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell1
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26756
     components:
     - type: Transform
@@ -188749,18 +188357,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26757
     components:
     - type: Transform
@@ -188768,18 +188364,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: PermaCell2
-    - type: DoorSignalControl
-    - type: DeviceLinkSink
-      ports:
-      - Open
-      - Close
-      - Toggle
-      - DoorBolt
-    - type: DeviceLinkSource
-      linkedPorts: {}
-      lastSignals: {}
-      ports:
-      - DoorStatus
   - uid: 26758
     components:
     - type: Transform
@@ -189706,6 +189290,8 @@ entities:
       id: Inner blocking layer
   - uid: 26872
     components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 21.5,103.5
@@ -189714,6 +189300,8 @@ entities:
       id: ARES Door 1
   - uid: 26873
     components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 21.5,102.5
@@ -189722,6 +189310,8 @@ entities:
       id: ARES Door 1
   - uid: 26874
     components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 21.5,101.5
@@ -190621,30 +190211,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Hangar_Lockdown
-  - uid: 26999
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 25.5,103.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
-  - uid: 27000
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 25.5,102.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
-  - uid: 27001
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 25.5,101.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
 - proto: RMCPodDoorButton
   entities:
   - uid: 14232
@@ -190676,7 +190242,8 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access: []
+      access:
+      - - RMCAccessSeniorCommand
       denyTags: []
   - uid: 27003
     components:
@@ -190748,11 +190315,14 @@ entities:
       fixtures: {}
   - uid: 27008
     components:
+    - type: MetaData
+      desc: 'Кнопка дистанционного управления дверью. Снизу прикреплена записка: "ВАЖНО: Также открывает раздатчики на востоке от мостика для общего пользования"'
+      name: Блокировка раздатчиков парадной формы
     - type: Transform
       pos: -68.45018,115.380104
       parent: 1
     - type: RMCDoorButton
-      id: Commander's Armory
+      id: bot_uniforms
     - type: Fixtures
       fixtures: {}
     - type: AccessReader
@@ -191651,28 +191221,6 @@ entities:
       denyTags: []
     - type: Fixtures
       fixtures: {}
-  - uid: 27066
-    components:
-    - type: MetaData
-      name: ARES Доступ к Ядру
-    - type: Transform
-      pos: 25.2,105.2
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES StairsUpper
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermesTemporary
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
   - uid: 27067
     components:
     - type: Transform
@@ -192507,318 +192055,10 @@ entities:
       denyTags: []
     - type: Fixtures
       fixtures: {}
-  - uid: 27123
-    components:
-    - type: Transform
-      pos: 131.25,51.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 11
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27124
-    components:
-    - type: Transform
-      pos: 131.25,49.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 11
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27125
-    components:
-    - type: Transform
-      pos: 117.25,48.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 6
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27126
-    components:
-    - type: Transform
-      pos: 117.25,48.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 6
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27127
-    components:
-    - type: Transform
-      pos: 118.75,47.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 5
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27128
-    components:
-    - type: Transform
-      pos: 122.25,47.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 5
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27129
-    components:
-    - type: Transform
-      pos: 123.75,48.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 9
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27130
-    components:
-    - type: Transform
-      pos: 123.75,48.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 9
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27131
-    components:
-    - type: Transform
-      pos: 118.75,49.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 5
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27132
-    components:
-    - type: Transform
-      pos: 122.25,49.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 5
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27133
-    components:
-    - type: Transform
-      pos: 118.25,51.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 7
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27134
-    components:
-    - type: Transform
-      pos: 118.75,51.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 7
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27135
-    components:
-    - type: Transform
-      pos: 122.75,51.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 8
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27136
-    components:
-    - type: Transform
-      pos: 122.25,51.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 8
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27137
-    components:
-    - type: Transform
-      pos: 122.25,54.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 13
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27138
-    components:
-    - type: Transform
-      pos: 118.75,54.75
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 13
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
   - uid: 27139
     components:
+    - type: MetaData
+      name: ARES Ставни зала
     - type: Transform
       pos: 118.75,56.25
       parent: 1
@@ -192832,64 +192072,6 @@ entities:
       access:
       - - STAccessHermes
       - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27140
-    components:
-    - type: Transform
-      pos: 122.25,56.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 13
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTemporary
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27141
-    components:
-    - type: Transform
-      pos: 127.75,53.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 10
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27142
-    components:
-    - type: Transform
-      pos: 127.25,53.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 10
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
       - - STAccessHermesTechnician
       - - CMAccessCO
       - - CMAccessCE
@@ -192943,69 +192125,6 @@ entities:
       denyTags: []
     - type: Fixtures
       fixtures: {}
-  - uid: 27146
-    components:
-    - type: MetaData
-      name: ARES Ставни приемной
-    - type: Transform
-      pos: 26.8,104.8
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 4
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27147
-    components:
-    - type: MetaData
-      name: ARES Ставни приемной
-    - type: Transform
-      pos: 26.8,104.2
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 4
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 27148
-    components:
-    - type: MetaData
-      name: ARES КПП
-    - type: Transform
-      pos: 27.35,101.78888
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 1
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
   - uid: 27149
     components:
     - type: Transform
@@ -193190,49 +192309,6 @@ entities:
       id: Docking port 3
     - type: Fixtures
       fixtures: {}
-  - uid: 27165
-    components:
-    - type: MetaData
-      name: ARES Окна КПП1
-    - type: Transform
-      pos: 27.603745,101.78888
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 3
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
-  - uid: 29626
-    components:
-    - type: MetaData
-      name: ARES Доступ к Ядру
-    - type: Transform
-      pos: 25.25,104.25
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES StairsUpper
-    - type: Fixtures
-      fixtures: {}
-    - type: AccessReader
-      accessLog: []
-      accessKeys: []
-      access:
-      - - STAccessHermesTemporary
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-      denyTags: []
 - proto: RMCPodDoorButtonBigRed
   entities:
   - uid: 27166
@@ -193255,16 +192331,24 @@ entities:
       denyTags: []
   - uid: 27167
     components:
+    - type: MetaData
+      name: ARES Подлоки внешней блокировки
     - type: Transform
       pos: -71.62202,123.3012
       parent: 1
+    - type: RMCDoorButton
+      id: ARES Door 1
     - type: Fixtures
       fixtures: {}
   - uid: 27168
     components:
+    - type: MetaData
+      name: Блокировка Брига
     - type: Transform
       pos: -71.95535,123.3012
       parent: 1
+    - type: RMCDoorButton
+      id: Brig Lockdown Shutters
     - type: Fixtures
       fixtures: {}
   - uid: 27169
@@ -193488,6 +192572,14 @@ entities:
       parent: 1
     - type: Fixtures
       fixtures: {}
+- proto: RMCPoliceRecordsConsole
+  entities:
+  - uid: 19799
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -60.5,108.5
+      parent: 1
 - proto: RMCPortableCrewMonitor
   entities:
   - uid: 27191
@@ -195973,6 +195065,72 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: ARES StairsUpper
+  - uid: 27127
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 120.5,48.5
+      parent: 1
+  - uid: 27128
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 119.5,48.5
+      parent: 1
+  - uid: 27129
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 121.5,48.5
+      parent: 1
+  - uid: 27130
+    components:
+    - type: Transform
+      pos: 124.5,48.5
+      parent: 1
+  - uid: 27131
+    components:
+    - type: Transform
+      pos: 125.5,48.5
+      parent: 1
+  - uid: 27132
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 116.5,48.5
+      parent: 1
+  - uid: 27133
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 115.5,48.5
+      parent: 1
+  - uid: 27134
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 120.5,55.5
+      parent: 1
+  - uid: 27135
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 121.5,55.5
+      parent: 1
+  - uid: 27136
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 119.5,55.5
+      parent: 1
   - uid: 27559
     components:
     - type: Transform
@@ -196080,6 +195238,8 @@ entities:
       id: ResearchLockdown3
   - uid: 27573
     components:
+    - type: MetaData
+      name: ARES Ставни обслуживания Рабочих Джо
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 127.5,52.5
@@ -196880,6 +196040,8 @@ entities:
       id: crate_room2
   - uid: 27674
     components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств 1
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 118.5,50.5
@@ -196898,6 +196060,8 @@ entities:
       denyTags: []
   - uid: 27675
     components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств 2
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 122.5,50.5
@@ -196916,6 +196080,8 @@ entities:
       denyTags: []
   - uid: 27676
     components:
+    - type: MetaData
+      name: ARES Ставни лестницы приемной
     - type: Transform
       pos: 129.5,50.5
       parent: 1
@@ -196933,6 +196099,8 @@ entities:
       denyTags: []
   - uid: 27677
     components:
+    - type: MetaData
+      name: ARES Ставни лестницы приемной
     - type: Transform
       pos: 130.5,50.5
       parent: 1
@@ -197716,27 +196884,6 @@ entities:
       parent: 1
 - proto: RMCShutterAlmayerAntiTheft
   entities:
-  - uid: 27779
-    components:
-    - type: Transform
-      pos: -71.5,115.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
-  - uid: 27780
-    components:
-    - type: Transform
-      pos: -70.5,115.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
-  - uid: 27781
-    components:
-    - type: Transform
-      pos: -69.5,115.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
   - uid: 27782
     components:
     - type: Transform
@@ -198451,6 +197598,14 @@ entities:
       id: Maintenance
 - proto: RMCShutterAlmayerUniformVendors
   entities:
+  - uid: 5299
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -38.5,115.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
   - uid: 14231
     components:
     - type: Transform
@@ -198475,18 +197630,43 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: civ_uniforms
+  - uid: 27123
+    components:
+    - type: Transform
+      pos: -69.5,115.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 27124
+    components:
+    - type: Transform
+      pos: -70.5,115.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 27125
+    components:
+    - type: Transform
+      pos: -71.5,115.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 27126
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -38.5,114.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
   - uid: 27877
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -38.5,113.5
       parent: 1
-  - uid: 27878
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -38.5,114.5
-      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
 - proto: RMCSigintTerminal
   entities:
   - uid: 27882
@@ -200454,6 +199634,23 @@ entities:
     components:
     - type: Transform
       pos: 43.5,6.5
+      parent: 1
+- proto: RMCSupplyOrderingConsole
+  entities:
+  - uid: 26704
+    components:
+    - type: Transform
+      pos: 28.5,-3.5
+      parent: 1
+  - uid: 27000
+    components:
+    - type: Transform
+      pos: 28.5,2.5
+      parent: 1
+  - uid: 27137
+    components:
+    - type: Transform
+      pos: -58.5,108.5
       parent: 1
 - proto: RMCSurgicalTray
   entities:
@@ -204233,6 +203430,298 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 10.5,105.5
       parent: 1
+- proto: RMCWallReinforcedHeavyAlmayerHijackBustable
+  entities:
+  - uid: 8737
+    components:
+    - type: Transform
+      pos: -39.5,116.5
+      parent: 1
+  - uid: 10276
+    components:
+    - type: Transform
+      pos: -40.5,116.5
+      parent: 1
+  - uid: 10277
+    components:
+    - type: Transform
+      pos: -39.5,112.5
+      parent: 1
+  - uid: 10938
+    components:
+    - type: Transform
+      pos: -40.5,113.5
+      parent: 1
+  - uid: 10950
+    components:
+    - type: Transform
+      pos: -40.5,114.5
+      parent: 1
+  - uid: 10963
+    components:
+    - type: Transform
+      pos: -40.5,115.5
+      parent: 1
+  - uid: 10974
+    components:
+    - type: Transform
+      pos: -40.5,112.5
+      parent: 1
+  - uid: 10982
+    components:
+    - type: Transform
+      pos: -63.5,92.5
+      parent: 1
+  - uid: 11472
+    components:
+    - type: Transform
+      pos: -57.5,93.5
+      parent: 1
+  - uid: 11474
+    components:
+    - type: Transform
+      pos: -57.5,95.5
+      parent: 1
+  - uid: 11475
+    components:
+    - type: Transform
+      pos: -57.5,98.5
+      parent: 1
+  - uid: 11476
+    components:
+    - type: Transform
+      pos: -57.5,94.5
+      parent: 1
+  - uid: 11477
+    components:
+    - type: Transform
+      pos: -57.5,97.5
+      parent: 1
+  - uid: 11499
+    components:
+    - type: Transform
+      pos: -57.5,96.5
+      parent: 1
+  - uid: 11500
+    components:
+    - type: Transform
+      pos: -59.5,92.5
+      parent: 1
+  - uid: 11501
+    components:
+    - type: Transform
+      pos: -64.5,92.5
+      parent: 1
+  - uid: 11502
+    components:
+    - type: Transform
+      pos: -58.5,92.5
+      parent: 1
+  - uid: 11503
+    components:
+    - type: Transform
+      pos: -60.5,92.5
+      parent: 1
+  - uid: 11504
+    components:
+    - type: Transform
+      pos: -61.5,92.5
+      parent: 1
+  - uid: 11505
+    components:
+    - type: Transform
+      pos: -62.5,92.5
+      parent: 1
+  - uid: 11506
+    components:
+    - type: Transform
+      pos: -58.5,93.5
+      parent: 1
+  - uid: 11507
+    components:
+    - type: Transform
+      pos: -70.5,95.5
+      parent: 1
+  - uid: 11545
+    components:
+    - type: Transform
+      pos: -68.5,93.5
+      parent: 1
+  - uid: 11594
+    components:
+    - type: Transform
+      pos: -66.5,93.5
+      parent: 1
+  - uid: 11595
+    components:
+    - type: Transform
+      pos: -64.5,93.5
+      parent: 1
+  - uid: 11601
+    components:
+    - type: Transform
+      pos: -70.5,96.5
+      parent: 1
+  - uid: 11608
+    components:
+    - type: Transform
+      pos: -65.5,93.5
+      parent: 1
+  - uid: 11614
+    components:
+    - type: Transform
+      pos: -70.5,94.5
+      parent: 1
+  - uid: 11615
+    components:
+    - type: Transform
+      pos: -69.5,93.5
+      parent: 1
+  - uid: 11616
+    components:
+    - type: Transform
+      pos: -67.5,93.5
+      parent: 1
+  - uid: 11617
+    components:
+    - type: Transform
+      pos: -69.5,94.5
+      parent: 1
+  - uid: 11622
+    components:
+    - type: Transform
+      pos: -58.5,112.5
+      parent: 1
+  - uid: 12700
+    components:
+    - type: Transform
+      pos: -58.5,111.5
+      parent: 1
+  - uid: 12701
+    components:
+    - type: Transform
+      pos: -57.5,110.5
+      parent: 1
+  - uid: 12704
+    components:
+    - type: Transform
+      pos: -57.5,105.5
+      parent: 1
+  - uid: 12706
+    components:
+    - type: Transform
+      pos: -57.5,111.5
+      parent: 1
+  - uid: 12707
+    components:
+    - type: Transform
+      pos: -57.5,109.5
+      parent: 1
+  - uid: 12708
+    components:
+    - type: Transform
+      pos: -57.5,108.5
+      parent: 1
+  - uid: 12709
+    components:
+    - type: Transform
+      pos: -57.5,107.5
+      parent: 1
+  - uid: 12710
+    components:
+    - type: Transform
+      pos: -65.5,111.5
+      parent: 1
+  - uid: 12719
+    components:
+    - type: Transform
+      pos: -65.5,110.5
+      parent: 1
+  - uid: 12720
+    components:
+    - type: Transform
+      pos: -62.5,112.5
+      parent: 1
+  - uid: 12729
+    components:
+    - type: Transform
+      pos: -61.5,112.5
+      parent: 1
+  - uid: 12730
+    components:
+    - type: Transform
+      pos: -57.5,106.5
+      parent: 1
+  - uid: 12754
+    components:
+    - type: Transform
+      pos: -64.5,111.5
+      parent: 1
+  - uid: 12755
+    components:
+    - type: Transform
+      pos: -64.5,112.5
+      parent: 1
+  - uid: 12756
+    components:
+    - type: Transform
+      pos: -59.5,112.5
+      parent: 1
+  - uid: 12760
+    components:
+    - type: Transform
+      pos: -60.5,112.5
+      parent: 1
+  - uid: 12761
+    components:
+    - type: Transform
+      pos: -63.5,112.5
+      parent: 1
+  - uid: 12785
+    components:
+    - type: Transform
+      pos: 72.5,-0.5
+      parent: 1
+  - uid: 12968
+    components:
+    - type: Transform
+      pos: 71.5,-0.5
+      parent: 1
+  - uid: 12969
+    components:
+    - type: Transform
+      pos: 70.5,-0.5
+      parent: 1
+  - uid: 12970
+    components:
+    - type: Transform
+      pos: 69.5,-0.5
+      parent: 1
+  - uid: 12971
+    components:
+    - type: Transform
+      pos: 68.5,-0.5
+      parent: 1
+  - uid: 12972
+    components:
+    - type: Transform
+      pos: 67.5,-0.5
+      parent: 1
+  - uid: 12973
+    components:
+    - type: Transform
+      pos: 66.5,-0.5
+      parent: 1
+  - uid: 12974
+    components:
+    - type: Transform
+      pos: 65.5,-0.5
+      parent: 1
+  - uid: 12975
+    components:
+    - type: Transform
+      pos: 64.5,-0.5
+      parent: 1
 - proto: RMCWarshipControlConsole
   entities:
   - uid: 28829
@@ -204508,6 +203997,41 @@ entities:
       parent: 1
 - proto: RMCWindowReinforcedAlmayerHullHijackBustable
   entities:
+  - uid: 12976
+    components:
+    - type: Transform
+      pos: -57.5,100.5
+      parent: 1
+  - uid: 15543
+    components:
+    - type: Transform
+      pos: -57.5,104.5
+      parent: 1
+  - uid: 15544
+    components:
+    - type: Transform
+      pos: -65.5,102.5
+      parent: 1
+  - uid: 15545
+    components:
+    - type: Transform
+      pos: -2.5,89.5
+      parent: 1
+  - uid: 15546
+    components:
+    - type: Transform
+      pos: -3.5,89.5
+      parent: 1
+  - uid: 15550
+    components:
+    - type: Transform
+      pos: -5.5,89.5
+      parent: 1
+  - uid: 15551
+    components:
+    - type: Transform
+      pos: -6.5,89.5
+      parent: 1
   - uid: 15936
     components:
     - type: Transform
@@ -206716,6 +206240,13 @@ entities:
     - type: Transform
       pos: 34.5,-33.5
       parent: 1
+- proto: STAirlockSecureLockedHermesCore
+  entities:
+  - uid: 466
+    components:
+    - type: Transform
+      pos: 130.5,58.5
+      parent: 1
 - proto: STBeakerEthanol
   entities:
   - uid: 26215
@@ -206961,106 +206492,6 @@ entities:
       parent: 1
     - type: HermesSensor
       exitDirection: North
-- proto: STHermesCoreDoor
-  entities:
-  - uid: 26704
-    components:
-    - type: Transform
-      pos: 120.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26705
-    components:
-    - type: Transform
-      pos: 121.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26706
-    components:
-    - type: Transform
-      pos: 119.5,55.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 13
-  - uid: 26707
-    components:
-    - type: Transform
-      pos: 116.5,48.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES Door 6
-  - uid: 26708
-    components:
-    - type: Transform
-      pos: 115.5,48.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES Door 6
-  - uid: 26709
-    components:
-    - type: Transform
-      pos: 124.5,48.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES Door 9
-  - uid: 26710
-    components:
-    - type: Transform
-      pos: 125.5,48.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES Door 9
-  - uid: 26711
-    components:
-    - type: Transform
-      pos: 120.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
-  - uid: 26712
-    components:
-    - type: Transform
-      pos: 119.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
-  - uid: 26713
-    components:
-    - type: Transform
-      pos: 121.5,48.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 5
 - proto: STHermesMovementSensor
   entities:
   - uid: 29597
@@ -207489,6 +206920,225 @@ entities:
           pitch: 1
           volume: 0
         path: /Audio/Items/crowbar.ogg
+- proto: STPodDoorButtonHermesCore
+  entities:
+  - uid: 26706
+    components:
+    - type: MetaData
+      name: ARES Ставни приемной
+    - type: Transform
+      pos: 26.8,104.8
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Door 4
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26707
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 117.25,48.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26708
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 117.25,48.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26709
+    components:
+    - type: MetaData
+      name: ARES Ставни лестницы приемной
+    - type: Transform
+      pos: 131.25,51.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26713
+    components:
+    - type: MetaData
+      name: ARES Ставни лестницы приемной
+    - type: Transform
+      pos: 131.25,49.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26999
+    components:
+    - type: MetaData
+      name: ARES Ставни приемной
+    - type: Transform
+      pos: 26.8,104.2
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Door 4
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27141
+    components:
+    - type: MetaData
+      name: ARES Ставни обслуживания Рабочих Джо
+    - type: Transform
+      pos: 127.75,53.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27142
+    components:
+    - type: MetaData
+      name: ARES Ставни обслуживания Рабочих Джо
+    - type: Transform
+      pos: 127.25,53.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27146
+    components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств 2
+    - type: Transform
+      pos: 122.75,51.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27147
+    components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств 1
+    - type: Transform
+      pos: 118.25,51.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27781
+    components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств
+    - type: Transform
+      pos: 122.25,51.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27878
+    components:
+    - type: MetaData
+      name: ARES Ставни вспомогательных устройств 1
+    - type: Transform
+      pos: 118.75,51.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27879
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 123.75,48.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27880
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 123.75,48.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+- proto: STPodDoorButtonHermesCoreTemporary
+  entities:
+  - uid: 26710
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 122.25,56.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26711
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру
+    - type: Transform
+      pos: 25.2,105.2
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES StairsUpper
+    - type: Fixtures
+      fixtures: {}
+  - uid: 26712
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру
+    - type: Transform
+      pos: 25.25,104.25
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES StairsUpper
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27138
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 122.25,47.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27140
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 122.25,49.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27148
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 118.75,49.25
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27165
+    components:
+    - type: MetaData
+      name: ARES Ставни ядра
+    - type: Transform
+      pos: 118.75,47.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27779
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 122.25,54.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 27780
+    components:
+    - type: MetaData
+      name: ARES Ставни зала
+    - type: Transform
+      pos: 118.75,54.75
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
 - proto: STSheetCopper
   entities:
   - uid: 7119
@@ -208844,11 +208494,6 @@ entities:
       parent: 1
 - proto: VehicleSupplyConsole
   entities:
-  - uid: 29536
-    components:
-    - type: Transform
-      pos: -58.5,108.5
-      parent: 1
   - uid: 29537
     components:
     - type: Transform

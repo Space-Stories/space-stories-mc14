@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/01/2026 23:00:39
-  entityCount: 14068
+  time: 11/06/2026 10:56:49
+  entityCount: 14079
 maps:
 - 1
 grids:
@@ -15322,12 +15322,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -76.5,-0.5
       parent: 1
-  - uid: 69
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -68.5,-0.5
-      parent: 1
   - uid: 70
     components:
     - type: Transform
@@ -15408,6 +15402,12 @@ entities:
     components:
     - type: Transform
       pos: -11.5,-8.5
+      parent: 1
+  - uid: 7189
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-0.5
       parent: 1
 - proto: CMAirlockEngineerLocked
   entities:
@@ -16335,11 +16335,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 32.5,-1.5
       parent: 1
-  - uid: 235
-    components:
-    - type: Transform
-      pos: 16.5,2.5
-      parent: 1
 - proto: CMAirlockSecurityLocked
   entities:
   - uid: 236
@@ -17076,13 +17071,6 @@ entities:
     - Tag
     - Speech
     - RequisitionsComputer
-- proto: CMASRSConsolePowered
-  entities:
-  - uid: 329
-    components:
-    - type: Transform
-      pos: -69.5,7.5
-      parent: 1
 - proto: CMAutolathe
   entities:
   - uid: 330
@@ -45679,41 +45667,6 @@ entities:
     - type: Transform
       pos: -132.5,-9.5
       parent: 1
-  - uid: 5551
-    components:
-    - type: Transform
-      pos: -75.5,-9.5
-      parent: 1
-  - uid: 5552
-    components:
-    - type: Transform
-      pos: -74.5,-9.5
-      parent: 1
-  - uid: 5553
-    components:
-    - type: Transform
-      pos: -73.5,-9.5
-      parent: 1
-  - uid: 5554
-    components:
-    - type: Transform
-      pos: -72.5,-9.5
-      parent: 1
-  - uid: 5555
-    components:
-    - type: Transform
-      pos: -71.5,-9.5
-      parent: 1
-  - uid: 5556
-    components:
-    - type: Transform
-      pos: -70.5,-9.5
-      parent: 1
-  - uid: 5557
-    components:
-    - type: Transform
-      pos: -69.5,-9.5
-      parent: 1
   - uid: 5558
     components:
     - type: Transform
@@ -45780,46 +45733,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -95.5,-8.5
-      parent: 1
-  - uid: 5571
-    components:
-    - type: Transform
-      pos: -80.5,-8.5
-      parent: 1
-  - uid: 5572
-    components:
-    - type: Transform
-      pos: -79.5,-8.5
-      parent: 1
-  - uid: 5573
-    components:
-    - type: Transform
-      pos: -78.5,-8.5
-      parent: 1
-  - uid: 5574
-    components:
-    - type: Transform
-      pos: -77.5,-8.5
-      parent: 1
-  - uid: 5575
-    components:
-    - type: Transform
-      pos: -76.5,-8.5
-      parent: 1
-  - uid: 5576
-    components:
-    - type: Transform
-      pos: -75.5,-8.5
-      parent: 1
-  - uid: 5577
-    components:
-    - type: Transform
-      pos: -69.5,-8.5
-      parent: 1
-  - uid: 5578
-    components:
-    - type: Transform
-      pos: -68.5,-8.5
       parent: 1
   - uid: 5579
     components:
@@ -45908,21 +45821,6 @@ entities:
     - type: Transform
       pos: -82.5,-7.5
       parent: 1
-  - uid: 5596
-    components:
-    - type: Transform
-      pos: -81.5,-7.5
-      parent: 1
-  - uid: 5597
-    components:
-    - type: Transform
-      pos: -80.5,-7.5
-      parent: 1
-  - uid: 5598
-    components:
-    - type: Transform
-      pos: -68.5,-7.5
-      parent: 1
   - uid: 5599
     components:
     - type: Transform
@@ -45995,16 +45893,6 @@ entities:
     components:
     - type: Transform
       pos: -84.5,-6.5
-      parent: 1
-  - uid: 5613
-    components:
-    - type: Transform
-      pos: -81.5,-6.5
-      parent: 1
-  - uid: 5614
-    components:
-    - type: Transform
-      pos: -68.5,-6.5
       parent: 1
   - uid: 5615
     components:
@@ -46175,16 +46063,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -90.5,-5.5
       parent: 1
-  - uid: 5646
-    components:
-    - type: Transform
-      pos: -81.5,-5.5
-      parent: 1
-  - uid: 5647
-    components:
-    - type: Transform
-      pos: -68.5,-5.5
-      parent: 1
   - uid: 5648
     components:
     - type: Transform
@@ -46256,11 +46134,6 @@ entities:
     - type: Transform
       pos: -82.5,-4.5
       parent: 1
-  - uid: 5661
-    components:
-    - type: Transform
-      pos: -81.5,-4.5
-      parent: 1
   - uid: 5662
     components:
     - type: Transform
@@ -46285,11 +46158,6 @@ entities:
     components:
     - type: Transform
       pos: -76.5,-4.5
-      parent: 1
-  - uid: 5667
-    components:
-    - type: Transform
-      pos: -68.5,-4.5
       parent: 1
   - uid: 5668
     components:
@@ -46387,11 +46255,6 @@ entities:
     components:
     - type: Transform
       pos: -84.5,-3.5
-      parent: 1
-  - uid: 5686
-    components:
-    - type: Transform
-      pos: -68.5,-3.5
       parent: 1
   - uid: 5687
     components:
@@ -49115,6 +48978,12 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -107.5,1.5
+      parent: 1
+  - uid: 7113
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -81.5,-4.5
       parent: 1
 - proto: CMWallReinforcedAlmayerWhite
   entities:
@@ -53623,11 +53492,6 @@ entities:
     - type: Transform
       pos: -71.5,3.5
       parent: 1
-  - uid: 7085
-    components:
-    - type: Transform
-      pos: -68.5,3.5
-      parent: 1
   - uid: 7086
     components:
     - type: Transform
@@ -53682,11 +53546,6 @@ entities:
     components:
     - type: Transform
       pos: -76.5,4.5
-      parent: 1
-  - uid: 7097
-    components:
-    - type: Transform
-      pos: -68.5,4.5
       parent: 1
   - uid: 7098
     components:
@@ -53763,11 +53622,6 @@ entities:
     - type: Transform
       pos: -76.5,5.5
       parent: 1
-  - uid: 7113
-    components:
-    - type: Transform
-      pos: -68.5,5.5
-      parent: 1
   - uid: 7114
     components:
     - type: Transform
@@ -53842,11 +53696,6 @@ entities:
     components:
     - type: Transform
       pos: -139.5,6.5
-      parent: 1
-  - uid: 7129
-    components:
-    - type: Transform
-      pos: -68.5,6.5
       parent: 1
   - uid: 7130
     components:
@@ -53932,11 +53781,6 @@ entities:
     components:
     - type: Transform
       pos: -139.5,7.5
-      parent: 1
-  - uid: 7147
-    components:
-    - type: Transform
-      pos: -68.5,7.5
       parent: 1
   - uid: 7148
     components:
@@ -54063,16 +53907,6 @@ entities:
     - type: Transform
       pos: -138.5,8.5
       parent: 1
-  - uid: 7173
-    components:
-    - type: Transform
-      pos: -76.5,8.5
-      parent: 1
-  - uid: 7174
-    components:
-    - type: Transform
-      pos: -68.5,8.5
-      parent: 1
   - uid: 7175
     components:
     - type: Transform
@@ -54082,26 +53916,6 @@ entities:
     components:
     - type: Transform
       pos: -137.5,9.5
-      parent: 1
-  - uid: 7177
-    components:
-    - type: Transform
-      pos: -76.5,9.5
-      parent: 1
-  - uid: 7178
-    components:
-    - type: Transform
-      pos: -75.5,9.5
-      parent: 1
-  - uid: 7179
-    components:
-    - type: Transform
-      pos: -69.5,9.5
-      parent: 1
-  - uid: 7180
-    components:
-    - type: Transform
-      pos: -68.5,9.5
       parent: 1
   - uid: 7181
     components:
@@ -54117,41 +53931,6 @@ entities:
     components:
     - type: Transform
       pos: -136.5,10.5
-      parent: 1
-  - uid: 7184
-    components:
-    - type: Transform
-      pos: -75.5,10.5
-      parent: 1
-  - uid: 7185
-    components:
-    - type: Transform
-      pos: -74.5,10.5
-      parent: 1
-  - uid: 7186
-    components:
-    - type: Transform
-      pos: -73.5,10.5
-      parent: 1
-  - uid: 7187
-    components:
-    - type: Transform
-      pos: -72.5,10.5
-      parent: 1
-  - uid: 7188
-    components:
-    - type: Transform
-      pos: -71.5,10.5
-      parent: 1
-  - uid: 7189
-    components:
-    - type: Transform
-      pos: -70.5,10.5
-      parent: 1
-  - uid: 7190
-    components:
-    - type: Transform
-      pos: -69.5,10.5
       parent: 1
   - uid: 7191
     components:
@@ -57063,11 +56842,6 @@ entities:
     - type: Transform
       pos: 74.5,-2.5
       parent: 1
-  - uid: 7747
-    components:
-    - type: Transform
-      pos: -68.5,-1.5
-      parent: 1
   - uid: 7748
     components:
     - type: Transform
@@ -57103,11 +56877,6 @@ entities:
     - type: Transform
       pos: 71.5,-0.5
       parent: 1
-  - uid: 7755
-    components:
-    - type: Transform
-      pos: -76.5,0.5
-      parent: 1
   - uid: 7756
     components:
     - type: Transform
@@ -57132,11 +56901,6 @@ entities:
     components:
     - type: Transform
       pos: 71.5,1.5
-      parent: 1
-  - uid: 7761
-    components:
-    - type: Transform
-      pos: -68.5,2.5
       parent: 1
   - uid: 7762
     components:
@@ -58528,52 +58292,6 @@ entities:
     components:
     - type: Transform
       pos: -138.5,-4.5
-      parent: 1
-- proto: ColMarTechCommandingOfficerClothing
-  entities:
-  - uid: 4757
-    components:
-    - type: Transform
-      pos: -50.5,10.5
-      parent: 1
-  - uid: 4758
-    components:
-    - type: Transform
-      pos: -50.5,11.5
-      parent: 1
-  - uid: 8024
-    components:
-    - type: Transform
-      pos: -50.5,12.5
-      parent: 1
-  - uid: 8025
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.535515,14.99193
-      parent: 1
-    - type: Physics
-      bodyType: Dynamic
-  - uid: 8026
-    components:
-    - type: Transform
-      anchored: False
-      pos: -81.509834,14.99193
-      parent: 1
-    - type: Physics
-      bodyType: Dynamic
-  - uid: 8027
-    components:
-    - type: Transform
-      anchored: False
-      pos: -80.56182,14.99193
-      parent: 1
-    - type: Physics
-      bodyType: Dynamic
-  - uid: 8028
-    components:
-    - type: Transform
-      pos: -80.5,16.5
       parent: 1
 - proto: ColMarTechCommandingOfficerEquipment
   entities:
@@ -64005,6 +63723,50 @@ entities:
     - type: Transform
       pos: 9.461658,16.50513
       parent: 1
+- proto: RMCAutomatedPersonalUniformCloset
+  entities:
+  - uid: 7747
+    components:
+    - type: Transform
+      pos: -50.5,12.5
+      parent: 1
+  - uid: 7755
+    components:
+    - type: Transform
+      pos: -50.5,11.5
+      parent: 1
+  - uid: 7761
+    components:
+    - type: Transform
+      pos: -50.5,10.5
+      parent: 1
+  - uid: 7937
+    components:
+    - type: Transform
+      pos: -80.5,16.5
+      parent: 1
+  - uid: 7938
+    components:
+    - type: Transform
+      pos: -80.5,15
+      parent: 1
+    - type: Physics
+      bodyType: Dynamic
+  - uid: 7939
+    components:
+    - type: Transform
+      pos: -81.5,15
+      parent: 1
+    - type: Physics
+      bodyType: Dynamic
+  - uid: 8024
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,15
+      parent: 1
+    - type: Physics
+      bodyType: Dynamic
 - proto: RMCBarrelBlue
   entities:
   - uid: 8955
@@ -71230,7 +70992,7 @@ entities:
       pos: 0.5,-10.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -225753.58
+      secondsUntilStateChange: -226981.36
       state: Opening
   - uid: 10230
     components:
@@ -84483,8 +84245,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
       - DropshipCrewChief
       - Pilot
@@ -84589,8 +84351,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
       - DropshipCrewChief
       - Pilot
@@ -84695,8 +84457,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
       - DropshipCrewChief
       - Pilot
@@ -84800,8 +84562,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - MarineMain
       - FTL
+      - MarineMain
       - QuarterMaster
       - DropshipCrewChief
       - Pilot
@@ -88791,6 +88553,13 @@ entities:
     - type: Transform
       pos: -5.5,-21.5
       parent: 1
+- proto: RMCMagazineBootsN160
+  entities:
+  - uid: 14033
+    components:
+    - type: Transform
+      pos: -78.363266,15.199905
+      parent: 1
 - proto: RMCMarineCorpsCup
   entities:
   - uid: 9311
@@ -90857,22 +90626,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Inner blocking layer
-  - uid: 12991
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -68.5,-1.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Inner blocking layer
-  - uid: 12992
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -68.5,-0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Inner blocking layer
   - uid: 12993
     components:
     - type: Transform
@@ -90897,14 +90650,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 14.5,0.5
       parent: 1
-  - uid: 12997
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -68.5,1.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Inner blocking layer
   - uid: 12998
     components:
     - type: Transform
@@ -90917,14 +90662,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 14.5,1.5
       parent: 1
-  - uid: 13000
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -68.5,2.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Inner blocking layer
   - uid: 13001
     components:
     - type: Transform
@@ -91242,30 +90979,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Command Armory
-  - uid: 13041
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -76.5,-0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Central unit
-  - uid: 13042
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -76.5,0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Central unit
-  - uid: 13043
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -76.5,1.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Central unit
 - proto: RMCPodDoorAlmayerIndestructible
   entities:
   - uid: 13044
@@ -91304,30 +91017,6 @@ entities:
       tags:
       - Structure
       - RMCShuttleAirlockExternalSide
-  - uid: 13048
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 10.5,-0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
-  - uid: 13049
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 10.5,0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
-  - uid: 13050
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 10.5,1.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
   - uid: 13051
     components:
     - type: Transform
@@ -91366,6 +91055,14 @@ entities:
       - RMCShuttleAirlockExternalSide
 - proto: RMCPodDoorAlmayerOpen
   entities:
+  - uid: 329
+    components:
+    - type: MetaData
+      name: ARES Внешняя блокировка ядра
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 10.5,1.5
+      parent: 1
   - uid: 3372
     components:
     - type: Transform
@@ -91382,6 +91079,52 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: courtyard_cells
+  - uid: 8025
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,2.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Inner blocking layer
+  - uid: 8026
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,1.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Inner blocking layer
+  - uid: 8028
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-0.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Inner blocking layer
+  - uid: 9619
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -76.5,1.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Central unit
+  - uid: 9620
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -76.5,0.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Central unit
+  - uid: 10003
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -76.5,-0.5
+      parent: 1
   - uid: 13013
     components:
     - type: Transform
@@ -91390,6 +91133,14 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: perma_lockdown
+  - uid: 13049
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-1.5
+      parent: 1
+    - type: RMCPodDoor
+      id: Inner blocking layer
   - uid: 13055
     components:
     - type: Transform
@@ -91567,14 +91318,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: CIC Lockdown
-  - uid: 13088
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 14.5,-0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
   - uid: 13089
     components:
     - type: Transform
@@ -91583,14 +91326,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: CIC Lockdown
-  - uid: 13090
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 14.5,0.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
   - uid: 13091
     components:
     - type: Transform
@@ -91599,14 +91334,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: CIC Lockdown
-  - uid: 13092
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 14.5,1.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 3
   - uid: 13094
     components:
     - type: Transform
@@ -91919,6 +91646,22 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: courtyard_cells
+  - uid: 14031
+    components:
+    - type: MetaData
+      name: ARES Внешняя блокировка ядра
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 10.5,0.5
+      parent: 1
+  - uid: 14032
+    components:
+    - type: MetaData
+      name: ARES Внешняя блокировка ядра
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 10.5,-0.5
+      parent: 1
 - proto: RMCPodDoorAlmayerWhite
   entities:
   - uid: 13107
@@ -92022,13 +91765,6 @@ entities:
       id: lab3
 - proto: RMCPodDoorButton
   entities:
-  - uid: 2861
-    components:
-    - type: Transform
-      pos: 14.2,2.2
-      parent: 1
-    - type: Fixtures
-      fixtures: {}
   - uid: 13137
     components:
     - type: Transform
@@ -92121,6 +91857,8 @@ entities:
       fixtures: {}
   - uid: 13144
     components:
+    - type: MetaData
+      name: Блокирование основной зоны ЦИКа
     - type: Transform
       pos: -76.5,-1.5
       parent: 1
@@ -92128,6 +91866,12 @@ entities:
       id: Central unit
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      denyTags: []
   - uid: 13145
     components:
     - type: MetaData
@@ -92139,6 +91883,12 @@ entities:
       id: Hangar_Lockdown
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      denyTags: []
   - uid: 13146
     components:
     - type: MetaData
@@ -92150,6 +91900,12 @@ entities:
       id: Inner blocking layer
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      denyTags: []
   - uid: 13147
     components:
     - type: MetaData
@@ -92161,6 +91917,12 @@ entities:
       id: CIC Lockdown
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      denyTags: []
   - uid: 13148
     components:
     - type: MetaData
@@ -92172,39 +91934,13 @@ entities:
       id: Command Armory
     - type: Fixtures
       fixtures: {}
-  - uid: 13149
-    components:
-    - type: MetaData
-      name: ARES КПП2
-    - type: Transform
-      pos: 16.339855,-0.21112
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 2
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13150
-    components:
-    - type: MetaData
-      name: ARES КПП1
-    - type: Transform
-      pos: 16.078281,-0.21112
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 1
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13151
-    components:
-    - type: MetaData
-      name: ARES Окна КПП1
-    - type: Transform
-      pos: 16.603745,-0.21112
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 3
-    - type: Fixtures
-      fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      - - CMAccessArmory
+      denyTags: []
   - uid: 13152
     components:
     - type: Transform
@@ -92216,6 +91952,8 @@ entities:
       fixtures: {}
   - uid: 13153
     components:
+    - type: MetaData
+      name: Блокирование основной зоны ЦИКа
     - type: Transform
       pos: -76.5,2.5
       parent: 1
@@ -92223,33 +91961,12 @@ entities:
       id: Central unit
     - type: Fixtures
       fixtures: {}
-  - uid: 13154
-    components:
-    - type: Transform
-      pos: 15.8,2.8
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 4
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13155
-    components:
-    - type: Transform
-      pos: 15.8,2.2
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 4
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13156
-    components:
-    - type: Transform
-      pos: 14.2,3.2
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES Door 2
-    - type: Fixtures
-      fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      denyTags: []
   - uid: 13157
     components:
     - type: Transform
@@ -92259,6 +91976,12 @@ entities:
       id: Maintenance
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessCommand
+      denyTags: []
   - uid: 13158
     components:
     - type: Transform
@@ -92268,6 +91991,12 @@ entities:
       id: Maintenance
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessCommand
+      denyTags: []
   - uid: 13159
     components:
     - type: Transform
@@ -92277,6 +92006,12 @@ entities:
       id: Maintenance
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessCommand
+      denyTags: []
   - uid: 13160
     components:
     - type: Transform
@@ -92288,13 +92023,22 @@ entities:
       fixtures: {}
   - uid: 13161
     components:
+    - type: MetaData
+      desc: 'Кнопка дистанционного управления дверью. Снизу закреплена записка: "ВАЖНО: Также открывает ставни парадной формы на востоке мостика для общего пользования"'
+      name: Блокировка раздатчиков парадной формы
     - type: Transform
       pos: -79.45018,13.380104
       parent: 1
     - type: RMCDoorButton
-      id: Commander's Armory
+      id: bot_uniforms
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - CMAccessCO
+      denyTags: []
   - uid: 13162
     components:
     - type: Transform
@@ -92332,6 +92076,8 @@ entities:
       fixtures: {}
   - uid: 13166
     components:
+    - type: MetaData
+      name: Оружейная центра контроля
     - type: Transform
       pos: -71.5,-2.5
       parent: 1
@@ -92339,6 +92085,13 @@ entities:
       id: Command Armory
     - type: Fixtures
       fixtures: {}
+    - type: AccessReader
+      accessLog: []
+      accessKeys: []
+      access:
+      - - RMCAccessSeniorCommand
+      - - CMAccessArmory
+      denyTags: []
   - uid: 13167
     components:
     - type: Transform
@@ -92358,6 +92111,8 @@ entities:
       fixtures: {}
   - uid: 13169
     components:
+    - type: MetaData
+      name: ARES Внешняя блокировка ядра
     - type: Transform
       pos: -82.62202,21.3012
       parent: 1
@@ -92365,9 +92120,13 @@ entities:
       fixtures: {}
   - uid: 13170
     components:
+    - type: MetaData
+      name: Блокировка Брига
     - type: Transform
       pos: -82.95535,21.3012
       parent: 1
+    - type: RMCDoorButton
+      id: Brig_Lockdown_Shutters
     - type: Fixtures
       fixtures: {}
   - uid: 13171
@@ -93947,16 +93706,14 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -14.532869,-5.9415116
       parent: 1
-- proto: RMCSecurityRecordsConsole
+- proto: RMCSecurityRecordsConsoleAlt
   entities:
-  - uid: 13388
+  - uid: 13092
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 15.5,1.5
       parent: 1
-- proto: RMCSecurityRecordsConsoleAlt
-  entities:
   - uid: 13389
     components:
     - type: Transform
@@ -93994,16 +93751,22 @@ entities:
   entities:
   - uid: 13022
     components:
+    - type: MetaData
+      name: ARES Доступ к ядру 1
     - type: Transform
       pos: 11.5,2.5
       parent: 1
   - uid: 13023
     components:
+    - type: MetaData
+      name: ARES Доступ к ядру 1
     - type: Transform
       pos: 12.5,2.5
       parent: 1
   - uid: 13024
     components:
+    - type: MetaData
+      name: ARES Доступ к ядру 1
     - type: Transform
       pos: 13.5,2.5
       parent: 1
@@ -94079,6 +93842,8 @@ entities:
       id: bot_armory
   - uid: 13401
     components:
+    - type: MetaData
+      name: ARES Доступ к ядру 2
     - type: Transform
       pos: 16.5,2.5
       parent: 1
@@ -94247,21 +94012,8 @@ entities:
   - uid: 13428
     components:
     - type: Transform
+      anchored: False
       pos: -82.5,13.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
-  - uid: 13429
-    components:
-    - type: Transform
-      pos: -81.5,13.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
-  - uid: 13430
-    components:
-    - type: Transform
-      pos: -80.5,13.5
       parent: 1
     - type: RMCPodDoor
       id: Commander's Armory
@@ -94882,18 +94634,145 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -49.5,10.5
       parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 8027
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 10004
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13042
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -81.5,13.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 13043
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13048
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13090
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13149
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13150
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13151
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13155
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13388
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13429
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13430
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
   - uid: 13502
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: -49.5,12.5
       parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 13976
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13977
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13978
+    components:
+    - type: Transform
+      anchored: False
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+  - uid: 13979
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -80.5,13.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
+  - uid: 14030
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -82.5,13.5
+      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
   - uid: 23194
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -49.5,11.5
       parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
 - proto: RMCSigintTerminal
   entities:
   - uid: 13503
@@ -95829,6 +95708,13 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -44.473248,18.460926
+      parent: 1
+- proto: RMCSupplyOrderingConsole
+  entities:
+  - uid: 13156
+    components:
+    - type: Transform
+      pos: -69.5,6.5
       parent: 1
 - proto: RMCSurgicalTray
   entities:
@@ -97279,6 +97165,260 @@ entities:
     - type: Transform
       pos: -20.5,2.5
       parent: 1
+- proto: RMCWallReinforcedHeavyAlmayerHijackBustable
+  entities:
+  - uid: 2861
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,7.5
+      parent: 1
+  - uid: 4757
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,8.5
+      parent: 1
+  - uid: 4758
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,9.5
+      parent: 1
+  - uid: 5551
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -69.5,9.5
+      parent: 1
+  - uid: 5552
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -69.5,10.5
+      parent: 1
+  - uid: 5553
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -73.5,10.5
+      parent: 1
+  - uid: 5554
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -70.5,10.5
+      parent: 1
+  - uid: 5555
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-4.5
+      parent: 1
+  - uid: 5556
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-3.5
+      parent: 1
+  - uid: 5557
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,3.5
+      parent: 1
+  - uid: 5571
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,4.5
+      parent: 1
+  - uid: 5572
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,5.5
+      parent: 1
+  - uid: 5573
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,6.5
+      parent: 1
+  - uid: 5574
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -71.5,10.5
+      parent: 1
+  - uid: 5575
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -72.5,10.5
+      parent: 1
+  - uid: 5576
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-6.5
+      parent: 1
+  - uid: 5577
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-5.5
+      parent: 1
+  - uid: 5578
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -74.5,10.5
+      parent: 1
+  - uid: 5596
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-7.5
+      parent: 1
+  - uid: 5597
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -75.5,10.5
+      parent: 1
+  - uid: 5598
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -68.5,-8.5
+      parent: 1
+  - uid: 5613
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -75.5,9.5
+      parent: 1
+  - uid: 5614
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -69.5,-8.5
+      parent: 1
+  - uid: 5646
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -76.5,9.5
+      parent: 1
+  - uid: 5647
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -76.5,8.5
+      parent: 1
+  - uid: 5661
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -69.5,-9.5
+      parent: 1
+  - uid: 5667
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -70.5,-9.5
+      parent: 1
+  - uid: 5686
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -71.5,-9.5
+      parent: 1
+  - uid: 7085
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -72.5,-9.5
+      parent: 1
+  - uid: 7097
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -73.5,-9.5
+      parent: 1
+  - uid: 7129
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -74.5,-9.5
+      parent: 1
+  - uid: 7147
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -81.5,-5.5
+      parent: 1
+  - uid: 7173
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -81.5,-6.5
+      parent: 1
+  - uid: 7174
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -75.5,-8.5
+      parent: 1
+  - uid: 7177
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -75.5,-9.5
+      parent: 1
+  - uid: 7178
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -81.5,-7.5
+      parent: 1
+  - uid: 7179
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -80.5,-7.5
+      parent: 1
+  - uid: 7180
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -80.5,-8.5
+      parent: 1
+  - uid: 7184
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -79.5,-8.5
+      parent: 1
+  - uid: 7185
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -78.5,-8.5
+      parent: 1
+  - uid: 7186
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -77.5,-8.5
+      parent: 1
+  - uid: 7187
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -76.5,-8.5
+      parent: 1
 - proto: RMCWarshipControlConsole
   entities:
   - uid: 13889
@@ -97406,22 +97546,37 @@ entities:
     - type: Transform
       pos: -77.0205,24.632965
       parent: 1
-- proto: RMCWindowReinforcedAIHullBlack
+- proto: RMCWindowReinforcedAlmayerHullHijackBustable
   entities:
-  - uid: 7937
+  - uid: 69
+    components:
+    - type: Transform
+      pos: -76.5,0.5
+      parent: 1
+  - uid: 7188
+    components:
+    - type: Transform
+      pos: -68.5,-1.5
+      parent: 1
+  - uid: 7190
+    components:
+    - type: Transform
+      pos: -68.5,2.5
+      parent: 1
+  - uid: 12997
+    components:
+    - type: Transform
+      pos: 14.5,1.5
+      parent: 1
+  - uid: 13000
     components:
     - type: Transform
       pos: 14.5,0.5
       parent: 1
-  - uid: 7938
+  - uid: 13041
     components:
     - type: Transform
       pos: 14.5,-0.5
-      parent: 1
-  - uid: 7939
-    components:
-    - type: Transform
-      pos: 14.5,1.5
       parent: 1
 - proto: RMCWoodClock
   entities:
@@ -97470,6 +97625,13 @@ entities:
     - type: Transform
       pos: 4.5,-29.5
       parent: 1
+- proto: STAirlockSecureLockedHermesCore
+  entities:
+  - uid: 235
+    components:
+    - type: Transform
+      pos: 16.5,2.5
+      parent: 1
 - proto: STClothingNeckFlag
   entities:
   - uid: 13931
@@ -97490,6 +97652,14 @@ entities:
     components:
     - type: Transform
       pos: -80.35269,-6.27067
+      parent: 1
+- proto: STHermesLockdownShutter
+  entities:
+  - uid: 13154
+    components:
+    - type: Transform
+      anchored: False
+      pos: -82.5,13.5
       parent: 1
 - proto: STHunterTeleportDestinationAlmayer
   entities:
@@ -97554,6 +97724,46 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -53.5,-6.5
       parent: 1
+- proto: STPodDoorButtonHermesCore
+  entities:
+  - uid: 13050
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру 2
+    - type: Transform
+      pos: 15.8,2.2
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13088
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру 2
+    - type: Transform
+      pos: 15.8,2.8
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+- proto: STPodDoorButtonHermesCoreTemporary
+  entities:
+  - uid: 12991
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру 1
+    - type: Transform
+      pos: 14.2,2.2
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 12992
+    components:
+    - type: MetaData
+      name: ARES Доступ к ядру 1
+    - type: Transform
+      pos: 14.2,3.2
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
 - proto: STSheetSilver25
   entities:
   - uid: 13945
@@ -97861,13 +98071,6 @@ entities:
     components:
     - type: Transform
       pos: 21.5,-32.5
-      parent: 1
-- proto: VehicleSupplyConsole
-  entities:
-  - uid: 14090
-    components:
-    - type: Transform
-      pos: -69.5,6.5
       parent: 1
 - proto: WarpPoint
   entities:
