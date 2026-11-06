@@ -1,0 +1,62 @@
+- type: tile
+  parent: CMTileBase
+  abstract: true
+  id: STTileRoofSlopedBase
+  name: tiles-st-outer-hull-sloped
+  slopedRoof: true
+  weedsSpreadable: false
+  blockConstruction: true
+  blockAnchoring: true
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSloped
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedSouth
+  slopeDirection: South
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_0.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedNorth
+  slopeDirection: North
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_1.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedEast
+  slopeDirection: East
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_2.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedWest
+  slopeDirection: West
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_3.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedSouthEast
+  slopeDirection: SouthEast
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_4.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedSouthWest
+  slopeDirection: SouthWest
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_5.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedNorthEast
+  slopeDirection: NorthEast
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_6.png
+
+- type: tile
+  parent: STTileRoofSlopedBase
+  id: STFloorOuterHullSlopedNorthWest
+  slopeDirection: NorthWest
+  sprite: /Textures/_RMC14/Tiles/almayer/outerhull_dir_7.png

@@ -664,7 +664,7 @@ public abstract class SharedXenoWeedsSystem : EntitySystem
         if (Resolve(source, ref source.Comp, false))
         {
             source.Comp.Spread.Add(weeds);
-            Dirty(source);
+            // Dirty(source); // Stories-Optimization
         }
 
         return (weeds, weeds.Comp);

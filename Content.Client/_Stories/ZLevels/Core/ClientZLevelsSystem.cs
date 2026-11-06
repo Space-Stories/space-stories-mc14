@@ -1,5 +1,7 @@
 using System.Numerics;
 using Content.Client._Stories.ZLevels.Core.Overlays;
+using Robust.Client.Input;
+using Robust.Client.Placement;
 using Content.Shared._Stories.ZLevels.Core.Components;
 using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Camera;
@@ -8,6 +10,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Map;
 using Robust.Shared.Maths;
 
 namespace Content.Client._Stories.ZLevels.Core;
@@ -18,9 +21,12 @@ namespace Content.Client._Stories.ZLevels.Core;
 public sealed partial class ClientZLevelsSystem : SharedZLevelsSystem
 {
     [Dependency] private readonly IEyeManager _eye = default!;
+    [Dependency] private readonly IInputManager _input = default!;
     [Dependency] private readonly IOverlayManager _overlay = default!;
+    [Dependency] private readonly IPlacementManager _placement = default!;
     [Dependency] private readonly ClientZLevelsPreAnimSystem _preAnim = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     public override void Initialize()
     {
@@ -35,6 +41,20 @@ public sealed partial class ClientZLevelsSystem : SharedZLevelsSystem
     {
         base.OnShutdown(entity, ref args);
         _preAnim.UntrackEntity(entity.Owner);
+    }
+
+    public override void FrameUpdate(float frameTime)
+    {
+        base.FrameUpdate(frameTime);
+
+        if (_placement.IsActive && _placement.CurrentMode is { } mode)
+        {
+            var eyeMap = _eye.CurrentEye?.Position.MapId ?? MapId.Nullspace;
+            if (eyeMap != MapId.Nullspace && _transform.GetMapId(mode.MouseCoords) != eyeMap)
+            {
+                mode.AlignPlacementMode(_input.MouseScreenPosition);
+            }
+        }
     }
 
     private void OnZState(Entity<ZPhysicsComponent> ent, ref AfterAutoHandleStateEvent args)

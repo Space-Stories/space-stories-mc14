@@ -84,6 +84,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
     private EntityQuery<RMCApcComponent> _apcQuery;
     private EntityQuery<AppearanceComponent> _appearanceQuery;
+    private EntityQuery<AreaGridComponent> _areaGridQuery;
     private EntityQuery<RMCAreaPowerComponent> _areaPowerQuery;
     private EntityQuery<AreaComponent> _areaQuery;
     private EntityQuery<RMCPowerReceiverComponent> _powerReceiverQuery;
@@ -95,6 +96,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     {
         _apcQuery = GetEntityQuery<RMCApcComponent>();
         _appearanceQuery = GetEntityQuery<AppearanceComponent>();
+        _areaGridQuery = GetEntityQuery<AreaGridComponent>();
         _areaPowerQuery = GetEntityQuery<RMCAreaPowerComponent>();
         _areaQuery = GetEntityQuery<AreaComponent>();
         _powerReceiverQuery = GetEntityQuery<RMCPowerReceiverComponent>();
@@ -103,6 +105,10 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         _smesQuery = GetEntityQuery<RMCSmesComponent>();
 
         SubscribeLocalEvent<RMCApcComponent, ComponentStartup>(OnApcStartup);
+        // Stories-LightOffset-Start
+        SubscribeLocalEvent<RMCApcComponent, MoveEvent>(OnApcMove);
+        SubscribeLocalEvent<RMCApcConstructionFrameComponent, MoveEvent>(OnApcFrameMove);
+        // Stories-LightOffset-End
         SubscribeLocalEvent<RMCApcComponent, MapInitEvent>(OnApcMapInit);
         SubscribeLocalEvent<RMCApcComponent, EntParentChangedMessage>(OnApcUpdate);
         SubscribeLocalEvent<RMCApcComponent, AnchorStateChangedEvent>(OnApcUpdate);
@@ -2143,16 +2149,63 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     protected bool TryGetPowerArea(EntityUid ent, out Entity<RMCAreaPowerComponent> areaPower)
     {
         areaPower = default;
-        if (!_area.TryGetArea(ent, out var area, out _))
+        if (!_area.TryGetArea(ent, out var area, out var areaProto))
             return false;
 
-        var areaPowerComp = EnsureComp<RMCAreaPowerComponent>(area.Value);
-        areaPower = (area.Value, areaPowerComp);
+        var areaEnt = area.Value.Owner;
+
+        // Stories-ZLevels-Start
+        if (Transform(ent).MapUid is { } mapUid &&
+            _zLevels.TryGetMapNetwork(mapUid, out var zNet) &&
+            zNet.Comp != null &&
+            areaProto != null)
+        {
+            var found = false;
+            foreach (var otherMapUid in zNet.Comp.SortedZLevels)
+            {
+                if (_areaGridQuery.TryComp(otherMapUid, out var mapAreaGrid) &&
+                    _area.TryGetAreaEntity((otherMapUid, mapAreaGrid), areaProto.ID, out var existingAreaEnt))
+                {
+                    areaEnt = existingAreaEnt;
+                    found = true;
+                    break;
+                }
+
+                var children = Transform(otherMapUid).ChildEnumerator;
+                while (children.MoveNext(out var child))
+                {
+                    if (_areaGridQuery.TryComp(child, out var gridAreaGrid) &&
+                        _area.TryGetAreaEntity((child, gridAreaGrid), areaProto.ID, out existingAreaEnt))
+                    {
+                        areaEnt = existingAreaEnt;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                    break;
+            }
+        }
+        // Stories-ZLevels-End
+
+        var areaPowerComp = EnsureComp<RMCAreaPowerComponent>(areaEnt);
+        if (area.Value.Owner != areaEnt)
+        {
+            var localAreaComp = EnsureComp<RMCAreaPowerComponent>(area.Value.Owner);
+            localAreaComp.CanonicalArea = areaEnt;
+        }
+
+        areaPower = (areaEnt, areaPowerComp);
         return true;
     }
 
     public bool HasApcInArea(EntityUid areaUid)
     {
+        var targetArea = _areaPowerQuery.TryComp(areaUid, out var areaPower) && areaPower.CanonicalArea != null
+            ? areaPower.CanonicalArea.Value
+            : areaUid;
+
         var query = EntityQueryEnumerator<RMCApcComponent>();
         while (query.MoveNext(out var uid, out var apc))
         {
@@ -2161,7 +2214,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
             // Use the entity's current area instead of the delayed registry field. This both
             // closes the same-tick construction race and avoids a moved APC blocking its old area.
-            if (_area.TryGetArea(uid, out var area, out _) && area.Value.Owner == areaUid)
+            if (TryGetPowerArea(uid, out var powerArea) && powerArea.Owner == targetArea)
                 return true;
         }
 
@@ -2225,8 +2278,14 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
     public bool IsAreaPowered(Entity<RMCAreaPowerComponent?> area, RMCPowerChannel channel)
     {
+        if (area.Comp?.CanonicalArea is { } canonical && canonical != area.Owner)
+            return IsAreaPowered((canonical, null), channel);
+
         if (!_areaPowerQuery.Resolve(area, ref area.Comp, false))
             return false;
+
+        if (area.Comp.CanonicalArea is { } canonical2 && canonical2 != area.Owner)
+            return IsAreaPowered((canonical2, null), channel);
 
         if (_areaQuery.TryComp(area, out var areaComponent) && areaComponent.AlwaysPowered)
             return true;
@@ -2344,10 +2403,24 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         _recalculate = true;
     }
 
+    // Stories-LightOffset-Start
+    private void OnApcMove(Entity<RMCApcComponent> ent, ref MoveEvent args)
+    {
+        if (args.NewRotation != args.OldRotation)
+            OffsetApcVisual(ent);
+    }
+
+    private void OnApcFrameMove(Entity<RMCApcConstructionFrameComponent> ent, ref MoveEvent args)
+    {
+        if (args.NewRotation != args.OldRotation)
+            OffsetApcVisual(ent);
+    }
+    // Stories-LightOffset-End
+
     private void OffsetApcVisual(EntityUid uid)
     {
         var sprite = EnsureComp<SpriteSetRenderOrderComponent>(uid);
-        switch (Transform(uid).LocalRotation.GetDir())
+        switch (Transform(uid).LocalRotation.GetCardinalDir()) // Stories-LightOffset
         {
             case Direction.South:
                 _sprite.SetOffset(uid, new Vector2(0.45f, -0.32f));

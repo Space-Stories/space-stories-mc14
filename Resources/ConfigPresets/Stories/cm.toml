@@ -13,7 +13,7 @@ new_player_threshold = 600
 role_ban_default_severity = "minor"
 department_ban_default_severity = "minor"
 server_ban_default_severity = "medium"
-server_ban_hwid_ban_default = false
+alert.explosion_min_intensity = -1
 
 [ahelp]
 admin_prefix = true
@@ -67,6 +67,7 @@ tags = "lang:ru,rp:med,region:eu_e"
 
 [ic]
 flavor_text = true
+id_job_length = 50
 
 [infolinks]
 bug_report = "https://discord.gg/space-stories-cm"
@@ -77,13 +78,19 @@ wiki = "https://spacestories.club/Marine_Corps"
 appeal = "https://discord.gg/space-stories-cm"
 
 [net]
-tickrate = 25
+tickrate = 20
 bindto = "::,0.0.0.0"
+sendbuffersize = 4194304
+receivebuffersize = 4194304
+log_late_msg = false
+
+[npc]
+max_updates = 32
 
 [physics]
 grid_splitting = false
 maxlinvelocity = 72
-target_minimum_tickrate = 72
+target_minimum_tickrate = 50
 
 [pointing]
 cooldown_seconds = 1

@@ -3,7 +3,11 @@ using System.Linq;
 using System.Numerics;
 using Content.Shared._RMC14.Barricade;
 using Content.Shared._RMC14.Entrenching;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
+using Content.Shared._Stories.ZLevels.Ladder;
 using Content.Shared.Beam.Components;
+using Content.Shared.Climbing.Components;
 using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Doors.Components;
 using Content.Shared.Physics;
@@ -12,6 +16,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -20,14 +25,15 @@ namespace Content.Shared._RMC14.Line;
 
 public sealed class LineSystem : EntitySystem
 {
+    [Dependency] private readonly SharedDirectionalAttackBlockSystem _directionalBlock = default!;
     [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly SharedDirectionalAttackBlockSystem _directionalBlock = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private static readonly ProtoId<TagPrototype> StructureTag = "Structure";
     private static readonly ProtoId<TagPrototype> WallTag = "Wall";
@@ -45,35 +51,122 @@ public sealed class LineSystem : EntitySystem
         _mapGridQuery = GetEntityQuery<MapGridComponent>();
     }
 
-    public List<LineTile> DrawLine(EntityCoordinates start, EntityCoordinates end, TimeSpan delayPer, float? range, out EntityUid? blocker, bool hitBlocker = false, bool thick = false, bool ignoreBarricades = false)
+    public List<LineTile> DrawLine(EntityCoordinates start, EntityCoordinates end, TimeSpan delayPer, float? range, out EntityUid? blocker, bool hitBlocker = false, bool thick = false, bool ignoreBarricades = false, EntityUid? user = null)
     {
         blocker = null;
         start = _mapSystem.AlignToGrid(start);
         end = _mapSystem.AlignToGrid(end);
         var tiles = new List<LineTile>();
-        if (!start.TryDistance(EntityManager, _transform, end, out var distance))
+
+        var startMapCoords = _transform.ToMapCoordinates(start);
+        var endMapCoords = _transform.ToMapCoordinates(end);
+
+        if (startMapCoords.MapId != endMapCoords.MapId && !_zLevels.AreInSameNetwork(startMapCoords.MapId, endMapCoords.MapId))
+            return tiles;
+
+        var diff = endMapCoords.Position - startMapCoords.Position;
+        var distance = diff.Length();
+        if (distance < 0.001f)
             return tiles;
 
         if (range != null)
             distance = Math.Min(range.Value, distance);
 
-        var distanceX = end.X - start.X;
-        var distanceY = end.Y - start.Y;
-        var x = start.X;
-        var y = start.Y;
-        var xOffset = distanceX / distance;
-        var yOffset = distanceY / distance;
+        var dir = diff / distance;
         var time = _timing.CurTime;
-        var gridId = _transform.GetGrid(start.EntityId);
-        var gridComp = gridId == null ? null : _mapGridQuery.CompOrNull(gridId.Value);
-        Entity<MapGridComponent>? grid = gridComp == null ? null : new Entity<MapGridComponent>(gridId!.Value, gridComp);
+        var startGridId = _transform.GetGrid(start.EntityId);
+        var endGridId = _transform.GetGrid(end.EntityId);
+        var isCrossMap = startMapCoords.MapId != endMapCoords.MapId;
+
+        var aimUp = user != null &&
+                    ((TryComp<ZLevelViewerComponent>(user, out var viewer) && viewer.LookUp) ||
+                     (TryComp<ZPhysicsComponent>(user, out var uZ) && uZ.LocalPosition > 0.2f));
+
         var lastCoords = start;
+        var hasTransitioned = false;
+        var activeMapId = startMapCoords.MapId;
 
         for (var i = 0; i < distance; i++)
         {
-            x += xOffset;
-            y += yOffset;
-            var center = new EntityCoordinates(start.EntityId, x, y).SnapToGrid(EntityManager, _mapManager);
+            var worldPos = startMapCoords.Position + dir * (i + 1);
+
+            var currentMapId = activeMapId;
+            if (isCrossMap)
+            {
+                if (hasTransitioned)
+                {
+                    currentMapId = endMapCoords.MapId;
+                }
+                else
+                {
+                    var startMapUid = _mapManager.GetMapEntityId(startMapCoords.MapId);
+                    var endMapUid = _mapManager.GetMapEntityId(endMapCoords.MapId);
+                    if (_zLevels.TryGetZLevelOffset(startMapUid, endMapUid, out var zOff))
+                    {
+                        if (zOff < 0 && _zLevels.IsTileTransparentOrEmpty(startMapUid, worldPos))
+                        {
+                            hasTransitioned = true;
+                            currentMapId = endMapCoords.MapId;
+                            activeMapId = currentMapId;
+                        }
+                        else if (zOff > 0 && !_zLevels.HasOpaqueAbove(worldPos, startMapUid))
+                        {
+                            hasTransitioned = true;
+                            currentMapId = endMapCoords.MapId;
+                            activeMapId = currentMapId;
+                        }
+                    }
+                }
+            }
+            else if (aimUp)
+            {
+                if (hasTransitioned)
+                {
+                    currentMapId = activeMapId;
+                }
+                else
+                {
+                    var startMapUid = _mapManager.GetMapEntityId(startMapCoords.MapId);
+                    if (!_zLevels.HasOpaqueAbove(worldPos, startMapUid) && _zLevels.TryMapUp(startMapUid, out var mapAbove))
+                    {
+                        hasTransitioned = true;
+                        currentMapId = _transform.GetMapId(mapAbove.Owner);
+                        activeMapId = currentMapId;
+                    }
+                }
+            }
+            else
+            {
+                if (hasTransitioned)
+                {
+                    currentMapId = activeMapId;
+                }
+                else
+                {
+                    var startMapUid = _mapManager.GetMapEntityId(startMapCoords.MapId);
+                    if (_zLevels.IsTileTransparentOrEmpty(startMapUid, worldPos))
+                    {
+                        if (_zLevels.TryMapDown(startMapUid, out var mapBelow))
+                        {
+                            hasTransitioned = true;
+                            currentMapId = _transform.GetMapId(mapBelow.Owner);
+                            activeMapId = currentMapId;
+                        }
+                    }
+                }
+            }
+
+            EntityUid? currentGridUid = null;
+            if (_mapManager.TryFindGridAt(currentMapId, worldPos, out var foundGridUid, out _))
+            {
+                currentGridUid = foundGridUid;
+            }
+            else
+            {
+                currentGridUid = _mapManager.GetMapEntityId(currentMapId);
+            }
+
+            var center = _transform.ToCoordinates(currentGridUid.Value, new MapCoordinates(worldPos, currentMapId)).SnapToGrid(EntityManager, _mapManager);
             if (center == lastCoords)
                 continue;
 
@@ -88,7 +181,7 @@ public sealed class LineSystem : EntitySystem
                         if (xo == 0 && yo == 0)
                             continue;
 
-                        var point = new EntityCoordinates(start.EntityId, x + xo, y + yo).SnapToGrid(EntityManager, _mapManager);
+                        var point = _transform.ToCoordinates(currentGridUid ?? _mapManager.GetMapEntityId(currentMapId), new MapCoordinates(worldPos + new Vector2(xo, yo), currentMapId)).SnapToGrid(EntityManager, _mapManager);
                         coords.Add(point);
                     }
                 }
@@ -98,7 +191,11 @@ public sealed class LineSystem : EntitySystem
             for (var j = 0; j < coords.Count; j++)
             {
                 var entityCoords = coords[j];
-                var blocked = IsTileBlocked(grid, lastCoords, entityCoords, hitBlocker, out blocker, out var hitBlockerOverride, ignoreBarricades);
+                var targetGrid = _transform.GetGrid(entityCoords.EntityId);
+                var targetGridComp = targetGrid == null ? null : _mapGridQuery.CompOrNull(targetGrid.Value);
+                Entity<MapGridComponent>? checkGrid = targetGridComp == null ? null : new Entity<MapGridComponent>(targetGrid!.Value, targetGridComp);
+
+                var blocked = IsTileBlocked(checkGrid, lastCoords, entityCoords, hitBlocker, out blocker, out var hitBlockerOverride, ignoreBarricades);
                 hitBlocker = hitBlockerOverride;
 
                 if (j == 0 && blocked && !hitBlocker)
@@ -120,7 +217,7 @@ public sealed class LineSystem : EntitySystem
                 }
                 if (!isDuplicate)
                 {
-                    var delay = Vector2.Distance(entityCoords.Position, start.Position) - 1;
+                    var delay = Vector2.Distance(mapCoords.Position, startMapCoords.Position) - 1;
                     tiles.Add(new LineTile(mapCoords, time + delayPer * delay));
                 }
 
@@ -148,11 +245,15 @@ public sealed class LineSystem : EntitySystem
             return false;
 
         // Check if the next tile is blocked by more than one wall/structure to prevent the line from passing through diagonally.
-        var direction = coords.Position - previousCoords.Position;
-        if (direction != Vector2.Zero)
+        var prevWorld = _transform.ToMapCoordinates(previousCoords).Position;
+        var nextWorld = _transform.ToMapCoordinates(coords).Position;
+        var prevMap = Transform(previousCoords.EntityId).MapID;
+        var nextMap = Transform(coords.EntityId).MapID;
+        var direction = nextWorld - prevWorld;
+        if (direction != Vector2.Zero && prevMap == nextMap)
         {
-            var ray = new CollisionRay(previousCoords.Position, direction.Normalized(), (int)CollisionGroup.FullTileMask);
-            var intersect = _physics.IntersectRayWithPredicate(Transform(previousCoords.EntityId).MapID, ray, direction.Length(), e => !Transform(e).Anchored, false);
+            var ray = new CollisionRay(prevWorld, direction.Normalized(), (int)CollisionGroup.FullTileMask);
+            var intersect = _physics.IntersectRayWithPredicate(nextMap, ray, direction.Length(), e => !Transform(e).Anchored, false);
             var results = intersect.Select(r => r.HitEntity).ToHashSet();
             var blockCount = 0;
             foreach (var entity in results)
@@ -202,10 +303,38 @@ public sealed class LineSystem : EntitySystem
                 blocker = uid.Value;
                 return true;
             }
-            else if (_tag.HasAnyTag(uid.Value, StructureTag, WallTag))
+            else if (_tag.HasAnyTag(uid.Value, WallTag))
+            {
+                blocker = uid.Value;
+                return true;
+            }
+            else if (_tag.HasTag(uid.Value, StructureTag))
             {
                 if (ignoreBarricades && _tag.HasTag(uid.Value, WindowFrameTag))
                     continue;
+
+                if (HasComp<ZLevelHighGroundComponent>(uid) ||
+                    HasComp<ZLevelLadderComponent>(uid) ||
+                    HasComp<ClimbableComponent>(uid) ||
+                    !HasComp<PhysicsComponent>(uid))
+                {
+                    continue;
+                }
+
+                if (TryComp<FixturesComponent>(uid, out var fixtures))
+                {
+                    var blocks = false;
+                    foreach (var fixture in fixtures.Fixtures.Values)
+                    {
+                        if (fixture.Hard && (fixture.CollisionLayer & (int)(CollisionGroup.Impassable | CollisionGroup.HighImpassable)) != 0)
+                        {
+                            blocks = true;
+                            break;
+                        }
+                    }
+                    if (!blocks)
+                        continue;
+                }
 
                 blocker = uid.Value;
                 return true;
