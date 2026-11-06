@@ -1,0 +1,9 @@
+ent-RMCBlackMarketMortarShellTrap = { ent-RMCMortarShellFrag }
+    .desc = { ent-RMCMortarShellFrag.desc }
+    .suffix = Ловушка чёрного рынка
+ent-RMCBlackMarketType19Drum = { ent-RMCWeaponSMGType19 }
+    .desc = { ent-RMCWeaponSMGType19.desc }
+    .suffix = Барабанный магазин
+ent-RMCBlackMarketMAC15Extended = { ent-WeaponSMGMAC15 }
+    .desc = { ent-WeaponSMGMAC15.desc }
+    .suffix = Увеличенный магазин

@@ -470,7 +470,7 @@
     - id: ClothingBeltChampion
     - id: RMCClothingMaskLuchador
     - id: CMSoapDeluxe
-    # TODO RMC14: port K92 Maintenance Jack and add RMCMaintenanceJack here.
+    - id: STMaintenanceJack
     - id: CMGrenadeSmoke
     - id: FoodCornTrash
     - id: RMCRolledPoster
@@ -481,15 +481,14 @@
     - id: FoodAmbrosiaVulgaris
     - id: RMCTieHorrible
     - id: CMBeltInflatable
-    # TODO RMC14: uncomment pamphlets once their black-market functionality is implemented.
-    # - id: CMPamphletPowerloader
-    # - id: CMPamphletLanguageRussian
-    # - id: CMPamphletLanguageJapanese
-    # - id: CMPamphletLanguageChinese
-    # - id: CMPamphletLanguageGerman
-    # - id: CMPamphletLanguageSpanish
-    # - id: CMPamphletLanguageScandinavian
-    # - id: CMPamphletLanguageFrench
+    - id: CMPamphletPowerloader
+    - id: CMPamphletLanguageRussian
+    - id: CMPamphletLanguageJapanese
+    - id: CMPamphletLanguageChinese
+    - id: CMPamphletLanguageGerman
+    - id: CMPamphletLanguageSpanish
+    - id: CMPamphletLanguageScandinavian
+    - id: CMPamphletLanguageFrench
 
 - type: entity
   parent: RMCCrateWoodenBuildable
@@ -875,7 +874,7 @@
   parent: RMCCrateWoodenBuildable
   id: RMCCrateBlackMarketAmmoType64
   name: Type 64 magazine box crate
-  description: Contains one Type 64 magazine box with 10 magazines.
+  description: Contains one Type 64 magazine box with 12 magazines.
   components:
   - type: StorageFill
     contents:
@@ -1278,3 +1277,23 @@
   - type: StorageFill
     contents:
     - id: RMCPottedPlantRandomUnanchored
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketPDT
+  name: PDT/L kit crate
+  description: Contains a PDT/L Battle Buddy kit with a paired locator, bracelet, and spare battery.
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMSparePDTLBattleBuddyKit
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketUrbanBoots
+  name: urban pattern combat boots crate
+  description: Contains one pair of urban pattern combat boots.
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMBootsUrban
