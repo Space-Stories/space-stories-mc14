@@ -16,10 +16,11 @@
     components:
     - type: RMCSurvivor
     - type: MotionDetectorTracked
-    - type: IntelRescueSurvivorObjective
+    # - type: IntelRescueSurvivorObjective # Stories-Survivor
     - type: RMCAllowSuitStorage
     - type: Skills
       preset: RMCSkillPresetSurvivorResearcher
+    - type: IntelRescueSurvivorObjective # Stories-Survivor
     - type: NpcFactionMember
       factions:
       - UNMC
