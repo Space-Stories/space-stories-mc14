@@ -535,8 +535,13 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
                     _physics.SetAwake(pulled, pullPhysics, true);
                 }
 
-                _pulling.TryStartPull(user, pulled);
                 RemCompDeferred<ZLevelTransitioningComponent>(pulled);
+
+                if (Transform(user).MapID != MapId.Nullspace &&
+                    Transform(user).MapID == Transform(pulled).MapID)
+                {
+                    _pulling.TryStartPull(user, pulled);
+                }
             }
 
             if (carriedEnt != null || pulledEnt != null)
@@ -690,6 +695,16 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
             offset = HasLadderAtDestination(ent.Owner, 1) ? 1 : -1;
 
         var hasPairedLadder = TryGetDestinationLadder(ent.Owner, offset, out var destLadder);
+
+        if (TryComp<PullableComponent>(dragged, out var draggedPullable) && draggedPullable.BeingPulled)
+        {
+            _pulling.TryStopPull(dragged, draggedPullable);
+        }
+
+        if (TryComp<PullerComponent>(dragged, out var draggedPuller) && draggedPuller.Pulling is { } p && TryComp<PullableComponent>(p, out var pComp))
+        {
+            _pulling.TryStopPull(p, pComp);
+        }
 
         EnsureComp<ZLevelTransitioningComponent>(dragged);
 
