@@ -8,7 +8,7 @@
     - /Maps/_Stories/solaris1.yml
     - /Maps/_Stories/solaris2.yml
     camouflage: Desert
-    InRotation: false
+    inRotation: false
     announcements:
     - text: rmc-announcement-planet-solaris
     specialFaxes:
