@@ -719,7 +719,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         }
 
         _adminLog.Add(LogType.RMCMarineAnnounce, $"{ToPrettyString(args.Actor)} sent {squadProto.Name} squad message: {message}");
-        _core.CreateARESLog(ent, LogCat, (string)$"{Name(args.Actor)} sent a squad announcement: {message}");
+        _core.CreateARESLog(ent, LogCat, Loc.GetString("rmc-ares-log-squad-announcement", ("user", Name(args.Actor)), ("message", message)));
         if (TryComp(squad.Owner, out SquadTeamComponent? squadComp))
         {
             _marineAnnounce.AnnounceOverwatchSquad(args.Actor, message, squad.Owner);

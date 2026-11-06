@@ -192,3 +192,9 @@ rmc-dropship-launch-bay-screen-text-loaded = Внутренняя пускова
     Боеприпасы: { $current } / { $max }
 
 rmc-dropship-launch-alarm-xeno-shutdown = Мы рубим { $console }, заглушая его визг!
+
+rmc-dropship-hijack-title = Dropship Hijack
+rmc-dropship-hijack-header = [bold]Where to 'land'?[/bold]
+rmc-dropship-weapons-medevac = Medevac
+rmc-dropship-weapons-fulton = Fulton
+rmc-dropship-weapons-spotlight = Spotlight

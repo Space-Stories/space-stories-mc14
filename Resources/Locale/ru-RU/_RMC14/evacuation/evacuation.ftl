@@ -26,3 +26,17 @@ rmc-evacuation-xeno-progress-75 = Высокие прошли три четве�
 rmc-evacuation-xeno-progress-50 = Высокие прошли половину пути к своим целям.
 rmc-evacuation-xeno-progress-25 = Высокие прошли четверть пути к своим целям.
 rmc-evacuation-xeno-progress-disable = { $message } Отключите следующие зоны: { $areas }
+
+rmc-evacuation-computer-title = Escape Pod Controller
+rmc-evacuation-computer-information = [bold]Information display[/bold]
+rmc-evacuation-computer-controls = [bold]Pod controls[/bold]
+rmc-evacuation-computer-status-no-evacuation = Escape Pod Status: NO EVACUATION
+rmc-evacuation-computer-status-delayed = Escape Pod Status: DELAYED
+rmc-evacuation-computer-status-standing-by = Escape Pod Status: STANDING BY
+rmc-evacuation-computer-status-travelling = Escape Pod Status: TRAVELLING
+rmc-evacuation-computer-status-crashed = Escape Pod Status: CRASHED
+rmc-evacuation-computer-hatch-secured = Docking Hatch: SECURED
+rmc-evacuation-computer-hatch-unsecured = Docking Hatch: UNSECURED
+rmc-evacuation-computer-unlock-door = Unlock door
+rmc-evacuation-computer-manual-eject = Manual eject
+rmc-evacuation-computer-delay-launch = Delay launch

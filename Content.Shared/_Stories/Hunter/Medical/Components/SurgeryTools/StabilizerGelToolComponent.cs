@@ -6,5 +6,5 @@ namespace Content.Shared._Stories.Hunter.Medical.Components.SurgeryTools;
 [RegisterComponent] [NetworkedComponent]
 public sealed partial class StabilizerGelToolComponent : Component, ICMSurgeryToolComponent
 {
-    public string ToolName => "stabilizer gel";
+    public LocId ToolName => "stabilizer gel";
 }

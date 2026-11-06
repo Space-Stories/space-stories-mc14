@@ -192,3 +192,12 @@ rmc-dropship-launch-bay-screen-text-loaded = LAG-14 Internal Sentry Launcher
     Ammo: {$current} / {$max}
 
 rmc-dropship-launch-alarm-xeno-shutdown = We slash at {$console}, silencing its squawking!
+
+### Dropship terminal and hijack
+rmc-dropship-hijack-title = Dropship Hijack
+rmc-dropship-hijack-header = [bold]Where to 'land'?[/bold]
+
+### Weapons console equipment
+rmc-dropship-weapons-medevac = Medevac
+rmc-dropship-weapons-fulton = Fulton
+rmc-dropship-weapons-spotlight = Spotlight
