@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/01/2026 18:33:07
+  time: 11/06/2026 15:09:47
   entityCount: 14937
 maps:
 - 1
@@ -33376,13 +33376,6 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -6.5,5.5
-      parent: 1
-- proto: CMAirlockSecure
-  entities:
-  - uid: 184
-    components:
-    - type: Transform
-      pos: 22.5,20.5
       parent: 1
 - proto: CMApcAlmayer
   entities:
@@ -84416,15 +84409,6 @@ entities:
       parent: 1
     - type: DeviceLinkSource
       linkedPorts:
-        13102:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13101:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13100:
-        - - STHermesSecurity
-          - STHermesSecurity
         13099:
         - - STHermesSecurity
           - STHermesSecurity
@@ -84441,18 +84425,6 @@ entities:
         - - STHermesSecurity
           - STHermesSecurity
         13666:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13665:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13662:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13661:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13660:
         - - STHermesSecurity
           - STHermesSecurity
         13659:
@@ -84524,13 +84496,16 @@ entities:
         13722:
         - - STHermesSecurity
           - STHermesSecurity
-        13109:
+        13731:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13733:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13732:
         - - STHermesSecurity
           - STHermesSecurity
         13110:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13111:
         - - STHermesSecurity
           - STHermesSecurity
         13112:
@@ -84539,16 +84514,13 @@ entities:
         13113:
         - - STHermesSecurity
           - STHermesSecurity
-        13114:
+        13259:
         - - STHermesSecurity
           - STHermesSecurity
-        13115:
+        13661:
         - - STHermesSecurity
           - STHermesSecurity
-        13116:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13117:
+        13662:
         - - STHermesSecurity
           - STHermesSecurity
         11761:
@@ -84558,12 +84530,6 @@ entities:
         - - STHermesSecurity
           - STHermesSecurity
         13261:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13670:
-        - - STHermesSecurity
-          - STHermesSecurity
-        13671:
         - - STHermesSecurity
           - STHermesSecurity
         9422:
@@ -84576,6 +84542,27 @@ entities:
         - - STHermesSecurity
           - STHermesSecurity
         13750:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13116:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13117:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13258:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13111:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13115:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13114:
+        - - STHermesSecurity
+          - STHermesSecurity
+        13109:
         - - STHermesSecurity
           - STHermesSecurity
 - proto: RMCAICoreCPU
@@ -109866,137 +109853,6 @@ entities:
     - type: Transform
       pos: 73.5,-2.5
       parent: 1
-- proto: RMCPodDoorAILockdown
-  entities:
-  - uid: 13109
-    components:
-    - type: Transform
-      pos: 11.5,10.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13110
-    components:
-    - type: Transform
-      pos: 12.5,10.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13111
-    components:
-    - type: Transform
-      pos: 13.5,10.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13112
-    components:
-    - type: Transform
-      pos: 11.5,17.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13113
-    components:
-    - type: Transform
-      pos: 12.5,17.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13114
-    components:
-    - type: Transform
-      pos: 13.5,17.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13115
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 8.5,22.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13116
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 8.5,21.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
-  - uid: 13117
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 8.5,20.5
-      parent: 1
-    - type: Door
-      secondsUntilStateChange: 0.4
-      state: Opening
-    - type: RMCPowerReceiver
-      mode: Active
-    - type: HermesLockdownDoor
-    - type: DeviceLinkSink
-      ports:
-      - STHermesSecurity
 - proto: RMCPodDoorAlmayerBlack
   entities:
   - uid: 13118
@@ -110375,168 +110231,6 @@ entities:
       parent: 1
     - type: RMCDoorButton
       id: Lab1
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13169
-    components:
-    - type: Transform
-      pos: 19.800861,13.786504
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES3
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13170
-    components:
-    - type: Transform
-      pos: 19.207111,15.270879
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES3
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13171
-    components:
-    - type: Transform
-      pos: 15.691575,10.880792
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES4
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13172
-    components:
-    - type: Transform
-      pos: 18.281853,10.339125
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES4
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13173
-    components:
-    - type: Transform
-      pos: 14.802967,11.795237
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES5
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13174
-    components:
-    - type: Transform
-      pos: 14.191855,13.281348
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES5
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13175
-    components:
-    - type: Transform
-      pos: 10.843277,13.281348
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES7
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13176
-    components:
-    - type: Transform
-      pos: 10.232166,11.739681
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES7
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13177
-    components:
-    - type: Transform
-      pos: 9.227737,10.882923
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES8
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13178
-    components:
-    - type: Transform
-      pos: 6.783293,10.202367
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES8
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13179
-    components:
-    - type: Transform
-      pos: 10.783897,9.872505
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES6
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13180
-    components:
-    - type: Transform
-      pos: 14.24223,9.914172
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES6
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13181
-    components:
-    - type: Transform
-      pos: 14.228342,11.19195
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES6
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13182
-    components:
-    - type: Transform
-      pos: 10.776953,11.226672
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES6
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13183
-    components:
-    - type: Transform
-      pos: 10.802995,16.892818
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES1
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13184
-    components:
-    - type: Transform
-      pos: 14.22487,16.939693
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES1
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13185
-    components:
-    - type: Transform
-      pos: 10.459245,18.861568
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES1
-    - type: Fixtures
-      fixtures: {}
-  - uid: 13186
-    components:
-    - type: Transform
-      pos: 14.56862,18.908443
-      parent: 1
-    - type: RMCDoorButton
-      id: ARES1
     - type: Fixtures
       fixtures: {}
   - uid: 13187
@@ -110994,6 +110688,89 @@ entities:
       parent: 1
 - proto: RMCShutterAlmayer
   entities:
+  - uid: 13100
+    components:
+    - type: MetaData
+      name: ARES Лестница приемной
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 17.5,10.5
+      parent: 1
+  - uid: 13172
+    components:
+    - type: MetaData
+      name: ARES Пункт обслуживания Рабочих Джо
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 19.5,14.5
+      parent: 1
+  - uid: 13174
+    components:
+    - type: MetaData
+      name: ARES Лестница приемной
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 16.5,10.5
+      parent: 1
+  - uid: 13176
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 13.5,17.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Chamber
+  - uid: 13177
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 11.5,17.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Chamber
+  - uid: 13178
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 12.5,17.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Chamber
+  - uid: 13183
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 13.5,10.5
+      parent: 1
+  - uid: 13184
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 7.5,10.5
+      parent: 1
+  - uid: 13185
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 8.5,10.5
+      parent: 1
+  - uid: 13186
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 1
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 10.5,12.5
+      parent: 1
   - uid: 13254
     components:
     - type: Transform
@@ -111017,28 +110794,12 @@ entities:
       id: Lab3
   - uid: 13257
     components:
+    - type: MetaData
+      name: ARES Вход в ядро
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 14.5,12.5
+      rot: 3.141592653589793 rad
+      pos: 12.5,10.5
       parent: 1
-    - type: RMCPodDoor
-      id: ARES5
-  - uid: 13258
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 10.5,12.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES7
-  - uid: 13259
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 19.5,14.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES3
   - uid: 13262
     components:
     - type: Transform
@@ -111103,6 +110864,22 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Brig20
+  - uid: 13660
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 11.5,10.5
+      parent: 1
+  - uid: 13665
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 2
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 14.5,12.5
+      parent: 1
 - proto: RMCShutterAlmayerOpen
   entities:
   - uid: 13270
@@ -112515,6 +112292,13 @@ entities:
     - type: Transform
       pos: 8.5,20.5
       parent: 1
+- proto: STAirlockSecureLockedHermesCore
+  entities:
+  - uid: 184
+    components:
+    - type: Transform
+      pos: 22.5,20.5
+      parent: 1
 - proto: STDeployerSentryARES
   entities:
   - uid: 11761
@@ -112531,16 +112315,6 @@ entities:
     components:
     - type: Transform
       pos: 10.5,21.5
-      parent: 1
-  - uid: 13670
-    components:
-    - type: Transform
-      pos: 8.5,12.5
-      parent: 1
-  - uid: 13671
-    components:
-    - type: Transform
-      pos: 16.5,12.5
       parent: 1
   - uid: 13749
     components:
@@ -112581,36 +112355,21 @@ entities:
       parent: 1
     - type: HermesSensor
       exitDirection: West
-  - uid: 13100
+  - uid: 13116
     components:
-    - type: MetaData
-      name: 'ГЕРМЕС: южный выход'
     - type: Transform
-      pos: 13.5,11.5
+      pos: 11.5,5.5
       parent: 1
-  - uid: 13101
+  - uid: 13117
     components:
-    - type: MetaData
-      name: 'ГЕРМЕС: южный выход'
     - type: Transform
-      pos: 12.5,11.5
+      pos: 12.5,5.5
       parent: 1
-  - uid: 13102
+  - uid: 13258
     components:
-    - type: MetaData
-      name: 'ГЕРМЕС: южный выход'
     - type: Transform
-      pos: 11.5,11.5
+      pos: 13.5,5.5
       parent: 1
-  - uid: 13665
-    components:
-    - type: MetaData
-      name: 'ГЕРМЕС: выход синтетиков'
-    - type: Transform
-      pos: 22.5,19.5
-      parent: 1
-    - type: HermesSensor
-      exitDirection: North
   - uid: 13666
     components:
     - type: MetaData
@@ -112634,117 +112393,275 @@ entities:
       parent: 1
     - type: HermesSensor
       exitDirection: East
-- proto: STHermesCoreDoor
+- proto: STHermesLockdownShutter
   entities:
-  - uid: 13723
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 22.5,20.5
-      parent: 1
-  - uid: 13724
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 13.5,17.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES1
-  - uid: 13725
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 12.5,17.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES1
-  - uid: 13726
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: 11.5,17.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES1
-  - uid: 13727
-    components:
-    - type: Transform
-      pos: 11.5,10.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES6
-  - uid: 13728
-    components:
-    - type: Transform
-      pos: 8.5,10.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES8
-  - uid: 13729
-    components:
-    - type: Transform
-      pos: 13.5,10.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES6
-  - uid: 13730
-    components:
-    - type: Transform
-      pos: 12.5,10.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES6
-  - uid: 13731
-    components:
-    - type: Transform
-      pos: 7.5,10.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES8
-  - uid: 13732
+  - uid: 13109
     components:
     - type: Transform
       pos: 17.5,10.5
       parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES4
-  - uid: 13733
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -212.09706
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13110
+    components:
+    - type: Transform
+      pos: 11.5,10.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -230.59703
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13111
+    components:
+    - type: Transform
+      pos: 12.5,10.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -226.39703
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13112
+    components:
+    - type: Transform
+      pos: 8.5,10.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -239.53036
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13113
+    components:
+    - type: Transform
+      pos: 7.5,10.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -235.33037
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13114
     components:
     - type: Transform
       pos: 16.5,10.5
       parent: 1
-    - type: AccessReader
-      access:
-      - - STAccessHermes
-      - - STAccessHermesTechnician
-      - - CMAccessCO
-      - - CMAccessCE
-      - - RMCAccessSynth
-    - type: RMCPodDoor
-      id: ARES4
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -217.09705
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13115
+    components:
+    - type: Transform
+      pos: 13.5,10.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -221.99704
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13259
+    components:
+    - type: Transform
+      pos: 11.5,17.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -250.63036
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13661
+    components:
+    - type: Transform
+      pos: 13.5,17.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -244.26369
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13662
+    components:
+    - type: Transform
+      pos: 12.5,17.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -247.33035
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13731
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 8.5,21.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -257.36368
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13732
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 8.5,20.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -262.897
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
+  - uid: 13733
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 8.5,22.5
+      parent: 1
+    - type: Occluder
+      enabled: True
+    - type: Physics
+      canCollide: True
+    - type: Airtight
+      airBlocked: True
+    - type: Door
+      secondsUntilStateChange: -253.93034
+      state: Opening
+    - type: DeviceLinkSource
+      lastSignals:
+        DoorStatus: True
+    - type: RMCPowerReceiver
+      mode: Active
 - proto: STHermesMovementSensor
   entities:
+  - uid: 13179
+    components:
+    - type: Transform
+      pos: 12.5,11.5
+      parent: 1
+  - uid: 13180
+    components:
+    - type: Transform
+      pos: 13.5,11.5
+      parent: 1
+  - uid: 13181
+    components:
+    - type: Transform
+      pos: 11.5,11.5
+      parent: 1
   - uid: 13510
     components:
     - type: MetaData
@@ -112772,27 +112689,6 @@ entities:
       name: 'ГЕРМЕС: зал ядра'
     - type: Transform
       pos: 11.5,18.5
-      parent: 1
-  - uid: 13660
-    components:
-    - type: MetaData
-      name: 'ГЕРМЕС: вход в комплекс'
-    - type: Transform
-      pos: 13.5,12.5
-      parent: 1
-  - uid: 13661
-    components:
-    - type: MetaData
-      name: 'ГЕРМЕС: вход в комплекс'
-    - type: Transform
-      pos: 12.5,12.5
-      parent: 1
-  - uid: 13662
-    components:
-    - type: MetaData
-      name: 'ГЕРМЕС: вход в комплекс'
-    - type: Transform
-      pos: 11.5,12.5
       parent: 1
   - uid: 13704
     components:
@@ -113092,6 +112988,180 @@ entities:
           pitch: 1
           volume: 0
         path: /Audio/Items/crowbar.ogg
+- proto: STPodDoorButtonHermesCore
+  entities:
+  - uid: 13101
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 9.227737,10.882923
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13169
+    components:
+    - type: MetaData
+      name: ARES Ставни мейнфрейма
+    - type: Transform
+      pos: 6.783293,10.202367
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13173
+    components:
+    - type: MetaData
+      name: ARES Пункт обслуживания Рабочих Джо
+    - type: Transform
+      pos: 19.800861,13.786504
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13182
+    components:
+    - type: MetaData
+      name: ARES Лестница приемной
+    - type: Transform
+      pos: 18.281853,10.339125
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13671
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 2
+    - type: Transform
+      pos: 14.191855,13.281348
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13723
+    components:
+    - type: MetaData
+      name: ARES Пункт обслуживания Рабочих Джо
+    - type: Transform
+      pos: 19.207111,15.270879
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13724
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 1
+    - type: Transform
+      pos: 10.232166,11.739681
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13726
+    components:
+    - type: MetaData
+      name: ARES Лестница приемной
+    - type: Transform
+      pos: 15.691575,10.880792
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13727
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 2
+    - type: Transform
+      pos: 14.802967,11.795237
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13729
+    components:
+    - type: MetaData
+      name: ARES Вспомогательные системы 1
+    - type: Transform
+      pos: 10.843277,13.281348
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+- proto: STPodDoorButtonHermesCoreTemporary
+  entities:
+  - uid: 13102
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 14.22487,16.939693
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Chamber
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13170
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 14.56862,18.908443
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Chamber
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13171
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 10.802995,16.892818
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Chamber
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13175
+    components:
+    - type: MetaData
+      name: ARES Главный зал
+    - type: Transform
+      pos: 10.459245,18.861568
+      parent: 1
+    - type: RMCDoorButton
+      id: ARES Chamber
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13670
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      pos: 10.776953,11.226672
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13725
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      pos: 14.228342,11.19195
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13728
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      pos: 10.783897,9.872505
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
+  - uid: 13730
+    components:
+    - type: MetaData
+      name: ARES Вход в ядро
+    - type: Transform
+      pos: 14.24223,9.914172
+      parent: 1
+    - type: Fixtures
+      fixtures: {}
 - proto: STSpawnPointWorkingJoe
   entities:
   - uid: 13647
