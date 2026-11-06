@@ -28,6 +28,7 @@
   - type: RequisitionsCrate
   - type: InteractionOutline
   - type: Physics
+  - type: ZPhysics # Stories-ZLevels
   - type: Fixtures
     fixtures:
       fix1:

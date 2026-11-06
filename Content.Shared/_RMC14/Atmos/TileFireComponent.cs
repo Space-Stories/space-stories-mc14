@@ -32,6 +32,11 @@ public sealed partial class TileFireComponent : Component
 
     [DataField, AutoNetworkedField]
     public TimeSpan BigFireDuration = TimeSpan.FromSeconds(0.5);
+
+    // Stories-Optimization-Start
+    [DataField]
+    public TileFireVisuals? LastVisual;
+    // Stories-Optimization-End
 }
 
 [Serializable, NetSerializable]

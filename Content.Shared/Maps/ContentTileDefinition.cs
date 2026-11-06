@@ -125,6 +125,18 @@ namespace Content.Shared.Maps
         /// </summary>
         [DataField]
         public bool BlocksWeather = true;
+
+        /// <summary>
+        /// Whether this tile is a sloped roof that causes entities to slide down in the direction of the slope.
+        /// </summary>
+        [DataField]
+        public bool SlopedRoof = false;
+
+        /// <summary>
+        /// The direction of the slope. Entities on this tile slide in this direction.
+        /// </summary>
+        [DataField]
+        public Direction? SlopeDirection;
         // Stories-ZLevels-End
 
         /// <summary>

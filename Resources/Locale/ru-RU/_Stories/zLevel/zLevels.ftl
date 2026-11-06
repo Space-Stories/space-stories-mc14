@@ -38,3 +38,7 @@ stories-ui-options-zlevels-blur-shader = Эффект размытия нижн�
 
 stories-ghost-gui-z-level-up-button = ▲
 stories-ghost-gui-z-level-down-button = ▼
+
+tiles-st-outer-hull-sloped = покатая крыша корпуса
+stories-sloped-roof-slip = Крыша слишком покатая, чтобы удержаться!
+stories-sloped-roof-too-sloped = Крыша слишком покатая, чтобы на неё залезть.
