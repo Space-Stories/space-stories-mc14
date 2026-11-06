@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/06/2026 10:56:49
-  entityCount: 14079
+  time: 11/06/2026 15:32:28
+  entityCount: 14063
 maps:
 - 1
 grids:
@@ -30562,6 +30562,26 @@ entities:
     - type: Transform
       pos: -66.36565,-0.47246
       parent: 1
+  - uid: 10004
+    components:
+    - type: Transform
+      pos: 13.234062,0.05017978
+      parent: 1
+    - type: Paper
+      stampState: paper_stamp-marine
+      stampedBy:
+      - stampedColor: '#4E806AFF'
+        stampedName: stamp-component-stamped-name-cm-marine
+      content: >+
+        ВАЖНО:
+
+
+        В данный момент наши техники работают над прокладкой сетей к ставням Главного входа. 
+
+        В силу чего просим не закрывать Главные ставни на этом этаже в момент посещения ядра по временному пропуску, иначе вы можете быть закрыты без возможности выйти из ядра самостоятельно.
+
+        После посещения не забудьте закрыть Главные ставни, спасибо.
+
 - proto: CMPaperBin10
   entities:
   - uid: 2707
@@ -63748,13 +63768,15 @@ entities:
   - uid: 7938
     components:
     - type: Transform
-      pos: -80.5,15
+      anchored: False
+      pos: -82.5,15
       parent: 1
     - type: Physics
       bodyType: Dynamic
   - uid: 7939
     components:
     - type: Transform
+      anchored: False
       pos: -81.5,15
       parent: 1
     - type: Physics
@@ -63763,7 +63785,7 @@ entities:
     components:
     - type: Transform
       anchored: False
-      pos: -82.5,15
+      pos: -80.5,15
       parent: 1
     - type: Physics
       bodyType: Dynamic
@@ -70992,7 +71014,7 @@ entities:
       pos: 0.5,-10.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -226981.36
+      secondsUntilStateChange: -227761.06
       state: Opening
   - uid: 10230
     components:
@@ -91869,8 +91891,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
+      access: []
       denyTags: []
   - uid: 13145
     components:
@@ -91886,8 +91907,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
+      access: []
       denyTags: []
   - uid: 13146
     components:
@@ -91903,8 +91923,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
+      access: []
       denyTags: []
   - uid: 13147
     components:
@@ -91920,8 +91939,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
+      access: []
       denyTags: []
   - uid: 13148
     components:
@@ -91937,9 +91955,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
-      - - CMAccessArmory
+      access: []
       denyTags: []
   - uid: 13152
     components:
@@ -91964,8 +91980,7 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
+      access: []
       denyTags: []
   - uid: 13157
     components:
@@ -92024,7 +92039,7 @@ entities:
   - uid: 13161
     components:
     - type: MetaData
-      desc: 'Кнопка дистанционного управления дверью. Снизу закреплена записка: "ВАЖНО: Также открывает ставни парадной формы на востоке мостика для общего пользования"'
+      desc: 'Кнопка дистанционного управления дверью. Снизу закреплена записка:"ВАЖНО: Также открывает ставни парадной формы на востоке мостика для общего пользования"'
       name: Блокировка раздатчиков парадной формы
     - type: Transform
       pos: -79.45018,13.380104
@@ -92088,16 +92103,18 @@ entities:
     - type: AccessReader
       accessLog: []
       accessKeys: []
-      access:
-      - - RMCAccessSeniorCommand
-      - - CMAccessArmory
+      access: []
       denyTags: []
   - uid: 13167
     components:
+    - type: MetaData
+      name: ARES Блокировка ядра
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 17.5,-0.4
       parent: 1
+    - type: RMCDoorButton
+      id: AILockdown
     - type: Fixtures
       fixtures: {}
   - uid: 13168
@@ -93752,21 +93769,21 @@ entities:
   - uid: 13022
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 1
+      name: ARES Главный вход
     - type: Transform
       pos: 11.5,2.5
       parent: 1
   - uid: 13023
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 1
+      name: ARES Главный вход
     - type: Transform
       pos: 12.5,2.5
       parent: 1
   - uid: 13024
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 1
+      name: ARES Главный вход
     - type: Transform
       pos: 13.5,2.5
       parent: 1
@@ -93843,12 +93860,12 @@ entities:
   - uid: 13401
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 2
+      name: ARES Лестницы приемной
     - type: Transform
       pos: 16.5,2.5
       parent: 1
     - type: RMCPodDoor
-      id: ARES Door 4
+      id: ARES ReceptionUpper
   - uid: 13402
     components:
     - type: Transform
@@ -94009,14 +94026,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: engie_store
-  - uid: 13428
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-    - type: RMCPodDoor
-      id: Commander's Armory
 - proto: RMCShutterAlmayerCL
   entities:
   - uid: 13431
@@ -94639,16 +94648,10 @@ entities:
   - uid: 8027
     components:
     - type: Transform
-      anchored: False
       pos: -82.5,13.5
       parent: 1
-  - uid: 10004
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
+    - type: RMCPodDoor
+      id: bot_uniforms
   - uid: 13042
     components:
     - type: Transform
@@ -94657,69 +94660,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
-  - uid: 13043
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13048
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13090
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13149
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13150
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13151
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13155
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13388
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13429
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13430
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
   - uid: 13502
     components:
     - type: Transform
@@ -94728,40 +94668,11 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
-  - uid: 13976
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13977
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
-  - uid: 13978
-    components:
-    - type: Transform
-      anchored: False
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
-      parent: 1
   - uid: 13979
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -80.5,13.5
-      parent: 1
-    - type: RMCPodDoor
-      id: bot_uniforms
-  - uid: 14030
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -82.5,13.5
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
@@ -97653,14 +97564,6 @@ entities:
     - type: Transform
       pos: -80.35269,-6.27067
       parent: 1
-- proto: STHermesLockdownShutter
-  entities:
-  - uid: 13154
-    components:
-    - type: Transform
-      anchored: False
-      pos: -82.5,13.5
-      parent: 1
 - proto: STHunterTeleportDestinationAlmayer
   entities:
   - uid: 13934
@@ -97729,19 +97632,23 @@ entities:
   - uid: 13050
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 2
+      name: ARES Лестницы приемной
     - type: Transform
       pos: 15.8,2.2
       parent: 1
+    - type: RMCDoorButton
+      id: ARES ReceptionUpper
     - type: Fixtures
       fixtures: {}
   - uid: 13088
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 2
+      name: ARES Лестницы приемной
     - type: Transform
       pos: 15.8,2.8
       parent: 1
+    - type: RMCDoorButton
+      id: ARES ReceptionUpper
     - type: Fixtures
       fixtures: {}
 - proto: STPodDoorButtonHermesCoreTemporary
@@ -97749,7 +97656,7 @@ entities:
   - uid: 12991
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 1
+      name: ARES Главный вход
     - type: Transform
       pos: 14.2,2.2
       parent: 1
@@ -97758,7 +97665,7 @@ entities:
   - uid: 12992
     components:
     - type: MetaData
-      name: ARES Доступ к ядру 1
+      name: ARES Главный вход
     - type: Transform
       pos: 14.2,3.2
       parent: 1

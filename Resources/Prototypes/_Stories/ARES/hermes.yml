@@ -42,6 +42,15 @@
 
 - type: entity
   parent: RMCPodDoorAIBlackLockdown
+  id: STHermesBlackLockdownShutter
+  name: AI core security shutter
+  components:
+  - type: HermesLockdownDoor
+  - type: DeviceLinkSink
+    ports: [ Open, Close, Toggle, DoorBolt, STHermesSecurity ]
+
+- type: entity
+  parent: RMCPodDoorAILockdown
   id: STHermesLockdownShutter
   name: AI core security shutter
   components:

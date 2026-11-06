@@ -1,8 +1,11 @@
 ent-STVentSecurityCN20 = защитная вентиляция ARES
     .desc = Усиленный вентиляционный выход, подключённый к запасу защитного газа CN20-X ядра ИИ.
-ent-STHermesLockdownShutter = защитные ставни ядра ИИ
+ent-STHermesBlackLockdownShutter = защитные ставни ядра ИИ
     .desc = { ent-RMCPodDoorAIBlackLockdown.desc }
     .suffix = { ent-RMCPodDoorAIBlackLockdown.suffix }
+ent-STHermesLockdownShutter = защитные ставни ядра ИИ
+    .desc = { ent-RMCPodDoorAILockdown.desc }
+    .suffix = { ent-RMCPodDoorAILockdown.suffix }
 ent-STHermesCoreDoor = дверь в ядро ИИ
     .desc = { ent-RMCPodDoorAI.desc }
 ent-STGasCN20X = нервный газ CN20-X
