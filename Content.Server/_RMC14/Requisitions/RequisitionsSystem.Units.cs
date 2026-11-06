@@ -3,9 +3,7 @@ using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared._RMC14.Vendors;
-using Content.Shared.Item;
 using Content.Shared.Power;
-using Content.Shared.Prototypes;
 using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
 
@@ -103,30 +101,53 @@ public sealed partial class RequisitionsSystem
         return result;
     }
 
-    private Dictionary<EntProtoId, int> ReadSupplyStock(
+    private RequisitionsStock ReadSupplyStock(
         Entity<RequisitionsComputerComponent> computer,
+        out List<RequisitionStockSource> sources,
         EntityUid? actor = null,
         Dictionary<EntProtoId, LocId>? categories = null)
     {
-        var stock = new Dictionary<EntProtoId, int>();
+        var stock = new RequisitionsStock();
+        sources = new List<RequisitionStockSource>();
+        var offers = new Dictionary<(int Pool, EntProtoId Product), int>();
         foreach (var vendor in GetSupplyVendors(computer))
         {
             if (actor is { } user && !_access.IsAllowed(user, vendor))
                 continue;
 
-            foreach (var section in vendor.Comp.Sections)
+            var pools = new Dictionary<CMVendorEntry, int>(ReferenceEqualityComparer.Instance);
+            for (var sectionIndex = 0; sectionIndex < vendor.Comp.Sections.Count; sectionIndex++)
             {
-                foreach (var entry in section.Entries)
+                var section = vendor.Comp.Sections[sectionIndex];
+                for (var entryIndex = 0; entryIndex < section.Entries.Count; entryIndex++)
                 {
-                    if (!SharedCMAutomatedVendorSystem.IsRequisitionEntry(section, entry) ||
-                        !_prototype.TryIndex(entry.Id, out var prototype) ||
-                        !prototype.HasComponent<ItemComponent>(EntityManager.ComponentFactory) ||
-                        prototype.HasComponent<CMVendorBundleComponent>(EntityManager.ComponentFactory) ||
-                        prototype.HasComponent<CMChangeUserOnVendComponent>(EntityManager.ComponentFactory))
+                    var entry = section.Entries[entryIndex];
+                    if (!_vendors.TryGetRequisitionSource(vendor, section, entry,
+                            out var sourceSection, out var source, out var units))
                         continue;
 
-                    var amount = _vendors.GetRequisitionAmount(vendor, section, entry);
-                    stock[entry.Id] = (int) Math.Min(int.MaxValue, (long) stock.GetValueOrDefault(entry.Id) + amount);
+                    if (!pools.TryGetValue(source, out var pool))
+                    {
+                        pool = stock.Amounts.Count;
+                        pools[source] = pool;
+                        stock.Amounts.Add(_vendors.GetRequisitionAmount(vendor, sourceSection, source));
+                    }
+
+                    // Duplicate package buttons backed by the same counter are alternative ways to vend one product.
+                    var key = (pool, entry.Id);
+                    if (offers.TryGetValue(key, out var existing))
+                    {
+                        if (stock.Offers[existing].Units <= units)
+                            continue;
+                        stock.Offers[existing] = new RequisitionsStockOffer(entry.Id, pool, units);
+                        sources[existing] = new RequisitionStockSource(vendor, sectionIndex, entryIndex);
+                    }
+                    else
+                    {
+                        offers[key] = stock.Offers.Count;
+                        stock.Offers.Add(new RequisitionsStockOffer(entry.Id, pool, units));
+                        sources.Add(new RequisitionStockSource(vendor, sectionIndex, entryIndex));
+                    }
                     if (categories != null)
                     {
                         categories.TryAdd(entry.Id,
@@ -141,7 +162,8 @@ public sealed partial class RequisitionsSystem
     private void RefreshUnitStock(Entity<RequisitionsComputerComponent> computer)
     {
         var categories = new Dictionary<EntProtoId, LocId>();
-        computer.Comp.Stock = ReadSupplyStock(computer, categories: categories);
+        computer.Comp.StockInventory = ReadSupplyStock(computer, out _, categories: categories);
+        computer.Comp.Stock = new RequisitionsStockPlan(computer.Comp.StockInventory).GetAmounts();
         if (!computer.Comp.UnitsBuilt)
             return;
 
@@ -170,27 +192,25 @@ public sealed partial class RequisitionsSystem
             RefreshUnitStock((uid, computer));
     }
 
-    private int IssueUnits(
-        Entity<RequisitionsComputerComponent> computer, EntityUid actor, EntProtoId product, int amount)
+    private int IssueUnits(EntityUid actor, List<RequisitionsStockAllocation> allocations,
+        List<RequisitionStockSource> sources)
     {
         var issued = 0;
-        foreach (var vendor in GetSupplyVendors(computer))
+        foreach (var allocation in allocations)
         {
-            for (var section = 0; section < vendor.Comp.Sections.Count && issued < amount; section++)
+            var source = sources[allocation.Offer];
+            for (var i = 0; i < allocation.Amount; i++)
             {
-                var entries = vendor.Comp.Sections[section].Entries;
-                for (var entry = 0; entry < entries.Count && issued < amount; entry++)
-                {
-                    if (entries[entry].Id != product)
-                        continue;
-
-                    while (issued < amount && _vendors.TryIssueRequisition(vendor, actor, section, entry))
-                        issued++;
-                }
+                if (!_vendors.TryIssueRequisition(source.Vendor, actor, source.Section, source.Entry))
+                    break;
+                issued++;
             }
         }
         return issued;
     }
+
+    private readonly record struct RequisitionStockSource(
+        Entity<CMAutomatedVendorComponent> Vendor, int Section, int Entry);
 
     private List<RequisitionsEntry> PrepareShipments(
         Entity<RequisitionsComputerComponent> computer,

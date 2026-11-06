@@ -38,6 +38,11 @@ public sealed partial class RequisitionsComputerComponent : Component
     [AutoNetworkedField]
     public Dictionary<EntProtoId, int> Stock = new();
 
+    // Stories-RequisitionsStock-Start
+    [AutoNetworkedField]
+    public RequisitionsStock StockInventory = new();
+    // Stories-RequisitionsStock-End
+
     [AutoNetworkedField]
     public List<int> InsertedRequests = new();
 

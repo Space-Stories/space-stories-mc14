@@ -1,6 +1,5 @@
 using System.Linq;
 using Content.Shared._RMC14.Requisitions;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Client._RMC14.Requisitions;
@@ -148,7 +147,7 @@ public sealed partial class RequisitionsBui
             _state.Requests.FirstOrDefault(request => request.Number == number) is not { } request)
             return;
 
-        var stock = new Dictionary<EntProtoId, int>(_state.Stock);
+        var stock = new RequisitionsStockPlan(_state.StockInventory);
         var previews = new List<(RequisitionsRequestLine Row, int Stock, int Issue,
             int Missing, int Purchase, long Cost)>();
         long cost = 0;
@@ -162,10 +161,9 @@ public sealed partial class RequisitionsBui
             var row = _requestLines[(number, i)];
             var amount = Math.Clamp(row.Quantity.Value, 0, item.Remaining);
             processing += amount;
-            var available = stock.GetValueOrDefault(item.Entry.Crate);
-            var issue = item.Entry.Unit ? Math.Min(available, amount) : 0;
+            var available = stock.GetAvailable(item.Entry.Crate);
+            var issue = item.Entry.Unit ? stock.Reserve(item.Entry.Crate, amount) : 0;
             var purchase = row.Purchase.Pressed && (!item.Entry.Unit || item.Entry.Cost > 0) ? amount - issue : 0;
-            stock[item.Entry.Crate] = available == int.MaxValue ? available : available - issue;
             issued += issue;
             cost += (long) purchase * item.Entry.Cost;
             if (item.Entry.Unit)

@@ -198,9 +198,9 @@ public sealed partial class RequisitionsSystem
         if (selections.Count > request.Items.Count)
             return;
 
-        var stock = ReadSupplyStock(computer, args.Actor);
+        var stock = new RequisitionsStockPlan(ReadSupplyStock(computer, out var sources, args.Actor));
         var selected = new HashSet<int>();
-        var issues = new List<(int Line, int Amount)>();
+        var issues = new List<(int Line, List<RequisitionsStockAllocation> Allocations)>();
         var purchases = new List<(RequisitionsEntry Product, int Amount, int Line)>();
         long cost = 0;
         var processing = 0;
@@ -219,14 +219,11 @@ public sealed partial class RequisitionsSystem
                     ("limit", Math.Max(1, computer.Comp.MaxProcessingAmount)));
                 return;
             }
-            var issue = item.Entry.Unit
-                ? Math.Min(selection.Amount, stock.GetValueOrDefault(item.Entry.Crate))
-                : 0;
+            var allocations = new List<RequisitionsStockAllocation>();
+            var issue = item.Entry.Unit ? stock.Reserve(item.Entry.Crate, selection.Amount, allocations) : 0;
             if (issue > 0)
             {
-                issues.Add((selection.Line, issue));
-                if (stock[item.Entry.Crate] != int.MaxValue)
-                    stock[item.Entry.Crate] -= issue;
+                issues.Add((selection.Line, allocations));
             }
             var purchase = selection.Purchase && (!item.Entry.Unit || item.Entry.Cost > 0)
                 ? selection.Amount - issue : 0;
@@ -273,7 +270,7 @@ public sealed partial class RequisitionsSystem
         foreach (var issue in issues)
         {
             var item = request.Items[issue.Line];
-            var amount = IssueUnits(computer, args.Actor, item.Entry.Crate, issue.Amount);
+            var amount = IssueUnits(args.Actor, issue.Allocations, sources);
             item.Fulfilled += amount;
             issued += amount;
         }
