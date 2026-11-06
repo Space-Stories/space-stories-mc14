@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/06/2026 10:24:16
-  entityCount: 14922
+  time: 11/06/2026 18:58:32
+  entityCount: 14943
 maps:
 - 1
 grids:
@@ -18710,6 +18710,16 @@ entities:
     - type: Transform
       pos: 41.5,8.5
       parent: 1
+  - uid: 14799
+    components:
+    - type: Transform
+      pos: 23.5,3.5
+      parent: 1
+  - uid: 14800
+    components:
+    - type: Transform
+      pos: 23.5,-2.5
+      parent: 1
 - proto: CMAutolathe
   entities:
   - uid: 283
@@ -32369,7 +32379,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -268866.88
+      secondsUntilStateChange: -269266.88
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -32388,7 +32398,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -268866.88
+      secondsUntilStateChange: -269266.88
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -38346,6 +38356,22 @@ entities:
     - type: Transform
       pos: -92.5,-14.5
       parent: 1
+  - uid: 11340
+    components:
+    - type: Transform
+      parent: 11180
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: CMSheetMetal
+  entities:
+  - uid: 11339
+    components:
+    - type: Transform
+      parent: 11180
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: CMSheetMetal1
   entities:
   - uid: 3822
@@ -38365,6 +38391,15 @@ entities:
     - type: Transform
       pos: -48.75037,7.709833
       parent: 1
+- proto: CMSheetPlasteel
+  entities:
+  - uid: 9802
+    components:
+    - type: Transform
+      parent: 11180
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: CMShower
   entities:
   - uid: 3825
@@ -71658,13 +71693,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 25.5,-36.5
       parent: 1
-- proto: RMCAIConsoleARES
-  entities:
-  - uid: 9802
-    components:
-    - type: Transform
-      pos: -46.3125,-15.5
-      parent: 1
 - proto: RMCAIConsoleHERMES
   entities:
   - uid: 9803
@@ -71689,6 +71717,11 @@ entities:
     components:
     - type: Transform
       pos: -106.5,11
+      parent: 1
+  - uid: 14801
+    components:
+    - type: Transform
+      pos: -46.31227,-15.5
       parent: 1
 - proto: RMCAirScrubberPortable
   entities:
@@ -78557,11 +78590,38 @@ entities:
     - type: Transform
       pos: -51.5,-18.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 9802
+          - 11339
+          - 11340
+          - 11349
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
   - uid: 11181
     components:
     - type: Transform
       pos: -50.5,-18.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 11350
+          - 13274
+          - 14771
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
   - uid: 11182
     components:
     - type: Transform
@@ -78836,7 +78896,7 @@ entities:
       pos: 60.5,-13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415454.47
+      secondsUntilStateChange: -415854.47
       state: Opening
   - uid: 11230
     components:
@@ -78844,7 +78904,7 @@ entities:
       pos: 61.5,-13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415454.03
+      secondsUntilStateChange: -415854.03
       state: Opening
   - uid: 11231
     components:
@@ -78852,7 +78912,7 @@ entities:
       pos: 62.5,-13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415453.62
+      secondsUntilStateChange: -415853.62
       state: Opening
   - uid: 11232
     components:
@@ -78860,7 +78920,7 @@ entities:
       pos: 60.5,14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415448.1
+      secondsUntilStateChange: -415848.1
       state: Opening
   - uid: 11233
     components:
@@ -78868,7 +78928,7 @@ entities:
       pos: 61.5,14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415448.5
+      secondsUntilStateChange: -415848.5
       state: Opening
   - uid: 11234
     components:
@@ -78876,7 +78936,7 @@ entities:
       pos: 62.5,14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -415448.9
+      secondsUntilStateChange: -415848.9
       state: Opening
 - proto: RMCDecalSpawnerBloodSplatters
   entities:
@@ -95060,6 +95120,28 @@ entities:
     - type: Transform
       pos: -52.5,-18.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        entity_storage: !type:Container
+          showEnts: False
+          occludes: True
+          ents:
+          - 14772
+          - 14773
+          - 14774
+          - 14775
+          - 14776
+          - 14777
+          - 14778
+          - 14794
+          - 14795
+          - 14796
+          - 14797
+          - 14798
+        paper_label: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: null
     - type: AccessReader
       access:
       - - CMAccessOT
@@ -98923,6 +99005,42 @@ entities:
     - type: Transform
       pos: -86.70938,-17.39691
       parent: 1
+- proto: RMCReagentGasTankAmmonia
+  entities:
+  - uid: 14777
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: RMCReagentGasTankMethane
+  entities:
+  - uid: 14772
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: RMCReagentGasTankOxygen
+  entities:
+  - uid: 14796
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: RMCReagentGasTankPacid
+  entities:
+  - uid: 14776
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: RMCRecharger
   entities:
   - uid: 13971
@@ -99811,6 +99929,15 @@ entities:
     - type: Transform
       pos: -77.455635,-19.460133
       parent: 1
+- proto: RMCSheetPlastic
+  entities:
+  - uid: 11349
+    components:
+    - type: Transform
+      parent: 11180
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: RMCShipAntiAirCannon
   entities:
   - uid: 14121
@@ -103848,6 +103975,72 @@ entities:
     - type: Transform
       pos: 0.5,0.5
       parent: 1
+- proto: STBeakerEthanol
+  entities:
+  - uid: 14775
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STBeakerLargeLithium
+  entities:
+  - uid: 14797
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STBeakerLargePhosphorus
+  entities:
+  - uid: 14778
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+  - uid: 14794
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+  - uid: 14795
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+  - uid: 14798
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STBeakerLargePotassiumChloride
+  entities:
+  - uid: 14774
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STBeakerLargeTableSalt
+  entities:
+  - uid: 14773
+    components:
+    - type: Transform
+      parent: 13516
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: STColMarTechSponsor
   entities:
   - uid: 14733
@@ -103964,6 +104157,33 @@ entities:
       anchored: False
       pos: -47.5,-20.25
       parent: 1
+- proto: STSheetCopper
+  entities:
+  - uid: 13274
+    components:
+    - type: Transform
+      parent: 11181
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STSheetGold
+  entities:
+  - uid: 14771
+    components:
+    - type: Transform
+      parent: 11181
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
+- proto: STSheetSilver
+  entities:
+  - uid: 11350
+    components:
+    - type: Transform
+      parent: 11181
+    - type: Physics
+      canCollide: False
+    - type: InsideEntityStorage
 - proto: STSyntheticMaintenanceStation
   entities:
   - uid: 6515
