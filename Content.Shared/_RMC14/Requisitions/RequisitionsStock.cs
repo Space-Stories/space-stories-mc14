@@ -27,6 +27,7 @@ public sealed class RequisitionsStockPlan
     private readonly RequisitionsStock _stock;
     private readonly int[] _remaining;
     private readonly Dictionary<EntProtoId, List<int>> _offers = new();
+    private readonly Dictionary<int, List<int>> _packageSizes = new();
 
     public RequisitionsStockPlan(RequisitionsStock stock)
     {
@@ -34,10 +35,17 @@ public sealed class RequisitionsStockPlan
         _remaining = stock.Amounts.ToArray();
         for (var i = 0; i < stock.Offers.Count; i++)
         {
-            var product = stock.Offers[i].Product;
+            var offer = stock.Offers[i];
+            var product = offer.Product;
             if (!_offers.TryGetValue(product, out var offers))
                 _offers[product] = offers = new List<int>();
             offers.Add(i);
+            if (offer.Units <= 1)
+                continue;
+            if (!_packageSizes.TryGetValue(offer.Pool, out var sizes))
+                _packageSizes[offer.Pool] = sizes = new List<int>();
+            if (!sizes.Contains(offer.Units))
+                sizes.Add(offer.Units);
         }
     }
 
@@ -72,21 +80,37 @@ public sealed class RequisitionsStockPlan
             return 0;
 
         var reserved = 0;
-        foreach (var index in offers)
+        // Use loose stock first, preserving complete packages in other vendors.
+        for (var pass = 0; pass < 2; pass++)
         {
-            var offer = _stock.Offers[index];
-            var remaining = _remaining[offer.Pool];
-            var available = remaining == int.MaxValue ? int.MaxValue : remaining / offer.Units;
-            var take = Math.Min(amount - reserved, available);
-            if (take <= 0)
-                continue;
+            foreach (var index in offers)
+            {
+                var offer = _stock.Offers[index];
+                var remaining = _remaining[offer.Pool];
+                var available = remaining;
+                if (remaining != int.MaxValue)
+                {
+                    if (pass == 0 && _packageSizes.TryGetValue(offer.Pool, out var sizes))
+                    {
+                        foreach (var size in sizes)
+                        {
+                            if (size > offer.Units)
+                                available = Math.Min(available, remaining % size);
+                        }
+                    }
+                    available /= offer.Units;
+                }
+                var take = Math.Min(amount - reserved, available);
+                if (take <= 0)
+                    continue;
 
-            if (remaining != int.MaxValue)
-                _remaining[offer.Pool] -= take * offer.Units;
-            allocations?.Add(new RequisitionsStockAllocation(index, take));
-            reserved += take;
-            if (reserved == amount)
-                break;
+                if (remaining != int.MaxValue)
+                    _remaining[offer.Pool] -= take * offer.Units;
+                allocations?.Add(new RequisitionsStockAllocation(index, take));
+                reserved += take;
+                if (reserved == amount)
+                    return reserved;
+            }
         }
         return reserved;
     }
