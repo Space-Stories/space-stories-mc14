@@ -13,7 +13,7 @@ namespace Content.Client._RMC14.Requisitions;
 /// </summary>
 public sealed partial class RequisitionPresetStore
 {
-    public const int MaxPresets = 10;
+    public const int MaxPresets = 30;
     public const int MaxLines = 50;
     public const int MaxNameLength = 64;
     public const int MaxReasonLength = 512;

@@ -5,7 +5,7 @@ namespace Content.Client._RMC14.Requisitions;
 public sealed partial class RequisitionPresetStore
 {
     private const int MaxYamlDepth = 8;
-    private const int MaxYamlTokens = 8192;
+    private const int MaxYamlTokens = 24576;
 
     /// <summary>
     /// Accepts the scalar and collection syntax used by our saves, rejecting aliases, anchors and tags
