@@ -3,6 +3,7 @@ using Content.Server.Atmos.Components;
 using Content.Server.Body.Systems;
 using Content.Server.Fluids.EntitySystems;
 using Content.Server.NodeContainer.EntitySystems;
+using Content.Server.Temperature.Components;
 using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Decals;
 using Content.Shared.Doors.Components;
@@ -105,9 +106,14 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
         if (_exposedTimer < ExposedUpdateDelay)
             return;
 
-        var query = EntityQueryEnumerator<AtmosExposedComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out _, out var transform))
+        // Stories-Optimization-Start
+        var query = EntityQueryEnumerator<AtmosExposedComponent, TemperatureComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out _, out var temp, out var transform))
         {
+            if (temp.AtmosTemperatureTransferEfficiency <= 0)
+                continue;
+        // Stories-Optimization-End
+
             var air = GetContainingMixture((uid, transform));
 
             if (air == null)

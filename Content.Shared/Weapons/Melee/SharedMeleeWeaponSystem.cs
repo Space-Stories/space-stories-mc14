@@ -163,6 +163,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
 
     private void OnMeleeSelected(EntityUid uid, MeleeWeaponComponent component, HandSelectedEvent args)
     {
+        // Stories-FixPredictedStateReset-Start
+        if (Timing.ApplyingState)
+            return;
+        // Stories-FixPredictedStateReset-End
+
         var attackRate = GetAttackRate(uid, args.User, component);
         if (attackRate.Equals(0f))
             return;
@@ -202,6 +207,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
     // RMC14
     private void OnMeleeDeselected(Entity<MeleeWeaponComponent> weapon, ref HandDeselectedEvent args)
     {
+        // Stories-FixPredictedStateReset-Start
+        if (Timing.ApplyingState)
+            return;
+        // Stories-FixPredictedStateReset-End
+
         var userCooldown = EnsureComp<RMCMeleeUserCooldownComponent>(args.User);
         if (userCooldown.NextAttack < weapon.Comp.NextAttack)
         {
@@ -546,7 +556,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             }
 
             // RMC14
-            DoLungeAnimation(user, weaponUid, weapon.Angle, TransformSystem.ToMapCoordinates(GetCoordinates(attack.Coordinates)), range, animation);
+            // Stories-TransformEntity0-Start
+            var attackCoords = GetCoordinates(attack.Coordinates);
+            if (attackCoords.IsValid(EntityManager))
+                DoLungeAnimation(user, weaponUid, weapon.Angle, TransformSystem.ToMapCoordinates(attackCoords), range, animation);
+            // Stories-TransformEntity0-End
         }
 
         var attackEv = new MeleeAttackEvent(weaponUid);
@@ -665,7 +679,13 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         if (!TryComp(user, out TransformComponent? userXform))
             return false;
 
-        var targetMap = TransformSystem.ToMapCoordinates(GetCoordinates(ev.Coordinates));
+        // Stories-TransformEntity0-Start
+        var targetCoords = GetCoordinates(ev.Coordinates);
+        if (!targetCoords.IsValid(EntityManager))
+            return false;
+
+        var targetMap = TransformSystem.ToMapCoordinates(targetCoords);
+        // Stories-TransformEntity0-End
 
         if (targetMap.MapId != userXform.MapID)
             return false;

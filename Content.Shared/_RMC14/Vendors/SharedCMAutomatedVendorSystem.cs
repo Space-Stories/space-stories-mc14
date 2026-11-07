@@ -668,8 +668,10 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         {
             if (user == null)
             {
-                Log.Error(
+                // Stories-VendorSpam-Start
+                Log.Debug(
                     $"{ToPrettyString(actor)} tried to buy {entry.Id} for {entry.Points} points without having points.");
+                // Stories-VendorSpam-End
                 return;
             }
 
@@ -678,8 +680,10 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 : user.ExtraPoints?.GetValueOrDefault(vendor.Comp.PointsType) ?? 0;
             if (userPoints < entry.Points)
             {
-                Log.Error(
+                // Stories-VendorSpam-Start
+                Log.Debug(
                     $"{ToPrettyString(actor)} with {user.Points} tried to buy {entry.Id} for {entry.Points} points without having enough points.");
+                // Stories-VendorSpam-End
                 return;
             }
 

@@ -80,6 +80,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     private readonly Dictionary<MapId, HashSet<EntityUid>> _reactorPoweredLights = new();
     private readonly Dictionary<MapId, HashSet<EntityUid>> _reactorsByMap = new();
     private readonly HashSet<MapId> _reactorsUpdated = new();
+    private readonly Dictionary<(EntityUid net, string protoId), EntityUid> _canonicalAreaCache = new(); // Stories-Optimization
     private bool _recalculate;
 
     private EntityQuery<RMCApcComponent> _apcQuery;
@@ -2160,31 +2161,41 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             zNet.Comp != null &&
             areaProto != null)
         {
-            var found = false;
-            foreach (var otherMapUid in zNet.Comp.SortedZLevels)
+            var cacheKey = (zNet.Owner, areaProto.ID);
+            if (_canonicalAreaCache.TryGetValue(cacheKey, out var cachedArea) && Exists(cachedArea))
             {
-                if (_areaGridQuery.TryComp(otherMapUid, out var mapAreaGrid) &&
-                    _area.TryGetAreaEntity((otherMapUid, mapAreaGrid), areaProto.ID, out var existingAreaEnt))
+                areaEnt = cachedArea;
+            }
+            else
+            {
+                var found = false;
+                foreach (var otherMapUid in zNet.Comp.SortedZLevels)
                 {
-                    areaEnt = existingAreaEnt;
-                    found = true;
-                    break;
-                }
-
-                var children = Transform(otherMapUid).ChildEnumerator;
-                while (children.MoveNext(out var child))
-                {
-                    if (_areaGridQuery.TryComp(child, out var gridAreaGrid) &&
-                        _area.TryGetAreaEntity((child, gridAreaGrid), areaProto.ID, out existingAreaEnt))
+                    if (_areaGridQuery.TryComp(otherMapUid, out var mapAreaGrid) &&
+                        _area.TryGetAreaEntity((otherMapUid, mapAreaGrid), areaProto.ID, out var existingAreaEnt))
                     {
                         areaEnt = existingAreaEnt;
                         found = true;
                         break;
                     }
+
+                    var children = Transform(otherMapUid).ChildEnumerator;
+                    while (children.MoveNext(out var child))
+                    {
+                        if (_areaGridQuery.TryComp(child, out var gridAreaGrid) &&
+                            _area.TryGetAreaEntity((child, gridAreaGrid), areaProto.ID, out existingAreaEnt))
+                        {
+                            areaEnt = existingAreaEnt;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                        break;
                 }
 
-                if (found)
-                    break;
+                _canonicalAreaCache[cacheKey] = areaEnt;
             }
         }
         // Stories-ZLevels-End
@@ -2206,17 +2217,17 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             ? areaPower.CanonicalArea.Value
             : areaUid;
 
-        var query = EntityQueryEnumerator<RMCApcComponent>();
-        while (query.MoveNext(out var uid, out var apc))
+        // Stories-Optimization-Start
+        // Check target area's registered APCs directly instead of enumerating all APCs in the game
+        if (_areaPowerQuery.TryComp(targetArea, out var targetComp))
         {
-            if (TerminatingOrDeleted(uid))
-                continue;
-
-            // Use the entity's current area instead of the delayed registry field. This both
-            // closes the same-tick construction race and avoids a moved APC blocking its old area.
-            if (TryGetPowerArea(uid, out var powerArea) && powerArea.Owner == targetArea)
-                return true;
+            foreach (var apcUid in targetComp.Apcs)
+            {
+                if (!TerminatingOrDeleted(apcUid))
+                    return true;
+            }
         }
+        // Stories-Optimization-End
 
         return false;
     }
