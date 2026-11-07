@@ -319,7 +319,6 @@ public abstract class SharedRequisitionsSystem : EntitySystem
             computer.OrderCount = 0;
             computer.InsertedRequests.Clear();
             computer.Stock.Clear();
-            computer.NextRequest = TimeSpan.Zero;
             Dirty(uid, computer);
         }
         var elevators = EntityQueryEnumerator<RequisitionsElevatorComponent>();

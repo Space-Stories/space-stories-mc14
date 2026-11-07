@@ -47,30 +47,34 @@ public static class RequisitionsUnitCatalog
                 if (entry.Unit || entry.BlackMarket || entry.BlackMarketCost != 0 || entry.Cost <= 0)
                     continue;
 
-                var contents = new Dictionary<EntProtoId, int>();
-                if (!ReadPackage(entry.Crate, 1, contents, prototypes, factory, 0, true))
-                    continue;
-
-                foreach (var extra in entry.Entities)
-                    Add(contents, extra, 1);
-
-                foreach (var containedProduct in contents.Keys)
-                    productCategories.TryAdd(containedProduct, category.Name);
-
-                if (contents.Count != 1)
+                // Keep full ammunition boxes alongside their individual contents.
+                for (var unpack = 0; unpack < 2; unpack++)
                 {
-                    if (contents.Count > 1)
-                        mixed.Add((entry.Cost, contents));
-                    continue;
+                    var contents = new Dictionary<EntProtoId, int>();
+                    if (!ReadPackage(entry.Crate, 1, contents, prototypes, factory, 0, true, unpack != 0))
+                        continue;
+
+                    foreach (var extra in entry.Entities)
+                        Add(contents, extra, 1);
+
+                    foreach (var containedProduct in contents.Keys)
+                        productCategories.TryAdd(containedProduct, category.Name);
+
+                    if (contents.Count != 1)
+                    {
+                        if (contents.Count > 1)
+                            mixed.Add((entry.Cost, contents));
+                        continue;
+                    }
+
+                    var (product, count) = contents.Single();
+                    if (count <= 0 || !prototypes.Index(product).HasComponent<ItemComponent>(factory))
+                        continue;
+
+                    // Keep bulk discounts: buying a package as individual products must not cost less.
+                    var price = (int) (((long) entry.Cost + count - 1) / count);
+                    prices[product] = Math.Max(prices.GetValueOrDefault(product), price);
                 }
-
-                var (product, count) = contents.Single();
-                if (count <= 0 || !prototypes.Index(product).HasComponent<ItemComponent>(factory))
-                    continue;
-
-                // Keep bulk discounts: buying a package as individual products must not cost less.
-                var price = (int) (((long) entry.Cost + count - 1) / count);
-                prices[product] = Math.Max(prices.GetValueOrDefault(product), price);
             }
         }
 
@@ -116,16 +120,17 @@ public static class RequisitionsUnitCatalog
 
     private static bool ReadPackage(
         EntProtoId id, int amount, Dictionary<EntProtoId, int> contents,
-        IPrototypeManager prototypes, IComponentFactory factory, int depth, bool outer)
+        IPrototypeManager prototypes, IComponentFactory factory, int depth, bool outer, bool unpackBoxes)
     {
         if (depth > 8 || amount <= 0 || amount > 10000 || !prototypes.TryIndex(id, out var prototype))
             return false;
 
-        if (prototype.TryGetComponent<TagComponent>(out var tags, factory) && Enumerable.Contains(tags.Tags, AmmoBox) &&
+        if (unpackBoxes && prototype.TryGetComponent<TagComponent>(out var tags, factory) &&
+            Enumerable.Contains(tags.Tags, AmmoBox) &&
             prototype.TryGetComponent<CMItemSlotsComponent>(out var slots, factory) &&
             slots.StartingItem is { } item && slots.Count is > 0 and <= 1000)
         {
-            return ReadPackage(item, amount * slots.Count.Value, contents, prototypes, factory, depth + 1, false);
+            return ReadPackage(item, amount * slots.Count.Value, contents, prototypes, factory, depth + 1, false, true);
         }
 
         if (outer && prototype.Components.ContainsKey("EntityStorage"))
@@ -141,7 +146,8 @@ public static class RequisitionsUnitCatalog
                 {
                     if (spawn.PrototypeId is not { } child || spawn.SpawnProbability != 1 ||
                         spawn.GroupId != null || spawn.MaxAmount > spawn.Amount || spawn.Amount <= 0 ||
-                        !ReadPackage(child, amount * spawn.Amount, contents, prototypes, factory, depth + 1, false))
+                        !ReadPackage(child, amount * spawn.Amount, contents, prototypes, factory, depth + 1,
+                            false, unpackBoxes))
                         return false;
                 }
                 return contents.Count > 0;
@@ -151,7 +157,7 @@ public static class RequisitionsUnitCatalog
             {
                 foreach (var child in containers.Containers.Values.SelectMany(value => value))
                 {
-                    if (!ReadPackage(child, amount, contents, prototypes, factory, depth + 1, false))
+                    if (!ReadPackage(child, amount, contents, prototypes, factory, depth + 1, false, unpackBoxes))
                         return false;
                 }
                 return contents.Count > 0;

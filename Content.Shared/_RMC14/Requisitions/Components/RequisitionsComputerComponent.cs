@@ -38,6 +38,11 @@ public sealed partial class RequisitionsComputerComponent : Component
     [AutoNetworkedField]
     public Dictionary<EntProtoId, int> Stock = new();
 
+    // Stories-RequisitionsStock-Start
+    [AutoNetworkedField]
+    public RequisitionsStock StockInventory = new();
+    // Stories-RequisitionsStock-End
+
     [AutoNetworkedField]
     public List<int> InsertedRequests = new();
 
@@ -54,11 +59,6 @@ public sealed partial class RequisitionsComputerComponent : Component
 
     [DataField]
     public Dictionary<EntProtoId, int> UnitPrices = new();
-
-    [DataField]
-    public TimeSpan RequestCooldown = TimeSpan.FromSeconds(3);
-
-    public TimeSpan NextRequest;
 
     [DataField]
     public EntityUid? Account;

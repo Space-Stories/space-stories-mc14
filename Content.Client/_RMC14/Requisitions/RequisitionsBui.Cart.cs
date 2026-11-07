@@ -57,7 +57,8 @@ public sealed partial class RequisitionsBui
             return false;
         var total = GetCartSupplyTotal() + entry.Cost;
         if (RequestOnly)
-            return !entry.BlackMarket && total <= int.MaxValue;
+            return !entry.BlackMarket && total <= int.MaxValue &&
+                   (GetCartAmount(key) > 0 || _cart.Count < _state.MaxRequestLines);
         if (entry.Unit && entry.Cost <= 0)
             return false;
         var blackMarketTotal = GetCartBlackMarketTotal() + entry.BlackMarketCost;
@@ -70,6 +71,12 @@ public sealed partial class RequisitionsBui
     {
         if (_window == null)
             return;
+
+        if (RequestOnly && !_refreshingShop)
+        {
+            ResetPresetConfirmation();
+            RefreshPresets();
+        }
 
         CartKey? focused = null;
         var cursor = 0;

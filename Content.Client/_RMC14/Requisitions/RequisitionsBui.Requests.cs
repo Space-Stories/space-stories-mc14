@@ -51,6 +51,8 @@ public sealed partial class RequisitionsBui
         amount = Math.Clamp(amount, 0, maximum);
         if (amount == current)
             return;
+        if (RequestOnly && current == 0 && amount > 0 && _cart.Count >= _state.MaxRequestLines)
+            return;
 
         if (amount == 0)
             GetCurrentCart().Remove(key);
