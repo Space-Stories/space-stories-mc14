@@ -56,12 +56,6 @@ public sealed partial class RequisitionsSystem
             return;
         }
 
-        if (_timing.CurTime < computer.Comp.NextRequest)
-        {
-            RequestResult(computer, args.Actor, false, "rmc-requisitions-request-cooldown");
-            return;
-        }
-
         var reason = args.Reason.Trim();
         if (reason.Length == 0 || reason.Length > computer.Comp.MaxRequestReasonLength)
         {
@@ -84,7 +78,6 @@ public sealed partial class RequisitionsSystem
         GetRequestIdentity(args.Actor, out var requester, out var rank);
         var request = new RequisitionsRequest(account.NextRequestNumber++, requester, rank, reason, items, totalCost);
         account.Requests.Add(request);
-        computer.Comp.NextRequest = _timing.CurTime + computer.Comp.RequestCooldown;
         PrintRequest(computer, request);
         SendUIStateAll();
         RequestResult(computer, args.Actor, true, "rmc-requisitions-request-submitted", ("number", request.Number));

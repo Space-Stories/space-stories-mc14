@@ -61,11 +61,6 @@ public sealed partial class RequisitionsComputerComponent : Component
     public Dictionary<EntProtoId, int> UnitPrices = new();
 
     [DataField]
-    public TimeSpan RequestCooldown = TimeSpan.FromSeconds(3);
-
-    public TimeSpan NextRequest;
-
-    [DataField]
     public EntityUid? Account;
 
     [DataField("soundIncomingSurplus")]
