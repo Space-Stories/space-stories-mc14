@@ -84,6 +84,8 @@
                                       HorizontalExpand="True" />
                     </ScrollContainer>
                     <RichTextLabel Name="CartStatusLabel" Access="Public" />
+                    <Button Name="SavePresetButton" Access="Public" Visible="False"
+                            Text="{Loc rmc-requisitions-presets-save}" Margin="0 4 0 6" />
                     <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
                         <RichTextLabel Name="CartTotalLabel" Access="Public" HorizontalExpand="True" />
                         <Button Name="ClearCartButton"
@@ -100,6 +102,7 @@
                                                   MinWidth="120" />
                     </BoxContainer>
                 </BoxContainer>
+                <controls:RequisitionPresetsView Name="PresetsTab" Access="Public" Visible="False" />
                 <BoxContainer Name="RequestsTab"
                               Access="Public"
                               Orientation="Vertical"

@@ -160,14 +160,14 @@ public sealed partial class RequisitionsBui
     {
         public readonly CartKey Key = key;
         public readonly EntryAppearance Appearance = new(entry);
-        private readonly EntProtoId[]? _contents = entry.NoReturnReward ? entry.Entities.ToArray() : null;
+        private readonly EntProtoId[] _contents = entry.Entities.ToArray();
         public readonly string Name = name;
         public readonly string Description = description;
 
         public bool Matches(RequisitionsEntry product)
         {
             return Appearance == new EntryAppearance(product) &&
-                   (_contents == null || _contents.SequenceEqual(product.Entities));
+                   _contents.SequenceEqual(product.Entities);
         }
     }
 

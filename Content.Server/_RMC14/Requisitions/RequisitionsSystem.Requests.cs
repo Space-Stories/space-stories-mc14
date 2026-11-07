@@ -34,13 +34,16 @@ public sealed partial class RequisitionsSystem
 
     private void OnSubmitRequest(Entity<RequisitionsComputerComponent> computer, ref RequisitionsSubmitRequestMsg args)
     {
-        if (!computer.Comp.RequestOnly || !HasComp<HumanoidAppearanceComponent>(args.Actor))
+        if (!computer.Comp.RequestOnly || !HasComp<HumanoidAppearanceComponent>(args.Actor) ||
+            !_access.IsAllowed(args.Actor, computer))
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-not-allowed");
             return;
         }
 
-        if (args.Reason == null || args.Items == null)
+        if (args.Reason == null || args.Items == null ||
+            args.Reason.Length > computer.Comp.MaxRequestReasonLength ||
+            args.Items.Count > computer.Comp.MaxRequestLines)
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-invalid-items");
             return;
@@ -112,7 +115,7 @@ public sealed partial class RequisitionsSystem
     {
         items = new List<RequisitionsPendingOrder>();
         totalCost = 0;
-        if (cart.Count == 0)
+        if (cart.Count == 0 || cart.Count > computer.Comp.MaxRequestLines)
             return false;
 
         var entries = 0;

@@ -31,6 +31,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         "rmc-requisitions-black-market-mendoza-random-7",
     ];
 
+    [Dependency] private readonly IClipboardManager _clipboard = default!;
     [Dependency] private readonly IEntityManager _entities = default!;
     [Dependency] private readonly ILocalizationManager _localization = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
@@ -84,9 +85,14 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
             return;
 
         _window = this.CreateWindow<RequisitionsWindow>();
+        InitializePresets();
 
         _window.SearchBar.OnTextChanged += _ => RefreshVisibleEntries();
-        _window.ShopTabs.OnTabChanged += _ => RefreshShop();
+        _window.ShopTabs.OnTabChanged += _ =>
+        {
+            ResetPresetConfirmation();
+            RefreshShop();
+        };
         _window.PreviousProductPage.OnPressed += _ => ChangeProductPage(CurrentCatalog.Page - 1);
         _window.NextProductPage.OnPressed += _ => ChangeProductPage(CurrentCatalog.Page + 1);
         _window.ProductPageNumber.IsValid = value => value > 0;
@@ -154,6 +160,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         UpdatePlatformButtons();
         UpdateBalance();
         EnsureCatalogIndex();
+        RefreshPresets();
         PopulateCategories();
         PopulateProducts();
         RefreshCart();
