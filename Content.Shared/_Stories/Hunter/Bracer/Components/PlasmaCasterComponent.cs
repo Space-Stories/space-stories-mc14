@@ -34,7 +34,7 @@ public sealed partial class PlasmaCasterComponent : Component
     public float LethalFireRate = 0.56f;
 
     [DataField]
-    public SoundSpecifier LethalSound = new SoundPathSpecifier("/Audio/_Stories/Weapons/pred_plasma_shot.ogg");
+    public SoundSpecifier LethalSound = new SoundPathSpecifier("/Audio/_Stories/Weapons/pred_lasercannon.ogg");
 
     [DataField] [AutoNetworkedField]
     public PlasmaCasterMode Mode = PlasmaCasterMode.Stun;
@@ -46,7 +46,7 @@ public sealed partial class PlasmaCasterComponent : Component
     public float OverchargeFireRate = 0.083f;
 
     [DataField]
-    public SoundSpecifier OverchargeSound = new SoundPathSpecifier("/Audio/_Stories/Weapons/pulse.ogg");
+    public SoundSpecifier OverchargeSound = new SoundPathSpecifier("/Audio/_Stories/Weapons/pred_plasma_shot.ogg");
 
     [DataField]
     public EntProtoId StunAmmo = "STPlasmaBoltStunProjectile";

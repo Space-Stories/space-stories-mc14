@@ -1,0 +1,7 @@
+- type: alert
+  id: STHiveInterference
+  icons:
+  - sprite: /Textures/_RMC14/Interface/Alerts/xeno_marker.rsi
+    state: marker
+  name: stories-alerts-hive-interference-name
+  description: stories-alerts-hive-interference-desc
