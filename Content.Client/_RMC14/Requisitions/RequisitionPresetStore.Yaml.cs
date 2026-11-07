@@ -2,37 +2,26 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Robust.Shared.Utility;
 using YamlDotNet.Core;
-using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
 namespace Content.Client._RMC14.Requisitions;
 
 public sealed partial class RequisitionPresetStore
 {
-    private const int MaxYamlDepth = 8;
-    private const int MaxYamlEvents = 8192;
-
     private static List<RequisitionPreset> ReadYaml(ReadOnlySpan<byte> bytes)
     {
-        var text = new UTF8Encoding(false, true).GetString(bytes);
-        // Bound nesting and reject references and type tags before building the YAML tree.
-        var parser = new Parser(new StringReader(text));
-        var depth = 0;
-        var events = 0;
-        while (parser.MoveNext())
-        {
-            if (++events > MaxYamlEvents || parser.Current is AnchorAlias ||
-                parser.Current is NodeEvent node && (!node.Anchor.IsEmpty || !node.Tag.IsEmpty))
-                throw new InvalidDataException();
-            if (parser.Current is MappingStart or SequenceStart && ++depth > MaxYamlDepth)
-                throw new InvalidDataException();
-            if (parser.Current is MappingEnd or SequenceEnd)
-                depth--;
-        }
+        var text = Encoding.UTF8.GetString(bytes);
+        var normalized = Encoding.UTF8.GetBytes(text);
+        if (!bytes.SequenceEqual(normalized))
+            throw new InvalidDataException();
+        ValidateYamlSyntax(text);
 
         var yaml = new YamlStream();
-        yaml.Load(new StringReader(text));
+        using var input = new MemoryStream(normalized);
+        using var reader = new StreamReader(input, Encoding.UTF8);
+        yaml.Load(reader);
         if (yaml.Documents.Count != 1)
             throw new InvalidDataException();
         var document = ReadMapping(yaml.Documents[0].RootNode, "version", "presets");
@@ -65,15 +54,17 @@ public sealed partial class RequisitionPresetStore
 
     private static Dictionary<string, YamlNode> ReadMapping(YamlNode node, params string[] fields)
     {
-        if (node is not YamlMappingNode mapping || mapping.Children.Count != fields.Length)
+        if (node is not YamlMappingNode mapping)
             throw new InvalidDataException();
-        var values = new Dictionary<string, YamlNode>(StringComparer.Ordinal);
-        foreach (var (key, value) in mapping.Children)
+        var values = new Dictionary<string, YamlNode>();
+        foreach (var (key, value) in mapping)
         {
             var name = ReadString(key);
-            if (!fields.Contains(name, StringComparer.Ordinal) || !values.TryAdd(name, value))
+            if (!fields.Contains(name) || !values.TryAdd(name, value))
                 throw new InvalidDataException();
         }
+        if (values.Count != fields.Length)
+            throw new InvalidDataException();
         return values;
     }
 
@@ -119,9 +110,10 @@ public sealed partial class RequisitionPresetStore
         {
             { "version", new YamlScalarNode("1") }, { "presets", saved },
         };
-        using var writer = new StringWriter(CultureInfo.InvariantCulture);
-        new YamlStream(new YamlDocument(root)).Save(writer, false);
-        return Encoding.UTF8.GetBytes(writer.ToString());
+        using var output = new MemoryStream();
+        using (var writer = new StreamWriter(output, EncodingHelpers.UTF8, 1024, true))
+            new YamlStream(new YamlDocument(root)).Save(writer, false);
+        return output.ToArray();
     }
 
     private static YamlScalarNode Quoted(string text)

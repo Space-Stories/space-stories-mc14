@@ -72,6 +72,12 @@ public sealed partial class RequisitionsBui
         if (_window == null)
             return;
 
+        if (RequestOnly && !_refreshingShop)
+        {
+            ResetPresetConfirmation();
+            RefreshPresets();
+        }
+
         CartKey? focused = null;
         var cursor = 0;
         var renderRows = _window.CartTab.Visible;

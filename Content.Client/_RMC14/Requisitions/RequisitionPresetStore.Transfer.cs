@@ -1,7 +1,5 @@
-using System.IO;
 using System.Linq;
 using System.Text;
-using YamlDotNet.Core;
 
 namespace Content.Client._RMC14.Requisitions;
 
@@ -14,17 +12,15 @@ public sealed partial class RequisitionPresetStore
             return false;
         try
         {
-            var encoding = new UTF8Encoding(false, true);
-            if (encoding.GetByteCount(text) > MaxFileBytes)
+            if (!ValidUnicode(text) || Encoding.UTF8.GetByteCount(text) > MaxFileBytes)
                 return false;
-            var presets = ReadYaml(encoding.GetBytes(text));
+            var presets = ReadYaml(Encoding.UTF8.GetBytes(text));
             if (presets.Count != 1 || !Validate(presets))
                 return false;
             preset = presets[0];
             return true;
         }
-        catch (Exception e) when (e is InvalidDataException or YamlException or
-                                     EncoderFallbackException or DecoderFallbackException)
+        catch (Exception)
         {
             return false;
         }

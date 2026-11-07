@@ -1,12 +1,10 @@
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using Content.Shared._RMC14.Requisitions;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Utility;
-using YamlDotNet.Core;
 
 namespace Content.Client._RMC14.Requisitions;
 
@@ -20,6 +18,10 @@ public sealed partial class RequisitionPresetStore
     public const int MaxNameLength = 64;
     public const int MaxReasonLength = 512;
     public const int MaxFileBytes = 256 * 1024;
+    public const int MaxKeyLength = 4096;
+
+    private static readonly IComparer<string> ProductOrder =
+        Comparer<string>.Create((left, right) => string.CompareOrdinal(left, right));
 
     private readonly IWritableDirProvider _data;
     public readonly ResPath Path;
@@ -36,13 +38,15 @@ public sealed partial class RequisitionPresetStore
 
     public static string GetKey(RequisitionsEntry entry)
     {
-        var identity = JsonSerializer.SerializeToUtf8Bytes(new
+        // Keep the complete identity: hashing APIs are unavailable in the client sandbox.
+        var identity = new StringBuilder();
+        var fields = entry.Entities.Select(id => id.Id).Order(ProductOrder)
+            .Prepend(entry.Unit ? "unit" : "crate").Prepend(entry.Crate.Id);
+        foreach (var field in fields)
         {
-            Product = entry.Crate.Id,
-            entry.Unit,
-            Extras = entry.Entities.Select(id => id.Id).Order(StringComparer.Ordinal).ToArray(),
-        });
-        return Convert.ToHexString(SHA256.HashData(identity));
+            identity.Append(field.Length.ToString(CultureInfo.InvariantCulture)).Append(':').Append(field);
+        }
+        return Convert.ToHexString(Encoding.UTF8.GetBytes(identity.ToString()));
     }
 
     public void Reload()
@@ -78,9 +82,7 @@ public sealed partial class RequisitionPresetStore
                 throw new InvalidDataException();
             Presets = presets;
         }
-        catch (Exception e) when (
-            e is IOException or InvalidDataException or UnauthorizedAccessException or
-                YamlException or DecoderFallbackException)
+        catch (Exception)
         {
             Presets = Array.Empty<RequisitionPreset>();
             Error = "rmc-requisitions-presets-read-error";
@@ -139,7 +141,7 @@ public sealed partial class RequisitionPresetStore
             {
                 _data.Rename(temp, Path);
             }
-            catch (IOException)
+            catch (Exception)
             {
                 if (!_data.Exists(Path) && _data.Exists(backup))
                     _data.Rename(backup, Path);
@@ -150,7 +152,7 @@ public sealed partial class RequisitionPresetStore
             Error = null;
             return true;
         }
-        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+        catch (Exception)
         {
             Error = "rmc-requisitions-presets-write-error";
             return false;
@@ -162,20 +164,23 @@ public sealed partial class RequisitionPresetStore
         if (presets == null || presets.Count > MaxPresets)
             return false;
         var ids = new HashSet<Guid>();
-        var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var names = new List<string>();
         foreach (var preset in presets)
         {
             if (preset == null || preset.Id == Guid.Empty || !ids.Add(preset.Id) ||
-                !ValidName(preset.Name) || !names.Add(preset.Name) ||
-                preset.Reason == null || preset.Reason.Length > MaxReasonLength ||
+                !ValidName(preset.Name) || names.Any(name =>
+                    string.Equals(name, preset.Name, StringComparison.OrdinalIgnoreCase)) ||
+                preset.Reason == null || preset.Reason.Length > MaxReasonLength || !ValidUnicode(preset.Reason) ||
                 preset.Items == null || preset.Items.Count is < 1 or > MaxLines)
                 return false;
-            var products = new HashSet<string>(StringComparer.Ordinal);
+            names.Add(preset.Name);
+            var products = new HashSet<string>();
             foreach (var item in preset.Items)
             {
-                if (item == null || item.Amount <= 0 || item.Key == null || item.Key.Length != 64 ||
+                if (item == null || item.Amount <= 0 || item.Key == null ||
+                    item.Key.Length is < 2 or > MaxKeyLength || item.Key.Length % 2 != 0 ||
                     !item.Key.All(char.IsAsciiHexDigit) || !products.Add(item.Key) ||
-                    string.IsNullOrWhiteSpace(item.Name) || item.Name.Length > 256)
+                    string.IsNullOrWhiteSpace(item.Name) || item.Name.Length > 256 || !ValidUnicode(item.Name))
                     return false;
             }
         }
@@ -185,7 +190,7 @@ public sealed partial class RequisitionPresetStore
     public static bool ValidName(string? name)
     {
         return !string.IsNullOrWhiteSpace(name) && name.Length <= MaxNameLength &&
-               name == name.Trim() && !name.Any(char.IsControl);
+               name == name.Trim() && !name.Any(char.IsControl) && ValidUnicode(name);
     }
 }
 
