@@ -249,9 +249,9 @@
                                                 </BoxContainer>
                                                 <!-- Stories-ZLevels-Start -->
                                                 <BoxContainer Orientation="Vertical">
-                                                    <Label Text="{Loc stories-targeting-z-label}" />
                                                     <targeting:ZLevelSpinBox Name="ZLevel" Access="Public" MinWidth="70"
                                                              ToolTip="{Loc stories-targeting-z-tooltip}" />
+                                                    <Label Text="{Loc stories-targeting-overwatch-height}" />
                                                 </BoxContainer>
                                                 <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Orientation="Vertical">
@@ -316,9 +316,9 @@
                                                 </BoxContainer>
                                                 <!-- Stories-ZLevels-Start -->
                                                 <BoxContainer Orientation="Vertical">
-                                                    <Label Text="{Loc stories-targeting-z-label}" />
                                                     <targeting:ZLevelSpinBox Name="OrbitalZLevel" Access="Public"
                                                         MinWidth="70" ToolTip="{Loc stories-targeting-z-tooltip}" />
+                                                    <Label Text="{Loc stories-targeting-overwatch-height}" />
                                                 </BoxContainer>
                                                 <!-- Stories-ZLevels-End -->
                                                 <BoxContainer Orientation="Vertical">
