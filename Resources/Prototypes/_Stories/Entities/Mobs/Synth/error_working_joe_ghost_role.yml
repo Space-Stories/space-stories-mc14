@@ -1,0 +1,14 @@
+# Моб Рабочего Джо для игрока
+- type: entity
+  parent: STMobWorkingJoe
+  id: STMobWorkingJoeGhostRole
+  suffix: Ghost Role
+  components:
+  - type: GhostTakeoverAvailable
+  - type: Loadout
+    prototypes:
+    - STGearWorkingJoeErrorGhostRole
+  - type: STSynthVoiceSynthesizer
+    alternateSoundVariants:
+    - Hazmat
+    alternateEmoteSounds: STWorkingJoeHazmatSounds

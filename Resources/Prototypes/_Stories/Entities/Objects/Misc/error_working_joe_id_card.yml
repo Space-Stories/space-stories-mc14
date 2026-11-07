@@ -1,0 +1,12 @@
+# ID-карта сломанного Рабочего Джо
+- type: entity
+  parent: CMIDCardLanyard
+  id: RMCIdCardWorkingJoeErrorColony
+  name: synth ID card
+  suffix: Survivor
+  components:
+  - type: PresetIdCard
+    job: RMCWorkingJoeColony
+  - type: ItemIFF
+    factions:
+    - FactionSurvivor
