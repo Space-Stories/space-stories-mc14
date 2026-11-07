@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Construction.Prototypes;
+using Content.Shared._RMC14.Construction.Prototypes;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Emplacements;
@@ -128,6 +128,11 @@ public sealed class RMCConstructionSystem : EntitySystem
         if (!_prototype.TryIndex<RMCConstructionPrototype>(protoID, out var proto))
             return false;
 
+        // Stories-ConstructionDupe-Start
+        if (amount != proto.Amount && (proto.StackAmounts == null || !proto.StackAmounts.Contains(amount)))
+            return false;
+        // Stories-ConstructionDupe-End
+
         if (!TryComp(user, out TransformComponent? transform))
             return false;
 
@@ -156,8 +161,10 @@ public sealed class RMCConstructionSystem : EntitySystem
 
         if (proto.MaterialCost is { } materialCost && TryComp<StackComponent>(ent.Owner, out var stack))
         {
-            var totalAmount = amount / proto.Amount;
-            var cost = (amount == proto.Amount) ? materialCost : totalAmount * materialCost;
+            // Stories-ConstructionDupe-Start
+            var totalAmount = (int) Math.Ceiling((double) amount / Math.Max(1, proto.Amount));
+            var cost = (amount == proto.Amount) ? materialCost : Math.Max(1, totalAmount * materialCost);
+            // Stories-ConstructionDupe-End
 
             if (stack.Count < cost)
             {
@@ -237,10 +244,15 @@ public sealed class RMCConstructionSystem : EntitySystem
         var coordinates = GetCoordinates(args.Coordinates);
         args.Handled = true;
 
+        // Stories-ConstructionDupe-Start
+        if (args.Amount != entry.Amount && (entry.StackAmounts == null || !entry.StackAmounts.Contains(args.Amount)))
+            return;
+
         // If the stack amount is equal to the default amount, use the default material cost.
         // Otherwise, use the material cost times the stack amount.
-        var totalAmount = args.Amount / entry.Amount; // So a stack of 20 with an amount of 4 and a cost of 1 is correctly 5 cost
-        var cost = (args.Amount == entry.Amount) ? entry.MaterialCost : totalAmount * entry.MaterialCost;
+        var totalAmount = (int) Math.Ceiling((double) args.Amount / Math.Max(1, entry.Amount));
+        var cost = (args.Amount == entry.Amount) ? entry.MaterialCost : Math.Max(1, totalAmount * (entry.MaterialCost ?? 1));
+        // Stories-ConstructionDupe-End
 
         if (TryComp<StackComponent>(ent.Owner, out var stack))
         {

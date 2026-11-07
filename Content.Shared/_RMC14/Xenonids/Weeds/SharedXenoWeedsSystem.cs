@@ -196,6 +196,14 @@ public abstract class SharedXenoWeedsSystem : EntitySystem
                 Dirty(spread, weeds);
             }
 
+            // Stories-DeletedEntityReferences-Start
+            if (TryComp<XenoWallWeedsComponent>(spread, out var wallWeeds))
+            {
+                wallWeeds.Weeds = null;
+                Dirty(spread, wallWeeds);
+            }
+            // Stories-DeletedEntityReferences-End
+
             var timed = EnsureComp<TimedDespawnComponent>(spread);
             var offset = _random.Next(ent.Comp.MinRandomDelete, ent.Comp.MaxRandomDelete);
             timed.Lifetime = (float)offset.TotalSeconds;

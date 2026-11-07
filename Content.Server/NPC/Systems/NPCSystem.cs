@@ -128,6 +128,8 @@ namespace Content.Server.NPC.Systems
             RemComp<ActiveNPCComponent>(uid);
         }
 
+        private float _npcAccumulator; // Stories-Optimization
+
         /// <inheritdoc />
         public override void Update(float frameTime)
         {
@@ -136,8 +138,16 @@ namespace Content.Server.NPC.Systems
             if (!Enabled)
                 return;
 
-            // Add your system here.
-            _htn.UpdateNPC(ref _count, _maxUpdates, frameTime);
+            // Stories-Optimization-Start
+            _npcAccumulator += frameTime;
+            if (_npcAccumulator < 0.05f)
+                return;
+
+            var timeToPass = _npcAccumulator;
+            _npcAccumulator = 0f;
+
+            _htn.UpdateNPC(ref _count, Math.Min(_maxUpdates, 48), timeToPass);
+            // Stories-Optimization-End
         }
 
         public void OnMobStateChange(EntityUid uid, HTNComponent component, MobStateChangedEvent args)

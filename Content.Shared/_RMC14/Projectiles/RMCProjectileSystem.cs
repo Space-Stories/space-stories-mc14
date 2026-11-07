@@ -471,8 +471,8 @@ public sealed class RMCProjectileSystem : EntitySystem
 
             var displacement = curPos - prevPos;
             var distSq = displacement.LengthSquared();
-            // If the projectile moved less than 0.25 tiles, Box2D discrete overlap catches it.
-            if (distSq < 0.0625f)
+            // If the projectile moved less than 0.5 tiles, Box2D discrete overlap catches it.
+            if (distSq < 0.25f)
                 continue;
 
             var dist = MathF.Sqrt(distSq);
@@ -492,10 +492,15 @@ public sealed class RMCProjectileSystem : EntitySystem
                     return true;
 
                 return false;
-            }, returnOnFirstHit: false);
+            }, returnOnFirstHit: false).ToList();
 
-            var sortedResults = results.OrderBy(r => r.Distance);
-            foreach (var hit in sortedResults)
+            if (results.Count == 0)
+                continue;
+
+            if (results.Count > 1)
+                results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+
+            foreach (var hit in results)
             {
                 if (projectile.ProjectileSpent || TerminatingOrDeleted(uid))
                     break;
@@ -537,6 +542,7 @@ public sealed class RMCProjectileSystem : EntitySystem
             }
         }
     }
+    // Stories-Projectiles-End
 }
 
 // Stories-Projectiles-Start

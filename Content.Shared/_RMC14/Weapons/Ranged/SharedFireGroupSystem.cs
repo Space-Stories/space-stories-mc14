@@ -1,4 +1,4 @@
-﻿using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Timing;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
@@ -45,7 +45,7 @@ public sealed class SharedFireGroupSystem : EntitySystem
 
         var userGroup = EnsureComp<RMCUserFireGroupComponent>(args.User);
         userGroup.LastFired[ent.Comp.Group] = _timing.CurTime;
-        userGroup.LastGun[ent.Comp.Group] = ent;
+        userGroup.LastGun[ent.Comp.Group] = GetNetEntity(ent); // Stories-DeletedEntityReferences
         Dirty(args.User, userGroup);
     }
 
@@ -64,7 +64,7 @@ public sealed class SharedFireGroupSystem : EntitySystem
         if (TryComp(args.User, out RMCUserFireGroupComponent? fireGroup) &&
             fireGroup.LastFired.TryGetValue(ent.Comp.Group, out var last) &&
             _timing.CurTime < last + ent.Comp.Delay &&
-            fireGroup.LastGun.GetValueOrDefault(ent.Comp.Group) != ent.Owner)
+            fireGroup.LastGun.GetValueOrDefault(ent.Comp.Group) != GetNetEntity(ent.Owner)) // Stories-DeletedEntityReferences
         {
             args.Cancel();
         }

@@ -1,6 +1,7 @@
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.Server.Players.PlayTimeTracking;
+using Content.Server.Preferences.Managers;
 using Content.Server.Roles;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Xenonids;
@@ -29,6 +30,7 @@ public sealed class XenoRoleSystem : EntitySystem
     [Dependency] private readonly NameModifierSystem _nameModifier = default!;
     [Dependency] private readonly PlayTimeTrackingSystem _playTime = default!;
     [Dependency] private readonly PlayTimeTrackingManager _playTimeManager = default!;
+    [Dependency] private readonly IServerPreferencesManager _preferences = default!; // Stories-PreferencesCheck
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
     [Dependency] private readonly RoleSystem _role = default!;
@@ -126,7 +128,7 @@ public sealed class XenoRoleSystem : EntitySystem
         args.AddModifier(rank.Value);
     }
 
-    private void UpdateRank(EntityUid xeno, ICommonSession player, string jobId, HumanoidCharacterProfile profile)
+    private void UpdateRank(EntityUid xeno, ICommonSession player, string jobId, HumanoidCharacterProfile? profile) // Stories-PreferencesCheck
     {
         if (!HasComp<XenoComponent>(xeno))
             return;
@@ -139,7 +141,7 @@ public sealed class XenoRoleSystem : EntitySystem
         }
 
         int rank;
-        if (!profile.PlaytimePerks)
+        if (profile != null && !profile.PlaytimePerks) // Stories-PreferencesCheck
             rank = 1;
         else if (time > _rankSixTime)
             rank = 6;
@@ -195,8 +197,12 @@ public sealed class XenoRoleSystem : EntitySystem
 
                     try
                     {
-                        var profile = _gameTicker.GetPlayerProfile(player);
+                        // Stories-PreferencesCheck-Start
+                        var profile = _preferences.HavePreferencesLoaded(player)
+                            ? _gameTicker.GetPlayerProfile(player)
+                            : null;
                         UpdateRank(xeno, player, xeno.Comp.Role, profile);
+                        // Stories-PreferencesCheck-End
                     }
                     catch (Exception e)
                     {
