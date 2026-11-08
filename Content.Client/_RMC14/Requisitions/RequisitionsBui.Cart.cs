@@ -61,6 +61,8 @@ public sealed partial class RequisitionsBui
                    (GetCartAmount(key) > 0 || _cart.Count < _state.MaxRequestLines);
         if (entry.Unit && entry.Cost <= 0)
             return false;
+        if (!_blackMarketMode && GetCartAmount() >= Math.Max(1, _state.MaxProcessingAmount))
+            return false;
         var blackMarketTotal = GetCartBlackMarketTotal() + entry.BlackMarketCost;
         return (!entry.BlackMarket || CanUseBlackMarket()) && total <= _state.Balance &&
                blackMarketTotal <= _state.BlackMarketBalance &&
@@ -201,7 +203,8 @@ public sealed partial class RequisitionsBui
 
         var supplyTotal = GetCartSupplyTotal();
         var blackMarketTotal = GetCartBlackMarketTotal();
-        var cartAmount = GetCartSlots();
+        var shipping = GetCartShipping();
+        var cartAmount = shipping.Slots;
         var remainingCapacity = GetRemainingCapacity();
 
         var totals = (_blackMarketMode, supplyTotal, blackMarketTotal, cartAmount);
@@ -209,6 +212,13 @@ public sealed partial class RequisitionsBui
             _window.BuyButton.IsConfirming = false;
         _cartTotals = totals;
         SetText(_window.CartTotalLabel, GetCartTotalText(supplyTotal, blackMarketTotal), markup: true);
+        _window.CartShipping.Visible = !RequestOnly && !_blackMarketMode && _state != null && cart.Count > 0;
+        if (_window.CartShipping.Visible)
+        {
+            SetText(_window.CartShipping, Loc.GetString("rmc-requisitions-cart-shipping", ("slots", cartAmount)));
+            _window.CartShipping.ToolTip = Loc.GetString("rmc-requisitions-cart-shipping-tooltip",
+                ("crates", cartAmount - shipping.Separate), ("separate", shipping.Separate));
+        }
 
         var status = string.Empty;
         if (cart.Count == 0)
@@ -227,6 +237,9 @@ public sealed partial class RequisitionsBui
             status = Loc.GetString("rmc-requisitions-cart-insufficient-funds");
         else if (_state != null && blackMarketTotal > _state.BlackMarketBalance)
             status = Loc.GetString("rmc-requisitions-cart-insufficient-wy");
+        else if (!RequestOnly && !_blackMarketMode && _state != null &&
+                 GetCartAmount() > Math.Max(1, _state.MaxProcessingAmount))
+            status = Loc.GetString("rmc-requisitions-process-limit", ("limit", Math.Max(1, _state.MaxProcessingAmount)));
         else if (!RequestOnly && cartAmount > remainingCapacity)
             status = Loc.GetString("rmc-requisitions-cart-insufficient-capacity");
 
@@ -242,6 +255,7 @@ public sealed partial class RequisitionsBui
                                      (_blackMarketMode && !CanUseBlackMarket()) ||
                                      (!RequestOnly && (supplyTotal > _state.Balance ||
                                       blackMarketTotal > _state.BlackMarketBalance ||
+                                      (!_blackMarketMode && GetCartAmount() > Math.Max(1, _state.MaxProcessingAmount)) ||
                                       cartAmount > remainingCapacity));
     }
 

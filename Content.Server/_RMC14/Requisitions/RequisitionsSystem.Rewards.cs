@@ -21,18 +21,11 @@ namespace Content.Server._RMC14.Requisitions
             EntityUid requisitionOrder,
             EntityCoordinates coordinates,
             string paperwork,
-            RequisitionsOrderDetails? request = null,
-            bool noReward = false)
+            RequisitionsOrderDetails? request = null)
         {
             // Create a sheet of paper to write the order details on
             // Order information sprinkled with flavor text
             var printedPaper = EntityManager.SpawnEntity(paperwork, coordinates);
-
-            if (noReward && TryComp(printedPaper, out RequisitionsInvoiceComponent? invoice))
-            {
-                invoice.Reward = 0;
-                Dirty(printedPaper, invoice);
-            }
 
             if (!TryComp<PaperComponent>(printedPaper, out var paper))
                 return;

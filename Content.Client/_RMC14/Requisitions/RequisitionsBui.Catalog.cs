@@ -148,10 +148,10 @@ public sealed partial class RequisitionsBui
     }
 
     private readonly record struct EntryAppearance(
-        EntProtoId Crate, LocId? Name, LocId? Description, SpriteSpecifier? Icon, bool Unit, bool NoReturnReward)
+        EntProtoId Crate, LocId? Name, LocId? Description, SpriteSpecifier? Icon, bool Unit, bool Consolidated)
     {
         public EntryAppearance(RequisitionsEntry entry)
-            : this(entry.Crate, entry.Name, entry.Description, entry.Icon, entry.Unit, entry.NoReturnReward)
+            : this(entry.Crate, entry.Name, entry.Description, entry.Icon, entry.Unit, entry.Consolidated)
         {
         }
     }

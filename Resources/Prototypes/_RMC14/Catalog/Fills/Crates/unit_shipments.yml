@@ -5,6 +5,13 @@
   description: Individually ordered supplies packed for delivery through the ASRS.
   components:
   - type: EntityStorage
-    capacity: 20
+    capacity: 34
   - type: RequisitionsCrate
-    reward: 0
+    reward: 50
+
+- type: entity
+  parent: RMCPaperRequisitionInvoice
+  id: RMCPaperRequisitionShipmentInvoice
+  components:
+  - type: RequisitionsInvoice
+    reward: 70

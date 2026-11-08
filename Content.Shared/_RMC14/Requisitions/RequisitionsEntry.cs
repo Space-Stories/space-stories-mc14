@@ -14,7 +14,7 @@ public sealed partial class RequisitionsEntry
     [DataField]
     public bool Unit;
 
-    public bool NoReturnReward;
+    public bool Consolidated;
 
     public List<RequisitionsDeliveryLine> RequestLines = new();
 

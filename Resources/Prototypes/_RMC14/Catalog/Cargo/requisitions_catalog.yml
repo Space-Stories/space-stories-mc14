@@ -711,529 +711,462 @@
     categories:
     - name: rmc-requisitions-category-ammo
       entries:
+      - cost: 125
+        unit: true
+        crate: CMMagazinePistolM1984
+      - cost: 125
+        unit: true
+        crate: CMMagazinePistolM77AP
+      - cost: 250
+        unit: true
+        crate: CMMagazinePistolMK80
+      - cost: 125
+        unit: true
+        crate: CMMagazineRifleM4SPR
+      - cost: 250
+        unit: true
+        crate: CMMagazineRifleM4SPRAP
+      - cost: 200
+        unit: true
+        crate: CMMagazineRifleM54C
+      - cost: 400
+        unit: true
+        crate: CMMagazineRifleM54CAP
+      - cost: 1000
+        unit: true
+        crate: CMMagazineRifleM54CE2
+      - cost: 1500
+        unit: true
+        crate: CMMagazineRifleM54CE2HT
+      - cost: 375
+        unit: true
+        crate: CMMagazineRifleM54CExt
+      - cost: 167
+        unit: true
+        crate: CMMagazineSMGM63
+      - cost: 334
+        unit: true
+        crate: CMMagazineSMGM63AP
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunBuckshot
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunFlechette
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunSlugs
+      - cost: 4000
+        unit: true
+        crate: RMCBoxBullets458
       - cost: 2000
-        crate: RMCCrateBoxBulletsSMG
-        icon:
-          entity: RMCBoxBulletsSMG
+        unit: true
+        crate: RMCBoxBulletsRifle
       - cost: 4000
-        crate: RMCCrateBoxBulletsSMGAP
-        icon:
-          entity: RMCBoxBulletsSMGAP
+        unit: true
+        crate: RMCBoxBulletsRifleAP
       - cost: 2000
-        crate: RMCCrateBoxBulletsRifle
-        icon:
-          entity: RMCBoxBulletsRifle
+        unit: true
+        crate: RMCBoxBulletsSMG
       - cost: 4000
-        crate: RMCCrateBoxBulletsRifleAP
-        icon:
-          entity: RMCBoxBulletsRifleAP
-      - cost: 4000
-        crate: RMCCrateBoxAmmo458
-        icon:
-          entity: RMCBoxBullets458
+        unit: true
+        crate: RMCBoxBulletsSMGAP
       - cost: 2000
-        crate: RMCCrateBoxMagazineRifleM54C
-        icon:
-          entity: RMCBoxMagazineRifleM54C
-      - cost: 4000
-        crate: RMCCrateBoxMagazineRifleM54CAP
-        icon:
-          entity: RMCBoxMagazineRifleM54CAP
+        unit: true
+        crate: RMCBoxMagazinePistolM1984
       - cost: 3000
-        crate: RMCCrateBoxMagazineRifleM54CExt
-        icon:
-          entity: RMCBoxMagazineRifleM54CExt
+        unit: true
+        crate: RMCBoxMagazinePistolM1984AP
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazinePistolM1984HP
       - cost: 2000
-        crate: RMCCrateMagazineRifleM54CE2
-        icon:
-          entity: CMMagazineRifleM54CE2
-      - cost: 3000
-        crate: RMCCrateMagazineRifleM54CE2HT
-        icon:
-          entity: CMMagazineRifleM54CE2HT
+        unit: true
+        crate: RMCBoxMagazinePistolM77AP
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazinePistolMK80
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazinePistolSU6
       - cost: 2000
-        crate: RMCCrateBoxMagazineRifleM4SPR
-        icon:
-          entity: RMCBoxMagazineRifleM4SPR
+        unit: true
+        crate: RMCBoxMagazineRevolverM44
       - cost: 4000
-        crate: RMCCrateBoxMagazineRifleM4SPRAP
-        icon:
-          entity: RMCBoxMagazineRifleM4SPRAP
+        unit: true
+        crate: RMCBoxMagazineRevolverM44Heavy
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazineRevolverM44Marksman
       - cost: 2000
-        crate: RMCCrateBoxMagazineSMGM63
-        icon:
-          entity: RMCBoxMagazineSMGM63
+        unit: true
+        crate: RMCBoxMagazineRifleM4SPR
       - cost: 4000
-        crate: RMCCrateBoxMagazineSMGM63AP
-        icon:
-          entity: RMCBoxMagazineSMGM63AP
+        unit: true
+        crate: RMCBoxMagazineRifleM4SPRAP
       - cost: 2000
-        crate: RMCCrateBoxMagazinePistolM1984
-        icon:
-          entity: RMCBoxMagazinePistolM1984
+        unit: true
+        crate: RMCBoxMagazineRifleM54C
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazineRifleM54CAP
       - cost: 3000
-        crate: RMCCrateBoxMagazinePistolM1984AP
-        icon:
-          entity: RMCBoxMagazinePistolM1984AP
-      - cost: 3000
-        crate: RMCCrateBoxMagazinePistolM1984HP
-        icon:
-          entity: RMCBoxMagazinePistolM1984HP
-      - cost: 3000
-        crate: RMCCrateBoxShellsShotgunSlugs
-        icon:
-          entity: RMCBoxShellsSlugs
-      - cost: 3000
-        crate: RMCCrateBoxShellsShotgunBuckshot
-        icon:
-          entity: RMCBoxShellsBuckshot
-      - cost: 3000
-        crate: RMCCrateBoxShellsShotgunFlechette
-        icon:
-          entity: RMCBoxShellsFlechette
+        unit: true
+        crate: RMCBoxMagazineRifleM54CExt
       - cost: 2000
-        crate: RMCCrateBoxMagazinePistolM77AP
-        icon:
-          entity: RMCBoxMagazinePistolM77AP
+        unit: true
+        crate: RMCBoxMagazineSMGM63
       - cost: 4000
-        crate: RMCCrateBoxMagazinePistolMK80
-        icon:
-          entity: RMCBoxMagazinePistolMK80
-      - cost: 4000
-        crate: RMCCrateBatterySmartGun
-        icon:
-          entity: RMCPowerCellSmartgun
+        unit: true
+        crate: RMCBoxMagazineSMGM63AP
       - cost: 3000
-        crate: RMCCrateMagazineSmartGun
-        icon:
-          entity: RMCMagazineSmartGun
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSmartPistol
-        icon:
-          entity: RMCBoxMagazinePistolSU6
-      - cost: 2000
-        crate: RMCCrateBoxMagazineM54CE2
-        icon:
-          entity: CMMagazineRifleM54CE2
-      - cost: 2000
-        crate: RMCCrateBoxMagazineM44Revolver
-        icon:
-          entity: RMCBoxMagazineRevolverM44
+        unit: true
+        crate: RMCBoxShellsBuckshot
       - cost: 3000
-        crate: RMCCrateBoxMagazineRevolverM44Marksman
-        icon:
-          entity: RMCBoxMagazineRevolverM44Marksman
-      - cost: 4000
-        crate: RMCCrateBoxMagazineRevolverM44Heavy
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSentry
-        icon:
-          entity: RMCMagazineSentry
-      - cost: 4000
-        crate: RMCCrateMagazineNapthalUT
-        icon:
-          entity: RMCTankFlamer
-      - cost: 4000
-        crate: RMCCrateMagazineBGel
-        icon:
-          entity: RMCTankFlamerBGel
-      - cost: 4000
-        crate: RMCCrateMagazineFlamerMixed
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSentryShotgun
-        icon:
-          entity: RMCMagazineSentryShotgun
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSentryFire
-        icon:
-          entity: RMCMagazineSentryFire
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSentryFireBlue
-        icon:
-          entity: RMCMagazineSentryFireBlue
-      - cost: 4000
-        crate: RMCCrateBoxMagazineSentryFireSmoke
-        icon:
-          entity: RMCMagazineSentryFireSmoke
+        unit: true
+        crate: RMCBoxShellsFlechette
+      - cost: 3000
+        unit: true
+        crate: RMCBoxShellsSlugs
+      - cost: 122
+        unit: true
+        crate: RMCCartridge458SOCOM
+      - cost: 1250
+        unit: true
+        crate: RMCMagazineM2C
       - cost: 2500
-        crate: RMCCrateMagazineML66DDrum
-        icon:
-          entity: RMCMagazineML66D
-      - cost: 2500
-        crate: RMCCrateMagazineM2C
-        icon:
-          entity: RMCMagazineM2C
+        unit: true
+        crate: RMCMagazineML66D
+      - cost: 188
+        unit: true
+        crate: RMCMagazinePistolM1984AP
+      - cost: 188
+        unit: true
+        crate: RMCMagazinePistolM1984HP
+      - cost: 250
+        unit: true
+        crate: RMCMagazinePistolSU6
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentry
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFire
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFireBlue
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFireSmoke
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryShotgun
+      - cost: 1500
+        unit: true
+        crate: RMCMagazineSmartGun
+      - cost: 1000
+        unit: true
+        crate: RMCPowerCellSmartgun
+      - cost: 250
+        unit: true
+        crate: RMCSpeedLoader44Heavy
+      - cost: 188
+        unit: true
+        crate: RMCSpeedLoader44Marksman
+      - cost: 125
+        unit: true
+        crate: RMCSpeedLoaderM44
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamer
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamerBGel
       - cost: 6000
         crate: RMCCrateMagazineAmmoSurplus
     - name: rmc-requisitions-category-attachments
       entries:
-      - cost: 3000
-        crate: RMCCrateAttachmentSmartScope
-        icon:
-          entity: RMCAttachmentB8SmartScope
-      - cost: 2000
-        crate: RMCCrateAttachmentRailFlashlight
-        icon:
-          entity: RMCAttachmentRailFlashlight
-      - cost: 3000
-        crate: RMCCrateAttachmentRedDot
-        icon:
-          entity: RMCAttachmentS5RedDotSight
-      - cost: 3000
-        crate: RMCCrateAttachmentTelescopicScope
-        icon:
-          entity: RMCAttachmentS84xTelescopicScope
-      - cost: 3000
-        crate: RMCCrateAttachmentMiniScope
-        icon:
-          entity: RMCAttachmentS42xTelescopicMiniscope
-      - cost: 3000
-        crate: RMCCrateAttachmentMagneticHarness
-        icon:
-          entity: RMCAttachmentMagneticHarness
-      - cost: 3000
-        crate: RMCCrateAttachmentSuppressor
-        icon:
-          entity: RMCAttachmentSuppressor
-      - cost: 3000
-        crate: RMCCrateAttachmentExtendedBarrel
-        icon:
-          entity: RMCAttachmentExtendedBarrel
-      - cost: 3000
-        crate: RMCCrateAttachmentCompensator
-        icon:
-          entity: RMCAttachmentRecoilCompensator
-      - cost: 3000
-        crate: RMCCrateAttachmentForegrip
-      - cost: 3000
-        crate: RMCCrateAttachmentGyro
-        icon:
-          entity: RMCAttachmentGyroscopicStabilizer
-      - cost: 3000
-        crate: RMCCrateAttachmentBipod
-        icon:
-          entity: RMCAttachmentBipod
-      - cost: 3000
-        crate: RMCCrateAttachmentUnderbarrelShotgun
-        icon:
-          entity: RMCAttachmentU7UnderbarrelShotgun
-      - cost: 3000
-        crate: RMCCrateAttachmentUnderbarrelExtinguisher
-        icon:
-          entity: RMCAttachmentUnderbarrelExtinguisher
-      - cost: 3000
-        crate: RMCCrateAttachmentUnderbarrelFlamer
-        icon:
-          entity: RMCAttachmentMiniFlamethrower
-      - cost: 3000
-        crate: RMCCrateAttachmentBurstfire
-        icon:
-          entity: RMCAttachmentBurstFireAssembly
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentB8SmartScope
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentBipod
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentBurstFireAssembly
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentExtendedBarrel
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentGyroscopicStabilizer
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM42A2CollapsibleStock
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM44MagnumSharpshooterStock
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM54CStockSolid
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM63Stock
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentMagneticHarness
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentMiniFlamethrower
+      - cost: 250
+        unit: true
+        crate: RMCAttachmentRailFlashlight
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentRecoilCompensator
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentS42xTelescopicMiniscope
+      - cost: 375
+        unit: true
+        crate: RMCAttachmentS5RedDotSight
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentS84xTelescopicScope
+      - cost: 375
+        unit: true
+        crate: RMCAttachmentSuppressor
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentU7UnderbarrelShotgun
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentUnderbarrelExtinguisher
       - cost: 6000
         crate: RMCCrateAttachmentAllStocks
       - cost: 3000
-        crate: RMCCrateAttachmentRevolverStock
-        icon:
-          entity: RMCAttachmentM44MagnumSharpshooterStock
-      - cost: 3000
-        crate: RMCCrateAttachmentRifleStock
-        icon:
-          entity: RMCAttachmentM54CStockSolid
-      - cost: 3000
-        crate: RMCCrateAttachmentShotgunStock
-        icon:
-          entity: RMCAttachmentM42A2CollapsibleStock
-      - cost: 3000
-        crate: RMCCrateAttachmentSmgStock
-        icon:
-          entity: RMCAttachmentM63Stock
+        crate: RMCCrateAttachmentForegrip
     - name: rmc-requisitions-category-clothing
       entries:
+      - cost: 500
+        unit: true
+        crate: CMWebbing
+      - cost: 750
+        unit: true
+        crate: CMWebbingHolster
+      - cost: 667
+        unit: true
+        crate: CMWebbingKnivesFilled
+      - cost: 500
+        unit: true
+        crate: RMCWebbingBlackSmall
+      - cost: 500
+        unit: true
+        crate: RMCWebbingDropPouch
+      - cost: 750
+        unit: true
+        crate: RMCWebbingDropPouchBlack
+      - cost: 500
+        unit: true
+        crate: RMCWebbingHolsterBlack
       - cost: 2000
         crate: RMCCrateClothingLargePouches
       - cost: 2000
         crate: RMCCrateClothingMedicalPouches
-      - cost: 2000
-        crate: RMCCrateClothingWebbing
-        icon:
-          entity: CMWebbing
-      - cost: 2000
-        crate: RMCCrateClothingWebbingBlack
-        icon:
-          entity: RMCWebbingBlackSmall
-      - cost: 2000
-        crate: RMCCrateClothingWebbingVest
-      - cost: 2000
-        crate: RMCCrateClothingWebbingKnife
-        icon:
-          entity: CMWebbingKnivesFilled
-      - cost: 3000
-        crate: RMCCrateClothingWebbingHolster
-        icon:
-          entity: CMWebbingHolster
-      - cost: 2000
-        crate: RMCCrateClothingWebbingHolsterBlack
-        icon:
-          entity: RMCWebbingHolsterBlack
-      - cost: 2000
-        crate: RMCCrateClothingDropPouch
-        icon:
-          entity: RMCWebbingDropPouch
-      - cost: 3000
-        crate: RMCCrateClothingDropPouchBlack
-        icon:
-          entity: RMCWebbingDropPouchBlack
       - cost: 3000
         crate: RMCCrateClothingOfficerOutfit
+      - cost: 2000
+        crate: RMCCrateClothingWebbingVest
     - name: rmc-requisitions-category-engineering
       entries:
       - cost: 2000
-        crate: RMCCrateEmptySandbags
-        icon:
-          entity: CMSandbagEmpty50
+        unit: true
+        crate: CMFoldingBarricadesMB6x3
+      - cost: 2000
+        unit: true
+        crate: CMSandbagEmpty50
+      - cost: 2000
+        unit: true
+        crate: CMSheetGlass
+      - cost: 2000
+        unit: true
+        crate: CMSheetMetal
       - cost: 3000
-        crate: RMCCrateSandbagsConstructionKit
+        unit: true
+        crate: CMSheetPlasteel
+      - cost: 667
+        unit: true
+        crate: RMCBoxLightsMixed
+      - cost: 125
+        unit: true
+        crate: RMCFlashlight
       - cost: 2000
-        crate: RMCCrateMetalSheets
-        icon:
-          entity: CMSheetMetal
+        unit: true
+        crate: RMCPlankWood
       - cost: 3000
-        crate: RMCCratePlasteelSheets
-        icon:
-          entity: CMSheetPlasteel
-      - cost: 2000
-        crate: RMCCrateGlassSheets
-        icon:
-          entity: CMSheetGlass
-      - cost: 2000
-        crate: RMCCrateWoodenPlanks
-        icon:
-          entity: RMCPlankWood
-      - cost: 2000
-        crate: RMCCrateFoldingBarricades
-#      - cost: 3000
-#        crate: RMCCrateSuperconductingMagneticCoil
+        unit: true
+        crate: RMCPortableGeneratorPacmanMachineCircuitBoard
+      - cost: 4000
+        unit: true
+        crate: RMCPortableGeneratorSuperPacmanMachineCircuitboard
+      - cost: 125
+        unit: true
+        crate: RMCPowerCellHigh
       - cost: 2000
         crate: RMCCrateElectricalMaintenance
       - cost: 2000
-        crate: RMCCrateMechanicalMaintenance
-      - cost: 2000
         crate: RMCCrateInflatableBarriers
       - cost: 2000
-        crate: RMCCrateReplacementLights
-        icon:
-          entity: RMCBoxLightsMixed
+        crate: RMCCrateMechanicalMaintenance
       - cost: 3000
-        crate: RMCCratePacmanParts
-        icon:
-          entity: RMCPortableGeneratorPacmanMachineCircuitBoard
-      - cost: 4000
-        crate: RMCCrateSuperPacmanParts
-        icon:
-          entity: RMCPortableGeneratorSuperPacmanMachineCircuitboard
-      - cost: 1000
-        crate: RMCCrateFlashlights
-        icon:
-          entity: RMCFlashlight
-      - cost: 1000
-        crate: RMCCrateHighCapacityPowerCell
-        icon:
-          entity: RMCPowerCellHigh
+        crate: RMCCrateSandbagsConstructionKit
     - name: rmc-requisitions-category-explosives
       entries:
-      - cost: 3000
-        crate: RMCCrateGrenadesHighExplosive
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: hedp_packet
-      - cost: 4000
-        crate: RMCCrateGrenadesIncendiary
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: hidp_packet
-      - cost: 3000
-        crate: RMCCrateGrenadesFrag
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: hefa_packet
-      # leaving this commented, as it is not parity, but we might want it in the future
-      #- cost: 2000
-      #  crate: RMCCrateGrenadesSmoke
-      - cost: 3200
-        crate: RMCCrateExplosiveWhitePhosphorusCompound
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: ccdp_packet
+      - cost: 1500
+        unit: true
+        crate: CMPacketGrenadeFragFilled
+      - cost: 2000
+        unit: true
+        crate: CMPacketGrenadeFragOldFilled
+      - cost: 1500
+        unit: true
+        crate: CMPacketGrenadeHighExplosiveFilled
+      - cost: 10000
+        unit: true
+        crate: RMCBoxAGMF
+      - cost: 10000
+        unit: true
+        crate: RMCBoxAGMI
       - cost: 10800
-        crate: RMCCrateExplosiveWhitePhosphorusCompoundBox
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: d_nade_placeholder
-      - cost: 4000
-        crate: RMCCrateGrenadesFragOld
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: m15_packet
-      - cost: 3000
-        crate: RMCCratePlasticExplosives
-        icon:
-          entity: RMCExplosivePlastic
-      - cost: 4000
-        crate: RMCCrateBreachingCharges
-        icon:
-          entity: RMCExplosiveBreachingCharge
+        unit: true
+        crate: RMCBoxCCDP
+      - cost: 1500
+        unit: true
+        crate: RMCBoxClaymoreMineFilled
       - cost: 10000
-        crate: RMCCrateGrenadesHighExplosiveBox
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: d_nade_placeholder
+        unit: true
+        crate: RMCBoxHEDP
       - cost: 10000
-        crate: RMCCrateGrenadesBoxHEFA
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: d_nade_placeholder
-      - cost: 10000
-        crate: RMCCrateGrenadesAirburstFragBox
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: d_nade_placeholder
-      - cost: 10000
-        crate: RMCCrateBoxAGMI
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: d_nade_placeholder
-      - cost: 4000
-        crate: RMCCrateGrenadesAirburstFrag
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: agmf_packet
-      - cost: 4000
-        crate: RMCCrateGrenadesAirburstIncendiary
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: agmi_packet
-      - cost: 3000
-        crate: RMCCrateGrenadesAirburstSmoke
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: agms_packet
-      - cost: 4000
-        crate: RMCCrateGrenadesAirburstHornet
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: hornet_packet
-      - cost: 4000
-        crate: RMCCrateGrenadesAirburstStarShell
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: starshell_packet
+        unit: true
+        crate: RMCBoxHEFA
       - cost: 1000
-        crate: RMCCrateGrenadesBatonSlug
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: baton_packet
-      - cost: 3000
-        crate: RMCCrateExplosiveClaymoreMine
-        icon:
-          sprite: _RMC14/Objects/Storage/packets.rsi
-          state: minebox
+        unit: true
+        crate: RMCExplosiveBreachingCharge
+      - cost: 1000
+        unit: true
+        crate: RMCExplosivePlastic
+      - cost: 500
+        unit: true
+        crate: RMCPacketGrenadeBatonSlugHIRRFilled
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeIncendiaryFilled
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMFFilled
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMIFilled
+      - cost: 1500
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSFilled
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSHornetFilled
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSStarShellFilled
+      - cost: 1600
+        unit: true
+        crate: RMCPacketGrenadeWhitePhosphorusCompoundFilled
       # Stories-BRUTE-Start
-      - cost: 3000
-        crate: RMCCrateM6HBruteRockets
+      - cost: 500
+        unit: true
+        crate: RMCRocketM5510Brute
       # Stories-BRUTE-End
       - cost: 4000
         crate: RMCCrateExplosivesSurplus
     - name: rmc-requisitions-category-food
       entries:
+      - cost: 500
+        unit: true
+        crate: CMMRE
       - cost: 1000
-        crate: RMCCrateFoodDonuts
-        icon:
-          entity: RMCBoxDonut
-      - cost: 1000
-        crate: RMCCrateFoodMRE
-        icon:
-          entity: CMMRE
-      - cost: 3000
-        crate: RMCCrateFoodPizza
-        icon:
-          entity: CMMarinePreparedMealPizza
+        unit: true
+        crate: CMMarinePreparedMealPizza
+      - cost: 200
+        unit: true
+        crate: RMCBoxDonut
       - cost: 1000
         crate: RMCCrateFoodIngredients
         icon:
           entity: RMCCrateFoodIngredients
     - name: rmc-requisitions-category-gear
       entries:
+      - cost: 200
+        unit: true
+        crate: CMPackFlare
+      - cost: 2000
+        unit: true
+        crate: RMCBoxPackFlare
+      - cost: 500
+        unit: true
+        crate: RMCFulton20
+      - cost: 2000
+        unit: true
+        crate: RMCMotionDetector
+      # Stories-OverwatchCameras-Start
+      - cost: 667
+        unit: true
+        crate: RMCOverwatchCameraTripod
+      # Stories-OverwatchCameras-End
+      - cost: 1500
+        unit: true
+        crate: RMCPackFlareCAS
+      - cost: 200
+        unit: true
+        crate: RMCParachute
       - cost: 2000
         crate: RMCCrateGearBinoculars
-      - cost: 4000
-        crate: RMCCrateGearPackFlare
-        icon:
-          entity: RMCBoxPackFlare
-      - cost: 4000
-        crate: RMCCrateGearMotionDetector
-        icon:
-          entity: RMCMotionDetector
-      # Stories-OverwatchCameras-Start
-      - cost: 2000
-        crate: RMCCrateGearOverwatchCameraTripod
-      # Stories-OverwatchCameras-End
-      - cost: 6000
-        crate: RMCCrateGearPackFlareCAS
-        icon:
-          sprite: _RMC14/Objects/Storage/boxes.rsi
-          state: m89
-      - cost: 2000
-        crate: RMCCrateGearFulton
-        icon:
-          entity: RMCFulton20
-      - cost: 4000
-        crate: RMCCrateGearParachute
-        icon:
-          entity: RMCParachute
     - name: rmc-requisitions-category-medical
       entries:
-      - cost: 2500
-        crate: RMCCrateMedicalSurgery
+      - cost: 500
+        unit: true
+        crate: CMStasisBagFolded
+      - cost: 175
+        unit: true
+        crate: RMCBoxBodyBag
       - cost: 3500
         crate: RMCCrateFieldDoctor
         entities:
-        - CMIV # TODO RMC14 Make IV fit in crate.
-      - cost: 700
-        crate: RMCCrateMedicalBodyBag
-        icon:
-          entity: RMCBoxBodyBag
+        - CMIV
       - cost: 1500
-        crate: RMCCrateMedicalStasisBag
-        icon:
-          entity: CMStasisBagFolded
+        crate: RMCCrateMedicalFilled
       - cost: 1100
         crate: RMCCrateMedicalFirstAid
       - cost: 1500
-        crate: RMCCrateMedicalFilled
-      - cost: 1500
         crate: RMCCrateMedicalPill
+      - cost: 2500
+        crate: RMCCrateMedicalSurgery
     - name: rmc-requisitions-category-mortar
       entries:
+      - cost: 167
+        unit: true
+        crate: RMCMortarShellFlare
+      # Stories-MortarFrag-Start
+      - cost: 167
+        unit: true
+        crate: RMCMortarShellFrag
+      # Stories-MortarFrag-End
+      - cost: 250
+        unit: true
+        crate: RMCMortarShellHE
+      - cost: 250
+        unit: true
+        crate: RMCMortarShellIncendiary
       - cost: 6000
         crate: RMCCrateMortarKit
-      - cost: 1500
-        crate: RMCCrateMortarShellHE
-        icon:
-          entity: RMCMortarShellHE
-      - cost: 1500
-        crate: RMCCrateMortarShellIncendiary
-        icon:
-          entity: RMCMortarShellIncendiary
-      - cost: 1000
-        crate: RMCCrateMortarShellFlare
-        icon:
-          entity: RMCMortarShellFlare
-      # Stories-MortarFrag-Start
-      - cost: 1000
-        crate: RMCCrateMortarShellFrag
-      # Stories-MortarFrag-End
-#    - name: rmc-requisitions-category-operations
-#      entries: []
     - name: rmc-requisitions-category-reagent-tanks
       entries:
       - cost: 2000
@@ -1251,162 +1184,144 @@
     - name: rmc-requisitions-category-restricted-equipment
       entries:
       - cost: 2000
-        crate: RMCCrateRestrictedEquipmentArmorM4
+        unit: true
+        crate: RMCKitIntel
       - cost: 2000
         crate: RMCCrateRestrictedEquipmentArmorB12
       - cost: 2000
-        crate: RMCCrateRestrictedEquipmentIntelSupportKit
-        icon:
-          entity: RMCKitIntel
+        crate: RMCCrateRestrictedEquipmentArmorM4
     - name: rmc-requisitions-category-supplies
       entries:
+      - cost: 400
+        unit: true
+        crate: RMCCrayonBox
+      - cost: 1000
+        unit: true
+        crate: RMCSheetCardboard
+      - cost: 1000
+        crate: RMCCrateSupplyEvacuation
       - cost: 2000
         crate: RMCCrateSupplyInternals
       - cost: 1000
-        crate: RMCCrateSupplyEvacuation
-      - cost: 1000
-        crate: RMCCrateSuppliesBoxes
-        icon:
-          entity: RMCSheetCardboard
-      - cost: 1000
         crate: RMCCrateSupplyJanitor
-      - cost: 2000
-        crate: RMCCrateSuppliesCrayons
-        icon:
-          entity: RMCCrayonBox
     - name: rmc-requisitions-category-vehicle-ammo
       entries:
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoLTBCannon
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoLTAAAP
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoAceAutocannon
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoDragonFlamer
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoBoyarsDualCannon
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoGrenadeLauncher
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoSmokeLauncher
-      - cost: 3000
-        crate: RMCCrateVehicleAmmoTowLauncher
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoCupola
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoLZRNFlamer
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoFrontalCannon
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoFlareLauncher
-      - cost: 2000
-        crate: RMCCrateVehicleAmmoRotaryCannon
+      - cost: 600
+        unit: true
+        crate: VehicleAmmoBoxAceAutocannon
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxCupola
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxDragonFlameTank
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxFlareLauncher
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxFrontal
+      - cost: 400
+        unit: true
+        crate: VehicleAmmoBoxGrenadeLauncher
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxLTAA
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxLTBCannon
+      - cost: 667
+        unit: true
+        crate: VehicleAmmoBoxRERotaryCannon
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxRocketLauncher
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxSmokeLauncher
+      - cost: 1000
+        unit: true
+        crate: VehicleFlamerTankLZRN
     - name: rmc-requisitions-category-weapons
       entries:
-      - cost: 4000
-        crate: RMCCrateM54CE2
-        icon:
-          entity: RMCGunCaseRifleM54CE2
-      - cost: 3000
-        crate: RMCCrateMK80
-      - cost: 4000
-        crate: RMCCrateM54CMK1
-      - cost: 4000
-        crate: RMCCrateXM88
-        icon:
-          entity: RMCCaseXM88
-      - cost: 3000
-        crate: RMCCrateSU6
-        icon:
-          entity: RMCGunCasePistolSmart
+      - cost: 2000
+        unit: true
+        crate: RMCCaseXM88
+      - cost: 1500
+        unit: true
+        crate: RMCGunCasePistolSmart
+      - cost: 2000
+        unit: true
+        crate: RMCGunCaseRifleM54CE2
+      - cost: 6000
+        unit: true
+        crate: RMCM2CCase
+      - cost: 2000
+        unit: true
+        crate: RMCM85A1Case
+      - cost: 6000
+        unit: true
+        crate: RMCML66DCase
+      - cost: 1500
+        unit: true
+        crate: RMCMOU53Case
       - cost: 4000
         crate: RMCCrateM34
-      - cost: 3000
-        crate: RMCCrateMOU53
-        icon:
-          entity: RMCMOU53Case
       - cost: 4000
-        crate: RMCCrateM85A1
-        icon:
-          entity: RMCM85A1Case
-      - cost: 6000
-        crate: RMCCrateML66D
-        icon:
-          entity: RMCML66DCase
-      - cost: 6000
-        crate: RMCCrateM2C
-        icon:
-          entity: RMCM2CCase
+        crate: RMCCrateM54CMK1
+      - cost: 3000
+        crate: RMCCrateMK80
     - name: rmc-requisitions-category-weapons-specialist-ammo
       entries:
-      - cost: 4000
-        crate: RMCCrateMagazineM96SMixed
-      - cost: 3000
-        crate: RMCCrateMagazineM96SStandard
-        icon:
-          entity: CMMagazineSniperM96S
-      - cost: 3000
-        crate: RMCCrateMagazineM96SFlak
-        icon:
-          entity: CMMagazineSniperM96SFlak
-      - cost: 3000
-        crate: RMCCrateMagazineM96SIncendiary
-        icon:
-          entity: CMMagazineSniperM96SIncendiary
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96S
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96SFlak
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96SIncendiary
+      - cost: 600
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19Impact
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19Incendiary
       # Stories-AntiMateriel-Start
-      - cost: 3000
-        crate: RMCCrateMagazineXM43E1Standard
-        icon:
-          entity: RMCMagazineSniperXM43E1AntiMateriel
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineSniperXM43E1AntiMateriel
       # Stories-AntiMateriel-End
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mm
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mmAntiArmor
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mmWhitePhosphorus
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamerLarge
       - cost: 3000
-        crate: RMCCrateM5DemoSpecMixed
-      - cost: 3000
-        crate: RMCCrateM5DemoSpecHighExplosive
-        icon:
-          entity: RMCRocket84mm
-      - cost: 3000
-        crate: RMCCrateM5DemoSpecAntiArmor
-        icon:
-          entity: RMCRocket84mmAntiArmor
-      - cost: 3000
-        crate: RMCCrateM5DemoSpecWhitePhosphorus
-        icon:
-          entity: RMCRocket84mmWhitePhosphorus
+        unit: true
+        crate: RMCTankFlamerLargeB
       - cost: 4000
-        crate: RMCCrateMagazineM4SPRCustomMixed
-      - cost: 3000
-        crate: RMCCrateMagazineM4SPRCustomStandard
-        icon:
-          entity: RMCMagazineRifleM4SPRA19
-      - cost: 3000
-        crate: RMCCrateMagazineM4SPRCustomImpact
-        icon:
-          entity: RMCMagazineRifleM4SPRA19Impact
-      - cost: 3000
-        crate: RMCCrateMagazineM4SPRCustomIncendiary
-        icon:
-          entity: RMCMagazineRifleM4SPRA19Incendiary
-      - cost: 6000
-        crate: RMCCratePyroTankMixed
-      - cost: 3000
-        crate: RMCCratePyroTankExtended
-        icon:
-          entity: RMCTankFlamerLarge
-      - cost: 3000
-        crate: RMCCratePyroTankTypeB
-        icon:
-          entity: RMCTankFlamerLargeB
-      - cost: 4000
-        crate: RMCCratePyroTankTypeX
-        icon:
-          entity: RMCTankFlamerLargeX
+        unit: true
+        crate: RMCTankFlamerLargeX
       # Stories-SHARP-Start
-      - cost: 3000
-        crate: STCrateMagazineSharpExplosive
-      - cost: 3000
-        crate: STCrateMagazineSharpIncendiary
-      - cost: 3000
-        crate: STCrateMagazineSharpFlechette
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleExplosive
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleFlechette
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleIncendiary
       # Stories-SHARP-End

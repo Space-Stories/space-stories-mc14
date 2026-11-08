@@ -52,13 +52,13 @@ public sealed partial class RequisitionsComputerComponent : Component
     public EntProtoId UnitShipment = "RMCCrateRequisitionShipment";
 
     [DataField, AutoNetworkedField]
-    public int ShipmentItems = 20;
+    public int ShipmentItems = 34;
+
+    [DataField, AutoNetworkedField]
+    public int ShipmentWeightLimit = 34;
 
     [DataField, AutoNetworkedField]
     public int MaxProcessingAmount = 500;
-
-    [DataField]
-    public Dictionary<EntProtoId, int> UnitPrices = new();
 
     [DataField]
     public EntityUid? Account;

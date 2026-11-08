@@ -45,6 +45,9 @@ public sealed partial class RequisitionsBui
 
         if (!RequestOnly)
         {
+            if (!_blackMarketMode)
+                maximum = Math.Min(maximum,
+                    Math.Max(0, Math.Max(1, _state.MaxProcessingAmount) - (GetCartAmount() - current)));
             while (maximum > 0 && GetCartSlots(key, maximum) > GetRemainingCapacity())
                 maximum--;
         }

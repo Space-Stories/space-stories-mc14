@@ -50,23 +50,11 @@ public sealed partial class RequisitionsSystem
         if (computer.Comp.UnitsBuilt)
             return;
 
-        var prices = RequisitionsUnitCatalog.GetPrices(computer.Comp.Categories, _prototype,
-            EntityManager.ComponentFactory, out var productCategories, computer.Comp.UnitPrices);
-
         computer.Comp.Categories = computer.Comp.Categories.Select(category => new RequisitionsCategory
         {
             Name = category.Name,
             Entries = new List<RequisitionsEntry>(category.Entries),
         }).ToList();
-        foreach (var (product, price) in prices.OrderBy(pair => pair.Key.Id))
-        {
-            var category = productCategories.GetValueOrDefault(product, "rmc-requisitions-category-supplies");
-            GetUnitCategory(computer, category).Entries.Add(new RequisitionsEntry
-            {
-                Crate = product, Cost = price, Unit = true,
-            });
-        }
-
         computer.Comp.UnitsBuilt = true;
         RefreshUnitStock(computer);
         Dirty(computer);
@@ -92,7 +80,7 @@ public sealed partial class RequisitionsSystem
         while (query.MoveNext(out var uid, out _, out var vendor, out var xform))
         {
             if (xform.MapID != origin.MapID || xform.GridUid != origin.GridUid ||
-                TerminatingOrDeleted(uid) || !_requisitionPower.IsPowered(uid))
+                TerminatingOrDeleted(uid))
                 continue;
 
             result.Add((uid, vendor));
@@ -115,6 +103,7 @@ public sealed partial class RequisitionsSystem
             if (actor is { } user && !_access.IsAllowed(user, vendor))
                 continue;
 
+            var powered = _requisitionPower.IsPowered(vendor);
             var pools = new Dictionary<CMVendorEntry, int>(ReferenceEqualityComparer.Instance);
             for (var sectionIndex = 0; sectionIndex < vendor.Comp.Sections.Count; sectionIndex++)
             {
@@ -130,7 +119,7 @@ public sealed partial class RequisitionsSystem
                     {
                         pool = stock.Amounts.Count;
                         pools[source] = pool;
-                        stock.Amounts.Add(_vendors.GetRequisitionAmount(vendor, sourceSection, source));
+                        stock.Amounts.Add(powered ? _vendors.GetRequisitionAmount(vendor, sourceSection, source) : 0);
                     }
 
                     // Duplicate package buttons backed by the same counter are alternative ways to vend one product.
@@ -217,48 +206,11 @@ public sealed partial class RequisitionsSystem
         List<(RequisitionsEntry Product, int Amount, int Line)> purchases,
         RequisitionsOrderDetails? details = null)
     {
-        var orders = new List<RequisitionsEntry>();
-        RequisitionsEntry? parcel = null;
-        var capacity = Math.Clamp(computer.Comp.ShipmentItems, 1, 20);
-        foreach (var (product, amount, line) in purchases)
-        {
-            for (var i = 0; i < amount; i++)
-            {
-                if (!product.Unit)
-                {
-                    var order = new RequisitionsEntry
-                    {
-                        Crate = product.Crate, Cost = product.Cost, Name = product.Name,
-                        Description = product.Description, Icon = product.Icon,
-                        Entities = new List<EntProtoId>(product.Entities), Request = details,
-                    };
-                    if (line >= 0)
-                        order.RequestLines.Add(new RequisitionsDeliveryLine(line, 1));
-                    orders.Add(order);
-                    continue;
-                }
-
-                if (parcel == null || parcel.Entities.Count >= capacity)
-                {
-                    parcel = new RequisitionsEntry
-                    {
-                        Crate = computer.Comp.UnitShipment, NoReturnReward = true, Request = details,
-                    };
-                    orders.Add(parcel);
-                }
-                parcel.Entities.Add(product.Crate);
-                parcel.Cost += product.Cost;
-                if (line >= 0)
-                {
-                    var delivery = parcel.RequestLines.Find(value => value.Line == line);
-                    if (delivery == null)
-                        parcel.RequestLines.Add(new RequisitionsDeliveryLine(line, 1));
-                    else
-                        delivery.Amount++;
-                }
-            }
-        }
-        return orders;
+        var items = purchases.Select(purchase =>
+            new RequisitionsShippingItem(purchase.Product, purchase.Amount, purchase.Line)).ToArray();
+        return RequisitionsShipping.CreateDeliveries(items, computer.Comp.UnitShipment,
+            computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems, _prototype,
+            EntityManager.ComponentFactory, details);
     }
 
     private void CompleteRequestDelivery(RequisitionsEntry order)

@@ -138,7 +138,6 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
     {
         _entities.TryGetComponent(Owner, out _state);
         UpdateRequestMode();
-        SelectInitialRequestCategory();
 
         if (_state is
             {
@@ -650,7 +649,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (entry.Name is { } nameOverride && Loc.TryGetString(nameOverride, out var localizedName))
             name = localizedName;
         if (entry.Unit)
-            name = RequisitionsUnitCatalog.GetUnitName(entry.Crate, name, _prototypes, _entities.ComponentFactory);
+            name = RequisitionsCatalog.GetUnitName(entry.Crate, name, _prototypes, _entities.ComponentFactory);
 
         var description = prototype?.Description ?? string.Empty;
         if (entry.Description is { } descriptionOverride && Loc.TryGetString(descriptionOverride, out var localizedDescription))
@@ -658,7 +657,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (string.IsNullOrWhiteSpace(description))
             description = Loc.GetString("rmc-requisitions-card-no-description");
 
-        if (entry.NoReturnReward && entry.Entities.Count > 0)
+        if (entry.Consolidated && entry.Entities.Count > 0)
             description = GetShipmentContents(entry);
 
         return (name, description);

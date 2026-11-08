@@ -190,7 +190,7 @@ public sealed partial class RequisitionsSystem
         }
 
         var selections = args.Selections ?? request.Items.Select((item, index) =>
-            new RequisitionsRequestSelection(index, item.Remaining, true)).ToList();
+            new RequisitionsRequestSelection(index, item.Remaining, false)).ToList();
         if (selections.Count > request.Items.Count)
             return;
 

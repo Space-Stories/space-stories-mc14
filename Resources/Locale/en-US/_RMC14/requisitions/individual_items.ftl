@@ -1,5 +1,10 @@
 rmc-requisitions-unit-cost = Unit price: ${ $cost }
 rmc-requisitions-unit-stock = Requisitions vendor stock: { $amount }
+rmc-requisitions-cart-shipping = Platform slots: { $slots }
+rmc-requisitions-cart-shipping-tooltip =
+    Consolidated crates: { $crates }
+    Separate deliveries: { $separate }
+    Items are packed automatically.
 rmc-requisitions-stock-only = Available from stock only
 rmc-requisitions-process-quantity = Quantity:
 rmc-requisitions-process-quantity-tooltip = Total for this product: items issued from vendors plus any permitted purchase of the shortage.

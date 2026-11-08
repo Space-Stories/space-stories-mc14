@@ -58,6 +58,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
 
     private static readonly EntProtoId AccountId = "RMCASRSAccount";
     private static readonly EntProtoId PaperRequisitionInvoice = "RMCPaperRequisitionInvoice";
+    private static readonly EntProtoId PaperRequisitionShipmentInvoice = "RMCPaperRequisitionShipmentInvoice";
     private static readonly EntProtoId<IFFFactionComponent> MarineFaction = "FactionMarine";
 
     private EntityQuery<ChasmComponent> _chasmQuery;
@@ -156,9 +157,6 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         var seen = new HashSet<(int Category, int Order)>();
         var totalCost = 0;
         var totalAmount = 0;
-        var unitAmount = 0;
-        var crateAmount = 0;
-        var shipmentItems = Math.Clamp(computer.Comp.ShipmentItems, 1, 20);
 
         foreach (var item in items)
         {
@@ -194,19 +192,21 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
 
             totalCost += order.Cost * item.Amount;
             totalAmount += item.Amount;
-            if (order.Unit)
-                unitAmount += item.Amount;
-            else
-                crateAmount += item.Amount;
-            if ((long) crateAmount + ((long) unitAmount + shipmentItems - 1) / shipmentItems > remainingCapacity)
+            if (totalAmount > Math.Max(1, computer.Comp.MaxProcessingAmount))
                 return false;
 
             purchases.Add((order, item.Amount, -1));
         }
 
-        var orders = PrepareShipments(computer, purchases);
         if (account.Balance < totalCost)
             return false;
+
+        var shipping = purchases.Select(purchase =>
+            new RequisitionsShippingItem(purchase.Product, purchase.Amount)).ToArray();
+        if (RequisitionsShipping.Count(shipping, computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems,
+                _prototype, EntityManager.ComponentFactory) > remainingCapacity)
+            return false;
+        var orders = PrepareShipments(computer, purchases);
 
         account.Balance -= totalCost;
         elevator.Comp.Orders.AddRange(orders);
@@ -436,11 +436,6 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             {
                 var deliveredOrder = GetBlackMarketDeliveryOrder(order);
                 var crate = SpawnAtPosition(deliveredOrder.Crate, coordinates.Offset(new Vector2(xOffset, yOffset)));
-                if (order.NoReturnReward && TryComp(crate, out RequisitionsCrateComponent? shippingCrate))
-                {
-                    shippingCrate.Reward = 0;
-                    Dirty(crate, shippingCrate);
-                }
                 remainingDeliveries--;
 
                 foreach (var prototype in deliveredOrder.Entities)
@@ -452,7 +447,8 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
                 if (deliveredOrder.BlackMarket)
                     MarkBlackMarketUnsellableRecursive(crate);
                 else
-                    PrintInvoice(crate, coordinates, PaperRequisitionInvoice, order.Request, order.NoReturnReward);
+                    PrintInvoice(crate, coordinates,
+                        order.Consolidated ? PaperRequisitionShipmentInvoice : PaperRequisitionInvoice, order.Request);
 
                 CompleteRequestDelivery(order);
 

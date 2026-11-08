@@ -10,21 +10,6 @@ public sealed partial class RequisitionsBui
     private readonly Dictionary<int, int> _requestRevisions = new();
     private readonly Dictionary<int, int> _requestCosts = new();
     private bool _updatingRequestLines;
-    private bool _initialRequestCategory;
-
-    private void SelectInitialRequestCategory()
-    {
-        if (_initialRequestCategory || !RequestOnly || _state == null)
-            return;
-        for (var i = 0; i < _state.Categories.Count; i++)
-        {
-            if (!_state.Categories[i].Entries.Any(entry => entry.Unit))
-                continue;
-            SelectedCategory = i;
-            _initialRequestCategory = true;
-            return;
-        }
-    }
 
     private string GetShipmentContents(RequisitionsEntry entry)
     {
@@ -40,11 +25,18 @@ public sealed partial class RequisitionsBui
 
     private int GetCartSlots(CartKey? changed = null, int value = 0)
     {
-        if (_blackMarketMode)
-            return GetCartAmount() - (changed is { } key ? GetCartAmount(key) - value : 0);
+        return GetCartShipping(changed, value).Slots;
+    }
 
-        var units = 0;
-        var crates = 0;
+    private (int Slots, int Separate) GetCartShipping(CartKey? changed = null, int value = 0)
+    {
+        if (_blackMarketMode)
+        {
+            var amount = GetCartAmount() - (changed is { } key ? GetCartAmount(key) - value : 0);
+            return (amount, amount);
+        }
+
+        var shipping = new List<RequisitionsShippingItem>();
         var keys = GetCurrentCart().Keys.ToHashSet();
         if (changed is { } added)
             keys.Add(added);
@@ -53,13 +45,13 @@ public sealed partial class RequisitionsBui
             if (!TryGetEntry(key, out var product))
                 continue;
             var amount = changed == key ? value : GetCartAmount(key);
-            if (product.Unit)
-                units += amount;
-            else
-                crates += amount;
+            if (amount > 0)
+                shipping.Add(new RequisitionsShippingItem(product, amount));
         }
-        var capacity = Math.Clamp(_state?.ShipmentItems ?? 20, 1, 20);
-        return crates + (units + capacity - 1) / capacity;
+        var slots = RequisitionsShipping.Count(shipping, _state?.ShipmentWeightLimit ?? 34,
+            _state?.ShipmentItems ?? RequisitionsShipping.MaxShipmentItems, _prototypes, _entities.ComponentFactory,
+            out var separate);
+        return (slots, separate);
     }
 
     private void RespondToRequest(int number, bool approve)
@@ -131,7 +123,7 @@ public sealed partial class RequisitionsBui
             if (changed && row.Quantity.Value != item.Remaining)
                 row.Quantity.OverrideValue(item.Remaining);
             if (created || row.Purchase.Disabled)
-                row.Purchase.Pressed = !row.Purchase.Disabled;
+                row.Purchase.Pressed = false;
             row.Remove.Disabled = item.Remaining == 0;
             row.Add.Disabled = item.Remaining == 0;
             row.Quantity.LineEditControl.Editable = item.Remaining > 0;
@@ -153,6 +145,7 @@ public sealed partial class RequisitionsBui
         long cost = 0;
         var units = 0;
         var crates = 0;
+        var shipping = new List<RequisitionsShippingItem>();
         var issued = 0;
         var processing = 0;
         for (var i = 0; i < request.Items.Count; i++)
@@ -170,11 +163,13 @@ public sealed partial class RequisitionsBui
                 units += purchase;
             else
                 crates += purchase;
+            if (purchase > 0)
+                shipping.Add(new RequisitionsShippingItem(item.Entry, purchase));
             previews.Add((row, item.Entry.Unit ? available : 0, issue, amount - issue,
                 purchase, (long) purchase * item.Entry.Cost));
         }
-        var capacity = Math.Clamp(_state.ShipmentItems, 1, 20);
-        var slots = crates + (units + capacity - 1) / capacity;
+        var slots = RequisitionsShipping.Count(shipping, _state.ShipmentWeightLimit, _state.ShipmentItems,
+            _prototypes, _entities.ComponentFactory);
         var purchaseBlocked = slots > 0 && (cost > _state.Balance || slots > GetRemainingCapacity());
         foreach (var preview in previews)
         {

@@ -1,5 +1,10 @@
 rmc-requisitions-unit-cost = Цена за штуку: { $cost } $
 rmc-requisitions-unit-stock = В автоматах снабжения: { $amount }
+rmc-requisitions-cart-shipping = Мест на лифте: { $slots }
+rmc-requisitions-cart-shipping-tooltip =
+    Сборные ящики: { $crates }
+    Отдельные поставки: { $separate }
+    Предметы упаковываются автоматически.
 rmc-requisitions-stock-only = Только выдача из запасов
 rmc-requisitions-process-quantity = Количество:
 rmc-requisitions-process-quantity-tooltip = Общее количество для этой позиции: выдача из автоматов плюс разрешённая закупка недостающего.
