@@ -126,6 +126,7 @@
       - id: CMHeadCapPeakedFormal
       - id: RMCSunglassesBig
     - name: Squad Colors
+      takeAll: RMCDresser # Stories-Fixes
       jobs:
       - CMCommandingOfficer
       - CMExecutiveOfficer
@@ -322,6 +323,7 @@
       - id: ClothingHeadHatChef
     # Gloves
     - name: Standard Gloves
+      takeAll: RMCDresser # Stories-Fixes
       entries:
       - id: CMHandsLatex
       - id: RMCHandsLatexMarine
@@ -332,6 +334,7 @@
       - id: CMHandsBlackInsulated
     # Glasses
     - name: Standard Glasses
+      takeAll: RMCDresser # Stories-Fixes
       entries:
       - id: RMCEyepatch
       - id: RMCSunglasses
@@ -355,6 +358,7 @@
       - id: RMCGlassesTriMaxBlackFake
     # Goggles
     - name: Standard Goggles
+      takeAll: RMCDresser # Stories-Fixes
       entries:
       - id: RMCGogglesBallistic
       - id: RMCGogglesPrescriptionBallistic
@@ -372,6 +376,7 @@
       - id: STGogglesM1A1BallisticBlack # Stories-GogglesM1A1Black
     # Masks and scarfs
     - name: Standard Masks and Scarfs
+      takeAll: RMCDresser # Stories-Fixes
       entries:
       - id: RMCMaskBalaclava
       - id: RMCMaskBalaclavaGreen
@@ -410,6 +415,7 @@
       - id: RMCMaskBalaclavaSkullBlack
     # Squad
     - name: Squad Themed Apparel
+      takeAll: RMCDresser # Stories-Fixes
       jobs:
       - CMIntelOfficer
       - CMSquadLeader
