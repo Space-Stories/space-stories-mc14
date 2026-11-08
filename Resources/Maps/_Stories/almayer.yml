@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/08/2026 10:03:44
+  time: 11/08/2026 11:54:12
   entityCount: 29631
 maps:
 - 1
@@ -62144,7 +62144,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -234513.78
+      secondsUntilStateChange: -234683.84
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -62168,7 +62168,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -234513.78
+      secondsUntilStateChange: -234683.84
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -102262,16 +102262,6 @@ entities:
     - type: Transform
       pos: -66.5,98.5
       parent: 1
-  - uid: 12931
-    components:
-    - type: Transform
-      pos: 29.5,100.5
-      parent: 1
-  - uid: 12932
-    components:
-    - type: Transform
-      pos: 25.5,100.5
-      parent: 1
   - uid: 12933
     components:
     - type: Transform
@@ -102282,55 +102272,15 @@ entities:
     - type: Transform
       pos: 24.5,100.5
       parent: 1
-  - uid: 12935
-    components:
-    - type: Transform
-      pos: 26.5,100.5
-      parent: 1
-  - uid: 12936
-    components:
-    - type: Transform
-      pos: 27.5,100.5
-      parent: 1
   - uid: 12937
     components:
     - type: Transform
       pos: 21.5,100.5
       parent: 1
-  - uid: 12938
-    components:
-    - type: Transform
-      pos: 29.5,103.5
-      parent: 1
-  - uid: 12939
-    components:
-    - type: Transform
-      pos: 29.5,104.5
-      parent: 1
-  - uid: 12940
-    components:
-    - type: Transform
-      pos: 28.5,104.5
-      parent: 1
-  - uid: 12941
-    components:
-    - type: Transform
-      pos: 28.5,100.5
-      parent: 1
   - uid: 12942
     components:
     - type: Transform
       pos: 26.5,104.5
-      parent: 1
-  - uid: 12943
-    components:
-    - type: Transform
-      pos: 29.5,101.5
-      parent: 1
-  - uid: 12944
-    components:
-    - type: Transform
-      pos: 29.5,102.5
       parent: 1
   - uid: 12967
     components:
@@ -103732,6 +103682,56 @@ entities:
     components:
     - type: Transform
       pos: 31.5,-0.5
+      parent: 1
+  - uid: 12931
+    components:
+    - type: Transform
+      pos: 29.5,100.5
+      parent: 1
+  - uid: 12932
+    components:
+    - type: Transform
+      pos: 25.5,100.5
+      parent: 1
+  - uid: 12935
+    components:
+    - type: Transform
+      pos: 26.5,100.5
+      parent: 1
+  - uid: 12936
+    components:
+    - type: Transform
+      pos: 27.5,100.5
+      parent: 1
+  - uid: 12938
+    components:
+    - type: Transform
+      pos: 29.5,103.5
+      parent: 1
+  - uid: 12939
+    components:
+    - type: Transform
+      pos: 29.5,104.5
+      parent: 1
+  - uid: 12940
+    components:
+    - type: Transform
+      pos: 28.5,104.5
+      parent: 1
+  - uid: 12941
+    components:
+    - type: Transform
+      pos: 28.5,100.5
+      parent: 1
+  - uid: 12943
+    components:
+    - type: Transform
+      pos: 29.5,101.5
+      parent: 1
+  - uid: 12944
+    components:
+    - type: Transform
+      pos: 29.5,102.5
       parent: 1
   - uid: 12945
     components:
@@ -150736,7 +150736,7 @@ entities:
       pos: 71.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381101.47
+      secondsUntilStateChange: -381271.53
       state: Opening
   - uid: 21501
     components:
@@ -150744,7 +150744,7 @@ entities:
       pos: 72.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381101.03
+      secondsUntilStateChange: -381271.1
       state: Opening
   - uid: 21502
     components:
@@ -150752,7 +150752,7 @@ entities:
       pos: 73.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381100.62
+      secondsUntilStateChange: -381270.7
       state: Opening
   - uid: 21503
     components:
@@ -150760,7 +150760,7 @@ entities:
       pos: 71.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381095.1
+      secondsUntilStateChange: -381265.16
       state: Opening
   - uid: 21504
     components:
@@ -150768,7 +150768,7 @@ entities:
       pos: 72.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381095.5
+      secondsUntilStateChange: -381265.56
       state: Opening
   - uid: 21505
     components:
@@ -150776,7 +150776,7 @@ entities:
       pos: 73.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381095.9
+      secondsUntilStateChange: -381265.97
       state: Opening
   - uid: 21506
     components:
@@ -150786,7 +150786,7 @@ entities:
       pos: 11.5,91.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -113641.53
+      secondsUntilStateChange: -113811.59
       state: Opening
   - uid: 21507
     components:
@@ -176363,8 +176363,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
       - Pilot
       - DropshipCrewChief
@@ -176469,8 +176469,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
       - Pilot
       - DropshipCrewChief
@@ -176575,8 +176575,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
       - Pilot
       - DropshipCrewChief
@@ -176681,8 +176681,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
       - Pilot
       - DropshipCrewChief
@@ -176786,8 +176786,8 @@ entities:
       - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
       - Pilot
       - DropshipCrewChief
@@ -190946,6 +190946,36 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Docking port 3
+  - uid: 26872
+    components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 21.5,103.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 1
+  - uid: 26873
+    components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 21.5,102.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 1
+  - uid: 26874
+    components:
+    - type: MetaData
+      name: ARES Подлок внешней блокировки
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 21.5,101.5
+      parent: 1
+    - type: RMCPodDoor
+      id: ARES Door 1
 - proto: RMCPodDoorAlmayerBlack
   entities:
   - uid: 26712
@@ -191721,36 +191751,6 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: Inner blocking layer
-  - uid: 26872
-    components:
-    - type: MetaData
-      name: ARES Подлок внешней блокировки
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 21.5,103.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
-  - uid: 26873
-    components:
-    - type: MetaData
-      name: ARES Подлок внешней блокировки
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 21.5,102.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
-  - uid: 26874
-    components:
-    - type: MetaData
-      name: ARES Подлок внешней блокировки
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 21.5,101.5
-      parent: 1
-    - type: RMCPodDoor
-      id: ARES Door 1
   - uid: 26885
     components:
     - type: Transform
@@ -209008,7 +209008,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -848.7417
+      secondsUntilStateChange: -1018.80786
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209027,7 +209027,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -787.52246
+      secondsUntilStateChange: -957.5886
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209046,7 +209046,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -793.32245
+      secondsUntilStateChange: -963.3886
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209066,7 +209066,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -854.0417
+      secondsUntilStateChange: -1024.1079
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209086,7 +209086,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -859.675
+      secondsUntilStateChange: -1029.7412
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209105,7 +209105,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -781.8558
+      secondsUntilStateChange: -951.92194
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209125,7 +209125,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -870.375
+      secondsUntilStateChange: -1040.4412
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209145,7 +209145,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -864.9083
+      secondsUntilStateChange: -1034.9745
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209165,7 +209165,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -876.5417
+      secondsUntilStateChange: -1046.6079
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209186,7 +209186,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -987.7416
+      secondsUntilStateChange: -1157.8077
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209206,7 +209206,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -706.05585
+      secondsUntilStateChange: -876.122
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209226,7 +209226,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -701.6225
+      secondsUntilStateChange: -871.68866
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209245,7 +209245,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -984.17487
+      secondsUntilStateChange: -1154.2411
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209264,7 +209264,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -964.3082
+      secondsUntilStateChange: -1134.3744
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209283,7 +209283,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -960.6749
+      secondsUntilStateChange: -1130.7411
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209303,7 +209303,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -695.3892
+      secondsUntilStateChange: -865.4554
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209322,7 +209322,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -998.9082
+      secondsUntilStateChange: -1168.9744
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209341,7 +209341,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -952.07495
+      secondsUntilStateChange: -1122.1411
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209360,7 +209360,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -956.37494
+      secondsUntilStateChange: -1126.4412
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209380,7 +209380,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -974.8082
+      secondsUntilStateChange: -1144.8744
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209400,7 +209400,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -978.7749
+      secondsUntilStateChange: -1148.8411
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209419,7 +209419,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -970.7749
+      secondsUntilStateChange: -1140.8411
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
