@@ -13,3 +13,6 @@ rmc-black-market-clf-corpse = IT'S A CORPSE!
 rmc-black-market-clf-corpse-name = CLF soldier
 rmc-black-market-clf-trap = It was booby trapped! RUN!
 rmc-black-market-clf-super-trap = It's full of armed mines! RUN!
+
+rmc-black-market-nailgun-kit = Nailgun with holster
+rmc-black-market-nailgun-kit-description = Includes a loaded nailgun, a holster, and two spare magazines.

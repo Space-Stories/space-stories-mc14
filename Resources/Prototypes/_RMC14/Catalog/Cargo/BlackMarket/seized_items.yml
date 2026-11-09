@@ -143,6 +143,40 @@
           entity: RMCWeaponSMGType19
 
       - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 10
+        crate: RMCBeltHolsterNailgunFill
+        name: rmc-black-market-nailgun-kit
+        description: rmc-black-market-nailgun-kit-description
+        icon:
+          entity: WeaponNailgun
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 200
+        blackMarketHeat: 20
+        crate: RMCWeaponFL3Flamer
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 80
+        blackMarketHeat: 10
+        crate: RMCWeaponLauncherDisposableFolded
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 120
+        blackMarketHeat: 15
+        crate: RMCPVECaseType88
+        icon:
+          entity: RMCType88SniperRifle
+
+      - cost: 0
         blackMarket: true
         blackMarketCost: 10
         blackMarketHeat: 5

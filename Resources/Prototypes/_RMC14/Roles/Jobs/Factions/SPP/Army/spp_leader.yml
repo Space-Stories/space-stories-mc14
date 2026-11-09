@@ -135,6 +135,9 @@
     - RMCBoxZiptie
     - RMCMagazineRifleType71AP
     - RMCMagazineRifleType71AP
+    - RMCGrenadeType6
+    - RMCGrenadeType6
+    - RMCGrenadeType8
 
 - type: playTimeTracker
   id: CMJobSPPLeader

@@ -106,7 +106,7 @@
   storage:
     back:
     - RMCMRESPP
-    - RMCPacketGrenadeWhitePhosphorusFilled
+    - RMCPacketGrenadeType8Filled
     - CMCrowbar
     - RMCHandcuffs
     - RMCHandcuffs

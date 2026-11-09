@@ -13,3 +13,6 @@ rmc-black-market-clf-corpse = ЭТО ТРУП!
 rmc-black-market-clf-corpse-name = боец КФО
 rmc-black-market-clf-trap = Это была ловушка! БЕГИТЕ!
 rmc-black-market-clf-super-trap = Здесь полно взведённых мин! БЕГИТЕ!
+
+rmc-black-market-nailgun-kit = Гвоздемёт с кобурой
+rmc-black-market-nailgun-kit-description = Содержит заряженный гвоздемёт, кобуру и два запасных магазина.

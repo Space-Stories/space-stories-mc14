@@ -10,6 +10,27 @@
       - cost: 0
         unit: true
         blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 2
+        crate: RMCMagazineSMGNailgun
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 5
+        crate: RMCTankFlamerFL3
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 2
+        crate: RMCMagazineSniperType88
+
+      - cost: 0
+        unit: true
+        blackMarket: true
         blackMarketCost: 135
         blackMarketHeat: 5
         crate: RMCBox4570
@@ -353,3 +374,31 @@
         blackMarketCost: 30
         blackMarketHeat: 5
         crate: RMCBoxMagazineRevolverZHNK72
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 5
+        crate: RMCGrenadeType6
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 5
+        crate: RMCGrenadeType8
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 5
+        crate: RMCGrenadeWebleyMk15
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 20
+        blackMarketHeat: 5
+        crate: RMCGrenadeBlastM12
