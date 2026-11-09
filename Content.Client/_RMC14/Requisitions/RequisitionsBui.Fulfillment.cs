@@ -30,12 +30,6 @@ public sealed partial class RequisitionsBui
 
     private (int Slots, int Separate) GetCartShipping(CartKey? changed = null, int value = 0)
     {
-        if (_blackMarketMode)
-        {
-            var amount = GetCartAmount() - (changed is { } key ? GetCartAmount(key) - value : 0);
-            return (amount, amount);
-        }
-
         var shipping = new List<RequisitionsShippingItem>();
         var keys = GetCurrentCart().Keys.ToHashSet();
         if (changed is { } added)

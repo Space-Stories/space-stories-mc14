@@ -7,11 +7,11 @@
   - type: EntityStorage
     capacity: 34
   - type: RequisitionsCrate
-    reward: 50
+    reward: 0
 
 - type: entity
   parent: RMCPaperRequisitionInvoice
   id: RMCPaperRequisitionShipmentInvoice
   components:
   - type: RequisitionsInvoice
-    reward: 70
+    reward: 0

@@ -1,0 +1,196 @@
+- type: entity
+  abstract: true
+  id: RMCBlackMarketCatalogDeepStorage
+  components:
+  - type: RequisitionsComputer
+    categories: []
+    blackMarketCategories:
+    - name: rmc-requisitions-black-market-category-deep-storage
+      entries:
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 5
+        blackMarketHeat: -2
+        crate: RMCHelmetGarbSpaceJamTickets
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHelmetGarbNightVision
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHelmetGarbBulletPipe
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHelmetGarbWire
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageLuckyFeather
+        icon:
+          entity: RMCHelmetGarbFeatherRed
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHelmetGarbRosary
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHelmetGarbRabbitFoot
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageTacticalMask
+        icon:
+          entity: RMCMaskScarfGray
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageSkullBalaclava
+        icon:
+          entity: RMCMaskBalaclavaSkullBlack
+
+      # TODO RMC14: Port Skull Facepaint behavior before enabling this Deep Storage entry.
+      # TODO RMC14: Skull Facepaint, cost 10, heat -5.
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCGlassesAviators
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageBallisticGoggles
+        icon:
+          entity: RMCGogglesBallistic
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: -5
+        crate: RMCGlassesTriMaxPersonal
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageUNMCBandana
+        icon:
+          entity: RMCHeadBandana
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCHeadUNMCHeadset
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageUNMCHeadband
+        icon:
+          entity: CMHeadBandGreen
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCCrateBlackMarketDeepStorageUNMCBoonieHat
+        icon:
+          entity: RMCBoonie
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: CMSparePDTLBattleBuddyKit
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 5
+        blackMarketHeat: -2
+        crate: RMCFoodLime
+
+      # TODO RMC14: Port CMSS Uno Reverse Card behavior/assets before enabling this Deep Storage entry.
+      # TODO RMC14: Uno Reverse Card, cost 10, heat -5.
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: CMBootsJungle
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: CMBootsUrban
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: -5
+        crate: RMCType80BayonetReplica
+
+      # TODO RMC14: Port CMSS M8 Cartridge Bayonet Kit behavior before enabling this Deep Storage entry.
+      # TODO RMC14: M8 Cartridge Bayonet Kit, cost 10, heat -5.
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 2
+        crate: RMCCLFD18Box
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 4
+        crate: CMWeaponPistolM1984Custom
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 70
+        blackMarketHeat: 4
+        crate: RMCWeaponRevolverM44Custom
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 2
+        crate: RMCBeltGunslinger

@@ -1,0 +1,24 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogFood
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-food
+      entries:
+      - cost: 500
+        unit: true
+        crate: CMMRE
+
+      - cost: 1000
+        unit: true
+        crate: CMMarinePreparedMealPizza
+
+      - cost: 200
+        unit: true
+        crate: RMCBoxDonut
+
+      - cost: 1000
+        crate: RMCCrateFoodIngredients
+        icon:
+          entity: RMCCrateFoodIngredients

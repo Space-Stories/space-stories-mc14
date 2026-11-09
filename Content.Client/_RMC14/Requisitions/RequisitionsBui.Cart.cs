@@ -59,9 +59,9 @@ public sealed partial class RequisitionsBui
         if (RequestOnly)
             return !entry.BlackMarket && total <= int.MaxValue &&
                    (GetCartAmount(key) > 0 || _cart.Count < _state.MaxRequestLines);
-        if (entry.Unit && entry.Cost <= 0)
+        if (!entry.BlackMarket && entry.Unit && entry.Cost <= 0)
             return false;
-        if (!_blackMarketMode && GetCartAmount() >= Math.Max(1, _state.MaxProcessingAmount))
+        if (GetCartAmount() >= Math.Max(1, _state.MaxProcessingAmount))
             return false;
         var blackMarketTotal = GetCartBlackMarketTotal() + entry.BlackMarketCost;
         return (!entry.BlackMarket || CanUseBlackMarket()) && total <= _state.Balance &&
@@ -237,7 +237,7 @@ public sealed partial class RequisitionsBui
             status = Loc.GetString("rmc-requisitions-cart-insufficient-funds");
         else if (_state != null && blackMarketTotal > _state.BlackMarketBalance)
             status = Loc.GetString("rmc-requisitions-cart-insufficient-wy");
-        else if (!RequestOnly && !_blackMarketMode && _state != null &&
+        else if (!RequestOnly && _state != null &&
                  GetCartAmount() > Math.Max(1, _state.MaxProcessingAmount))
             status = Loc.GetString("rmc-requisitions-process-limit", ("limit", Math.Max(1, _state.MaxProcessingAmount)));
         else if (!RequestOnly && cartAmount > remainingCapacity)
@@ -255,7 +255,7 @@ public sealed partial class RequisitionsBui
                                      (_blackMarketMode && !CanUseBlackMarket()) ||
                                      (!RequestOnly && (supplyTotal > _state.Balance ||
                                       blackMarketTotal > _state.BlackMarketBalance ||
-                                      (!_blackMarketMode && GetCartAmount() > Math.Max(1, _state.MaxProcessingAmount)) ||
+                                      GetCartAmount() > Math.Max(1, _state.MaxProcessingAmount) ||
                                       cartAmount > remainingCapacity));
     }
 

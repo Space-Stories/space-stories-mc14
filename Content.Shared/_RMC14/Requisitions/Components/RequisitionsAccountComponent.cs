@@ -32,6 +32,12 @@ public sealed partial class RequisitionsAccountComponent : Component
     [Access(typeof(SharedRequisitionsSystem), typeof(ScalingSystem))]
     public int Balance;
 
+    /// <summary>
+    /// Percentage of paid requisitions returned for their shipping containers and approved invoices.
+    /// </summary>
+    [DataField]
+    public double ShipmentReturnPercent = 9.7;
+
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan NextGain;
 

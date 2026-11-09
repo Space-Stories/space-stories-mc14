@@ -1,0 +1,33 @@
+- type: entityTable
+  id: RMCBlackMarketCLFBombParts
+  table: !type:GroupSelector
+    children:
+    - id: RMCTimerTrigger
+    - id: CMMultitool
+    # Stories-Ordnance-Start
+    - id: STIgniter
+    - id: STTimer
+    - id: STProximitySensor
+    - id: STSignaller
+    - id: STAssemblyHolder
+    # Stories-Ordnance-End
+    - id: RMCM40GrenadeCasing
+    - id: RMCM15GrenadeCasing
+    - id: RMCM20MineCasing
+    - id: RMCC4PlasticCasing
+    - id: RMC88mmRocketTube
+    - id: RMC88mmRocketWarhead
+    - id: RMC80mmMortarShell
+    - id: RMC80mmMortarWarhead
+    - id: RMC80mmMortarCameraWarhead
+
+- type: entityTable
+  id: RMCBlackMarketCLFGrenades
+  table: !type:GroupSelector
+    children:
+    - id: RMCGrenadeIED
+    - id: RMCGrenadeMolotov
+    - id: RMCGrenadeIncendiary
+    - id: RMCGrenadeWhitePhosphorus
+    - id: CMGrenadeSmoke
+    - id: CMGrenadeFragOld

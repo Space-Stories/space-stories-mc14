@@ -49,12 +49,18 @@ public static class RequisitionsShipping
             if (package == deliveries.Count)
             {
                 deliveries.Add(packed
-                    ? new RequisitionsEntry { Crate = container, Consolidated = true, Request = request }
+                    ? new RequisitionsEntry
+                    {
+                        Crate = container, Consolidated = true, BlackMarket = product.BlackMarket, Request = request,
+                    }
                     : new RequisitionsEntry
                     {
                         Crate = product.Crate, Cost = product.Cost, Name = product.Name,
                         Description = product.Description, Icon = product.Icon,
                         Entities = new List<EntProtoId>(product.Entities), Request = request,
+                        BlackMarket = product.BlackMarket, BlackMarketCost = product.BlackMarketCost,
+                        BlackMarketHeat = product.BlackMarketHeat,
+                        Unit = product.Unit,
                     });
             }
             var delivery = deliveries[package];
@@ -63,6 +69,7 @@ public static class RequisitionsShipping
                 for (var number = 0; number < quantity; number++)
                     delivery.Entities.Add(product.Crate);
                 delivery.Cost += product.Cost * quantity;
+                delivery.BlackMarketCost += product.BlackMarketCost * quantity;
             }
             if (item.RequestLine < 0)
                 return;

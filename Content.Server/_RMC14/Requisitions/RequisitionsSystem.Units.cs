@@ -208,9 +208,11 @@ public sealed partial class RequisitionsSystem
     {
         var items = purchases.Select(purchase =>
             new RequisitionsShippingItem(purchase.Product, purchase.Amount, purchase.Line)).ToArray();
-        return RequisitionsShipping.CreateDeliveries(items, computer.Comp.UnitShipment,
+        var orders = RequisitionsShipping.CreateDeliveries(items, computer.Comp.UnitShipment,
             computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems, _prototype,
             EntityManager.ComponentFactory, details);
+        SetShipmentReturns(computer, orders);
+        return orders;
     }
 
     private void CompleteRequestDelivery(RequisitionsEntry order)

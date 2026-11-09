@@ -1,0 +1,71 @@
+- type: entity
+  abstract: true
+  id: RMCBlackMarketCatalogSurplusEquipment
+  components:
+  - type: RequisitionsComputer
+    categories: []
+    blackMarketCategories:
+    - name: rmc-requisitions-black-market-category-surplus-equipment
+      entries:
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: -2
+        crate: RMCCrateBlackMarketSurplusPoncho
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: -2
+        crate: RMCCrateBlackMarketSurplusHEAP
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 55
+        blackMarketHeat: 5
+        crate: RMCCrateBlackMarketSurplusRiotControl
+        icon:
+          entity: RMCPepperSpray
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 5
+        crate: RMCCrateBlackMarketSurplusNonLethalAmmo
+        icon:
+          entity: RMCMagazineSMGM63Rubber
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 5
+        crate: RMCMK45AutomagCase
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 45
+        blackMarketHeat: 5
+        crate: RMCSSG45Case
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 80
+        blackMarketHeat: 5
+        crate: RMCM3717Case
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 5
+        crate: RMCM1911Case
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 25
+        blackMarketHeat: 5
+        crate: RMCM1911SOCOMCase

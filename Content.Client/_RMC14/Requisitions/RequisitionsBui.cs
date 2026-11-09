@@ -10,6 +10,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Reflection;
 using Robust.Shared.Utility;
 using static Content.Shared._RMC14.Requisitions.Components.RequisitionsElevatorMode;
 
@@ -35,6 +36,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
     [Dependency] private readonly IEntityManager _entities = default!;
     [Dependency] private readonly ILocalizationManager _localization = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    [Dependency] private readonly IReflectionManager _reflection = default!;
 
     private readonly SpriteSystem _sprite;
     private readonly Dictionary<CartKey, RequisitionsProductCard> _productCards = new();
@@ -682,6 +684,9 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
 
     private DisplayIcon GetPrototypeDisplayIcon(EntityPrototype prototype)
     {
+        if (TryGetContainerDisplayIcon(prototype, out var containerIcon))
+            return containerIcon;
+
         var textures = _sprite.GetPrototypeTextures(prototype)
             .Select(texture => texture.Default)
             .ToList();
@@ -727,10 +732,11 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (TryGetEntry(key, out var product))
         {
             SetText(card.Cost, GetCostText(product));
-            card.Stock.Visible = product.Unit;
+            card.Stock.Visible = product.Unit && !product.BlackMarket;
             var stock = _state?.Stock.GetValueOrDefault(product.Crate) ?? 0;
             SetText(card.Stock, Loc.GetString("rmc-requisitions-unit-stock", ("amount", StockText(stock))));
-            card.Quantity.LineEditControl.Editable = !_submittingRequest && (RequestOnly || !product.Unit || product.Cost > 0);
+            card.Quantity.LineEditControl.Editable = !_submittingRequest &&
+                (RequestOnly || product.BlackMarket || !product.Unit || product.Cost > 0);
         }
         card.RemoveButton.Disabled = amount <= 0 || _submittingRequest;
         card.AddButton.Disabled = !TryGetEntry(key, out var entry) || !CanAdd(key, entry);
@@ -826,7 +832,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
 
     private string GetCostText(RequisitionsEntry entry)
     {
-        if (entry.Unit)
+        if (entry.Unit && !entry.BlackMarket)
             return entry.Cost > 0
                 ? Loc.GetString("rmc-requisitions-unit-cost", ("cost", entry.Cost))
                 : Loc.GetString("rmc-requisitions-stock-only");

@@ -1,0 +1,55 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogVehicleAmmo
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-vehicle-ammo
+      entries:
+      - cost: 600
+        unit: true
+        crate: VehicleAmmoBoxAceAutocannon
+
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxCupola
+
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxDragonFlameTank
+
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxFlareLauncher
+
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxFrontal
+
+      - cost: 400
+        unit: true
+        crate: VehicleAmmoBoxGrenadeLauncher
+
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxLTAA
+
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxLTBCannon
+
+      - cost: 667
+        unit: true
+        crate: VehicleAmmoBoxRERotaryCannon
+
+      - cost: 1000
+        unit: true
+        crate: VehicleAmmoBoxRocketLauncher
+
+      - cost: 500
+        unit: true
+        crate: VehicleAmmoBoxSmokeLauncher
+
+      - cost: 1000
+        unit: true
+        crate: VehicleFlamerTankLZRN

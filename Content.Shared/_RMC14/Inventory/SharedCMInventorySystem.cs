@@ -421,6 +421,11 @@ public abstract class SharedCMInventorySystem : EntitySystem
     protected virtual void ContentsUpdated(Entity<CMItemSlotsComponent> ent)
     {
         var (filled, total) = GetItemSlotsFilled(ent.Owner);
+        _appearance.SetData(ent, CMItemSlotsLayers.Fill, GetFillVisuals(filled, total));
+    }
+
+    public static CMItemSlotsVisuals GetFillVisuals(int filled, int total)
+    {
         CMItemSlotsVisuals visuals;
         if (total == 0)
             visuals = CMItemSlotsVisuals.Empty;
@@ -435,7 +440,7 @@ public abstract class SharedCMInventorySystem : EntitySystem
         else
             visuals = CMItemSlotsVisuals.Empty;
 
-        _appearance.SetData(ent, CMItemSlotsLayers.Fill, visuals);
+        return visuals;
     }
 
     protected virtual void ContentsUpdated(Entity<CMHolsterComponent> ent)

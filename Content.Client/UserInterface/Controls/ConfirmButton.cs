@@ -77,7 +77,7 @@ public sealed class ConfirmButton : Button
         base.OnPressed += HandleOnPressed;
     }
 
-    // Stories-RequisitionsPresets-Start
+    // RMC14
     /// <summary>
     /// Cancels the pending confirmation without changing the action's availability.
     /// </summary>
@@ -95,7 +95,7 @@ public sealed class ConfirmButton : Button
         if (_nextReset != null && (!IsConfirming || _gameTiming.CurTime > _nextReset))
             ResetConfirmation();
     }
-    // Stories-RequisitionsPresets-End
+    // RMC14
 
     protected override void DrawModeChanged()
     {
@@ -130,7 +130,7 @@ public sealed class ConfirmButton : Button
         if (IsConfirming && _nextCooldown > _gameTiming.CurTime)
             return;
 
-        // Stories-RequisitionsPresets-Start
+        // RMC14
         if (IsConfirming)
         {
             ResetConfirmation();
@@ -144,6 +144,6 @@ public sealed class ConfirmButton : Button
         IsConfirming = true;
         base.Text = ConfirmationText;
         DrawModeChanged();
-        // Stories-RequisitionsPresets-End
+        // RMC14
     }
 }

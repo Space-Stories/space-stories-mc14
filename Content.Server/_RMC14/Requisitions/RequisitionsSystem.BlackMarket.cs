@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using Content.Server.Cargo.Systems;
 using Content.Shared._RMC14.Marines.Skills;
@@ -151,14 +152,16 @@ public sealed partial class RequisitionsSystem
             return;
         }
 
-        var orders = new List<RequisitionsEntry>();
+        var purchases = new List<(RequisitionsEntry Product, int Amount, int Line)>();
+        var seen = new HashSet<(int Category, int Order)>();
         var totalCost = 0;
         var totalBlackMarketCost = 0;
         var totalAmount = 0;
 
         foreach (var item in items)
         {
-            if (item == null || item.Amount <= 0)
+            if (item == null || item.Amount <= 0 || item.Amount > computer.Comp.MaxRequestItems ||
+                !seen.Add((item.Category, item.Order)))
                 return;
 
             if (item.Category < 0 || item.Category >= computer.Comp.BlackMarketCategories.Count)
@@ -175,7 +178,7 @@ public sealed partial class RequisitionsSystem
             }
 
             var order = category.Entries[item.Order];
-            if (!order.BlackMarket)
+            if (!order.BlackMarket || order.Cost < 0 || order.BlackMarketCost < 0)
             {
                 Log.Error($"Player {ToPrettyString(actor)} tried to buy a non-black-market order from the black market catalog: category {item.Category}, order {item.Order}");
                 return;
@@ -194,13 +197,10 @@ public sealed partial class RequisitionsSystem
             totalBlackMarketCost += order.BlackMarketCost * item.Amount;
             totalAmount += item.Amount;
 
-            if (totalAmount > remainingCapacity)
+            if (totalAmount > Math.Max(1, computer.Comp.MaxProcessingAmount))
                 return;
 
-            for (var i = 0; i < item.Amount; i++)
-            {
-                orders.Add(order);
-            }
+            purchases.Add((order, item.Amount, -1));
         }
 
         if (account.Balance < totalCost ||
@@ -209,13 +209,21 @@ public sealed partial class RequisitionsSystem
             return;
         }
 
+        var shipping = purchases.Select(purchase =>
+            new RequisitionsShippingItem(purchase.Product, purchase.Amount)).ToArray();
+        if (RequisitionsShipping.Count(shipping, computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems,
+                _prototype, EntityManager.ComponentFactory) > remainingCapacity)
+            return;
+        var orders = PrepareShipments(computer, purchases);
+
         account.Balance -= totalCost;
         account.BlackMarketBalance -= totalBlackMarketCost;
 
         var oldHeat = account.BlackMarketHeat;
-        foreach (var order in orders)
+        foreach (var purchase in purchases)
         {
-            AddBlackMarketHeat(account, order.BlackMarketHeat);
+            for (var i = 0; i < purchase.Amount; i++)
+                AddBlackMarketHeat(account, purchase.Product.BlackMarketHeat);
         }
 
         elevator.Comp.Orders.AddRange(orders);
@@ -230,7 +238,7 @@ public sealed partial class RequisitionsSystem
         }
 
         SendUIStateAll();
-        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(actor):actor} bought {totalAmount} black market crate(s) for WY${totalBlackMarketCost} and ${totalCost}");
+        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(actor):actor} bought {totalAmount} black market products in {orders.Count} shipments for WY${totalBlackMarketCost} and ${totalCost}");
     }
 
     private void AddBlackMarketHeat(RequisitionsAccountComponent account, int heat)

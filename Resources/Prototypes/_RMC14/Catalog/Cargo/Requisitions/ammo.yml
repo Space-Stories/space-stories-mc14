@@ -1,0 +1,219 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogAmmo
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-ammo
+      entries:
+      - cost: 125
+        unit: true
+        crate: CMMagazinePistolM1984
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazinePistolM1984
+
+      - cost: 125
+        unit: true
+        crate: CMMagazinePistolM77AP
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazinePistolM77AP
+
+      - cost: 250
+        unit: true
+        crate: CMMagazinePistolMK80
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazinePistolMK80
+
+      - cost: 125
+        unit: true
+        crate: CMMagazineRifleM4SPR
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazineRifleM4SPR
+
+      - cost: 250
+        unit: true
+        crate: CMMagazineRifleM4SPRAP
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazineRifleM4SPRAP
+
+      - cost: 200
+        unit: true
+        crate: CMMagazineRifleM54C
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazineRifleM54C
+
+      - cost: 400
+        unit: true
+        crate: CMMagazineRifleM54CAP
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazineRifleM54CAP
+
+      - cost: 1000
+        unit: true
+        crate: CMMagazineRifleM54CE2
+
+      - cost: 1500
+        unit: true
+        crate: CMMagazineRifleM54CE2HT
+
+      - cost: 375
+        unit: true
+        crate: CMMagazineRifleM54CExt
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazineRifleM54CExt
+
+      - cost: 167
+        unit: true
+        crate: CMMagazineSMGM63
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazineSMGM63
+
+      - cost: 334
+        unit: true
+        crate: CMMagazineSMGM63AP
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazineSMGM63AP
+
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunBuckshot
+      - cost: 3000
+        unit: true
+        crate: RMCBoxShellsBuckshot
+
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunFlechette
+      - cost: 3000
+        unit: true
+        crate: RMCBoxShellsFlechette
+
+      - cost: 150
+        unit: true
+        crate: CMShellShotgunSlugs
+      - cost: 3000
+        unit: true
+        crate: RMCBoxShellsSlugs
+
+      - cost: 4000
+        unit: true
+        crate: RMCBoxBullets458
+
+      - cost: 2000
+        unit: true
+        crate: RMCBoxBulletsRifle
+
+      - cost: 4000
+        unit: true
+        crate: RMCBoxBulletsRifleAP
+
+      - cost: 2000
+        unit: true
+        crate: RMCBoxBulletsSMG
+
+      - cost: 4000
+        unit: true
+        crate: RMCBoxBulletsSMGAP
+
+      - cost: 122
+        unit: true
+        crate: RMCCartridge458SOCOM
+
+      - cost: 1250
+        unit: true
+        crate: RMCMagazineM2C
+
+      - cost: 2500
+        unit: true
+        crate: RMCMagazineML66D
+
+      - cost: 188
+        unit: true
+        crate: RMCMagazinePistolM1984AP
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazinePistolM1984AP
+
+      - cost: 188
+        unit: true
+        crate: RMCMagazinePistolM1984HP
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazinePistolM1984HP
+
+      - cost: 250
+        unit: true
+        crate: RMCMagazinePistolSU6
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazinePistolSU6
+
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentry
+
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFire
+
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFireBlue
+
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryFireSmoke
+
+      - cost: 2000
+        unit: true
+        crate: RMCMagazineSentryShotgun
+
+      - cost: 1500
+        unit: true
+        crate: RMCMagazineSmartGun
+
+      - cost: 1000
+        unit: true
+        crate: RMCPowerCellSmartgun
+
+      - cost: 250
+        unit: true
+        crate: RMCSpeedLoader44Heavy
+      - cost: 4000
+        unit: true
+        crate: RMCBoxMagazineRevolverM44Heavy
+
+      - cost: 188
+        unit: true
+        crate: RMCSpeedLoader44Marksman
+      - cost: 3000
+        unit: true
+        crate: RMCBoxMagazineRevolverM44Marksman
+
+      - cost: 125
+        unit: true
+        crate: RMCSpeedLoaderM44
+      - cost: 2000
+        unit: true
+        crate: RMCBoxMagazineRevolverM44
+
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamer
+
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamerBGel
+
+      - cost: 6000
+        crate: RMCCrateMagazineAmmoSurplus

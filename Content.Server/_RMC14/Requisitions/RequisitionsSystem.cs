@@ -59,6 +59,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
     private static readonly EntProtoId AccountId = "RMCASRSAccount";
     private static readonly EntProtoId PaperRequisitionInvoice = "RMCPaperRequisitionInvoice";
     private static readonly EntProtoId PaperRequisitionShipmentInvoice = "RMCPaperRequisitionShipmentInvoice";
+    private static readonly EntProtoId ReturnCrate = "RMCCrateBase";
     private static readonly EntProtoId<IFFFactionComponent> MarineFaction = "FactionMarine";
 
     private EntityQuery<ChasmComponent> _chasmQuery;
@@ -214,7 +215,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         Dirty(elevator);
 
         SendUIStateAll();
-        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(actor):actor} bought {totalAmount} requisitions products in {orders.Count} shipments for {totalCost}"); // Stories-BlackMarket
+        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(actor):actor} bought {totalAmount} requisitions products in {orders.Count} shipments for {totalCost}");
 
         foreach (var order in orders)
         {
@@ -447,8 +448,17 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
                 if (deliveredOrder.BlackMarket)
                     MarkBlackMarketUnsellableRecursive(crate);
                 else
+                {
+                    if (order.CrateReturn is { } crateReward &&
+                        TryComp(crate, out RequisitionsCrateComponent? shippingCrate))
+                    {
+                        shippingCrate.Reward = crateReward;
+                        Dirty(crate, shippingCrate);
+                    }
                     PrintInvoice(crate, coordinates,
-                        order.Consolidated ? PaperRequisitionShipmentInvoice : PaperRequisitionInvoice, order.Request);
+                        order.Consolidated ? PaperRequisitionShipmentInvoice : PaperRequisitionInvoice,
+                        order.Request, order.InvoiceReturn);
+                }
 
                 CompleteRequestDelivery(order);
 
