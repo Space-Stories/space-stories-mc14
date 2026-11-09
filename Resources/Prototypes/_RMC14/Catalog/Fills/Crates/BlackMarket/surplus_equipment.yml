@@ -22,10 +22,11 @@
   parent: RMCCrateWoodenBuildable
   id: RMCCrateBlackMarketSurplusRiotControl
   name: surplus riot control equipment
-  description: Contains three random pieces of surplus riot control equipment.
+  description: Contains a policing instructional pamphlet and three random pieces of surplus riot control equipment.
   components:
   - type: StorageFill
     contents:
+    - id: CMPamphletPolice
     - id: RMCStunBatonDamaged
       orGroup: SurplusRiotOne
     - id: RMCPepperSpray
