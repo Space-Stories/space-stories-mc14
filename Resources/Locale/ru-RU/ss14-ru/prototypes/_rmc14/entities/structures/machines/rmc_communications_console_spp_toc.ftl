@@ -3,4 +3,4 @@ ent-RMCOverwatchConsoleSPPTOC = консоль тактического упра
     .suffix = { ent-RMCOverwatchConsoleSPP.suffix }
 ent-RMCOverwatchConsoleSPPTOCRotating = { ent-RMCOverwatchConsoleSPPTOC }
     .desc = { ent-RMCOverwatchConsoleSPPTOC.desc }
-    .suffix = Поворотная
+    .suffix = Поворотный

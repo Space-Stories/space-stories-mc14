@@ -1,9 +1,9 @@
 ent-RMCCouchMid = диван
     .desc = Как и хотела "Космическая Икея".
-    .suffix = Середина
+    .suffix = Середина, Двойной
 ent-RMCCouchEnd = { ent-RMCCouchMid }
     .desc = { ent-RMCCouchMid.desc }
-    .suffix = Конец
+    .suffix = Конец, Двойной
 ent-RMCCouchMidAlt = { ent-RMCCouchMid }
     .desc = { ent-RMCCouchMid.desc }
     .suffix = Середина, Двойной, Альт.

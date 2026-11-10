@@ -6,4 +6,4 @@ ent-RMCPinpointerUniversal = { ent-RMCPinpointerBase }
     .suffix = Универсальный
 ent-RMCPinpointerAegisID = { ent-RMCPinpointerBase }
     .desc = { ent-RMCPinpointerBase.desc }
-    .suffix = ЭГИДА
+    .suffix = Эгида

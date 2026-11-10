@@ -1,6 +1,6 @@
 ent-CMAnestheticTankFilled = { ent-CMAnestheticTank }
     .desc = { ent-CMAnestheticTank.desc }
-    .suffix = Заполненный
+    .suffix = RMC14, Заполненный
 ent-RMCGasTankOxygenFilled = { ent-RMCGasTankOxygen }
     .desc = { ent-RMCGasTankOxygen.desc }
     .suffix = RMC14, Заполненный

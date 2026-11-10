@@ -1,6 +1,6 @@
 ent-RMCSheetCardboard = картон
     .desc = { ent-SheetOtherBase.desc }
-    .suffix = Заполненный, RMC
+    .suffix = Полный, RMC
 ent-RMCSheetCardboard30 = { ent-RMCSheetCardboard }
     .desc = { ent-RMCSheetCardboard.desc }
     .suffix = 30, RMC
@@ -12,4 +12,4 @@ ent-RMCSheetCardboard10 = { ent-RMCSheetCardboard }
     .suffix = 10, RMC
 ent-RMCSheetCardboard1 = { ent-RMCSheetCardboard }
     .desc = { ent-RMCSheetCardboard.desc }
-    .suffix = Один, RMC
+    .suffix = Единичный, RMC

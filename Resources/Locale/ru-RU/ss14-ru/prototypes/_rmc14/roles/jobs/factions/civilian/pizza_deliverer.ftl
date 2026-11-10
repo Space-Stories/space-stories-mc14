@@ -1,3 +1,3 @@
 ent-RMCRandomHumanoidPizzaDeliveryBoy = разносчик пиццы роль призрака
     .desc = { "" }
-    .suffix = Роль
+    .suffix = Спавнер, Игрок, Нейтральный

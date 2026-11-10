@@ -99,4 +99,4 @@ ent-CMPottedPlant30 = { ent-CMPottedPlantBase }
     .suffix = { ent-CMPottedPlantBase.suffix }
 ent-RMCPottedPlantRandomUnanchored = растение в горшке
     .desc = { ent-CMPottedPlantBase.desc }
-    .suffix = RMC, Случайное, Незакреплённое
+    .suffix = RMC, Случайный, Незакрепленный
