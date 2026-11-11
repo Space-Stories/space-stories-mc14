@@ -86,7 +86,7 @@ public sealed partial class LabelTextDialog : DefaultWindow
         Close();
     }
 
-    public static void Show(Vector2i position, string existingText = "",
+    public static LabelTextDialog Show(Vector2i position, string existingText = "",
         Action<string>? onConfirmed = null, Action? onDeleted = null)
     {
         var dialog = new LabelTextDialog(position, existingText);
@@ -95,5 +95,6 @@ public sealed partial class LabelTextDialog : DefaultWindow
         if (onDeleted != null)
             dialog.OnLabelDeleted += onDeleted;
         dialog.OpenCentered();
+        return dialog;
     }
 }

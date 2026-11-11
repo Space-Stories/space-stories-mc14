@@ -28,6 +28,7 @@ using Content.Shared.Actions;
 using Content.Shared.Atmos.Rotting;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
+using Content.Shared.GameTicking;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
@@ -147,6 +148,7 @@ public sealed partial class TacticalMapSystem : SharedTacticalMapSystem
         SubscribeLocalEvent<UnrevivableComponent, MapInitEvent>(OnUnrevivableMapInit);
         SubscribeLocalEvent<UnrevivableComponent, ComponentRemove>(OnUnrevivablRemove);
         SubscribeLocalEvent<RoundStartingEvent>(OnRoundStart);
+        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         SubscribeLocalEvent<TacticalMapLiveUpdateOnOviComponent, MapInitEvent>(OnLiveUpdateOnOviMapInit);
         SubscribeLocalEvent<TacticalMapLiveUpdateOnOviComponent, MobStateChangedEvent>(OnLiveUpdateOnOviStateChanged);
@@ -284,6 +286,13 @@ public sealed partial class TacticalMapSystem : SharedTacticalMapSystem
     private void OnRoundStart(RoundStartingEvent ev)
     {
         _nextForceMapUpdate = _timing.CurTime + _forceMapUpdateEvery;
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent args)
+    {
+        _toInit.Clear();
+        _toUpdate.Clear();
+        _nextForceMapUpdate = TimeSpan.Zero;
     }
 
     private void OnLiveUpdateOnOviMapInit(Entity<TacticalMapLiveUpdateOnOviComponent> ent, ref MapInitEvent args)

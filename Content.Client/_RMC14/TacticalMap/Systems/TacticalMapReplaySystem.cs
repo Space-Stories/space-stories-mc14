@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.TacticalMap;
 using Content.Client._RMC14.TacticalMap.UI;
+using Content.Shared.GameTicking;
 
 namespace Content.Client._RMC14.TacticalMap;
 
@@ -12,6 +13,26 @@ public sealed class TacticalMapReplaySystem : EntitySystem
     {
         base.Initialize();
         SubscribeNetworkEvent<TacticalMapReplayDataEvent>(OnReplayData);
+        SubscribeNetworkEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+    }
+
+    public override void Shutdown()
+    {
+        ClearReplay();
+        base.Shutdown();
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent args)
+    {
+        ClearReplay();
+    }
+
+    private void ClearReplay()
+    {
+        _window?.DisposePopOut();
+        _window?.Dispose();
+        _window = null;
+        _preferredMapId = null;
     }
 
     public void RequestReplay(string? mapId)

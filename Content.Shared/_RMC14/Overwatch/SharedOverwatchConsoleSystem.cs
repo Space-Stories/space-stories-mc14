@@ -461,7 +461,7 @@ public abstract partial class SharedOverwatchConsoleSystem : EntitySystem
         if (args.Target == default || !TryGetEntity(args.Target, out var target))
             return;
 
-        TryWatchTarget(ent, args.Actor, target.Value); // RMC14
+        TryWatchTarget(ent, args.Actor, target.Value);
     }
 
     private void OnOverwatchHideBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleHideBuiMsg args)

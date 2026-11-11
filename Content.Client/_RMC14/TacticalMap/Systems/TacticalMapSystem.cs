@@ -1,5 +1,8 @@
 using Content.Client._RMC14.Dropship.Weapon;
+using Content.Client._RMC14.TacticalMap.Controls;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared.GameTicking;
 using Robust.Client.Player;
 
 namespace Content.Client._RMC14.TacticalMap;
@@ -8,15 +11,47 @@ public sealed partial class TacticalMapSystem : SharedTacticalMapSystem
 {
     [Dependency] private readonly IPlayerManager _player = default!;
 
+    internal readonly Dictionary<EntityUid, TacticalMapControl.CachedMapTexture> TextureCache = new();
+
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeNetworkEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+        SubscribeLocalEvent<AreaGridComponent, ComponentRemove>(OnAreaGridRemove);
+        SubscribeLocalEvent<TacticalMapComponent, ComponentRemove>(OnTacticalMapRemove);
         SubscribeLocalEvent<TacticalMapUserComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
         SubscribeLocalEvent<TacticalMapComputerComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
         SubscribeLocalEvent<TacticalMapLinesComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
         SubscribeLocalEvent<TacticalMapLabelsComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
         SubscribeLocalEvent<TacticalMapActiveLayerLinesComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
         SubscribeLocalEvent<TacticalMapActiveLayerLabelsComponent, AfterAutoHandleStateEvent>(OnTacticalMapState);
+    }
+
+    public override void Shutdown()
+    {
+        TextureCache.Clear();
+        base.Shutdown();
+    }
+
+    private void OnRoundRestartCleanup(RoundRestartCleanupEvent args)
+    {
+        TextureCache.Clear();
+        var personal = EntityQueryEnumerator<TacticalMapPersonalLabelsComponent>();
+        while (personal.MoveNext(out _, out var labels))
+            labels.Labels.Clear();
+    }
+
+    private void OnAreaGridRemove(Entity<AreaGridComponent> ent, ref ComponentRemove args)
+    {
+        TextureCache.Remove(ent.Owner);
+    }
+
+    private void OnTacticalMapRemove(Entity<TacticalMapComponent> ent, ref ComponentRemove args)
+    {
+        var map = GetNetEntity(ent.Owner);
+        var personal = EntityQueryEnumerator<TacticalMapPersonalLabelsComponent>();
+        while (personal.MoveNext(out _, out var labels))
+            labels.Labels.Remove(map);
     }
 
     private void RefreshUser(EntityUid ent)

@@ -10,6 +10,8 @@ namespace Content.Client._RMC14.TacticalMap.Controls;
 
 public sealed partial class TacticalMapControl
 {
+    private LabelTextDialog? _labelDialog;
+
     private Vector2i? GetLabelAtPosition(Vector2 controlPosition)
     {
         if (Texture == null)
@@ -150,7 +152,8 @@ public sealed partial class TacticalMapControl
     {
         var map = _currentAreaGridEntity;
         var mapName = _currentMapName;
-        LabelTextDialog.Show(
+        _labelDialog?.Dispose();
+        _labelDialog = LabelTextDialog.Show(
             position,
             existingText,
             onConfirmed: text =>

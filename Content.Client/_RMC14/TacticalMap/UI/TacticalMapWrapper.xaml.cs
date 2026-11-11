@@ -592,8 +592,6 @@ public sealed partial class TacticalMapWrapper : Control
             : fullText;
         if (_responsiveTopButtonMinWidths.TryGetValue(button, out var minWidth))
             button.MinWidth = compact ? CompactTopButtonWidth : minWidth;
-        button.ToolTip = fullText;
-        button.Button.ToolTip = fullText;
     }
 
     private void SetButtonDisplayText(TacticalMapButton button, string text)
@@ -638,6 +636,17 @@ public sealed partial class TacticalMapWrapper : Control
         handle.UseShader(_crtShader);
         handle.DrawRect(rect, Color.White);
         handle.UseShader(null);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _contextPopup?.Dispose();
+            _overlayLegendPopup?.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     private bool IsInQueenEyeMode()

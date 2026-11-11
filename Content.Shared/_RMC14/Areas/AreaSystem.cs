@@ -20,7 +20,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Areas;
 
-public sealed partial class AreaSystem : EntitySystem // RMC14
+public sealed partial class AreaSystem : EntitySystem
 {
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -654,7 +654,7 @@ public sealed partial class AreaSystem : EntitySystem // RMC14
                     Dirty(area, areaComp);
                 }
 
-                UpdateTacticalMapBounds(ent, mapGrid, areaGrid); // RMC14
+                UpdateTacticalMapBounds(ent, mapGrid, areaGrid);
                 Dirty(ent, areaGrid);
             }
         }
