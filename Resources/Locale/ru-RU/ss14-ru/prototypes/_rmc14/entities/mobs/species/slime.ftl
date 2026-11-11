@@ -1,3 +1,3 @@
 ent-CMMobSlimePerson = Урист К.М. МакСлайм
     .desc = { ent-RMCBaseMobSpeciesOrganic.desc }
-    .suffix = КМ14
+    .suffix = RMC14

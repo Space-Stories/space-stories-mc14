@@ -1,12 +1,12 @@
 ent-RMCPropComputerBase = терминал
     .desc = Может использоваться для различных функций.
-    .suffix = Реквизит
+    .suffix = Декорация
 ent-RMCPropCommunicationsConsole = консоль связи
     .desc = { ent-RMCPropComputerBase.desc }
     .suffix = { ent-RMCPropComputerBase.suffix }
 ent-RMCPropCommunicationsConsoleAlt = { ent-RMCPropCommunicationsConsole }
     .desc = { ent-RMCPropCommunicationsConsole.desc }
-    .suffix = Реквизит, Альтернативная версия
+    .suffix = Декорация, Альт.
 ent-RMCPersonalDesktop = персональный компьютер
     .desc = { ent-RMCPropComputerBase.desc }
     .suffix = { ent-RMCPropComputerBase.suffix }

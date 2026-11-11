@@ -9,4 +9,4 @@ ent-RMCSyringeLethal = шприц для смертельной инъекции
     .suffix = { ent-CMSyringe.suffix }
 ent-RMCSyringeLethalPrefilled = { ent-RMCSyringeLethal }
     .desc = { ent-RMCSyringeLethal.desc }
-    .suffix = RMC14, Предварительно заполненный
+    .suffix = RMC14, Заполненный
