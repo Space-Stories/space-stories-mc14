@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics; // Stories-ZLevels
 using Content.Shared._RMC14.Animations;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.ARES;
@@ -48,6 +49,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly IntelSystem _intel = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!; // Stories-ZLevels
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly SharedMortarSystem _mortar = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -711,7 +713,10 @@ public sealed class OrbitalCannonSystem : EntitySystem
         return false;
     }
 
-    public bool Fire(Entity<OrbitalCannonComponent> cannon, Vector2i fireCoordinates, EntityUid user, EntityUid squad)
+    // Stories-ZLevels-Start
+    public bool Fire(Entity<OrbitalCannonComponent> cannon, Vector2i fireCoordinates, EntityUid user,
+        EntityUid squad, int zLevel = 0)
+    // Stories-ZLevels-End
     {
         if (_net.IsClient)
             return false;
@@ -748,7 +753,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
             return false;
         }
 
-        if (!_rmcPlanet.TryPlanetToCoordinates(fireCoordinates, out var planetCoordinates))
+        if (!_rmcPlanet.TryPlanetToCoordinates(fireCoordinates, zLevel, out var planetCoordinates)) // Stories-ZLevels
         {
             _popup.PopupCursor(
                 Loc.GetString("rmc-ob-target-out-of-bounds"),
@@ -821,6 +826,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         var firing = EnsureComp<OrbitalCannonFiringComponent>(cannon);
         firing.Coordinates = adjustedCoords;
+        firing.TargetCoordinates = planetCoordinates.Offset(new Vector2(offsetX, offsetY)); // Stories-ZLevels
         firing.WarheadName = Name(warhead);
         firing.Squad = squad;
         firing.StartedAt = time;
@@ -842,10 +848,16 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         _popup.PopupCursor(Loc.GetString("rmc-ob-launched"), user);
 
-        var logMessage = $"{ToPrettyString(user)} launched orbital bombardment at {fireCoordinates} for squad {ToPrettyString(squad)}, misfuel: {misfuel}, final coords: {adjustedCoords}";
+        // Stories-ZLevels-Start
+        var logMessage = $"{ToPrettyString(user)} launched orbital bombardment at {fireCoordinates}, Z {zLevel} " +
+                         $"for squad {ToPrettyString(squad)}, misfuel: {misfuel}, final coords: {adjustedCoords}";
+        // Stories-ZLevels-End
         _adminLog.Add(LogType.RMCOrbitalBombardment, $"{logMessage}");
 
-        _core.CreateARESLog(cannon, LogCat, (string)$"{Name(user)} fired the orbital cannon at {adjustedCoords.X}, {adjustedCoords.Y}");
+        // Stories-ZLevels-Start
+        _core.CreateARESLog(cannon, LogCat,
+            (string)$"{Name(user)} fired the orbital cannon at {adjustedCoords.X}, {adjustedCoords.Y}, Z {zLevel}");
+        // Stories-ZLevels-End
 
         var ev = new OrbitalCannonLaunchEvent(cannon.Comp.FireCooldown + firing.ImpactDelay);
         RaiseLocalEvent(ref ev);
@@ -888,7 +900,17 @@ public sealed class OrbitalCannonSystem : EntitySystem
         var firingQuery = EntityQueryEnumerator<OrbitalCannonFiringComponent, OrbitalCannonComponent>();
         while (firingQuery.MoveNext(out var uid, out var firing, out var cannon))
         {
-            if (!_rmcPlanet.TryPlanetToCoordinates(firing.Coordinates, out var planetCoordinates))
+            // Stories-ZLevels-Start
+            if (firing.TargetCoordinates == null &&
+                _rmcPlanet.TryPlanetToCoordinates(firing.Coordinates, out var legacyCoordinates))
+            {
+                firing.TargetCoordinates = legacyCoordinates;
+                Dirty(uid, firing);
+            }
+
+            if (firing.TargetCoordinates is not { } planetCoordinates ||
+                !_map.MapExists(planetCoordinates.MapId) || !_rmcPlanet.IsOnPlanet(planetCoordinates))
+            // Stories-ZLevels-End
             {
                 RemCompDeferred<OrbitalCannonFiringComponent>(uid);
                 continue;
