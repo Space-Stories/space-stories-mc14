@@ -200,7 +200,6 @@ public abstract class SharedXenoWeedsSystem : EntitySystem
             if (TryComp<XenoWallWeedsComponent>(spread, out var wallWeeds))
             {
                 wallWeeds.Weeds = null;
-                Dirty(spread, wallWeeds);
             }
             // Stories-DeletedEntityReferences-End
 

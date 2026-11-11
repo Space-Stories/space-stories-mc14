@@ -215,9 +215,10 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                             continue;
 
                         weedable.Entity = SpawnAtPosition(weedable.Spawn, anchoredId.ToCoordinates());
+                        // Stories-DeletedEntityReferences-Start
                         var wallWeeds = EnsureComp<XenoWallWeedsComponent>(weedable.Entity.Value);
                         wallWeeds.Weeds = source;
-                        Dirty(weedable.Entity.Value, wallWeeds);
+                        // Stories-DeletedEntityReferences-End
 
                         if (_xenoNestSurfaceQuery.TryComp(weedable.Entity, out var surface))
                         {
