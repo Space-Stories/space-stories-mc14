@@ -8,6 +8,7 @@ using Content.Shared.Coordinates;
 using Content.Shared.Damage;
 using Content.Shared.Effects;
 using Content.Shared.FixedPoint;
+using Content.Shared.Interaction;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -16,16 +17,17 @@ namespace Content.Shared._Stories.Xenonids.XenoBoxer.BoxerPunch;
 
 public sealed class BoxerPunchSystem : EntitySystem
 {
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedColorFlashEffectSystem _colorFlash = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedBoxerKnockoutSystem _knockout = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedRMCMeleeWeaponSystem _rmcMelee = default!;
     [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
     [Dependency] private readonly RMCSlowSystem _slow = default!;
-    [Dependency] private readonly SharedRMCMeleeWeaponSystem _rmcMelee = default!;
-    [Dependency] private readonly SharedBoxerKnockoutSystem _knockout = default!;
     [Dependency] private readonly XenoSystem _xeno = default!;
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
 
     public override void Initialize()
     {
@@ -41,6 +43,9 @@ public sealed class BoxerPunchSystem : EntitySystem
         var targetUid = args.Target;
 
         if (!_xeno.CanAbilityAttackTarget(xeno, targetUid))
+            return;
+
+        if (!_interaction.InRangeUnobstructed(xeno.Owner, targetUid, 1.5f))
             return;
 
         args.Handled = true;

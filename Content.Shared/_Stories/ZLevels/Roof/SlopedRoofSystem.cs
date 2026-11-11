@@ -33,7 +33,6 @@ public sealed class SlopedRoofSystem : EntitySystem
     private EntityQuery<MapGridComponent> _mapGridQuery;
     private readonly Dictionary<EntityUid, TimeSpan> _lastSlide = new();
     private readonly List<EntityUid> _slideCleanup = new();
-    private float _checkTimer;
 
     public override void Initialize()
     {
@@ -53,18 +52,6 @@ public sealed class SlopedRoofSystem : EntitySystem
 
         if (_net.IsClient)
             return;
-
-        _checkTimer += frameTime;
-        if (_checkTimer >= 1.0f)
-        {
-            _checkTimer = 0f;
-
-            var mobQuery = EntityQueryEnumerator<MobStateComponent, PhysicsComponent, TransformComponent>();
-            while (mobQuery.MoveNext(out var uid, out _, out var physics, out var xform))
-            {
-                TrySlideEntity(uid, physics, xform);
-            }
-        }
 
         if (_lastSlide.Count > 50)
         {
@@ -104,6 +91,9 @@ public sealed class SlopedRoofSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        if (_lastSlide.TryGetValue(ent.Owner, out var until) && _timing.CurTime < until)
+            return;
+
         if (TryComp<PhysicsComponent>(ent.Owner, out var physics))
             TrySlideEntity(ent.Owner, physics, Transform(ent.Owner));
     }
@@ -111,6 +101,9 @@ public sealed class SlopedRoofSystem : EntitySystem
     private void OnItemLand(Entity<ItemComponent> ent, ref LandEvent args)
     {
         if (_net.IsClient)
+            return;
+
+        if (_lastSlide.TryGetValue(ent.Owner, out var until) && _timing.CurTime < until)
             return;
 
         if (TryComp<PhysicsComponent>(ent.Owner, out var physics))
@@ -175,23 +168,21 @@ public sealed class SlopedRoofSystem : EntitySystem
         {
             dirVec = slopeDir.ToVec();
             if (dirVec == Vector2.Zero)
-                dirVec = new Vector2(0, -1);
-            distance = GetDistanceToRoofEdge(gridUid, grid, tilePos, dirVec);
+                return;
+            if (!TryGetDistanceToRoofEdge(gridUid, grid, tilePos, dirVec, out distance))
+                return;
         }
         else
         {
             if (!TryFindClosestHole(gridUid, grid, tilePos, out dirVec, out distance))
-            {
-                dirVec = new Vector2(0, -1);
-                distance = 3f;
-            }
+                return;
         }
 
         var throwDistance = distance + 1.2f;
         var throwSpeed = Math.Clamp(throwDistance * 2.2f, 3.5f, 8.0f);
         var throwVec = dirVec * throwDistance;
 
-        var slideTime = TimeSpan.FromSeconds(Math.Max(0.8f, (throwDistance / throwSpeed) + 0.4f));
+        var slideTime = TimeSpan.FromSeconds(Math.Max(1.0f, (throwDistance / throwSpeed) + 0.6f));
         _lastSlide[uid] = _timing.CurTime + slideTime;
 
         if (HasComp<MobStateComponent>(uid))
@@ -203,7 +194,7 @@ public sealed class SlopedRoofSystem : EntitySystem
         _throwing.TryThrow(uid, throwVec, baseThrowSpeed: throwSpeed, user: null, pushbackRatio: 0f, playSound: false, doSpin: false);
     }
 
-    private float GetDistanceToRoofEdge(EntityUid gridUid, MapGridComponent grid, Vector2i startTile, Vector2 dir)
+    private bool TryGetDistanceToRoofEdge(EntityUid gridUid, MapGridComponent grid, Vector2i startTile, Vector2 dir, out float distance)
     {
         var normDir = Vector2.Normalize(dir);
         for (var step = 1; step <= 25; step++)
@@ -212,11 +203,13 @@ public sealed class SlopedRoofSystem : EntitySystem
             var checkTile = startTile + new Vector2i((int)MathF.Round(offset.X), (int)MathF.Round(offset.Y));
             if (IsHole(gridUid, grid, checkTile))
             {
-                return offset.Length();
+                distance = offset.Length();
+                return true;
             }
         }
 
-        return 3f;
+        distance = 0f;
+        return false;
     }
 
     private bool TryFindClosestHole(
@@ -255,8 +248,8 @@ public sealed class SlopedRoofSystem : EntitySystem
             }
         }
 
-        direction = new Vector2(0, -1);
-        distance = 3f;
+        direction = Vector2.Zero;
+        distance = 0f;
         return false;
     }
 

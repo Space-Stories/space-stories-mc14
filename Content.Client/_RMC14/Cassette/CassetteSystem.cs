@@ -65,25 +65,42 @@ public sealed class CassetteSystem : SharedCassetteSystem
         _names.Clear();
     }
 
+    // Stories-CassetteFix-Start
+    protected override void OnPlayerState(Entity<CassettePlayerComponent> ent, ref AfterAutoHandleStateEvent args)
+    {
+        base.OnPlayerState(ent, ref args);
+
+        if (ent.Comp.CustomAudioStream is not { } audio)
+            return;
+
+        switch (ent.Comp.State)
+        {
+            case AudioState.Stopped:
+                _audio.Stop(audio);
+                ent.Comp.CustomAudioStream = null;
+                break;
+            case AudioState.Paused:
+                _audio.SetState(audio, AudioState.Paused);
+                break;
+            case AudioState.Playing:
+                ResumeAudio(audio);
+                break;
+        }
+    }
+    // Stories-CassetteFix-End
+
+    // Stories-CassetteFix-Start
     private void SetGain(float gain)
     {
         _gain = gain;
-        if (_player.LocalEntity is not { } ent)
-            return;
-
-        var slots = _inventory.GetSlotEnumerator(ent);
-        while (slots.MoveNext(out var slot))
+        var query = EntityQueryEnumerator<CassettePlayerComponent>();
+        while (query.MoveNext(out _, out var player))
         {
-            if (slot.ContainedEntity is not { } contained ||
-                !TryComp(contained, out CassettePlayerComponent? player))
-            {
-                continue;
-            }
-
             SetAudioGain(player.AudioStream);
             SetAudioGain(player.CustomAudioStream);
         }
     }
+    // Stories-CassetteFix-End
 
     protected override EntityUid? PlayCustomTrack(Entity<CassettePlayerComponent> player, Entity<CassetteTapeComponent> tape)
     {
@@ -96,6 +113,14 @@ public sealed class CassetteSystem : SharedCassetteSystem
 
         if (!_names.TryGetValue(stream, out var name))
             return null;
+
+        // Stories-CassetteFix-Start
+        if (player.Comp.CustomAudioStream is { } oldAudio)
+        {
+            _audio.Stop(oldAudio);
+            player.Comp.CustomAudioStream = null;
+        }
+        // Stories-CassetteFix-End
 
         var audioParams = player.Comp.AudioParams.WithVolume(SharedAudioSystem.GainToVolume(_gain));
         return _audio.PlayGlobal(stream, new ResolvedPathSpecifier(name), audioParams)?.Entity;
@@ -131,8 +156,6 @@ public sealed class CassetteSystem : SharedCassetteSystem
         if (!TryComp(audio, out AudioComponent? audioComp))
             return;
 
-#pragma warning disable RA0002
-        audioComp.Params = audioComp.Params with { Volume = SharedAudioSystem.GainToVolume(_gain) };
-#pragma warning restore RA0002
+        _audio.SetVolume(audio, SharedAudioSystem.GainToVolume(_gain), audioComp); // Stories-CassetteFix
     }
 }
