@@ -63,6 +63,7 @@ public sealed partial class TacticalMapWrapper
         _mapIdSet = true;
         _settingsLoaded = false;
         MarkCanvasSynced();
+        UpdateCoordinateGrid(null);
         Canvas.Lines.Clear();
         Canvas.TacticalLabels.Clear();
         _sharedMapLabels.Clear();

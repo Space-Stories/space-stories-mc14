@@ -55,4 +55,6 @@ public readonly record struct TacticalMapReplayLayerDelta(
     bool BlipsChanged,
     bool BlipsIsFull,
     Dictionary<int, TacticalMapBlip> Blips,
-    List<int> RemovedBlips);
+    List<int> RemovedBlips,
+    bool CoordinateGridChanged = false,
+    TacticalMapCoordinateGrid? CoordinateGrid = null);

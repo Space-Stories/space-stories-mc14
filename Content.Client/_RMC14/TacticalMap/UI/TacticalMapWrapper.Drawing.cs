@@ -140,8 +140,10 @@ public sealed partial class TacticalMapWrapper
     public void SetCanvasAccess(bool canDraw)
     {
         _canDraw = canDraw;
+        CoordinateGridSettings.Visible = canDraw && _canManageCoordinateGrid;
         if (!canDraw)
         {
+            _coordinateGridEdited = false;
             _canvasDirty = false;
             _pendingCanvasUpdate = null;
         }

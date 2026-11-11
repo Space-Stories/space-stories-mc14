@@ -44,12 +44,14 @@ public sealed partial class TacticalMapReplayWindow : RMCPopOutWindow
     private bool _loopPlayback;
     private float _speedMultiplier = 1.0f;
 
+    private static readonly IComparer<string> LayerIdComparer = Comparer<string>.Create(string.CompareOrdinal);
     private static readonly Color ToggleOnColor = TacticalMapInnerButton.DefaultTextColor;
     private static readonly Color ToggleOffColor = Color.Red;
 
 
     private sealed class ReplayLayerState
     {
+        public TacticalMapCoordinateGrid? CoordinateGrid;
         public readonly List<TacticalMapLine> Lines = new();
         public readonly Dictionary<Vector2i, TacticalMapLabelData> Labels = new();
         public readonly Dictionary<int, TacticalMapBlip> Blips = new();
@@ -313,14 +315,21 @@ public sealed partial class TacticalMapReplayWindow : RMCPopOutWindow
 
         var labels = new Dictionary<Vector2i, TacticalMapLabelData>();
         var blips = new List<TacticalMapBlip>();
+        TacticalMapCoordinateGrid? grid = null;
+        var definitions = _entityManager.System<TacticalMapLayerSystem>();
 
-        foreach (var (layerId, state) in _resolvedLayers)
+        foreach (var (layerId, state) in _resolvedLayers
+                     .OrderBy(pair => definitions.TryGet(pair.Key, out var layer) ? layer.SortOrder : 0)
+                     .ThenBy(pair => pair.Key, LayerIdComparer))
         {
             if (_currentLayerId != null &&
                 !string.Equals(layerId, _currentLayerId, StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
+
+            if (state.CoordinateGrid is { } settings)
+                grid = settings;
 
             if (_showLines && state.Lines.Count > 0)
             {
@@ -344,6 +353,7 @@ public sealed partial class TacticalMapReplayWindow : RMCPopOutWindow
         }
 
         Wrapper.UpdateTacticalLabels(labels);
+        Wrapper.UpdateCoordinateGrid(grid);
         Wrapper.UpdateBlips(_showBlips ? blips.ToArray() : Array.Empty<TacticalMapBlip>());
     }
 
@@ -427,6 +437,9 @@ public sealed partial class TacticalMapReplayWindow : RMCPopOutWindow
 
     private static void ApplyLayerDelta(ReplayLayerState state, TacticalMapReplayLayerDelta delta)
     {
+        if (delta.CoordinateGridChanged)
+            state.CoordinateGrid = delta.CoordinateGrid;
+
         if (delta.LinesChanged)
         {
             if (delta.LinesIsFull)

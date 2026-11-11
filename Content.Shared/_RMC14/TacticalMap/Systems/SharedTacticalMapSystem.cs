@@ -16,8 +16,8 @@ namespace Content.Shared._RMC14.TacticalMap;
 
 public abstract class SharedTacticalMapSystem : EntitySystem
 {
-    private static readonly EntProtoId<TacticalMapLayerComponent> GlobalMarineLayer = "RMCTacticalMapLayerMarines";
-    private static readonly EntProtoId<TacticalMapLayerComponent> GlobalXenoLayer = "RMCTacticalMapLayerXenos";
+    protected static readonly EntProtoId<TacticalMapLayerComponent> GlobalMarineLayer = "RMCTacticalMapLayerMarines";
+    protected static readonly EntProtoId<TacticalMapLayerComponent> GlobalXenoLayer = "RMCTacticalMapLayerXenos";
 
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;

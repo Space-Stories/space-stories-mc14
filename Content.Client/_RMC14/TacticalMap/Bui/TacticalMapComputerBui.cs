@@ -50,6 +50,8 @@ public sealed class TacticalMapComputerBui(EntityUid owner, Enum uiKey) : RMCPop
             _player.LocalEntity is { } player &&
             EntMan.System<SkillsSystem>().HasSkill(player, computer.Skill, computer.SkillLevel);
         Window.Wrapper.SetCanvasAccess(canDraw);
+        Window.Wrapper.SetCoordinateGridAccess(canDraw &&
+            EntMan.HasComponent<MarineCommunicationsComputerComponent>(Owner));
 
         try
         {
@@ -395,6 +397,7 @@ public sealed class TacticalMapComputerBui(EntityUid owner, Enum uiKey) : RMCPop
         Window.Wrapper.Map.Lines.Clear();
 
         var lines = EntMan.GetComponentOrNull<TacticalMapLinesComponent>(Owner);
+        Window.Wrapper.UpdateCoordinateGrid(lines?.CoordinateGrid);
         if (lines != null)
             Window.Wrapper.Map.Lines.AddRange(lines.Lines);
 

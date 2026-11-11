@@ -32,6 +32,7 @@ public sealed class TacticalMapReplaySystem : EntitySystem
 
     private sealed class LayerSnapshot
     {
+        public TacticalMapCoordinateGrid? CoordinateGrid;
         public readonly List<TacticalMapLine> Lines = new();
         public readonly Dictionary<Vector2i, TacticalMapLabelData> Labels = new();
         public readonly Dictionary<int, TacticalMapBlip> Blips = new();
@@ -220,7 +221,9 @@ public sealed class TacticalMapReplaySystem : EntitySystem
                 true,
                 true,
                 new Dictionary<int, TacticalMapBlip>(),
-                new List<int>());
+                new List<int>(),
+                true,
+                null);
             layers.Add(delta);
             recording.LastState.Remove(layerId);
             hasChanges = true;
@@ -273,6 +276,8 @@ public sealed class TacticalMapReplaySystem : EntitySystem
         bool forceKeyframe,
         out TacticalMapReplayLayerDelta delta)
     {
+        var gridChanged = forceKeyframe || layer.CoordinateGrid != snapshot.CoordinateGrid;
+        snapshot.CoordinateGrid = layer.CoordinateGrid;
         var linesChanged = false;
         var linesIsFull = false;
         var linesDelta = new List<TacticalMapLine>();
@@ -389,9 +394,11 @@ public sealed class TacticalMapReplaySystem : EntitySystem
             blipsChanged,
             blipsIsFull,
             blipUpdates,
-            removedBlips);
+            removedBlips,
+            gridChanged,
+            layer.CoordinateGrid);
 
-        return linesChanged || labelsChanged || blipsChanged || forceKeyframe;
+        return linesChanged || labelsChanged || blipsChanged || gridChanged || forceKeyframe;
     }
 
     private List<TacticalMapReplayMap> BuildReplayMaps(string? mapIdFilter)
@@ -435,7 +442,9 @@ public sealed class TacticalMapReplaySystem : EntitySystem
                 true,
                 true,
                 new Dictionary<int, TacticalMapBlip>(layer.Blips),
-                new List<int>()));
+                new List<int>(),
+                true,
+                layer.CoordinateGrid));
         }
 
         return new TacticalMapReplayFrame(

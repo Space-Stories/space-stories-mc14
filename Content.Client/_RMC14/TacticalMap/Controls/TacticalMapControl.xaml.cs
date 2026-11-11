@@ -95,6 +95,8 @@ public sealed partial class TacticalMapControl : TextureRect
     private readonly Font _font;
     private static readonly ProtoId<ShaderPrototype> GridShader = "RMCTacMapGrid";
     private readonly ShaderInstance _gridShader;
+    private static readonly ProtoId<ShaderPrototype> CoordinateGridShader = "RMCTacMapCoordinateGrid";
+    private readonly ShaderInstance _coordinateGridShader;
     private readonly Vector2[] _reusableLineVectors = new Vector2[6];
     private readonly Dictionary<int, VectorFont> _labelFontCache = new();
 
@@ -195,6 +197,7 @@ public sealed partial class TacticalMapControl : TextureRect
         IoCManager.InjectDependencies(this);
         _font = new VectorFont(_resourceCache.GetResource<FontResource>(LabelFontPath), 10);
         _gridShader = _prototypeManager.Index(GridShader).InstanceUnique();
+        _coordinateGridShader = _prototypeManager.Index(CoordinateGridShader).InstanceUnique();
 
     }
 }

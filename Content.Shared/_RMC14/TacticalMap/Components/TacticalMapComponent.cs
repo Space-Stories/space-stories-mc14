@@ -13,6 +13,9 @@ public sealed partial class TacticalMapLayerData
     public Guid LastCanvasUpdate;
 
     [DataField]
+    public TacticalMapCoordinateGrid? CoordinateGrid;
+
+    [DataField]
     public Dictionary<int, TacticalMapBlip> Blips = new();
 
     [DataField]

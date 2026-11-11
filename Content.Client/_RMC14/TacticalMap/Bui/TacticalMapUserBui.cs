@@ -368,6 +368,7 @@ public sealed class TacticalMapUserBui(EntityUid owner, Enum uiKey) : RMCPopOutB
         Window.Wrapper.Map.Lines.Clear();
 
         var lines = EntMan.GetComponentOrNull<TacticalMapLinesComponent>(Owner);
+        Window.Wrapper.UpdateCoordinateGrid(lines?.CoordinateGrid);
         if (lines != null)
             Window.Wrapper.Map.Lines.AddRange(lines.Lines);
 
@@ -384,6 +385,7 @@ public sealed class TacticalMapUserBui(EntityUid owner, Enum uiKey) : RMCPopOutB
         Window.Wrapper.UpdateCanvasBackground();
         var user = EntMan.GetComponentOrNull<TacticalMapUserComponent>(Owner);
         Window.Wrapper.SetCanvasAccess(user?.CanDraw ?? false);
+        Window.Wrapper.SetCoordinateGridAccess(user?.CanDraw == true && EntMan.HasComponent<XenoComponent>(Owner));
     }
 
     private void UpdateBlips()

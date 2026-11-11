@@ -62,9 +62,7 @@ public sealed partial class TacticalMapControl
         var targetPosition = IndicesToPosition(indices);
 
         var textureSize = Texture.Size;
-        var baseScaleX = availableSize.X / textureSize.X;
-        var baseScaleY = availableSize.Y / textureSize.Y;
-        var baseScale = Math.Min(baseScaleX, baseScaleY);
+        var baseScale = GetFittedMapScale(availableSize);
         var actualScale = baseScale * _zoomFactor;
         var actualSize = textureSize * actualScale;
         var overlayScale = actualScale / MapScale;
@@ -149,9 +147,7 @@ public sealed partial class TacticalMapControl
         var textureSize = Texture.Size;
         var availableSize = new Vector2(PixelWidth, PixelHeight);
 
-        var baseScaleX = availableSize.X / textureSize.X;
-        var baseScaleY = availableSize.Y / textureSize.Y;
-        var baseScale = Math.Min(baseScaleX, baseScaleY);
+        var baseScale = GetFittedMapScale(availableSize);
         var actualScale = baseScale * _zoomFactor;
 
         var actualSize = textureSize * actualScale;
@@ -169,11 +165,9 @@ public sealed partial class TacticalMapControl
         if (IsAtFitZoom(zoomFactor))
             return Vector2.Zero;
 
-        var textureSize = Texture.Size;
-        var baseScaleX = availableSize.X / textureSize.X;
-        var baseScaleY = availableSize.Y / textureSize.Y;
-        var baseScale = Math.Min(baseScaleX, baseScaleY);
-        var actualSize = textureSize * (baseScale * zoomFactor);
+        var actualSize = Texture.Size * (GetFittedMapScale(availableSize) * zoomFactor);
+        if (CoordinateGrid.Enabled)
+            actualSize += new Vector2(GetCoordinateGridHeaderMargin() * 2f);
 
         var maxPan = new Vector2(
             Math.Max(0f, (actualSize.X - availableSize.X) * 0.5f),

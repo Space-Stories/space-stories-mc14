@@ -38,6 +38,7 @@ public sealed partial class TacticalMapControl
         (Vector2 actualSize, Vector2 actualTopLeft, float overlayScale) = GetDrawParameters();
 
         var textureRect = UIBox2.FromDimensions(actualTopLeft, actualSize);
+        DrawCoordinateGridBackground(handle, actualTopLeft, actualSize);
         if (_backgroundTexture != null)
             handle.DrawTextureRect(_backgroundTexture, textureRect);
         handle.DrawTextureRect(Texture, textureRect);
@@ -52,6 +53,7 @@ public sealed partial class TacticalMapControl
 
         DrawMortarOverlay(handle, actualTopLeft, overlayScale);
         DrawTileGrid(handle, actualTopLeft, actualSize);
+        DrawCoordinateGrid(handle, actualTopLeft, actualSize);
         DrawModeBorder(handle, actualTopLeft, actualSize, overlayScale);
         DrawLines(handle, overlayScale, actualTopLeft);
         DrawPreviewLine(handle, overlayScale, actualTopLeft);
@@ -62,6 +64,7 @@ public sealed partial class TacticalMapControl
         DrawBlips(handle, system, background, defibbableRsi, defibbableRsi2, defibbableRsi3, defibbableRsi4, undefibbableRsi, hiveLeaderRsi, actualTopLeft, overlayScale, curTime);
         DrawMortarMarker(handle, system, mortarRsi, actualTopLeft, overlayScale, curTime);
         DrawEraserPreview(handle);
+        DrawCoordinateGridHeaders(handle, actualTopLeft, actualSize);
     }
 
     private const float RadiusPreviewFillAlpha = 0.12f;

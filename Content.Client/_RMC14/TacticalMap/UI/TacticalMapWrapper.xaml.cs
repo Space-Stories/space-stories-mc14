@@ -241,7 +241,8 @@ public sealed partial class TacticalMapWrapper : Control
             _pendingCanvasUpdate = updateId;
             _editedAfterCanvasSubmit = false;
             _updateFeedbackUntil = TimeSpan.Zero;
-            sendMessage(new TacticalMapUpdateCanvasMsg(lines, canvasLabels, updateId));
+            sendMessage(new TacticalMapUpdateCanvasMsg(lines, canvasLabels, updateId,
+                _canManageCoordinateGrid && _coordinateGridEdited ? GetCoordinateGridDraft() : null));
         };
     }
 
@@ -320,6 +321,7 @@ public sealed partial class TacticalMapWrapper : Control
         SetupAreaLabels();
         SetupBlipSize();
         SetupSettingsToggle();
+        SetupCoordinateGrid();
         SetupOverlayControls();
         LoadMortarRanges();
         LoadHiveRanges();
@@ -455,6 +457,7 @@ public sealed partial class TacticalMapWrapper : Control
 
     public void MarkCanvasSynced()
     {
+        _coordinateGridEdited = false;
         _pendingCanvasUpdate = null;
         _editedAfterCanvasSubmit = false;
         if (!_canvasDirty)
@@ -590,6 +593,7 @@ public sealed partial class TacticalMapWrapper : Control
         button.Text = compact
             ? GetCompactButtonText(fullText)
             : fullText;
+        button.Button.ToolTip = button.Text != fullText ? fullText : null;
         if (_responsiveTopButtonMinWidths.TryGetValue(button, out var minWidth))
             button.MinWidth = compact ? CompactTopButtonWidth : minWidth;
     }

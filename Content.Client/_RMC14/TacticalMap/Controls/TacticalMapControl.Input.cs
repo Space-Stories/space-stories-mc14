@@ -403,9 +403,7 @@ public sealed partial class TacticalMapControl
             if (!IsAtFitZoom(targetZoom))
             {
                 var textureSize = Texture.Size;
-                var baseScaleX = availableSize.X / textureSize.X;
-                var baseScaleY = availableSize.Y / textureSize.Y;
-                var baseScale = Math.Min(baseScaleX, baseScaleY);
+                var baseScale = GetFittedMapScale(availableSize);
                 var actualScale = baseScale * targetZoom;
                 var actualSize = textureSize * actualScale;
                 var overlayScale = actualScale / MapScale;

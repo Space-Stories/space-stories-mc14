@@ -78,45 +78,8 @@ public sealed partial class TacticalMapControl
             return;
 
         var colors = grid.Comp.Colors;
-        var hasValue = false;
-        var fullMin = default(Vector2i);
-        var fullMax = default(Vector2i);
-        foreach (var (pos, _) in colors)
-        {
-            if (!hasValue)
-            {
-                fullMin = pos;
-                fullMax = pos;
-                hasValue = true;
-            }
-            else
-            {
-                fullMin = Vector2i.ComponentMin(fullMin, pos);
-                fullMax = Vector2i.ComponentMax(fullMax, pos);
-            }
-        }
-
-        if (!hasValue)
+        if (!AreaSystem.TryGetTacticalMapBounds(grid.Comp, out var boundsMin, out var boundsMax))
             return;
-
-        Vector2i boundsMin;
-        Vector2i boundsMax;
-        if (grid.Comp.HasTacMapBounds)
-        {
-            boundsMin = Vector2i.ComponentMax(fullMin, grid.Comp.TacMapBoundsMin);
-            boundsMax = Vector2i.ComponentMin(fullMax, grid.Comp.TacMapBoundsMax);
-
-            if (boundsMax.X < boundsMin.X || boundsMax.Y < boundsMin.Y)
-            {
-                boundsMin = fullMin;
-                boundsMax = fullMax;
-            }
-        }
-        else
-        {
-            boundsMin = fullMin;
-            boundsMax = fullMax;
-        }
 
         _min = boundsMin;
         _delta = boundsMax - boundsMin;
@@ -304,6 +267,8 @@ public sealed partial class TacticalMapControl
         _overlayLinkedLzTexture = null;
         _overlayIconTextures.Clear();
         _areaLabels = new Dictionary<Vector2i, string>();
+        _coordinateColumns.Clear();
+        _coordinateRows.Clear();
         _tileMask = null;
         _tileMaskWidth = 0;
         _tileMaskHeight = 0;
@@ -319,6 +284,7 @@ public sealed partial class TacticalMapControl
             _labelDialog?.Dispose();
             _labelDialog = null;
             _gridShader.Dispose();
+            _coordinateGridShader.Dispose();
             ClearMapTexture();
         }
 

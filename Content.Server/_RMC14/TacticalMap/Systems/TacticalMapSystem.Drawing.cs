@@ -7,6 +7,7 @@ using Content.Server._RMC14.Overwatch;
 using Content.Server._RMC14.Xenonids.Watch;
 using Content.Server.Administration.Logs;
 using Content.Server.GameTicking.Events;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dropship.Weapon;
 using Content.Shared._RMC14.Marines;
@@ -40,6 +41,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Maths;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Physics.Components;
@@ -89,6 +91,8 @@ public sealed partial class TacticalMapSystem
 
         // non-marines refresh blip snapshots when drawing.
         var updateBlips = LayerAllowsBlipUpdates(layer) && !HasComp<MarineComponent>(user);
+        if (args.CoordinateGrid is { } grid && HasComp<XenoComponent>(ent.Owner) && layer == GlobalXenoLayer)
+            UpdateCoordinateGrid(map, GlobalXenoLayer, grid);
         UpdateCanvas(map, lines, labels, layer, user, updateBlips, args.UpdateId, ent.Comp.Sound);
     }
 
@@ -119,9 +123,9 @@ public sealed partial class TacticalMapSystem
         // only groundside computers refresh shared blip snapshots.
         var updateBlips = isGroundside && LayerAllowsBlipUpdates(layer);
         var time = _timing.CurTime;
-        if (updateBlips)
+        if (updateBlips || isGroundside && args.CoordinateGrid != null)
         {
-            // groundside blip updates share one command-wide cooldown.
+            // Groundside updates share one command-wide cooldown.
             if (time < ent.Comp.NextAnnounceAt)
                 return;
 
@@ -137,7 +141,22 @@ public sealed partial class TacticalMapSystem
                 Dirty(uid, computer);
             }
         }
+        if (isGroundside && args.CoordinateGrid is { } grid)
+            UpdateCoordinateGrid(map, GlobalMarineLayer, grid);
         UpdateCanvas(map, lines, labels, layer, user, updateBlips, args.UpdateId);
+    }
+
+    private void UpdateCoordinateGrid(Entity<TacticalMapComponent> map,
+        EntProtoId<TacticalMapLayerComponent> layer, TacticalMapCoordinateGrid grid)
+    {
+        if (!TryComp<AreaGridComponent>(map.Owner, out var areas) ||
+            !AreaSystem.TryGetTacticalMapBounds(areas, out var minimum, out var maximum))
+        {
+            return;
+        }
+
+        EnsureLayer(map.Comp, layer).CoordinateGrid = grid.Clamped(maximum - minimum + Vector2i.One);
+        map.Comp.MapDirty = true;
     }
 
     private void UpdateCanvas(Entity<TacticalMapComponent> map, List<TacticalMapLine> lines,

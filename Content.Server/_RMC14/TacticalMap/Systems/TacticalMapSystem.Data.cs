@@ -198,6 +198,15 @@ public sealed partial class TacticalMapSystem
         return false;
     }
 
+    private static TacticalMapCoordinateGrid? GetCoordinateGrid(TacticalMapComponent map,
+        IReadOnlyList<EntProtoId<TacticalMapLayerComponent>> layers)
+    {
+        var layer = layers.Contains(GlobalMarineLayer) ? GlobalMarineLayer : GlobalXenoLayer;
+        return layers.Contains(layer) && map.Layers.TryGetValue(layer, out var data)
+            ? data.CoordinateGrid
+            : null;
+    }
+
     public override void UpdateUserData(Entity<TacticalMapUserComponent> user, TacticalMapComponent map)
     {
         if (TerminatingOrDeleted(user))
@@ -229,6 +238,7 @@ public sealed partial class TacticalMapSystem
 
         BuildLineAndLabelState(map, visibleLayers, out var combinedLines, out var combinedLabels);
         lines.Lines = combinedLines;
+        lines.CoordinateGrid = GetCoordinateGrid(map, visibleLayers);
         labels.Labels = combinedLabels;
 
         var activeLines = EnsureComp<TacticalMapActiveLayerLinesComponent>(user);
@@ -336,6 +346,7 @@ public sealed partial class TacticalMapSystem
 
         BuildLineAndLabelState(map, visibleLayers, out var combinedLines, out var combinedLabels);
         lines.Lines = combinedLines;
+        lines.CoordinateGrid = GetCoordinateGrid(map, visibleLayers);
         labels.Labels = combinedLabels;
 
         var activeLines = EnsureComp<TacticalMapActiveLayerLinesComponent>(computer);
