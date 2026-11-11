@@ -1,0 +1,9 @@
+- type: shader
+  id: RMCTacMapGrid
+  kind: source
+  path: /Textures/_RMC14/Shaders/tacmap_grid.swsl
+
+- type: shader
+  id: RMCTacticalMapCRT
+  kind: source
+  path: /Textures/_RMC14/Shaders/tacmap_crt.swsl

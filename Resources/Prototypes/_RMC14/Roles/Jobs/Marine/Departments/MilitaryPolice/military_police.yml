@@ -1,5 +1,5 @@
 - type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMMilitaryPolice
   name: cm-job-name-militarypolice
   description: cm-job-description-militarypolice
@@ -32,6 +32,11 @@
   - !type:AddComponentSpecial
     components:
     - type: MutinyLoyalistOrNeutral
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       skills:
         RMCSkillCqc: 2

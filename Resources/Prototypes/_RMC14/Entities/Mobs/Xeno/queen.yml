@@ -236,7 +236,7 @@
     - Stun
     - KnockedDown
   - type: TacticalMapUser
-    xenos: true
+    layerSets: [RMCTacticalMapSetXeno]
     canDraw: true
     liveUpdate: true
   - type: TacticalMapIcon

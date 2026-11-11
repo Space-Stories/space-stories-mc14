@@ -79,6 +79,7 @@
     canMessageSquad: true
   - type: SupplyDropComputer
   - type: TacticalMapComputer
+    allowedSquadGroups: [UNMC]
   - type: GuideHelp
     guides:
     - RMCGuideMarineCommunications
@@ -162,6 +163,7 @@
       RMCSkillOverwatch: 1
   - type: OverwatchConsole
   - type: TacticalMapComputer
+    allowedSquadGroups: [UNMC]
   - type: SupplyDropComputer
   - type: GuideHelp
     guides:
@@ -228,6 +230,7 @@
       enum.TacticalMapComputerUi.Key:
         type: TacticalMapComputerBui
   - type: TacticalMapComputer
+    allowedSquadGroups: [UNMC]
   - type: EmitSoundOnUIOpen
     sound: null
   - type: GuideHelp
@@ -262,6 +265,7 @@
       enum.TacticalMapComputerUi.Key:
         type: TacticalMapComputerBui
   - type: TacticalMapComputer
+    allowedSquadGroups: [UNMC]
   - type: EmitSoundOnUIOpen
     sound: null
   - type: ApcPowerReceiver

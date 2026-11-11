@@ -41,7 +41,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Overwatch;
 
-public abstract class SharedOverwatchConsoleSystem : EntitySystem
+public abstract partial class SharedOverwatchConsoleSystem : EntitySystem
 {
     private const string AdministratorGroup = "ADMINISTRATOR";
 
@@ -362,6 +362,9 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         ent.Comp.Squad = args.Squad;
         ent.Comp.Operator = Identity.Name(args.Actor, EntityManager);
         Dirty(ent);
+
+        if (_net.IsServer && args.Squad != null && TryGetEntity(args.Squad, out var squadEnt))
+            _tacticalMap.SetComputerDrawLayerFromSquad(ent.Owner, squadEnt.Value);
     }
 
     private void OnOrbitalCannonSafetyChanged(ref OrbitalCannonSafetyChangedEvent ev)
@@ -458,54 +461,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (args.Target == default || !TryGetEntity(args.Target, out var target))
             return;
 
-        if (ent.Comp.Squad is not { } selectedSquad)
-            return;
-
-        var selectedSquadNet = selectedSquad;
-        var targetNet = args.Target;
-        var state = GetOverwatchData(ent.Comp);
-        var validMarineCamera = state.Marines.TryGetValue(selectedSquadNet, out var selectedMarines) &&
-                                selectedMarines.Any(marine => marine.Id == targetNet && marine.Camera != default);
-        var validTripodCamera = state.Cameras.TryGetValue(selectedSquadNet, out var selectedCameras) &&
-                                selectedCameras.Any(camera => camera.Id == targetNet);
-
-        if (!validMarineCamera && !validTripodCamera)
-            return;
-
-        Entity<OverwatchCameraComponent?> camera;
-        if (!_inventory.TryGetInventoryEntity<OverwatchCameraComponent>(target.Value, out camera))
-        {
-            if (!TryComp(target, out RMCOverwatchTripodCameraComponent? tripod) ||
-                !tripod.Deployed ||
-                tripod.Squad != GetEntity(selectedSquad) ||
-                !TryComp(target, out OverwatchCameraComponent? tripodCamera))
-            {
-                return;
-            }
-
-            camera = (target.Value, tripodCamera);
-        }
-
-        if (HasComp<ScopingComponent>(args.Actor))
-        {
-            if (_net.IsServer)
-            {
-                _popup.PopupCursor(Loc.GetString("rmc-overwatch-console-scoped"), args.Actor, PopupType.MediumCaution);
-            }
-            return;
-        }
-
-        if (_net.IsServer &&
-            TryComp(args.Actor, out OverwatchWatchingComponent? watching) &&
-            watching.Watching == camera.Owner &&
-            TryComp(args.Actor, out ActorComponent? actor) &&
-            TryComp(args.Actor, out EyeComponent? eye))
-        {
-            Unwatch((args.Actor, eye), actor.PlayerSession);
-            return;
-        }
-
-        Watch(args.Actor, camera);
+        TryWatchTarget(ent, args.Actor, target.Value); // RMC14
     }
 
     private void OnOverwatchHideBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleHideBuiMsg args)

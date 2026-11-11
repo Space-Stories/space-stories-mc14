@@ -1,5 +1,5 @@
 ﻿- type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMResearcher
   name: rmc-job-name-researcher
   description: rmc-job-description-researcher
@@ -36,6 +36,11 @@
   special:
   - !type:AddComponentSpecial
     components:
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       skills:
         RMCSkillEndurance: 1

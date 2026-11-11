@@ -91,10 +91,12 @@
       enum.ViewIntelObjectivesUI.Key:
         type: ViewIntelObjectivesBui
         requireInputValidation: false
+  # RMC14
   - type: TacticalMapUser
     actionId: RMCActionOpenTacticalMapGhost
-    marines: true
-    xenos: true
+    layerSets: [RMCTacticalMapSetGhost]
+    liveUpdate: true
+  # RMC14
   - type: ViewIntelObjectives
   - type: VentSight
   - type: IgnoreInteractionRange

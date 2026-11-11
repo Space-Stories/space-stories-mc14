@@ -97,8 +97,8 @@
           SeventyFive: { state: "on-75" }
           Hundred: { state: "on-100" }
           Empty: { state: "cell_missing" }
-  - type: MarineMapTracked
-  - type: XenoMapTracked
+  - type: TacticalMapLayerTracked
+    layers: [RMCTacticalMapLayerMarines, RMCTacticalMapLayerXenos]
   - type: TacticalMapTracked
   - type: TacticalMapIcon
     icon:
@@ -112,8 +112,7 @@
   components:
   - type: RemoveComponents
     components:
-    - type: MarineMapTracked
-    - type: XenoMapTracked
+    - type: TacticalMapLayerTracked
     - type: TacticalMapTracked
     - type: TacticalMapIcon
       icon:

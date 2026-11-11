@@ -96,8 +96,7 @@
     debuffModifier: 1.2
   - type: RMCImmuneToFireTileDamage
   - type: TacticalMapUser
-    xenos: false
-    marines: false
+    actionId: RMCActionOpenTacticalMapMarine
   - type: ParalyzeOnPullAttemptImmune
   - type: RMCRevivable
     unrevivableDelay: 0

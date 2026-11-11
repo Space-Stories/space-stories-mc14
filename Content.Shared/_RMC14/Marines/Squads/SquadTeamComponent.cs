@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.Tracker.SquadLeader;
+using Content.Shared._RMC14.TacticalMap;
 using Content.Shared.Access;
 using Content.Shared.Radio;
 using Content.Shared.Roles;
@@ -65,6 +66,9 @@ public sealed partial class SquadTeamComponent : Component
 
     [DataField]
     public ProtoId<AnnouncementPresetPrototype> OverwatchAnnouncementPreset = "MarineOverwatch";
+
+    [DataField]
+    public EntProtoId<TacticalMapLayerComponent>? TacticalMapLayer;
 
     /// <summary>
     /// Squad objectives assigned to this squad. Key is the objective type, value is the objective text.

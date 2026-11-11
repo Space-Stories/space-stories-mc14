@@ -61,7 +61,8 @@
       enum.XenoParasiteGhostUI.Key:
         type: XenoParasiteGhostBui
         requireInputValidation: false
-  - type: XenoStructureMapTracked
+  - type: TacticalMapLayerTracked
+    layers: [RMCTacticalMapLayerXenos]
   - type: TacticalMapTracked
   - type: TacticalMapIcon
     icon:

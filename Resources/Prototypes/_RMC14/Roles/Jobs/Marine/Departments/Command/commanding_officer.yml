@@ -1,6 +1,6 @@
 ﻿
 - type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMCommandingOfficer
   name: cm-job-name-commanding-officer
   description: cm-job-description-commanding-officer
@@ -61,6 +61,11 @@
   - !type:AddComponentSpecial
     components:
     - type: MutinyForcedLoyalist
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       preset: RMCSkillPresetCommander
     - type: MarineOrders

@@ -18,6 +18,19 @@
 - type: job
   abstract: true
   parent: CMJobBase
+  id: RMCJobMarineBase
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
+
+- type: job
+  abstract: true
+  parent: RMCJobMarineBase
   id: CMJobSquadBase
   hasSquad: true
 

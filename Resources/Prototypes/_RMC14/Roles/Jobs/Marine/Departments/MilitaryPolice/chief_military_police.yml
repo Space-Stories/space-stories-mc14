@@ -1,5 +1,5 @@
 - type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMChiefMP
   name: cm-job-name-chief-mp
   description: cm-job-description-chief-mp
@@ -34,6 +34,11 @@
   - !type:AddComponentSpecial
     components:
     - type: MutinyLoyalistOrNeutral
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       skills:
         RMCSkillConstruction: 2
