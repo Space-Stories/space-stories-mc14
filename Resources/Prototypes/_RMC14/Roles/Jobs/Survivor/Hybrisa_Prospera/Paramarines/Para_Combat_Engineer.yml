@@ -26,10 +26,11 @@
           - TSE
       - type: RMCSurvivor
       - type: RMCAllowSuitStorage
-      - type: IntelRescueSurvivorObjective
+      # - type: IntelRescueSurvivorObjective # Stories-Survivor
       - type: MotionDetectorTracked
       - type: Skills
         preset: RMCSkillPresetParaEngineer
+      - type: IntelRescueSurvivorObjective # Stories-Survivor
       - type: TacticalMapIcon
         icon:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
