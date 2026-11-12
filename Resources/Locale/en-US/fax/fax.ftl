@@ -22,6 +22,7 @@ fax-machine-ui-from = From:
 fax-machine-ui-paper = Paper:
 fax-machine-ui-paper-inserted = Paper in tray
 fax-machine-ui-paper-not-inserted = No paper
+fax-machine-ui-template-print-button = Print template
 
 fax-machine-chat-notify = "{$faxReceiver}" received new fax message from "{$fax}" fax
 
