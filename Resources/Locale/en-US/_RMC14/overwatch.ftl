@@ -84,8 +84,9 @@ rmc-overwatch-console-comment-placeholder = Optional comment
 rmc-overwatch-console-comment-autosave = Saves when you press Enter or leave the field.
 rmc-overwatch-console-load = Load
 rmc-overwatch-console-load-coordinates = Load these coordinates
-rmc-overwatch-console-no-crate-loaded = [color=red][bold][ NO CRATE LOADED ][/bold][/color]
-rmc-overwatch-console-crate-loaded = [color=green][bold][ CRATE LOADED ][/bold][/color]
+rmc-overwatch-console-save-comment = Save Comment
+rmc-overwatch-console-no-crate-loaded = [color=red][bold] \[ NO CRATE LOADED \][/bold][/color]
+rmc-overwatch-console-crate-loaded = [color=green][bold] \[ CRATE LOADED \][/bold][/color]
 rmc-overwatch-console-ready = [color=green][bold][ READY ][/bold][/color]
 rmc-overwatch-console-not-ready = [color=red][bold][ NOT READY ][/bold][/color]
 rmc-overwatch-console-orbital-safety-engaged = [color=red][bold][ SAFETY LOCK ENGAGED ][/bold][/color]
@@ -148,3 +149,6 @@ rmc-overwatch-console-scoped = You're too busy peering through optics.
 
 ent-RMCOverwatchCameraTripod = Field Camera Tripod
     .desc = A Motoca-430-T deployable tripod camera that connects to the Overwatch network. It can be renamed and deployed.
+### Supply drop status
+
+rmc-overwatch-console-promoted-squad-suffix = {" "}for {$squad}

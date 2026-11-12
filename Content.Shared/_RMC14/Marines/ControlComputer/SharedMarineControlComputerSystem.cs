@@ -361,7 +361,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
             }
         );
 
-        _core.CreateARESLog(ent, LogCat, (string)$"{Name(user)} sent a Warship Announcement: {args.Message}");
+        _core.CreateARESLog(ent, LogCat, Loc.GetString("rmc-ares-log-warship-announcement", ("user", Name(user)), ("message", args.Message)));
     }
 
     private void OnMedal(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerMedalMsg args)

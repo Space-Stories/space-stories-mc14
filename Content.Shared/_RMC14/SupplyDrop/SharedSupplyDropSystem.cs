@@ -295,9 +295,9 @@ public abstract partial class SharedSupplyDropSystem : EntitySystem // Stories-Z
         computer.Comp.NextLaunchAt = time + computer.Comp.Cooldown;
         Dirty(computer);
         // Stories-ZLevels-Start
-        _core.CreateARESLog(computer.Owner, LogCat,
-            (string)$"{Name(user)} Launched a crate {Name(crate)} " +
-            $"to {mapCoordinates.X}, {mapCoordinates.Y}, Z {computer.Comp.TargetZ}.");
+        _core.CreateARESLog(computer.Owner, LogCat, Loc.GetString("stories-ares-log-supply-drop",
+            ("user", Name(user)), ("crate", Name(crate)), ("x", mapCoordinates.X.ToString()),
+            ("y", mapCoordinates.Y.ToString()), ("z", computer.Comp.TargetZ)));
         // Stories-ZLevels-End
         return true;
     }

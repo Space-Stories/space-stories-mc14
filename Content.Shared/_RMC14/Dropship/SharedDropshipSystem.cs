@@ -349,7 +349,7 @@ public abstract class SharedDropshipSystem : EntitySystem
 
         var grid = _transform.GetGrid((ent.Owner, Transform(ent.Owner)));
         if (grid != null)
-            _core.CreateARESLog(ent.Comp.Faction, LogCat, (string)$"{Name(args.Actor)} launched the {Name(grid.Value)} to {Name(destination.Value)}");
+            _core.CreateARESLog(ent.Comp.Faction, LogCat, Loc.GetString("rmc-ares-log-dropship-launched", ("user", Name(args.Actor)), ("dropship", Name(grid.Value)), ("destination", Name(destination.Value))));
     }
 
     private void OnDropshipNavigationCancelMsg(Entity<DropshipNavigationComputerComponent> ent,

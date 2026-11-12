@@ -452,7 +452,7 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
         if (_idCard.TryFindIdCard(sender, out var idCard) && TryComp(idCard, out ItemIFFComponent? idCardIFF))
             foreach (var faction in idCardIFF.Factions)
             {
-                _core.CreateARESLog(faction, LogCat, $"{Name(sender)} sent an announcement: {message}");
+                _core.CreateARESLog(faction, LogCat, Loc.GetString("rmc-ares-log-announcement", ("user", Name(sender)), ("message", message)));
             }
     }
 

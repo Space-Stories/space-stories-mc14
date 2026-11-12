@@ -32,3 +32,16 @@ rmc-health-analyzer-advice-dexalin = [color=#5887D5][font="Emoji"]💉[/font][/c
 rmc-health-analyzer-advice-bicaridine = [color=#ed4847][font="Emoji"]💉[/font][/color] Ввести одну дозу бикаридина.
 rmc-health-analyzer-advice-kelotane = [color=#f5e123][font="Emoji"]💉[/font][/color] Ввести одну дозу келотана.
 rmc-health-analyzer-advice-dylovene = [color=#3fc92a][font="Emoji"]💉[/font][/color] Ввести одну дозу диловена.
+
+rmc-health-analyzer-health = Health:
+rmc-health-analyzer-damage = Damage:
+rmc-health-analyzer-holocard = Holocard:
+rmc-health-analyzer-body-temperature = Body Temperature:
+rmc-health-analyzer-pulse = Pulse:
+rmc-health-analyzer-chemical-contents = Chemical Contents
+rmc-health-analyzer-medical-advice = Medical Advice
+rmc-health-analyzer-blood = Blood:
+rmc-health-analyzer-bleeding = {" "}[bold][color=#DF3E3E]\[Bleeding\][/color][/bold]
+rmc-health-analyzer-temperature-none = None
+rmc-health-analyzer-fumbling = You start fumbling around with {$target}...
+rmc-health-analyzer-cant-analyze = You can't analyze that!

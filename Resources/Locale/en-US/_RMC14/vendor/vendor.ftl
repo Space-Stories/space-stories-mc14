@@ -44,3 +44,7 @@ rmc-automated-vendor-units = { $units } units
 rmc-automated-vendor-take-all =  (TAKE ALL)
 rmc-automated-vendor-take-one =  (TAKE ONE)
 rmc-automated-vendor-choose =  (CHOOSE { $amount })
+### Automated vendor window
+rmc-vendor-ui-default-title = ASRS Vendor
+rmc-vendor-ui-mandatory = Mandatory: {$name}
+rmc-vendor-ui-recommended = Recommended: {$name}

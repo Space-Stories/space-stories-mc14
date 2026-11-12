@@ -485,3 +485,5 @@ rmc-xeno-swift-steps-others = { CAPITALIZE(THE($user)) } отскакивает 
 rmc-xeno-marked-critical-apply = Ты чувствуешь, как страх пробегает по твоей спине... ты можешь быть следующим!
 rmc-xeno-marked-critical-disappear = Ты успокаиваешься и приходишь в себя.
 rmc-xeno-marked-critical-consumed = Ты пришёл в себя!
+
+rmc-xeno-plasma-transfer-full = That xeno already has max plasma!
