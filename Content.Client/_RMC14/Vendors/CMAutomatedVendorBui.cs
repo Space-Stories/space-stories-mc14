@@ -14,6 +14,7 @@ using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.CustomControls;
+using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using static System.StringComparison;
@@ -24,6 +25,7 @@ namespace Content.Client._RMC14.Vendors;
 [UsedImplicitly]
 public sealed class CMAutomatedVendorBui : BoundUserInterface
 {
+    [Dependency] private readonly ILocalizationManager _loc = default!; // Stories-VendorSectionLoc
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IResourceCache _resource = default!;
@@ -372,8 +374,13 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
     private FormattedMessage GetSectionName(CMVendorUserComponent? user, CMVendorSection section)
     {
         var name = new FormattedMessage();
-        name.PushTag(new MarkupNode("bold", new MarkupParameter(section.Name.ToUpperInvariant()), null));
-        name.AddText(section.Name.ToUpperInvariant());
+        // Stories-VendorSectionLoc-Start
+        var sectionName = !section.Name.Contains(' ') && _loc.TryGetString(section.Name, out var localized)
+            ? localized
+            : section.Name;
+        name.PushTag(new MarkupNode("bold", new MarkupParameter(sectionName.ToUpperInvariant()), null));
+        name.AddText(sectionName.ToUpperInvariant());
+        // Stories-VendorSectionLoc-End
 
         if (section.TakeAll != null)
         {

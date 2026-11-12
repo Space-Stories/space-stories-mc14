@@ -1,0 +1,13 @@
+stories-hunter-trap-no-skill = Вы не знаете, как этим пользоваться!
+stories-hunter-trap-armed = Капкан взведён.
+stories-hunter-trap-disarmed = Ловушка разряжена.
+stories-hunter-trap-foolish-touch = Вы опрометчиво тянетесь к ловушке...
+stories-hunter-trap-caught-self = Вы попались в { $trap }!
+stories-hunter-trap-caught-others = { CAPITALIZE($victim) } попадается в { $trap }!
+stories-hunter-trap-verb-range = Длина цепи: { $range }
+stories-hunter-trap-range-set = Длина цепи капкана: { $range }.
+stories-hunter-trap-announce = Охотничий капкан кого-то поймал: { $area }!
+stories-hunter-trap-announce-unknown-area = неизвестная зона
+stories-hunter-arrow-no-skill = Вы пытаетесь что-то подкрутить в стреле, но ничего не происходит.
+stories-hunter-arrow-activated = Вы активируете взрывную боеголовку.
+stories-hunter-arrow-deactivated = Вы деактивируете взрывную боеголовку.
