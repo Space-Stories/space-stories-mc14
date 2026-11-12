@@ -1,0 +1,33 @@
+- type: entity
+  abstract: true
+  id: RMCBlackMarketCatalogMiscellaneous
+  components:
+  - type: RequisitionsComputer
+    categories: []
+    blackMarketCategories:
+    - name: rmc-requisitions-black-market-category-miscellaneous
+      entries:
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 45
+        blackMarketHeat: 7
+        crate: RMCCrateBlackMarketMiscSecuredWildlife
+        icon:
+          entity: RMCCrateBlackMarketMiscSecuredWildlife
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: -10
+        crate: RMCPottedPlantRandomUnanchored
+
+      # TODO RMC14: Port cargo tug behavior before enabling this Miscellaneous entry.
+      # TODO RMC14: Cargo Tug Crate, cost 50, heat 0.
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 25
+        crate: RMCCrateBlackMarketCLF
+        icon:
+          entity: RMCCrateBlackMarketCLF

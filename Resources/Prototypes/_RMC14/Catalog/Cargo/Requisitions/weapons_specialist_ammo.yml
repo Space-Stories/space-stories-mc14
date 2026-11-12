@@ -1,0 +1,76 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogWeaponsSpecialistAmmo
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-weapons-specialist-ammo
+      entries:
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96S
+
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96SFlak
+
+      - cost: 667
+        unit: true
+        crate: CMMagazineSniperM96SIncendiary
+
+      - cost: 600
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19
+
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19Impact
+
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineRifleM4SPRA19Incendiary
+
+      # Stories-AntiMateriel-Start
+      - cost: 1000
+        unit: true
+        crate: RMCMagazineSniperXM43E1AntiMateriel
+
+      # Stories-AntiMateriel-End
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mm
+
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mmAntiArmor
+
+      - cost: 1000
+        unit: true
+        crate: RMCRocket84mmWhitePhosphorus
+
+      - cost: 1000
+        unit: true
+        crate: RMCTankFlamerLarge
+
+      - cost: 3000
+        unit: true
+        crate: RMCTankFlamerLargeB
+
+      - cost: 4000
+        unit: true
+        crate: RMCTankFlamerLargeX
+
+      # Stories-SHARP-Start
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleExplosive
+
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleFlechette
+
+      - cost: 1000
+        unit: true
+        crate: STMagazineSharpRifleIncendiary
+
+      # Stories-SHARP-End

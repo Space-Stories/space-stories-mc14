@@ -197,6 +197,10 @@
         amount: 1
     - name: Explosives
       entries:
+      - id: RMCGrenadeType6
+        amount: 25
+      - id: RMCGrenadeType8
+        amount: 4
       - id: RMCExplosivePlastic
         amount: 2
       - id: RMCExplosiveBreachingCharge

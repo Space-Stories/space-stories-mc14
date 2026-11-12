@@ -1,0 +1,23 @@
+- type: entityTable
+  id: RMCBlackMarketCLFTools
+  table: !type:GroupSelector
+    children:
+    - id: CMScrewdriver
+    - id: CMWirecutter
+    - id: CMWelder
+    - id: CMCrowbar
+    - id: CMWrench
+    - id: RMCFlashlight
+
+- type: entityTable
+  id: RMCBlackMarketCLFToolboxes
+  table: !type:GroupSelector
+    children:
+    - id: RMCToolboxMechanicalFilled
+    - id: RMCToolboxMechanicalFilled
+    - id: RMCToolboxMechanicalFilled
+    - id: RMCToolboxElectricalFilled
+    - id: RMCToolboxElectricalFilled
+    - id: RMCToolboxMechanicalGreenFilled
+    - id: RMCToolboxMechanicalGreenFilled
+    - id: RMCToolboxEmergencyFilled

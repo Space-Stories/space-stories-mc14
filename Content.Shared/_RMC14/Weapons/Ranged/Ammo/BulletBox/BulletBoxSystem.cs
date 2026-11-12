@@ -212,7 +212,12 @@ public sealed class BulletBoxSystem : EntitySystem
 
     private void UpdateAppearance(Entity<BulletBoxComponent> ent)
     {
-        var visual = ((double) ent.Comp.Amount / ent.Comp.Max) switch
+        _appearance.SetData(ent, BulletBoxLayers.Fill, GetFillVisuals(ent.Comp.Amount, ent.Comp.Max));
+    }
+
+    public static BulletBoxVisuals GetFillVisuals(int amount, int max)
+    {
+        return ((double) amount / max) switch
         {
             >= 1 => BulletBoxVisuals.Full,
             >= 0.66 => BulletBoxVisuals.High,
@@ -220,8 +225,6 @@ public sealed class BulletBoxSystem : EntitySystem
             > 0 => BulletBoxVisuals.Low,
             _ => BulletBoxVisuals.Empty,
         };
-
-        _appearance.SetData(ent, BulletBoxLayers.Fill, visual);
     }
 
     public bool TryConsume(Entity<BulletBoxComponent> ent, int amount)

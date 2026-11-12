@@ -1,0 +1,47 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogClothing
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-clothing
+      entries:
+      - cost: 500
+        unit: true
+        crate: CMWebbing
+
+      - cost: 750
+        unit: true
+        crate: CMWebbingHolster
+
+      - cost: 667
+        unit: true
+        crate: CMWebbingKnivesFilled
+
+      - cost: 500
+        unit: true
+        crate: RMCWebbingBlackSmall
+
+      - cost: 500
+        unit: true
+        crate: RMCWebbingDropPouch
+
+      - cost: 750
+        unit: true
+        crate: RMCWebbingDropPouchBlack
+
+      - cost: 500
+        unit: true
+        crate: RMCWebbingHolsterBlack
+
+      - cost: 2000
+        crate: RMCCrateClothingLargePouches
+
+      - cost: 2000
+        crate: RMCCrateClothingMedicalPouches
+
+      - cost: 3000
+        crate: RMCCrateClothingOfficerOutfit
+
+      - cost: 2000
+        crate: RMCCrateClothingWebbingVest

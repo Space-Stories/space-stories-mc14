@@ -1,0 +1,196 @@
+- type: entityTable
+  id: RMCBlackMarketCLFTech
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector
+      children:
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: RMCBlackMarketHackingDevice
+      - id: RMCBlackMarketHackingDevice
+    - !type:GroupSelector
+      children:
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMTRayScanner
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMRadioHandheld
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: CMHealthAnalyzer
+      - id: RMCBlackMarketHackingDevice
+      - id: RMCBlackMarketHackingDevice
+    - !type:NestedSelector
+      tableId: RMCBlackMarketCLFBombParts
+    - !type:NestedSelector
+      tableId: RMCBlackMarketCLFBombParts
+    - !type:GroupSelector
+      children:
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellCrap
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellSuper
+        weight: 0.99
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellHyper
+        weight: 0.01
+    - !type:GroupSelector
+      children:
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellCrap
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellSuper
+        weight: 0.99
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellHyper
+        weight: 0.01
+    - !type:GroupSelector
+      children:
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellCrap
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCell
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellHigh
+        - id: RMCPowerCellSuper
+        weight: 0.99
+      - !type:GroupSelector
+        children:
+        - id: RMCPowerCellHyper
+        weight: 0.01
+    - id: CMFireExtinguisher
+    - id: CMHandsInsulated
+    - id: RMCCableCoil
+    - id: RMCCableCoil
+    - id: RMCCableCoil
+    - !type:GroupSelector
+      children:
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxElectricalFilled
+      - id: RMCToolboxElectricalFilled
+      - id: RMCToolboxMechanicalGreenFilled
+      - id: RMCToolboxMechanicalGreenFilled
+      - id: RMCToolboxEmergencyFilled
+    - !type:GroupSelector
+      children:
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxMechanicalFilled
+      - id: RMCToolboxElectricalFilled
+      - id: RMCToolboxElectricalFilled
+      - id: RMCToolboxMechanicalGreenFilled
+      - id: RMCToolboxMechanicalGreenFilled
+      - id: RMCToolboxEmergencyFilled
+    - id: CMBeltUtility
+    - id: CMBeltUtility
+    - !type:GroupSelector
+      children:
+      - id: CMScrewdriver
+      - id: CMWirecutter
+      - id: CMWelder
+      - id: CMCrowbar
+      - id: CMWrench
+      - id: RMCFlashlight
+    - !type:GroupSelector
+      children:
+      - id: CMScrewdriver
+      - id: CMWirecutter
+      - id: CMWelder
+      - id: CMCrowbar
+      - id: CMWrench
+      - id: RMCFlashlight
+    - !type:GroupSelector
+      children:
+      - id: CMScrewdriver
+      - id: CMWirecutter
+      - id: CMWelder
+      - id: CMCrowbar
+      - id: CMWrench
+      - id: RMCFlashlight
+    - !type:GroupSelector
+      children:
+      - id: CMScrewdriver
+      - id: CMWirecutter
+      - id: CMWelder
+      - id: CMCrowbar
+      - id: CMWrench
+      - id: RMCFlashlight
+    - !type:GroupSelector
+      children:
+      - id: CMScrewdriver
+      - id: CMWirecutter
+      - id: CMWelder
+      - id: CMCrowbar
+      - id: CMWrench
+      - id: RMCFlashlight

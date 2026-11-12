@@ -14,9 +14,16 @@ public sealed partial class RequisitionsEntry
     [DataField]
     public bool Unit;
 
-    public bool NoReturnReward;
+    public bool Consolidated;
 
     public List<RequisitionsDeliveryLine> RequestLines = new();
+
+    /// <summary>
+    /// Server-assigned returns for paid deliveries. Unset rewards preserve free and random supply rewards.
+    /// </summary>
+    public int? CrateReturn;
+
+    public int? InvoiceReturn;
 
     [DataField]
     public LocId? Name;

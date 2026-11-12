@@ -10,6 +10,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Clothing;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Sprite;
+using Content.Shared.Storage;
 
 namespace Content.Shared._RMC14.Weapons.Ranged.Foldable;
 
@@ -93,6 +94,8 @@ public sealed class RMCFoldableGunSystem : EntitySystem
 
         // Spawn the new entity
         var newEntity = PredictedSpawnNextToOrDrop(ent.Comp.FoldedEntity, user);
+        var spawned = new SpawnedFromEntityEvent(newEntity);
+        RaiseLocalEvent(ent, ref spawned);
 
         // Try to pickup in the same hand, if it fails, try any hand
         if (!_hands.TryForcePickup(newEntity, user, handToUse, checkActionBlocker: false))

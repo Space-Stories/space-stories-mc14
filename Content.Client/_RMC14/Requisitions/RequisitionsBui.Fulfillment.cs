@@ -1,6 +1,5 @@
 using System.Linq;
 using Content.Shared._RMC14.Requisitions;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Client._RMC14.Requisitions;
@@ -11,21 +10,6 @@ public sealed partial class RequisitionsBui
     private readonly Dictionary<int, int> _requestRevisions = new();
     private readonly Dictionary<int, int> _requestCosts = new();
     private bool _updatingRequestLines;
-    private bool _initialRequestCategory;
-
-    private void SelectInitialRequestCategory()
-    {
-        if (_initialRequestCategory || !RequestOnly || _state == null)
-            return;
-        for (var i = 0; i < _state.Categories.Count; i++)
-        {
-            if (!_state.Categories[i].Entries.Any(entry => entry.Unit))
-                continue;
-            SelectedCategory = i;
-            _initialRequestCategory = true;
-            return;
-        }
-    }
 
     private string GetShipmentContents(RequisitionsEntry entry)
     {
@@ -41,11 +25,12 @@ public sealed partial class RequisitionsBui
 
     private int GetCartSlots(CartKey? changed = null, int value = 0)
     {
-        if (_blackMarketMode)
-            return GetCartAmount() - (changed is { } key ? GetCartAmount(key) - value : 0);
+        return GetCartShipping(changed, value).Slots;
+    }
 
-        var units = 0;
-        var crates = 0;
+    private (int Slots, int Separate) GetCartShipping(CartKey? changed = null, int value = 0)
+    {
+        var shipping = new List<RequisitionsShippingItem>();
         var keys = GetCurrentCart().Keys.ToHashSet();
         if (changed is { } added)
             keys.Add(added);
@@ -54,13 +39,13 @@ public sealed partial class RequisitionsBui
             if (!TryGetEntry(key, out var product))
                 continue;
             var amount = changed == key ? value : GetCartAmount(key);
-            if (product.Unit)
-                units += amount;
-            else
-                crates += amount;
+            if (amount > 0)
+                shipping.Add(new RequisitionsShippingItem(product, amount));
         }
-        var capacity = Math.Clamp(_state?.ShipmentItems ?? 20, 1, 20);
-        return crates + (units + capacity - 1) / capacity;
+        var slots = RequisitionsShipping.Count(shipping, _state?.ShipmentWeightLimit ?? 34,
+            _state?.ShipmentItems ?? RequisitionsShipping.MaxShipmentItems, _prototypes, _entities.ComponentFactory,
+            out var separate);
+        return (slots, separate);
     }
 
     private void RespondToRequest(int number, bool approve)
@@ -132,7 +117,7 @@ public sealed partial class RequisitionsBui
             if (changed && row.Quantity.Value != item.Remaining)
                 row.Quantity.OverrideValue(item.Remaining);
             if (created || row.Purchase.Disabled)
-                row.Purchase.Pressed = !row.Purchase.Disabled;
+                row.Purchase.Pressed = false;
             row.Remove.Disabled = item.Remaining == 0;
             row.Add.Disabled = item.Remaining == 0;
             row.Quantity.LineEditControl.Editable = item.Remaining > 0;
@@ -148,12 +133,13 @@ public sealed partial class RequisitionsBui
             _state.Requests.FirstOrDefault(request => request.Number == number) is not { } request)
             return;
 
-        var stock = new Dictionary<EntProtoId, int>(_state.Stock);
+        var stock = new RequisitionsStockPlan(_state.StockInventory);
         var previews = new List<(RequisitionsRequestLine Row, int Stock, int Issue,
             int Missing, int Purchase, long Cost)>();
         long cost = 0;
         var units = 0;
         var crates = 0;
+        var shipping = new List<RequisitionsShippingItem>();
         var issued = 0;
         var processing = 0;
         for (var i = 0; i < request.Items.Count; i++)
@@ -162,21 +148,22 @@ public sealed partial class RequisitionsBui
             var row = _requestLines[(number, i)];
             var amount = Math.Clamp(row.Quantity.Value, 0, item.Remaining);
             processing += amount;
-            var available = stock.GetValueOrDefault(item.Entry.Crate);
-            var issue = item.Entry.Unit ? Math.Min(available, amount) : 0;
+            var available = stock.GetAvailable(item.Entry.Crate);
+            var issue = item.Entry.Unit ? stock.Reserve(item.Entry.Crate, amount) : 0;
             var purchase = row.Purchase.Pressed && (!item.Entry.Unit || item.Entry.Cost > 0) ? amount - issue : 0;
-            stock[item.Entry.Crate] = available == int.MaxValue ? available : available - issue;
             issued += issue;
             cost += (long) purchase * item.Entry.Cost;
             if (item.Entry.Unit)
                 units += purchase;
             else
                 crates += purchase;
+            if (purchase > 0)
+                shipping.Add(new RequisitionsShippingItem(item.Entry, purchase));
             previews.Add((row, item.Entry.Unit ? available : 0, issue, amount - issue,
                 purchase, (long) purchase * item.Entry.Cost));
         }
-        var capacity = Math.Clamp(_state.ShipmentItems, 1, 20);
-        var slots = crates + (units + capacity - 1) / capacity;
+        var slots = RequisitionsShipping.Count(shipping, _state.ShipmentWeightLimit, _state.ShipmentItems,
+            _prototypes, _entities.ComponentFactory);
         var purchaseBlocked = slots > 0 && (cost > _state.Balance || slots > GetRemainingCapacity());
         foreach (var preview in previews)
         {

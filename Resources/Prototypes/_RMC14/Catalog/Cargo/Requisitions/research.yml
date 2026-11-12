@@ -1,0 +1,15 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogResearch
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-research
+      entries:
+      - cost: 3000
+        unit: true
+        crate: CMSheetPhoron30
+
+      - cost: 1000
+        unit: true
+        crate: RMCSheetPlastic10

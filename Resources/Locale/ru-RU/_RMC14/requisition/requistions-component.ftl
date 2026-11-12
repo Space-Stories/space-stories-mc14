@@ -2,7 +2,6 @@
 requisition-paperwork-receiver-name = Отдел логистики
 requisition-paperwork-reward-message = Подтверждение получено! Переведено ${ $amount } из излишков бюджета.
 
-# Stories-BlackMarket-Start
 rmc-requisitions-window-title = Автоматизированная система хранения и выдачи
 rmc-requisitions-tab-products = Товары
 rmc-requisitions-tab-cart = Корзина
@@ -29,7 +28,7 @@ rmc-requisitions-category-mortar = Мортира
 rmc-requisitions-category-operations = Операции
 rmc-requisitions-category-reagent-tanks = Резервуары для реагентов
 rmc-requisitions-category-research = Исследование
-rmc-requisitions-category-restricted-equipment = Ограниченное оборудование
+rmc-requisitions-category-restricted-equipment = Специальное снаряжение
 rmc-requisitions-category-supplies = Припасы
 rmc-requisitions-category-vehicle-ammo = Боеприпасы для техники
 rmc-requisitions-category-weapons = Оружие
@@ -119,7 +118,6 @@ rmc-requisitions-black-market-scan-no-value = ПРЕДМЕТ НЕ ИМЕЕТ Ц�
 rmc-requisitions-black-market-scan-danger = ОТПРАВКА ЭТОГО ЖИВОГО ГРУЗА ПРЕРВЁТ СВЯЗЬ С ТОРГОВЫМ КАНАЛОМ
 rmc-requisitions-black-market-sell-message = Подтверждение получено! Через нелегальный торговый канал переведено WY${ $amount }.
 rmc-requisitions-black-market-mendoza-dead-message = Связь с нелегальным торговым каналом потеряна. Мендоса не отвечает.
-# Stories-BlackMarket-End
 
 # Requisition Invoice
 requisition-paper-print-name = { $name } счет-фактура

@@ -31,7 +31,6 @@ public sealed class RequisitionsSystem : SharedRequisitionsSystem
         if (_timing.CurTick != _timing.LastRealTick)
             return;
 
-        // Stories-BlackMarket-Start
         try
         {
             _rmcUI.RefreshUIs<RequisitionsBui>(computer.Owner);
@@ -40,7 +39,6 @@ public sealed class RequisitionsSystem : SharedRequisitionsSystem
         {
             Log.Error($"Error refreshing requisitions UI for {ToPrettyString(computer)}: {e}");
         }
-        // Stories-BlackMarket-End
     }
 
     private void OnElevatorHandleState(Entity<RequisitionsElevatorComponent> elevator, ref AfterAutoHandleStateEvent args)
