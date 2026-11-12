@@ -197,6 +197,15 @@
   parent: RMCShutterAlmayer
   id: RMCShutterAlmayerUniformVendors
   name: uniform vendor shutters
+  components:
+  - type: ApcPowerReceiver # Stories-Fixes start
+    needsPower: false
+  - type: Corrodible
+    isCorrodible: false
+  - type: RemoveComponents
+    components:
+    - type: RMCWallExplosionDeletable
+    - type: DestroyedByExplosionType # Stories-Fixes end
 
 - type: entity
   parent: RMCShutterAlmayer

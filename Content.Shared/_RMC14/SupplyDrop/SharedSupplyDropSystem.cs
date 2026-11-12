@@ -32,7 +32,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.SupplyDrop;
 
-public abstract class SharedSupplyDropSystem : EntitySystem
+public abstract partial class SharedSupplyDropSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly AreaSystem _area = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -66,6 +66,7 @@ public abstract class SharedSupplyDropSystem : EntitySystem
 
     public override void Initialize()
     {
+        InitializeZLevelInput(); // Stories-ZLevels
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         SubscribeLocalEvent<BeingSupplyDroppedComponent, StorageOpenAttemptEvent>(OnBeingSupplyDroppedOpenAttempt);
@@ -232,7 +233,10 @@ public abstract class SharedSupplyDropSystem : EntitySystem
             return false;
 
         if (computer.Comp.Squad is not { } squad ||
-            !_rmcPlanet.TryPlanetToCoordinates(computer.Comp.Coordinates, out var mapCoordinates) ||
+            // Stories-ZLevels-Start
+            !_rmcPlanet.TryPlanetToCoordinates(computer.Comp.Coordinates, computer.Comp.TargetZ,
+                out var mapCoordinates) ||
+            // Stories-ZLevels-End
             !CanSupplyDropSquad(squad))
         {
             _popup.PopupCursor(Loc.GetString("rmc-supply-drop-not-operational"), user, PopupType.MediumCaution);
@@ -260,7 +264,9 @@ public abstract class SharedSupplyDropSystem : EntitySystem
         }
 
         if (_rmcMap.IsTileBlocked(mapCoordinates) ||
-            _rmcMap.TryGetTileDef(mapCoordinates, out var tile) && tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            !_rmcMap.TryGetTileDef(mapCoordinates, out var tile) || tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-End
         {
             _popup.PopupCursor(Loc.GetString("rmc-supply-drop-blocked"), user, PopupType.MediumCaution);
             return false;
@@ -288,7 +294,11 @@ public abstract class SharedSupplyDropSystem : EntitySystem
         computer.Comp.LastLaunchAt = time;
         computer.Comp.NextLaunchAt = time + computer.Comp.Cooldown;
         Dirty(computer);
-        _core.CreateARESLog(computer.Owner, LogCat, Loc.GetString("rmc-ares-log-supply-drop", ("user", Name(user)), ("crate", Name(crate)), ("x", mapCoordinates.X.ToString()), ("y", mapCoordinates.Y.ToString())));
+        // Stories-ZLevels-Start
+        _core.CreateARESLog(computer.Owner, LogCat, Loc.GetString("stories-ares-log-supply-drop",
+            ("user", Name(user)), ("crate", Name(crate)), ("x", mapCoordinates.X.ToString()),
+            ("y", mapCoordinates.Y.ToString()), ("z", computer.Comp.TargetZ)));
+        // Stories-ZLevels-End
         return true;
     }
 

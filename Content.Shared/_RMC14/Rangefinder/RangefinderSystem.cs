@@ -110,8 +110,7 @@ public sealed class RangefinderSystem : EntitySystem
         if (delay < rangefinder.Comp.MinimumDelay)
             delay = rangefinder.Comp.MinimumDelay;
 
-        var grid = _transform.GetGrid(coordinates);
-        if (!HasComp<RMCPlanetComponent>(grid))
+        if (!_rmcPlanet.IsOnPlanet(coordinates)) // Stories-ZLevels
         {
             msg = Loc.GetString("rmc-laser-designator-not-surface");
             _popup.PopupClient(msg, coordinates, user, PopupType.SmallCaution);
@@ -189,6 +188,7 @@ public sealed class RangefinderSystem : EntitySystem
                 position += offset;
 
             rangefinder.Comp.LastTarget = position;
+            rangefinder.Comp.LastTargetZ = _rmcPlanet.GetPlanetZLevel(mapCoords); // Stories-ZLevels
             rangefinder.Comp.LastCoords = mapCoords;
 
             Dirty(rangefinder);

@@ -1,3 +1,4 @@
+using Content.Shared._RMC14.Barricade.Components;
 using Content.Shared._Stories.ZLevels.Core.Components;
 using Content.Shared.Climbing.Components;
 using Robust.Shared.Physics;
@@ -23,6 +24,9 @@ public sealed class ZLevelClimbingSystem : EntitySystem
             return;
 
         if (!TryComp<PhysicsComponent>(ent, out var physics) || physics.BodyStatus != BodyStatus.InAir)
+            return;
+
+        if (TryComp<BarbedComponent>(args.OtherEntity, out var barbed) && barbed.IsBarbed)
             return;
 
         if (HasComp<ClimbableComponent>(args.OtherEntity))

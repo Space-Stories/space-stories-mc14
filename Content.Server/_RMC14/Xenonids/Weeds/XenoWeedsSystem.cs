@@ -34,7 +34,6 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
     [Dependency] private readonly AppearanceSystem _appearance = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedDirectionalAttackBlockSystem _directionBlocker = default!;
-    [Dependency] private readonly TurfSystem _turf = default!;
 
     private static readonly ProtoId<TagPrototype> IgnoredTag = "SpreaderIgnore";
 
@@ -95,6 +94,15 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                 var blocked = false;
                 EntityUid? weedsToReplace = null;
                 var neighbor = indices.Offset(cardinal);
+
+                // Stories-Optimization-Start
+                if (!_map.TryGetTileRef(grid, grid, neighbor, out var tileRef) ||
+                    tileRef.Tile.IsEmpty)
+                {
+                    continue;
+                }
+                // Stories-Optimization-End
+
                 var anchored = _rmcMap.GetAnchoredEntitiesEnumerator(grid, neighbor);
                 while (anchored.MoveNext(out var anchoredId))
                 {
@@ -104,30 +112,29 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                         !_allowWeedSpreadQuery.HasComp(anchoredId))
                     {
                         blocked = true;
-                        continue;
-                    }
-
-                    if (!_map.TryGetTileRef(grid, grid, neighbor, out var tileRef) ||
-                        tileRef.Tile.IsEmpty ||
-                        _turf.IsSpace(tileRef))
-                    {
-                        blocked = true;
-                        continue;
+                        break; // Stories-Optimization
                     }
 
                     if (_xenoWeedsQuery.TryComp(anchoredId, out var otherWeeds))
                     {
                         if (otherWeeds.Level >= weeds.Level)
+                        {
                             blocked = true;
+                            break; // Stories-Optimization
+                        }
                         else
                             weedsToReplace = anchoredId;
                     }
                 }
 
-                if (_directionBlocker.IsDirectionBlocked(uid,
+                // Stories-Optimization-Start
+                if (!blocked && _directionBlocker.IsDirectionBlocked(uid,
                         cardinal,
                         collisionGroup: CollisionGroup.BarricadeImpassable))
+                {
                     blocked = true;
+                }
+                // Stories-Optimization-End
 
                 if (blocked)
                     continue;
@@ -135,8 +142,10 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                 var source = weeds.IsSource ? uid : weeds.Source;
                 var sourceWeeds = CompOrNull<XenoWeedsComponent>(source);
 
-                if (source != null && sourceWeeds != null)
-                    Dirty(source.Value, sourceWeeds);
+                // Stories-Optimization-Start
+                // if (source != null && sourceWeeds != null)
+                //     Dirty(source.Value, sourceWeeds);
+                // Stories-Optimization-End
 
                 if (!Exists(source) ||
                     !TryComp(source, out TransformComponent? transform) ||
@@ -171,7 +180,6 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
 
                 _hive.SetSameHive(uid, neighborWeeds);
 
-                EnsureComp<ActiveEdgeSpreaderComponent>(neighborWeeds);
 
                 for (var j = 0; j < 4; j++)
                 {
@@ -207,9 +215,10 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
                             continue;
 
                         weedable.Entity = SpawnAtPosition(weedable.Spawn, anchoredId.ToCoordinates());
+                        // Stories-DeletedEntityReferences-Start
                         var wallWeeds = EnsureComp<XenoWallWeedsComponent>(weedable.Entity.Value);
                         wallWeeds.Weeds = source;
-                        Dirty(weedable.Entity.Value, wallWeeds);
+                        // Stories-DeletedEntityReferences-End
 
                         if (_xenoNestSurfaceQuery.TryComp(weedable.Entity, out var surface))
                         {
@@ -225,6 +234,11 @@ public sealed class XenoWeedsSystem : SharedXenoWeedsSystem
 
         if (_spread.Count > 0)
             return;
+
+        // Stories-Optimization-Start
+        if (Count<XenoWeedsSpreadingComponent>() == 0)
+            return;
+        // Stories-Optimization-End
 
         var spreadingQuery = EntityQueryEnumerator<XenoWeedsSpreadingComponent, XenoWeedsComponent>();
         while (spreadingQuery.MoveNext(out var uid, out var spreading, out var weeds))

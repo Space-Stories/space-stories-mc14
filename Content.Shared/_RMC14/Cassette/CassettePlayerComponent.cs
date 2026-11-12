@@ -1,4 +1,4 @@
-﻿using Content.Shared.Inventory;
+using Content.Shared.Inventory;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Components;
 using Robust.Shared.GameStates;
@@ -35,7 +35,7 @@ public sealed partial class CassettePlayerComponent : Component
     [DataField, AutoNetworkedField]
     public string ContainerId = "rmc_cassette_player";
 
-    [DataField, AutoNetworkedField]
+    [DataField] // Stories-DeletedEntityReferences
     public EntityUid? AudioStream;
 
     [DataField]

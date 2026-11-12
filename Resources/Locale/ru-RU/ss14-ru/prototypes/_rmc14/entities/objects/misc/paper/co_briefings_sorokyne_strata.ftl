@@ -1,12 +1,12 @@
 ent-RMCPaperCOBriefingSorokyneUnaligned = { ent-RMCPaperCOBriefingBase }
     .desc = { ent-RMCPaperCOBriefingBase.desc }
-    .suffix = Сорокины Страты, Вне фракций
+    .suffix = Сорокина Страта, Вне фракций
 ent-RMCPaperCOBriefingSorokyneHawks = { ent-RMCPaperCOBriefingBase }
     .desc = { ent-RMCPaperCOBriefingBase.desc }
-    .suffix = Сорокины Страты, Ястребы
+    .suffix = Сорокина Страта, Ястребы
 ent-RMCPaperCOBriefingSorokyneDoves = { ent-RMCPaperCOBriefingBase }
     .desc = { ent-RMCPaperCOBriefingBase.desc }
-    .suffix = Сорокины Страты, Голуби
+    .suffix = Сорокина Страта, Голуби
 ent-RMCPaperCOBriefingSorokyneMagpies = { ent-RMCPaperCOBriefingBase }
     .desc = { ent-RMCPaperCOBriefingBase.desc }
-    .suffix = Сорокины Страты, Сороки
+    .suffix = Сорокина Страта, Сороки

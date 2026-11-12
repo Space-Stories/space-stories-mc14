@@ -6,6 +6,7 @@ ent-CMApcFrameWired = каркас ЛКП с проводкой
 ent-CMApcFrameElectronics = каркас ЛКП с электроникой
 ent-CMApcConstructed = { ent-CMApcBase }
     .desc = { ent-CMApcBase.desc }
+    .suffix = Открытый
 ent-CMApc = { ent-CMApcBase }
     .desc = { ent-CMApcBase.desc }
     .suffix = Нет энергии

@@ -1,3 +1,4 @@
+using Content.Shared._RMC14.Fireman;
 using Content.Shared._RMC14.Xenonids.Destroy;
 using Content.Shared._RMC14.Xenonids.Leap;
 using Content.Shared._Stories.ZLevels.Core.Components;
@@ -66,7 +67,8 @@ public abstract partial class SharedZLevelsSystem
             HasComp<GhostComponent>(entity) ||
             HasComp<ThrownItemComponent>(entity) ||
             HasComp<XenoLeapingComponent>(entity) ||
-            HasComp<XenoDestroyLeapingComponent>(entity))
+            HasComp<XenoDestroyLeapingComponent>(entity) ||
+            HasComp<BeingFiremanCarriedComponent>(entity))
         {
             return;
         }
