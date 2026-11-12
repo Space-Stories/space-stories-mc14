@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Content.Shared._RMC14.Requisitions;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Serialization.Manager;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Client._RMC14.Requisitions;
@@ -22,17 +24,26 @@ public sealed partial class RequisitionPresetStore
 
     private static readonly IComparer<string> ProductOrder =
         Comparer<string>.Create((left, right) => string.CompareOrdinal(left, right));
+    private static readonly TimeSpan ReadCooldown = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan WriteCooldown = TimeSpan.FromSeconds(1);
 
     private readonly IWritableDirProvider _data;
+    private readonly ISerializationManager _serialization;
+    private readonly IGameTiming _timing;
+    private TimeSpan _nextRead;
+    private TimeSpan _nextWrite;
     public readonly ResPath Path;
     public IReadOnlyList<RequisitionPreset> Presets { get; private set; } = Array.Empty<RequisitionPreset>();
     public string? Error { get; private set; }
     public int Revision { get; private set; }
 
-    public RequisitionPresetStore(IWritableDirProvider data, ResPath path)
+    public RequisitionPresetStore(
+        IWritableDirProvider data, ResPath path, IGameTiming timing, ISerializationManager serialization)
     {
         _data = data;
+        _serialization = serialization;
         Path = path;
+        _timing = timing;
         Reload();
     }
 
@@ -51,6 +62,10 @@ public sealed partial class RequisitionPresetStore
 
     public void Reload()
     {
+        var now = _timing.RealTime;
+        if (now < _nextRead)
+            return;
+        _nextRead = now + ReadCooldown;
         Error = null;
         Revision++;
         try
@@ -100,7 +115,7 @@ public sealed partial class RequisitionPresetStore
         return Write(presets);
     }
 
-    public bool Delete(Guid id)
+    public bool Delete(string id)
     {
         var presets = Presets.Where(preset => preset.Id != id).ToList();
         return presets.Count != Presets.Count && Write(presets);
@@ -110,12 +125,20 @@ public sealed partial class RequisitionPresetStore
     {
         if (Error == "rmc-requisitions-presets-read-error")
             return false;
+        var now = _timing.RealTime;
+        if (now < _nextWrite)
+        {
+            Error = "rmc-requisitions-presets-write-cooldown";
+            return false;
+        }
         if (!Validate(presets))
         {
             Error = "rmc-requisitions-presets-invalid-save";
             return false;
         }
 
+        _nextWrite = now + WriteCooldown;
+        _nextRead = now + ReadCooldown;
         var temp = new ResPath(Path + ".tmp");
         var backup = new ResPath(Path + ".bak");
         try
@@ -167,7 +190,7 @@ public sealed partial class RequisitionPresetStore
         var names = new List<string>();
         foreach (var preset in presets)
         {
-            if (preset == null || preset.Id == Guid.Empty || !ids.Add(preset.Id) ||
+            if (preset == null || !Guid.TryParseExact(preset.Id, "D", out var id) || id == Guid.Empty || !ids.Add(id) ||
                 !ValidName(preset.Name) || names.Any(name =>
                     string.Equals(name, preset.Name, StringComparison.OrdinalIgnoreCase)) ||
                 preset.Reason == null || preset.Reason.Length > MaxReasonLength || !ValidUnicode(preset.Reason) ||
@@ -192,19 +215,19 @@ public sealed partial class RequisitionPresetStore
         return !string.IsNullOrWhiteSpace(name) && name.Length <= MaxNameLength &&
                name == name.Trim() && !name.Any(char.IsControl) && ValidUnicode(name);
     }
-}
 
-public sealed class RequisitionPreset
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Reason { get; set; } = string.Empty;
-    public List<RequisitionPresetItem> Items { get; set; } = new();
-}
-
-public sealed class RequisitionPresetItem
-{
-    public string Key { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public int Amount { get; set; }
+    private static bool ValidUnicode(string text)
+    {
+        for (var i = 0; i < text.Length; i++)
+        {
+            if (char.IsHighSurrogate(text[i]))
+            {
+                if (++i == text.Length || !char.IsLowSurrogate(text[i]))
+                    return false;
+            }
+            else if (char.IsLowSurrogate(text[i]))
+                return false;
+        }
+        return true;
+    }
 }

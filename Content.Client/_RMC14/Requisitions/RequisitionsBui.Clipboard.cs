@@ -44,7 +44,7 @@ public sealed partial class RequisitionsBui
                 _presetFeedback = "rmc-requisitions-presets-full";
                 return;
             }
-            if (!RequisitionPresetStore.TryReadClipboard(text, out var preset) || preset == null)
+            if (!_presets.TryReadClipboard(text, out var preset) || preset == null)
             {
                 _presetFeedback = "rmc-requisitions-presets-import-invalid";
                 return;
@@ -70,12 +70,12 @@ public sealed partial class RequisitionsBui
 
     private void ExportPresetClipboard()
     {
-        if (!RequestOnly || _submittingRequest || _clipboardBusy || _importedPreset != null ||
+        if (_presets == null || !RequestOnly || _submittingRequest || _clipboardBusy || _importedPreset != null ||
             SelectedPreset is not { } preset)
             return;
         try
         {
-            if (RequisitionPresetStore.TryExportClipboard(preset, out var text))
+            if (_presets.TryExportClipboard(preset, out var text))
             {
                 _clipboard.SetText(text);
                 _presetFeedback = "rmc-requisitions-presets-exported";
@@ -95,6 +95,7 @@ public sealed partial class RequisitionsBui
         if (_window == null || _presets == null || !RequestOnly || _submittingRequest ||
             _clipboardBusy || _importedPreset is not { } preset)
             return;
+        _presetFeedback = null;
         if (_presets.Import(preset, _window.PresetsTab.PresetName.Text.Trim(), out var id))
         {
             _selectedPreset = id;

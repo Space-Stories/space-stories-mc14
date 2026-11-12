@@ -19,7 +19,7 @@ rmc-requisitions-line-no-purchase = Закупка не требуется.
 rmc-requisitions-processing-plan = Выдать из автоматов: { $issue } · Закупить: { $purchase }
     К оплате: { $cost } $ · Занять мест на лифте: { $slots }
 rmc-requisitions-request-changed = Заявка уже изменилась. Проверьте обновлённые количества.
-rmc-requisitions-request-cooldown = Принтер занят. Подождите несколько секунд. Корзина сохранена.
+rmc-requisitions-request-cooldown = Подождите немного перед следующей заявкой. Корзина сохранена.
 rmc-requisitions-purchase-complete = Закупка оплачена и поставлена в очередь доставки.
 rmc-requisitions-purchase-failed = Закупка не выполнена. Проверьте бюджет и место на лифте. Корзина сохранена.
 rmc-requisitions-no-processing = Нет выбранных позиций к выдаче или закупке.

@@ -1,12 +1,17 @@
 using System.Linq;
+using Content.Server.Players.RateLimiting;
+using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Database;
+using Content.Shared.Ghost;
 using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
+using Content.Shared.Players.RateLimiting;
 using Robust.Server.GameObjects;
+using Robust.Server.Player;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._RMC14.Requisitions;
@@ -16,10 +21,17 @@ public sealed partial class RequisitionsSystem
     [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly SharedIdCardSystem _id = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly IPlayerManager _players = default!;
+    [Dependency] private readonly PlayerRateLimitManager _rateLimit = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
+
+    private const string RequestRateLimitKey = "RMCRequisitionsRequest";
 
     private void InitializeRequests()
     {
+        _rateLimit.Register(RequestRateLimitKey,
+            new RateLimitRegistration(RMCCVars.RequisitionsRequestRatePeriod,
+                RMCCVars.RequisitionsRequestRateCount, null));
         Subs.BuiEvents<RequisitionsComputerComponent>(RequisitionsUIKey.Key, subs =>
         {
             subs.Event<RequisitionsSubmitRequestMsg>(OnSubmitRequest);
@@ -35,9 +47,16 @@ public sealed partial class RequisitionsSystem
     private void OnSubmitRequest(Entity<RequisitionsComputerComponent> computer, ref RequisitionsSubmitRequestMsg args)
     {
         if (!computer.Comp.RequestOnly || !HasComp<HumanoidAppearanceComponent>(args.Actor) ||
-            !_access.IsAllowed(args.Actor, computer))
+            !_access.IsAllowed(args.Actor, computer) ||
+            !_players.TryGetSessionByEntity(args.Actor, out var session))
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-not-allowed");
+            return;
+        }
+
+        if (_rateLimit.CountAction(session, RequestRateLimitKey) != RateLimitStatus.Allowed)
+        {
+            RequestResult(computer, args.Actor, false, "rmc-requisitions-request-cooldown");
             return;
         }
 
@@ -161,7 +180,10 @@ public sealed partial class RequisitionsSystem
         Entity<RequisitionsComputerComponent> computer,
         ref RequisitionsRespondRequestMsg args)
     {
-        if (!CanManageRequisitions(computer, args.Actor) || !HasComp<HumanoidAppearanceComponent>(args.Actor) ||
+        var canRespond = TryComp<GhostComponent>(args.Actor, out var ghost)
+            ? ghost.CanGhostInteract
+            : HasComp<HumanoidAppearanceComponent>(args.Actor);
+        if (!CanManageRequisitions(computer, args.Actor) || !canRespond ||
             computer.Comp.Account is not { } accountUid ||
             !TryComp(accountUid, out RequisitionsAccountComponent? account))
             return;

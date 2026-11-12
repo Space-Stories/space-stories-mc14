@@ -64,7 +64,8 @@ public sealed partial class RequisitionsBui
             _clipboardBusy || _importedPreset != null || update != (SelectedPreset != null) ||
             CreatePresetFromCart() is not { } preset)
             return;
-        preset.Id = update ? _selectedPreset!.Value : Guid.NewGuid();
+        preset.Id = update ? _selectedPreset! : Guid.NewGuid().ToString("D");
+        _presetFeedback = null;
         if (_presets.Save(preset))
         {
             _selectedPreset = preset.Id;
@@ -83,6 +84,7 @@ public sealed partial class RequisitionsBui
             _clipboardBusy || _importedPreset != null ||
             SelectedPreset is not { } current)
             return;
+        _presetFeedback = null;
         if (_presets.Save(new RequisitionPreset
             {
                 Id = current.Id, Name = _window.PresetsTab.PresetName.Text.Trim(),

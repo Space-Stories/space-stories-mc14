@@ -1,17 +1,15 @@
 using System.Linq;
 using Content.Shared._RMC14.Inventory;
 using Content.Shared._RMC14.Storage;
-using Content.Shared._RMC14.Weapons.Ranged.Ammo.BulletBox;
 using Content.Shared.Containers;
-using Content.Shared.Item;
 using Content.Shared.Prototypes;
 using Content.Shared.Storage;
 using Content.Shared.Storage.Components;
-using Content.Shared.Storage.EntitySystems;
+using Content.Shared.Tag;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
-using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.Client._RMC14.Requisitions;
 
@@ -26,50 +24,42 @@ public sealed partial class RequisitionsBui
             !prototype.TryGetComponent<SpriteComponent>(out var sprite, factory))
             return false;
 
-        if (TryGetMappedContainerDisplayIcon(prototype, out icon))
+        if (TryGetMappedContainerDisplayIcon(prototype, sprite, out icon))
             return true;
 
-        prototype.TryGetComponent<CMItemSlotsComponent>(out var slots, factory);
-        prototype.TryGetComponent<BulletBoxComponent>(out var bullets, factory);
-        prototype.TryGetComponent<CMStorageVisualizerComponent>(out var storage, factory);
-        var storageFilled = storage != null && HasStartingContents(prototype);
-        if (slots == null && bullets == null && !storageFilled)
+        if (prototype.TryGetComponent<CMItemSlotsComponent>(out var slots, factory) &&
+            (slots.Count == 0 || slots.StartingItem == null && slots.StartingItems is not { Count: > 0 }))
+        {
+            // Network state application suppresses appearance updates for the secondary shell layer.
+            var emptyLayers = new Dictionary<int, bool>();
+            if (_sprite.LayerMapTryGet((EntityUid.Invalid, sprite), CMItemSlotsLayers.Fill, out var fill, false))
+                emptyLayers[fill] = false;
+            if (_sprite.LayerMapTryGet((EntityUid.Invalid, sprite), CMItemSlotsLayers2.Fill, out var second, false))
+                emptyLayers[second] = false;
+            icon = GetContainerDisplayIcon(sprite, emptyLayers);
+            return true;
+        }
+
+        if (!prototype.TryGetComponent<CMStorageVisualizerComponent>(out var storage, factory) ||
+            !HasStartingContents(prototype))
             return false;
 
-        // Client preview entities have no server-filled containers. Read the declared starting appearance instead.
-        var layers = new Dictionary<int, PrototypeLayerData>();
-        if (slots != null)
-        {
-            var total = Math.Max(0, slots.Count ?? 0);
-            var filled = slots.StartingItem != null ? total : Math.Min(total, slots.StartingItems?.Count ?? 0);
-            AddContainerVisual(prototype, sprite, CMItemSlotsLayers.Fill,
-                SharedCMInventorySystem.GetFillVisuals(filled, total), layers);
-            if (_sprite.LayerMapTryGet((EntityUid.Invalid, sprite), CMItemSlotsLayers.Fill, out var fill, false) &&
-                !layers.ContainsKey(fill))
-                layers[fill] = new PrototypeLayerData { Visible = filled > 0 };
-        }
-        if (bullets != null)
-            AddContainerVisual(prototype, sprite, BulletBoxLayers.Fill,
-                BulletBoxSystem.GetFillVisuals(bullets.Amount, bullets.Max), layers);
-        if (storage != null && storageFilled)
-        {
-            SetContainerLayer(sprite, storage.StorageOpen, false, layers);
-            SetContainerLayer(sprite, storage.StorageClosed, true, layers);
-            SetContainerLayer(sprite, storage.StorageEmpty, false, layers);
-        }
-
+        // StorageFill runs on the server, so the ordinary prototype preview sees these boxes as empty.
+        var layers = new Dictionary<int, bool>();
+        SetContainerLayer(sprite, storage.StorageOpen, false, layers);
+        SetContainerLayer(sprite, storage.StorageClosed, true, layers);
+        SetContainerLayer(sprite, storage.StorageEmpty, false, layers);
         icon = GetContainerDisplayIcon(sprite, layers);
         return true;
     }
 
-    private DisplayIcon GetContainerDisplayIcon(SpriteComponent sprite, Dictionary<int, PrototypeLayerData> layers)
+    private DisplayIcon GetContainerDisplayIcon(SpriteComponent sprite, IReadOnlyDictionary<int, bool> layers)
     {
         var textures = new List<Texture>();
         var index = 0;
         foreach (var layer in sprite.AllLayers)
         {
-            layers.TryGetValue(index++, out var replacement);
-            if (!(replacement?.Visible ?? layer.Visible))
+            if (!layers.GetValueOrDefault(index++, layer.Visible))
                 continue;
             if (layer.Texture != null)
             {
@@ -77,7 +67,7 @@ public sealed partial class RequisitionsBui
                 continue;
             }
             var rsi = layer.Rsi ?? sprite.BaseRSI;
-            if (rsi != null && rsi.TryGetState(replacement?.State ?? layer.RsiState.ToString(), out var state))
+            if (rsi != null && rsi.TryGetState(layer.RsiState.ToString(), out var state))
                 textures.Add(state.Frame0);
         }
         if (textures.Count == 0)
@@ -85,82 +75,57 @@ public sealed partial class RequisitionsBui
         return new DisplayIcon(textures, sprite.AllLayers.FirstOrDefault()?.Color ?? Color.White);
     }
 
-    private void AddContainerVisual(
-        EntityPrototype prototype, SpriteComponent sprite, Enum key, Enum value,
-        Dictionary<int, PrototypeLayerData> layers)
-    {
-        if (!prototype.TryGetComponent<GenericVisualizerComponent>(out var visualizer, _entities.ComponentFactory))
-            return;
-        IReadOnlyDictionary<Enum, Dictionary<string, Dictionary<string, PrototypeLayerData>>> visuals =
-            visualizer.Visuals;
-        if (!visuals.TryGetValue(key, out var mapping))
-            return;
-        foreach (var (layerKey, states) in mapping)
-        {
-            if (!states.TryGetValue(value.ToString(), out var data))
-                continue;
-            var found = _reflection.TryParseEnumReference(layerKey, out var layerEnum)
-                ? _sprite.LayerMapTryGet((EntityUid.Invalid, sprite), layerEnum, out var index, false)
-                : _sprite.LayerMapTryGet((EntityUid.Invalid, sprite), layerKey, out index, false);
-            if (found)
-                layers[index] = data;
-        }
-    }
-
     private void SetContainerLayer(
-        SpriteComponent sprite, string? key, bool visible, Dictionary<int, PrototypeLayerData> layers)
+        SpriteComponent sprite, string? key, bool visible, Dictionary<int, bool> layers)
     {
         if (key != null && _sprite.LayerMapTryGet((EntityUid.Invalid, sprite), key, out var index, false))
-            layers[index] = new PrototypeLayerData { Visible = visible };
+            layers[index] = visible;
     }
 
-    private bool TryGetMappedContainerDisplayIcon(EntityPrototype prototype, out DisplayIcon icon)
+    private bool TryGetMappedContainerDisplayIcon(
+        EntityPrototype prototype, SpriteComponent sprite, out DisplayIcon icon)
     {
         icon = default;
         var factory = _entities.ComponentFactory;
-        if (!prototype.HasComponent<ItemMapperComponent>(factory) ||
-            !prototype.HasComponent<AppearanceComponent>(factory) ||
-            !prototype.HasComponent<StorageComponent>(factory) ||
+        if (!prototype.TryGetComponent<ItemMapperComponent>(out var mapper, factory) ||
             !prototype.TryGetComponent<StorageFillComponent>(out var fill, factory) ||
             fill.Contents.Count == 0 || fill.Contents.Any(item => item.PrototypeId == null ||
-                item.SpawnProbability != 1 || item.GroupId != null || item.MaxAmount > item.Amount))
+                item.SpawnProbability != 1 || item.GroupId != null || item.MaxAmount > item.Amount) ||
+            (mapper.RSIPath ?? sprite.BaseRSI?.Path) is not { } path)
             return false;
 
-        // ItemMapper builds its layers from the actual item types rather than a fill level.
-        var preview = _entities.CreateEntityUninitialized(prototype.ID, MapCoordinates.Nullspace);
-        var items = new List<EntityUid>();
-        try
+        // Static tag-based mappings can be resolved from prototypes without spawning the box or its contents.
+        IReadOnlyDictionary<string, SharedMapLayerData> mappings = mapper.MapLayers;
+        if (mappings.Values.Any(layer => layer.MinCount < 1 || layer.Whitelist is { } whitelist &&
+                (whitelist.Tags == null || whitelist.Components != null || whitelist.Sizes != null ||
+                 whitelist.Skills != null || whitelist.MinMobSize != null)))
+            return false;
+
+        var textures = _sprite.GetPrototypeTextures(prototype).Select(texture => texture.Default).ToList();
+        var tags = _entities.System<TagSystem>();
+        foreach (var (name, mapping) in mappings)
         {
-            // UI refreshes can run while server state is being applied; preview appearance must still update.
-            _entities.GetComponent<AppearanceComponent>(preview).NetSyncEnabled = false;
-            _entities.InitializeAndStartEntity(preview);
-            var storage = _entities.System<SharedStorageSystem>();
-            var container = _entities.GetComponent<StorageComponent>(preview);
+            long count = 0;
             foreach (var item in fill.Contents)
             {
-                for (var i = 0; i < item.Amount; i++)
+                var child = _prototypes.Index(item.PrototypeId!.Value);
+                if (mapping.Whitelist is { } whitelist)
                 {
-                    var uid = _entities.SpawnEntity(item.PrototypeId, MapCoordinates.Nullspace);
-                    items.Add(uid);
-                    var ev = new CMStorageItemFillEvent((uid, _entities.GetComponent<ItemComponent>(uid)), container);
-                    _entities.EventBus.RaiseLocalEvent(preview, ref ev);
-                    storage.Insert(preview, uid, out _, playSound: false);
+                    if (!child.TryGetComponent<TagComponent>(out var childTags, factory))
+                        continue;
+                    var matches = whitelist.RequireAll
+                        ? tags.HasAllTags(childTags, whitelist.Tags!)
+                        : tags.HasAnyTag(childTags, whitelist.Tags!);
+                    if (!matches)
+                        continue;
                 }
+                count += Math.Max(0, item.Amount);
             }
-            var sprite = _entities.GetComponent<SpriteComponent>(preview);
-            _entities.System<AppearanceSystem>().OnChangeData(preview, sprite);
-            icon = GetContainerDisplayIcon(sprite, new Dictionary<int, PrototypeLayerData>());
-            return true;
+            if (count >= mapping.MinCount && count <= mapping.MaxCount)
+                textures.Add(_sprite.GetState(new SpriteSpecifier.Rsi(path, name)).Frame0);
         }
-        finally
-        {
-            _entities.DeleteEntity(preview);
-            foreach (var uid in items)
-            {
-                if (_entities.EntityExists(uid))
-                    _entities.DeleteEntity(uid);
-            }
-        }
+        icon = new DisplayIcon(textures, sprite.AllLayers.FirstOrDefault()?.Color ?? Color.White);
+        return true;
     }
 
     private bool HasStartingContents(EntityPrototype prototype)

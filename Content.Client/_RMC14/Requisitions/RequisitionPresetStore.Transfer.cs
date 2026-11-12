@@ -5,7 +5,7 @@ namespace Content.Client._RMC14.Requisitions;
 
 public sealed partial class RequisitionPresetStore
 {
-    public static bool TryReadClipboard(string? text, out RequisitionPreset? preset)
+    public bool TryReadClipboard(string? text, out RequisitionPreset? preset)
     {
         preset = null;
         if (string.IsNullOrWhiteSpace(text) || text.Length > MaxFileBytes)
@@ -26,7 +26,7 @@ public sealed partial class RequisitionPresetStore
         }
     }
 
-    public static bool TryExportClipboard(RequisitionPreset preset, out string text)
+    public bool TryExportClipboard(RequisitionPreset preset, out string text)
     {
         text = string.Empty;
         var presets = new List<RequisitionPreset> { preset };
@@ -54,14 +54,14 @@ public sealed partial class RequisitionPresetStore
         return candidate;
     }
 
-    public bool Import(RequisitionPreset preset, string name, out Guid id)
+    public bool Import(RequisitionPreset preset, string name, out string id)
     {
-        id = Guid.Empty;
+        id = string.Empty;
         if (Presets.Count >= MaxPresets || !Validate(new List<RequisitionPreset> { preset }))
             return false;
         var imported = new RequisitionPreset
         {
-            Id = Guid.NewGuid(), Name = name, Reason = preset.Reason,
+            Id = Guid.NewGuid().ToString("D"), Name = name, Reason = preset.Reason,
             Items = preset.Items.Select(item => new RequisitionPresetItem
             {
                 Key = item.Key, Name = item.Name, Amount = item.Amount,

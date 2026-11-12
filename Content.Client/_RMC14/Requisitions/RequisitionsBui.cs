@@ -10,7 +10,6 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Reflection;
 using Robust.Shared.Utility;
 using static Content.Shared._RMC14.Requisitions.Components.RequisitionsElevatorMode;
 
@@ -36,7 +35,6 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
     [Dependency] private readonly IEntityManager _entities = default!;
     [Dependency] private readonly ILocalizationManager _localization = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
-    [Dependency] private readonly IReflectionManager _reflection = default!;
 
     private readonly SpriteSystem _sprite;
     private readonly Dictionary<CartKey, RequisitionsProductCard> _productCards = new();

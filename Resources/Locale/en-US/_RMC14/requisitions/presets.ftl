@@ -37,6 +37,7 @@ rmc-requisitions-presets-saved = Preset saved.
 rmc-requisitions-presets-deleted = Preset deleted.
 rmc-requisitions-presets-read-error = Could not read presets. The file was left unchanged: { $path }
 rmc-requisitions-presets-write-error = Could not save changes. Check file access: { $path }
+rmc-requisitions-presets-write-cooldown = Wait a second before saving again.
 rmc-requisitions-presets-invalid-save = Could not save the preset. Check its name, contents, and limits.
 rmc-requisitions-presets-file-limit = Presets exceed the file size limit. Reduce their contents.
 rmc-requisitions-presets-import = Import from clipboard

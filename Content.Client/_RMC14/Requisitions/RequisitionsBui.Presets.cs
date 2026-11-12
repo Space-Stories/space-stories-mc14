@@ -7,7 +7,7 @@ namespace Content.Client._RMC14.Requisitions;
 public sealed partial class RequisitionsBui
 {
     private RequisitionPresetStore? _presets;
-    private Guid? _selectedPreset;
+    private string? _selectedPreset;
     private string _newPresetName = string.Empty;
     private int _presetRevision = -1;
     private string? _presetFeedback;
@@ -60,6 +60,7 @@ public sealed partial class RequisitionsBui
             if (_presets == null || !RequestOnly || _selectedPreset is not { } id ||
                 _submittingRequest || _clipboardBusy || _importedPreset != null)
                 return;
+            _presetFeedback = null;
             if (_presets.Delete(id))
             {
                 _selectedPreset = null;

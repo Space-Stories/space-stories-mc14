@@ -37,6 +37,7 @@ rmc-requisitions-presets-saved = Набор сохранён.
 rmc-requisitions-presets-deleted = Набор удалён.
 rmc-requisitions-presets-read-error = Не удалось прочитать сохранения. Файл не изменён: { $path }
 rmc-requisitions-presets-write-error = Не удалось сохранить изменения. Проверьте доступ к файлу: { $path }
+rmc-requisitions-presets-write-cooldown = Подождите секунду перед следующим сохранением.
 rmc-requisitions-presets-invalid-save = Не удалось сохранить набор. Проверьте название, состав и ограничения.
 rmc-requisitions-presets-file-limit = Сохранения превышают допустимый размер файла. Сократите состав наборов.
 rmc-requisitions-presets-import = Импорт из буфера

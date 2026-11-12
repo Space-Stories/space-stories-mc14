@@ -19,7 +19,7 @@ rmc-requisitions-line-no-purchase = No purchase required.
 rmc-requisitions-processing-plan = Issue from vendors: { $issue } · Purchase: { $purchase }
     Purchase total: ${ $cost } · Elevator slots required: { $slots }
 rmc-requisitions-request-changed = This request has changed. Review the updated quantities.
-rmc-requisitions-request-cooldown = The printer is busy. Wait a few seconds. Your cart has been kept.
+rmc-requisitions-request-cooldown = Wait a moment before submitting another request. Your cart has been kept.
 rmc-requisitions-purchase-complete = Purchase paid and queued for delivery.
 rmc-requisitions-purchase-failed = Purchase failed. Check the budget and elevator capacity. Your cart has been kept.
 rmc-requisitions-no-processing = No items selected for issue or purchase.
