@@ -22,6 +22,8 @@ using Content.Shared.Verbs;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Whitelist;
+using Content.Shared.Wieldable;
+using Content.Shared.Wieldable.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -49,6 +51,7 @@ public abstract class SharedCMInventorySystem : EntitySystem
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedItemSystem _item = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
+    [Dependency] private readonly SharedWieldableSystem _wieldable = default!; // Stories-WieldHolsterFix
 
     private readonly SlotFlags[] _order =
     [
@@ -616,7 +619,11 @@ public abstract class SharedCMInventorySystem : EntitySystem
                 _inventory.CanEquip(user, item, slot.Slot.ID, out _))
             {
                 if (act)
+                {
+                    if (TryComp<WieldableComponent>(item, out var wieldable) && wieldable.Wielded) _wieldable.TryUnwield(item, wieldable, user, force: true); // Stories-WieldHolsterFix
+
                     _inventory.TryEquip(user, item, slot.Slot.ID, true, checkDoafter: true);
+                }
 
                 return true;
             }
@@ -627,6 +634,8 @@ public abstract class SharedCMInventorySystem : EntitySystem
             {
                 if (act)
                 {
+                    if (TryComp<WieldableComponent>(item, out var wieldable) && wieldable.Wielded) _wieldable.TryUnwield(item, wieldable, user, force: true); // Stories-WieldHolsterFix
+
                     _itemSlots.TryInsert(slot.Ent, slot.ItemSlot, item, user, excludeUserAudio: true);
                     _adminLog.Add(LogType.RMCHolster, $"{ToPrettyString(user)} holstered {ToPrettyString(item)}");
                 }
@@ -643,11 +652,16 @@ public abstract class SharedCMInventorySystem : EntitySystem
                 _hands.CanDrop(user, item) &&
                 _storage.CanInsert(slot.Ent, item, user, out _, storage))
             {
-                if (act && _hands.TryDrop(user, item))
+                if (act)
                 {
-                    _storage.Insert(slot.Ent, item, out _, user, storage, playSound: false);
-                    _audio.PlayPredicted(holster.InsertSound, item, user);
-                    _adminLog.Add(LogType.RMCHolster, $"{ToPrettyString(user)} holstered {ToPrettyString(item)}");
+                    if (TryComp<WieldableComponent>(item, out var wieldable) && wieldable.Wielded) _wieldable.TryUnwield(item, wieldable, user, force: true); // Stories-WieldHolsterFix
+
+                    if (_hands.TryDrop(user, item))
+                    {
+                        _storage.Insert(slot.Ent, item, out _, user, storage, playSound: false);
+                        _audio.PlayPredicted(holster.InsertSound, item, user);
+                        _adminLog.Add(LogType.RMCHolster, $"{ToPrettyString(user)} holstered {ToPrettyString(item)}");
+                    }
                 }
 
                 return true;

@@ -21,18 +21,18 @@ namespace Content.Shared._Stories.ZLevels.Roof;
 public sealed class SlopedRoofSystem : EntitySystem
 {
     [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly ITileDefinitionManager _tileDef = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly ThrowingSystem _throwing = default!;
-    [Dependency] private readonly SharedStunSystem _stun = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly ThrowingSystem _throwing = default!;
+    [Dependency] private readonly ITileDefinitionManager _tileDef = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
 
     private EntityQuery<MapGridComponent> _mapGridQuery;
     private readonly Dictionary<EntityUid, TimeSpan> _lastSlide = new();
-    private float _checkTimer;
+    private readonly List<EntityUid> _slideCleanup = new();
 
     public override void Initialize()
     {
@@ -40,8 +40,9 @@ public sealed class SlopedRoofSystem : EntitySystem
 
         _mapGridQuery = GetEntityQuery<MapGridComponent>();
 
-        SubscribeLocalEvent<PhysicsComponent, MoveEvent>(OnMove);
-        SubscribeLocalEvent<PhysicsComponent, LandEvent>(OnLand);
+        SubscribeLocalEvent<MobStateComponent, MoveEvent>(OnMobMove);
+        SubscribeLocalEvent<MobStateComponent, LandEvent>(OnMobLand);
+        SubscribeLocalEvent<ItemComponent, LandEvent>(OnItemLand);
         SubscribeLocalEvent<AttemptClimbEvent>(OnAttemptClimb);
     }
 
@@ -52,55 +53,63 @@ public sealed class SlopedRoofSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        _checkTimer += frameTime;
-        if (_checkTimer >= 0.25f)
-        {
-            _checkTimer = 0f;
-
-            var mobQuery = EntityQueryEnumerator<MobStateComponent, PhysicsComponent, TransformComponent>();
-            while (mobQuery.MoveNext(out var uid, out _, out var physics, out var xform))
-            {
-                TrySlideEntity(uid, physics, xform);
-            }
-
-            var itemQuery = EntityQueryEnumerator<ItemComponent, PhysicsComponent, TransformComponent>();
-            while (itemQuery.MoveNext(out var uid, out _, out var physics, out var xform))
-            {
-                TrySlideEntity(uid, physics, xform);
-            }
-        }
-
-        if (_lastSlide.Count > 100)
+        if (_lastSlide.Count > 50)
         {
             var curTime = _timing.CurTime;
-            var toRemove = new List<EntityUid>();
+            _slideCleanup.Clear();
             foreach (var (ent, until) in _lastSlide)
             {
                 if (curTime > until || TerminatingOrDeleted(ent))
-                    toRemove.Add(ent);
+                    _slideCleanup.Add(ent);
             }
-            foreach (var ent in toRemove)
+            foreach (var ent in _slideCleanup)
             {
                 _lastSlide.Remove(ent);
             }
         }
     }
 
-    private void OnMove(Entity<PhysicsComponent> ent, ref MoveEvent args)
+    private void OnMobMove(Entity<MobStateComponent> ent, ref MoveEvent args)
     {
         if (_net.IsClient)
             return;
 
-        TrySlideEntity(ent.Owner, ent.Comp, args.Component);
+        if (args.OldPosition.EntityId == args.NewPosition.EntityId &&
+            (args.OldPosition.Position - args.NewPosition.Position).LengthSquared() < 0.25f)
+        {
+            return;
+        }
+
+        if (!TryComp<PhysicsComponent>(ent.Owner, out var physics))
+            return;
+
+        TrySlideEntity(ent.Owner, physics, args.Component);
     }
 
-    private void OnLand(Entity<PhysicsComponent> ent, ref LandEvent args)
+    private void OnMobLand(Entity<MobStateComponent> ent, ref LandEvent args)
     {
         if (_net.IsClient)
             return;
 
-        TrySlideEntity(ent.Owner, ent.Comp, Transform(ent.Owner));
+        if (_lastSlide.TryGetValue(ent.Owner, out var until) && _timing.CurTime < until)
+            return;
+
+        if (TryComp<PhysicsComponent>(ent.Owner, out var physics))
+            TrySlideEntity(ent.Owner, physics, Transform(ent.Owner));
     }
+
+    private void OnItemLand(Entity<ItemComponent> ent, ref LandEvent args)
+    {
+        if (_net.IsClient)
+            return;
+
+        if (_lastSlide.TryGetValue(ent.Owner, out var until) && _timing.CurTime < until)
+            return;
+
+        if (TryComp<PhysicsComponent>(ent.Owner, out var physics))
+            TrySlideEntity(ent.Owner, physics, Transform(ent.Owner));
+    }
+
 
     private bool IsAirborne(EntityUid uid, PhysicsComponent? physics = null)
     {
@@ -159,23 +168,21 @@ public sealed class SlopedRoofSystem : EntitySystem
         {
             dirVec = slopeDir.ToVec();
             if (dirVec == Vector2.Zero)
-                dirVec = new Vector2(0, -1);
-            distance = GetDistanceToRoofEdge(gridUid, grid, tilePos, dirVec);
+                return;
+            if (!TryGetDistanceToRoofEdge(gridUid, grid, tilePos, dirVec, out distance))
+                return;
         }
         else
         {
             if (!TryFindClosestHole(gridUid, grid, tilePos, out dirVec, out distance))
-            {
-                dirVec = new Vector2(0, -1);
-                distance = 3f;
-            }
+                return;
         }
 
         var throwDistance = distance + 1.2f;
         var throwSpeed = Math.Clamp(throwDistance * 2.2f, 3.5f, 8.0f);
         var throwVec = dirVec * throwDistance;
 
-        var slideTime = TimeSpan.FromSeconds(Math.Max(0.8f, (throwDistance / throwSpeed) + 0.4f));
+        var slideTime = TimeSpan.FromSeconds(Math.Max(1.0f, (throwDistance / throwSpeed) + 0.6f));
         _lastSlide[uid] = _timing.CurTime + slideTime;
 
         if (HasComp<MobStateComponent>(uid))
@@ -187,7 +194,7 @@ public sealed class SlopedRoofSystem : EntitySystem
         _throwing.TryThrow(uid, throwVec, baseThrowSpeed: throwSpeed, user: null, pushbackRatio: 0f, playSound: false, doSpin: false);
     }
 
-    private float GetDistanceToRoofEdge(EntityUid gridUid, MapGridComponent grid, Vector2i startTile, Vector2 dir)
+    private bool TryGetDistanceToRoofEdge(EntityUid gridUid, MapGridComponent grid, Vector2i startTile, Vector2 dir, out float distance)
     {
         var normDir = Vector2.Normalize(dir);
         for (var step = 1; step <= 25; step++)
@@ -196,11 +203,13 @@ public sealed class SlopedRoofSystem : EntitySystem
             var checkTile = startTile + new Vector2i((int)MathF.Round(offset.X), (int)MathF.Round(offset.Y));
             if (IsHole(gridUid, grid, checkTile))
             {
-                return offset.Length();
+                distance = offset.Length();
+                return true;
             }
         }
 
-        return 3f;
+        distance = 0f;
+        return false;
     }
 
     private bool TryFindClosestHole(
@@ -210,7 +219,7 @@ public sealed class SlopedRoofSystem : EntitySystem
         out Vector2 direction,
         out float distance)
     {
-        for (var r = 1; r <= 15; r++)
+        for (var r = 1; r <= 5; r++)
         {
             var holeVectors = Vector2.Zero;
             var holeCount = 0;
@@ -239,8 +248,8 @@ public sealed class SlopedRoofSystem : EntitySystem
             }
         }
 
-        direction = new Vector2(0, -1);
-        distance = 3f;
+        direction = Vector2.Zero;
+        distance = 0f;
         return false;
     }
 

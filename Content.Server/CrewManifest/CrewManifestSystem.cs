@@ -60,6 +60,7 @@ public sealed class CrewManifestSystem : EntitySystem
 
         _openEuis.Clear();
         _cachedEntries.Clear();
+        _queuedManifests.Clear(); // Stories-CrewManifestLifetime
     }
 
     private void OnRequestCrewManifest(RequestCrewManifestMessage message, EntitySessionEventArgs args)
@@ -254,9 +255,11 @@ public sealed class CrewManifestSystem : EntitySystem
 
     // RMC14
     private readonly HashSet<EntityUid> _queuedManifests = new();
-    private void RMCBuildCrewManifest(EntityUid station)
+    // Stories-CrewManifestLifetime-Start
+    private void RMCBuildCrewManifest(EntityUid station, StationRecordsComponent records)
     {
-        var iter = _recordsSystem.GetRecordsOfType<GeneralStationRecord>(station);
+        var iter = _recordsSystem.GetRecordsOfType<GeneralStationRecord>(station, records);
+        // Stories-CrewManifestLifetime-End
 
         var entries = new CrewManifestEntries();
 
@@ -291,7 +294,13 @@ public sealed class CrewManifestSystem : EntitySystem
 
         foreach (var queuedStation in _queuedManifests)
         {
-            RMCBuildCrewManifest(queuedStation);
+            // Stories-CrewManifestLifetime-Start
+            if (TerminatingOrDeleted(queuedStation) ||
+                !TryComp(queuedStation, out StationRecordsComponent? records))
+                continue;
+
+            RMCBuildCrewManifest(queuedStation, records);
+            // Stories-CrewManifestLifetime-End
             UpdateEuis(queuedStation);
         }
         _queuedManifests.Clear();

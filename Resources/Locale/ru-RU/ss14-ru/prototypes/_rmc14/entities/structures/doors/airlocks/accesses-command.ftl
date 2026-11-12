@@ -30,4 +30,4 @@ ent-CMAirlockASOLocked = { ent-CMAirlockCommand }
     .suffix = ОВП, Закрытый
 ent-CMAirlockHighCommandLocked = { ent-CMAirlockCommand }
     .desc = { ent-CMAirlockCommand.desc }
-    .suffix = Верховное Командование, Закрытый
+    .suffix = Верховное командование, Закрытый

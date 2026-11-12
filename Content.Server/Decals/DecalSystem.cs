@@ -40,6 +40,10 @@ namespace Content.Server.Decals
 
         private readonly Dictionary<NetEntity, HashSet<Vector2i>> _dirtyChunks = new();
         private readonly Dictionary<ICommonSession, Dictionary<NetEntity, HashSet<Vector2i>>> _previousSentChunks = new();
+        // Stories-Optimization-Start
+        private readonly Dictionary<ICommonSession, (MapId Map, Vector2 Pos)> _lastPlayerPositions = new();
+        private int _sessionRoundRobinIndex;
+        // Stories-Optimization-End
         private static readonly Vector2 _boundsMinExpansion = new(0.01f, 0.01f);
         private static readonly Vector2 _boundsMaxExpansion = new(1.01f, 1.01f);
 
@@ -210,6 +214,7 @@ namespace Content.Server.Decals
                     break;
                 case SessionStatus.Disconnected:
                     _previousSentChunks.Remove(e.Session);
+                    _lastPlayerPositions.Remove(e.Session); // Stories-Optimization
                     break;
             }
         }
@@ -428,7 +433,9 @@ namespace Content.Server.Decals
             return ModifyDecal(gridId, decalId, x => x.WithId(id), comp);
         }
 
-        private float _decalUpdateAccumulator; // Stories-Optimization
+        // Stories-Optimization-Start
+        private const int MaxSessionsPerTick = 12;
+        private const float MinMoveDistanceSquared = 64f;
 
         public override void Update(float frameTime)
         {
@@ -446,18 +453,11 @@ namespace Content.Server.Decals
                 return;
             }
 
-            // Stories-Optimization-Start
-            _decalUpdateAccumulator += frameTime;
-            if (_dirtyChunks.Count == 0 && _decalUpdateAccumulator < 0.2f)
-                return;
+            _sessions.Clear();
 
-            _decalUpdateAccumulator = 0f;
-            // Stories-Optimization-End
-
-            if (PvsEnabled)
+            if (_dirtyChunks.Count > 0)
             {
-                _sessions.Clear();
-
+                _lastPlayerPositions.Clear();
                 foreach (var session in _playerManager.Sessions)
                 {
                     if (session.Status != SessionStatus.InGame)
@@ -465,13 +465,51 @@ namespace Content.Server.Decals
 
                     _sessions.Add(session);
                 }
-
-                if (_sessions.Count > 0)
-                    _parMan.ProcessNow(_updateJob, _sessions.Count);
             }
+            // Stories-Optimization-Start
+            else
+            {
+                var allSessions = _playerManager.Sessions.ToList();
+                var totalCount = allSessions.Count;
+                if (totalCount > 0)
+                {
+                    var checkedCount = Math.Min(totalCount, MaxSessionsPerTick);
+                    for (var i = 0; i < checkedCount; i++)
+                    {
+                        if (_sessionRoundRobinIndex >= totalCount)
+                            _sessionRoundRobinIndex = 0;
+
+                        var session = allSessions[_sessionRoundRobinIndex++];
+                        if (session.Status != SessionStatus.InGame)
+                            continue;
+
+                        if (session.AttachedEntity is not { } playerEnt ||
+                            !TryComp(playerEnt, out TransformComponent? xform) ||
+                            xform.MapUid == null)
+                        {
+                            continue;
+                        }
+
+                        var worldPos = _transform.GetWorldPosition(xform);
+                        if (_lastPlayerPositions.TryGetValue(session, out var last) &&
+                            last.Map == xform.MapID &&
+                            (worldPos - last.Pos).LengthSquared() < MinMoveDistanceSquared)
+                        {
+                            continue;
+                        }
+
+                        _lastPlayerPositions[session] = (xform.MapID, worldPos);
+                        _sessions.Add(session);
+                    }
+                }
+            }
+
+            if (_sessions.Count > 0)
+                _parMan.ProcessNow(_updateJob, _sessions.Count);
 
             _dirtyChunks.Clear();
         }
+        // Stories-Optimization-End
 
         public void UpdatePlayer(ICommonSession player)
         {

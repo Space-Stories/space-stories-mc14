@@ -1,3 +1,4 @@
+using Content.Shared._RMC14.Fireman;
 using Content.Shared._RMC14.Movement;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Buckle.Components;
@@ -489,6 +490,15 @@ public sealed partial class ClimbSystem : VirtualController
             return false;
         }
 
+        // Stories-FiremanCarry-Start
+        if (HasComp<BeingFiremanCarriedComponent>(user) ||
+            (TryComp<CanFiremanCarryComponent>(user, out var userCarry) && userCarry.Carrying != null))
+        {
+            reason = Loc.GetString("comp-climbable-cant-reach");
+            return false;
+        }
+        // Stories-FiremanCarry-End
+
         reason = string.Empty;
         return true;
     }
@@ -516,6 +526,16 @@ public sealed partial class ClimbSystem : VirtualController
             reason = Loc.GetString("comp-climbable-target-cant-climb", ("moved-user", Identity.Entity(dragged, EntityManager)));
             return false;
         }
+
+        // Stories-FiremanCarry-Start
+        if (HasComp<BeingFiremanCarriedComponent>(user) || HasComp<BeingFiremanCarriedComponent>(dragged) ||
+            (TryComp<CanFiremanCarryComponent>(user, out var uCarry) && uCarry.Carrying != null) ||
+            (TryComp<CanFiremanCarryComponent>(dragged, out var dCarry) && dCarry.Carrying != null))
+        {
+            reason = Loc.GetString("comp-climbable-cant-reach");
+            return false;
+        }
+        // Stories-FiremanCarry-End
 
         bool Ignored(EntityUid entity) => entity == target || entity == user || entity == dragged;
 

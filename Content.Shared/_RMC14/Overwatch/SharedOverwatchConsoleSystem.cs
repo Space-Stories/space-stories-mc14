@@ -41,7 +41,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Overwatch;
 
-public abstract class SharedOverwatchConsoleSystem : EntitySystem
+public abstract partial class SharedOverwatchConsoleSystem : EntitySystem // Stories-ZLevels
 {
     private const string AdministratorGroup = "ADMINISTRATOR";
 
@@ -94,6 +94,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
 
     public override void Initialize()
     {
+        InitializeZLevelInput(); // Stories-ZLevels
         base.Initialize();
 
         _actor = GetEntityQuery<ActorComponent>();
@@ -581,7 +582,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        SaveLocation(ent, ent.Comp.SavedSupplyDropLocations, args.Longitude, args.Latitude);
+        SaveLocation(ent, ent.Comp.SavedSupplyDropLocations, args.Longitude, args.Latitude, args.Z); // Stories-ZLevels
     }
 
     private void OnOverwatchSupplyDropCommentBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleSupplyDropCommentBuiMsg args)
@@ -613,7 +614,9 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (TryGetEntity(ent.Comp.Squad, out var squadNullable))
             squad = squadNullable.Value;
 
-        _orbitalCannon.Fire(cannon, ent.Comp.OrbitalCoordinates, args.Actor, squad);
+        // Stories-ZLevels-Start
+        _orbitalCannon.Fire(cannon, ent.Comp.OrbitalCoordinates, args.Actor, squad, ent.Comp.OrbitalZ);
+        // Stories-ZLevels-End
     }
 
     private void OnOverwatchOrbitalSaveBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleOrbitalSaveBuiMsg args)
@@ -621,7 +624,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        SaveLocation(ent, ent.Comp.SavedOrbitalLocations, args.Longitude, args.Latitude);
+        SaveLocation(ent, ent.Comp.SavedOrbitalLocations, args.Longitude, args.Latitude, args.Z); // Stories-ZLevels
     }
 
     private void OnOverwatchOrbitalCommentBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleOrbitalCommentBuiMsg args)
@@ -633,7 +636,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         Entity<OverwatchConsoleComponent> ent,
         OverwatchSavedLocation?[] locations,
         int longitude,
-        int latitude)
+        int latitude, int z) // Stories-ZLevels
     {
         if (locations.Length == 0)
             return;
@@ -641,7 +644,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (locations.Any(location =>
                 location is { } saved &&
                 saved.Longitude == longitude &&
-                saved.Latitude == latitude))
+                saved.Latitude == latitude && saved.Z == z)) // Stories-ZLevels
         {
             return;
         }
@@ -653,7 +656,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
             index = locations.Length - 1;
         }
 
-        locations[index] = new OverwatchSavedLocation(longitude, latitude, string.Empty);
+        locations[index] = new OverwatchSavedLocation(longitude, latitude, string.Empty, z); // Stories-ZLevels
         Dirty(ent);
     }
 

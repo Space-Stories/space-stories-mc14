@@ -1,3 +1,3 @@
 ent-RMCBlockerVehicle = блокиратор техники
     .desc = { ent-MarkerBase.desc }
-    .suffix = НЕ МАППИТЬ
+    .suffix = RMC, Блокатор

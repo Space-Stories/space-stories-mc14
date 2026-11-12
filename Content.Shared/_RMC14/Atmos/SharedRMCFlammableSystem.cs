@@ -90,6 +90,8 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     private EntityQuery<TileFireComponent> _tileFireQuery;
     private EntityQuery<InventoryComponent> _inventoryQuery;
     private float _igniteAccumulator; // Stories-Optimization
+    private float _steppingAccumulator; // Stories-Optimization
+    private float _tileFireAccumulator; // Stories-Optimization
 
     public override void Initialize()
     {
@@ -1276,12 +1278,24 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             _igniteAccumulator = 0f;
             RunIgniteOnCollide();
         }
-        // Stories-Optimization-End
 
-        RunTileFires();
+        _tileFireAccumulator += frameTime;
+        if (_tileFireAccumulator >= 0.2f)
+        {
+            _tileFireAccumulator = 0f;
+            RunTileFires();
+        }
+
         RunExtinguishFire();
         RunSprayExtinguishTileFire();
-        RunSteppingOnFire();
+
+        _steppingAccumulator += frameTime;
+        if (_steppingAccumulator >= 0.15f)
+        {
+            _steppingAccumulator = 0f;
+            RunSteppingOnFire();
+        }
+        // Stories-Optimization-End
     }
 }
 

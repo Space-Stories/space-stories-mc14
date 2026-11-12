@@ -243,6 +243,7 @@ public sealed class CMDoorSystem : EntitySystem
         if (args.Cancelled)
         {
             _audio.Stop(ent.Comp.SoundEntity);
+            ent.Comp.SoundEntity = null; // Stories-FixDoorSoundEntityNetworking
         }
         if (HasComp<XenoComponent>(args.User) && _net.IsServer && !args.Cancelled)
         {

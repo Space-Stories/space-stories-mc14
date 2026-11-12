@@ -29,6 +29,7 @@ public sealed class ChatFilterSystem : EntitySystem
     private bool _streamerMode;
 
     private static readonly ResPath ConfigPath = new("/chat_filter_config.yml");
+    private static readonly Regex TagRegex = new(@"\[[^\]]*\]", RegexOptions.Compiled);
 
     private sealed class FilterRule
     {
@@ -42,6 +43,7 @@ public sealed class ChatFilterSystem : EntitySystem
         _cfg.OnValueChanged(SCCVars.StreamerModeEnabled, v => _streamerMode = v, true);
         SubscribeNetworkEvent<SyncBanwordsEvent>(OnSyncBanwords);
         LoadConfig();
+        RaiseNetworkEvent(new RequestBanwordsEvent());
     }
 
     private void OnSyncBanwords(SyncBanwordsEvent ev)
@@ -144,6 +146,10 @@ public sealed class ChatFilterSystem : EntitySystem
 
     private void LoadConfig()
     {
+        _localBanwordsRaw.Clear();
+        _localRules.Clear();
+        _clientReplacements.Clear();
+
         if (!_res.UserData.Exists(ConfigPath))
         {
             SaveConfig(string.Empty, string.Empty);
@@ -216,8 +222,6 @@ public sealed class ChatFilterSystem : EntitySystem
 
         if (!word.EndsWith("*"))
             pattern = pattern + @"(?:\b|$)";
-
-        pattern += @"(?![^\[]*\])";
 
         return new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
@@ -306,6 +310,8 @@ public sealed class ChatFilterSystem : EntitySystem
         if (!_streamerMode || string.IsNullOrWhiteSpace(message))
             return message;
 
+        var tagMatches = withTags ? TagRegex.Matches(message) : null;
+
         foreach (var rule in _localRules.Concat(_serverRules))
         {
             var exceptionMatches = new List<Match>();
@@ -319,6 +325,15 @@ public sealed class ChatFilterSystem : EntitySystem
 
             message = rule.Pattern.Replace(message, match =>
             {
+                if (tagMatches != null)
+                {
+                    foreach (Match tag in tagMatches)
+                    {
+                        if (match.Index < tag.Index + tag.Length && match.Index + match.Length > tag.Index)
+                            return match.Value;
+                    }
+                }
+
                 foreach (var exMatch in exceptionMatches)
                 {
                     if (match.Index >= exMatch.Index && (match.Index + match.Length) <= (exMatch.Index + exMatch.Length))
