@@ -58,12 +58,12 @@ namespace Content.Server.NPC.Pathfinding
         [ViewVariables]
         private readonly List<PathRequest> _pathRequests = new(PathTickLimit);
 
-        private static readonly TimeSpan PathTime = TimeSpan.FromMilliseconds(3);
+        private static readonly TimeSpan PathTime = TimeSpan.FromMilliseconds(1.0); // Stories-Optimization
 
         /// <summary>
         /// How many paths we can process in a single tick.
         /// </summary>
-        private const int PathTickLimit = 256;
+        private const int PathTickLimit = 64; // Stories-Optimization
 
         private int _portalIndex;
         private readonly Dictionary<int, PathPortal> _portals = new();

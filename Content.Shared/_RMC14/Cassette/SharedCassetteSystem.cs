@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.CCVar;
+using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Hands;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Actions;
@@ -373,6 +373,11 @@ public abstract class SharedCassetteSystem : EntitySystem
     {
         _audio.Stop(ent.Comp.AudioStream);
         _audio.Stop(ent.Comp.CustomAudioStream);
+
+        // Stories-DeletedEntityReferences-Start
+        ent.Comp.AudioStream = null;
+        ent.Comp.CustomAudioStream = null;
+        // Stories-DeletedEntityReferences-End
 
         ent.Comp.State = AudioState.Stopped;
         Dirty(ent);

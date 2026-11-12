@@ -25,8 +25,8 @@ ent-RMCSpaceCash1000 = { ent-RMCSpaceCash1 }
     .suffix = 1000
 ent-RMCSpaceCash1000Counterfeit = { ent-RMCSpaceCash1000 }
     .desc = { ent-RMCSpaceCash1000.desc }
-    .suffix = Поддельные
+    .suffix = Поддельный
 
 ent-STSpaceCash1Counterfeit = { ent-RMCSpaceCash1 }
     .desc = { ent-RMCSpaceCash1.desc }
-    .suffix = Поддельные
+    .suffix = Поддельный

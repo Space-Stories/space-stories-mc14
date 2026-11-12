@@ -64,7 +64,7 @@ using static Content.Shared._RMC14.Dropship.Weapon.DropshipTerminalWeaponsScreen
 
 namespace Content.Shared._RMC14.Dropship.Weapon;
 
-public abstract class SharedDropshipWeaponSystem : EntitySystem
+public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
@@ -93,6 +93,7 @@ public abstract class SharedDropshipWeaponSystem : EntitySystem
     [Dependency] private readonly SharedRMCExplosionSystem _rmcExplosion = default!;
     [Dependency] private readonly RMCImplosionSystem _rmcImplosion = default!;
     [Dependency] private readonly SharedRMCOrbitalDeployerSystem _rmcOrbitalDeployable = default!;
+    [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!; // Stories-ZLevels
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SquadSystem _squad = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -114,6 +115,7 @@ public abstract class SharedDropshipWeaponSystem : EntitySystem
 
     public override void Initialize()
     {
+        InitializePlanetTargets(); // Stories-ZLevels
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
 
         SubscribeLocalEvent<FlareSignalComponent, IgnitionEvent>(OnFlareSignalIgnition);
@@ -327,6 +329,7 @@ public abstract class SharedDropshipWeaponSystem : EntitySystem
 
     private void OnDropshipTargetMapInit(Entity<DropshipTargetComponent> ent, ref MapInitEvent args)
     {
+        InitializeTargetMap(ent); // Stories-ZLevels
         var netEnt = GetNetEntity(ent);
         var terminals = EntityQueryEnumerator<DropshipTerminalWeaponsComponent>();
         while (terminals.MoveNext(out var uid, out var terminal))
@@ -1291,7 +1294,11 @@ public abstract class SharedDropshipWeaponSystem : EntitySystem
             return false;
 
         var xform = Transform(ent);
-        if (!CasDebug && !HasComp<RMCPlanetComponent>(xform.GridUid))
+        // Stories-ZLevels-Start
+        if (ent.Comp.TargetMap is { } targetMap && targetMap != xform.MapUid)
+            return false;
+        // Stories-ZLevels-End
+        if (!CasDebug && !_rmcPlanet.IsOnPlanet(xform)) // Stories-ZLevels
             return false;
         if (!ent.Comp.IsTargetableByWeapons)
         {

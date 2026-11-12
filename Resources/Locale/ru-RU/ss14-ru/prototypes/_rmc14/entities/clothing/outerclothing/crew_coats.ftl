@@ -90,4 +90,4 @@ ent-RMCOuterEngineeringUtilityOversuit = инженерный комбинезо
     .desc = Инженерная униформа Вестон-Ямада. Используется в качестве универсального комбинезона инженерами колонии Вестон-Ямада.
 ent-RMCOuterEngineeringUtilityOversuitAlt = { ent-RMCOuterEngineeringUtilityOversuit }
     .desc = { ent-RMCOuterEngineeringUtilityOversuit.desc }
-    .suffix = Альтернативный
+    .suffix = Альт.

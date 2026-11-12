@@ -12,6 +12,6 @@ ent-RMCWindowFrameColonyReinforced = { ent-RMCBaseWindowFrame }
     .desc = { ent-RMCBaseWindowFrame.desc }
 ent-RMCWindowFrameHunterReinforced = { ent-RMCBaseWindowFrame }
     .desc = { ent-RMCBaseWindowFrame.desc }
-    .suffix = охотник
+    .suffix = Охотник
 ent-RMCWindowFrameWood = { ent-RMCBaseWindowFrame }
     .desc = { ent-RMCBaseWindowFrame.desc }

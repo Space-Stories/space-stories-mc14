@@ -1,8 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Numerics;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Movement;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions.Components;
 using Content.Shared.Actions.Events;
@@ -35,6 +37,7 @@ public abstract class SharedActionsSystem : EntitySystem
     [Dependency] private   readonly SharedAudioSystem _audio = default!;
     [Dependency] private   readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private   readonly SharedTransformSystem _transform = default!;
+    [Dependency] private   readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     // RMC14
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
@@ -481,8 +484,23 @@ public abstract class SharedActionsSystem : EntitySystem
 
         // even if we don't check for obstructions, we may still need to check the range.
         var xform = Transform(user);
-        if (xform.MapID != _transform.GetMapId(coords))
+        // Stories-ZLevels-Start
+        var userMap = xform.MapID;
+        var targetMap = _transform.GetMapId(coords);
+        if (userMap != targetMap)
+        {
+            if (userMap != MapId.Nullspace && targetMap != MapId.Nullspace && _zLevels.AreInSameNetwork(userMap, targetMap))
+            {
+                if (comp.Range <= 0)
+                    return true;
+
+                var userWorld = _transform.ToMapCoordinates(xform.Coordinates).Position;
+                var targetWorld = _transform.ToMapCoordinates(coords).Position;
+                return Vector2.Distance(userWorld, targetWorld) <= comp.Range;
+            }
             return false;
+        }
+        // Stories-ZLevels-End
 
         if (comp.Range <= 0)
             return true;

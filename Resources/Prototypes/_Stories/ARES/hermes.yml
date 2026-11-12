@@ -42,6 +42,15 @@
 
 - type: entity
   parent: RMCPodDoorAIBlackLockdown
+  id: STHermesBlackLockdownShutter
+  name: AI core security shutter
+  components:
+  - type: HermesLockdownDoor
+  - type: DeviceLinkSink
+    ports: [ Open, Close, Toggle, DoorBolt, STHermesSecurity ]
+
+- type: entity
+  parent: RMCPodDoorAILockdown
   id: STHermesLockdownShutter
   name: AI core security shutter
   components:
@@ -62,6 +71,30 @@
     - [ CMAccessCO ]
     - [ CMAccessCE ]
     - [ RMCAccessSynth ]
+
+- type: entity
+  parent: CMAirlockSecure
+  id: STAirlockSecureLockedHermesCore
+  suffix: Locked, AI Core
+  components:
+  - type: AccessReader
+    access: [ ["STAccessHermes"], ["STAccessHermesTechnician"], ["CMAccessCO"], ["CMAccessCE"], ["RMCAccessSynth"]  ]
+
+- type: entity
+  parent: RMCPodDoorButtonShip
+  id: STPodDoorButtonHermesCore
+  suffix: Locked, AI Core
+  components:
+  - type: AccessReader
+    access: [ ["STAccessHermes"], ["STAccessHermesTechnician"], ["CMAccessCO"], ["CMAccessCE"], ["RMCAccessSynth"]  ]
+
+- type: entity
+  parent: STPodDoorButtonHermesCore
+  id: STPodDoorButtonHermesCoreTemporary
+  suffix: Locked, AI Core, Temporary
+  components:
+  - type: AccessReader
+    access: [ ["STAccessHermes"], ["STAccessHermesTemporary"], ["STAccessHermesTechnician"], ["CMAccessCO"], ["CMAccessCE"], ["RMCAccessSynth"]  ]
 
 - type: entity
   id: STGasCN20X

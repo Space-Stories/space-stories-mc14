@@ -40,6 +40,8 @@ public sealed partial class StoriesThreatAutoDeployerComponent : Component
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan LastThreat;
 
+    public EntityUid? LastThreatTarget;
+
     [DataField]
     public bool PendingAnnouncement;
 }

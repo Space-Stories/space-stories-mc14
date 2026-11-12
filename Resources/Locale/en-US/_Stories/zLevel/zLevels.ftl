@@ -38,3 +38,7 @@ stories-ui-options-zlevels-blur-shader = Z-levels blur effect
 
 stories-ghost-gui-z-level-up-button = ▲
 stories-ghost-gui-z-level-down-button = ▼
+
+tiles-st-outer-hull-sloped = sloped outer hull roof
+stories-sloped-roof-slip = The roof is too sloped to keep your balance!
+stories-sloped-roof-too-sloped = The roof is too sloped to stand on it.

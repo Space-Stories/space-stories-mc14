@@ -98,6 +98,7 @@
     state: corporatespace
   - type: Area
     zLevel: 1
+    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -108,6 +109,7 @@
     state: ceroom
   - type: Area
     zLevel: 1
+    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerCommand
@@ -1317,6 +1319,7 @@
   id: RMCAreaAlmayerMedicalMorgue
   name: Morgue
   components:
+  - type: IntelRecoverCorpsesArea
   - type: Sprite
     state: operating
   - type: Area
@@ -1367,10 +1370,12 @@
   id: RMCAreaAlmayerMedicalMedicalScience
   name: Medical Research laboratories
   components:
+  - type: IntelRecoverCorpsesArea
   - type: Sprite
     state: science
   - type: Area
     zLevel: 1
+    retrieveItemObjective: true
 
 - type: entity
   parent: RMCAreaAlmayerMedical
@@ -1387,6 +1392,7 @@
   id: RMCAreaAlmayerMedicalContainment
   name: Medical Research containment
   components:
+  - type: IntelRecoverCorpsesArea
   - type: Sprite
     state: science
 
@@ -1413,6 +1419,7 @@
   id: RMCAreaAlmayerMedicalChemistry
   name: Medical Chemical laboratory
   components:
+  - type: IntelRecoverCorpsesArea
   - type: Sprite
     state: chemistry
   - type: Area

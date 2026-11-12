@@ -72,11 +72,9 @@ namespace Content.Server.Light.EntitySystems
 
             component.StateExpiryTime -= frameTime;
 
-            // RMC14
-            Dirty(ent);
-
             if (component.StateExpiryTime <= 0f)
             {
+                Dirty(ent); // Stories-Optimization
                 switch (component.CurrentState)
                 {
                     case ExpendableLightState.Lit:

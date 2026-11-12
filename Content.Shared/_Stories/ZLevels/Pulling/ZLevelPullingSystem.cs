@@ -4,16 +4,18 @@ using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Movement.Pulling.Systems;
+using Robust.Shared.Map;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._Stories.ZLevels.Pulling;
 
 public sealed partial class ZLevelPullingSystem : EntitySystem
 {
-    [Dependency] private ActionBlockerSystem _actionBlocker = default!;
-    [Dependency] private PullingSystem _pulling = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] private readonly PullingSystem _pulling = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
 
     private EntityQuery<ZLevelPullingTransitionComponent> _transitionQuery;
     private EntityQuery<ZPhysicsComponent> _zPhysicsQuery;
@@ -73,6 +75,9 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         if (!_timing.IsFirstTimePredicted)
             return;
 
+        if (HasComp<ZLevelTransitioningComponent>(ent.Owner))
+            return;
+
         if (!TryComp<PullerComponent>(ent, out var puller) || puller.Pulling == null)
             return;
 
@@ -86,13 +91,18 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         transComp.TargetPuller = ent;
         transComp.StartPosition = _transform.GetWorldPosition(pulledEntity);
         transComp.TargetPosition = pullerPos;  // Save puller's position at the moment of transition
-        transComp.TargetZLevel = args.CurrentZLevel + args.Offset;
+        transComp.TargetZLevel = args.CurrentZLevel;
 
         var distance = Vector2.Distance(transComp.StartPosition, transComp.TargetPosition);
         var duration = TimeSpan.FromSeconds(distance / transComp.TransitionSpeed);
         transComp.NextTransition = _timing.CurTime + duration;
 
         Dirty(pulledEntity, transComp);
+
+        if (TryComp<PullableComponent>(pulledEntity, out var pulledComp))
+        {
+            _pulling.RemovePullJointDuringTransition(pulledEntity, pulledComp);
+        }
     }
 
     private void OnPulledEntityMove(Entity<ZLevelPullingTransitionComponent> ent, ref ZLevelMapMoveEvent args)
@@ -116,6 +126,27 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         if (!Exists(uid) || !_transitionQuery.HasComp(uid))
             return;
 
+        if (comp.TargetPuller is { } puller && Exists(puller))
+        {
+            var pullerMap = Transform(puller).MapUid;
+            var pulledMap = Transform(uid).MapUid;
+            if (pulledMap != pullerMap && pulledMap != null && pullerMap != null)
+            {
+                if (_zLevels.TryGetZLevelOffset(pulledMap.Value, pullerMap.Value, out var offset) && offset != 0)
+                {
+                    _zLevels.TryMove(uid, offset);
+                    var pullerPos = _transform.GetWorldPosition(puller);
+                    var currentPulledPos = _transform.GetWorldPosition(uid);
+                    var diff = currentPulledPos - pullerPos;
+                    if (diff.LengthSquared() > 1.0f)
+                    {
+                        var clampedPos = pullerPos + (diff == Vector2.Zero ? new Vector2(0, 0.5f) : Vector2.Normalize(diff) * 0.8f);
+                        _transform.SetWorldPosition(uid, clampedPos);
+                    }
+                }
+            }
+        }
+
         TryResumePulling(uid, comp);
     }
 
@@ -133,7 +164,9 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
         }
 
         // Check if both entities are on the same map
-        if (Transform(uid).MapUid != Transform(comp.TargetPuller.Value).MapUid)
+        var pulledXform = Transform(uid);
+        var pullerXform = Transform(comp.TargetPuller.Value);
+        if (pulledXform.MapID == MapId.Nullspace || pulledXform.MapID != pullerXform.MapID)
         {
             RemComp<ZLevelPullingTransitionComponent>(uid);
             return;
@@ -145,8 +178,7 @@ public sealed partial class ZLevelPullingSystem : EntitySystem
             return;
         }
 
-        // Try to resume pulling from the puller
-        _pulling.TryStartPull(comp.TargetPuller.Value, uid);
         RemComp<ZLevelPullingTransitionComponent>(uid);
+        _pulling.TryStartPull(comp.TargetPuller.Value, uid);
     }
 }
