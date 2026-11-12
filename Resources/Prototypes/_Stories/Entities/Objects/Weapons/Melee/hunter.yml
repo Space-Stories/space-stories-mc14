@@ -101,7 +101,7 @@
         Slash: 35
     attackRate: 1
     soundHit:
-      path: /Audio/_Stories/Weapons/bladeslice.ogg
+      collection: STHunterSwordHit
 
 - type: entity
   parent: STClanSword
