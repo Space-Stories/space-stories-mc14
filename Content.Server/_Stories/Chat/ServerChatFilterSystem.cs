@@ -35,7 +35,16 @@ public sealed class ServerChatFilterSystem : EntitySystem
         _cfg.OnValueChanged(SCCVars.BanwordsFile, OnFileChanged, true);
 
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
+        SubscribeNetworkEvent<RequestBanwordsEvent>(OnRequestBanwords);
         _playerManager.PlayerStatusChanged += OnPlayerStatusChanged;
+    }
+
+    private void OnRequestBanwords(RequestBanwordsEvent ev, EntitySessionEventArgs args)
+    {
+        if (_serverBanwordsRaw.Count > 0)
+        {
+            RaiseNetworkEvent(new SyncBanwordsEvent(_serverBanwordsRaw), args.SenderSession.Channel);
+        }
     }
 
     public override void Shutdown()

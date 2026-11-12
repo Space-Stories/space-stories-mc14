@@ -278,6 +278,15 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                     return;
                 }
             }
+
+            // Stories-VendorSecurity-Start
+            if (!_accessReader.IsAllowed(args.User, vendor))
+            {
+                _popup.PopupClient(Loc.GetString("cm-vending-machine-access-denied"), vendor, args.User);
+                args.Cancel();
+                return;
+            }
+            // Stories-VendorSecurity-End
         }
 
         var validJob = false;
@@ -518,6 +527,82 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             Log.Error($"Tried to vend non-existent entity: {entry.Id}");
             return;
         }
+
+        // Stories-VendorSecurity-Start
+        if (!HasComp<BypassInteractionChecksComponent>(actor) && !vendor.Comp.Hacked)
+        {
+            if (TryComp(vendor, out AccessReaderComponent? reader) &&
+                reader.Enabled &&
+                reader.AccessLists.Count > 0)
+            {
+                foreach (var item in _inventory.GetHandOrInventoryEntities(actor))
+                {
+                    if (HasComp<IdCardComponent>(item) &&
+                        TryComp(item, out IdCardOwnerComponent? owner) &&
+                        owner.Id != actor)
+                    {
+                        _popup.PopupEntity(Loc.GetString("cm-vending-machine-wrong-card"), vendor, actor);
+                        return;
+                    }
+                }
+
+                if (!_accessReader.IsAllowed(actor, vendor))
+                {
+                    _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
+                    return;
+                }
+            }
+
+            if (vendor.Comp.Jobs.Count > 0)
+            {
+                var validVendorJob = false;
+                _mind.TryGetMind(actor, out var vendorMindId, out _);
+                var userComp = CompOrNull<CMVendorUserComponent>(actor);
+                foreach (var job in vendor.Comp.Jobs)
+                {
+                    if (vendorMindId.Valid && _job.MindHasJobWithId(vendorMindId, job.Id))
+                    {
+                        validVendorJob = true;
+                        break;
+                    }
+
+                    if (userComp?.Id == job)
+                    {
+                        validVendorJob = true;
+                        break;
+                    }
+                }
+
+                if (!validVendorJob)
+                {
+                    _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
+                    return;
+                }
+            }
+
+            if (vendor.Comp.Ranks.Count > 0)
+            {
+                var validVendorRank = false;
+                if (_rank.GetRank(actor) is { } userRank)
+                {
+                    foreach (var rank in vendor.Comp.Ranks)
+                    {
+                        if (userRank == rank)
+                        {
+                            validVendorRank = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!validVendorRank)
+                {
+                    _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
+                    return;
+                }
+            }
+        }
+        // Stories-VendorSecurity-End
 
         var user = CompOrNull<CMVendorUserComponent>(actor);
         if (section.TakeAll is { } takeAll)
