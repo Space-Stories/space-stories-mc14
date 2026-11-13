@@ -20,12 +20,12 @@
     - SmartGunOperator
     - SO
     - MessTech
-    - CO
+    # - CO # Stories-AccessSecurity
     - OT
     - Researcher
     - Nurse
     - CMMedbay
-    - MarineMain
+    # - MarineMain # Stories-AccessSecurity
     - FTL
     - SEA
     - MaintTech

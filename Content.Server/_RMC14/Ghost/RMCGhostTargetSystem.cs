@@ -8,6 +8,7 @@ using Content.Server.GameTicking.Events;
 using Content.Server.Roles.Jobs;
 using Content.Server.Warps;
 using Content.Shared._RMC14.Cryostorage;
+using Content.Shared._RMC14.ERT;
 using Content.Shared._RMC14.Ghost;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Squads;
@@ -86,6 +87,7 @@ public sealed class RMCGhostTargetSystem : EntitySystem
 
     private EntityQuery<GhostComponent> _ghostQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
+    private readonly List<EntityUid> _mindTargetsBuffer = new();
     private EntityUid? _store;
     private bool _initializingStore;
 
@@ -107,8 +109,8 @@ public sealed class RMCGhostTargetSystem : EntitySystem
 
         SubscribeLocalEvent<MindComponent, MindGotAddedEvent>(OnMindAdded);
         SubscribeLocalEvent<MindComponent, MindGotRemovedEvent>(OnMindRemoved);
-        SubscribeLocalEvent<RMCGhostTargetTrackedComponent, RoleAddedEvent>(OnTrackedRoleChanged);
-        SubscribeLocalEvent<RMCGhostTargetTrackedComponent, RoleRemovedEvent>(OnTrackedRoleChanged);
+        SubscribeLocalEvent<MindComponent, RoleAddedEvent>(OnMindRoleChanged);
+        SubscribeLocalEvent<MindComponent, RoleRemovedEvent>(OnMindRoleChanged);
         SubscribeLocalEvent<RMCGhostTargetTrackedComponent, MobStateChangedEvent>(OnTrackedStateChanged);
         SubscribeLocalEvent<RMCGhostTargetTrackedComponent, EntParentChangedMessage>(OnTrackedParentChanged);
         SubscribeLocalEvent<RMCGhostTargetTrackedComponent, DamageChangedEvent>(
@@ -133,6 +135,9 @@ public sealed class RMCGhostTargetSystem : EntitySystem
         SubscribeLocalEvent<VictimInfectedChangedEvent>(OnVictimInfectedChanged);
         SubscribeLocalEvent<XenoComponentChangedEvent>(OnXenoComponentChanged);
         SubscribeLocalEvent<VisitingMindComponent, MindVisitedMessage>(OnMindVisited);
+        SubscribeLocalEvent<RMCERTMemberComponent, ComponentStartup>(OnTrackableTargetStartup);
+        SubscribeLocalEvent<OriginalRoleComponent, ComponentStartup>(OnTrackableTargetStartup);
+        SubscribeLocalEvent<MindContainerComponent, ComponentStartup>(OnMindContainerStartup);
         SubscribeLocalEvent<SquadMemberAddedEvent>(OnSquadMemberAdded);
         SubscribeLocalEvent<SquadMemberRemovedEvent>(OnSquadMemberRemoved);
         SubscribeLocalEvent<RMCGhostTargetTrackedComponent, SquadMemberUpdatedEvent>(OnSquadMemberUpdated);
@@ -344,7 +349,7 @@ public sealed class RMCGhostTargetSystem : EntitySystem
         var minds = EntityQueryEnumerator<MindContainerComponent>();
         while (minds.MoveNext(out var uid, out var mind))
         {
-            if (mind.Mind != null)
+            if (ShouldTrackBody(uid, mind))
                 EnsureComp<RMCGhostTargetTrackedComponent>(uid);
         }
 
@@ -377,10 +382,25 @@ public sealed class RMCGhostTargetSystem : EntitySystem
         RefreshTarget(args.Container);
     }
 
-    private void OnTrackedRoleChanged<T>(Entity<RMCGhostTargetTrackedComponent> ent, ref T args)
+    private void OnMindRoleChanged<T>(Entity<MindComponent> ent, ref T args)
         where T : RoleEvent
     {
-        RefreshTarget(ent);
+        if (ent.Comp.OwnedEntity is { } owned)
+            RefreshTarget(owned);
+
+        if (!TryGetStore(out var store) ||
+            !store.Comp.MindTargets.TryGetValue(ent.Owner, out var targets))
+        {
+            return;
+        }
+
+        _mindTargetsBuffer.Clear();
+        _mindTargetsBuffer.AddRange(targets);
+        foreach (var target in _mindTargetsBuffer)
+        {
+            if (target != ent.Comp.OwnedEntity)
+                RefreshTarget(target);
+        }
     }
 
     private void OnTrackedStateChanged(Entity<RMCGhostTargetTrackedComponent> ent, ref MobStateChangedEvent args)
@@ -513,7 +533,34 @@ public sealed class RMCGhostTargetSystem : EntitySystem
 
     private void OnMindVisited(EntityUid uid, VisitingMindComponent component, MindVisitedMessage args)
     {
+        EnsureComp<RMCGhostTargetTrackedComponent>(uid);
         RefreshTarget(uid);
+    }
+
+    private void OnTrackableTargetStartup<T>(Entity<T> ent, ref ComponentStartup args) where T : IComponent
+    {
+        if (!HasComp<MindContainerComponent>(ent))
+            return;
+
+        EnsureComp<RMCGhostTargetTrackedComponent>(ent);
+        RefreshTarget(ent);
+    }
+
+    private void OnMindContainerStartup(Entity<MindContainerComponent> ent, ref ComponentStartup args)
+    {
+        if (!ShouldTrackBody(ent, ent.Comp))
+            return;
+
+        EnsureComp<RMCGhostTargetTrackedComponent>(ent);
+        RefreshTarget(ent);
+    }
+
+    private bool ShouldTrackBody(EntityUid uid, MindContainerComponent mind)
+    {
+        return mind.Mind != null ||
+               HasComp<RMCERTMemberComponent>(uid) ||
+               HasComp<OriginalRoleComponent>(uid) ||
+               (TryComp<VisitingMindComponent>(uid, out var visiting) && visiting.MindId != null);
     }
 
     private void OnSquadMemberAdded(ref SquadMemberAddedEvent args)
@@ -881,6 +928,14 @@ public sealed class RMCGhostTargetSystem : EntitySystem
         if (_jobs.MindTryGetJobName(GetMindId(uid), out var name))
         {
             jobName = name;
+            return true;
+        }
+
+        if (TryComp(uid, out OriginalRoleComponent? originalRole) &&
+            originalRole.Job is { } originalJob &&
+            _prototypes.TryIndex(originalJob, out var job))
+        {
+            jobName = job.LocalizedName;
             return true;
         }
 
@@ -1284,8 +1339,13 @@ public sealed class RMCGhostTargetSystem : EntitySystem
 
     private int? GetMarineAuthorityLevel(EntityUid uid)
     {
-        return _jobs.MindTryGetJob(GetMindId(uid), out var job)
-            ? job.MarineAuthorityLevel
+        if (_jobs.MindTryGetJob(GetMindId(uid), out var job))
+            return job.MarineAuthorityLevel;
+
+        return TryComp(uid, out OriginalRoleComponent? originalRole) &&
+               originalRole.Job is { } originalJob &&
+               _prototypes.TryIndex(originalJob, out var originalJobProto)
+            ? originalJobProto.MarineAuthorityLevel
             : null;
     }
 

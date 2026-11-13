@@ -20,7 +20,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Areas;
 
-public sealed partial class AreaSystem : EntitySystem
+public sealed partial class AreaSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -213,11 +213,15 @@ public sealed partial class AreaSystem : EntitySystem
         area = default;
         areaPrototype = default;
         if (_transform.GetGrid(coordinates) is not { } gridId ||
-            !_mapGridQuery.TryComp(gridId, out var grid) ||
-            !_areaGridQuery.TryComp(gridId, out var areaGrid))
+            !_mapGridQuery.TryComp(gridId, out var grid)) // Stories-ZLevels
         {
             return false;
         }
+
+        // Stories-ZLevels-Start
+        if (!_areaGridQuery.TryComp(gridId, out var areaGrid))
+            return TryGetUpperPlanetArea(coordinates, out area, out areaPrototype);
+        // Stories-ZLevels-End
 
         var indices = _map.CoordinatesToTile(gridId, grid, coordinates);
         return TryGetArea((gridId, grid, areaGrid), indices, out area, out areaPrototype);

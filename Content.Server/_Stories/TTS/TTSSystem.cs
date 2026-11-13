@@ -308,6 +308,9 @@ public sealed partial class TTSSystem : EntitySystem
 
     private void OnEntitySpoke(EntityUid uid, TTSComponent component, EntitySpokeEvent args)
     {
+        if (args.Channel != null)
+            return;
+
         if (args.Message.Length > MaxMessageChars ||
             !TryResolveVoiceForEntity(uid, component.VoicePrototypeId, out var protoVoice))
             return;
@@ -321,12 +324,10 @@ public sealed partial class TTSSystem : EntitySystem
         if (messageToUse.Contains('\u200B'))
             return;
 
-        bool isRadio = args.Channel != null;
-
         if (args.ObfuscatedMessage != null)
         {
             var playbackModifiers = GetPlaybackModifiers(uid, ChatSystem.WhisperClearRange);
-            HandleWhisper(uid, messageToUse, protoVoice.Speaker, isRadio, args.Language, playbackModifiers);
+            HandleWhisper(uid, messageToUse, protoVoice.Speaker, false, args.Language, playbackModifiers);
             return;
         }
 
@@ -334,10 +335,9 @@ public sealed partial class TTSSystem : EntitySystem
             uid,
             messageToUse,
             protoVoice.Speaker,
-            isRadio,
+            false,
             args.Language,
-            GetPlaybackModifiers(uid, ChatSystem.VoiceRange),
-            args.Channel?.ID);
+            GetPlaybackModifiers(uid, ChatSystem.VoiceRange));
     }
 
     private void OnGetTTSPlaybackModifiers(Entity<TTSPlaybackModifierComponent> ent, ref GetTTSPlaybackModifiersEvent args)

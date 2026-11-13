@@ -86,8 +86,12 @@ public sealed class IdModificationConsoleSystem : EntitySystem
         if (!ent.Comp.Authenticated)
             return;
 
+        if (!ent.Comp.JobList.Contains(args.AccessGroup)) return; // Stories-AccessSecurity
+
         if (!TryContainerEntity(ent, ent.Comp.TargetIdSlot, out var uid) || !TryComp(uid, out AccessComponent? access))
             return;
+
+        if (!TryContainerEntity(ent, ent.Comp.PrivilegedIdSlot, out var privUid) || !TryComp(privUid, out AccessComponent? privAccess)) return; // Stories-AccessSecurity
 
         access.Tags.Clear();
 
@@ -96,7 +100,8 @@ public sealed class IdModificationConsoleSystem : EntitySystem
 
         foreach (var tag in accessGroupPrototype.Tags)
         {
-            access.Tags.Add(tag);
+            if (privAccess.Tags.Contains(tag)) // Stories-AccessSecurity
+                access.Tags.Add(tag);
         }
 
         Dirty(uid.Value, access);
@@ -284,6 +289,8 @@ public sealed class IdModificationConsoleSystem : EntitySystem
         if (!TryContainerEntity(ent, ent.Comp.TargetIdSlot, out var uid) || !TryComp(uid, out AccessComponent? access))
             return;
 
+        if (!TryContainerEntity(ent, ent.Comp.PrivilegedIdSlot, out var privUid) || !TryComp(privUid, out AccessComponent? privAccess)) return; // Stories-AccessSecurity
+
         switch (args.Type)
         {
             case "GrantAll":
@@ -292,6 +299,7 @@ public sealed class IdModificationConsoleSystem : EntitySystem
                     if (!_prototype.TryIndex(accessToAdd, out var accessPrototype) ||
                         accessPrototype.AccessGroup != args.AccessList)
                         continue;
+                    if (!privAccess.Tags.Contains(accessToAdd)) continue; // Stories-AccessSecurity
                     access.Tags.Add(accessPrototype);
                 }
 
@@ -318,6 +326,7 @@ public sealed class IdModificationConsoleSystem : EntitySystem
             case "GrantAllGroup":
                 foreach (var accessToAdd in ent.Comp.AccessList)
                 {
+                    if (!privAccess.Tags.Contains(accessToAdd)) continue; // Stories-AccessSecurity
                     access.Tags.Add(accessToAdd);
                 }
 
@@ -354,6 +363,8 @@ public sealed class IdModificationConsoleSystem : EntitySystem
 
         if (args.Add)
         {
+            if (!TryContainerEntity(ent, ent.Comp.PrivilegedIdSlot, out var privUid) || !TryComp(privUid, out AccessComponent? privAccess) || !privAccess.Tags.Contains(args.Access)) return; // Stories-AccessSecurity
+
             access.Tags.Add(args.Access);
             _adminLogger.Add(LogType.RMCIdModify,
                 LogImpact.Low,

@@ -253,7 +253,7 @@ public sealed class ClientClothingSystem : ClothingSystem
         {
             foreach (var key in revealedLayers)
             {
-                _sprite.RemoveLayer((equipee, sprite), key);
+                _sprite.RemoveLayer((equipee, sprite), key, false); // Stories-CassetteFix
             }
             revealedLayers.Clear();
         }

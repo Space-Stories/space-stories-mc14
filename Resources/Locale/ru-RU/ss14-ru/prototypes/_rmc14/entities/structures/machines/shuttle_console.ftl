@@ -10,7 +10,6 @@ ent-CMComputerDropshipNavigationERTCLF = транспортный шаттл
     .desc = Полетный компьютер транспортного шаттла.
 ent-CMComputerDropshipNavigationPlanetside = навигационный компьютер дропшипа
     .desc = Бортовой компьютер, который может использоваться для управления связанными дропшипами.
-    .suffix = Планетный
 ent-CMComputerDropshipCamerasAlamo = управление камерами
     .desc = Компьютер для наблюдения за камерами, подключенными к дропшипу.
     .suffix = Аламо
