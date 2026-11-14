@@ -633,12 +633,9 @@ public sealed class RMCGhostTargetSystem : EntitySystem
             RefreshEntry(ent);
     }
 
-    private void OnTacticalIconChanged(
-        EntityUid uid,
-        TacticalMapIconComponent component,
-        TacticalMapIconChangedEvent args)
+    private void OnTacticalIconChanged(Entity<TacticalMapIconComponent> ent, ref TacticalMapIconChangedEvent args)
     {
-        RefreshEntry(uid);
+        RefreshEntry(ent);
     }
 
     private void OnAlmayerChanged()

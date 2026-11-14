@@ -658,6 +658,7 @@ public sealed partial class AreaSystem : EntitySystem // Stories-ZLevels
                     Dirty(area, areaComp);
                 }
 
+                UpdateTacticalMapBounds(ent, mapGrid, areaGrid);
                 Dirty(ent, areaGrid);
             }
         }

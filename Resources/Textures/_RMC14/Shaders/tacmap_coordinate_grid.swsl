@@ -1,0 +1,14 @@
+light_mode unshaded;
+
+uniform highp vec2 grid_cells;
+uniform highp vec2 cell_pixels;
+
+void fragment() {
+    highp vec2 coordinates = vec2(UV.x, 1.0 - UV.y) * grid_cells;
+    highp vec2 fraction = fract(coordinates);
+    highp vec2 edgeDistance = min(fraction, vec2(1.0) - fraction) * cell_pixels;
+    highp float nearest = min(edgeDistance.x, edgeDistance.y);
+    highp float line = 1.0 - smoothstep(0.35, 0.85, nearest);
+    highp float shadow = 1.0 - smoothstep(0.7, 1.6, nearest);
+    COLOR = vec4(vec3(line), max(line * 0.42, shadow * 0.18));
+}
