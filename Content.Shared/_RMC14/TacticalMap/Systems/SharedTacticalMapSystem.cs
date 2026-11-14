@@ -396,6 +396,12 @@ public abstract class SharedTacticalMapSystem : EntitySystem
 
     protected bool TryGetSquadLayer(EntityUid squadEntity, out EntProtoId<TacticalMapLayerComponent> layer)
     {
+        if (TerminatingOrDeleted(squadEntity))
+        {
+            layer = default;
+            return false;
+        }
+
         var prototypeId = MetaData(squadEntity).EntityPrototype?.ID;
         foreach (var (layerId, definition) in _layers.Definitions)
         {
