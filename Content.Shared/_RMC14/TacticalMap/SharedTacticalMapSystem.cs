@@ -1,4 +1,5 @@
 ﻿using Content.Shared._RMC14.CCVar;
+using Content.Shared.UserInterface;
 using Robust.Shared.Configuration;
 
 namespace Content.Shared._RMC14.TacticalMap;
@@ -9,13 +10,24 @@ public abstract class SharedTacticalMapSystem : EntitySystem
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     public int LineLimit { get; private set; }
+    public int LabelLimit { get; private set; }
+    public int LabelLengthLimit { get; private set; }
 
     public override void Initialize()
     {
         SubscribeLocalEvent<TacticalMapUserComponent, OpenTacticalMapActionEvent>(OnUserOpenAction);
         SubscribeLocalEvent<TacticalMapUserComponent, OpenTacMapAlertEvent>(OnUserOpenAlert);
+        SubscribeLocalEvent<TacticalMapUserComponent, BoundUserInterfaceMessageAttempt>(OnUserUIMessageAttempt);
 
         Subs.CVar(_config, RMCCVars.RMCTacticalMapLineLimit, v => LineLimit = v, true);
+        Subs.CVar(_config, RMCCVars.RMCTacticalMapLabelLimit, v => LabelLimit = Math.Max(0, v), true);
+        Subs.CVar(_config, RMCCVars.RMCTacticalMapLabelLengthLimit, v => LabelLengthLimit = Math.Max(0, v), true);
+    }
+
+    private void OnUserUIMessageAttempt(Entity<TacticalMapUserComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is TacticalMapUserUi && args.Actor != ent.Owner)
+            args.Cancel();
     }
 
     private void OnUserOpenAction(Entity<TacticalMapUserComponent> ent, ref OpenTacticalMapActionEvent args)

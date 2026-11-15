@@ -45,13 +45,16 @@ public sealed class SentryLaptopSystem : SharedSentryLaptopSystem
 
         SubscribeLocalEvent<SentryLaptopComponent, AfterActivatableUIOpenEvent>(OnUIOpened);
         SubscribeLocalEvent<SentryLaptopComponent, BoundUIOpenedEvent>(OnBoundUIOpened);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopViewCameraBuiMsg>(OnViewCameraMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopSetNameBuiMsg>(OnSetNameMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalToggleFactionBuiMsg>(OnGlobalToggleFactionMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalSetFactionsBuiMsg>(OnGlobalSetFactionsMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalResetTargetingBuiMsg>(OnGlobalResetTargetingMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalTogglePowerBuiMsg>(OnGlobalTogglePowerMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopCloseCameraBuiMsg>(OnCloseCameraMsg);
+        Subs.BuiEvents<SentryLaptopComponent>(SentryLaptopUiKey.Key, subs =>
+        {
+            subs.Event<SentryLaptopViewCameraBuiMsg>(OnViewCameraMsg);
+            subs.Event<SentryLaptopSetNameBuiMsg>(OnSetNameMsg);
+            subs.Event<SentryLaptopGlobalToggleFactionBuiMsg>(OnGlobalToggleFactionMsg);
+            subs.Event<SentryLaptopGlobalSetFactionsBuiMsg>(OnGlobalSetFactionsMsg);
+            subs.Event<SentryLaptopGlobalResetTargetingBuiMsg>(OnGlobalResetTargetingMsg);
+            subs.Event<SentryLaptopGlobalTogglePowerBuiMsg>(OnGlobalTogglePowerMsg);
+            subs.Event<SentryLaptopCloseCameraBuiMsg>(OnCloseCameraMsg);
+        });
         SubscribeLocalEvent<SentryLaptopComponent, BoundUIClosedEvent>(OnBoundUIClosed);
         SubscribeLocalEvent<SentryComponent, ComponentShutdown>(OnSentryShutdown);
 

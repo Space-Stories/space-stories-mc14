@@ -406,6 +406,9 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
         if (!ent.Comp.CanDraw)
             return;
 
+        if (!IsCanvasValid(args))
+            return;
+
         var lines = args.Lines;
         if (lines.Count > LineLimit)
             lines = lines[..LineLimit];
@@ -434,6 +437,9 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
         if (!_skills.HasSkill(user, ent.Comp.Skill, ent.Comp.SkillLevel))
             return;
 
+        if (!IsCanvasValid(args))
+            return;
+
         var lines = args.Lines;
         if (lines.Count > LineLimit)
             lines = lines[..LineLimit];
@@ -457,6 +463,20 @@ public sealed class TacticalMapSystem : SharedTacticalMapSystem
         }
 
         UpdateCanvas(lines, labels, true, false, user);
+    }
+
+    private bool IsCanvasValid(TacticalMapUpdateCanvasMsg args)
+    {
+        if (args.Lines == null || args.Labels == null || args.Labels.Count > LabelLimit)
+            return false;
+
+        foreach (var text in args.Labels.Values)
+        {
+            if (text == null || text.Length > LabelLengthLimit)
+                return false;
+        }
+
+        return true;
     }
 
     private void OnUserCreateLabelMsg(Entity<TacticalMapUserComponent> ent, ref TacticalMapCreateLabelMsg args)

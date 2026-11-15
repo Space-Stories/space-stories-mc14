@@ -10,7 +10,10 @@ using Content.Shared._RMC14.Commendations;
 using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Evacuation;
+using Content.Shared._RMC14.Overwatch;
 using Content.Shared._RMC14.Survivor;
+using Content.Shared._RMC14.UserInterface;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
@@ -37,6 +40,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
@@ -55,6 +59,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         SubscribeLocalEvent<DropshipHijackStartEvent>(OnRefreshComputers);
         SubscribeLocalEvent<RMCAlertLevelChangedEvent>(OnRefreshComputers);
 
+        SubscribeLocalEvent<MarineControlComputerComponent, BoundUserInterfaceMessageAttempt>(OnComputerUIMessageAttempt);
         SubscribeLocalEvent<MarineControlComputerComponent, BeforeActivatableUIOpenEvent>(OnComputerBeforeUIOpen);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerMedalMarineEvent>(OnComputerMedalMarine);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerMedalNameEvent>(OnComputerMedalName);
@@ -99,6 +104,18 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     private void OnRefreshComputers<T>(ref T ev)
     {
         RefreshComputers();
+    }
+
+    private void OnComputerUIMessageAttempt(Entity<MarineControlComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || HasComp<OverwatchConsoleComponent>(ent))
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnComputerBeforeUIOpen(Entity<MarineControlComputerComponent> ent, ref BeforeActivatableUIOpenEvent args)

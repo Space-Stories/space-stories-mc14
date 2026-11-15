@@ -8,6 +8,7 @@ using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
+using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Marines.Skills.Pamphlets;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.OrbitalCannon;
@@ -16,6 +17,7 @@ using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Scoping;
 using Content.Shared._RMC14.SupplyDrop;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Vendors;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Administration.Logs;
@@ -24,6 +26,7 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
+using Content.Shared.Ghost;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs;
@@ -63,11 +66,13 @@ public abstract partial class SharedOverwatchConsoleSystem : EntitySystem // Sto
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly SharedCMChatSystem _rmcChat = default!;
-    [Dependency] private readonly SharedRMCOverwatchTripodCameraSystem _tripod = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
+    [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SquadSystem _squad = default!;
     [Dependency] private readonly SharedSupplyDropSystem _supplyDrop = default!;
     [Dependency] private readonly SharedTacticalMapSystem _tacticalMap = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedRMCOverwatchTripodCameraSystem _tripod = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
 
@@ -108,6 +113,7 @@ public abstract partial class SharedOverwatchConsoleSystem : EntitySystem // Sto
         SubscribeLocalEvent<OrbitalCannonLaunchEvent>(OnOrbitalCannonLaunch);
         SubscribeLocalEvent<OrbitalCannonSafetyChangedEvent>(OnOrbitalCannonSafetyChanged);
 
+        SubscribeLocalEvent<OverwatchConsoleComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
         SubscribeLocalEvent<OverwatchConsoleComponent, BoundUIOpenedEvent>(OnBUIOpened);
         SubscribeLocalEvent<OverwatchConsoleComponent, BoundUIClosedEvent>(OnBUIClosed);
         SubscribeLocalEvent<OverwatchConsoleComponent, OverwatchTransferMarineSelectedEvent>(OnTransferMarineSelected);
@@ -147,6 +153,35 @@ public abstract partial class SharedOverwatchConsoleSystem : EntitySystem // Sto
         });
         Subs.CVar(_config, RMCCVars.RMCOverwatchMaxProcessTimeMilliseconds, v => _maxProcessTime = TimeSpan.FromMilliseconds(v), true);
         Subs.CVar(_config, RMCCVars.RMCOverwatchConsoleUpdateEverySeconds, v => _updateEvery = TimeSpan.FromSeconds(v), true);
+    }
+
+    private void OnUIMessageAttempt(Entity<OverwatchConsoleComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        var isOverwatch = args.UiKey is OverwatchConsoleUI ||
+            args.Message is DialogOptionBuiMsg option &&
+            TryComp<DialogComponent>(args.Actor, out var dialog) &&
+            dialog.EventTarget == ent.Owner &&
+            dialog.Options.TryGetValue(option.Index, out var choice) &&
+            choice.Event is OverwatchTransferMarineSelectedEvent or OverwatchTransferMarineSquadEvent;
+        if (isOverwatch &&
+            TryComp<MarineCommunicationsComputerComponent>(ent, out var communications) &&
+            !_skills.HasSkill(args.Actor, communications.OverwatchSkill, communications.OverwatchSkillLevel))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnOrbitalCannonChanged(ref OrbitalCannonChangedEvent ev)

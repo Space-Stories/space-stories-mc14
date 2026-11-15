@@ -3,11 +3,14 @@ using System.Linq;
 using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Scaling;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
+using Content.Shared.Ghost;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Popups;
 using Content.Shared.Smoking;
@@ -32,6 +35,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly RMCReagentSystem _rmcReagent = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly ScalingSystem _scaling = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
@@ -48,6 +52,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         SubscribeLocalEvent<DetailedExaminableSolutionComponent, ExaminedEvent>(OnDetailedSolutionExamined);
 
         SubscribeLocalEvent<RMCChemicalDispenserComponent, MapInitEvent>(OnDispenserMapInit);
+        SubscribeLocalEvent<RMCChemicalDispenserComponent, BoundUserInterfaceMessageAttempt>(OnDispenserUIMessageAttempt);
 
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, MapInitEvent>(OnToggleableSolutionTransferMapInit);
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, AfterAutoHandleStateEvent>(OnToggleableSolutionTransferState); // Stories-Ordnance
@@ -70,6 +75,28 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
                 subs.Event<RMCChemicalDispenserEjectBeakerBuiMsg>(OnChemicalDispenserEjectBeakerMsg);
                 subs.Event<RMCChemicalDispenserDispenseBuiMsg>(OnChemicalDispenserDispenseMsg);
             });
+    }
+
+    private void OnDispenserUIMessageAttempt(
+        Entity<RMCChemicalDispenserComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is not RMCChemicalDispenserUi.Key)
+            return;
+
+        if (!_rmcUI.CanUseUI(args))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        var attempt = new GettingInteractedWithAttemptEvent(args.Actor, ent);
+        RaiseLocalEvent(ent, ref attempt);
+        if (attempt.Cancelled)
+            args.Cancel();
     }
 
     // Stories-Ordnance-Start

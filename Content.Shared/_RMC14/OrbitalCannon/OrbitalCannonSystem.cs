@@ -16,7 +16,9 @@ using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Mortar;
 using Content.Shared._RMC14.PowerLoader;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Vehicle;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chat;
 using Content.Shared.Damage;
@@ -63,6 +65,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly RMCMapSystem _rmcMap = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
     [Dependency] private readonly SharedRMCPvsSystem _rmcPvs = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
@@ -86,6 +89,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         SubscribeLocalEvent<OrbitalCannonFuelComponent, PowerLoaderInteractEvent>(OnFuelPowerLoaderInteract);
 
+        SubscribeLocalEvent<OrbitalCannonComputerComponent, BoundUserInterfaceMessageAttempt>(OnComputerUIMessageAttempt);
         SubscribeLocalEvent<OrbitalCannonComputerComponent, BeforeActivatableUIOpenEvent>(OnComputerBeforeActivatableUIOpen);
 
         Subs.BuiEvents<OrbitalCannonComputerComponent>(OrbitalCannonComputerUI.Key,
@@ -393,6 +397,18 @@ public sealed class OrbitalCannonSystem : EntitySystem
         {
             if (tray.LinkedCannon is { } linkedCannonId && TryComp(linkedCannonId, out OrbitalCannonComponent? linkedCannon))
                 _audio.PlayPvs(linkedCannon.LoadItemSound, args.Target);
+        }
+    }
+
+    private void OnComputerUIMessageAttempt(Entity<OrbitalCannonComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || args.UiKey is not OrbitalCannonComputerUI)
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
         }
     }
 

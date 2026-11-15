@@ -55,21 +55,24 @@ public sealed class AutodocSystem : SharedAutodocSystem
         base.Initialize();
 
         SubscribeLocalEvent<AutodocConsoleComponent, AfterActivatableUIOpenEvent>(OnConsoleUIOpened);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleBruteBuiMsg>(OnConsoleToggleBrute);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleBurnBuiMsg>(OnConsoleToggleBurn);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleBloodBuiMsg>(OnConsoleToggleBlood);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleDialysisBuiMsg>(OnConsoleToggleDialysis);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleToxinBuiMsg>(OnConsoleToggleToxin);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleCloseIncisionsBuiMsg>(OnConsoleToggleCloseIncisions);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleRemoveShrapnelBuiMsg>(OnConsoleToggleRemoveShrapnel);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleInternalBleedingBuiMsg>(OnConsoleToggleInternalBleeding);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleBrokenBoneBuiMsg>(OnConsoleToggleBrokenBone);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleOrganDamageBuiMsg>(OnConsoleToggleOrganDamage);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocToggleLarvaBuiMsg>(OnConsoleToggleLarva);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocStartSurgeryBuiMsg>(OnConsoleStartSurgery);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocClearBuiMsg>(OnConsoleClear);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocEjectBuiMsg>(OnConsoleEject);
-        SubscribeLocalEvent<AutodocConsoleComponent, AutodocImportScanBuiMsg>(OnConsoleImportScan);
+        Subs.BuiEvents<AutodocConsoleComponent>(AutodocUIKey.Key, subs =>
+        {
+            subs.Event<AutodocToggleBruteBuiMsg>(OnConsoleToggleBrute);
+            subs.Event<AutodocToggleBurnBuiMsg>(OnConsoleToggleBurn);
+            subs.Event<AutodocToggleBloodBuiMsg>(OnConsoleToggleBlood);
+            subs.Event<AutodocToggleDialysisBuiMsg>(OnConsoleToggleDialysis);
+            subs.Event<AutodocToggleToxinBuiMsg>(OnConsoleToggleToxin);
+            subs.Event<AutodocToggleCloseIncisionsBuiMsg>(OnConsoleToggleCloseIncisions);
+            subs.Event<AutodocToggleRemoveShrapnelBuiMsg>(OnConsoleToggleRemoveShrapnel);
+            subs.Event<AutodocToggleInternalBleedingBuiMsg>(OnConsoleToggleInternalBleeding);
+            subs.Event<AutodocToggleBrokenBoneBuiMsg>(OnConsoleToggleBrokenBone);
+            subs.Event<AutodocToggleOrganDamageBuiMsg>(OnConsoleToggleOrganDamage);
+            subs.Event<AutodocToggleLarvaBuiMsg>(OnConsoleToggleLarva);
+            subs.Event<AutodocStartSurgeryBuiMsg>(OnConsoleStartSurgery);
+            subs.Event<AutodocClearBuiMsg>(OnConsoleClear);
+            subs.Event<AutodocEjectBuiMsg>(OnConsoleEject);
+            subs.Event<AutodocImportScanBuiMsg>(OnConsoleImportScan);
+        });
     }
 
     private void OnConsoleUIOpened(Entity<AutodocConsoleComponent> console, ref AfterActivatableUIOpenEvent args)
@@ -214,6 +217,9 @@ public sealed class AutodocSystem : SharedAutodocSystem
     private void OnConsoleStartSurgery(Entity<AutodocConsoleComponent> console, ref AutodocStartSurgeryBuiMsg args)
     {
         if (!TryGetLinkedAutodoc(console, out var autodoc, true))
+            return;
+
+        if (!_power.IsPowered(autodoc))
             return;
 
         if (autodoc.Comp.Occupant == null)
