@@ -1,0 +1,138 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogExplosives
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-explosives
+      entries:
+      - cost: 1500
+        unit: true
+        crate: CMPacketGrenadeFragFilled
+
+      - cost: 667
+        unit: true
+        crate: CMGrenadeFragOld
+      - cost: 2000
+        unit: true
+        crate: CMPacketGrenadeFragOldFilled
+
+      - cost: 1500
+        unit: true
+        crate: CMPacketGrenadeHighExplosiveFilled
+
+      - cost: 400
+        unit: true
+        crate: RMC40MMGrenadeM74AGMF
+      - cost: 10000
+        unit: true
+        crate: RMCBoxAGMF
+        icon:
+          entity: RMCBoxAGMF
+
+      - cost: 400
+        unit: true
+        crate: RMC40MMGrenadeM74AGMI
+      - cost: 10000
+        unit: true
+        crate: RMCBoxAGMI
+        icon:
+          entity: RMCBoxAGMI
+
+      - cost: 432
+        unit: true
+        crate: RMCGrenadeWhitePhosphorusCompound
+      - cost: 10800
+        unit: true
+        crate: RMCBoxCCDP
+        icon:
+          entity: RMCBoxCCDP
+
+      - cost: 300
+        unit: true
+        crate: RMCExplosiveClaymoreMine
+      - cost: 1500
+        unit: true
+        crate: RMCBoxClaymoreMineFilled
+
+      - cost: 400
+        unit: true
+        crate: CMGrenadeHighExplosive
+      - cost: 10000
+        unit: true
+        crate: RMCBoxHEDP
+        icon:
+          entity: RMCBoxHEDP
+
+      - cost: 400
+        unit: true
+        crate: CMGrenadeFrag
+      - cost: 10000
+        unit: true
+        crate: RMCBoxHEFA
+        icon:
+          entity: RMCBoxHEFA
+
+      - cost: 1000
+        unit: true
+        crate: RMCExplosiveBreachingCharge
+
+      - cost: 1000
+        unit: true
+        crate: RMCExplosivePlastic
+
+      - cost: 167
+        unit: true
+        crate: RMCBatonSlugHIRR
+      - cost: 500
+        unit: true
+        crate: RMCPacketGrenadeBatonSlugHIRRFilled
+
+      - cost: 667
+        unit: true
+        crate: RMCGrenadeIncendiary
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeIncendiaryFilled
+
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMFFilled
+
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMIFilled
+
+      - cost: 500
+        unit: true
+        crate: RMC40MMGrenadeM74AGMS
+      - cost: 1500
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSFilled
+
+      - cost: 667
+        unit: true
+        crate: RMCHornetShellM74AGMS
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSHornetFilled
+
+      - cost: 667
+        unit: true
+        crate: RMCStarShellM74AGMS
+      - cost: 2000
+        unit: true
+        crate: RMCPacketGrenadeM74AGMSStarShellFilled
+
+      - cost: 1600
+        unit: true
+        crate: RMCPacketGrenadeWhitePhosphorusCompoundFilled
+
+      # Stories-BRUTE-Start
+      - cost: 500
+        unit: true
+        crate: RMCRocketM5510Brute
+
+      # Stories-BRUTE-End
+      - cost: 4000
+        crate: RMCCrateExplosivesSurplus

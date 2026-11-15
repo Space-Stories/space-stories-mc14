@@ -1,0 +1,44 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogWeapons
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-weapons
+      entries:
+      - cost: 2000
+        unit: true
+        crate: RMCCaseXM88
+
+      - cost: 1500
+        unit: true
+        crate: RMCGunCasePistolSmart
+
+      - cost: 2000
+        unit: true
+        crate: RMCGunCaseRifleM54CE2
+
+      - cost: 6000
+        unit: true
+        crate: RMCM2CCase
+
+      - cost: 2000
+        unit: true
+        crate: RMCM85A1Case
+
+      - cost: 6000
+        unit: true
+        crate: RMCML66DCase
+
+      - cost: 1500
+        unit: true
+        crate: RMCMOU53Case
+
+      - cost: 4000
+        crate: RMCCrateM34
+
+      - cost: 4000
+        crate: RMCCrateM54CMK1
+
+      - cost: 3000
+        crate: RMCCrateMK80

@@ -1,0 +1,404 @@
+- type: entity
+  abstract: true
+  id: RMCBlackMarketCatalogContrabandAmmo
+  components:
+  - type: RequisitionsComputer
+    categories: []
+    blackMarketCategories:
+    - name: rmc-requisitions-black-market-category-contraband-ammo
+      entries:
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 2
+        crate: RMCMagazineSMGNailgun
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 5
+        crate: RMCTankFlamerFL3
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 2
+        crate: RMCMagazineSniperType88
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 135
+        blackMarketHeat: 5
+        crate: RMCBox4570
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 5
+        crate: RMCBox4570Training
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 115
+        blackMarketHeat: 5
+        crate: RMCBoxShellsType23Slugs
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 115
+        blackMarketHeat: 5
+        crate: RMCBoxShellsType23Buckshot
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 115
+        blackMarketHeat: 5
+        crate: RMCBoxShellsType23Flechette
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 4
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleType77
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleType77
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 8
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleType77AP
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 80
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleType77AP
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 9
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleM16
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 100
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleM16
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleAR10
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 115
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleAR10
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 12
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolHandcannon
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 180
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolHandcannon
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 33
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolHandcannonHIAP
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 260
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolHandcannonHIAP
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 4
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolT73
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 60
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolType73
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 14
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleSSG45
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 140
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleSSG45
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 6
+        blackMarketHeat: 1
+        crate: RMCMagazineRifleMAR40
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 60
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleMAR30
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 20
+        blackMarketHeat: 2
+        crate: RMCMagazineMar50LMG
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRifleMAR50
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGFP9000
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGFP9000
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGPDW90
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGPDW90
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 4
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGMP27
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 45
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGMP27
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGUZI
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 25
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGUZI
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 2
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGMAC15
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGMAC15
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 4
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGType19
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGType19
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 2
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolB92FS
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolB92FS
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolKT42
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 45
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolKT42
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 4
+        blackMarketHeat: 1
+        crate: RMCMagazineSMGType64
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineSMGType64
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: CMMagazinePistolM1911
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolM1911
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 5
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolMK45
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 80
+        blackMarketHeat: 5
+        crate: RMCBoxMagazinePistolMK45
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 6
+        blackMarketHeat: 1
+        crate: RMCSpeedLoader357Hollowpoint
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 70
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRevolverSpearheadHP
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCSpeedLoaderM37
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRevolverM37
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 3
+        blackMarketHeat: 1
+        crate: RMCSpeedLoaderZHNK72
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 5
+        crate: RMCBoxMagazineRevolverZHNK72
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 5
+        crate: RMCGrenadeType6
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: 5
+        crate: RMCGrenadeType8
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 5
+        crate: RMCGrenadeWebleyMk15
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 20
+        blackMarketHeat: 5
+        crate: RMCGrenadeBlastM12

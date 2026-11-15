@@ -1,12 +1,17 @@
 using System.Linq;
+using Content.Server.Players.RateLimiting;
+using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Database;
+using Content.Shared.Ghost;
 using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
+using Content.Shared.Players.RateLimiting;
 using Robust.Server.GameObjects;
+using Robust.Server.Player;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._RMC14.Requisitions;
@@ -16,10 +21,17 @@ public sealed partial class RequisitionsSystem
     [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly SharedIdCardSystem _id = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly IPlayerManager _players = default!;
+    [Dependency] private readonly PlayerRateLimitManager _rateLimit = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
+
+    private const string RequestRateLimitKey = "RMCRequisitionsRequest";
 
     private void InitializeRequests()
     {
+        _rateLimit.Register(RequestRateLimitKey,
+            new RateLimitRegistration(RMCCVars.RequisitionsRequestRatePeriod,
+                RMCCVars.RequisitionsRequestRateCount, null));
         Subs.BuiEvents<RequisitionsComputerComponent>(RequisitionsUIKey.Key, subs =>
         {
             subs.Event<RequisitionsSubmitRequestMsg>(OnSubmitRequest);
@@ -34,13 +46,23 @@ public sealed partial class RequisitionsSystem
 
     private void OnSubmitRequest(Entity<RequisitionsComputerComponent> computer, ref RequisitionsSubmitRequestMsg args)
     {
-        if (!computer.Comp.RequestOnly || !HasComp<HumanoidAppearanceComponent>(args.Actor))
+        if (!computer.Comp.RequestOnly || !HasComp<HumanoidAppearanceComponent>(args.Actor) ||
+            !_access.IsAllowed(args.Actor, computer) ||
+            !_players.TryGetSessionByEntity(args.Actor, out var session))
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-not-allowed");
             return;
         }
 
-        if (args.Reason == null || args.Items == null)
+        if (_rateLimit.CountAction(session, RequestRateLimitKey) != RateLimitStatus.Allowed)
+        {
+            RequestResult(computer, args.Actor, false, "rmc-requisitions-request-cooldown");
+            return;
+        }
+
+        if (args.Reason == null || args.Items == null ||
+            args.Reason.Length > computer.Comp.MaxRequestReasonLength ||
+            args.Items.Count > computer.Comp.MaxRequestLines)
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-invalid-items");
             return;
@@ -50,12 +72,6 @@ public sealed partial class RequisitionsSystem
             !TryComp(accountUid, out RequisitionsAccountComponent? account))
         {
             RequestResult(computer, args.Actor, false, "rmc-requisitions-request-unavailable");
-            return;
-        }
-
-        if (_timing.CurTime < computer.Comp.NextRequest)
-        {
-            RequestResult(computer, args.Actor, false, "rmc-requisitions-request-cooldown");
             return;
         }
 
@@ -81,7 +97,6 @@ public sealed partial class RequisitionsSystem
         GetRequestIdentity(args.Actor, out var requester, out var rank);
         var request = new RequisitionsRequest(account.NextRequestNumber++, requester, rank, reason, items, totalCost);
         account.Requests.Add(request);
-        computer.Comp.NextRequest = _timing.CurTime + computer.Comp.RequestCooldown;
         PrintRequest(computer, request);
         SendUIStateAll();
         RequestResult(computer, args.Actor, true, "rmc-requisitions-request-submitted", ("number", request.Number));
@@ -112,7 +127,7 @@ public sealed partial class RequisitionsSystem
     {
         items = new List<RequisitionsPendingOrder>();
         totalCost = 0;
-        if (cart.Count == 0)
+        if (cart.Count == 0 || cart.Count > computer.Comp.MaxRequestLines)
             return false;
 
         var entries = 0;
@@ -165,7 +180,10 @@ public sealed partial class RequisitionsSystem
         Entity<RequisitionsComputerComponent> computer,
         ref RequisitionsRespondRequestMsg args)
     {
-        if (!CanManageRequisitions(computer, args.Actor) || !HasComp<HumanoidAppearanceComponent>(args.Actor) ||
+        var canRespond = TryComp<GhostComponent>(args.Actor, out var ghost)
+            ? ghost.CanGhostInteract
+            : HasComp<HumanoidAppearanceComponent>(args.Actor);
+        if (!CanManageRequisitions(computer, args.Actor) || !canRespond ||
             computer.Comp.Account is not { } accountUid ||
             !TryComp(accountUid, out RequisitionsAccountComponent? account))
             return;
@@ -194,13 +212,13 @@ public sealed partial class RequisitionsSystem
         }
 
         var selections = args.Selections ?? request.Items.Select((item, index) =>
-            new RequisitionsRequestSelection(index, item.Remaining, true)).ToList();
+            new RequisitionsRequestSelection(index, item.Remaining, false)).ToList();
         if (selections.Count > request.Items.Count)
             return;
 
-        var stock = ReadSupplyStock(computer, args.Actor);
+        var stock = new RequisitionsStockPlan(ReadSupplyStock(computer, out var sources, args.Actor));
         var selected = new HashSet<int>();
-        var issues = new List<(int Line, int Amount)>();
+        var issues = new List<(int Line, List<RequisitionsStockAllocation> Allocations)>();
         var purchases = new List<(RequisitionsEntry Product, int Amount, int Line)>();
         long cost = 0;
         var processing = 0;
@@ -219,14 +237,11 @@ public sealed partial class RequisitionsSystem
                     ("limit", Math.Max(1, computer.Comp.MaxProcessingAmount)));
                 return;
             }
-            var issue = item.Entry.Unit
-                ? Math.Min(selection.Amount, stock.GetValueOrDefault(item.Entry.Crate))
-                : 0;
+            var allocations = new List<RequisitionsStockAllocation>();
+            var issue = item.Entry.Unit ? stock.Reserve(item.Entry.Crate, selection.Amount, allocations) : 0;
             if (issue > 0)
             {
-                issues.Add((selection.Line, issue));
-                if (stock[item.Entry.Crate] != int.MaxValue)
-                    stock[item.Entry.Crate] -= issue;
+                issues.Add((selection.Line, allocations));
             }
             var purchase = selection.Purchase && (!item.Entry.Unit || item.Entry.Cost > 0)
                 ? selection.Amount - issue : 0;
@@ -273,7 +288,7 @@ public sealed partial class RequisitionsSystem
         foreach (var issue in issues)
         {
             var item = request.Items[issue.Line];
-            var amount = IssueUnits(computer, args.Actor, item.Entry.Crate, issue.Amount);
+            var amount = IssueUnits(args.Actor, issue.Allocations, sources);
             item.Fulfilled += amount;
             issued += amount;
         }

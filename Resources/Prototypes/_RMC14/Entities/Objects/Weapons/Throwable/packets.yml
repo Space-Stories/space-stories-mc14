@@ -325,6 +325,22 @@
       amount: 3
 
 - type: entity
+  parent: RMCPacketGrenadeWhitePhosphorus
+  id: RMCPacketGrenadeType8
+  name: Type 8 WP grenade packet
+  description: It contains three Type 8 white phosphorus grenades.
+
+- type: entity
+  parent: RMCPacketGrenadeType8
+  id: RMCPacketGrenadeType8Filled
+  suffix: Filled
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCGrenadeType8
+      amount: 3
+
+- type: entity
   parent: CMPacketBase
   id: RMCPacketGrenadeWhitePhosphorusCompound
   name: CCDP grenade packet

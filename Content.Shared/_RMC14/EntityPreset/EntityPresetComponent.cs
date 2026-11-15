@@ -1,3 +1,4 @@
+using Content.Shared.Storage;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._RMC14.EntityPreset;
@@ -25,6 +26,9 @@ public sealed partial class EntityPresetComponent : Component, IRMCRandomizedPre
     public List<List<List<EntProtoId>>> RandomGearOther = new();
 
     [DataField]
+    public List<EntitySpawnEntry> AdditionalGear = new();
+
+    [DataField]
     public bool TryEquipRandomOtherGear = true;
 
     [DataField]
@@ -48,6 +52,7 @@ public sealed partial class EntityPresetComponent : Component, IRMCRandomizedPre
     List<List<EntProtoId>> IRMCRandomizedPreset.RandomWeapon => RandomWeapon;
     List<List<EntProtoId>> IRMCRandomizedPreset.PrimaryWeapons => PrimaryWeapons;
     List<List<List<EntProtoId>>> IRMCRandomizedPreset.RandomGearOther => RandomGearOther;
+    List<EntitySpawnEntry> IRMCRandomizedPreset.AdditionalGear => AdditionalGear;
     bool IRMCRandomizedPreset.TryEquipRandomOtherGear => TryEquipRandomOtherGear;
     bool IRMCRandomizedPreset.TryRandomOutfitsInhand => TryRandomOutfitsInhand;
     bool IRMCRandomizedPreset.TryEquipRandomWeapon => TryEquipRandomWeapon;

@@ -82,7 +82,7 @@ public sealed partial class RequisitionsSystem
             var entry = item.Entry;
             var name = entry.Name is { } nameId ? Loc.GetString(nameId) : _prototype.Index(entry.Crate).Name;
             if (entry.Unit)
-                name = RequisitionsUnitCatalog.GetUnitName(entry.Crate, name, _prototype,
+                name = RequisitionsCatalog.GetUnitName(entry.Crate, name, _prototype,
                     EntityManager.ComponentFactory);
             var line = Loc.GetString(issued
                     ? "rmc-requisitions-request-paper-item-issued" : "rmc-requisitions-request-paper-item",

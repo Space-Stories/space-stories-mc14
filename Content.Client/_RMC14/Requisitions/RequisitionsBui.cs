@@ -31,6 +31,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         "rmc-requisitions-black-market-mendoza-random-7",
     ];
 
+    [Dependency] private readonly IClipboardManager _clipboard = default!;
     [Dependency] private readonly IEntityManager _entities = default!;
     [Dependency] private readonly ILocalizationManager _localization = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
@@ -84,9 +85,14 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
             return;
 
         _window = this.CreateWindow<RequisitionsWindow>();
+        InitializePresets();
 
         _window.SearchBar.OnTextChanged += _ => RefreshVisibleEntries();
-        _window.ShopTabs.OnTabChanged += _ => RefreshShop();
+        _window.ShopTabs.OnTabChanged += _ =>
+        {
+            ResetPresetConfirmation();
+            RefreshShop();
+        };
         _window.PreviousProductPage.OnPressed += _ => ChangeProductPage(CurrentCatalog.Page - 1);
         _window.NextProductPage.OnPressed += _ => ChangeProductPage(CurrentCatalog.Page + 1);
         _window.ProductPageNumber.IsValid = value => value > 0;
@@ -132,7 +138,6 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
     {
         _entities.TryGetComponent(Owner, out _state);
         UpdateRequestMode();
-        SelectInitialRequestCategory();
 
         if (_state is
             {
@@ -154,6 +159,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         UpdatePlatformButtons();
         UpdateBalance();
         EnsureCatalogIndex();
+        RefreshPresets();
         PopulateCategories();
         PopulateProducts();
         RefreshCart();
@@ -643,7 +649,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (entry.Name is { } nameOverride && Loc.TryGetString(nameOverride, out var localizedName))
             name = localizedName;
         if (entry.Unit)
-            name = RequisitionsUnitCatalog.GetUnitName(entry.Crate, name, _prototypes, _entities.ComponentFactory);
+            name = RequisitionsCatalog.GetUnitName(entry.Crate, name, _prototypes, _entities.ComponentFactory);
 
         var description = prototype?.Description ?? string.Empty;
         if (entry.Description is { } descriptionOverride && Loc.TryGetString(descriptionOverride, out var localizedDescription))
@@ -651,7 +657,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (string.IsNullOrWhiteSpace(description))
             description = Loc.GetString("rmc-requisitions-card-no-description");
 
-        if (entry.NoReturnReward && entry.Entities.Count > 0)
+        if (entry.Consolidated && entry.Entities.Count > 0)
             description = GetShipmentContents(entry);
 
         return (name, description);
@@ -676,6 +682,9 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
 
     private DisplayIcon GetPrototypeDisplayIcon(EntityPrototype prototype)
     {
+        if (TryGetContainerDisplayIcon(prototype, out var containerIcon))
+            return containerIcon;
+
         var textures = _sprite.GetPrototypeTextures(prototype)
             .Select(texture => texture.Default)
             .ToList();
@@ -721,10 +730,11 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
         if (TryGetEntry(key, out var product))
         {
             SetText(card.Cost, GetCostText(product));
-            card.Stock.Visible = product.Unit;
+            card.Stock.Visible = product.Unit && !product.BlackMarket;
             var stock = _state?.Stock.GetValueOrDefault(product.Crate) ?? 0;
             SetText(card.Stock, Loc.GetString("rmc-requisitions-unit-stock", ("amount", StockText(stock))));
-            card.Quantity.LineEditControl.Editable = !_submittingRequest && (RequestOnly || !product.Unit || product.Cost > 0);
+            card.Quantity.LineEditControl.Editable = !_submittingRequest &&
+                (RequestOnly || product.BlackMarket || !product.Unit || product.Cost > 0);
         }
         card.RemoveButton.Disabled = amount <= 0 || _submittingRequest;
         card.AddButton.Disabled = !TryGetEntry(key, out var entry) || !CanAdd(key, entry);
@@ -820,7 +830,7 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
 
     private string GetCostText(RequisitionsEntry entry)
     {
-        if (entry.Unit)
+        if (entry.Unit && !entry.BlackMarket)
             return entry.Cost > 0
                 ? Loc.GetString("rmc-requisitions-unit-cost", ("cost", entry.Cost))
                 : Loc.GetString("rmc-requisitions-stock-only");

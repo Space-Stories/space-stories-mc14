@@ -1,12 +1,24 @@
 using Content.Shared.Containers;
+using Content.Shared.Prototypes;
+using Content.Shared.Stacks;
 using Content.Shared.Storage.Components;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._RMC14.Requisitions;
 
 public static class RequisitionsCatalog
 {
+    public static string GetUnitName(
+        EntProtoId product, string name, IPrototypeManager prototypes, IComponentFactory factory)
+    {
+        if (prototypes.TryIndex(product, out var prototype) &&
+            prototype.TryGetComponent<StackComponent>(out var stack, factory) && stack.Count > 1)
+            return Loc.GetString("rmc-requisitions-stack-unit", ("name", name), ("amount", stack.Count));
+        return name;
+    }
+
     public static string GetContents(RequisitionsEntry entry, IPrototypeManager prototypes, IComponentFactory factory)
     {
         var lines = new List<string>();

@@ -1,0 +1,28 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogMortar
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-mortar
+      entries:
+      - cost: 167
+        unit: true
+        crate: RMCMortarShellFlare
+
+      # Stories-MortarFrag-Start
+      - cost: 167
+        unit: true
+        crate: RMCMortarShellFrag
+
+      # Stories-MortarFrag-End
+      - cost: 250
+        unit: true
+        crate: RMCMortarShellHE
+
+      - cost: 250
+        unit: true
+        crate: RMCMortarShellIncendiary
+
+      - cost: 6000
+        crate: RMCCrateMortarKit

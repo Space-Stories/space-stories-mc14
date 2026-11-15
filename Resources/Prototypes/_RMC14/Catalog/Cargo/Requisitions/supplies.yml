@@ -1,0 +1,24 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogSupplies
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-supplies
+      entries:
+      - cost: 400
+        unit: true
+        crate: RMCCrayonBox
+
+      - cost: 1000
+        unit: true
+        crate: RMCSheetCardboard
+
+      - cost: 1000
+        crate: RMCCrateSupplyEvacuation
+
+      - cost: 2000
+        crate: RMCCrateSupplyInternals
+
+      - cost: 1000
+        crate: RMCCrateSupplyJanitor
