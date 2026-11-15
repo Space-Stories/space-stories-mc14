@@ -380,6 +380,11 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     private void OnNavigationLockout(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLockoutDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
         ent.Comp.LockedOutUntil = _timing.CurTime + ent.Comp.LockoutDuration;
         Dirty(ent);
 
