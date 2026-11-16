@@ -305,13 +305,16 @@ public sealed class XenoEvolutionSystem : EntitySystem
         var candidate = CompOrNull<XenoRaffleCandidateComponent>(xeno);
         if (args.Raffle &&
             (candidate == null || !candidate.Evolving || candidate.Target != args.Choice ||
-             candidate.EvolutionDoAfter != args.DoAfter.Id))
+             candidate.EvolutionEvent != args))
         {
             return;
         }
 
         if (args.Raffle)
+        {
             candidate!.EvolutionDoAfter = null;
+            candidate.EvolutionEvent = null;
+        }
         // Stories-XenoEvolutionQueue-End
 
         // Stories-XenoEvolutionQueue-Start
@@ -1135,11 +1138,25 @@ public sealed class XenoEvolutionSystem : EntitySystem
             BreakOnRest = false,
         };
 
-        if (!_doAfter.TryStartDoAfter(doAfter, out var doAfterId)) // Stories-XenoEvolutionQueue
+        // Stories-XenoEvolutionQueue-Start
+        cand.Comp.Evolving = true;
+        cand.Comp.EvolutionEvent = ev;
+        if (!_doAfter.TryStartDoAfter(doAfter, out var doAfterId))
+        {
+            cand.Comp.Evolving = false;
+            cand.Comp.EvolutionEvent = null;
+            Dirty(cand);
+            return false;
+        }
+
+        if (ev.Handled)
+            return true;
+
+        if (cand.Comp.EvolutionEvent != ev)
             return false;
 
-        cand.Comp.EvolutionDoAfter = doAfterId; // Stories-XenoEvolutionQueue
-        cand.Comp.Evolving = true;
+        cand.Comp.EvolutionDoAfter = doAfterId;
+        // Stories-XenoEvolutionQueue-End
         cand.Comp.GraceUntil = null;
         Dirty(cand);
 

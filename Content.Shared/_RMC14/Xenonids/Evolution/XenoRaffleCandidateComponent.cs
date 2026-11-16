@@ -29,6 +29,7 @@ public sealed partial class XenoRaffleCandidateComponent : Component
     public bool Evolving;
 
     public DoAfterId? EvolutionDoAfter; // Stories-XenoEvolutionQueue
+    public XenoEvolutionDoAfterEvent? EvolutionEvent; // Stories-XenoEvolutionQueue
 
     [DataField, AutoNetworkedField]
     public FixedPoint2 RaffleCost;

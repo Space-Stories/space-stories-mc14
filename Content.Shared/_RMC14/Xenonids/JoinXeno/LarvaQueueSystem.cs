@@ -43,6 +43,7 @@ public sealed class LarvaQueueSystem : EntitySystem
     private readonly HashSet<EntityUid> _reservedBurstLarva = new();
     private readonly Dictionary<EntityUid, int> _pendingBurrowedCount = new();
     private readonly Dictionary<NetUserId, TimeSpan> _disconnectExpiresAt = new();
+    private readonly HashSet<EntityUid> _pendingHiveOffers = new(); // Stories-LarvaQueue
 
     private sealed class PendingOffer
     {
@@ -130,7 +131,7 @@ public sealed class LarvaQueueSystem : EntitySystem
 
         EnsureComp<LarvaQueuedComponent>(ent);
         if (_hive.GetHive(ent.Owner) is { } hive)
-            TryOfferToQueue(hive.Owner);
+            _pendingHiveOffers.Add(hive.Owner); // Stories-LarvaQueue
     }
 
     private void OnMindAdded(Entity<CanBeLarvaQueuedComponent> ent, ref MindAddedMessage _)
@@ -220,6 +221,7 @@ public sealed class LarvaQueueSystem : EntitySystem
         _reservedBurstLarva.Clear();
         _pendingBurrowedCount.Clear();
         _disconnectExpiresAt.Clear();
+        _pendingHiveOffers.Clear(); // Stories-LarvaQueue
     }
 
     private void OnJoinLarvaQueue(Entity<JoinXenoComponent> ent, ref JoinLarvaQueueEvent args)
@@ -396,7 +398,7 @@ public sealed class LarvaQueueSystem : EntitySystem
             // Stories-LarvaQueue-Start
             if (!IsQueuedEntityAvailable(ent, hive))
             {
-                if (_hive.IsMember(ent, hive))
+                if (_mobState.IsDead(ent) && _hive.IsMember(ent, hive))
                     RemCompDeferred<LarvaQueuedComponent>(ent);
                 continue;
             }
@@ -774,6 +776,15 @@ public sealed class LarvaQueueSystem : EntitySystem
     {
         if (_net.IsClient)
             return;
+
+        // Stories-LarvaQueue-Start
+        foreach (var hive in _pendingHiveOffers)
+        {
+            if (!TerminatingOrDeleted(hive))
+                TryOfferToQueue(hive);
+        }
+        _pendingHiveOffers.Clear();
+        // Stories-LarvaQueue-End
 
         var time = _gameTiming.CurTime;
         var realTime = _gameTiming.RealTime.TotalSeconds; // Stories-XenoRespawnCooldown
