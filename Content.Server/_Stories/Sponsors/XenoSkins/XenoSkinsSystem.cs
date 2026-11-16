@@ -76,6 +76,9 @@ public sealed class XenoSkinsSystem : EntitySystem
 
     private void OnXenoSkinsBui(Entity<XenoSkinsComponent> xeno, ref XenoSkinsBuiMsg args)
     {
+        if (args.Actor != xeno.Owner)
+            return;
+
         var actor = args.Actor;
         var skinIdString = args.Choice;
 

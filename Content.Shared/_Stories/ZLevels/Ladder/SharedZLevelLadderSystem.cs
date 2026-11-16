@@ -308,6 +308,9 @@ public abstract class SharedZLevelLadderSystem : EntitySystem
 
     private void OnBuiClimbMessage(Entity<ZLevelLadderComponent> ent, ref ZLevelLadderClimbBuiMessage args)
     {
+        if (!_ui.IsUiOpen(ent.Owner, ZLevelLadderUiKey.Key, args.Actor))
+            return;
+
         StartClimbDoAfter(ent, args.Actor, args.Up);
     }
 

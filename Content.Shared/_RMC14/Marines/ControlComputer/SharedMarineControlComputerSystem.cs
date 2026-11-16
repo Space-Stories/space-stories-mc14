@@ -17,7 +17,10 @@ using Content.Shared._RMC14.Xenonids;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
+using Content.Shared.Interaction;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
+using Content.Shared.Power.EntitySystems;
 using Content.Shared.UserInterface;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
@@ -40,12 +43,12 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
     [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly WarshipSystem _warship = default!;
-    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
 
     private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
     private int _characterLimit = 1000;

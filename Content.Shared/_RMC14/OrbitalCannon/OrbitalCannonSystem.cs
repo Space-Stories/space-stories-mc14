@@ -14,6 +14,7 @@ using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Mortar;
+using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.PowerLoader;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.UserInterface;
@@ -25,6 +26,7 @@ using Content.Shared.Damage;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
 using Content.Shared.Maps;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
 using Content.Shared.UserInterface;
@@ -53,6 +55,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly IntelSystem _intel = default!;
     [Dependency] private readonly SharedMapSystem _map = default!; // Stories-ZLevels
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedMortarSystem _mortar = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -60,8 +63,8 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly RMCCameraShakeSystem _rmcCameraShake = default!;
     [Dependency] private readonly SharedCMChatSystem _rmcChat = default!;
-    [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
     [Dependency] private readonly SharedRMCExplosionSystem _rmcExplosion = default!;
+    [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
     [Dependency] private readonly RMCMapSystem _rmcMap = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
     [Dependency] private readonly SharedRMCPvsSystem _rmcPvs = default!;
@@ -736,6 +739,11 @@ public sealed class OrbitalCannonSystem : EntitySystem
     {
         if (_net.IsClient)
             return false;
+
+        // Stories-InterfaceSecurity-Start
+        if (HasComp<XenoComponent>(user) || !_mobState.IsAlive(user))
+            return false;
+        // Stories-InterfaceSecurity-End
 
         if (IsSafetyEngaged())
         {

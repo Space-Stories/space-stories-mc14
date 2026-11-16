@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Evolution;
@@ -31,23 +32,24 @@ namespace Content.Shared._Stories.Nuke;
 
 public sealed class SharedSTNukeSystem : EntitySystem
 {
+    [Dependency] private readonly AccessReaderSystem _access = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly AreaSystem _area = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
+    [Dependency] private readonly SharedBodySystem _body = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedEyeSystem _eye = default!;
+    [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
+    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
+    [Dependency] private readonly SkillsSystem _skills = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedToolSystem _tools = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly SharedToolSystem _tools = default!;
-    [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
-    [Dependency] private readonly SkillsSystem _skills = default!;
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly SharedEyeSystem _eye = default!;
-    [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
-    [Dependency] private readonly SharedBodySystem _body = default!;
 
     private EntityQuery<CommunicationsTowerComponent> _towerQuery;
     private EntityQuery<TransformComponent> _xformQuery;
@@ -60,6 +62,8 @@ public sealed class SharedSTNukeSystem : EntitySystem
         _xformQuery = GetEntityQuery<TransformComponent>();
 
         SubscribeLocalEvent<STNukeComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<STNukeComponent, ActivatableUIOpenAttemptEvent>(OnUIOpenAttempt);
+        SubscribeLocalEvent<STNukeComponent, BoundUserInterfaceMessageAttempt>(OnNukeMessageAttempt);
         SubscribeLocalEvent<STNukeComponent, BeforeActivatableUIOpenEvent>(OnBeforeUI);
         SubscribeLocalEvent<STNukeComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<STNukeComponent, InteractHandEvent>(OnInteractHand);
@@ -125,6 +129,36 @@ public sealed class SharedSTNukeSystem : EntitySystem
     {
         LinkTowers(ent);
         UpdateUserInterface(ent);
+    }
+
+    private void OnUIOpenAttempt(Entity<STNukeComponent> ent, ref ActivatableUIOpenAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (ent.Comp.CommandLockout && !_access.IsAllowed(args.User, ent.Owner))
+        {
+            _popup.PopupCursor(Loc.GetString("rmc-access-denied"), args.User);
+            args.Cancel();
+        }
+    }
+
+    private void OnNukeMessageAttempt(Entity<STNukeComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!_rmcUi.CanUseUI(args))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (ent.Comp.CommandLockout && !_access.IsAllowed(args.Actor, ent.Owner))
+        {
+            _popup.PopupCursor(Loc.GetString("rmc-access-denied"), args.Actor);
+            args.Cancel();
+        }
     }
 
     private void OnBeforeUI(Entity<STNukeComponent> ent, ref BeforeActivatableUIOpenEvent args)
@@ -341,6 +375,13 @@ public sealed class SharedSTNukeSystem : EntitySystem
     private void OnCommandLockoutPressed(Entity<STNukeComponent> ent, ref STNukeToggleCommandLockoutMessage args)
     {
         if (_net.IsClient) return;
+
+        if (!_access.IsAllowed(args.Actor, ent.Owner))
+        {
+            _popup.PopupCursor(Loc.GetString("rmc-access-denied"), args.Actor);
+            return;
+        }
+
         ent.Comp.CommandLockout = !ent.Comp.CommandLockout;
         Dirty(ent);
         UpdateUserInterface(ent);

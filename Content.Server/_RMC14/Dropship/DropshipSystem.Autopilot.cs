@@ -293,6 +293,18 @@ public sealed partial class DropshipSystem
             return;
         }
 
+        // Stories-DropshipLockout-Start
+        if (_timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            autopilot.NextDepartureAt = null;
+            autopilot.RetryAt = time + _autopilotRetryDelay;
+            Dirty(uid, autopilot);
+            SetAutopilotStatus(uid, autopilot, DropshipAutopilotStatus.Blocked,
+                Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+            return;
+        }
+        // Stories-DropshipLockout-End
+
         if (!CanAutopilotLaunchTo(computer, (uid, dropship), target, out reason))
         {
             autopilot.NextDepartureAt = null;
