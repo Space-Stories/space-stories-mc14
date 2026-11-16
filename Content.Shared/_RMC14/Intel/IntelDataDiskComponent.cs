@@ -7,7 +7,7 @@ namespace Content.Shared._RMC14.Intel;
 [Access(typeof(IntelSystem))]
 public sealed partial class IntelDataDiskComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [DataField]
     public string EncryptionKey = string.Empty;
 
     [DataField, AutoNetworkedField]

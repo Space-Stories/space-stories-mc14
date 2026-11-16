@@ -1,5 +1,10 @@
 rmc-requisitions-unit-cost = Unit price: ${ $cost }
 rmc-requisitions-unit-stock = Requisitions vendor stock: { $amount }
+rmc-requisitions-cart-shipping = Platform slots: { $slots }
+rmc-requisitions-cart-shipping-tooltip =
+    Consolidated crates: { $crates }
+    Separate deliveries: { $separate }
+    Items are packed automatically.
 rmc-requisitions-stock-only = Available from stock only
 rmc-requisitions-process-quantity = Quantity:
 rmc-requisitions-process-quantity-tooltip = Total for this product: items issued from vendors plus any permitted purchase of the shortage.
@@ -14,7 +19,7 @@ rmc-requisitions-line-no-purchase = No purchase required.
 rmc-requisitions-processing-plan = Issue from vendors: { $issue } · Purchase: { $purchase }
     Purchase total: ${ $cost } · Elevator slots required: { $slots }
 rmc-requisitions-request-changed = This request has changed. Review the updated quantities.
-rmc-requisitions-request-cooldown = The printer is busy. Wait a few seconds. Your cart has been kept.
+rmc-requisitions-request-cooldown = Wait a moment before submitting another request. Your cart has been kept.
 rmc-requisitions-purchase-complete = Purchase paid and queued for delivery.
 rmc-requisitions-purchase-failed = Purchase failed. Check the budget and elevator capacity. Your cart has been kept.
 rmc-requisitions-no-processing = No items selected for issue or purchase.

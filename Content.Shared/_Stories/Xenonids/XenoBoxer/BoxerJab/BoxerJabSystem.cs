@@ -5,6 +5,7 @@ using Content.Shared._Stories.Xenonids.XenoBoxer.BoxerPunch;
 using Content.Shared.Actions;
 using Content.Shared.Coordinates;
 using Content.Shared.IdentityManagement;
+using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
@@ -14,15 +15,16 @@ namespace Content.Shared._Stories.Xenonids.XenoBoxer.BoxerJab;
 
 public sealed class BoxerJabSystem : EntitySystem
 {
-    [Dependency] private readonly XenoSystem _xeno = default!;
-    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedBoxerKnockoutSystem _knockout = default!;
+    [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedRMCMeleeWeaponSystem _rmcMelee = default!;
     [Dependency] private readonly RMCSlowSystem _slow = default!;
-    [Dependency] private readonly SharedBoxerKnockoutSystem _knockout = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedActionsSystem _actions = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly XenoSystem _xeno = default!;
 
     public override void Initialize()
     {
@@ -35,6 +37,9 @@ public sealed class BoxerJabSystem : EntitySystem
             return;
 
         if (!_xeno.CanAbilityAttackTarget(xeno, args.Target))
+            return;
+
+        if (!_interaction.InRangeUnobstructed(xeno.Owner, args.Target, 1.5f))
             return;
 
         args.Handled = true;

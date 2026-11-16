@@ -4,6 +4,7 @@ using Content.Shared._RMC14.IdentityManagement;
 using Content.Shared._RMC14.Language;
 using Content.Shared._RMC14.Language.Prototypes;
 using Content.Shared._RMC14.Language.Systems;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.IdentityManagement;
@@ -468,6 +469,9 @@ public sealed partial class ChatSystem
             var entHideChat = entRange == MessageRangeCheckResult.HideChat;
 
             if (session.AttachedEntity is not { Valid: true } listener)
+                continue;
+
+            if (ignoreXenos && HasComp<XenoComponent>(listener))
                 continue;
 
             if (needsLos && !data.Observer && listener != source && !data.HasLOS)

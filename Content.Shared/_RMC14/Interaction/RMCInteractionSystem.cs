@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Marines.Squads;
+using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
@@ -6,6 +7,7 @@ using Content.Shared.Light.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Storage;
 using Content.Shared.Storage.Components;
+using Content.Shared.UserInterface;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 
@@ -23,7 +25,37 @@ public sealed class RMCInteractionSystem : EntitySystem
         SubscribeLocalEvent<InsertBlacklistComponent, ContainerIsInsertingAttemptEvent>(OnInsertBlacklistContainerIsInsertingAttempt);
         SubscribeLocalEvent<IgnoreInteractionRangeComponent, InRangeOverrideEvent>(OnInRangeOverride);
         SubscribeLocalEvent<InteractedBlacklistComponent, StorageInteractAttemptEvent>(OnBlacklistStorageAttempt);
+        // Stories-InterfaceSecurity-Start
+        SubscribeLocalEvent<InteractedBlacklistComponent, BoundUserInterfaceMessageAttempt>(OnBlacklistBoundUIAttempt);
+        SubscribeLocalEvent<InteractedBlacklistComponent, ActivatableUIOpenAttemptEvent>(OnBlacklistActivatableUIOpenAttempt);
+        // Stories-InterfaceSecurity-End
     }
+
+    // Stories-InterfaceSecurity-Start
+    private void OnBlacklistBoundUIAttempt(Entity<InteractedBlacklistComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || ent.Comp.Blacklist == null)
+            return;
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        if (_whitelist.IsValid(ent.Comp.Blacklist, args.Actor))
+            args.Cancel();
+    }
+
+    private void OnBlacklistActivatableUIOpenAttempt(Entity<InteractedBlacklistComponent> ent, ref ActivatableUIOpenAttemptEvent args)
+    {
+        if (args.Cancelled || ent.Comp.Blacklist == null)
+            return;
+
+        if (HasComp<GhostComponent>(args.User))
+            return;
+
+        if (_whitelist.IsValid(ent.Comp.Blacklist, args.User))
+            args.Cancel();
+    }
+    // Stories-InterfaceSecurity-End
     private void OnBlacklistStorageAttempt(Entity<InteractedBlacklistComponent> ent, ref StorageInteractAttemptEvent args)
     {
         if (args.Cancelled || ent.Comp.Blacklist == null)

@@ -25,6 +25,7 @@ using Content.Shared.Stunnable;
 using Content.Shared.Strip;
 using Content.Shared.Throwing;
 using Content.Shared.Whitelist;
+using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
@@ -333,10 +334,9 @@ public sealed class FiremanCarrySystem : EntitySystem
 
         if (puller == null)
         {
-            if (Transform(ent.Owner).ParentUid is { } fallbackParent && Exists(fallbackParent))
-                StopCarry(fallbackParent, (ent, ent));
-            else
-                StopCarry(ent.Owner, (ent, ent));
+            _transform.AttachToGridOrMap(ent);
+            _standing.Stand(ent);
+            _actionBlocker.UpdateCanMove(ent);
             return;
         }
         // Stories-ZLevels-End
@@ -552,8 +552,10 @@ public sealed class FiremanCarrySystem : EntitySystem
 
             RemCompDeferred<BeingFiremanCarriedComponent>(target);
 
-            if (carrying == target || Transform(target).ParentUid == user.Owner)
+            // Stories-ZLevels-Start
+            if (user.Comp != null && user.Owner != target.Owner && (carrying == target || Transform(target).ParentUid == user.Owner))
                 _toReparent.Add((target, user));
+            // Stories-ZLevels-End
         }
 
         _standing.Stand(target);
@@ -576,7 +578,7 @@ public sealed class FiremanCarrySystem : EntitySystem
                 if (TerminatingOrDeleted(target))
                     continue;
 
-                if (TerminatingOrDeleted(carrier))
+                if (TerminatingOrDeleted(carrier) || carrier == target) // Stories-ZLevels
                 {
                     var coordinates = _transform.GetMoverCoordinates(target);
                     if (TerminatingOrDeleted(coordinates.EntityId))
@@ -588,8 +590,10 @@ public sealed class FiremanCarrySystem : EntitySystem
                 }
 
                 // Stories-ZLevels-Start
-                var carrierXform = Transform(carrier);
-                _transform.SetCoordinates(target, carrierXform.Coordinates);
+                var mapCoords = _transform.GetMapCoordinates(carrier);
+                if (mapCoords.MapId != MapId.Nullspace)
+                    _transform.SetMapCoordinates(target, mapCoords);
+
                 _transform.AttachToGridOrMap(target);
 
                 if (TryComp<PhysicsComponent>(target, out var targetPhysics) && targetPhysics.BodyType != BodyType.Static)

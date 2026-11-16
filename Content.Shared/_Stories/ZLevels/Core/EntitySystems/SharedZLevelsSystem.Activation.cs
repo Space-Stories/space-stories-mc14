@@ -46,6 +46,7 @@ public abstract partial class SharedZLevelsSystem
     {
         RefreshBody(entity);
         SyncCurrentZLevel(entity);
+        RequestCacheMovement(entity, force: true);
 
         if (ZPhysicsQuery.TryComp(args.OldParent, out var oldParentPhysics))
         {

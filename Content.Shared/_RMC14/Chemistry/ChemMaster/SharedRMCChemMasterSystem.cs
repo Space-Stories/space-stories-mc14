@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._RMC14.Chemistry.SmartFridge;
 using Content.Shared._RMC14.IconLabel;
 using Content.Shared._RMC14.Storage;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -48,6 +49,7 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
     [Dependency] private readonly SharedRMCIconLabelSystem _rmcIconLabel = default!;
     [Dependency] private readonly SharedRMCSmartFridgeSystem _rmcSmartFridge = default!;
     [Dependency] private readonly RMCStorageSystem _rmcStorage = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly SolutionTransferSystem _solutionTransfer = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
@@ -61,6 +63,7 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
         SubscribeLocalEvent<RMCChemMasterComponent, EntInsertedIntoContainerMessage>(OnEntInsertedIntoContainer);
         SubscribeLocalEvent<RMCChemMasterComponent, EntRemovedFromContainerMessage>(OnEntRemovedFromContainer);
         SubscribeLocalEvent<RMCChemMasterComponent, RMCChemMasterPillBottleTransferDoAfterEvent>(OnPillBottleBoxTransferDoAfter);
+        SubscribeLocalEvent<RMCChemMasterComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         Subs.BuiEvents<RMCChemMasterComponent>(RMCChemMasterUI.Key,
             subs =>
@@ -83,6 +86,12 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
                 subs.Event<RMCChemMasterAutoSelectToggleMsg>(OnAutoSelectToggleMsg);
                 subs.Event<RMCChemMasterApplyPresetMsg>(OnApplyPresetMsg);
             });
+    }
+
+    private void OnUIMessageAttempt(Entity<RMCChemMasterComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is RMCChemMasterUI.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnInteractUsing(Entity<RMCChemMasterComponent> ent, ref InteractUsingEvent args)

@@ -14,11 +14,13 @@ using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Tracker;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Maturing;
+using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
@@ -41,12 +43,14 @@ public abstract class SharedDropshipSystem : EntitySystem
 {
     [Dependency] protected readonly SharedAudioSystem Audio = default!;
 
+    [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly RMCShipAntiAirSystem _antiAir = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly SharedGameTicker _gameTicker = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -66,6 +70,10 @@ public abstract class SharedDropshipSystem : EntitySystem
         SubscribeLocalEvent<DropshipComponent, MapInitEvent>(OnDropshipMapInit);
 
         SubscribeLocalEvent<DropshipNavigationComputerComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<DropshipNavigationComputerComponent, BoundUserInterfaceMessageAttempt>(
+            OnNavigationMessageAttempt);
+        SubscribeLocalEvent<DropshipRemoteControlConsoleComponent, BoundUserInterfaceMessageAttempt>(
+            OnRemoteMessageAttempt);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, ActivatableUIOpenAttemptEvent>(OnUIOpenAttempt);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, AfterActivatableUIOpenEvent>(OnNavigationOpen);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, DropshipLockoutOverrideDoAfterEvent>(OnNavigationLockoutOverride);
@@ -140,7 +148,8 @@ public abstract class SharedDropshipSystem : EntitySystem
         if (args.Cancelled)
             return;
 
-        if (HasComp<XenoComponent>(args.User) && !HasComp<DropshipHijackerComponent>(args.User))
+        if (HasComp<XenoComponent>(args.User) &&
+            (!HasComp<DropshipHijackerComponent>(args.User) || !ent.Comp.Hijackable))
         {
             args.Cancel();
             return;
@@ -214,6 +223,57 @@ public abstract class SharedDropshipSystem : EntitySystem
         _ui.SetUiState(ent.Owner, DropshipHijackerUiKey.Key, new DropshipHijackerBuiState(destinations));
     }
 
+    private void OnNavigationMessageAttempt(
+        Entity<DropshipNavigationComputerComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!CanUseDropshipConsole(ent, args.Actor) ||
+            TryGetGridDropship(ent, out var dropship) && dropship.Comp.Crashed ||
+            !TryDropshipLaunchPopup(ent, args.Actor, false))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (args.UiKey is DropshipHijackerUiKey)
+        {
+            if (!ent.Comp.Hijackable || !HasComp<DropshipHijackerComponent>(args.Actor) ||
+                _timing.CurTime >= ent.Comp.LockedOutUntil ||
+                !TryDropshipHijackPopup(ent, args.Actor, false))
+            {
+                args.Cancel();
+            }
+
+            return;
+        }
+
+        if (args.UiKey is DropshipNavigationUiKey &&
+            (HasComp<XenoComponent>(args.Actor) || _timing.CurTime < ent.Comp.LockedOutUntil))
+        {
+            args.Cancel();
+        }
+    }
+
+    private void OnRemoteMessageAttempt(
+        Entity<DropshipRemoteControlConsoleComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is DropshipRemoteControlUiKey &&
+            (HasComp<XenoComponent>(args.Actor) || !CanUseDropshipConsole(ent, args.Actor)))
+        {
+            args.Cancel();
+        }
+    }
+
+    private bool CanUseDropshipConsole(EntityUid console, EntityUid actor)
+    {
+        return HasComp<GhostComponent>(actor) ||
+               _interaction.InRangeUnobstructed(actor, console) && _access.IsAllowed(actor, console);
+    }
+
     private void OnNavigationOpen(Entity<DropshipNavigationComputerComponent> ent, ref AfterActivatableUIOpenEvent args)
     {
         RefreshUI(ent);
@@ -221,6 +281,11 @@ public abstract class SharedDropshipSystem : EntitySystem
 
     private void OnNavigationLockoutOverride(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLockoutOverrideDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
         var lockedOutRemaining = ent.Comp.LockedOutUntil - _timing.CurTime;
         var reduction = lockedOutRemaining / 10 + TimeSpan.FromSeconds(20);
         ent.Comp.LockedOutUntil -= reduction;

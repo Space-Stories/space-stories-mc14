@@ -35,10 +35,8 @@
   name: Barcaridine bar
   description: A classic bar of chocolate that smells like the medical bay. 'Chocolate helps the pain go away.'
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: barcardine
@@ -82,10 +80,8 @@
   name: Boonie bars
   description: Two delicious bars of minty chocolate. 'Sometimes things are just... out of reach.'
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: boonie
@@ -127,10 +123,8 @@
   name: CHUNK bar
   description: A bar of the CHUNK brand chocolate. The densest chocolate permitted to exist according to federal law. We are legally required to ask you not to use this blunt object for anything other than nutrition.
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: chunk
@@ -178,10 +172,8 @@
   name: HUNK bar
   description: A 'crate' of chocolate according to the marketing. The HUNK, an earlier version of the CHUNK bar, was discontinued after several class action lawsuits related to broken teeth.
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: hunk
@@ -315,10 +307,8 @@
   name: packaged cheeseburger
   description: A soggy microwavable cheeseburger. There's no time given for how long to cook it. Packaged by We-Ya.
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: burger
@@ -362,10 +352,8 @@
   name: packaged burrito
   description: A hard microwavable burrito. There's no time given on how long to cook it. Packaged by We-Ya.
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: packaged-burrito
@@ -407,10 +395,8 @@
   name: packaged hotdog
   description: A singular, squishy, room temperature hot dog. There's no time given for how long to cook it, so you assume its probably good to go. Packaged by We-Ya.
   components:
-  # Stories-BlackMarket-Start
   - type: BlackMarketValue
     value: 5
-  # Stories-BlackMarket-End
   - type: Sprite
     sprite: _RMC14/Objects/Consumable/Food/packaged.rsi # Stories-Fix
     state: packaged-hotdog

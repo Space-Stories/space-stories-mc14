@@ -380,11 +380,24 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     private void OnNavigationLockout(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLockoutDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
         ent.Comp.LockedOutUntil = _timing.CurTime + ent.Comp.LockoutDuration;
         Dirty(ent);
 
         _ui.CloseUis(ent.Owner);
         UnlockAllDoors(ent);
+
+        // Stories-DropshipLockout-Start
+        if (TryGetGridDropship(ent, out var dropship) &&
+            TryComp(dropship, out DropshipAutopilotComponent? autopilot))
+        {
+            SetAutopilotDisabled(dropship, autopilot, args.User, Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+        }
+        // Stories-DropshipLockout-End
 
         _popup.PopupEntity(Loc.GetString("rmc-dropship-locked", ("minutes", (int)ent.Comp.LockoutDuration.TotalMinutes)), ent, args.User, PopupType.Medium);
     }
@@ -604,6 +617,17 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     public override bool FlyTo(Entity<DropshipNavigationComputerComponent> computer, EntityUid destination, EntityUid? user, bool hijack = false, float? startupTime = null, float? hyperspaceTime = null, bool offset = false, DropshipLaunchSource source = DropshipLaunchSource.ManualNavigation)
     {
+        // Stories-DropshipLockout-Start
+        if (!hijack && _timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            if (user != null)
+                _popup.PopupEntity(Loc.GetString("rmc-dropship-locked-out", ("minutes", Math.Max(1, (int)(computer.Comp.LockedOutUntil - _timing.CurTime).TotalMinutes))), computer, user.Value, PopupType.MediumCaution);
+
+            Log.Warning($"Tried to launch locked out dropship {ToPrettyString(computer)}");
+            return false;
+        }
+        // Stories-DropshipLockout-End
+
         if (user != null &&
             !CanPlayerLaunchToDestination(computer, destination, out var playerRouteReason))
         {

@@ -93,7 +93,7 @@ public sealed partial class RequisitionsBui
         for (var categoryIndex = 0; categoryIndex < categories.Count; categoryIndex++)
         {
             var category = categories[categoryIndex];
-            if (entry.NoReturnReward && entry.Entities.Count > 0 &&
+            if (entry.Consolidated && entry.Entities.Count > 0 &&
                 category.Entries.Any(product => product.Unit && entry.Entities.Contains(product.Crate)))
                 return categoryIndex;
 
@@ -120,7 +120,7 @@ public sealed partial class RequisitionsBui
         if (SelectedCategory == null)
             return true;
 
-        if (!entry.BlackMarket && entry.NoReturnReward && _state is { } computer)
+        if (!entry.BlackMarket && entry.Consolidated && _state is { } computer)
         {
             return computer.Categories[SelectedCategory.Value].Entries
                 .Any(product => product.Unit && entry.Entities.Contains(product.Crate));

@@ -7,7 +7,7 @@ namespace Content.Shared._RMC14.Intel;
 [Access(typeof(IntelSystem))]
 public sealed partial class IntelDataTerminalComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [DataField]
     public string Password = string.Empty;
 
     [DataField, AutoNetworkedField]

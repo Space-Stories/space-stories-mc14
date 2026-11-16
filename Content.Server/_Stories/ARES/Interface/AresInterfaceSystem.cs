@@ -5,6 +5,7 @@ using Content.Shared._RMC14.ARES.ExternalTerminals;
 using Content.Shared._RMC14.ARES.Logs;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Synth;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.ARES.Interface;
@@ -26,8 +27,6 @@ namespace Content.Server._Stories.ARES.Interface;
 public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-
     [Dependency] private readonly ARESCoreSystem _ares = default!;
     [Dependency] private readonly ActionBlockerSystem _blocker = default!;
     [Dependency] private readonly HermesSystem _hermes = default!;
@@ -35,7 +34,9 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
     [Dependency] private readonly AresIdentitySystem _identity = default!;
     [Dependency] private readonly GunIFFSystem _iff = default!;
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly SharedGameTicker _ticker = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
 
     private static readonly EntProtoId WorkingJoe = "RMCARESWorker";
@@ -64,7 +65,7 @@ public sealed partial class AresInterfaceSystem : SharedAresInterfaceSystem
 
     private void OnUiMessageAttempt(Entity<AresTerminalComponent> ent, ref BoundUserInterfaceMessageAttempt args)
     {
-        if (HasComp<XenoComponent>(args.Actor))
+        if (!_rmcUi.CanUseUI(args))
             args.Cancel();
     }
 

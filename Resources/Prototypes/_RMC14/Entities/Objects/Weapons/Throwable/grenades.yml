@@ -312,6 +312,33 @@
     maxShrapnel: 0
 
 - type: entity
+  parent: CMGrenadeFragOld
+  id: RMCGrenadeType6
+  name: Type 6 shrapnel grenade
+  description: >-
+    A fragmentation grenade used by the SPP, designed to scatter shrapnel through enemy ranks.
+    It detonates 3 seconds after the pin is pulled.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Grenades/type6.rsi
+  - type: Item
+    sprite: _RMC14/Objects/Weapons/Grenades/type6.rsi
+  - type: OnUseTimerTrigger
+    delay: 3
+  - type: Explosive
+    maxIntensity: 12
+    intensitySlope: 5
+    totalIntensity: 160
+  - type: ProjectileGrenade
+    capacity: 56
+  - type: GenericVisualizer
+    visuals:
+      enum.Trigger.TriggerVisuals.VisualState:
+        enum.TriggerVisualLayers.Base:
+          Primed: { state: primed }
+          Unprimed: { state: icon }
+
+- type: entity
   parent: CMGrenadeFrag
   id: RMCGrenadeHEFAToy
   name: toy HEFA grenade
@@ -356,6 +383,30 @@
     tags:
     - Grenade
     - RMCGrenadeM15Rubber
+
+- type: entity
+  parent: CMGrenadeHighExplosive
+  id: RMCGrenadeWebleyMk15
+  name: Webley Mk15 stick grenade
+  description: >-
+    A blast grenade manufactured in the colonies using old designs and schematics.
+    It detonates 3 seconds after the pin is pulled.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Grenades/webley_mk15.rsi
+  - type: Item
+    sprite: _RMC14/Objects/Weapons/Grenades/webley_mk15.rsi
+  - type: OnUseTimerTrigger
+    delay: 3
+  - type: GenericVisualizer
+    visuals:
+      enum.Trigger.TriggerVisuals.VisualState:
+        enum.TriggerVisualLayers.Base:
+          Primed: { state: primed }
+          Unprimed: { state: icon }
+  - type: Tag
+    tags:
+    - Grenade
 
 - type: entity
   parent: CMGrenadeHighExplosive
@@ -442,6 +493,33 @@
     sprite: _RMC14/Objects/Weapons/Grenades/ied.rsi
   - type: SpawnOnTrigger
     proto: RMCSmokePhosphorus
+
+- type: entity
+  parent: RMCGrenadeWhitePhosphorusCompound
+  id: RMCGrenadeType8
+  name: Type 8 white phosphorus grenade
+  description: >-
+    A deadly white phosphorus grenade used by the SPP, designed to engulf its target in burning phosphorus.
+    It detonates 2 seconds after the pin is pulled.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Grenades/type8.rsi
+  - type: Item
+    sprite: _RMC14/Objects/Weapons/Grenades/type8.rsi
+  - type: OnUseTimerTrigger
+    beepSound:
+      path: /Audio/_RMC14/Explosion/armbomb.ogg
+  - type: TimerTriggerVisuals
+    primingSound: null
+  - type: GenericVisualizer
+    visuals:
+      enum.Trigger.TriggerVisuals.VisualState:
+        enum.TriggerVisualLayers.Base:
+          Primed: { state: primed }
+          Unprimed: { state: icon }
+  - type: Tag
+    tags:
+    - Grenade
 
 - type: entity
   parent: RMCGrenadeIncendiary

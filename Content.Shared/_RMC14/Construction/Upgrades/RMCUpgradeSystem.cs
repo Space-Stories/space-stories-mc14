@@ -1,4 +1,5 @@
-﻿using Content.Shared._RMC14.Marines.Skills;
+﻿using System.Linq;
+using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Tools;
 using Content.Shared._RMC14.Xenonids.Acid;
 using Content.Shared.Damage;
@@ -66,29 +67,8 @@ public sealed class RMCUpgradeSystem : EntitySystem
         if (upgradeItem != null && !_whitelist.IsValid(upgradeItem.Whitelist, ent))
             return;
 
-        if (!_skills.HasSkill(user, ent.Comp.Skill, ent.Comp.SkillAmountRequired))
+        if (!CanUpgrade(ent, user))
         {
-            var failPopup = Loc.GetString("rmc-construction-failure", ("ent", ent));
-            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
-
-            args.Handled = true;
-            return;
-        }
-
-        if (_xenoAcid.IsMelted(ent))
-        {
-            var failPopup = Loc.GetString("rmc-construction-melted");
-            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
-
-            args.Handled = true;
-            return;
-        }
-
-        if (!Transform(ent).Anchored)
-        {
-            var failPopup = Loc.GetString("rmc-construction-require-anchored", ("ent", ent));
-            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
-
             args.Handled = true;
             return;
         }
@@ -105,6 +85,35 @@ public sealed class RMCUpgradeSystem : EntitySystem
             _ui.OpenUi(ent.Owner, RMCConstructionUpgradeUiKey.Key, user);
             args.Handled = true;
         }
+    }
+
+    private bool CanUpgrade(Entity<RMCConstructionUpgradeTargetComponent> ent, EntityUid user)
+    {
+        if (!_skills.HasSkill(user, ent.Comp.Skill, ent.Comp.SkillAmountRequired))
+        {
+            var failPopup = Loc.GetString("rmc-construction-failure", ("ent", ent));
+            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
+
+            return false;
+        }
+
+        if (_xenoAcid.IsMelted(ent))
+        {
+            var failPopup = Loc.GetString("rmc-construction-melted");
+            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
+
+            return false;
+        }
+
+        if (!Transform(ent).Anchored)
+        {
+            var failPopup = Loc.GetString("rmc-construction-require-anchored", ("ent", ent));
+            _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
+
+            return false;
+        }
+
+        return true;
     }
 
     private void RemoveUpgrade(Entity<RMCConstructionUpgradeTargetComponent> ent, EntityUid user)
@@ -134,6 +143,10 @@ public sealed class RMCUpgradeSystem : EntitySystem
 
     private void OnUpgradeBuiMsg(Entity<RMCConstructionUpgradeTargetComponent> ent, ref RMCConstructionUpgradeBuiMsg args)
     {
+        if (_net.IsClient || ent.Comp.Upgrades == null || !ent.Comp.Upgrades.Contains(args.Upgrade) ||
+            !CanUpgrade(ent, args.Actor))
+            return;
+
         _ui.CloseUi(ent.Owner, RMCConstructionUpgradeUiKey.Key);
 
         var user = args.Actor;
@@ -142,29 +155,43 @@ public sealed class RMCUpgradeSystem : EntitySystem
             return;
 
         EntityUid? upgradeItem = null;
+        var insufficientMaterial = false;
 
         foreach (var hand in _hands.EnumerateHeld(user))
         {
-            if (!_upgradeItemQuery.HasComp(hand))
+            if (!_upgradeItemQuery.TryComp(hand, out var item) || !_whitelist.IsValid(item.Whitelist, ent))
                 continue;
+
+            if (upgradeComp.Material is { } material &&
+                (!TryComp<StackComponent>(hand, out var heldStack) || heldStack.StackTypeId != material ||
+                 heldStack.Count < upgradeComp.Amount))
+            {
+                insufficientMaterial = true;
+                continue;
+            }
 
             upgradeItem = hand;
             break;
         }
 
         if (upgradeItem == null)
+        {
+            if (insufficientMaterial)
+            {
+                var failPopup = Loc.GetString(upgradeComp.FailurePopup, ("ent", ent));
+                _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
+            }
             return;
+        }
 
         if (upgradeComp.Material != null)
         {
-            if (TryComp<StackComponent>(upgradeItem, out var stack) && stack.StackTypeId == upgradeComp.Material)
+            if (!TryComp<StackComponent>(upgradeItem, out var stack) ||
+                stack.StackTypeId != upgradeComp.Material || !_stack.Use(upgradeItem.Value, upgradeComp.Amount, stack))
             {
-                if (!_stack.Use(upgradeItem.Value, upgradeComp.Amount, stack))
-                {
-                    var failPopup = Loc.GetString(upgradeComp.FailurePopup, ("ent", ent));
-                    _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
-                    return;
-                }
+                var failPopup = Loc.GetString(upgradeComp.FailurePopup, ("ent", ent));
+                _popup.PopupClient(failPopup, ent, user, PopupType.SmallCaution);
+                return;
             }
         }
         else

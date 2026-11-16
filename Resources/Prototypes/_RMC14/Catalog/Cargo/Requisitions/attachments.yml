@@ -1,0 +1,89 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogAttachments
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-attachments
+      entries:
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentB8SmartScope
+
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentBipod
+
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentBurstFireAssembly
+
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentExtendedBarrel
+
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentGyroscopicStabilizer
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM42A2CollapsibleStock
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM44MagnumSharpshooterStock
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM54CStockSolid
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentM63Stock
+
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentMagneticHarness
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentMiniFlamethrower
+
+      - cost: 250
+        unit: true
+        crate: RMCAttachmentRailFlashlight
+
+      - cost: 500
+        unit: true
+        crate: RMCAttachmentRecoilCompensator
+
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentS42xTelescopicMiniscope
+
+      - cost: 375
+        unit: true
+        crate: RMCAttachmentS5RedDotSight
+
+      - cost: 1500
+        unit: true
+        crate: RMCAttachmentS84xTelescopicScope
+
+      - cost: 375
+        unit: true
+        crate: RMCAttachmentSuppressor
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentU7UnderbarrelShotgun
+
+      - cost: 750
+        unit: true
+        crate: RMCAttachmentUnderbarrelExtinguisher
+
+      - cost: 6000
+        crate: RMCCrateAttachmentAllStocks
+
+      - cost: 3000
+        crate: RMCCrateAttachmentForegrip

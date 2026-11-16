@@ -125,7 +125,7 @@ public sealed class RMCConstructionSystem : EntitySystem
         if (amount <= 0)
             return false;
 
-        if (!_prototype.TryIndex<RMCConstructionPrototype>(protoID, out var proto))
+        if (!TryGetBuildable(ent, protoID, out var proto))
             return false;
 
         // Stories-ConstructionDupe-Start
@@ -201,6 +201,38 @@ public sealed class RMCConstructionSystem : EntitySystem
         return true;
     }
 
+    private bool TryGetBuildable(Entity<RMCConstructionItemComponent> ent,
+        ProtoId<RMCConstructionPrototype> id,
+        out RMCConstructionPrototype prototype)
+    {
+        prototype = default!;
+        if (ent.Comp.Buildable == null)
+            return false;
+
+        var pending = new Stack<ProtoId<RMCConstructionPrototype>>(ent.Comp.Buildable);
+        var visited = new HashSet<ProtoId<RMCConstructionPrototype>>();
+        while (pending.TryPop(out var next))
+        {
+            if (!visited.Add(next) || !_prototype.TryIndex(next, out var entry) || entry.IsDivider)
+                continue;
+
+            if (entry.Listed is { } listed)
+            {
+                foreach (var child in listed)
+                    pending.Push(child);
+                continue;
+            }
+
+            if (next != id)
+                continue;
+
+            prototype = entry;
+            return true;
+        }
+
+        return false;
+    }
+
     private void OnConstructionPreventCollide(Entity<RMCConstructionPreventCollideComponent> ent, ref PreventCollideEvent args)
     {
         if (args.Cancelled)
@@ -239,7 +271,8 @@ public sealed class RMCConstructionSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        var entry = args.Prototype;
+        if (!TryGetBuildable(ent, args.Prototype.ID, out var entry))
+            return;
 
         var coordinates = GetCoordinates(args.Coordinates);
         args.Handled = true;

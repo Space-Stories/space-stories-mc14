@@ -1,11 +1,13 @@
 using Content.Shared._Stories.Ordnance;
 using Content.Shared._Stories.Ordnance.Assemblies;
 using Content.Shared._Stories.Ordnance.Triggers;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Sticky.Components;
+using Content.Shared.UserInterface;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Audio;
@@ -17,19 +19,25 @@ namespace Content.Server._Stories.Ordnance.Triggers;
 
 public sealed class OrdnanceTriggerSystem : EntitySystem
 {
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly GunIFFSystem _gunIff = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly UserInterfaceSystem _ui = default!;
 
     private readonly HashSet<Entity<TransformComponent>> _proxEntities = new();
 
     public override void Initialize()
     {
         base.Initialize();
+
+        SubscribeLocalEvent<OrdnanceTimerComponent, BoundUserInterfaceMessageAttempt>(OnTriggerUiAttempt);
+        SubscribeLocalEvent<OrdnanceProxSensorComponent, BoundUserInterfaceMessageAttempt>(OnTriggerUiAttempt);
+        SubscribeLocalEvent<OrdnanceSignallerComponent, BoundUserInterfaceMessageAttempt>(OnTriggerUiAttempt);
+        SubscribeLocalEvent<OrdnanceAssemblyHolderComponent, BoundUserInterfaceMessageAttempt>(OnTriggerUiAttempt);
 
         SubscribeLocalEvent<OrdnanceAssemblyComponent, OrdnancePrimeEvent>(OnPrime);
         SubscribeLocalEvent<OrdnanceTimerComponent, OrdnanceTimerSetMessage>(OnTimerUiMessage);
@@ -174,6 +182,15 @@ public sealed class OrdnanceTriggerSystem : EntitySystem
     {
         var ev = new OrdnancePulseEvent(source, user);
         RaiseLocalEvent(holder, ref ev);
+    }
+
+    private void OnTriggerUiAttempt(EntityUid uid, Component comp, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!_rmcUi.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnTimerUiMessage(Entity<OrdnanceTimerComponent> ent, ref OrdnanceTimerSetMessage args)

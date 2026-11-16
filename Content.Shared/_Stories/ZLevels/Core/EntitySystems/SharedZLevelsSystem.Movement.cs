@@ -336,6 +336,11 @@ public abstract partial class SharedZLevelsSystem
             _pulling.RemovePullJointDuringTransition(ent, entPullable);
         }
 
+        if (_container.TryGetContainingContainer(ent, out var container) && carried != ent)
+        {
+            _container.Remove(ent, container, force: true);
+        }
+
         _transform.SetMapCoordinates(ent, new MapCoordinates(entOldWorldPos, targetMapComp.MapId));
         _transform.SetWorldRotation(ent, worldRot);
 

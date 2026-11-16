@@ -412,6 +412,14 @@ public sealed class SharedXenoConstructionSystem : EntitySystem
 
     private void OnXenoChooseStructureBui(Entity<XenoConstructionComponent> xeno, ref XenoChooseStructureBuiMsg args)
     {
+        // Stories-UIValidation-Start
+        if (args.Actor != xeno.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(xeno.Owner, XenoChooseStructureUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         if (!xeno.Comp.CanBuild.Contains(args.StructureId))
             return;
 
@@ -746,6 +754,14 @@ public sealed class SharedXenoConstructionSystem : EntitySystem
 
     private void OnXenoOrderConstructionBui(Entity<XenoConstructionComponent> xeno, ref XenoOrderConstructionBuiMsg args)
     {
+        // Stories-UIValidation-Start
+        if (args.Actor != xeno.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(xeno.Owner, XenoOrderConstructionUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         if (!xeno.Comp.CanOrderConstruction.Contains(args.StructureId))
             return;
 

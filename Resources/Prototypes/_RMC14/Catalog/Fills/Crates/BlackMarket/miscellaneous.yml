@@ -1,0 +1,79 @@
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketMiscSecuredWildlife
+  name: secured wildlife container
+  description: Contains one secured wildlife specimen.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Storage/Crates/lisacrate.rsi
+    layers:
+    - state: base
+      map: ["enum.StorageVisualLayers.Base"]
+    - state: closed
+      map: ["enum.StorageVisualLayers.Door"]
+    - state: welded
+      sprite: _RMC14/Structures/Storage/Crates/woodcrate.rsi
+      visible: false
+      map: ["enum.WeldableLayers.BaseWelded"]
+    - state: invoice
+      sprite: _RMC14/Structures/Storage/Crates/labels.rsi
+      visible: false
+      map: ["enum.PaperLabelVisuals.Layer"]
+  - type: Icon
+    sprite: _RMC14/Structures/Storage/Crates/lisacrate.rsi
+    state: closed
+  - type: EntityStorageVisuals
+    stateDoorOpen: base
+    stateDoorClosed: closed
+  - type: StorageFill
+    contents:
+    - id: CMMobSmallHostMonkey
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobSmallHostFarwa
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobSmallHostStok
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobSmallHostYiren
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobSmallHostNeaera
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobSmallHostKobold
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobMouse
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobMouse1
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobMouse2
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobRat
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobRatBrown
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobRatGray
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobRatBlack
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobWiggles
+      orGroup: BlackMarketSecuredWildlife
+    - id: CMMobJones
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobOrion
+      orGroup: BlackMarketSecuredWildlife
+    - id: RMCMobGarry
+      orGroup: BlackMarketSecuredWildlife
+    - id: MobGoat
+      orGroup: BlackMarketSecuredWildlife
+    - id: MobBearSpace
+      orGroup: BlackMarketSecuredWildlife
+    - id: MobGiantSpider
+      orGroup: BlackMarketSecuredWildlife
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: RMCCrateBlackMarketMiscPottedPlant
+  name: potted plant crate
+  description: Contains one unanchored potted plant.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCPottedPlantRandomUnanchored

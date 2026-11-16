@@ -14,8 +14,10 @@ using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.Overwatch;
 using Content.Shared._RMC14.Survivor;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.AlertLevel;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
 using Content.Shared.CCVar;
@@ -45,11 +47,12 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedRankSystem _rankSystem = default!;
+    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SquadSystem _squad = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
-    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
 
     public static readonly SoundSpecifier DefaultAnnouncementSound =
         new SoundPathSpecifier("/Audio/_RMC14/Announcements/Marine/notice2.ogg", AudioParams.Default.WithVolume(-2f));
@@ -66,6 +69,7 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
     {
         base.Initialize();
 
+        SubscribeLocalEvent<MarineCommunicationsComputerComponent, BoundUserInterfaceMessageAttempt>(OnComputerUIMessageAttempt);
         SubscribeLocalEvent<MarineCommunicationsComputerComponent, MarineCommunicationsAnnouncementDialogEvent>(OnMarineCommunicationsAnnouncementDialog);
         SubscribeLocalEvent<MarineCommunicationsComputerComponent, EchoSquadReasonEvent>(OnEchoSquadReason);
         SubscribeLocalEvent<MarineCommunicationsComputerComponent, EchoSquadConfirmEvent>(OnEchoSquadConfirm);
@@ -92,6 +96,22 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
             });
 
         Subs.CVar(_config, CCVars.ChatMaxMessageLength, limit => CharacterLimit = limit, true);
+    }
+
+    private void OnComputerUIMessageAttempt(Entity<MarineCommunicationsComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled ||
+            HasComp<MarineControlComputerComponent>(ent) ||
+            HasComp<OverwatchConsoleComponent>(ent))
+        {
+            return;
+        }
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnEchoSquadReason(Entity<MarineCommunicationsComputerComponent> ent, ref EchoSquadReasonEvent args)

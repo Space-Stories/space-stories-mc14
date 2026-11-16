@@ -85,7 +85,10 @@
                     </ScrollContainer>
                     <RichTextLabel Name="CartStatusLabel" Access="Public" />
                     <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
-                        <RichTextLabel Name="CartTotalLabel" Access="Public" HorizontalExpand="True" />
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="2">
+                            <RichTextLabel Name="CartTotalLabel" Access="Public" HorizontalExpand="True" />
+                            <Label Name="CartShipping" Access="Public" Visible="False" MouseFilter="Stop" />
+                        </BoxContainer>
                         <Button Name="ClearCartButton"
                                 Access="Public"
                                 Text="{Loc rmc-requisitions-cart-clear}"
@@ -100,6 +103,7 @@
                                                   MinWidth="120" />
                     </BoxContainer>
                 </BoxContainer>
+                <controls:RequisitionPresetsView Name="PresetsTab" Access="Public" Visible="False" />
                 <BoxContainer Name="RequestsTab"
                               Access="Public"
                               Orientation="Vertical"

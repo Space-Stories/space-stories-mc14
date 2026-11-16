@@ -6,6 +6,7 @@ using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dropship.Weapon;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.PowerLoader;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared.Coordinates;
 using Content.Shared.DoAfter;
 using Content.Shared.Popups;
@@ -32,6 +33,7 @@ public sealed class DropshipFabricatorSystem : EntitySystem
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly PowerLoaderSystem _powerLoader = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
@@ -47,6 +49,7 @@ public sealed class DropshipFabricatorSystem : EntitySystem
 
         SubscribeLocalEvent<DropshipFabricatorComponent, MapInitEvent>(OnFabricatorMapInit);
         SubscribeLocalEvent<DropshipFabricatorComponent, DropshipFabricatoreRecycleDoafterEvent>(OnDropshipPartRecycled);
+        SubscribeLocalEvent<DropshipFabricatorComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         Subs.BuiEvents<DropshipFabricatorComponent>(DropshipFabricatorUi.Key,
             subs =>
@@ -59,6 +62,12 @@ public sealed class DropshipFabricatorSystem : EntitySystem
         Subs.CVar(_config, RMCCVars.RMCDropshipFabricatorGainEverySeconds, v => _gainEvery = TimeSpan.FromSeconds(v), true);
 
         ReloadPrototypes();
+    }
+
+    private void OnUIMessageAttempt(Entity<DropshipFabricatorComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is DropshipFabricatorUi.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnPrototypesReloaded(PrototypesReloadedEventArgs ev)

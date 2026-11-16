@@ -4,6 +4,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: RequisitionsAccount
+    shipmentReturnPercent: 9.7
     randomCrates:
     - every: 600
       minimum: 4
@@ -79,7 +80,6 @@
     soundGroups:
       Brute:
         collection: GlassSmash
-  - type: CargoOrderConsole
   - type: ActivatableUI
     key: enum.RequisitionsUIKey.Key
   - type: ActivatableUIRequiresAccess

@@ -148,10 +148,10 @@ public sealed partial class RequisitionsBui
     }
 
     private readonly record struct EntryAppearance(
-        EntProtoId Crate, LocId? Name, LocId? Description, SpriteSpecifier? Icon, bool Unit, bool NoReturnReward)
+        EntProtoId Crate, LocId? Name, LocId? Description, SpriteSpecifier? Icon, bool Unit, bool Consolidated)
     {
         public EntryAppearance(RequisitionsEntry entry)
-            : this(entry.Crate, entry.Name, entry.Description, entry.Icon, entry.Unit, entry.NoReturnReward)
+            : this(entry.Crate, entry.Name, entry.Description, entry.Icon, entry.Unit, entry.Consolidated)
         {
         }
     }
@@ -160,14 +160,14 @@ public sealed partial class RequisitionsBui
     {
         public readonly CartKey Key = key;
         public readonly EntryAppearance Appearance = new(entry);
-        private readonly EntProtoId[]? _contents = entry.NoReturnReward ? entry.Entities.ToArray() : null;
+        private readonly EntProtoId[] _contents = entry.Entities.ToArray();
         public readonly string Name = name;
         public readonly string Description = description;
 
         public bool Matches(RequisitionsEntry product)
         {
             return Appearance == new EntryAppearance(product) &&
-                   (_contents == null || _contents.SequenceEqual(product.Entities));
+                   _contents.SequenceEqual(product.Entities);
         }
     }
 

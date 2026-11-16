@@ -1,27 +1,21 @@
+using Content.Client._RMC14.Ghost;
 using Content.Client._RMC14.UserInterface.Systems.Ghost.Controls;
 using Content.Shared._RMC14.Ghost;
-using Content.Shared.GameTicking;
 using Content.Shared.Ghost;
 using Robust.Client.UserInterface.Controllers;
-using Robust.Shared.Player;
 using ClientGhostSystem = Content.Client.Ghost.GhostSystem;
 
 namespace Content.Client._RMC14.UserInterface.Systems.Ghost;
 
-public sealed class RMCGhostTargetUIController : UIController, IOnSystemChanged<ClientGhostSystem>
+public sealed class RMCGhostTargetUIController :
+    UIController,
+    IOnSystemChanged<ClientGhostSystem>,
+    IOnSystemChanged<RMCGhostTargetSystem>
 {
     [Dependency] private readonly IEntityNetworkManager _net = default!;
 
     private readonly RMCGhostTargetRequestState _requests = new();
     private RMCGhostTargetWindow? _window;
-
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        SubscribeNetworkEvent<RMCGhostWarpsResponseEvent>(OnGhostWarpsResponse);
-        SubscribeNetworkEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
-    }
 
     public void OnSystemLoaded(ClientGhostSystem system)
     {
@@ -35,6 +29,19 @@ public sealed class RMCGhostTargetUIController : UIController, IOnSystemChanged<
         system.PlayerRemoved -= OnPlayerRemoved;
     }
 
+    public void OnSystemLoaded(RMCGhostTargetSystem system)
+    {
+        system.GhostWarpsResponse += OnGhostWarpsResponse;
+        system.RoundRestartCleanup += CloseWindow;
+    }
+
+    public void OnSystemUnloaded(RMCGhostTargetSystem system)
+    {
+        system.GhostWarpsResponse -= OnGhostWarpsResponse;
+        system.RoundRestartCleanup -= CloseWindow;
+        DisposeWindow();
+    }
+
     public void OpenWindow()
     {
         var window = EnsureWindow();
@@ -45,7 +52,7 @@ public sealed class RMCGhostTargetUIController : UIController, IOnSystemChanged<
         RequestWarps();
     }
 
-    private void OnGhostWarpsResponse(RMCGhostWarpsResponseEvent msg, EntitySessionEventArgs args)
+    private void OnGhostWarpsResponse(RMCGhostWarpsResponseEvent msg)
     {
         if (!_requests.TryComplete(msg.RequestId, out var refreshQueued))
             return;
@@ -69,11 +76,6 @@ public sealed class RMCGhostTargetUIController : UIController, IOnSystemChanged<
     {
         _requests.Reset();
         RequestWarps();
-    }
-
-    private void OnRoundRestartCleanup(RoundRestartCleanupEvent msg, EntitySessionEventArgs args)
-    {
-        CloseWindow();
     }
 
     private void OnWindowClosed()
@@ -100,9 +102,23 @@ public sealed class RMCGhostTargetUIController : UIController, IOnSystemChanged<
         _window?.Close();
     }
 
+    private void DisposeWindow()
+    {
+        _requests.Reset();
+        if (_window == null)
+            return;
+
+        _window.WarpClicked -= OnWarpClicked;
+        _window.OnRefreshClicked -= OnRefreshClicked;
+        _window.OnClose -= OnWindowClosed;
+        _window.Close();
+        _window.Orphan();
+        _window = null;
+    }
+
     private RMCGhostTargetWindow EnsureWindow()
     {
-        if (_window != null)
+        if (_window is { Disposed: false })
             return _window;
 
         _window = new RMCGhostTargetWindow();

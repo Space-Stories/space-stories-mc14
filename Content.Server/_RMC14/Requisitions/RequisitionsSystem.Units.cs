@@ -3,9 +3,7 @@ using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared._RMC14.Vendors;
-using Content.Shared.Item;
 using Content.Shared.Power;
-using Content.Shared.Prototypes;
 using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
 
@@ -52,23 +50,11 @@ public sealed partial class RequisitionsSystem
         if (computer.Comp.UnitsBuilt)
             return;
 
-        var prices = RequisitionsUnitCatalog.GetPrices(computer.Comp.Categories, _prototype,
-            EntityManager.ComponentFactory, out var productCategories, computer.Comp.UnitPrices);
-
         computer.Comp.Categories = computer.Comp.Categories.Select(category => new RequisitionsCategory
         {
             Name = category.Name,
             Entries = new List<RequisitionsEntry>(category.Entries),
         }).ToList();
-        foreach (var (product, price) in prices.OrderBy(pair => pair.Key.Id))
-        {
-            var category = productCategories.GetValueOrDefault(product, "rmc-requisitions-category-supplies");
-            GetUnitCategory(computer, category).Entries.Add(new RequisitionsEntry
-            {
-                Crate = product, Cost = price, Unit = true,
-            });
-        }
-
         computer.Comp.UnitsBuilt = true;
         RefreshUnitStock(computer);
         Dirty(computer);
@@ -94,7 +80,7 @@ public sealed partial class RequisitionsSystem
         while (query.MoveNext(out var uid, out _, out var vendor, out var xform))
         {
             if (xform.MapID != origin.MapID || xform.GridUid != origin.GridUid ||
-                TerminatingOrDeleted(uid) || !_requisitionPower.IsPowered(uid))
+                TerminatingOrDeleted(uid))
                 continue;
 
             result.Add((uid, vendor));
@@ -103,30 +89,54 @@ public sealed partial class RequisitionsSystem
         return result;
     }
 
-    private Dictionary<EntProtoId, int> ReadSupplyStock(
+    private RequisitionsStock ReadSupplyStock(
         Entity<RequisitionsComputerComponent> computer,
+        out List<RequisitionStockSource> sources,
         EntityUid? actor = null,
         Dictionary<EntProtoId, LocId>? categories = null)
     {
-        var stock = new Dictionary<EntProtoId, int>();
+        var stock = new RequisitionsStock();
+        sources = new List<RequisitionStockSource>();
+        var offers = new Dictionary<(int Pool, EntProtoId Product), int>();
         foreach (var vendor in GetSupplyVendors(computer))
         {
             if (actor is { } user && !_access.IsAllowed(user, vendor))
                 continue;
 
-            foreach (var section in vendor.Comp.Sections)
+            var powered = _requisitionPower.IsPowered(vendor);
+            var pools = new Dictionary<CMVendorEntry, int>(ReferenceEqualityComparer.Instance);
+            for (var sectionIndex = 0; sectionIndex < vendor.Comp.Sections.Count; sectionIndex++)
             {
-                foreach (var entry in section.Entries)
+                var section = vendor.Comp.Sections[sectionIndex];
+                for (var entryIndex = 0; entryIndex < section.Entries.Count; entryIndex++)
                 {
-                    if (!SharedCMAutomatedVendorSystem.IsRequisitionEntry(section, entry) ||
-                        !_prototype.TryIndex(entry.Id, out var prototype) ||
-                        !prototype.HasComponent<ItemComponent>(EntityManager.ComponentFactory) ||
-                        prototype.HasComponent<CMVendorBundleComponent>(EntityManager.ComponentFactory) ||
-                        prototype.HasComponent<CMChangeUserOnVendComponent>(EntityManager.ComponentFactory))
+                    var entry = section.Entries[entryIndex];
+                    if (!_vendors.TryGetRequisitionSource(vendor, section, entry,
+                            out var sourceSection, out var source, out var units))
                         continue;
 
-                    var amount = _vendors.GetRequisitionAmount(vendor, section, entry);
-                    stock[entry.Id] = (int) Math.Min(int.MaxValue, (long) stock.GetValueOrDefault(entry.Id) + amount);
+                    if (!pools.TryGetValue(source, out var pool))
+                    {
+                        pool = stock.Amounts.Count;
+                        pools[source] = pool;
+                        stock.Amounts.Add(powered ? _vendors.GetRequisitionAmount(vendor, sourceSection, source) : 0);
+                    }
+
+                    // Duplicate package buttons backed by the same counter are alternative ways to vend one product.
+                    var key = (pool, entry.Id);
+                    if (offers.TryGetValue(key, out var existing))
+                    {
+                        if (stock.Offers[existing].Units <= units)
+                            continue;
+                        stock.Offers[existing] = new RequisitionsStockOffer(entry.Id, pool, units);
+                        sources[existing] = new RequisitionStockSource(vendor, sectionIndex, entryIndex);
+                    }
+                    else
+                    {
+                        offers[key] = stock.Offers.Count;
+                        stock.Offers.Add(new RequisitionsStockOffer(entry.Id, pool, units));
+                        sources.Add(new RequisitionStockSource(vendor, sectionIndex, entryIndex));
+                    }
                     if (categories != null)
                     {
                         categories.TryAdd(entry.Id,
@@ -141,7 +151,8 @@ public sealed partial class RequisitionsSystem
     private void RefreshUnitStock(Entity<RequisitionsComputerComponent> computer)
     {
         var categories = new Dictionary<EntProtoId, LocId>();
-        computer.Comp.Stock = ReadSupplyStock(computer, categories: categories);
+        computer.Comp.StockInventory = ReadSupplyStock(computer, out _, categories: categories);
+        computer.Comp.Stock = new RequisitionsStockPlan(computer.Comp.StockInventory).GetAmounts();
         if (!computer.Comp.UnitsBuilt)
             return;
 
@@ -170,74 +181,37 @@ public sealed partial class RequisitionsSystem
             RefreshUnitStock((uid, computer));
     }
 
-    private int IssueUnits(
-        Entity<RequisitionsComputerComponent> computer, EntityUid actor, EntProtoId product, int amount)
+    private int IssueUnits(EntityUid actor, List<RequisitionsStockAllocation> allocations,
+        List<RequisitionStockSource> sources)
     {
         var issued = 0;
-        foreach (var vendor in GetSupplyVendors(computer))
+        foreach (var allocation in allocations)
         {
-            for (var section = 0; section < vendor.Comp.Sections.Count && issued < amount; section++)
+            var source = sources[allocation.Offer];
+            for (var i = 0; i < allocation.Amount; i++)
             {
-                var entries = vendor.Comp.Sections[section].Entries;
-                for (var entry = 0; entry < entries.Count && issued < amount; entry++)
-                {
-                    if (entries[entry].Id != product)
-                        continue;
-
-                    while (issued < amount && _vendors.TryIssueRequisition(vendor, actor, section, entry))
-                        issued++;
-                }
+                if (!_vendors.TryIssueRequisition(source.Vendor, actor, source.Section, source.Entry))
+                    break;
+                issued++;
             }
         }
         return issued;
     }
+
+    private readonly record struct RequisitionStockSource(
+        Entity<CMAutomatedVendorComponent> Vendor, int Section, int Entry);
 
     private List<RequisitionsEntry> PrepareShipments(
         Entity<RequisitionsComputerComponent> computer,
         List<(RequisitionsEntry Product, int Amount, int Line)> purchases,
         RequisitionsOrderDetails? details = null)
     {
-        var orders = new List<RequisitionsEntry>();
-        RequisitionsEntry? parcel = null;
-        var capacity = Math.Clamp(computer.Comp.ShipmentItems, 1, 20);
-        foreach (var (product, amount, line) in purchases)
-        {
-            for (var i = 0; i < amount; i++)
-            {
-                if (!product.Unit)
-                {
-                    var order = new RequisitionsEntry
-                    {
-                        Crate = product.Crate, Cost = product.Cost, Name = product.Name,
-                        Description = product.Description, Icon = product.Icon,
-                        Entities = new List<EntProtoId>(product.Entities), Request = details,
-                    };
-                    if (line >= 0)
-                        order.RequestLines.Add(new RequisitionsDeliveryLine(line, 1));
-                    orders.Add(order);
-                    continue;
-                }
-
-                if (parcel == null || parcel.Entities.Count >= capacity)
-                {
-                    parcel = new RequisitionsEntry
-                    {
-                        Crate = computer.Comp.UnitShipment, NoReturnReward = true, Request = details,
-                    };
-                    orders.Add(parcel);
-                }
-                parcel.Entities.Add(product.Crate);
-                parcel.Cost += product.Cost;
-                if (line >= 0)
-                {
-                    var delivery = parcel.RequestLines.Find(value => value.Line == line);
-                    if (delivery == null)
-                        parcel.RequestLines.Add(new RequisitionsDeliveryLine(line, 1));
-                    else
-                        delivery.Amount++;
-                }
-            }
-        }
+        var items = purchases.Select(purchase =>
+            new RequisitionsShippingItem(purchase.Product, purchase.Amount, purchase.Line)).ToArray();
+        var orders = RequisitionsShipping.CreateDeliveries(items, computer.Comp.UnitShipment,
+            computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems, _prototype,
+            EntityManager.ComponentFactory, details);
+        SetShipmentReturns(computer, orders);
         return orders;
     }
 

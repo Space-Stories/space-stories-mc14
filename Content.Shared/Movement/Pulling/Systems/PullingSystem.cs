@@ -1002,10 +1002,13 @@ public sealed class PullingSystem : EntitySystem
                 EnsureComp<JointComponent>(targetJoint.BodyBUid);
                 _joints.RemoveJoint(targetJoint);
             }
-            else if (jointId != null)
+
+            if (jointId != null)
             {
-                _joints.RemoveJoint(pullableUid, jointId);
-                if (pullerUid != null)
+                if (TryComp<JointComponent>(pullableUid, out var jAComp) && jAComp.GetJoints.ContainsKey(jointId))
+                    _joints.RemoveJoint(pullableUid, jointId);
+
+                if (pullerUid != null && TryComp<JointComponent>(pullerUid.Value, out var jBComp) && jBComp.GetJoints.ContainsKey(jointId))
                     _joints.RemoveJoint(pullerUid.Value, jointId);
             }
         }
