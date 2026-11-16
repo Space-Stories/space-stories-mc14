@@ -646,11 +646,38 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (!ignoreFixable && !ContainedCheckPopup(xeno, doPopup))
             return false;
 
-        if (prototype.HasComponent<XenoEvolutionGranterComponent>(_compFactory) && HiveHasLivingQueen(xeno.Owner))
+        if (prototype.HasComponent<XenoEvolutionGranterComponent>(_compFactory))
         {
-            if (doPopup)
-                _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-failed-queen-exists"), xeno, xeno, PopupType.MediumCaution);
-            return false;
+            if (HiveHasLivingQueen(xeno.Owner))
+            {
+                if (doPopup)
+                    _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-failed-queen-exists"), xeno, xeno, PopupType.MediumCaution);
+                return false;
+            }
+
+            // Stories-XenoEvolutionQueue-Start
+            if (_xenoHive.GetHive(xeno.Owner) is { } queenHive &&
+                queenHive.Comp.LastQueenDeath is { } lastQueenDeath &&
+                _timing.CurTime < lastQueenDeath + queenHive.Comp.NewQueenCooldown)
+            {
+                if (doPopup)
+                {
+                    var left = lastQueenDeath + queenHive.Comp.NewQueenCooldown - _timing.CurTime;
+                    var msg = Loc.GetString("rmc-xeno-evolution-cant-evolve-recent-queen-death-minutes",
+                        ("minutes", left.Minutes),
+                        ("seconds", left.Seconds));
+                    if (left.Minutes == 0)
+                    {
+                        msg = Loc.GetString("rmc-xeno-evolution-cant-evolve-recent-queen-death-seconds",
+                            ("seconds", left.Seconds));
+                    }
+
+                    _popup.PopupEntity(msg, xeno, xeno, PopupType.MediumCaution);
+                }
+
+                return false;
+            }
+            // Stories-XenoEvolutionQueue-End
         }
 
         // TODO RMC14 revive jelly when added should not bring back dead queens
@@ -864,7 +891,8 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
         if (proto.Abstract ||
             proto.HasComponent<XenoStrainComponent>(_compFactory) ||
-            proto.HasComponent<XenoHiddenComponent>(_compFactory))
+            proto.HasComponent<XenoHiddenComponent>(_compFactory) ||
+            (proto.HasComponent<XenoEvolutionGranterComponent>(_compFactory) && HiveHasLivingQueen(xeno.Owner)))
         {
             return false;
         }
@@ -937,6 +965,27 @@ public sealed class XenoEvolutionSystem : EntitySystem
         }
 
         // Stories-XenoEvolutionQueue-Start
+        if (proto.HasComponent<XenoEvolutionGranterComponent>(_compFactory))
+        {
+            if (HiveHasLivingQueen(xeno.Owner))
+                return false;
+
+            if (hive.Comp.LastQueenDeath is { } lastQueenDeath &&
+                _timing.CurTime < lastQueenDeath + hive.Comp.NewQueenCooldown)
+            {
+                return true;
+            }
+
+            var queenQuery = EntityQueryEnumerator<XenoRaffleCandidateComponent, HiveMemberComponent>();
+            while (queenQuery.MoveNext(out var uid, out var cand, out var member))
+            {
+                if (member.Hive == hive.Owner && uid != xeno.Owner && !_mobState.IsDead(uid) && cand.Target == target)
+                    return true;
+            }
+
+            return false;
+        }
+
         if (!xeno.Comp.EvolvesToWithoutPoints.Contains(target) && xeno.Comp.Points < xeno.Comp.Max)
             return true;
 
@@ -1016,7 +1065,10 @@ public sealed class XenoEvolutionSystem : EntitySystem
             // Stories-XenoEvolutionQueue-Start
             if (_mobState.IsDead(uid) || !_mind.TryGetMind(uid, out _, out _) ||
                 _xenoHive.GetHive(uid) is not { } candHive ||
-                string.IsNullOrEmpty(cand.Target.Id))
+                string.IsNullOrEmpty(cand.Target.Id) ||
+                (_prototypes.TryIndex(cand.Target, out var targetProto) &&
+                 targetProto.HasComponent<XenoEvolutionGranterComponent>(_compFactory) &&
+                 HiveHasLivingQueen(uid)))
             {
                 LeaveRaffle(uid);
                 continue;
@@ -1337,6 +1389,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private bool IsValidPathSequence(EntProtoId startProto, List<EntProtoId> path, bool marinesLanded)
     {
+        if (path.Count > 16)
+            return false;
+
         var current = startProto;
         var visited = new HashSet<EntProtoId> { current };
         foreach (var step in path)
@@ -1382,6 +1437,14 @@ public sealed class XenoEvolutionSystem : EntitySystem
             TryComp(xeno, out XenoEvolutionComponent? evoComp))
         {
             var xenoEnt = new Entity<XenoEvolutionComponent>(xeno, evoComp);
+
+            // Stories-XenoEvolutionQueue-Start
+            foreach (var target in evoComp.EvolvesToWithoutPoints)
+            {
+                if (ShouldRaffle(xenoEnt, target))
+                    raffleGated.Add(target.Id);
+            }
+            // Stories-XenoEvolutionQueue-End
 
             foreach (var target in evoComp.EvolvesTo)
             {
