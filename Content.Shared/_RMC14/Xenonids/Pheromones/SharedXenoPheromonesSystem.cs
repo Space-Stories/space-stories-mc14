@@ -111,6 +111,14 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
 
     private void OnXenoPheromonesChosenBui(Entity<XenoPheromonesComponent> xeno, ref XenoPheromonesChosenBuiMsg args)
     {
+        // Stories-UIValidation-Start
+        if (args.Actor != xeno.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(xeno.Owner, XenoPheromonesUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         TrySetPheromones(xeno, args.Pheromones);
     }
 
