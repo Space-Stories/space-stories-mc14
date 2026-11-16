@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/16/2026 12:37:46
+  time: 11/16/2026 13:21:47
   entityCount: 29625
 maps:
 - 1
@@ -62144,7 +62144,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -234771.08
+      secondsUntilStateChange: -234723.86
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -62168,7 +62168,7 @@ entities:
     - type: CMDoubleDoor
       lastOpeningAt: 10761.05
     - type: Door
-      secondsUntilStateChange: -234771.08
+      secondsUntilStateChange: -234723.86
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -150706,7 +150706,7 @@ entities:
       pos: 71.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381358.75
+      secondsUntilStateChange: -381311.53
       state: Opening
   - uid: 21501
     components:
@@ -150714,7 +150714,7 @@ entities:
       pos: 72.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381358.3
+      secondsUntilStateChange: -381311.1
       state: Opening
   - uid: 21502
     components:
@@ -150722,7 +150722,7 @@ entities:
       pos: 73.5,-14.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381357.9
+      secondsUntilStateChange: -381310.7
       state: Opening
   - uid: 21503
     components:
@@ -150730,7 +150730,7 @@ entities:
       pos: 71.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381352.38
+      secondsUntilStateChange: -381305.16
       state: Opening
   - uid: 21504
     components:
@@ -150738,7 +150738,7 @@ entities:
       pos: 72.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381352.78
+      secondsUntilStateChange: -381305.56
       state: Opening
   - uid: 21505
     components:
@@ -150746,7 +150746,7 @@ entities:
       pos: 73.5,13.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -381353.2
+      secondsUntilStateChange: -381305.97
       state: Opening
   - uid: 21506
     components:
@@ -150756,7 +150756,7 @@ entities:
       pos: 11.5,91.5
       parent: 1
     - type: Door
-      secondsUntilStateChange: -113898.83
+      secondsUntilStateChange: -113851.61
       state: Opening
   - uid: 21507
     components:
@@ -176330,14 +176330,13 @@ entities:
       - CMCMO
       - IntelOfficer
       - OT
-      - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
-      - DropshipCrewChief
       - Pilot
+      - DropshipCrewChief
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176436,14 +176435,13 @@ entities:
       - CMCMO
       - IntelOfficer
       - OT
-      - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
-      - DropshipCrewChief
       - Pilot
+      - DropshipCrewChief
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176542,14 +176540,13 @@ entities:
       - CMCMO
       - IntelOfficer
       - OT
-      - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
-      - DropshipCrewChief
       - Pilot
+      - DropshipCrewChief
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176648,14 +176645,13 @@ entities:
       - CMCMO
       - IntelOfficer
       - OT
-      - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
-      - DropshipCrewChief
       - Pilot
+      - DropshipCrewChief
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -176753,14 +176749,13 @@ entities:
       - CMCMO
       - IntelOfficer
       - OT
-      - CO
       - Nurse
       - CombatTech
-      - FTL
       - MarineMain
+      - FTL
       - QuarterMaster
-      - DropshipCrewChief
       - Pilot
+      - DropshipCrewChief
       - SquadLeader
       - SEA
       - RMCWeYaExec
@@ -200069,6 +200064,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 14231
     components:
     - type: Transform
@@ -200077,6 +200075,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: civ_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 21666
     components:
     - type: Transform
@@ -200085,6 +200086,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: civ_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 21673
     components:
     - type: Transform
@@ -200093,6 +200097,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: civ_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 27123
     components:
     - type: Transform
@@ -200100,6 +200107,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 27124
     components:
     - type: Transform
@@ -200107,6 +200117,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 27125
     components:
     - type: Transform
@@ -200114,6 +200127,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 27126
     components:
     - type: Transform
@@ -200122,6 +200138,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
   - uid: 27877
     components:
     - type: Transform
@@ -200130,6 +200149,9 @@ entities:
       parent: 1
     - type: RMCPodDoor
       id: bot_uniforms
+    missingComponents:
+    - RMCWallExplosionDeletable
+    - DestroyedByExplosionType
 - proto: RMCSigintTerminal
   entities:
   - uid: 27882
@@ -208978,7 +209000,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1106.041
+      secondsUntilStateChange: -1058.8206
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -208997,7 +209019,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1044.8218
+      secondsUntilStateChange: -997.6014
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209016,7 +209038,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1050.6217
+      secondsUntilStateChange: -1003.40137
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209036,7 +209058,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1111.3411
+      secondsUntilStateChange: -1064.1206
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209056,7 +209078,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1116.9744
+      secondsUntilStateChange: -1069.7539
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209075,7 +209097,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1039.155
+      secondsUntilStateChange: -991.9347
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209095,7 +209117,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1127.6743
+      secondsUntilStateChange: -1080.4539
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209115,7 +209137,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1122.2076
+      secondsUntilStateChange: -1074.9872
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209135,7 +209157,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1133.8411
+      secondsUntilStateChange: -1086.6206
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209156,7 +209178,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1245.0409
+      secondsUntilStateChange: -1197.8204
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209176,7 +209198,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -963.35516
+      secondsUntilStateChange: -916.13477
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209196,7 +209218,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -958.9218
+      secondsUntilStateChange: -911.7014
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209215,7 +209237,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1241.4742
+      secondsUntilStateChange: -1194.2538
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209234,7 +209256,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1221.6075
+      secondsUntilStateChange: -1174.3871
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209253,7 +209275,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1217.9742
+      secondsUntilStateChange: -1170.7538
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209273,7 +209295,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -952.68854
+      secondsUntilStateChange: -905.46814
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209292,7 +209314,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1256.2075
+      secondsUntilStateChange: -1208.987
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209311,7 +209333,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1209.3743
+      secondsUntilStateChange: -1162.1538
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209330,7 +209352,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1213.6743
+      secondsUntilStateChange: -1166.4539
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209350,7 +209372,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1232.1075
+      secondsUntilStateChange: -1184.8871
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209370,7 +209392,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1236.0742
+      secondsUntilStateChange: -1188.8538
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -209389,7 +209411,7 @@ entities:
     - type: Airtight
       airBlocked: True
     - type: Door
-      secondsUntilStateChange: -1228.0742
+      secondsUntilStateChange: -1180.8538
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
