@@ -1,0 +1,152 @@
+- type: entity
+  id: STPlanetZSolaris
+  name: Хребет Солярис # Stories-Translate
+  components:
+  - type: RMCPlanetMapPrototype
+    map: /Maps/_RMC14/solaris.yml
+    mapsAbove:
+    - /Maps/_Stories/solaris1.yml
+    - /Maps/_Stories/solaris2.yml
+    camouflage: Desert
+    inRotation: false
+    announcements:
+    - text: rmc-announcement-planet-solaris
+    specialFaxes:
+      Liaison: RMCPaperWeYaLiaisonBriefingSolaris
+    commandingOfficerBriefings:
+      Unaligned: RMCPaperCOBriefingSolarisUnaligned
+      Hawks: RMCPaperCOBriefingSolarisHawks
+      Doves: RMCPaperCOBriefingSolarisDoves
+      Magpies: RMCPaperCOBriefingSolarisMagpies
+    #smallHostVariants:
+      #RMCMobSmallHostNeaera
+    nightmareScenarios:
+    # Stories-CLFSurvivor-Start
+    - scenarioName: clfmining
+      scenarioProbability: 0.1
+    # Stories-CLFSurvivor-End
+    - scenarioName: crashlanding_offices
+      scenarioProbability: 0.2
+    - scenarioName: none # 80% chance of regular surv. Reduce to 70% once CLF survs are in.
+      scenarioProbability: 0.7 # Stories-CLFSurvivor
+    survivorJobs:
+    - RMCSurvivorCommandingOfficer: 1
+    - RMCSyntheticColony: 1 # Stories-SynthSurvivor
+    - CMSurvivor: -1
+    - CMSurvivorCorporate: 2
+    - CMSurvivorDoctor: 3
+    - CMSurvivorEngineer: 4
+    - CMSurvivorSecurity: 2
+    - CMSurvivorScientist: 2
+    survivorJobVariants:
+      # Stories-SynthSurvivor-Start
+      RMCSyntheticColony:
+      - STSyntheticColonyGeneral: 1
+      # Stories-SynthSurvivor-End
+      RMCSurvivorCommandingOfficer:
+      - CMSurvivorSolarisCMBMarshal: 1
+      CMSurvivor:
+      - CMSurvivor: -1
+      - RMCSurvivorCivilianUnique: -1
+      - CMSurvivorSolarisChaplain: -1
+      - CMSurvivorUNMCRecruiter: -1
+      - RMCSurvivorHybrisaTMCCMiner: -1
+      - RMCSurvivorHybrisaFireProtectionSpecialist: -1
+      - CMSurvivorFlightOperator: -1
+      CMSurvivorCorporate:
+      - CMSurvivorSolarisCorporateLiaison: -1
+      CMSurvivorDoctor:
+      - CMSurvivorSolarisDoctor: -1
+      - RMCSurvivorHybrisaEMTParamedic: -1
+      CMSurvivorEngineer:
+      - CMSurvivorSolarisTrucker: -1
+      - CMSurvivorSolarisEngineer: -1
+      CMSurvivorSecurity:
+      - CMSurvivorSolarisCMBDeputy: -1
+      - CMSurvivorSolarisILRCPeacekeeper: -1
+      CMSurvivorScientist:
+      - CMSurvivorSolarisScientist: -1
+    survivorJobScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivor: -1
+      # Stories-CLFSurvivor-End
+      crashlanding_offices: # PMC, order of job priority for PMCs. Scientist is overriden into doctor.
+      - RMCSurvivorCommandingOfficer: 1
+      - RMCSyntheticColony: 1 # Stories-SynthSurvivor
+      - CMSurvivorEngineer: 1
+      - CMSurvivorDoctor: 1
+      - CMSurvivorSecurity: 1
+      - CMSurvivorCorporate: 1
+      - CMSurvivor: -1
+    survivorJobVariantScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+        RMCSurvivorCommandingOfficer:
+        - STSurvivorCLFCoordinator: 1
+        RMCSyntheticColony:
+        - STSurvivorCLFSynth: 1
+        CMSurvivorSecurity:
+        - RMCSurvivorCLFLeader: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorCLFEngineer: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorCLFMedic: 1
+        CMSurvivor:
+        - RMCSurvivorCLFSoldier: -1
+      # Stories-CLFSurvivor-End
+      crashlanding_offices: # PMC
+        RMCSurvivorCommandingOfficer:
+        - RMCSurvivorSolarisPMCCommander: 1
+        # Stories-SynthSurvivor-Start
+        RMCSyntheticColony:
+        - RMCSurvivorPMCSupportSynthetic: 1
+        # Stories-SynthSurvivor-End
+        CMSurvivorSecurity:
+        - RMCSurvivorSolarisPMCLeader: 1
+        CMSurvivorDoctor:
+        - RMCSurvivorSolarisPMCMedic: 1
+        CMSurvivorCorporate:
+        - RMCSurvivorSolarisCorporateSupervisor: 1
+        CMSurvivorEngineer:
+        - RMCSurvivorSolarisPMCEngineer: 1
+        CMSurvivor:
+        - RMCSurvivorSolarisPMCStandard: -1
+      # clfmining:
+      #   CMSurvivor:
+      #   - : 1
+      #   - : -1
+      #   CMSurvivorCorporate:
+      #   - : 1
+      #   - : -1
+      #   CMSurvivorDoctor:
+      #   - : 1
+      #   - : -1
+      #   CMSurvivorEngineer:
+      #   - : 1
+      #   - : -1
+      #   CMSurvivorSecurity:
+      #   - : 1
+      #   - : -1
+      #   CMSurvivorScientist:
+      #   - : -1
+    survivorJobOverrideScenarios:
+      clfmining: # Stories-CLFSurvivor-Start
+        CMSurvivorCorporate: CMSurvivor
+        CMSurvivorScientist: CMSurvivor
+      # Stories-CLFSurvivor-End
+      crashlanding_offices: # PMC
+        CMSurvivorScientist: CMSurvivorDoctor
+    replacements: # Stories-Survivor
+      RMCWeaponMar50LMG: RMCSpawnerRandomGunRifleMed
+      RMCMagazineMar50LMG: null
+      RMCBoxShotgunIncendiaryBuckshot: RMCBoxShotgunBuckshot
+      RMCBoxShotgunIncendiary: RMCBoxShotgunBuckshot
+      CMShellShotgunIncendiaryBuckshot: CMShellShotgunBuckshot
+      CMShellShotgunIncendiary: CMShellShotgunBuckshot
+      CMPaperBin30: CMPaperBin5
+      CMPaperBin20: CMPaperBin5
+      CMPaperBin10: CMPaperBin5

@@ -8,9 +8,9 @@
     sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/armored_vest.rsi
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.70
+    sprintModifier: 0.70
   - type: CMArmor
     melee: 15
     bullet: 20
@@ -35,6 +35,19 @@
       Snow: _RMC14/Objects/Clothing/OuterClothing/Armor/pilot/snow.rsi
       Classic: _RMC14/Objects/Clothing/OuterClothing/Armor/pilot/classic.rsi
       Urban: _RMC14/Objects/Clothing/OuterClothing/Armor/pilot/urban.rsi
+  - type: Storage
+    maxItemSize: Small
+    grid:
+    - 0,0,3,1 # 2 slots
+  - type: FixedItemSizeStorage
+  - type: IgnoreContentsSize
+    items:
+      tags:
+      - MRE
+      - PillPacket
+      - PillCanister
+      - CMSurgicalCase
+      - RMCSyringeCase
   - type: CMArmor
     melee: 15
     bullet: 20
@@ -101,9 +114,6 @@
     explosionArmor: 0
   - type: Item
     size: Huge
-  - type: RMCDefibrillatorBlocked
-    popup: cm-defib-take-off-armor
-    showOnExamine: false
   - type: InteractedBlacklist
     blacklist:
       components:

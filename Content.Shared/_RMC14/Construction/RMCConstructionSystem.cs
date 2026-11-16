@@ -1,5 +1,6 @@
-﻿using Content.Shared._RMC14.Construction.Prototypes;
+using Content.Shared._RMC14.Construction.Prototypes;
 using Content.Shared._RMC14.Dropship;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Emplacements;
 using Content.Shared._RMC14.Entrenching;
 using Content.Shared._RMC14.Ladder;
@@ -38,6 +39,7 @@ public sealed class RMCConstructionSystem : EntitySystem
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedStackSystem _stack = default!;
+    [Dependency] private readonly VehicleSystem _vehicle = default!;
     [Dependency] private readonly SharedWeaponMountSystem _weaponMount = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
@@ -84,15 +86,20 @@ public sealed class RMCConstructionSystem : EntitySystem
         var query = EntityQueryEnumerator<RMCReplaceOnHijackLandComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
+            if (!TryComp(uid, out TransformComponent? xform) || xform.MapUid != ev.Map)
+                continue;
+
             if (comp.Id is not { } id)
             {
                 Del(uid);
                 continue;
             }
 
-            var coordinates = _transform.GetMoverCoordinates(uid);
+            var coordinates = _transform.GetMoverCoordinates(uid, xform);
+            var rotation = xform.LocalRotation;
             Del(uid);
-            Spawn(id, coordinates);
+            var spawned = Spawn(id, coordinates);
+            _transform.SetLocalRotation(spawned, rotation);
         }
     }
 
@@ -115,8 +122,16 @@ public sealed class RMCConstructionSystem : EntitySystem
         if (_net.IsClient)
             return false;
 
-        if (!_prototype.TryIndex<RMCConstructionPrototype>(protoID, out var proto))
+        if (amount <= 0)
             return false;
+
+        if (!TryGetBuildable(ent, protoID, out var proto))
+            return false;
+
+        // Stories-ConstructionDupe-Start
+        if (amount != proto.Amount && (proto.StackAmounts == null || !proto.StackAmounts.Contains(amount)))
+            return false;
+        // Stories-ConstructionDupe-End
 
         if (!TryComp(user, out TransformComponent? transform))
             return false;
@@ -146,8 +161,10 @@ public sealed class RMCConstructionSystem : EntitySystem
 
         if (proto.MaterialCost is { } materialCost && TryComp<StackComponent>(ent.Owner, out var stack))
         {
-            var totalAmount = amount / proto.Amount;
-            var cost = (amount == proto.Amount) ? materialCost : totalAmount * materialCost;
+            // Stories-ConstructionDupe-Start
+            var totalAmount = (int) Math.Ceiling((double) amount / Math.Max(1, proto.Amount));
+            var cost = (amount == proto.Amount) ? materialCost : Math.Max(1, totalAmount * materialCost);
+            // Stories-ConstructionDupe-End
 
             if (stack.Count < cost)
             {
@@ -182,6 +199,38 @@ public sealed class RMCConstructionSystem : EntitySystem
         _doAfter.TryStartDoAfter(doAfter);
         UpdateStackAmountUI(ent);
         return true;
+    }
+
+    private bool TryGetBuildable(Entity<RMCConstructionItemComponent> ent,
+        ProtoId<RMCConstructionPrototype> id,
+        out RMCConstructionPrototype prototype)
+    {
+        prototype = default!;
+        if (ent.Comp.Buildable == null)
+            return false;
+
+        var pending = new Stack<ProtoId<RMCConstructionPrototype>>(ent.Comp.Buildable);
+        var visited = new HashSet<ProtoId<RMCConstructionPrototype>>();
+        while (pending.TryPop(out var next))
+        {
+            if (!visited.Add(next) || !_prototype.TryIndex(next, out var entry) || entry.IsDivider)
+                continue;
+
+            if (entry.Listed is { } listed)
+            {
+                foreach (var child in listed)
+                    pending.Push(child);
+                continue;
+            }
+
+            if (next != id)
+                continue;
+
+            prototype = entry;
+            return true;
+        }
+
+        return false;
     }
 
     private void OnConstructionPreventCollide(Entity<RMCConstructionPreventCollideComponent> ent, ref PreventCollideEvent args)
@@ -222,15 +271,21 @@ public sealed class RMCConstructionSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        var entry = args.Prototype;
+        if (!TryGetBuildable(ent, args.Prototype.ID, out var entry))
+            return;
 
         var coordinates = GetCoordinates(args.Coordinates);
         args.Handled = true;
 
+        // Stories-ConstructionDupe-Start
+        if (args.Amount != entry.Amount && (entry.StackAmounts == null || !entry.StackAmounts.Contains(args.Amount)))
+            return;
+
         // If the stack amount is equal to the default amount, use the default material cost.
         // Otherwise, use the material cost times the stack amount.
-        var totalAmount = args.Amount / entry.Amount; // So a stack of 20 with an amount of 4 and a cost of 1 is correctly 5 cost
-        var cost = (args.Amount == entry.Amount) ? entry.MaterialCost : totalAmount * entry.MaterialCost;
+        var totalAmount = (int) Math.Ceiling((double) args.Amount / Math.Max(1, entry.Amount));
+        var cost = (args.Amount == entry.Amount) ? entry.MaterialCost : Math.Max(1, totalAmount * (entry.MaterialCost ?? 1));
+        // Stories-ConstructionDupe-End
 
         if (TryComp<StackComponent>(ent.Owner, out var stack))
         {
@@ -402,7 +457,16 @@ public sealed class RMCConstructionSystem : EntitySystem
 
     public bool CanConstruct(EntityUid? user)
     {
-        return !HasComp<DisableConstructionComponent>(user);
+        if (HasComp<DisableConstructionComponent>(user))
+            return false;
+
+        if (user is { } uid && HasComp<VehicleInteriorOccupantComponent>(uid))
+        {
+            _popup.PopupClient(Loc.GetString("rmc-construction-vehicle"), uid, uid);
+            return false;
+        }
+
+        return true;
     }
 
     public bool CanBuildAt(EntityCoordinates coordinates, EntProtoId prototype, out string? popup, bool anchoring = false, Direction direction = Direction.Invalid, CollisionGroup? collision = null, EntityUid? user = null)
@@ -432,6 +496,13 @@ public sealed class RMCConstructionSystem : EntitySystem
     public bool CanBuildAt(EntityCoordinates coordinates, string? prototypeName, out string? popup, bool anchoring = false, Direction direction = Direction.Invalid, CollisionGroup? collision = null)
     {
         popup = default;
+
+        if (_vehicle.TryGetVehicleFromInterior(coordinates.EntityId, out _))
+        {
+            popup = Loc.GetString("construction-system-inside-container");
+            return false;
+        }
+
         if (_transform.GetGrid(coordinates) is not { } gridId)
             return true;
 

@@ -42,6 +42,7 @@ public abstract class SharedOnCollideSystem : EntitySystem
 
         SubscribeLocalEvent<DamageOnCollideComponent, StartCollideEvent>(OnStartCollide);
         SubscribeLocalEvent<DamageOnCollideComponent, EndCollideEvent>(OnEndCollide);
+        SubscribeLocalEvent<DamageOnCollideComponent, ComponentShutdown>(OnShutdown);
     }
 
     private void OnStartCollide(Entity<DamageOnCollideComponent> ent, ref StartCollideEvent args)
@@ -54,14 +55,32 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (!ent.Comp.CanRehit)
             return;
 
-        if (ent.Comp.Damaged.Remove(args.OtherEntity))
+        // Stories-DeletedEntityReferences-Start
+        if (TryGetNetEntity(args.OtherEntity, out var other) && ent.Comp.Damaged.Remove(other.Value))
             Dirty(ent);
+        // Stories-DeletedEntityReferences-End
+    }
+
+    private void OnShutdown(Entity<DamageOnCollideComponent> ent, ref ComponentShutdown args)
+    {
+        if (ent.Comp.Chain is not { } chain || TerminatingOrDeleted(chain))
+            return;
+
+        CleanupChain(chain, ent.Owner);
     }
 
     private void OnCollide(Entity<DamageOnCollideComponent> ent, EntityUid other)
     {
-        if (ent.Comp.Damaged.Contains(other))
+        if (ent.Comp.Disabled)
             return;
+
+        // Stories-DeletedEntityReferences-Start
+        if (TerminatingOrDeleted(other) || !TryGetNetEntity(other, out var otherNet))
+            return;
+
+        if (ent.Comp.Damaged.Contains(otherNet.Value))
+            return;
+        // Stories-DeletedEntityReferences-End
 
         if (!_whitelist.IsWhitelistPassOrNull(ent.Comp.Whitelist, other))
             return;
@@ -78,11 +97,11 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (HasComp<UncloakOnHitComponent>(ent.Owner))
             _cloak.TrySetInvisibility(other, false, true);
 
-        ent.Comp.Damaged.Add(other);
+        ent.Comp.Damaged.Add(otherNet.Value); // Stories-DeletedEntityReferences
         Dirty(ent);
 
         var didEmote = false;
-        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, other))
+        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, otherNet.Value)) // Stories-DeletedEntityReferences
         {
             var damage = ent.Comp.Damage;
             if (ent.Comp.Acidic)
@@ -117,7 +136,7 @@ public abstract class SharedOnCollideSystem : EntitySystem
     {
     }
 
-    private bool AddToChain(Entity<CollideChainComponent?> chain, EntityUid add)
+    private bool AddToChain(Entity<CollideChainComponent?> chain, NetEntity add) // Stories-DeletedEntityReferences
     {
         if (!_collideChainQuery.Resolve(chain, ref chain.Comp, false))
             return true;
@@ -143,7 +162,54 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (!_damageOnCollideQuery.Resolve(ent, ref ent.Comp, false))
             return;
 
+        if (ent.Comp.Chain is { } oldChain &&
+            oldChain != chain &&
+            !TerminatingOrDeleted(oldChain))
+        {
+            CleanupChain(oldChain, ent.Owner);
+        }
+
         ent.Comp.Chain = chain;
+        Dirty(ent);
+    }
+
+    public void CleanupChain(EntityUid? chain, EntityUid? skip = null)
+    {
+        if (chain == null || TerminatingOrDeleted(chain.Value))
+            return;
+
+        var refs = GetRemainingChainRefs(chain.Value, skip);
+        if (refs.Count == 0)
+            Del(chain.Value);
+    }
+
+    private List<string> GetRemainingChainRefs(EntityUid chain, EntityUid? skip = null)
+    {
+        var refs = new List<string>();
+        var query = EntityQueryEnumerator<DamageOnCollideComponent>();
+        while (query.MoveNext(out var uid, out var comp))
+        {
+            if ((skip != null && uid == skip) || TerminatingOrDeleted(uid))
+                continue;
+
+            if (comp.Chain == chain)
+                refs.Add(ToPrettyString(uid));
+        }
+
+        return refs;
+    }
+
+    public DamageSpecifier GetCollideDamage(Entity<DamageOnCollideComponent> ent)
+    {
+        return ent.Comp.Damage;
+    }
+
+    public void DisableDamageOnCollide(Entity<DamageOnCollideComponent?> ent)
+    {
+        if (!_damageOnCollideQuery.Resolve(ent, ref ent.Comp, false))
+            return;
+
+        ent.Comp.Disabled = true;
         Dirty(ent);
     }
 

@@ -1,11 +1,10 @@
 using Content.Shared.Projectiles;
-using Content.Shared.Vehicle.Components;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Physics.Events;
 
-namespace Content.Shared.Vehicle;
+namespace Content.Shared._RMC14.Vehicle;
 
 public sealed partial class VehicleRideSurfaceSystem
 {
@@ -15,7 +14,7 @@ public sealed partial class VehicleRideSurfaceSystem
         if (args.Cancelled ||
             !HasComp<ProjectileComponent>(args.OtherEntity) ||
             !TryComp(args.OtherEntity, out TargetedProjectileComponent? targeted) ||
-            !TryComp(targeted.Target, out VehicleRideSurfaceRiderComponent? rider) ||
+            !TryComp(GetEntity(targeted.Target), out VehicleRideSurfaceRiderComponent? rider) || // Stories-DeletedEntityReferences
             rider.Vehicle != ent.Owner)
         {
             return;

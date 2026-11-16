@@ -1,2 +1,9 @@
 rmc-mine-deploy-fail-occupied = На этом месте уже находится мина!
 rmc-explosive-deploy-container = Здесь слишком тесно, чтобы установить { $explosive }
+rmc-explosive-cannot-stick-same-faction = ТЫ С УМА СОШЁЛ?!
+rmc-c4-acid-start = Вы начинаете растворять { $explosive } кислотой.
+rmc-c4-acid-finish = Вы растворяете { $explosive } кислотой.
+rmc-c4-acid-too-weak = Ваша кислота слишком слаба, чтобы растворить { $explosive }.
+rmc-c4-disarm-start = Вы начинаете обезвреживать { $explosive }.
+rmc-c4-disarm-stop = Вы прекращаете обезвреживать { $explosive }.
+rmc-c4-disarm-finish = Вы обезвреживаете { $explosive }.

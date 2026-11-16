@@ -82,6 +82,12 @@ namespace Content.Server.Database
                 .Property(log => log.Markings)
                 .HasConversion(jsonByteArrayConverter);
 
+            // Stories-SynthProfile-Start
+            modelBuilder.Entity<STSynthProfile>()
+                .Property(s => s.Markings)
+                .HasConversion(jsonByteArrayConverter);
+            // Stories-SynthProfile-End
+
             // EF core can make this automatically unique on sqlite but not psql.
             modelBuilder.Entity<IPIntelCache>()
                 .HasIndex(p => p.Address)

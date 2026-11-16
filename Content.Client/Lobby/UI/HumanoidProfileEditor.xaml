@@ -135,7 +135,7 @@
                                 <BoxContainer HorizontalExpand="True" Visible="False" Name="TTSContainer">
                                     <Label Text="{Loc 'humanoid-profile-editor-voice-label'}" />
                                     <Control HorizontalExpand="True"/>
-                                    <OptionButton Name="VoiceButton" HorizontalAlignment="Right" />
+                                    <Button Name="VoiceButton" HorizontalAlignment="Right" MinWidth="150" />
                                     <Button Name="VoicePlayButton" Text="{Loc 'humanoid-profile-editor-voice-play'}" MaxWidth="80" />
                                 </BoxContainer>
                                 <!-- Stories-TTS-End -->
@@ -189,6 +189,8 @@
                 </BoxContainer>
                 <!-- Stories-Hunter -->
                 <BoxContainer Name="HunterTab" Access="Public" Orientation="Vertical" Visible="False" />
+                <!-- Stories-SynthProfileTab -->
+                <BoxContainer Name="SynthTab" Access="Public" Orientation="Vertical" />
             </TabContainer>
         </BoxContainer>
         <!-- Right side -->

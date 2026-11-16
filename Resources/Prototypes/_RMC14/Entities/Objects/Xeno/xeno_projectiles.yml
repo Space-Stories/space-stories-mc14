@@ -154,28 +154,29 @@
 
 - type: entity
   id: XenoAcidShotgunProjectile
-  parent: [XenoSpitImpactSounds, XenoBaseProjectile]
-  name: neurotoxic droplet
-  categories:
-  - HideSpawnMenu
+  parent: XenoBaseProjectile
+  name: shotgun spit
+  categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Xeno/xeno_projectiles.rsi
     layers:
-    - state: neurotoxin
+    - state: xeno_acid_strong
       shader: unshaded
-  - type: XenoSlowingSpitProjectile
-    slow: 2
+  - type: XenoAcidShotgun
+    bonusDamage:
+      types:
+        Heat: 7.5
   - type: Projectile
     impactEffect: null
+    ignoreResistances: true
     damage:
       types:
-        Heat: 10
-    ignoreResistances: true # Full AP
+        Heat: 9
   - type: XenoProjectile
     deleteOnFriendlyXeno: false
   - type: ProjectileMaxRange
-    max: 4
+    max: 5
 
 - type: entity
   id: XenoBoneChipsProjectile
@@ -252,6 +253,7 @@
     spawn: RMCSmokeAcid
     popup: rmc-glob-land
     popupType: LargeCaution
+    spawnOffset: -0.5
   - type: ProjectileMaxRange
     max: 10
   - type: XenoSlowingSpitProjectile
@@ -308,6 +310,7 @@
     spawn: RMCSmokeNeurotoxin
     popup: rmc-glob-land
     popupType: LargeCaution
+    spawnOffset: -0.5
   - type: ProjectileMaxRange
     max: 10
   - type: XenoSlowingSpitProjectile

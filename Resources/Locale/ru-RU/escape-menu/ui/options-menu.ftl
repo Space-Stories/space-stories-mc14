@@ -130,6 +130,8 @@ ui-options-header-text-other = Прочий ввод текста
 
 ui-options-hotkey-keymap = Использовать клавиши QWERTY (США)
 ui-options-hotkey-toggle-walk = Переключать шаг\бег
+ui-options-hold-to-attack-melee = Зажать для атаки (ближний бой)
+ui-options-hold-to-attack-ranged = Зажать для атаки (дальний бой)
 
 ui-options-function-move-up = Двигаться вверх
 ui-options-function-move-left = Двигаться налево
@@ -155,11 +157,14 @@ ui-options-function-alt-activate-item-in-world = Альтернативно ис
 ui-options-function-drop = Положить предмет
 ui-options-function-examine-entity = Осмотреть
 ui-options-function-swap-hands = Поменять руки
-ui-options-function-swap-hands-reverse = Swap hands (other direction)
+ui-options-function-swap-hands-reverse = Поменять руки (в обратную сторону)
 ui-options-function-move-stored-item = Переместить хранящийся объект
 ui-options-function-rotate-stored-item = Повернуть хранящийся объект
 ui-options-function-save-item-location = Сохранить расположение объекта
 ui-options-static-storage-ui = Закрепить интерфейс хранилища на хотбаре
+ui-options-function-smart-equip-suit-storage = Умная экипировка в хранилище костюма
+ui-options-function-smart-equip-pocket1 = Умная экипировка в карман 1
+ui-options-function-smart-equip-pocket2 = Умная экипировка в карман 2
 
 ui-options-function-smart-equip-backpack = Умная экипировка в рюкзак
 ui-options-function-smart-equip-belt = Умная экипировка на пояс
@@ -301,11 +306,11 @@ ui-options-function-text-cut = Вырезать
 ui-options-function-text-paste = Вставить
 ui-options-function-text-history-prev = Предыдущее с истории
 ui-options-function-text-history-next = Следующее с истории
-ui-options-function-text-release-focus = Release focus
+ui-options-function-text-release-focus = Сбросить фокус ввода
 ui-options-function-text-scroll-to-bottom = Пролистать вниз
-ui-options-function-text-tab-complete = Tab completion
-ui-options-function-text-complete-next = Complete next
-ui-options-function-text-complete-prev = Complete previous
+ui-options-function-text-tab-complete = Автодополнение по Tab
+ui-options-function-text-complete-next = Следующий вариант дополнения
+ui-options-function-text-complete-prev = Предыдущий вариант дополнения
 
 ## Network menu
 
@@ -364,37 +369,37 @@ ui-options-censor-nudity = Цензура обнажённых персонаж�
 
 ui-options-admin-player-panel = Список персонажей в админ меню
 
-ui-options-admin-player-tab-symbol-setting = Character column antag symbols
-ui-options-admin-player-tab-symbol-setting-off = No antag symbol
-ui-options-admin-player-tab-symbol-setting-basic = Show standard antag symbol
-ui-options-admin-player-tab-symbol-setting-specific = Show specific antag symbol
+ui-options-admin-player-tab-symbol-setting = Символы антагонистов в колонке персонажей
+ui-options-admin-player-tab-symbol-setting-off = Без символов антагонистов
+ui-options-admin-player-tab-symbol-setting-basic = Показывать стандартный символ антагониста
+ui-options-admin-player-tab-symbol-setting-specific = Показывать конкретный символ антагониста
 
-ui-options-admin-player-tab-role-setting = Role display settings
-ui-options-admin-player-tab-role-setting-roletype = Show role type
-ui-options-admin-player-tab-role-setting-subtype = Show subtype
-ui-options-admin-player-tab-role-setting-roletypesubtype = Show role type and subtype
-ui-options-admin-player-tab-role-setting-subtyperoletype = Show subtype and role type
+ui-options-admin-player-tab-role-setting = Настройки отображения ролей
+ui-options-admin-player-tab-role-setting-roletype = Показывать тип роли
+ui-options-admin-player-tab-role-setting-subtype = Показывать подтип
+ui-options-admin-player-tab-role-setting-roletypesubtype = Показывать тип роли и подтип
+ui-options-admin-player-tab-role-setting-subtyperoletype = Показывать подтип и тип роли
 
-ui-options-admin-player-tab-color-setting = Color settings
-ui-options-admin-player-tab-color-setting-off = I hate colors
-ui-options-admin-player-tab-color-setting-character = Colorize antag character names
-ui-options-admin-player-tab-color-setting-roletype = Colorize all role types
-ui-options-admin-player-tab-color-setting-both = Colorize both
+ui-options-admin-player-tab-color-setting = Настройки цвета
+ui-options-admin-player-tab-color-setting-off = Я ненавижу цвета
+ui-options-admin-player-tab-color-setting-character = Окрашивать имена персонажей-антагонистов
+ui-options-admin-player-tab-color-setting-roletype = Окрашивать все типы ролей
+ui-options-admin-player-tab-color-setting-both = Окрашивать и то, и другое
 
 ui-options-admin-overlay-title = Админ оверлей
 
-ui-options-admin-overlay-antag-format = Antag label style
-ui-options-admin-overlay-antag-format-binary = Show antag status
-ui-options-admin-overlay-antag-format-roletype = Show role type
-ui-options-admin-overlay-antag-format-subtype = Show subtype
+ui-options-admin-overlay-antag-format = Стиль метки антагониста
+ui-options-admin-overlay-antag-format-binary = Показывать статус антагониста
+ui-options-admin-overlay-antag-format-roletype = Показывать тип роли
+ui-options-admin-overlay-antag-format-subtype = Показывать подтип
 
-ui-options-admin-overlay-antag-symbol = Antag symbol style
-ui-options-admin-overlay-antag-symbol-off = No antag symbol
-ui-options-admin-overlay-antag-symbol-basic = Show standard antag symbol
-ui-options-admin-overlay-antag-symbol-specific = Show specific antag symbol
+ui-options-admin-overlay-antag-symbol = Стиль символа антагониста
+ui-options-admin-overlay-antag-symbol-off = Без символов антагонистов
+ui-options-admin-overlay-antag-symbol-basic = Показывать стандартный символ антагониста
+ui-options-admin-overlay-antag-symbol-specific = Показывать конкретный символ антагониста
 
-ui-options-admin-enable-overlay-playtime = Show playtime
-ui-options-admin-enable-overlay-starting-job = Show starting job
-ui-options-admin-overlay-merge-distance = Stack merge distance
-ui-options-admin-overlay-ghost-fade-distance = Ghost overlay fade range from mouse
-ui-options-admin-overlay-ghost-hide-distance = Ghost overlay hide range from mouse
+ui-options-admin-enable-overlay-playtime = Показывать игровое время
+ui-options-admin-enable-overlay-starting-job = Показывать стартовую роль
+ui-options-admin-overlay-merge-distance = Дистанция слияния стаков
+ui-options-admin-overlay-ghost-fade-distance = Дальность затухания оверлея призраков от мыши
+ui-options-admin-overlay-ghost-hide-distance = Дальность скрытия оверлея призраков от мыши

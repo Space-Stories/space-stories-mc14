@@ -1,3 +1,3 @@
-ent-RMCPropExosuitFab = exosuit fabricator
+ent-RMCPropExosuitFab = фабрикатор экзокостюмов
     .desc = { ent-BaseMachinePowered.desc }
-    .suffix = Prop, RMC
+    .suffix = Декорация, RMC

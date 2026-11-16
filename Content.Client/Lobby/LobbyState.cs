@@ -1,5 +1,6 @@
 using Content.Client._RMC14.LinkAccount;
 using Content.Client._RMC14.Lobby;
+using Content.Client._Stories.Sponsors;
 using Content.Client.Audio;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
@@ -31,6 +32,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IGameTiming _gameTiming = default!;
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly ClientsidePlaytimeTrackingManager _playtimeTracking = default!;
+        [Dependency] private readonly SponsorsManager _sponsorsManager = default!; // Stories-Sponsors
 
         // RMC14
         [Dependency] private readonly LinkAccountManager _linkAccount = default!;
@@ -201,6 +203,17 @@ namespace Content.Client.Lobby
         private void UpdateLobbyUi()
         {
             Lobby!.CharacterPreview.PatronPerks.Visible = _linkAccount.CanViewPatronPerks();
+
+            // Stories-Sponsors-Start
+            if (_sponsorsManager.TryGetInfo(out var sponsor) && !string.IsNullOrEmpty(sponsor.TierName))
+            {
+                Lobby!.CharacterPreview.SetSponsor(sponsor.TierName, sponsor.OOCColor);
+            }
+            else
+            {
+                Lobby!.CharacterPreview.SetSponsor(null, null);
+            }
+            // Stories-Sponsors-End
 
             if (_gameTicker.IsGameStarted)
             {

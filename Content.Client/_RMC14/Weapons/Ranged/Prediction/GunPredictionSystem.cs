@@ -64,7 +64,12 @@ public sealed class GunPredictionSystem : SharedGunPredictionSystem
         while (query.MoveNext(out var uid, out var predicted))
         {
             if (predicted.Coordinates is { } coordinates)
-                _transform.SetCoordinates(uid, coordinates);
+            {
+                // Stories-ZLevels-Start
+                if (_transform.GetMapId(coordinates) == Transform(uid).MapID)
+                    _transform.SetCoordinates(uid, coordinates);
+                // Stories-ZLevels-End
+            }
 
             predicted.Coordinates = null;
         }
@@ -75,7 +80,7 @@ public sealed class GunPredictionSystem : SharedGunPredictionSystem
         if (_timing.IsFirstTimePredicted)
             return;
 
-        ShootRequested(ev.Gun, ev.Coordinates, ev.Target, ev.Shot, args.SenderSession);
+        ShootRequested(ev.Gun, ev.Coordinates, ev.Target, ev.Shot, args.SenderSession, ev.RearmSemiAuto);
     }
 
     private void OnClientProjectileUpdateIsPredicted(Entity<PredictedProjectileClientComponent> ent, ref UpdateIsPredictedEvent args)

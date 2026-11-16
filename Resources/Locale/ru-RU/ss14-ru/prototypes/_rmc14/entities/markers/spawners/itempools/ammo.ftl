@@ -3,4 +3,4 @@ ent-RMCItemPoolBase = пул патронов выжившего
     .suffix = Базовый
 ent-RMCItemPoolBuckshot = пул патронов выжившего
     .desc = { ent-RMCItemPoolBase.desc }
-    .suffix = Дробь
+    .suffix = Картечь

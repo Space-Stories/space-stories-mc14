@@ -6,3 +6,15 @@
   - type: GameRule
     minPlayers: 1
   - type: CMDistressSignalRule
+    autoEnd: true
+
+- type: entity
+  id: RMCMutiny
+  parent: BaseGameRule
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: GameRule
+  - type: MutinyRule
+    faction: UNMC
+    iffFaction: FactionMarine
+    choiceDuration: 20

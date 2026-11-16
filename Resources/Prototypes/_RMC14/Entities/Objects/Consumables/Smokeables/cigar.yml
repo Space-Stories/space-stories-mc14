@@ -30,6 +30,8 @@
     rsi:
       sprite: _RMC14/Objects/Clothing/HelmetGarb/Smoking/cigar.rsi
       state: helmet
+  - type: BlackMarketValue
+    value: 15
 
 - type: entity
   id: CMTarbackCigarSpent
@@ -49,6 +51,8 @@
       - Cigar
       - Trash
       - Burnt
+  - type: BlackMarketValue
+    value: 0
 
 - type: entity
   id: RMCTarbackTube
@@ -89,6 +93,8 @@
     blacklist:
       components:
       - Xeno
+  - type: BlackMarketValue
+    value: 30
 
 # Shio Royals
 - type: entity
@@ -123,6 +129,8 @@
     - Cigar
     - Trash
     - Burnt
+  - type: BlackMarketValue
+    value: 0
 
 - type: entity
   parent: RMCTarbackTube

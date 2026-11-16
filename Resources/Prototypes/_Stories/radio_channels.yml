@@ -7,6 +7,7 @@
   longRange: true
   planet: true
   tower: false
+  ttsCategory: "stories-tts-category-radio-hunter"
 
 - type: radioChannel
   id: STOverseer
@@ -17,3 +18,12 @@
   longRange: true
   planet: true
   tower: false
+  ttsCategory: "stories-tts-category-radio-hunter"
+
+- type: radioChannel
+  id: STHermesLink
+  name: stories-chat-radio-hermes-link
+  keycode: "хд"
+  frequency: 1207
+  color: "#5ed7aa"
+  longRange: true

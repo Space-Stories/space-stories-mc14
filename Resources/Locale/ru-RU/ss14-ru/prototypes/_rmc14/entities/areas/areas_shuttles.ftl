@@ -1,0 +1,12 @@
+ent-RMCAreaShuttleNS = Шаттл
+    .desc = { ent-RMCAreaBase.desc }
+    .suffix = { ent-RMCAreaBase.suffix }
+ent-RMCAreaShuttleERT = Шаттл ОБР
+    .desc = { ent-RMCAreaShuttleNS.desc }
+    .suffix = { ent-RMCAreaShuttleNS.suffix }
+ent-RMCAreaShuttleEscapePod = Спасательная капсула
+    .desc = { ent-RMCAreaShuttleNS.desc }
+    .suffix = { ent-RMCAreaShuttleNS.suffix }
+ent-RMCAreaShuttleLifeboat = Спасательная шлюпка
+    .desc = { ent-RMCAreaShuttleNS.desc }
+    .suffix = { ent-RMCAreaShuttleNS.suffix }

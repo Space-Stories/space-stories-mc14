@@ -104,6 +104,14 @@ public sealed partial class WeaponMountComponent : Component
     [DataField, AutoNetworkedField]
     public int BarricadeExclusionAreaSize;
 
+    // Stories-SentryExclusion-Start
+    /// <summary>
+    ///     The distance required from the closest sentry turret.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public int SentryExclusionAreaSize = 5;
+    // Stories-SentryExclusion-End
+
     /// <summary>
     ///     The action prototype to stop using the mount.
     /// </summary>

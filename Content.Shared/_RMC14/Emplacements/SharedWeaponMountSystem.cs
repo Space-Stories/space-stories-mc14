@@ -7,7 +7,9 @@ using Content.Shared._RMC14.Folded;
 using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Scoping;
+using Content.Shared._RMC14.Sentry;
 using Content.Shared._RMC14.Stealth;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Weapons.Ranged.Overheat;
 using Content.Shared._RMC14.Xenonids;
@@ -113,7 +115,7 @@ public abstract class SharedWeaponMountSystem : EntitySystem
         SubscribeLocalEvent<WeaponMountComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<WeaponMountComponent, GetVerbsEvent<AlternativeVerb>>(OnAltVerb);
         SubscribeLocalEvent<WeaponMountComponent, BreakageEventArgs>(OnBreak);
-        SubscribeLocalEvent<WeaponMountComponent, DamageModifyEvent>(OnDamageModified);
+        SubscribeLocalEvent<WeaponMountComponent, BeforeDamageChangedEvent>(OnDamageModified);
         SubscribeLocalEvent<WeaponMountComponent, RMCCheckTileFreeEvent>(OnCheckTileFree);
         SubscribeLocalEvent<WeaponMountComponent, GetIFFGunUserEvent>(OnGetGunUser);
         SubscribeLocalEvent<WeaponMountComponent, InteractHandEvent>(OnInteractHand, before: new[] { typeof(SharedBuckleSystem) });
@@ -204,8 +206,10 @@ public abstract class SharedWeaponMountSystem : EntitySystem
 
     private void OnUseInHand(Entity<WeaponMountComponent> ent, ref UseInHandEvent args)
     {
-        if (ent.Comp.MountedEntity == null)
-            return;
+        // Stories-WeaponMount-Start
+        // if (ent.Comp.MountedEntity == null)
+        //     return;
+        // Stories-WeaponMount-End
 
         args.Handled = true;
 
@@ -484,6 +488,12 @@ public abstract class SharedWeaponMountSystem : EntitySystem
             return false;
         }
 
+        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        {
+            _popup.PopupClient(Loc.GetString("emplacement-mount-deploy-vehicle"), user, user, PopupType.SmallCaution);
+            return false;
+        }
+
         if (TryComp(user, out EntityTurnInvisibleComponent? invisible))
         {
             if (invisible.Enabled || invisible.UncloakTime + invisible.UncloakWeaponLock > _timing.CurTime)
@@ -522,6 +532,12 @@ public abstract class SharedWeaponMountSystem : EntitySystem
             if (ent.Comp.BarricadeExclusionAreaSize != 0 &&
                 _barricade.HasBarricadeNearbyPopup((grid.Value, mapGrid), user, coordinates, ent.Comp.BarricadeExclusionAreaSize))
                 return false;
+
+            // Stories-SentryExclusion-Start
+            if (ent.Comp.SentryExclusionAreaSize > 0 &&
+                HasSentryNearbyPopup((grid.Value, mapGrid), coordinates, ent.Comp.SentryExclusionAreaSize, user))
+                return false;
+            // Stories-SentryExclusion-End
         }
         return true;
     }
@@ -801,6 +817,31 @@ public abstract class SharedWeaponMountSystem : EntitySystem
         return HasWeaponMountNearbyPopup(grid, coordinates, prototype, range, user);
     }
 
+    // Stories-SentryExclusion-Start
+    public bool HasSentryNearbyPopup(Entity<MapGridComponent> grid, EntityCoordinates coordinates, float range = 1.5f, EntityUid? user = null)
+    {
+        var position = _mapSystem.LocalToTile(grid, grid, coordinates);
+        var checkArea = new Box2(position.X - range + 1, position.Y - range + 1, position.X + range, position.Y + range);
+        var enumerable = _mapSystem.GetLocalAnchoredEntities(grid, grid, checkArea);
+
+        foreach (var anchored in enumerable)
+        {
+            if (!HasComp<SentryComponent>(anchored))
+                continue;
+
+            if (user != null && _net.IsServer)
+            {
+                var msg = Loc.GetString("emplacement-mount-too-close", ("mount", anchored));
+                _popup.PopupEntity(msg, user.Value, user.Value, PopupType.SmallCaution);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+    // Stories-SentryExclusion-End
+
     private bool TryGetNearbyMounts(Entity<MapGridComponent> grid, EntityCoordinates coordinates, out List<Entity<WeaponMountComponent>> mounts, float range = 1.5f)
     {
         mounts = new List<Entity<WeaponMountComponent>>();
@@ -819,6 +860,7 @@ public abstract class SharedWeaponMountSystem : EntitySystem
         return mounts.Count > 0;
     }
 
+    // Stories-SentryExclusion-Start
     /// <summary>
     ///     Checks if the mount can be assembled at its current location.
     /// </summary>
@@ -827,18 +869,24 @@ public abstract class SharedWeaponMountSystem : EntitySystem
     /// <returns>True if the mount can be assembled</returns>
     private bool CanAssembleMount(Entity<WeaponMountComponent> ent, EntityUid user)
     {
-        if (ent.Comp.MountExclusionAreaSize == 0)
+        if (ent.Comp.MountExclusionAreaSize == 0 && ent.Comp.SentryExclusionAreaSize == 0)
             return true;
 
         var grid = _transform.GetGrid((ent, Transform(ent)));
         if (!TryComp(grid, out MapGridComponent? mapGrid))
             return true;
 
-        if (HasWeaponMountNearbyPopup((grid.Value, mapGrid), _transform.GetMoverCoordinates(ent), ent.Owner, ent.Comp.MountExclusionAreaSize, user))
+        var coords = _transform.GetMoverCoordinates(ent);
+
+        if (ent.Comp.MountExclusionAreaSize > 0 && HasWeaponMountNearbyPopup((grid.Value, mapGrid), coords, ent.Owner, ent.Comp.MountExclusionAreaSize, user))
+            return false;
+
+        if (ent.Comp.SentryExclusionAreaSize > 0 && HasSentryNearbyPopup((grid.Value, mapGrid), coords, ent.Comp.SentryExclusionAreaSize, user))
             return false;
 
         return true;
     }
+    // Stories-SentryExclusion-End
 
     /// <summary>
     ///     Rotate the mount.
@@ -960,11 +1008,14 @@ public abstract class SharedWeaponMountSystem : EntitySystem
         UpdateAppearance(ent);
     }
 
-    private void OnDamageModified(Entity<WeaponMountComponent> ent, ref DamageModifyEvent args)
+    private void OnDamageModified(Entity<WeaponMountComponent> ent, ref BeforeDamageChangedEvent args)
     {
-        // Set all damage received to 0 if the mount is folded.
+        if (args.Damage.GetTotal() < 0)
+            return;
+
+        // Receive no damage while folded.
         if (TryComp(ent, out FoldableComponent? foldable) && foldable.IsFolded)
-            args.Damage = new DamageSpecifier();
+            args.Cancelled = true;
     }
 
     private void OnCheckTileFree(Entity<WeaponMountComponent> ent, ref RMCCheckTileFreeEvent args)
@@ -1059,7 +1110,7 @@ public abstract class SharedWeaponMountSystem : EntitySystem
         if (!Resolve(mount, ref mountComponent, false) || mountComponent.MountedEntity == null)
             return false;
 
-        if (!_slots.TryGetSlot(mountComponent.MountedEntity.Value, "gun_magazine", out var itemSlot) ||  itemSlot.Item == null)
+        if (!_slots.TryGetSlot(mountComponent.MountedEntity.Value, "gun_magazine", out var itemSlot) || itemSlot.Item == null)
             return false;
 
         var ammoEv = new GetAmmoCountEvent();

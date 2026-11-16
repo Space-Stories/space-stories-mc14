@@ -24,6 +24,7 @@ stories-ordnance-defuse-success = Вы успешно обезвредили з�
 stories-ordnance-casing-primed = Снаряд взведён!
 stories-mine-armed-cannot-open = Мина взведена, вскрытие корпуса невозможно!
 stories-mine-defuse-fail = Вам не удалось обезвредить мину!
+stories-ordnance-already-stuck = На этой поверхности уже установлена взрывчатка!
 
 stories-demo-scanner-no-skill = Вам не хватает допуска для работы с "{ $scanner }".
 stories-demo-scanner-flamer-empty = В { $target } не обнаружено горючей смеси.
@@ -103,7 +104,7 @@ stories-demo-sim-proto-CMXenoSpitter = Плеватели
 stories-demo-sim-proto-CMXenoRavager = Разрушители
 stories-demo-sim-proto-RMCXenoCrusher = Крушители
 stories-demo-sim-proto-CMXenoPraetorian = Преторианцы
-stories-demo-sim-proto-CMXenoBoiler = Бойлеры
+stories-demo-sim-proto-RMCXenoBoiler = Бойлеры
 stories-demo-sim-proto-CMXenoQueen = Королевы
 stories-demo-sim-proto-RMCXenoKing = Короли
 

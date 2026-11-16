@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Access.Components;
 using Content.Shared.ActionBlocker;
-using Content.Shared.Damage;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared.Vehicle.Components;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
@@ -18,7 +18,6 @@ public sealed partial class VehicleSystem : EntitySystem
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly EntityWhitelistSystem _entityWhitelist = default!;
     [Dependency] private readonly SharedMoverController _mover = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -28,31 +27,11 @@ public sealed partial class VehicleSystem : EntitySystem
         InitializeOperator();
         InitializeKey();
 
-        SubscribeLocalEvent<VehicleComponent, BeforeDamageChangedEvent>(OnBeforeDamageChanged);
         SubscribeLocalEvent<VehicleComponent, UpdateCanMoveEvent>(OnVehicleUpdateCanMove);
         SubscribeLocalEvent<VehicleComponent, ComponentShutdown>(OnVehicleShutdown);
         SubscribeLocalEvent<VehicleComponent, GetAdditionalAccessEvent>(OnVehicleGetAdditionalAccess);
 
         SubscribeLocalEvent<VehicleOperatorComponent, ComponentShutdown>(OnOperatorShutdown);
-    }
-
-    private void OnBeforeDamageChanged(Entity<VehicleComponent> ent, ref BeforeDamageChangedEvent args)
-    {
-        if (!ent.Comp.TransferDamage || !args.Damage.AnyPositive() || ent.Comp.Operator is not { } operatorUid)
-            return;
-
-        // in case this ever wants to be a thing
-        var vehicleMap = Transform(ent.Owner).MapID;
-        var operatorMap = Transform(operatorUid).MapID;
-        if (vehicleMap != operatorMap)
-            return;
-
-        var damage = DamageSpecifier.GetPositive(args.Damage);
-
-        if (ent.Comp.TransferDamageModifier is { } modifierSet)
-            damage = DamageSpecifier.ApplyModifierSet(damage, modifierSet);
-
-        _damageable.TryChangeDamage(operatorUid, damage, origin: args.Origin);
     }
 
     private void OnVehicleUpdateCanMove(Entity<VehicleComponent> ent, ref UpdateCanMoveEvent args)
@@ -85,7 +64,12 @@ public sealed partial class VehicleSystem : EntitySystem
             return false;
 
         if (TryComp<VehicleOperatorComponent>(uid, out var eOperator))
-            return eOperator.Vehicle == entity.Owner;
+        {
+            if (eOperator.Vehicle == entity.Owner)
+                return true;
+
+            RemComp<VehicleOperatorComponent>(uid!.Value);
+        }
 
         if (!removeExisting && entity.Comp.Operator is not null)
             return false;
@@ -104,6 +88,7 @@ public sealed partial class VehicleSystem : EntitySystem
             RemCompDeferred<VehicleOperatorComponent>(currentOperator);
             RemCompDeferred<RelayInputMoverComponent>(currentOperator);
             RemCompDeferred<GridVehicleOperatorComponent>(currentOperator);
+            RemCompDeferred<VehicleWatchingComponent>(currentOperator);
         }
 
         entity.Comp.Operator = uid;
@@ -124,6 +109,10 @@ public sealed partial class VehicleSystem : EntitySystem
                 EnsureComp<GridVehicleOperatorComponent>(uid.Value);
                 RemCompDeferred<RelayInputMoverComponent>(uid.Value);
                 RemCompDeferred<MovementRelayTargetComponent>(entity);
+
+                var watching = EnsureComp<VehicleWatchingComponent>(uid.Value);
+                watching.Watching = entity.Owner;
+                Dirty(uid.Value, watching);
             }
 
             var enterEvent = new OnVehicleEnteredEvent(entity, uid.Value);

@@ -4,8 +4,8 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 01/08/2026 21:29:20
-  entityCount: 739
+  time: 11/01/2026 13:33:41
+  entityCount: 755
 maps: []
 grids:
 - 1
@@ -1524,70 +1524,118 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 13.5,6.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 336
     components:
     - type: Transform
       pos: 11.5,8.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 337
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 10.5,5.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 338
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 9.5,6.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 339
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 8.5,5.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 340
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 7.5,5.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 341
     components:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 6.5,7.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 342
     components:
     - type: Transform
       pos: 7.5,8.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 600
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 25.5,17.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 601
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 25.5,18.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 602
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 25.5,19.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
   - uid: 603
     components:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: 24.5,16.5
       parent: 1
+    - type: ContainerContainer
+      containers:
+        rmc-chair-stack: !type:Container
+          ents: []
 - proto: CMChairComfy
   entities:
   - uid: 577
@@ -2194,6 +2242,79 @@ entities:
     components:
     - type: Transform
       pos: 20.513765,17.474163
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFEngineer
+  entities:
+  - uid: 745
+    components:
+    - type: Transform
+      pos: 5.5,8.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFLeader
+  entities:
+  - uid: 749
+    components:
+    - type: Transform
+      pos: 11.5,14.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFMedic
+  entities:
+  - uid: 744
+    components:
+    - type: Transform
+      pos: 3.5,8.5
+      parent: 1
+- proto: CMSpawnPointSurvivorCLFSoldier
+  entities:
+  - uid: 741
+    components:
+    - type: Transform
+      pos: 23.5,18.5
+      parent: 1
+  - uid: 742
+    components:
+    - type: Transform
+      pos: 24.5,10.5
+      parent: 1
+  - uid: 743
+    components:
+    - type: Transform
+      pos: 35.5,8.5
+      parent: 1
+  - uid: 746
+    components:
+    - type: Transform
+      pos: 2.5,7.5
+      parent: 1
+  - uid: 747
+    components:
+    - type: Transform
+      pos: 12.5,8.5
+      parent: 1
+  - uid: 748
+    components:
+    - type: Transform
+      pos: 13.5,7.5
+      parent: 1
+  - uid: 752
+    components:
+    - type: Transform
+      pos: 7.5,5.5
+      parent: 1
+  - uid: 753
+    components:
+    - type: Transform
+      pos: 7.5,8.5
+      parent: 1
+  - uid: 754
+    components:
+    - type: Transform
+      pos: 6.5,7.5
+      parent: 1
+  - uid: 755
+    components:
+    - type: Transform
+      pos: 9.5,6.5
       parent: 1
 - proto: CMStampApproved
   entities:
@@ -4129,6 +4250,13 @@ entities:
     - type: Transform
       pos: 17.385706,20.65537
       parent: 1
+- proto: RMCIntelDataTerminal
+  entities:
+  - uid: 562
+    components:
+    - type: Transform
+      pos: 18.5,7.5
+      parent: 1
 - proto: RMCItemPoolBuckshot
   entities:
   - uid: 612
@@ -4834,13 +4962,6 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-- proto: RMCPersonalDesktop
-  entities:
-  - uid: 562
-    components:
-    - type: Transform
-      pos: 18.57551,7.6561403
-      parent: 1
 - proto: RMCPhotocopier
   entities:
   - uid: 531
@@ -4952,13 +5073,6 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: 7.5,18.5
-      parent: 1
-- proto: RMCPropVehicleLoaderTruckWhite
-  entities:
-  - uid: 553
-    components:
-    - type: Transform
-      pos: 19.5,14.5
       parent: 1
 - proto: RMCRadioHandheldColonyOff
   entities:
@@ -5525,11 +5639,15 @@ entities:
     - type: Transform
       pos: 29.5,20.5
       parent: 1
+    - type: PointLight
+      enabled: False
   - uid: 654
     components:
     - type: Transform
       pos: 41.5,14.5
       parent: 1
+    - type: PointLight
+      enabled: False
 - proto: RMCTelecomBlackBox
   entities:
   - uid: 465
@@ -5592,6 +5710,16 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 36.5,9.5
       parent: 1
+- proto: RMCVanWheel
+  entities:
+  - uid: 740
+    components:
+    - type: Transform
+      parent: 553
+    - type: Physics
+      canCollide: False
+    - type: HardpointIntegrity
+      integrity: 250
 - proto: RMCVendorCigsElectro
   entities:
   - uid: 605
@@ -5657,7 +5785,7 @@ entities:
     - type: Physics
       canCollide: False
     - type: InsideEntityStorage
-- proto: RMCWeaponShotgunHG3712
+- proto: RMCWeaponShotgunM12
   entities:
   - uid: 438
     components:
@@ -5728,6 +5856,35 @@ entities:
     - type: Transform
       pos: 21.5,15.5
       parent: 1
+- proto: STSpawnPointSurvivorCLFCoordinator
+  entities:
+  - uid: 750
+    components:
+    - type: Transform
+      pos: 5.5,18.5
+      parent: 1
+- proto: STSpawnPointSurvivorCLFSynth
+  entities:
+  - uid: 751
+    components:
+    - type: Transform
+      pos: 19.5,17.5
+      parent: 1
+- proto: VehicleCLFVan
+  entities:
+  - uid: 553
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 20.5,14
+      parent: 1
+    - type: ContainerContainer
+      containers:
+        wheel-1: !type:ContainerSlot
+          showEnts: False
+          occludes: True
+          ent: 740
+    - type: VehicleLock
 - proto: WeaponRifleM16
   entities:
   - uid: 420

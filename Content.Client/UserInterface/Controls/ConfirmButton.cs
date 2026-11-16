@@ -77,18 +77,25 @@ public sealed class ConfirmButton : Button
         base.OnPressed += HandleOnPressed;
     }
 
+    // RMC14
+    /// <summary>
+    /// Cancels the pending confirmation without changing the action's availability.
+    /// </summary>
+    public void ResetConfirmation()
+    {
+        IsConfirming = false;
+        _nextReset = null;
+        _nextCooldown = null;
+        base.Text = Text;
+        DrawModeChanged();
+    }
+
     protected override void FrameUpdate(FrameEventArgs args)
     {
-        if (IsConfirming && _gameTiming.CurTime > _nextReset)
-        {
-            IsConfirming = false;
-            base.Text = Text;
-            DrawModeChanged();
-        }
-
-        if (Disabled && _gameTiming.CurTime > _nextCooldown)
-            Disabled = false;
+        if (_nextReset != null && (!IsConfirming || _gameTiming.CurTime > _nextReset))
+            ResetConfirmation();
     }
+    // RMC14
 
     protected override void DrawModeChanged()
     {
@@ -123,20 +130,20 @@ public sealed class ConfirmButton : Button
         if (IsConfirming && _nextCooldown > _gameTiming.CurTime)
             return;
 
-        switch (IsConfirming)
+        // RMC14
+        if (IsConfirming)
         {
-            case false:
-                _nextCooldown  = _gameTiming.CurTime + CooldownTime;
-                _nextReset = _gameTiming.CurTime + ResetTime;
-                Disabled = true;
-                break;
-            case true:
-                OnPressed?.Invoke(buttonEvent);
-                break;
+            ResetConfirmation();
+            OnPressed?.Invoke(buttonEvent);
+            return;
         }
 
-        base.Text = IsConfirming ? Text : ConfirmationText;
-
-        IsConfirming = !IsConfirming;
+        _nextCooldown = _gameTiming.CurTime + CooldownTime;
+        _nextReset = _gameTiming.CurTime + ResetTime;
+        // Disabled belongs to the caller; the cooldown is enforced by the check above.
+        IsConfirming = true;
+        base.Text = ConfirmationText;
+        DrawModeChanged();
+        // RMC14
     }
 }

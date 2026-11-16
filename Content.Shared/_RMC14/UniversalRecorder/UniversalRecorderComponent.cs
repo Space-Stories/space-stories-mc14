@@ -11,9 +11,6 @@ public sealed partial class UniversalRecorderComponent : Component
     public const string TapeSlotId = "rmc_universal_recorder_tape";
 
     [DataField]
-    public ItemSlot TapeSlot = new();
-
-    [DataField]
     public EntProtoId<PaperComponent> PrintoutPrototype = "CMPaper";
 
     [DataField]

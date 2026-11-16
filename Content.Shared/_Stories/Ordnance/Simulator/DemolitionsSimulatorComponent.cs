@@ -15,6 +15,12 @@ public sealed partial class DemolitionsSimulatorComponent : Component
     [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField]
     public TimeSpan NextDetonationTime;
 
+    [DataField]
+    public TimeSpan ResetCooldown = TimeSpan.FromSeconds(1);
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField]
+    public TimeSpan NextResetTime;
+
     [DataField, AutoNetworkedField]
     public bool IsSimulating;
 

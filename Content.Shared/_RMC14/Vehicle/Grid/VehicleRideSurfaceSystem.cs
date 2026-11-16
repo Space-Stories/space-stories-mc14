@@ -1,11 +1,11 @@
 using System.Numerics;
+using Content.Shared._RMC14.Teleporter;
 using Content.Shared.Buckle.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
 using Content.Shared.Stunnable;
-using Content.Shared.Vehicle.Components;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.GameObjects;
@@ -16,7 +16,7 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 
-namespace Content.Shared.Vehicle;
+namespace Content.Shared._RMC14.Vehicle;
 
 public sealed partial class VehicleRideSurfaceSystem : EntitySystem
 {
@@ -28,12 +28,13 @@ public sealed partial class VehicleRideSurfaceSystem : EntitySystem
     private const float RiderLocalPositionEpsilon = 0.0001f;
     private const float RiderProjectileTargetRadius = 0.75f;
 
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly SharedRMCTeleporterSystem _rmcTeleporter = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private readonly Dictionary<EntityUid, RideSurfaceTransform> _lastTransforms = new();

@@ -18,7 +18,7 @@
     sprite: _RMC14/Structures/Vehicles/spptank.rsi
     state: tank_turret_0
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
     repairRate: 0.01
   - type: VehicleTurret
     rotateToCursor: true
@@ -27,6 +27,7 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/spptank.rsi
     overlayState: tank_turret_0
+    overlayDamagedState: tank_turret_1
     useDirectionalOffsets: false
     pixelOffsetNorth: "0,6"
     pixelOffsetEast: "-5,0"
@@ -47,18 +48,18 @@
           components:
           - HardpointItem
   - type: HardpointSlots
-    vehicleFamily: Tank
+    vehicleFamily: HardpointVehicleFamilyTank
     slots:
     - id: turret-cannon
-      hardpointType: Cannon
-      slotType: Cannon
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeCannon
+      slotType: HardpointSlotTypeCannon
+      compatibilityId: HardpointCompatibilitySPPTank
       required: false
       insertDelay: 2.0
     - id: turret-launcher
-      hardpointType: Launcher
-      slotType: Launcher
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeLauncher
+      slotType: HardpointSlotTypeLauncher
+      compatibilityId: HardpointCompatibilitySPPTank
       required: false
       insertDelay: 2.0
 
@@ -84,10 +85,12 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/spptank.rsi
     overlayState: p17702_0
+    overlayDamagedState: p17702_1
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: p17702_0
+    damagedVehicleState: p17702_1
   - type: GunMuzzleOffset
     offset: "0,0"
     applyToMuzzleFlash: true
@@ -110,6 +113,8 @@
     sprite: _RMC14/Structures/Vehicles/hardpoints/spptank.rsi
     state: railgun
   - type: VehicleTurret
+    fireWhileRotatingGraceDegrees: 180
+    useBarrelDirectionForShots: true
     offsetRotatesWithTurret: true
     useDirectionalOffsets: true
     pixelOffsetNorth: "0,20"
@@ -119,10 +124,12 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/spptank.rsi
     overlayState: railgun_0
+    overlayDamagedState: railgun_1
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: railgun_0
+    damagedVehicleState: railgun_1
   - type: GunMuzzleOffset
     offset: "0,0"
     useDirectionalOffsets: true
@@ -144,6 +151,8 @@
     sprite: _RMC14/Structures/Vehicles/hardpoints/spptank.rsi
     state: hj35tlauncher
   - type: VehicleTurret
+    fireWhileRotatingGraceDegrees: 180
+    useBarrelDirectionForShots: true
     offsetRotatesWithTurret: true
     useDirectionalOffsets: true
     pixelOffsetNorth: "0,-10"
@@ -153,10 +162,12 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/spptank.rsi
     overlayState: hj35t_0
+    overlayDamagedState: hj35t_1
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: hj35t_0
+    damagedVehicleState: hj35t_1
   - type: GunMuzzleOffset
     offset: "0,0"
     useDirectionalOffsets: true
@@ -182,8 +193,10 @@
     factions:
     - FactionSPP
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: VehicleTurret
+    fireWhileRotatingGraceDegrees: 180
+    useBarrelDirectionForShots: true
     offsetRotatesWithTurret: true
     useDirectionalOffsets: true
     pixelOffsetNorth: "0,-10"
@@ -193,8 +206,10 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/spptank.rsi
     overlayState: t60p3m_0
+    overlayDamagedState: t60p3m_1
   - type: HardpointVisual
     vehicleState: t60p3m_0
+    damagedVehicleState: t60p3m_1
   - type: GunMuzzleOffset
     offset: "0,0"
     useDirectionalOffsets: true
@@ -217,9 +232,10 @@
     sprite: _RMC14/Structures/Vehicles/hardpoints/spptank.rsi
     state: reactive_armor
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: reactive_armor_0
+    damagedVehicleState: reactive_armor_1
 
 - type: entity
   parent: VehicleTankRocketLauncher
@@ -231,9 +247,10 @@
     sprite: _RMC14/Structures/Vehicles/hardpoints/spptank.rsi
     state: turret_slauncher
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: slauncher_0
+    damagedVehicleState: slauncher_1
 
 - type: entity
   parent: VehicleTankFlareModule
@@ -245,9 +262,10 @@
     sprite: _RMC14/Structures/Vehicles/hardpoints/spptank.rsi
     state: turret_slauncher_e
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: slauncher_1
+    damagedVehicleState: slauncher_2
 
 - type: entity
   parent: VehicleTankWarningArray
@@ -259,9 +277,10 @@
     sprite: _RMC14/Structures/Vehicles/spptank.rsi
     state: warray_0
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: warray_0
+    damagedVehicleState: warray_1
 
 - type: entity
   parent: VehicleTankOverdriveEnhancer
@@ -273,9 +292,10 @@
     sprite: _RMC14/Structures/Vehicles/spptank.rsi
     state: odrive_enhancer_0
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: odrive_enhancer_0
+    damagedVehicleState: odrive_enhancer_1
 
 - type: entity
   parent: VehicleTankArtilleryModule
@@ -287,7 +307,8 @@
     sprite: _RMC14/Structures/Vehicles/spptank.rsi
     state: artillerymod_0
   - type: HardpointItem
-    compatibilityId: SPPTank
+    compatibilityId: HardpointCompatibilitySPPTank
   - type: HardpointVisual
     vehicleState: artillerymod_0
+    damagedVehicleState: artillerymod_1
 

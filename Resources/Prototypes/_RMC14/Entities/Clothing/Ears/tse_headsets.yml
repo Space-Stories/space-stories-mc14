@@ -6,6 +6,7 @@
   color: "#9a1228"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-royal-marine"
 
 - type: entity
   parent: CMEncryptionKey

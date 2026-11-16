@@ -1,3 +1,8 @@
+# Used as a chat routing sentinel for :i, .i, and #i. It is not a selectable radio channel.
+- type: radioChannel
+  id: RMCIntercom
+  name: chat-radio-intercom
+
 # High Command
 - type: radioChannel #UNMC High Command, for events and such, basically CentComm channel
   id: MarineHighCommand
@@ -6,6 +11,7 @@
   frequency: 1471
   color: "#318779"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-marine-other"
 
 # Almayer channels
 - type: radioChannel
@@ -18,6 +24,7 @@
   longRange: true
   tower: true
   planet: false
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineCommand
@@ -27,6 +34,7 @@
   color: "#5b96d4"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineMedical
@@ -36,6 +44,7 @@
   color: "#009771"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineEngineer
@@ -45,6 +54,7 @@
   color: "#e4860c"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineMilitaryPolice
@@ -54,6 +64,7 @@
   color: "#be324f"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineRequisition
@@ -63,6 +74,7 @@
   color: "#b17324"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineIntel
@@ -72,6 +84,7 @@
   color: "#059705"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 - type: radioChannel
   id: MarineJTAC
@@ -81,6 +94,7 @@
   color: "#ad3b98"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine"
 
 # Squad channels
 - type: radioChannel
@@ -91,6 +105,7 @@
   color: "#dc0a0a"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 - type: radioChannel
   id: MarineBravo
@@ -100,6 +115,7 @@
   color: "#f2af03"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 - type: radioChannel
   id: MarineCharlie
@@ -109,6 +125,7 @@
   color: "#a94ac2"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 - type: radioChannel
   id: MarineDelta
@@ -118,6 +135,7 @@
   color: "#038ae1"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 - type: radioChannel
   id: MarineEcho
@@ -127,6 +145,7 @@
   color: "#3be1b1"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 - type: radioChannel
   id: MarineFoxtrot
@@ -136,6 +155,7 @@
   color: "#c23c07"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-squads"
 
 # Marine Special Forces
 - type: radioChannel
@@ -143,9 +163,20 @@
   name: chat-radio-marine-sof
   keycode: "k"
   frequency: 1724
-  color: "#851524"
+  color: "#b7faf5"
   longRange: true
   tower: true
+
+# Tyrargo Survs/Generic UNMC survivors
+- type: radioChannel
+  id: MarineSurvivor
+  name: chat-radio-marine-survivor
+  keycode: "@"
+  frequency: 1724
+  color: "#3b62a7"
+  longRange: true
+  tower: true
+  ttsCategory: "stories-tts-category-radio-marine-other"
 
 # Non Marine
 - type: radioChannel
@@ -156,6 +187,7 @@
   color: "#cf40a6" #todo rmc14
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-colony"
 
 - type: radioChannel
   id: ColonyHandheld
@@ -164,6 +196,7 @@
   frequency: 1461
   color: "#cf40a6" #todo rmc14
   longRange: true
+  ttsCategory: "stories-tts-category-radio-colony"
 
 - type: radioChannel # Only used by Corporate Liason to hand out to bodyguards / command.
   id: WEYA
@@ -173,6 +206,7 @@
   color: "#fe9b24"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-wy"
 
 - type: radioChannel
   id: CMB
@@ -182,6 +216,7 @@
   color: "#1b748c"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine-other"
 
 - type: radioChannel
   id: Provost
@@ -191,6 +226,7 @@
   color: "#9b0612"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-marine-other"
 
 - type: radioChannel
   id: RoyalMarine
@@ -200,6 +236,7 @@
   color: "#e1580e"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-royal-marine"
 
 - type: radioChannel
   id: Hivemind
@@ -208,3 +245,4 @@
   frequency: 426
   color: "#8b36a6"
   longRange: true
+  showInTTSOptions: false

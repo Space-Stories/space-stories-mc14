@@ -5,4 +5,4 @@ ent-RMCPouchConstructionFillLowGrade = { ent-RMCPouchConstruction }
     .suffix = Низкий класс полный
 ent-RMCPouchConstructionFillFull = { ent-RMCPouchConstruction }
     .desc = { ent-RMCPouchConstruction.desc }
-    .suffix = Полный
+    .suffix = Заполненный

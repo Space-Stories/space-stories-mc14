@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Language;
 using Content.Shared._Stories.Hunter.Bracer.Components;
 using Content.Shared._Stories.Hunter.Speech;
 using Content.Shared.Actions;
@@ -46,6 +47,8 @@ public sealed partial class BracerSystem
 
         ent.Comp.TranslatorActive = !ent.Comp.TranslatorActive;
         Dirty(ent);
+
+        RaiseLocalEvent(args.Performer, new HunterTranslatorToggledEvent(args.Performer, ent.Comp.TranslatorActive));
 
         if (ent.Comp.ToggleTranslatorAction is { } action)
             _actions.SetToggled(action, ent.Comp.TranslatorActive);

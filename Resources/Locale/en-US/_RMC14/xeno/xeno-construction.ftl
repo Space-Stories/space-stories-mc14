@@ -1,6 +1,9 @@
 cm-xeno-construction-failed-weeds = Bad place for a garden!
 cm-xeno-construction-failed-need-weeds = We can only shape on weeds. Find some resin before you start building!
 cm-xeno-construction-failed-cant-build = We can't build there!
+rmc-xeno-construction-permission-denied = The Queen has not permitted us to designate hive structures!
+rmc-xeno-construction-permission-denied-deconstruct = The Queen has not permitted us to destroy hive structures!
+rmc-xeno-harm-permission-denied = The Queen has not permitted us to harm infected hosts!
 cm-xeno-construction-failed-select-structure = We need to select a structure to build first! Use the "Choose Resin Structure" action.
 cm-xeno-construction-failed-requires-support = {CAPITALIZE(MAKEPLURAL($choice))} need a wall or resin door next to them to stand up.
 
@@ -15,6 +18,7 @@ rmc-xeno-construction-no-map-resin-hole = The ground isn't solid
 rmc-xeno-construction-must-have-weeds-resin-hole = Resin holes must be built on weeds.
 rmc-xeno-construction-blocked = We can't make this here.
 rmc-xeno-construction-blocked-resin-hole = There's something built here already.
+rmc-xeno-construction-failed-cant-build-resin-hole = We sense this is not a suitable area for creating a resin hole.
 rmc-xeno-construction-blocked-structure = There's something built here already.
 rmc-xeno-construction-similar-too-close-resin-hole = There are other resin holes nearby!
 rmc-xeno-construction-dead-body = The body is in the way!

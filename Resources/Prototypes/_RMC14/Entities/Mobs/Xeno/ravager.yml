@@ -14,8 +14,6 @@
   - type: GuideHelp
     guides:
     - RMCGuideRoleRavager
-  - type: GhostRole
-    name: cm-job-name-xeno-ravager
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Ravager/ravager.rsi
     layers:
@@ -145,6 +143,12 @@
   parent: RMCXenoRavagerBase
   id: CMXenoRavager
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoAssault ]
+      XenoPrimaryTwo: [ ActionXenoEmpower ]
+      XenoPrimaryThree: [ ActionXenoScissorCut ]
+  - type: XenoBaseCaste
   - type: XenoShield
   - type: XenoLeap
     delay: 0
@@ -165,7 +169,7 @@
       groups:
         Brute: 45
   - type: VehicleDamageMultiplier
-    multiplier: 2
+    multiplier: 3
   - type: XenoScissorCut
     damage:
       types:
@@ -183,8 +187,16 @@
   id: RMCXenoRavagerBerserker
   suffix: Berserker
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoApprehend ]
+      XenoPrimaryTwo: [ ActionXenoClothesline ]
+      XenoPrimaryThree: [ ActionXenoEviscerate ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Ravager/berserker_ravager.rsi
+  - type: XenoCappedPheromones
+    cappedPheromones:
+      Frenzy: 2.9
   - type: Xeno
     actionIds:
     - ActionXenoRest
@@ -256,6 +268,11 @@
   id: RMCXenoRavagerHedgehog
   suffix: Hedgehog
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoSpikeShield ]
+      XenoPrimaryTwo: [ ActionXenoFireSpikes ]
+      XenoPrimaryThree: [ ActionXenoSpikeShed ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Ravager/hedgehog_ravager.rsi
   - type: Xeno

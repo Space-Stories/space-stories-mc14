@@ -17,22 +17,22 @@
   - [color=#ffa500][bold]Офис Провост Маршала[/bold][/color] > [color=#00CBFE][bold]Командующий Офицер[/bold][/color] > [color=#8B0000][bold]Начальник Военной Полиции[/bold][/color] > [bold]Военный Надзиратель[/bold] > [color=#ff000d][bold]Офицеры Военной Полиции[/bold][/color] > Уполномоченные [color=#ff000d][bold]Военной Полицией[/bold][/color]
 
   ## Закон и Связанное
-  - [textlink="Командная Цепь" link="RMCCommandChain"]
-  - [textlink="Звания" link="RMCMarineLawRanks"]
-  - [textlink="Определения" link="RMCMarineLawDefinitions"]
-  - [textlink="Процедуры" link="RMCMarineLawProcedures"]
-  - [textlink="Преступления" link="RMCMarineLawCrimes"]
-  - [textlink="Права Заключенных" link="RMCMarineLawPrisonerRights"]
-  - [textlink="Права Заключенных, Апелляции" link="RMCMarineLawAppeals"]
-  - [textlink="Особые Положения" link="RMCMarineLawSpecialProvisions"]
-  - [textlink="Синтетики" link="RMCMarineLawSynthetics"]
-  - [textlink="Положения и Правила для Командующего Офицера" link="RMCMarineLawCOProvisions"]
+  - [textlink="Командная Цепь" link="STCommandChain"]
+  - [textlink="Звания" link="STMarineLawRanks"]
+  - [textlink="Определения" link="STMarineLawDefinitions"]
+  - [textlink="Процедуры" link="STMarineLawProcedures"]
+  - [textlink="Преступления" link="STMarineLawCrimes"]
+  - [textlink="Права Заключенных" link="STMarineLawPrisonerRights"]
+  - [textlink="Права Заключенных, Апелляции" link="STMarineLawAppeals"]
+  - [textlink="Особые Положения" link="STMarineLawSpecialProvisions"]
+  - [textlink="Синтетики" link="STMarineLawSynthetics"]
+  - [textlink="Положения и Правила для Командующего Офицера" link="STMarineLawCOProvisions"]
 
   ## Стандартная Оперативная Процедура
 
   Это свод правил и политик КМП США.
   Несоблюдение Стандартной Оперативной Процедуры может привести к обвинениям в [bold]Несоблюдении Процедуры[/bold].
 
-  - [textlink="Стандартная Оперативная Процедура" link="RMCMarineSOP"]
+  - [textlink="Стандартная Оперативная Процедура" link="STMarineSOP"]
 
 </Document>

@@ -47,6 +47,8 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.Xenonids.Leap;
@@ -58,6 +60,7 @@ public sealed class XenoLeapSystem : EntitySystem
     [Dependency] private readonly BlindableSystem _blindable = default!;
     [Dependency] private readonly SharedBroadphaseSystem _broadphase = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly EntityLookupSystem _entityLookup = default!; // Stories-RavagerLeapDestroy
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
@@ -79,9 +82,14 @@ public sealed class XenoLeapSystem : EntitySystem
     [Dependency] private readonly RMCSizeStunSystem _size = default!;
     [Dependency] private readonly RMCObstacleSlammingSystem _obstacleSlamming = default!;
     [Dependency] private readonly SharedDirectionalAttackBlockSystem _directionalBlock = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<FixturesComponent> _fixturesQuery;
+
+    private readonly HashSet<Entity<XenoLeapDestroyOnPassComponent>> _destroyEntities = new(); // Stories-RavagerLeapDestroy
+
+    private bool _logPrediction = false;
 
     public override void Initialize()
     {
@@ -126,7 +134,7 @@ public sealed class XenoLeapSystem : EntitySystem
                 return;
 
             _rmcLagCompensation.SetLastRealTick(args.SenderSession.UserId, msg.LastRealTick);
-            if (!_rmcLagCompensation.Collides(target, ent, args.SenderSession))
+            if (!_rmcLagCompensation.Collides(target, ent, args.SenderSession, msg.Substep))
                 return;
         }
 
@@ -201,6 +209,18 @@ public sealed class XenoLeapSystem : EntitySystem
         _rmcPulling.TryStopAllPullsFromAndOn(xeno);
 
         var origin = _transform.GetMapCoordinates(xeno);
+        // Stories-ZLevels-Start
+        if (Transform(xeno).MapUid is { } mapUid && TryComp<ZLevelViewerComponent>(xeno, out var viewer) && viewer.LookUp)
+        {
+            var worldPos = _transform.GetWorldPosition(xeno);
+            if (!_zLevels.HasOpaqueAbove(worldPos, mapUid))
+            {
+                _zLevels.TryMoveUp(xeno);
+                origin = _transform.GetMapCoordinates(xeno);
+            }
+        }
+
+        // Stories-ZLevels-End
         var target = _transform.ToMapCoordinates(args.Coordinates);
         var direction = target.Position - origin.Position;
 
@@ -218,6 +238,11 @@ public sealed class XenoLeapSystem : EntitySystem
         leaping.LeapEndTime = _timing.CurTime + TimeSpan.FromSeconds(direction.Length() / xeno.Comp.Strength);
 
         _obstacleSlamming.MakeImmune(xeno, 0.5f);
+
+        // Prevent leap from having longer/shorter range or skewed direction
+        // based on the xeno's movement when using it.
+        _physics.ResetDynamics(xeno, physics);
+
         _physics.ApplyLinearImpulse(xeno, impulse, body: physics);
         _physics.SetBodyStatus(xeno, physics, BodyStatus.InAir);
 
@@ -471,27 +496,39 @@ public sealed class XenoLeapSystem : EntitySystem
         return true;
     }
 
+    // Stories-RavagerLeapDestroy-Start
+    private void DestroyPassableObject(EntityUid target, XenoLeapDestroyOnPassComponent destroy)
+    {
+        if (TerminatingOrDeleted(target))
+            return;
+
+        if (_net.IsServer)
+        {
+            for (var i = 0; i < destroy.Amount; i++)
+            {
+                if (destroy.SpawnPrototype != null)
+                    SpawnAtPosition(destroy.SpawnPrototype, target.ToCoordinates());
+            }
+
+            QueueDel(target);
+        }
+
+        _physics.SetCanCollide(target, false, force: true);
+    }
+    // Stories-RavagerLeapDestroy-End
+
     private bool IsValidLeapHit(Entity<XenoLeapingComponent> xeno, EntityUid target)
     {
         if (xeno.Comp.KnockedDown)
             return false;
 
+        // Stories-RavagerLeapDestroy-Start
         if (xeno.Comp.DestroyObjects && TryComp<XenoLeapDestroyOnPassComponent>(target, out var destroy))
         {
-            if (_net.IsServer)
-            {
-                for (var i = 0; i < destroy.Amount; i++)
-                {
-                    if (destroy.SpawnPrototype != null)
-                        SpawnAtPosition(destroy.SpawnPrototype, target.ToCoordinates());
-                }
-
-                QueueDel(target);
-            }
-
-            _physics.SetCanCollide(target, false, force: true);
+            DestroyPassableObject(target, destroy);
             return false;
         }
+        // Stories-RavagerLeapDestroy-End
 
         if ((HasComp<XenoParasiteComponent>(target) ||
             !HasComp<MobStateComponent>(target)) &&
@@ -576,7 +613,7 @@ public sealed class XenoLeapSystem : EntitySystem
                 SpawnAttachedTo(xeno.Comp.HitEffect, target.ToCoordinates());
         }
 
-        var damage = _damagable.TryChangeDamage(target, _xeno.TryApplyXenoSlashDamageMultiplier(target, xeno.Comp.Damage), origin: xeno, tool: xeno);
+        var damage = _damagable.TryChangeDamage(target, _xeno.ApplyXenoMeleeDamageModifiers(xeno, target, xeno.Comp.Damage), origin: xeno, tool: xeno);
         if (damage?.GetTotal() > FixedPoint2.Zero)
         {
             var filter = Filter.Pvs(target, entityManager: EntityManager).RemoveWhereAttachedEntity(o => o == xeno.Owner);
@@ -597,7 +634,29 @@ public sealed class XenoLeapSystem : EntitySystem
 
         if (_net.IsClient)
         {
-            var predictedEv = new XenoLeapPredictedHitEvent(GetNetEntity(target), _rmcLagCompensation.GetLastRealTick(null));
+            if (_logPrediction)
+            {
+                // Leap code causes this to spam the console a bit
+                TryComp(xeno, out TransformComponent? leaperTransform);
+                TryComp(target, out TransformComponent? targetTransform);
+                Log.Debug($"""
+                    SENDING PREDICTED LEAP HIT!!
+                      CurTick:        {_timing.CurTick}
+                      LastRealTick:   {_rmcLagCompensation.GetLastRealTick(null)}
+                      Phys Substep:   {_rmcLagCompensation.GetCurrentSubstep()}
+                      In simulation?  {_timing.InSimulation}
+                      ApplyingState?  {_timing.ApplyingState}
+                      FirstTimePred?  {_timing.IsFirstTimePredicted}
+                      Substep:        {_rmcLagCompensation.GetClientSubstep()}
+                      Leaper Coords:  {leaperTransform?.Coordinates}
+                      Target Coords:  {targetTransform?.Coordinates}
+                    """);
+            }
+
+            var predictedEv = new XenoLeapPredictedHitEvent(
+                GetNetEntity(target),
+                _rmcLagCompensation.GetLastRealTick(null),
+                _rmcLagCompensation.GetClientSubstep());
             RaiseNetworkEvent(predictedEv);
             if (_timing.InPrediction && _timing.IsFirstTimePredicted)
             {
@@ -639,6 +698,19 @@ public sealed class XenoLeapSystem : EntitySystem
         var leaping = EntityQueryEnumerator<XenoLeapingComponent>();
         while (leaping.MoveNext(out var uid, out var comp))
         {
+            // Stories-RavagerLeapDestroy-Start
+            if (comp.DestroyObjects)
+            {
+                var mapCoords = _transform.GetMapCoordinates(uid);
+                _destroyEntities.Clear();
+                _entityLookup.GetEntitiesInRange(mapCoords, 0.75f, _destroyEntities);
+                foreach (var destroyEnt in _destroyEntities)
+                {
+                    DestroyPassableObject(destroyEnt, destroyEnt.Comp);
+                }
+            }
+            // Stories-RavagerLeapDestroy-End
+
             if (time < comp.LeapEndTime)
                 continue;
 

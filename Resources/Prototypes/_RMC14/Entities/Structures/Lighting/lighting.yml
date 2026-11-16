@@ -24,7 +24,7 @@
     energy: 1
     radius: 10
     softness: 1
-    offset: "0, -0.5"
+    offset: "0, -0.45" # Stories-Fixes
   - type: PoweredLightVisuals
     spriteStateMap:
       Empty: tube-empty
@@ -74,8 +74,9 @@
       Burned: btube-burned
 
 - type: entity
-  parent: [RMCLightFixtureAlwaysPoweredOffset, RMCLightFixtureBlueAlwaysPowered]
+  parent: [RMCLightFixtureBlueAlwaysPowered, RMCLightFixtureAlwaysPoweredOffset]
   id: RMCLightFixtureBlueAlwaysPoweredOffset
+  suffix: Always powered
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Wallmounts/LightingOffset/light_tube.rsi
@@ -156,8 +157,8 @@
   - type: ApcPowerReceiver
   - type: Appearance
   - type: RMCPowerReceiver
-    idleLoad: 1
-    activeLoad: 40
+    idleLoad: 2
+    activeLoad: 80
     channel: Lighting
   - type: DeviceLinkSink
     ports:
@@ -389,8 +390,25 @@
   components:
   - type: PoweredLight
     hasLampOnSpawn: RMCLightTubeRed
+  - type: RMCPowerReceiver
+    idleLoad: 2
+    activeLoad: 40
+    channel: Lighting
   - type: Sprite
     sprite: _RMC14/Structures/Wallmounts/LightingOffset/light_tube.rsi
+    # Stories-LightOffset-Start
+    state: rtube1
+    layers:
+    - state: rtube1
+      map: ["enum.PoweredLightLayers.Base"]
+  - type: PoweredLightVisuals
+    spriteStateMap:
+      Empty: rtube-empty
+      Off: rtube0
+      On: rtube1
+      Broken: rtube-broken
+      Burned: rtube-burned
+  # Stories-LightOffset-End
 
 - type: entity
   parent: [RMCLightFixtureRed, RMCLightFixtureOffset]
@@ -399,6 +417,31 @@
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Wallmounts/LightingOffset/light_tube.rsi
+
+- type: entity
+  parent: RMCLightFixtureDouble
+  id: RMCLightFixtureBlueSpotlight
+  suffix: Blue spotlight, No Offset, Draws below entities
+  components:
+  - type: Sprite
+    drawdepth: HighFloorObjects
+    state: bslight1
+    layers:
+    - state: bslight1
+      map: ["enum.PoweredLightLayers.Base"]
+  - type: PoweredLight
+    hasLampOnSpawn: RMCLightTubeBlue
+  - type: RMCPowerReceiver
+    idleLoad: 2
+    activeLoad: 120
+    channel: Lighting
+  - type: PoweredLightVisuals
+    spriteStateMap:
+      Empty: bslight-empty
+      Off: bslight0
+      On: bslight1
+      Broken: bslight-broken
+      Burned: bslight-burned
 
 # Light Bulbs
 
@@ -511,7 +554,7 @@
   - type: ApcPowerReceiver
   - type: Appearance
   - type: RMCPowerReceiver
-    idleLoad: 1
+    idleLoad: 2
     activeLoad: 40
     channel: Lighting
   - type: DeviceLinkSink

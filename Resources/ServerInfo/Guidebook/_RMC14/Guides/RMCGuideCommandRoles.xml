@@ -1,57 +1,54 @@
-﻿<Document>
-  [color=#5f698a]█    █ █▄ █[/color] [head=2][bold]UNITED NATIONS MARINE CORPS[/bold][/head]\n
-  [color=#5f698a]▀ ▄▀ █ ▀█ [/color]
+<Document>
+  #Знай своё начальство
+  ##Гайд по командному составу и главам отделов
 
-  #Know your betters
-  ##A guide to command staff and department heads
-
-  So, you're awake, you're fed, you're dressed, and you're armed. You've made it to briefing and now you're wondering who to suck up to for that medal or promotion. Here's a rundown on the brass so you can get to kissing ass:
+  Итак, вы проснулись, поели, оделись и вооружились. Добрались до брифинга — и теперь гадаете, к кому подлизаться ради медали или повышения. Вот сводка по начальству, чтобы знать, кому лизать сапоги:
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleCO"/>
   </Box>
-  -The [bold]Commanding Officer[/bold] (commonly referred to as CO) is running the show. They will tell the other officers what to do so they can tell YOU what to do.
-  -The position of CO is held only by those who have proven their courage, loyalty, and competence. They have supreme authority aboard this vessel, and answer only to High Command.
+  -[bold]Командующий офицер[/bold] (обычно просто КО) рулит всем. Он говорит остальным офицерам, что делать, чтобы они сказали, что делать, ВАМ.
+  -Должность КО занимают только те, кто доказал свою отвагу, верность и компетентность. У него верховная власть на этом судне, и отвечает он только перед Верховным командованием.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleXO"/>
   </Box>
-  -The [bold]Executive Officer[/bold] (or XO) is second to the Commanding Officer. If the CO is the brain, the XO is the hand.
+  -[bold]Исполнительный офицер[/bold] (или ИО) — второй после командующего. Если КО — мозг, то ИО — руки.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleSO"/>
   </Box>
-  -A [bold]Staff Officer[/bold] (or SO) coordinates with the squad leaders and relays orders and intel to the XO and CO. They run overwatch on the squad and can see through the camera on your helmet (which you ARE wearing, aren't you?).
+  -[bold]Офицер штаба[/bold] (или ОШ) координирует командиров отрядов и передаёт приказы и разведданные ИО и КО. Он ведёт наблюдение за отрядом и видит через камеру на вашем шлеме (вы ведь носите шлем, правда?).
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleCMP"/>
   </Box>
-  -The [bold]Chief of Military Police[/bold] oversees the Military Police and ensures that Marine Law is observed and enforced.
+  -[bold]Начальник военной полиции[/bold] надзирает за военной полицией и следит, чтобы Морской Устав соблюдался и исполнялся.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleCMO"/>
   </Box>
-  -The [bold]Chief Medical Officer[/bold] oversees the Medbay and ensures the medical staff are operating efficiently and that research is being conducted safely and ethically.
+  -[bold]Главный врач[/bold] заведует медотсеком и следит, чтобы медперсонал работал эффективно, а исследования велись безопасно и этично.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleASO"/>
   </Box>
-  -The [bold]Auxiliary Support Officer[/bold] oversees the Hangar, Intel, and Engineering departments. While Engineering has their own section head, the ASO has direct authority over them.
+  -[bold]Офицер вспомогательной поддержки[/bold] смотрит за ангаром, разведкой и инженерным отделом. Хотя у инженерии есть свой глава, ОВП имеет над ней прямую власть.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleCE"/>
   </Box>
-  -The [bold]Chief Engineer[/bold] oversees the Maintenance and Ordnance Technicians.
+  -[bold]Главный инженер[/bold] управляет техниками по обслуживанию и оружейными техниками.
   \n
   <Box>
     <GuideEntityEmbed Entity="RMCGuidebookRoleQM"/>
   </Box>
-  -The [bold]Logistics Officer[/bold] operates the requisitions department and oversees the Requisitions Technicians.
+  -[bold]Квартирмейстер[/bold] управляет отделом Поставок и надзирает за техниками по грузам.
   <Box>
-  Refer to the Commander Succession to learn the pecking order and remember:
+  Загляните в Командную Цепь, чтобы выучить иерархию, и помните:
   </Box>
   <Box>
-    [bold]SALUTE![/bold]
+    [bold]ОТДАТЬ ЧЕСТЬ![/bold]
   </Box>
 
-  ### Guide by teatotaltemplar
+  ### Гайд от teatotaltemplar
 </Document>

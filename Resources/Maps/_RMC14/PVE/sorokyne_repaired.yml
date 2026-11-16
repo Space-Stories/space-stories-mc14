@@ -2297,34 +2297,49 @@ entities:
     - type: MapLight
     - type: RMCWeatherCycle
       minTimeBetweenEvents: 1800
+      minTimeBetweenChecks: 900
+      minCheckVariance: 600
+      startChance: 1
       weatherEvents:
       - lightningSound: !type:SoundCollectionSpecifier
           collection: RMCThunder
         lightningEffects:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
-        lightningChance: 0.04
-        weatherType: RMCStrataStormVeryLight
-        duration: 180
-        name: Light Rain
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
-        lightningEffects:
-        - RMCColorSequenceLightningSharpPeak
-        - RMCColorSequenceLightningFlicker
         lightningChance: 0.01
-        weatherType: RMCStrataStormVeryLight
+        fireSmotheringStrength: 1
+        weatherType: RMCStrataStormTropical
+        screenOverlay: Low
         duration: 180
         name: Tropical Storm
+        displayName: rmc-weather-name-tropical-storm
       - lightningSound: !type:SoundCollectionSpecifier
           collection: RMCThunder
         lightningEffects:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
         lightningChance: 0.06
-        weatherType: RMCStrataStormLight
+        fireSmotheringStrength: 4
+        warningMode: SirenOnly
+        warningSirenKind: Weather
+        warningSound: !type:SoundPathSpecifier
+          path: /Audio/_RMC14/Effects/weather_warning.wav
+        weatherType: RMCStrataStormVaradero
+        screenOverlay: High
         duration: 240
         name: Monsoon
+        displayName: rmc-weather-name-monsoon-warning
+      - lightningSound: !type:SoundCollectionSpecifier
+          collection: RMCThunder
+        lightningEffects:
+        - RMCColorSequenceLightningSharpPeak
+        - RMCColorSequenceLightningFlicker
+        lightningChance: 0.04
+        fireSmotheringStrength: 1
+        weatherType: RMCStrataStormVeryLightRainAndThunder
+        duration: 180
+        name: Soro Light Rain
+        displayName: rmc-weather-name-light-rain
     - type: RMCAmbientLightEffects
     - type: BecomesStation
       id: SorokyneRepaired
@@ -50917,14 +50932,14 @@ entities:
   - uid: 899
     components:
     - type: MetaData
-      name: 'LZ2: Sorokyne Strata'
+      name: 'LZ2: Communications Landing Zone'
     - type: Transform
       pos: 46.5,18.5
       parent: 1
   - uid: 900
     components:
     - type: MetaData
-      name: 'LZ1: Sorokyne Strata'
+      name: 'LZ1: Mining Landing Zone'
     - type: Transform
       pos: 10.5,108.5
       parent: 1
@@ -65647,7 +65662,7 @@ entities:
     - type: Transform
       pos: 118.5,116.5
       parent: 1
-- proto: RMCBoxMagazineRifleAK4047Empty
+- proto: RMCBoxMagazineRifleType77Empty
   entities:
   - uid: 879
     components:
@@ -86291,7 +86306,7 @@ entities:
     - type: Transform
       pos: 175.28365,12.369497
       parent: 1
-- proto: RMCMagazineRifleAK4047
+- proto: RMCMagazineRifleType77
   entities:
   - uid: 7662
     components:
@@ -207682,7 +207697,7 @@ entities:
     - type: Transform
       pos: 99.5,62.5
       parent: 1
-- proto: RMCWeaponRifleAK4047
+- proto: RMCWeaponRifleType77
   entities:
   - uid: 31237
     components:

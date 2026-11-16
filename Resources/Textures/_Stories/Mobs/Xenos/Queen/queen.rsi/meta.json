@@ -63,6 +63,22 @@
     },
     {
       "name": "queen_downed_0"
+    },
+    {
+      "name": "queen_egg_left",
+      "directions": 4
+    },
+    {
+      "name": "queen_egg_right",
+      "directions": 4
+    },
+    {
+      "name": "queen_parasite_left",
+      "directions": 4
+    },
+    {
+      "name": "queen_parasite_right",
+      "directions": 4
     }
   ]
 }

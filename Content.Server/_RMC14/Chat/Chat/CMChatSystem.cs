@@ -1,19 +1,24 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Content.Server.Chat.Managers;
-using Content.Server.Chat.Systems;
+using Content.Server.Radio.Components;
 using Content.Server.Speech.EntitySystems;
 using Content.Server.Speech.Prototypes;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Language.Components;
+using Content.Server._RMC14.Language.Systems;
 using Content.Shared._RMC14.Marines;
+using Content.Shared._RMC14.Mentor.ImaginaryFriend;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.Hunter.Bracer.Components;
 using Content.Shared._Stories.Hunter.Bracer;
 using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Chat;
+using Content.Shared.Ghost;
 using Content.Shared.Inventory;
 using Content.Shared.Popups;
-using Robust.Shared.Console;
+using Content.Shared.Radio;
+using Content.Shared.Radio.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -24,16 +29,23 @@ namespace Content.Server._RMC14.Chat.Chat;
 public sealed class CMChatSystem : SharedCMChatSystem
 {
     [Dependency] private readonly IChatManager _chat = default!;
-    [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly LanguageSystem _language = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ReplacementAccentSystem _wordreplacement = default!;
     [Dependency] private readonly BracerSystem _bracer = default!; // Stories-Hunter
 
+    private EntityQuery<ImaginaryFriendComponent> _friendComponent;
+    private EntityQuery<GhostComponent> _ghostQuery;
+    private EntityQuery<MarineComponent> _marineQuery;
+    private EntityQuery<XenoComponent> _xenoQuery;
+
     private static readonly ProtoId<ReplacementAccentPrototype> ChatSanitize = "CMChatSanitize";
     private static readonly ProtoId<ReplacementAccentPrototype> MarineChatSanitize = "CMChatSanitizeMarine";
     private static readonly ProtoId<ReplacementAccentPrototype> XenoChatSanitize = "CMChatSanitizeXeno";
+    private static readonly ProtoId<ReplacementAccentPrototype> GlobalChatSanitize = "chatsanitize"; // Stories-Chat
     private static readonly Regex MultiBroadcastRegex = new(@"^[:.]([^ ]+)\s+(.*)"); // Stories-Hunter
 
     private readonly List<ICommonSession> _toRemove = new();
@@ -41,26 +53,53 @@ public sealed class CMChatSystem : SharedCMChatSystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<MarineComponent, ChatMessageAfterGetRecipients>(OnMarineAfterGetRecipients);
-        SubscribeLocalEvent<XenoComponent, ChatMessageAfterGetRecipients>(OnXenoAfterGetRecipients);
-        SubscribeLocalEvent<HunterComponent, ChatMessageAfterGetRecipients>(OnHunterAfterGetRecipients); // Stories-Hunter
+        _friendComponent = GetEntityQuery<ImaginaryFriendComponent>();
+        _ghostQuery = GetEntityQuery<GhostComponent>();
+        _marineQuery = GetEntityQuery<MarineComponent>();
+        _xenoQuery = GetEntityQuery<XenoComponent>();
+
+        SubscribeLocalEvent<LanguageComponent, ChatMessageAfterGetRecipientsEvent>(OnLanguageGetRecipients);
+        SubscribeLocalEvent<ImaginaryFriendComponent, ChatMessageAfterGetRecipientsEvent>(OnImaginaryFriendGetRecipients);
+        SubscribeLocalEvent<RadioSpeakerComponent, ChatMessageAfterGetRecipientsEvent>(OnRadioSpeakerGetRecipients);
+        SubscribeLocalEvent<HunterComponent, ChatMessageAfterGetRecipientsEvent>(OnHunterAfterGetRecipients); // Stories-Hunter
     }
 
-    private void OnMarineAfterGetRecipients(Entity<MarineComponent> ent, ref ChatMessageAfterGetRecipients args)
+    private void OnLanguageGetRecipients(Entity<LanguageComponent> ent, ref ChatMessageAfterGetRecipientsEvent args)
     {
         _toRemove.Clear();
 
-        foreach (var (session, data) in args.Recipients)
+        if (_friendComponent.HasComp(ent))
+            return; // handled separately
+
+        var speakerIsMarine = _marineQuery.HasComp(ent);
+        var speakerIsXeno = _xenoQuery.HasComp(ent);
+        foreach (var (session, _) in args.Recipients)
         {
-            if (data.Observer)
+            if (session.AttachedEntity is not { } sessionEntity)
+                continue;
+
+            if (sessionEntity == ent.Owner)
+                continue;
+
+            // Observers are allowed to see everything.
+            if (_ghostQuery.HasComp(sessionEntity))
                 continue;
 
             // Stories-Hunter-Start
-            if (HasComp<HunterComponent>(session.AttachedEntity))
+            if (HasComp<HunterComponent>(sessionEntity))
                 continue;
             // Stories-Hunter-End
 
-            if (HasComp<XenoComponent>(session.AttachedEntity))
+            // If it's an IC message (speech, whispering, emotes, etc.), check if `ent` and `sessionEntity`'s language components allow them to communicate.
+            if ((args.Channel & ChatChannel.IC) != 0)
+            {
+                if (!_language.CanSeeICMessage(sessionEntity, ent.AsNullable()))
+                    _toRemove.Add(session);
+                continue;
+            }
+
+            // If it's LOOC or something similar (not IC), only show it to members of the same faction.
+            if (speakerIsMarine != _marineQuery.HasComp(sessionEntity) || speakerIsXeno != _xenoQuery.HasComp(sessionEntity))
                 _toRemove.Add(session);
         }
 
@@ -70,25 +109,33 @@ public sealed class CMChatSystem : SharedCMChatSystem
         }
     }
 
-    private void OnXenoAfterGetRecipients(Entity<XenoComponent> ent, ref ChatMessageAfterGetRecipients args)
+    private void OnImaginaryFriendGetRecipients(Entity<ImaginaryFriendComponent> ent, ref ChatMessageAfterGetRecipientsEvent args)
     {
         _toRemove.Clear();
 
-        foreach (var (session, data) in args.Recipients)
+        foreach (var (session, _) in args.Recipients)
         {
-            if (data.Observer)
+            if (_ghostQuery.HasComp(session.AttachedEntity))
                 continue;
 
-            // Stories-Hunter-Start
-            if (HasComp<HunterComponent>(session.AttachedEntity))
-                continue;
-            // Stories-Hunter-End
-
-            if (HasComp<MarineComponent>(session.AttachedEntity))
-            {
+            if (ent.Comp.Imaginer != session.AttachedEntity)
                 _toRemove.Add(session);
-                continue;
-            }
+        }
+
+        foreach (var session in _toRemove)
+        {
+            args.Recipients.Remove(session);
+        }
+    }
+
+    private void OnRadioSpeakerGetRecipients(Entity<RadioSpeakerComponent> ent, ref ChatMessageAfterGetRecipientsEvent args)
+    {
+        _toRemove.Clear();
+
+        foreach (var (session, _) in args.Recipients)
+        {
+            if (_xenoQuery.HasComp(session.AttachedEntity))
+                _toRemove.Add(session);
         }
 
         foreach (var session in _toRemove)
@@ -98,7 +145,7 @@ public sealed class CMChatSystem : SharedCMChatSystem
     }
 
     // Stories-Hunter-Start
-    private void OnHunterAfterGetRecipients(Entity<HunterComponent> ent, ref ChatMessageAfterGetRecipients args)
+    private void OnHunterAfterGetRecipients(Entity<HunterComponent> ent, ref ChatMessageAfterGetRecipientsEvent args)
     {
         var isTranslated = false;
         if (_bracer.IsHunterWithBracer(ent, out var bracer))
@@ -137,6 +184,7 @@ public sealed class CMChatSystem : SharedCMChatSystem
 
     public override string SanitizeMessageReplaceWords(EntityUid source, string msg)
     {
+        msg = _wordreplacement.ApplyReplacements(msg, GlobalChatSanitize); // Stories-Chat
         msg = _wordreplacement.ApplyReplacements(msg, ChatSanitize);
 
         var factionSanitize = HasComp<XenoComponent>(source) ? XenoChatSanitize : MarineChatSanitize;
@@ -200,61 +248,45 @@ public sealed class CMChatSystem : SharedCMChatSystem
         );
     }
 
-    public override void Emote(
-        EntityUid source,
-        string message,
-        string? nameOverride = null,
-        bool checkRadioPrefix = true,
-        bool ignoreActionBlocker = false)
+    private bool IsValidRadioPrefix(EntityUid headset, string prefixPart)
     {
-        ICommonSession? player = null;
-        if (TryComp(source, out ActorComponent? actor))
-            player = actor.PlayerSession;
+        if (prefixPart.Length != 2)
+            return false;
 
-        _chatSystem.TrySendInGameICMessage(
-            source,
-            message,
-            InGameICChatType.Emote,
-            ChatTransmitRange.Normal,
-            false,
-            null,
-            player,
-            nameOverride,
-            checkRadioPrefix,
-            ignoreActionBlocker
-        );
+        if (!TryComp(headset, out EncryptionKeyHolderComponent? keys))
+            return false;
+
+        var prefix = prefixPart[0];
+        if (prefix == SharedChatSystem.RadioChannelAltPrefix)
+            prefix = SharedChatSystem.RadioChannelPrefix;
+
+        var keycode = char.ToLowerInvariant(prefixPart[1]).ToString();
+
+        if (keycode == SharedChatSystem.DefaultChannelKey && keys.DefaultChannel != null)
+            return true;
+
+        foreach (var ch in _proto.EnumeratePrototypes<RadioChannelPrototype>())
+        {
+            if (!keys.Channels.Contains(ch.ID))
+                continue;
+
+            var chKeycode = ch.KeyCode.ToLowerInvariant();
+            if (ch.RadioPrefix == prefix && chKeycode == keycode)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsValidRadioKey(EntityUid headset, char prefix, char keycode)
+    {
+        return IsValidRadioPrefix(headset, $"{prefix}{char.ToLowerInvariant(keycode)}");
     }
 
     public List<string>? TryMultiBroadcast(EntityUid source, string message)
     {
-        // Stories-Hunter-Start
-        var match = MultiBroadcastRegex.Match(message);
-        if (!match.Success)
+        if (string.IsNullOrEmpty(message) || message.Length < 2)
             return null;
-
-        var keysPart = match.Groups[1].Value;
-        var messagePart = match.Groups[2].Value;
-
-        if (!keysPart.Contains(','))
-            return null;
-
-        var keys = keysPart.Split(',')
-            .Select(k => k.Trim().ToLowerInvariant())
-            .Where(k => !string.IsNullOrEmpty(k))
-            .ToList();
-
-        if (keys.Count < 2)
-            return null;
-
-        foreach (var key in keys)
-        {
-            if (!_chatSystem._keyCodes.ContainsKey(key))
-            {
-                _popup.PopupEntity($"Неверный ключ канала для мультитрансляции: '{key}'", source, source);
-                return null;
-            }
-        }
-        // Stories-Hunter-End
 
         if (!HasComp<InventoryComponent>(source))
             return null;
@@ -277,35 +309,63 @@ public sealed class CMChatSystem : SharedCMChatSystem
         if (headset == null)
             return null;
 
-        // Stories-Hunter-Start
-        if (keys.Count > headset.Value.Comp.Maximum)
-        {
-            _popup.PopupEntity($"Вы не можете транслировать более чем в {headset.Value.Comp.Maximum} каналов одновременно.", source, source);
+        var validPrefixes = new List<string>();
+        var prefixLength = 0;
+        var sharedPrefix = message[0];
+
+        if (sharedPrefix != SharedChatSystem.RadioChannelPrefix &&
+            sharedPrefix != SharedChatSystem.RadioChannelAltPrefix)
             return null;
+
+        for (var i = 1; i < message.Length; i++)
+        {
+            var keycode = char.ToLowerInvariant(message[i]);
+            if (char.IsWhiteSpace(keycode))
+            {
+                prefixLength = i;
+                break;
+            }
+
+            if (!IsValidRadioKey(headset.Value, sharedPrefix, keycode))
+            {
+                prefixLength = i;
+                break;
+            }
+
+            validPrefixes.Add($"{sharedPrefix}{keycode}");
+            prefixLength = i + 1;
         }
 
-        var timeLeft = headset.Value.Comp.Last + headset.Value.Comp.Cooldown - time;
-        if (headset.Value.Comp.Last != TimeSpan.Zero && timeLeft > TimeSpan.Zero)
-        {
-            _popup.PopupEntity(
-                $"Вы использовали систему мультитрансляции слишком часто. Подождите еще {timeLeft.Value.TotalSeconds:F0} секунд.",
-                source,
-                source,
-                PopupType.MediumCaution
-            );
+        var count = Math.Min(validPrefixes.Count, headset.Value.Comp.Maximum);
+        validPrefixes = validPrefixes.Take(count).ToList();
+
+        if (validPrefixes.Count < 2)
             return null;
+
+        if (headset.Value.Comp.Last != null)
+        {
+            var timeLeft = headset.Value.Comp.Last.Value + headset.Value.Comp.Cooldown - time;
+            if (timeLeft > TimeSpan.Zero)
+            {
+                _popup.PopupEntity(
+                    $"Вы использовали систему мультитрансляции слишком часто. Подождите еще {timeLeft.TotalSeconds:F0} секунд.",
+                    source,
+                    source,
+                    PopupType.MediumCaution
+                );
+                return null;
+            }
         }
 
-        var generatedMessages = new List<string>();
-        foreach (var key in keys)
-        {
-            generatedMessages.Add($":{key} {messagePart}");
-        }
+        var messages = new List<string>(validPrefixes.Count);
+        var messageBody = message[prefixLength..];
+
+        for (var idx = 0; idx < validPrefixes.Count; idx++)
+            messages.Add($"{validPrefixes[idx]}{messageBody}");
 
         headset.Value.Comp.Last = time;
         Dirty(headset.Value);
 
-        return generatedMessages;
-        // Stories-Hunter-End
+        return messages;
     }
 }

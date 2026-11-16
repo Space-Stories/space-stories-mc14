@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingHybrisaUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Гибрис Проспера, Вне фракций
+ent-RMCPaperCOBriefingHybrisaHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Гибрис Проспера, Ястребы
+ent-RMCPaperCOBriefingHybrisaDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Гибрис Проспера, Голуби
+ent-RMCPaperCOBriefingHybrisaMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Гибрис Проспера, Сороки

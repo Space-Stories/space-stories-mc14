@@ -102,7 +102,7 @@
     skills:
       RMCSkillCqc: 2
       RMCSkillConstruction: 2
-      RMCSkillFirearms: 1
+      RMCSkillFirearms: 2 # Stories-Survivors
       RMCSkillFireman: 2
       RMCSkillEndurance: 3
       RMCSkillEngineer: 2

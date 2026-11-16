@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server._RMC14.LinkAccount;
+using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.IP;
@@ -59,6 +60,9 @@ namespace Content.Server.Database
                     .ThenInclude(l => l.Groups)
                     .ThenInclude(group => group.Loadouts)
                 .Include(p => p.Profiles).ThenInclude(p => p.NamedItems)
+                .Include(p => p.Profiles).ThenInclude(h => h.Ranks)
+                .Include(p => p.Profiles).ThenInclude(h => h.VariantPreferences) // Stories-SynthVariantPreference
+                .Include(p => p.Profiles).ThenInclude(h => h.SynthProfile) // Stories-SynthProfile
                 .Include(p => p.Profiles).ThenInclude(p => p.SquadPreference)
                 .AsSplitQuery()
                 .SingleOrDefaultAsync(p => p.UserId == userId.UserId, cancel);
@@ -115,6 +119,9 @@ namespace Content.Server.Database
                 .Include(p => p.Loadouts)
                     .ThenInclude(l => l.Groups)
                     .ThenInclude(group => group.Loadouts)
+                .Include(p => p.Ranks)
+                .Include(p => p.VariantPreferences) // Stories-SynthVariantPreference
+                .Include(p => p.SynthProfile) // Stories-SynthProfile
                 .Include(p => p.NamedItems)
                 .Include(p => p.SquadPreference)
                 .AsSplitQuery()
@@ -220,6 +227,17 @@ namespace Content.Server.Database
             var jobs = profile.Jobs.ToDictionary(j => new ProtoId<JobPrototype>(j.JobName), j => (JobPriority) j.Priority);
             var antags = profile.Antags.Select(a => new ProtoId<AntagPrototype>(a.AntagName));
             var traits = profile.Traits.Select(t => new ProtoId<TraitPrototype>(t.TraitName));
+            var ranks = profile.Ranks.ToDictionary(
+                r => new ProtoId<JobPrototype>(r.JobName),
+                r => (ProtoId<RankPrototype>?) new ProtoId<RankPrototype>(r.RankName));
+
+            // Stories-SynthVariantPreference-Start
+            var variantPreferences = profile.VariantPreferences
+                .DistinctBy(v => v.JobName)
+                .ToDictionary(
+                    v => new ProtoId<JobPrototype>(v.JobName),
+                    v => (string?) v.VariantName);
+            // Stories-SynthVariantPreference-End
 
             var sex = Sex.Male;
             if (Enum.TryParse<Sex>(profile.Sex, true, out var sexVal))
@@ -257,6 +275,40 @@ namespace Content.Server.Database
                     markings.Add(parsed);
                 }
             }
+
+            // Stories-SynthProfile-Start
+            HumanoidCharacterAppearance? synthAppearance = null;
+            if (profile.SynthProfile is { HairName: not null, HairColor: not null, FacialHairName: not null, FacialHairColor: not null, EyeColor: not null, SkinColor: not null } synth)
+            {
+                var synthMarkingsRaw = synth.Markings?.Deserialize<List<string>>();
+                var synthMarkings = new List<Marking>();
+                if (synthMarkingsRaw != null)
+                {
+                    foreach (var marking in synthMarkingsRaw)
+                    {
+                        var parsed = Marking.ParseFromDbString(marking);
+
+                        if (parsed is null) continue;
+
+                        synthMarkings.Add(parsed);
+                    }
+                }
+
+                Color ParseColor(string? hex, Color fallback) =>
+                    hex != null && Color.TryFromHex(hex) is { } color ? color : fallback;
+
+                synthAppearance = new HumanoidCharacterAppearance
+                (
+                    synth.HairName,
+                    ParseColor(synth.HairColor, Color.White),
+                    synth.FacialHairName,
+                    ParseColor(synth.FacialHairColor, Color.White),
+                    ParseColor(synth.EyeColor, Color.Brown),
+                    ParseColor(synth.SkinColor, Color.White),
+                    synthMarkings
+                );
+            }
+            // Stories-SynthProfile-End
 
             var loadouts = new Dictionary<string, RoleLoadout>();
 
@@ -302,9 +354,10 @@ namespace Content.Server.Database
                 ),
                 spawnPriority,
                 armorPreference,
+                ranks,
                 squadPreference,
                 jobs,
-                (PreferenceUnavailableMode) profile.PreferenceUnavailable,
+                (PreferenceUnavailableMode)profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
                 loadouts,
@@ -318,7 +371,10 @@ namespace Content.Server.Database
                 },
                 profile.PlaytimePerks,
                 profile.XenoPrefix,
-                profile.XenoPostfix
+                profile.XenoPostfix,
+                variantPreferences, // Stories-SynthVariantPreference
+                synthAppearance, // Stories-SynthProfile
+                profile.SynthProfile?.Name ?? string.Empty // Stories-SynthProfile
             );
         }
 
@@ -346,6 +402,47 @@ namespace Content.Server.Database
             profile.FacialHairColor = appearance.FacialHairColor.ToHex();
             profile.EyeColor = appearance.EyeColor.ToHex();
             profile.SkinColor = appearance.SkinColor.ToHex();
+
+            // Stories-SynthProfile-Start
+            var hasSynthData = humanoid.SynthAppearance != null || !string.IsNullOrWhiteSpace(humanoid.SynthName);
+
+            if (hasSynthData)
+            {
+                var synthProfile = profile.SynthProfile ??= new STSynthProfile();
+                var synthAppearance = humanoid.SynthAppearance;
+                if (synthAppearance != null)
+                {
+                    var synthMarkingStrings = new List<string>();
+                    foreach (var marking in synthAppearance.Markings)
+                    {
+                        synthMarkingStrings.Add(marking.ToString());
+                    }
+
+                    synthProfile.Markings = JsonSerializer.SerializeToDocument(synthMarkingStrings);
+                    synthProfile.HairName = synthAppearance.HairStyleId;
+                    synthProfile.HairColor = synthAppearance.HairColor.ToHex();
+                    synthProfile.FacialHairName = synthAppearance.FacialHairStyleId;
+                    synthProfile.FacialHairColor = synthAppearance.FacialHairColor.ToHex();
+                    synthProfile.EyeColor = synthAppearance.EyeColor.ToHex();
+                    synthProfile.SkinColor = synthAppearance.SkinColor.ToHex();
+                }
+                else
+                {
+                    synthProfile.Markings = null;
+                    synthProfile.HairName = null;
+                    synthProfile.HairColor = null;
+                    synthProfile.FacialHairName = null;
+                    synthProfile.FacialHairColor = null;
+                    synthProfile.EyeColor = null;
+                    synthProfile.SkinColor = null;
+                }
+                synthProfile.Name = humanoid.SynthName;
+            }
+            else if (profile.SynthProfile != null)
+            {
+                profile.SynthProfile = null;
+            }
+            // Stories-SynthProfile-End
             profile.SpawnPriority = (int) humanoid.SpawnPriority;
             profile.ArmorPreference = humanoid.ArmorPreference.ToString();
             profile.SquadPreference = new RMCSquadPreference { Squad = humanoid.SquadPreference };
@@ -371,6 +468,22 @@ namespace Content.Server.Database
                 humanoid.TraitPreferences
                         .Select(t => new Trait {TraitName = t})
             );
+
+            profile.Ranks.Clear();
+            profile.Ranks.AddRange(
+                humanoid.RankPreferences
+                    .Where(r => r.Value != null)
+                    .Select(r => new Rank { JobName = r.Key, RankName = r.Value!.Value.Id })
+            );
+
+            // Stories-SynthVariantPreference-Start
+            profile.VariantPreferences.Clear();
+            profile.VariantPreferences.AddRange(
+                humanoid.VariantPreferences
+                    .Where(v => v.Value != null)
+                    .Select(v => new VariantPreference { JobName = v.Key, VariantName = v.Value! })
+            );
+            // Stories-SynthVariantPreference-End
 
             profile.Loadouts.Clear();
 

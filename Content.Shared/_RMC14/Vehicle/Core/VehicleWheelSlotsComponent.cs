@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
 using Content.Shared.Containers.ItemSlots;
-using Content.Shared.Vehicle;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._RMC14.Vehicle;
 
 [RegisterComponent, NetworkedComponent]
 [Access(typeof(VehicleWheelSystem))]
-public sealed partial class VehicleWheelItemComponent : Component;
+public sealed partial class VehicleWheelItemComponent : Component
+{
+    [DataField]
+    public bool AcidResistant;
+}
 
 [RegisterComponent, NetworkedComponent]
 [Access(typeof(VehicleWheelSystem))]
@@ -18,7 +22,7 @@ public sealed partial class VehicleWheelSlotsComponent : Component
 {
     public const string WheelComponentId = "VehicleWheelItem";
 
-    public const string HardpointTypeId = "Wheel";
+    public static readonly EntProtoId HardpointTypeId = "HardpointTypeWheel";
 
     [DataField]
     public int SlotCount = 1;

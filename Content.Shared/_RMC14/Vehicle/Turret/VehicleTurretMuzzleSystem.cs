@@ -11,6 +11,7 @@ namespace Content.Shared._RMC14.Vehicle;
 public sealed class VehicleTurretMuzzleSystem : EntitySystem
 {
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly VehicleTurretSystem _vehicleTurret = default!;
 
     public override void Initialize()
     {
@@ -31,8 +32,7 @@ public sealed class VehicleTurretMuzzleSystem : EntitySystem
         if (!ent.Comp.Alternate || args.Ammo.Count == 0)
             return;
 
-        for (var i = 0; i < args.Ammo.Count; i++)
-            ent.Comp.UseRightNext = !ent.Comp.UseRightNext;
+        ent.Comp.UseRightNext = !ent.Comp.UseRightNext;
 
         Dirty(ent);
     }
@@ -51,7 +51,9 @@ public sealed class VehicleTurretMuzzleSystem : EntitySystem
         VehicleTurretMuzzleComponent muzzle,
         bool? useRightOverride = null)
     {
-        var baseRotation = _transform.GetWorldRotation(uid);
+        var baseRotation = _vehicleTurret.TryGetShotBarrelWorldRotation(uid, out var shotRotation)
+            ? shotRotation
+            : _transform.GetWorldRotation(uid);
         var useRight = useRightOverride ?? (muzzle.Alternate && muzzle.UseRightNext);
         var offset = GetOffset(muzzle, baseRotation, useRight);
         return offset == Vector2.Zero ? Vector2.Zero : baseRotation.RotateVec(offset);

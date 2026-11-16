@@ -11,3 +11,7 @@ ent-RMCCartridgeRevolver38 = патрон (.38)
     .desc = { ent-CMCartridgePistolBase.desc }
 ent-RMCBulletRevolver38 = пуля (.38)
     .desc = { ent-CMBulletBase.desc }
+ent-RMCWeaponRevolverM37 = револьвер M37 .38
+    .desc = Изящный служебный револьвер калибра .38. Неувядающая классика — из прошлого в будущее. Эта модель известна чудовищной неточностью, но при этом чрезвычайно смертоносна.
+ent-RMCSpeedLoaderM37 = спидлоадер M37 (.38)
+    .desc = { ent-RMCSpeedLoader38.desc }

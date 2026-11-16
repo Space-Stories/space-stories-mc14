@@ -18,6 +18,14 @@
   - MarineLeatherSatchel
 
 - type: loadoutGroup
+  id: MarineSecureBackpack
+  name: rmc-loadout-group-backpack
+  minLimit: 1
+  hidden: true
+  loadouts:
+  - MarineSecureSatchel
+
+- type: loadoutGroup
   id: LiaisonBackpackRMC
   name: rmc-loadout-group-backpack
   minLimit: 1
@@ -56,6 +64,14 @@
   hidden: true
   loadouts:
   - ProvostSecuritySatchel
+
+- type: loadoutGroup
+  id: ExecutiveSecurityGuardBackpack
+  name: rmc-loadout-group-backpack
+  minLimit: 1
+  hidden: true
+  loadouts:
+  - ExecutiveSecurityGuardSatchel
 
 - type: loadoutGroup
   id: RoyalBackpack
@@ -103,6 +119,7 @@
   - HippieGlassesPinkRMC
   - HippieGlassesSunriseRMC
   - HippieGlassesSunsetRMC
+  - STGogglesM1A1Black # Stories-GogglesM1A1Black
 
 - type: loadoutGroup
   id: EyewearRMCPVE
@@ -406,7 +423,9 @@
   - PonchoDesertRMC
   - PonchoUrbanRMC
   - PonchoSnowRMC
+  - STPonchoBlack # Stories-BlackPonchoAdd
   - PatchPeaceRMC
+  - PDTLKitRMC
 
 - type: loadoutGroup
   id: AccessoriesRMCPVE
@@ -694,6 +713,31 @@
 
 # Commanding Officer
 - type: loadoutGroup
+  id: CommandingOfficerCareerRMC
+  name: rmc-loadout-group-commanding-officer-career
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - RMCCOCareerInfantry
+  - RMCCOCareerEngineering
+  - RMCCOCareerMedical
+  - RMCCOCareerIntel
+  - RMCCOCareerLogistics
+  - RMCCOCareerAviation
+  - RMCCOCareerTanker
+
+- type: loadoutGroup
+  id: CommandingOfficerAffiliationRMC
+  name: rmc-loadout-group-commanding-officer-affiliation
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - RMCCOAffiliationUnaligned
+  - RMCCOAffiliationHawks
+  - RMCCOAffiliationDoves
+  - RMCCOAffiliationMagpies
+
+- type: loadoutGroup
   id: CommandingOfficerRoleSpecificRMC
   name: rmc-loadout-group-role-specific
   minLimit: 0
@@ -714,7 +758,10 @@
   name: rmc-loadout-group-role-specific-weapon
   loadouts:
   - MatebaRMC
+  - MatebaSpecialRMC
   - HandcannonRMC
+  - HandcannonPolishedRMC
+  - SilverMatebaRMC
   - GoldMatebaRMC
   - GoldHandcannonRMC
 
@@ -723,10 +770,11 @@
   id: LiaisonRoleSpecificRMC
   name: rmc-loadout-group-role-specific
   minLimit: 0
-  maxLimit: 3
+  maxLimit: 4
   loadouts:
   - RMCWeYaClipboard
   - RMCWeYaThermos
+  - WEYABagPhoneSatchel
   - RMCJacketWindbreakerWEYA
 
 # Chief MP
@@ -800,6 +848,7 @@
   - GogglesPolarizedOrangeRMC
   - GogglesM1A1BlueRMC
   - GlassesSecurityRMC
+  - STGogglesM1A1Black # Stories-GogglesM1A1Black
 
 - type: loadoutGroup
   id: SynthShoesRMC
@@ -914,13 +963,29 @@
   - NeckerchiefWhiteRMC
   - NeckerchiefRedRMC
 
+# Stories-SynthSpecialization-Start
+- type: loadoutGroup
+  id: STSynthSpecializationRMC
+  name: st-loadout-group-synth-specialization
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - STSynthSpecializationGeneral
+  - STSynthSpecializationCommand
+  - STSynthSpecializationEngineering
+  - STSynthSpecializationMedical
+  - STSynthSpecializationRequisitions
+  - STSynthSpecializationMilitaryPolice
+  - STSynthSpecializationAviation
+  - STSynthSpecializationIntel
+# Stories-SynthSpecialization-End
 # Watches
 - type: loadoutGroup
   id: WatchesBasicRMC
   name: rmc-loadout-group-watches
   minLimit: 0
   maxLimit: 1
-  loadouts: 
+  loadouts:
   - WatchCheapRMC
   - WatchBasicRMC
   - WatchSurvRMC
@@ -943,7 +1008,7 @@
   name: rmc-loadout-group-watches
   minLimit: 0
   maxLimit: 1
-  loadouts: 
+  loadouts:
   - WatchCheapRMC
   - WatchBasicRMC
   - WatchSurvRMC
@@ -955,7 +1020,7 @@
   name: rmc-loadout-group-watches
   minLimit: 0
   maxLimit: 1
-  loadouts: 
+  loadouts:
   - WatchCheapRMC
   - WatchBasicRMC
   - WatchSurvRMC
@@ -991,17 +1056,6 @@
   - ShoesYellowRMC
   - ShoesRedRMC
   - ShoesPurpleRMC
-  - PlushieFarwaRMC
-  - PlushieBarricadeRMC
-  - PlushieBeeRMC
-  - PlushieSharkGreyRMC
-  - PlushieSharkBlueRMC
-  - PlushieSharkPinkRMC
-  - PlushieMothRMC
-  - PlushieRockRMC
-  - PlushieTherapyRMC
-  - PlushieGnarpGnarpRMC
-  - PlushieGnarpGnarpAltRMC
 
 # Provost Inspector
 - type: loadoutGroup

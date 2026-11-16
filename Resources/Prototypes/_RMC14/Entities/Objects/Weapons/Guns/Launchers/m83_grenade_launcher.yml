@@ -15,7 +15,7 @@
   - type: Clothing # Stories-Partiy
     sprite: _Stories/Objects/Weapons/Guns/GrenadeLaunchers/m83/desert.rsi
   - type: RMCSelectiveFire
-    baseFireRate: 0.3125
+    baseFireRate: 0.675
   - type: GunUserWhitelist
     whitelist:
       components:

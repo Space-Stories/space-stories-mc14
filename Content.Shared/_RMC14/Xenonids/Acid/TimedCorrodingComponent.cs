@@ -1,11 +1,15 @@
-﻿using Robust.Shared.GameStates;
+using Robust.Shared.Audio;
+using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared._RMC14.Xenonids.Acid;
 
+/// <summary>
+///     Timed structure acid; weather can shorten exposed corrosion and reduce DPS once per storm.
+/// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
-[Access(typeof(SharedXenoAcidSystem))]
+[Access(typeof(SharedXenoAcidSystem), typeof(Content.Shared._RMC14.Weather.RMCWeatherSystem))]
 public sealed partial class TimedCorrodingComponent : Component
 {
     [DataField, AutoNetworkedField]
@@ -25,4 +29,7 @@ public sealed partial class TimedCorrodingComponent : Component
 
     [DataField, AutoNetworkedField]
     public float LightDps;
+
+    [DataField, AutoNetworkedField]
+    public SoundSpecifier? AcidSound;
 }

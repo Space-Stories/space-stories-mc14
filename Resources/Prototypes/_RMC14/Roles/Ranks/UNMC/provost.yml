@@ -5,46 +5,44 @@
   prefix: Сек. Маршал
   paygrade: O9
 
-# Любой администратор с высоким пониманием закона
+# Admin
 - type: rank
   id: RMCRankProvostSeniorMarshal
   name: Старший Маршал
   prefix: Ст. Маршал
   paygrade: O8
 
-# Любой администратор с низким пониманием закона, или что хочет ранг пониже
+# Admin
 - type: rank
   id: RMCRankProvostMarshal
   name: Маршал
   prefix: Маршал
   paygrade: O7
 
-# Любой Вайтлист КО
+# Admin
 - type: rank
   id: RMCRankProvostDeputyMarshal
   name: Заместитель Маршала
   prefix: Зам. Маршала
   paygrade: O6
 
-# Any player with high law understanding
 - type: rank
   id: RMCRankProvostChiefInspector
-  name: Chief Inspector
-  prefix: PvCI.
+  name: Главный Инспектор
+  prefix: Глав. Инсп.
   paygrade: O5
 
-# Любой игрок со средне-низким пониманием закона
 - type: rank
   id: RMCRankProvostInspector
-  name: Provost Inspector
-  prefix: PvI.
+  name: Инспектор военной полиции
+  prefix: Инсп. ВП
   paygrade: O4
 
 # Fax responder
 - type: rank
   id: RMCRankProvostCommunicationsOfficer
-  name: Communications Officer
-  prefix: ComOff.
+  name: Офицер связи
+  prefix: Офиц. связи
   paygrade: O2
 
 # Любой игрок с низким пониманием закона, с доп. помощью

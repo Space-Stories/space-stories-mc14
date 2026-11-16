@@ -273,6 +273,18 @@
   iconColor: "#727e90"
   objectType: Item
 
+- type: construction
+  parent: RMC
+  name: Magazine Box (M44 Heavy)
+  id: RMCBoxMagazineRevolverM44HeavyEmpty
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineRevolverM44HeavyEmpty
+  category: construction-category-cm-box-magazine
+  description: A box for holding many heavy speedloaders with a carrying handle.
+  iconColor: "#727e90"
+  objectType: Item
+
 # M13
 - type: construction
   parent: RMC
@@ -579,8 +591,20 @@
         amount: 1
         doAfter: 0.25
 
-    # AK4047
-    - to: RMCBoxMagazineRifleAK4047Empty
+    # Type77
+    - to: RMCBoxMagazineRifleType77Empty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+
+    - to: RMCBoxMagazineRifleType77APEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+
+    - to: RMCBoxMagazineRifleType77RubberEmpty
       steps:
       - material: RMCSheetCardboard
         amount: 1
@@ -759,6 +783,11 @@
       - material: RMCSheetCardboard
         amount: 1
         doAfter: 0.25
+    - to: RMCBoxMagazineRevolverM44HeavyEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
 
     # M34 Incinerator
     - to: RMCBoxFlamerTankEmpty
@@ -865,9 +894,13 @@
   - node: RMCBoxMagazineRifleSSG45APEmpty
     entity: RMCBoxMagazineRifleSSG45APEmpty
 
-  #AK4047
-  - node: RMCBoxMagazineRifleAK4047Empty
-    entity: RMCBoxMagazineRifleAK4047Empty
+  # Type77
+  - node: RMCBoxMagazineRifleType77Empty
+    entity: RMCBoxMagazineRifleType77Empty
+  - node: RMCBoxMagazineRifleType77APEmpty
+    entity: RMCBoxMagazineRifleType77APEmpty
+  - node: RMCBoxMagazineRifleType77RubberEmpty
+    entity: RMCBoxMagazineRifleType77RubberEmpty
 
   # M63
   - node: RMCBoxMagazineSMGM63Empty
@@ -940,6 +973,8 @@
     entity: RMCBoxMagazineRevolverM44Empty
   - node: RMCBoxMagazineRevolverM44MarksmanEmpty
     entity: RMCBoxMagazineRevolverM44MarksmanEmpty
+  - node: RMCBoxMagazineRevolverM44HeavyEmpty
+    entity: RMCBoxMagazineRevolverM44HeavyEmpty
 
   # Nailgun
   - node: RMCBoxMagazineSMGNailgunEmpty

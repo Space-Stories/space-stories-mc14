@@ -17,6 +17,7 @@ using Content.Shared.Coordinates;
 using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
+using Content.Shared.Foldable;
 using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
@@ -73,7 +74,8 @@ public sealed class PowerLoaderSystem : EntitySystem
     {
         _powerLoaderGrabbableQuery = GetEntityQuery<PowerLoaderGrabbableComponent>();
 
-        SubscribeLocalEvent<ItemComponent, AfterInteractEvent>(OnItemAfterInteract);
+        SubscribeLocalEvent<ItemComponent, AfterInteractEvent>(OnItemAfterInteract,
+            before: [typeof(DeployFoldableSystem)]);
 
         SubscribeLocalEvent<PowerLoaderComponent, MapInitEvent>(OnPowerLoaderMapInit);
         SubscribeLocalEvent<PowerLoaderComponent, ComponentRemove>(OnPowerLoaderRemove);
@@ -90,7 +92,9 @@ public sealed class PowerLoaderSystem : EntitySystem
         SubscribeLocalEvent<PowerLoaderComponent, DidUnequipHandEvent>(OnHandsChanged);
 
         SubscribeLocalEvent<PowerLoaderGrabbableComponent, PickupAttemptEvent>(OnGrabbablePickupAttempt);
-        SubscribeLocalEvent<PowerLoaderGrabbableComponent, AfterInteractEvent>(OnGrabbableAfterInteract);
+        SubscribeLocalEvent<PowerLoaderGrabbableComponent, GettingPickedUpAttemptEvent>(OnGrabbableGettingPickedUpAttempt);
+        SubscribeLocalEvent<PowerLoaderGrabbableComponent, AfterInteractEvent>(OnGrabbableAfterInteract,
+            before: [typeof(DeployFoldableSystem)]);
         SubscribeLocalEvent<PowerLoaderGrabbableComponent, CombatModeShouldHandInteractEvent>(OnGrababbleShouldInteract);
         SubscribeLocalEvent<PowerLoaderGrabbableComponent, BeforeRangedInteractEvent>(OnGrabbableBeforeRangedInteract);
 
@@ -393,9 +397,19 @@ public sealed class PowerLoaderSystem : EntitySystem
             args.Cancel();
     }
 
+    private void OnGrabbableGettingPickedUpAttempt(Entity<PowerLoaderGrabbableComponent> ent, ref GettingPickedUpAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!HasComp<PowerLoaderComponent>(args.User))
+            args.Cancel();
+    }
+
     private void OnGrabbableAfterInteract(Entity<PowerLoaderGrabbableComponent> ent, ref AfterInteractEvent args)
     {
-        TryDropLoaderHeld(args.User, args.ClickLocation, args.Used);
+        if (TryDropLoaderHeld(args.User, args.ClickLocation, args.Used))
+            args.Handled = true;
     }
 
     private void OnGetSlot(Entity<DropshipWeaponPointComponent> ent, ref GetAttachmentSlotEvent args)
@@ -869,6 +883,76 @@ public sealed class PowerLoaderSystem : EntitySystem
         return _hands.CountFreeHands(user.Owner) > 0;
     }
 
+    internal bool TryGetActivePowerLoader(EntityUid user, [NotNullWhen(true)] out Entity<PowerLoaderComponent>? loader)
+    {
+        loader = default;
+
+        if (TryComp(user, out PowerLoaderComponent? loaderComp))
+        {
+            loader = new Entity<PowerLoaderComponent>(user, loaderComp);
+            return true;
+        }
+
+        if (!HasComp<ActivePowerLoaderPilotComponent>(user) ||
+            !TryComp(user, out BuckleComponent? buckle) ||
+            buckle.BuckledTo is not { } buckledTo ||
+            !TryComp(buckledTo, out PowerLoaderComponent? buckledLoader))
+        {
+            return false;
+        }
+
+        loader = new Entity<PowerLoaderComponent>(buckledTo, buckledLoader);
+        return true;
+    }
+
+    internal bool TryGetInteractionUser(EntityUid user, out EntityUid actor)
+    {
+        actor = user;
+
+        if (!TryComp(user, out PowerLoaderComponent? _) ||
+            !TryComp(user, out StrapComponent? strap))
+        {
+            return true;
+        }
+
+        foreach (var buckled in strap.BuckledEntities)
+        {
+            if (HasComp<ActivePowerLoaderPilotComponent>(buckled))
+            {
+                actor = buckled;
+                return true;
+            }
+        }
+
+        actor = default;
+        return false;
+    }
+
+    internal bool CanPickupWithActiveHand(EntityUid user)
+    {
+        if (!TryGetActivePowerLoader(user, out var loader) ||
+            !TryGetLoaderHandForUser(user, loader.Value, out var loaderHand))
+        {
+            return false;
+        }
+
+        return !_hands.TryGetHeldItem(loader.Value.Owner, loaderHand, out _);
+    }
+
+    internal bool TryPickupWithActiveHand(EntityUid user, EntityUid target)
+    {
+        if (!TryGetActivePowerLoader(user, out var loader) ||
+            !TryGetLoaderHandForUser(user, loader.Value, out var loaderHand) ||
+            _hands.TryGetHeldItem(loader.Value.Owner, loaderHand, out _))
+        {
+            return false;
+        }
+
+        _hands.DoPickup(loader.Value, loaderHand, target);
+        SyncHands(loader.Value);
+        return true;
+    }
+
     private bool CanPickupPopup(
         Entity<PowerLoaderComponent> loader,
         Entity<PowerLoaderGrabbableComponent?> grabbable,
@@ -900,6 +984,32 @@ public sealed class PowerLoaderSystem : EntitySystem
         {
             yield return entity;
         }
+    }
+
+    private bool TryGetLoaderHandForUser(
+        EntityUid user,
+        Entity<PowerLoaderComponent> loader,
+        [NotNullWhen(true)] out string? loaderHandId)
+    {
+        loaderHandId = null;
+
+        if (_hands.GetActiveHand(user) is not { } activeHandId ||
+            !_hands.TryGetHand(user, activeHandId, out var activeHand))
+        {
+            return false;
+        }
+
+        if (!_hands.EnumerateHands(loader.Owner).TryFirstOrDefault(
+                handId =>
+                    _hands.TryGetHand(loader.Owner, handId, out var loaderHand) &&
+                    loaderHand.Value.Location == activeHand.Value.Location,
+                out var matchedHand))
+        {
+            return false;
+        }
+
+        loaderHandId = matchedHand;
+        return true;
     }
 
     private void SyncHands(Entity<PowerLoaderComponent> loader)
@@ -1000,6 +1110,11 @@ public sealed class PowerLoaderSystem : EntitySystem
 
     private void PickUp(Entity<PowerLoaderComponent> loader, EntityUid target)
     {
+        var pickupAttempt = new GettingPickedUpAttemptEvent(loader, target);
+        RaiseLocalEvent(target, pickupAttempt);
+        if (pickupAttempt.Cancelled)
+            return;
+
         if (!CanPickupPopup(loader, target, out _))
             return;
 

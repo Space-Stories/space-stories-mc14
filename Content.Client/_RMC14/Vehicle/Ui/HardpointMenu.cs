@@ -19,7 +19,6 @@ using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Graphics.RSI;
-using Robust.Shared.IoC;
 
 namespace Content.Client._RMC14.Vehicle.Ui;
 
@@ -69,6 +68,7 @@ public sealed partial class HardpointMenu : FancyWindow
     public HardpointMenu()
     {
         RobustXamlLoader.Load(this);
+        OnClose += ClearPreviewOverlays;
     }
 
     protected override void FrameUpdate(FrameEventArgs args)
@@ -106,14 +106,6 @@ public sealed partial class HardpointMenu : FancyWindow
         VehicleIcon.OverrideDirection = Direction.South;
         _vehicleSpin = 0f;
         _vehicleIconSet = true;
-    }
-
-    private static string GetLocalizedSlotId(string slotId)
-    {
-        var key = $"rmc-hardpoint-slot-{slotId.ToLowerInvariant()}";
-        if (Loc.TryGetString(key, out var localized))
-            return localized;
-        return slotId;
     }
 
     public void Update(
@@ -155,7 +147,7 @@ public sealed partial class HardpointMenu : FancyWindow
             var panel = new PanelContainer
             {
                 HorizontalExpand = true,
-                MinSize = new Vector2(0, 48),
+                MinSize = new Vector2(0, 40),
                 MouseFilter = Control.MouseFilterMode.Stop
             };
 
@@ -185,8 +177,8 @@ public sealed partial class HardpointMenu : FancyWindow
             var root = new BoxContainer
             {
                 Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                SeparationOverride = 8,
-                Margin = new Thickness(6),
+                SeparationOverride = 6,
+                Margin = new Thickness(4),
                 HorizontalExpand = true
             };
 
@@ -196,7 +188,7 @@ public sealed partial class HardpointMenu : FancyWindow
             {
                 Stretch = SpriteView.StretchMode.Fill,
                 VerticalAlignment = Control.VAlignment.Center,
-                MinSize = new Vector2(40, 40),
+                MinSize = new Vector2(32, 32),
                 OverrideDirection = Direction.South
             };
 
@@ -217,42 +209,24 @@ public sealed partial class HardpointMenu : FancyWindow
                 HorizontalExpand = true
             };
 
-            var displaySlot = GetLocalizedSlotId(hardpoint.SlotId);
+            var displaySlot = hardpoint.SlotId;
             string? parentSlot = null;
             if (VehicleTurretSlotIds.TryParse(hardpoint.SlotId, out var parentSlotId, out var childSlotId))
             {
-                displaySlot = GetLocalizedSlotId(childSlotId);
-                parentSlot = GetLocalizedSlotId(parentSlotId);
+                displaySlot = childSlotId;
+                parentSlot = parentSlotId;
             }
 
-            var typeLoc = Loc.GetString($"rmc-hardpoint-type-{hardpoint.HardpointType.ToLowerInvariant()}");
-            var header = $"{displaySlot} ({typeLoc})";
             var nameText = hardpoint.HasItem
-                ? hardpoint.InstalledName ?? header
+                ? hardpoint.InstalledName ?? displaySlot
                 : Loc.GetString("rmc-hardpoint-ui-empty-slot");
-
-            centerColumn.AddChild(new Label
-            {
-                Text = nameText,
-                FontColorOverride = Color.FromHex("#E1EEFF")
-            });
-
-            var slotLine = hardpoint.HasItem ? header : Loc.GetString("rmc-vehicle-hardpoint-ui-slot", ("slot", header));
-            if (parentSlot != null)
-                slotLine += " | " + Loc.GetString("rmc-vehicle-hardpoint-ui-turret-slot", ("slot", parentSlot));
-
-            centerColumn.AddChild(new Label
-            {
-                Text = slotLine,
-                FontColorOverride = Color.FromHex("#8FA7C2")
-            });
 
             var rightColumn = new BoxContainer
             {
                 Orientation = BoxContainer.LayoutOrientation.Vertical,
-                SeparationOverride = 3,
+                SeparationOverride = 2,
                 VerticalAlignment = Control.VAlignment.Center,
-                MinSize = new Vector2(170, 0)
+                MinSize = new Vector2(112, 0)
             };
 
             if (isRemoving)
@@ -273,7 +247,7 @@ public sealed partial class HardpointMenu : FancyWindow
                 var barRow = new BoxContainer
                 {
                     Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    SeparationOverride = 8,
+                    SeparationOverride = 6,
                     HorizontalExpand = true
                 };
 
@@ -283,7 +257,7 @@ public sealed partial class HardpointMenu : FancyWindow
                     MaxValue = 1,
                     Value = percent,
                     HorizontalExpand = true,
-                    MinSize = new Vector2(120, 12)
+                    MinSize = new Vector2(96, 10)
                 };
 
                 bar.ForegroundStyleBoxOverride = CreateIntegrityStyle(percent);
@@ -304,6 +278,22 @@ public sealed partial class HardpointMenu : FancyWindow
 
             root.AddChild(centerColumn);
             root.AddChild(rightColumn);
+
+            centerColumn.AddChild(new Label
+            {
+                Text = nameText,
+                FontColorOverride = Color.FromHex("#E1EEFF")
+            });
+
+            var slotLine = hardpoint.HasItem ? displaySlot : $"Open: {displaySlot}";
+            if (parentSlot != null)
+                slotLine = $"{parentSlot} / {slotLine}";
+
+            centerColumn.AddChild(new Label
+            {
+                Text = slotLine,
+                FontColorOverride = Color.FromHex("#8FA7C2")
+            });
 
             HardpointList.AddChild(panel);
         }
@@ -340,7 +330,7 @@ public sealed partial class HardpointMenu : FancyWindow
             if (VehicleTurretSlotIds.TryParse(hardpoint.SlotId, out _, out _))
                 continue;
 
-            if (TryGetTurretOffset((EntityUid)installed, out var offset))
+            if (TryGetTurretOffset((EntityUid) installed, out var offset))
                 turretOffsets[hardpoint.SlotId] = offset;
         }
 
@@ -353,10 +343,10 @@ public sealed partial class HardpointMenu : FancyWindow
             if (!_entManager.TryGetEntity(installedNet, out var installed))
                 continue;
 
-            if (!TryGetOverlaySpec((EntityUid)installed, vehicleRsi, out var rsi, out var state))
+            if (!TryGetOverlaySpec((EntityUid) installed, vehicleRsi, out var rsi, out var state))
                 continue;
 
-            var hasOffset = TryGetTurretOffset((EntityUid)installed, out var offset);
+            var hasOffset = TryGetTurretOffset((EntityUid) installed, out var offset);
             if (VehicleTurretSlotIds.TryParse(hardpoint.SlotId, out var parentSlotId, out _) &&
                 turretOffsets.TryGetValue(parentSlotId, out var parentOffset))
             {
@@ -492,8 +482,8 @@ public sealed partial class HardpointMenu : FancyWindow
             normalized += MathHelper.TwoPi;
 
         var segment = MathHelper.PiOver2;
-        var index = (int)Math.Floor(normalized / segment) & 3;
-        var t = (float)((normalized - index * segment) / segment);
+        var index = (int) Math.Floor(normalized / segment) & 3;
+        var t = (float) ((normalized - index * segment) / segment);
 
         var current = offset.Base + GetDirectionalOffset(offset, index);
         var next = offset.Base + GetDirectionalOffset(offset, (index + 1) & 3);
@@ -528,10 +518,7 @@ public sealed partial class HardpointMenu : FancyWindow
         foreach (var overlay in _previewOverlays)
         {
             if (!overlay.View.Disposed)
-            {
                 overlay.View.Orphan();
-                overlay.View.Dispose();
-            }
 
             if (_entManager.EntityExists(overlay.Entity))
                 _entManager.DeleteEntity(overlay.Entity);
@@ -540,20 +527,14 @@ public sealed partial class HardpointMenu : FancyWindow
         _previewOverlays.Clear();
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        ClearPreviewOverlays();
-    }
-
     private void UpdateWindowSizing(bool hasFrameIntegrity, bool hasError)
     {
-        const float baseWidth = 580f;
-        const float baseHeight = 210f;
-        const float listPadding = 24f;
-        const float errorHeight = 24f;
-        const float frameHeight = 40f;
-        const float minHeight = 300f;
+        const float baseWidth = 520f;
+        const float baseHeight = 176f;
+        const float listPadding = 18f;
+        const float errorHeight = 20f;
+        const float frameHeight = 32f;
+        const float minHeight = 260f;
 
         HardpointList.InvalidateMeasure();
         HardpointList.Measure(Vector2Helpers.Infinity);

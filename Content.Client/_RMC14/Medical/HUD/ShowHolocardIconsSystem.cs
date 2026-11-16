@@ -16,6 +16,7 @@ public sealed class ShowHolocardIconsSystem : EquipmentHudSystem<HolocardScanner
     private static readonly ProtoId<HealthIconPrototype> Emergency = "EmergencyHolocardIcon";
     private static readonly ProtoId<HealthIconPrototype> Xeno = "XenoHolocardIcon";
     private static readonly ProtoId<HealthIconPrototype> Permadead = "PermaHolocardIcon";
+    private static readonly ProtoId<HealthIconPrototype> Ssd = "SsdHolocardIcon";
 
     public override void Initialize()
     {
@@ -70,6 +71,10 @@ public sealed class ShowHolocardIconsSystem : EquipmentHudSystem<HolocardScanner
                 data.HolocardIcon = Permadead;
                 data.Description = Loc.GetString("hc-permadead-description");
                 break;
+            case HolocardStatus.Ssd:
+                data.HolocardIcon = Ssd;
+                data.Description = Loc.GetString("hc-ssd-description");
+                break;
             default:
                 data = default;
                 return false;
@@ -98,6 +103,9 @@ public sealed class ShowHolocardIconsSystem : EquipmentHudSystem<HolocardScanner
             case HolocardStatus.Permadead:
                 holocardName = Loc.GetString("hc-permadead-name");
                 break;
+            case HolocardStatus.Ssd:
+                holocardName = Loc.GetString("hc-ssd-name");
+                break;
             default:
                 return false;
         }
@@ -120,6 +128,9 @@ public sealed class ShowHolocardIconsSystem : EquipmentHudSystem<HolocardScanner
                 break;
             case HolocardStatus.Permadead:
                 holocardColor = Color.Black;
+                break;
+            case HolocardStatus.Ssd:
+                holocardColor = Color.Green;
                 break;
             default:
                 return false;

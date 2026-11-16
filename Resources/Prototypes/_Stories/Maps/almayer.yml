@@ -59,7 +59,10 @@
           CMRifleman: [ -1, -1 ]
 
           #Civilians
-          CMCorrespondent: [2, 2]
+          CMCombatCorrespondent: [2, 2]
 
           # Other
           CMLiaison: [1, 1]
+          RMCWeYaExecutiveBodyguard: [1, 1]
+          RMCJobSynthetic: [1, 1]
+          STJobWorkingJoe: [3, 3]

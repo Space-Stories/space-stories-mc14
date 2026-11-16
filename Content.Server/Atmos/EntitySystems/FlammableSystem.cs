@@ -68,8 +68,12 @@ namespace Content.Server.Atmos.EntitySystems
         private float _timer;
 
         private readonly Dictionary<Entity<FlammableComponent>, float> _fireEvents = new();
+        private readonly HashSet<EntityUid> _activeFlammables = new(); // Stories-Optimization
+        private readonly List<EntityUid> _flammableCleanup = new(); // Stories-Optimization
 
         // RMC14
+        private static readonly ProtoId<AlertPrototype> FireAlert = "Fire";
+
         private EntityQuery<SteppingOnFireComponent> _steppingOnFireQuery;
 
         public override void Initialize()
@@ -80,6 +84,7 @@ namespace Content.Server.Atmos.EntitySystems
             _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
             SubscribeLocalEvent<FlammableComponent, MapInitEvent>(OnMapInit);
+            SubscribeLocalEvent<FlammableComponent, ComponentShutdown>(OnFlammableShutdown); // Stories-Optimization
             SubscribeLocalEvent<FlammableComponent, InteractUsingEvent>(OnInteractUsing);
             SubscribeLocalEvent<FlammableComponent, StartCollideEvent>(OnCollide);
             SubscribeLocalEvent<FlammableComponent, IsHotEvent>(OnIsHot);
@@ -151,8 +156,19 @@ namespace Content.Server.Atmos.EntitySystems
                 RemCompDeferred<IgniteOnCollideComponent>(uid);
         }
 
+        // Stories-Optimization-Start
+        private void OnFlammableShutdown(Entity<FlammableComponent> ent, ref ComponentShutdown args)
+        {
+            _activeFlammables.Remove(ent);
+        }
+        // Stories-Optimization-End
+
         private void OnMapInit(EntityUid uid, FlammableComponent component, MapInitEvent args)
         {
+            // Stories-Optimization-Start
+            if (component.OnFire || component.FireStacks != 0)
+                _activeFlammables.Add(uid);
+            // Stories-Optimization-End
             // Sets up a fixture for flammable collisions.
             // TODO: Should this be generalized into a general non-hard 'effects' fixture or something? I can't think of other use cases for it.
             // This doesn't seem great either (lots more collisions generated) but there isn't a better way to solve it either that I can think of.
@@ -282,10 +298,9 @@ namespace Content.Server.Atmos.EntitySystems
                 return;
 
             // RMC14 use the normal stop-drop-roll resist before active water extinguishes.
-            var wasResisting = ent.Comp.Resisting;
             _rmcFlammable.DoStopDropRollAnimation(ent.Owner);
             Resist(ent, ent);
-            if (!wasResisting && ent.Comp.Resisting)
+            if (ent.Comp.Resisting)
                 TryExtinguishWithWater(ent.Owner, ent.Comp);
             // RMC14 end
 
@@ -358,6 +373,7 @@ namespace Content.Server.Atmos.EntitySystems
             else
             {
                 flammable.OnFire |= ignite;
+                _activeFlammables.Add(uid); // Stories-Optimization
                 UpdateAppearance(uid, flammable);
 
                 if (flammable.OnFire)
@@ -423,6 +439,7 @@ namespace Content.Server.Atmos.EntitySystems
             }
 
             Dirty(uid, flammable);
+            _activeFlammables.Add(uid); // Stories-Optimization
             UpdateAppearance(uid, flammable);
         }
 
@@ -457,7 +474,8 @@ namespace Content.Server.Atmos.EntitySystems
             if (!Resolve(uid, ref flammable))
                 return;
 
-            if (!flammable.OnFire || !_actionBlockerSystem.CanInteract(uid, null) || flammable.Resisting)
+            // RMC14 use CanMove instead of CanInteract
+            if (!flammable.OnFire || flammable.Resisting || !_actionBlockerSystem.CanMove(uid))
                 return;
 
             flammable.Resisting = true;
@@ -499,10 +517,20 @@ namespace Content.Server.Atmos.EntitySystems
 
             _timer -= UpdateTime;
 
-            // TODO: This needs cleanup to take off the crust from TemperatureComponent and shit.
-            var query = EntityQueryEnumerator<FlammableComponent, TransformComponent>();
-            while (query.MoveNext(out var uid, out var flammable, out _))
+            // Stories-Optimization-Start
+            if (_activeFlammables.Count == 0)
+                return;
+
+            _flammableCleanup.Clear();
+            foreach (var uid in _activeFlammables)
             {
+                if (Deleted(uid) || !TryComp<FlammableComponent>(uid, out var flammable))
+                {
+                    _flammableCleanup.Add(uid);
+                    continue;
+                }
+            // Stories-Optimization-End
+
                 // Slowly dry ourselves off if wet.
                 if (flammable.FireStacks < 0)
                 {
@@ -510,13 +538,24 @@ namespace Content.Server.Atmos.EntitySystems
                     Dirty(uid, flammable);
                 }
 
-                if (!flammable.OnFire)
+                var last = flammable.LastOnFire;
+                flammable.LastOnFire = flammable.OnFire;
+                if (flammable.LastOnFire != last)
                 {
-                    _rmcFlammable.UpdateFireAlert(uid);
-                    continue;
+                    Dirty(uid, flammable);
+
+                    if (flammable.OnFire)
+                        _alertsSystem.ShowAlert(uid, FireAlert);
+                    else
+                        _alertsSystem.ClearAlert(uid, FireAlert);
                 }
 
-                _rmcFlammable.UpdateFireAlert(uid);
+                if (!flammable.OnFire)
+                {
+                    if (flammable.FireStacks >= 0)
+                        _flammableCleanup.Add(uid); // Stories-Optimization
+                    continue;
+                }
 
                 if (flammable.FireStacks > 0)
                 {
@@ -586,6 +625,13 @@ namespace Content.Server.Atmos.EntitySystems
                     Extinguish(uid, flammable);
                 }
             }
+
+            // Stories-Optimization-Start
+            foreach (var uid in _flammableCleanup)
+            {
+                _activeFlammables.Remove(uid);
+            }
+            // Stories-Optimization-End
         }
     }
 }

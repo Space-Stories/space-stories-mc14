@@ -1,9 +1,12 @@
-ent-RMCWeaponPistolM77 = боевой пистолет 88 М4
+ent-RMCWeaponPistolM77 = боевой пистолет 88 Мод 4
     .desc = Стандартное огнестрельное оружие морской пехоты. Также встречается в руках команд ЧВК Ве-Я. Стреляет 9-мм патронами, разрушающими броню, и может вести огонь очередями по 3 патрона.
 ent-RMCWeaponPistolM77Empty = { ent-RMCWeaponPistolM77 }
     .desc = { ent-RMCWeaponPistolM77.desc }
     .suffix = Пустой
-ent-CMMagazinePistolM77AP = магазин 88 М4 ББ (9 мм)
+ent-RMCWeaponPistolM77Survivor = { ent-RMCWeaponPistolM77 }
+    .desc = { ent-RMCWeaponPistolM77.desc }
+    .suffix = Выживший
+ent-CMMagazinePistolM77AP = магазин 88 Мод 4 ББ (9 мм)
     .desc = { ent-CMBaseMagazinePistol.desc }
 ent-CMBulletPistolM77AP = пуля (9 мм ББ)
     .desc = { ent-CMBulletBase.desc }

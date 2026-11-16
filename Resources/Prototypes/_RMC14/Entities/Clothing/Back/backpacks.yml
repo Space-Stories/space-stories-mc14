@@ -180,6 +180,22 @@
 
 # Specific
 - type: entity
+  parent: CMSatchel
+  id: RMCBackpackTyrargo
+  name: T16 MOLLE Backpack
+  suffix: UNMC
+  description: A tactical backpack manufactured by one of the Weston-Yamada subsidiaries. Very lightweight backpack that utilizes UN standard MOLLE fastening systems, which allows easy access and optimal weight distribution. Can be often found in hands of colonial security and various private military groups.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Back/Backpacks/Marines/molle.rsi
+  - type: ItemCamouflage
+    camouflageVariations: { }
+  - type: Storage
+    maxItemSize: Normal
+    grid:
+    - 0,0,20,1
+
+- type: entity
   parent: CMBackpack
   id: CMBackpackMortar
   name: UNMC mortar shell backpack
@@ -202,6 +218,9 @@
       Classic: _RMC14/Objects/Clothing/Back/Backpacks/Marines/mortar/jungle-desert-classic.rsi
       Snow: _RMC14/Objects/Clothing/Back/Backpacks/Marines/mortar/snow-urban.rsi
       Urban: _RMC14/Objects/Clothing/Back/Backpacks/Marines/mortar/snow-urban.rsi
+  - type: GuideHelp
+    guides:
+    - RMCGuideRoleMortar
 
 - type: entity
   parent: CMBackpack
@@ -220,10 +239,10 @@
   - type: SolutionContainerManager
     solutions:
       tank:
-        maxVol: 650 # TODO RMC14 260 when welders are fixed
+        maxVol: 260
         reagents:
         - ReagentId: RMCWeldingFuel # Stories-Ordance
-          Quantity: 650
+          Quantity: 260
   - type: ReagentTank
     tankType: Fuel
   - type: DrainableSolution
@@ -286,6 +305,7 @@
       components:
       - EmptySandbag
       - FullSandbag
+      - RMCFoldingBarricadeStack
   - type: CMStorageVisualizer
     storageClosed: null
     storageOpen: null
@@ -307,6 +327,7 @@
       components:
       - EmptySandbag
       - FullSandbag
+      - RMCFoldingBarricadeStack
       - MortarShell
 
 - type: entity
@@ -610,3 +631,23 @@
         - id: CMFireExtinguisherPortable
         - id: CMDefibrillator
         - id: CMHealthAnalyzer
+
+- type: entity
+  parent: RMCSatchelPMC
+  id: RMCBackpackBobda
+  name: back mounted Bobda vending machine
+  description: The loading mechanism for the Bobda Slinger Supremo and a portable Bobda vendor!
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Back/Backpacks/Civilians/bobda.rsi
+  - type: Storage
+    grid:
+    - 0,0,29,1 # 30
+    storageOpenSound:
+      path:  /Audio/Machines/machine_vend.ogg
+      params:
+        volume: -7
+  - type: Corrodible
+    isCorrodible: false
+  - type: RMCUnstrippable
+    policeCanStrip: false

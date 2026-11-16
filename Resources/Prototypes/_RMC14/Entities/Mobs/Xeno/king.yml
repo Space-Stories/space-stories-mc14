@@ -9,6 +9,13 @@
   name: King
   description: The end of the line.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoRend ]
+      XenoPrimaryTwo: [ ActionXenoDoom ]
+      XenoPrimaryThree: [ ActionXenoDestroy ]
+      XenoPrimaryFour: [ ActionXenoBulwarkOfTheHive ]
+  - type: HiveBoonKing
   - type: GhostRole
     name: rmc-job-name-xeno-king
   - type: Sprite
@@ -49,6 +56,8 @@
   - type: XenoPheromones
     pheromonesMultiplier: 6
     pheroSuffix: king
+  - type: TTS # Stories-TTS 
+    voice: pudge_dota_2
   - type: XenoPlasma
     plasma: 1000
     maxPlasma: 1000

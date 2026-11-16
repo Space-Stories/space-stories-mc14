@@ -1,3 +1,4 @@
+using Content.Shared._Stories.TTS; // Stories-TTS
 using Content.Shared.Speech;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -54,4 +55,42 @@ public sealed partial class RMCMegaphoneUserComponent : Component
         { "chat-speech-verb-suffix-stutter", "Megaphone" },
         { "chat-speech-verb-suffix-mumble", "Megaphone" },
     };
+
+    // Stories-TTS-Start
+    /// <summary>
+    /// Stories: Multiplier applied to the base voice range when using a megaphone.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float VoiceRangeMultiplier = 1.5f;
+
+    /// <summary>
+    /// Stories: Client playback gain multiplier. Values above 1.5 saturate the audio source.
+    /// </summary>
+    [DataField("ttsVolumeMultiplier"), AutoNetworkedField]
+    public float TTSVolumeMultiplier = 1.5f;
+
+    /// <summary>
+    /// Stories: Multiplier applied to TTS range while using a megaphone.
+    /// </summary>
+    [DataField("ttsRangeMultiplier"), AutoNetworkedField]
+    public float TTSRangeMultiplier = 1.5f;
+
+    /// <summary>
+    /// Stories: Keep the megaphone loud near its speaker before distance attenuation begins.
+    /// </summary>
+    [DataField("ttsReferenceDistance"), AutoNetworkedField]
+    public float TTSReferenceDistance = 4f;
+
+    /// <summary>
+    /// Stories: Reduce positional attenuation so the megaphone remains intelligible at range.
+    /// </summary>
+    [DataField("ttsRolloffFactor"), AutoNetworkedField]
+    public float TTSRolloffFactor = 0.25f;
+
+    /// <summary>
+    /// Stories: Server-side audio effects applied to TTS generated while using a megaphone.
+    /// </summary>
+    [DataField("ttsAudioEffects"), AutoNetworkedField]
+    public TTSAudioEffect AudioEffects = TTSAudioEffect.Megaphone;
+    // Stories-TTS-End
 }

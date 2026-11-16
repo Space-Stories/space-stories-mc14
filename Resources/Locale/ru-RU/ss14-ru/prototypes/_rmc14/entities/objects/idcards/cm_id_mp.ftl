@@ -4,3 +4,7 @@ ent-CMIDCardMilitaryWarden = ID смотрителя военной полици
     .desc = { ent-CMIDCardBase.desc }
 ent-CMIDCardMilitaryPolice = ID военного полицейского
     .desc = { ent-CMIDCardBase.desc }
+ent-RMCIDCardRiotControl = ID-карта отряда подавления беспорядков
+    .desc = { ent-CMIDCardBase.desc }
+ent-RMCIDCardRiotControlLeader = ID-карта командира отряда подавления беспорядков
+    .desc = { ent-CMIDCardBase.desc }

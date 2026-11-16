@@ -18,6 +18,9 @@
     timeToApply: 4
     structure: true
   - type: XenoCrusherChargable
+    setDamage:
+      types:
+        Structural: 750
 
 - type: entity
   parent: BaseStructure
@@ -56,6 +59,10 @@
     hitsToInvulnerability: 3
   - type: DamageMultiplierFlags
     flags: Breaching
+  - type: ExplosionResistance
+    worn: false
+    damageCoefficientOverrides:
+      RMCMortarFrag: 0.85
   - type: DeletedByWeedKiller
   - type: Flammable
     fireSpread: false
@@ -89,6 +96,9 @@
     drawdepth: Walls
   - type: PlacementReplacement
     key: walls
+  # Stories-ZLevels-Start
+  - type: ZLevelHighGround
+  # Stories-ZLevels-End
   - type: Occluder
   - type: Airtight
   - type: Fixtures
@@ -136,12 +146,24 @@
   - type: Damageable
     damageContainer: StructuralMarine
     damageModifierSet: StructuralMarine
+  - type: ExplosionResistance
+    worn: false
+    damageCoefficientOverrides:
+      RMCMortarFrag: 15
   - type: ExaminableDamage
     messages: RMCWallMessages
   - type: RMCIntegrityExamine
   - type: RMCRepairable
     heal: 1000
     delay: 1
+  - type: RMCWeldEffectSource
+    startingOffset: -0.35, -0.35
+    pathOffsets:
+    - -0.35, -0.35
+    - 0.35, -0.35
+    - 0.35, 0.35
+    - -0.35, 0.35
+    - -0.35, -0.35
   - type: NailgunRepairable
     wallRepairFractions:
       RMCWood: 0.075
@@ -192,6 +214,8 @@
     key: walls
   - type: ExplosionResistance
     damageCoefficient: 3.64
+    damageCoefficientOverrides:
+      RMCMortarFrag: 12.75
   - type: DamageMultiplierFlags
     flags:
     - Turf

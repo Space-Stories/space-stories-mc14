@@ -27,6 +27,7 @@
     - Burst
     soundGunshot:
       path: /Audio/_RMC14/Weapons/Guns/Gunshots/su6_shoot.ogg
+  - type: GunClickToFire
   - type: RMCSelectiveFire
     baseFireModes:
     - SemiAuto
@@ -35,7 +36,7 @@
     recoilUnwielded: 2
     scatterWielded: 10
     scatterUnwielded: 10
-    baseFireRate: 10
+    baseFireRate: 8
     burstScatterMult: 5
     modifiers:
       Burst:

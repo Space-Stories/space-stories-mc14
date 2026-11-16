@@ -45,13 +45,17 @@ public sealed class SentryLaptopSystem : SharedSentryLaptopSystem
 
         SubscribeLocalEvent<SentryLaptopComponent, AfterActivatableUIOpenEvent>(OnUIOpened);
         SubscribeLocalEvent<SentryLaptopComponent, BoundUIOpenedEvent>(OnBoundUIOpened);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopViewCameraBuiMsg>(OnViewCameraMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopSetNameBuiMsg>(OnSetNameMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalToggleFactionBuiMsg>(OnGlobalToggleFactionMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalSetFactionsBuiMsg>(OnGlobalSetFactionsMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalResetTargetingBuiMsg>(OnGlobalResetTargetingMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopGlobalTogglePowerBuiMsg>(OnGlobalTogglePowerMsg);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopCloseCameraBuiMsg>(OnCloseCameraMsg);
+        Subs.BuiEvents<SentryLaptopComponent>(SentryLaptopUiKey.Key, subs =>
+        {
+            subs.Event<SentryLaptopViewCameraBuiMsg>(OnViewCameraMsg);
+            subs.Event<SentryLaptopSetNameBuiMsg>(OnSetNameMsg);
+            subs.Event<SentryLaptopGlobalToggleFactionBuiMsg>(OnGlobalToggleFactionMsg);
+            subs.Event<SentryLaptopGlobalSetFactionsBuiMsg>(OnGlobalSetFactionsMsg);
+            subs.Event<SentryLaptopGlobalResetTargetingBuiMsg>(OnGlobalResetTargetingMsg);
+            subs.Event<SentryLaptopGlobalTogglePowerBuiMsg>(OnGlobalTogglePowerMsg);
+            subs.Event<SentryLaptopCloseCameraBuiMsg>(OnCloseCameraMsg);
+        });
+        SubscribeLocalEvent<SentryLaptopComponent, BoundUIClosedEvent>(OnBoundUIClosed);
         SubscribeLocalEvent<SentryComponent, ComponentShutdown>(OnSentryShutdown);
 
         SubscribeLocalEvent<SentryLaptopWatcherComponent, ComponentShutdown>(OnWatcherShutdown);
@@ -232,6 +236,21 @@ public sealed class SentryLaptopSystem : SharedSentryLaptopSystem
         watcher.CurrentSentry = null;
         Dirty(user, watcher);
         RemCompDeferred<SentryLaptopWatcherComponent>(user);
+    }
+
+    private void OnBoundUIClosed(Entity<SentryLaptopComponent> laptop, ref BoundUIClosedEvent args)
+    {
+        if (args.UiKey is not SentryLaptopUiKey)
+            return;
+
+        var user = args.Actor;
+        if (!TryComp<SentryLaptopWatcherComponent>(user, out var watcher))
+            return;
+
+        if (watcher.Laptop != null && watcher.Laptop != laptop.Owner)
+            return;
+
+        ClearWatcher(user, watcher);
     }
 
     private void OnWatcherShutdown(Entity<SentryLaptopWatcherComponent> watcher, ref ComponentShutdown args)

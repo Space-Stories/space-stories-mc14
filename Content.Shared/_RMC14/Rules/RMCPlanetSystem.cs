@@ -1,8 +1,9 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable; // Stories-ZLevels
 using System.Linq;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.Vehicle;
 using Robust.Shared.Audio.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
@@ -17,7 +18,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Rules;
 
-public sealed class RMCPlanetSystem : EntitySystem
+public sealed partial class RMCPlanetSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -97,10 +98,14 @@ public sealed class RMCPlanetSystem : EntitySystem
 
     public bool IsOnPlanet(EntityCoordinates coordinates)
     {
-        if (_rmcPlanetQuery.HasComp(_transform.GetGrid(coordinates)))
+        var grid = _transform.GetGrid(coordinates);
+        var map = _transform.GetMap(coordinates);
+        (grid, map) = ResolveOutdoor(grid, map);
+
+        if (_rmcPlanetQuery.HasComp(grid))
             return true;
 
-        if (_rmcPlanetQuery.HasComp(_transform.GetMap(coordinates)))
+        if (_rmcPlanetQuery.HasComp(map))
             return true;
 
         return false;
@@ -108,13 +113,33 @@ public sealed class RMCPlanetSystem : EntitySystem
 
     public bool IsOnPlanet(TransformComponent xform)
     {
-        if (_rmcPlanetQuery.HasComp(xform.GridUid))
+        var (grid, map) = ResolveOutdoor(xform.GridUid, xform.MapUid);
+
+        if (_rmcPlanetQuery.HasComp(grid))
             return true;
 
-        if (_rmcPlanetQuery.HasComp(xform.MapUid))
+        if (_rmcPlanetQuery.HasComp(map))
             return true;
 
         return false;
+    }
+
+    // Vehicle interiors
+    private (EntityUid? Grid, EntityUid? Map) ResolveOutdoor(EntityUid? grid, EntityUid? map)
+    {
+        for (var i = 0; i < 8; i++)
+        {
+            if (map is not { } mapId || !TryComp(mapId, out VehicleInteriorLinkComponent? link))
+                break;
+
+            if (!TryComp(link.Vehicle, out TransformComponent? vehicleXform))
+                break;
+
+            grid = vehicleXform.GridUid;
+            map = vehicleXform.MapUid;
+        }
+
+        return (grid, map);
     }
 
     public bool IsOnPlanet(MapCoordinates coordinates)
@@ -128,14 +153,14 @@ public sealed class RMCPlanetSystem : EntitySystem
         if (_transform.GetGrid(entCoords) is { } gridId &&
             TryComp(gridId, out RMCPlanetComponent? gridPlanet))
         {
-            offset = gridPlanet.Offset;
+            offset = GetPlanetCoordinateOffset((gridId, gridPlanet)); // Stories-ZLevels
             return true;
         }
 
         if (_transform.GetMap(entCoords) is { } mapId &&
             TryComp(mapId, out RMCPlanetComponent? mapPlanet))
         {
-            offset = mapPlanet.Offset;
+            offset = GetPlanetCoordinateOffset((mapId, mapPlanet)); // Stories-ZLevels
             return true;
         }
 
@@ -145,16 +170,7 @@ public sealed class RMCPlanetSystem : EntitySystem
 
     public bool TryPlanetToCoordinates(Vector2i coordinates, out MapCoordinates mapCoordinates)
     {
-        var planets = EntityQueryEnumerator<RMCPlanetComponent>();
-        while (planets.MoveNext(out var uid, out var comp))
-        {
-            var mapId = _transform.GetMapId(uid);
-            mapCoordinates = new MapCoordinates(coordinates - comp.Offset, mapId);
-            return true;
-        }
-
-        mapCoordinates = default;
-        return false;
+        return TryPlanetToCoordinates(coordinates, 0, out mapCoordinates); // Stories-ZLevels
     }
 
     private void ReloadPlanets()
@@ -232,6 +248,12 @@ public sealed class RMCPlanetSystem : EntitySystem
 
         EnsureComp<RMCPlanetComponent>(map.Value);
         EnsureComp<TacticalMapComponent>(map.Value);
+        // Stories-ZLevels-Start
+
+        var ev = new RMCPlanetMapLoadedEvent(map.Value.Owner, path);
+        RaiseLocalEvent(ref ev);
+
+        // Stories-ZLevels-End
         _rmcPower.RecalculatePower();
         return map.Value.Comp.MapId;
     }

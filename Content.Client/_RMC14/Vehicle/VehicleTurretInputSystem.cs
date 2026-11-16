@@ -13,19 +13,30 @@ namespace Content.Client._RMC14.Vehicle;
 
 public sealed class VehicleTurretInputSystem : EntitySystem
 {
-    private const float AimUpdateInterval = 0.1f;
+    private const float AimUpdateInterval = 0.02f;
     private static readonly Angle AimEpsilon = Angle.FromDegrees(1);
 
     [Dependency] private readonly CombatModeSystem _combat = default!;
     [Dependency] private readonly IEyeManager _eye = default!;
     [Dependency] private readonly IInputManager _input = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
-    [Dependency] private readonly VehicleTurretSystem _turrets = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly VehicleTurretSystem _turrets = default!;
 
     private readonly Dictionary<EntityUid, (Angle Angle, TimeSpan Time)> _lastAims = new();
     private readonly Dictionary<EntityUid, MapCoordinates> _lastAimCoordinates = new();
+
+    public override void Initialize()
+    {
+        SubscribeLocalEvent<VehicleTurretComponent, EntityTerminatingEvent>(OnTurretTerminating);
+    }
+
+    private void OnTurretTerminating(Entity<VehicleTurretComponent> ent, ref EntityTerminatingEvent args)
+    {
+        _lastAims.Remove(ent);
+        _lastAimCoordinates.Remove(ent);
+    }
 
     public override void Update(float frameTime)
     {
@@ -56,7 +67,7 @@ public sealed class VehicleTurretInputSystem : EntitySystem
         if (!targetTurret.RotateToCursor)
             return;
 
-        if (!_turrets.TryGetTurretOrigin(targetUid, targetTurret, out var originCoords))
+        if (!_turrets.TryGetTurretOrigin(targetUid, out var originCoords))
             return;
 
         var mousePos = _eye.PixelToMap(_input.MouseScreenPosition);

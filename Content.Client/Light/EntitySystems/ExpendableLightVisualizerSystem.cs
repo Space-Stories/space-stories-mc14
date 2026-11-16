@@ -41,8 +41,7 @@ public sealed class ExpendableLightVisualizerSystem : VisualizerSystem<Expendabl
             }
         }
 
-		// RMC14
-        if (args.Sprite == null || !SpriteSystem.LayerExists((uid, args.Sprite), ExpendableLightVisualLayers.Overlay))
+        if (args.Sprite == null) // Stories-Fix
             return;
 
         if (!AppearanceSystem.TryGetData<ExpendableLightState>(uid, ExpendableLightVisuals.State, out var state, args.Component))
@@ -50,12 +49,21 @@ public sealed class ExpendableLightVisualizerSystem : VisualizerSystem<Expendabl
 
         switch (state)
         {
+            // Stories-Fix-Start
             case ExpendableLightState.Lit:
-                _audioSystem.Stop(comp.PlayingStream);
-                comp.PlayingStream = _audioSystem.PlayPvs(
-                    comp.LoopedSound, uid)?.Entity;
+            case ExpendableLightState.PhaseOne:
+            case ExpendableLightState.PhaseTwo:
+            case ExpendableLightState.PhaseThree:
+            case ExpendableLightState.PhaseFour:
+            case ExpendableLightState.PhaseFive:
+            case ExpendableLightState.Fading:
+                if (state != ExpendableLightState.PhaseOne)
+                    comp.PlayingStream = _audioSystem.Stop(comp.PlayingStream);
 
-                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), ExpendableLightVisualLayers.Overlay, out var layerIdx, true))
+                if (state == ExpendableLightState.Lit)
+                    comp.PlayingStream = _audioSystem.PlayPvs(comp.LoopedSound, uid)?.Entity;
+
+                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), ExpendableLightVisualLayers.Overlay, out var layerIdx, false))
                 {
                     if (!string.IsNullOrWhiteSpace(comp.IconStateLit))
                         SpriteSystem.LayerSetRsiState((uid, args.Sprite), layerIdx, comp.IconStateLit);
@@ -68,9 +76,14 @@ public sealed class ExpendableLightVisualizerSystem : VisualizerSystem<Expendabl
                     SpriteSystem.LayerSetVisible((uid, args.Sprite), layerIdx, true);
                 }
 
-                if (comp.GlowColorLit.HasValue)
-                    SpriteSystem.LayerSetColor((uid, args.Sprite), ExpendableLightVisualLayers.Glow, comp.GlowColorLit.Value);
-                SpriteSystem.LayerSetVisible((uid, args.Sprite), ExpendableLightVisualLayers.Glow, true);
+                // Stories-Fix-Start
+                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), ExpendableLightVisualLayers.Glow, out var glowLayerIdx, false))
+                {
+                    if (comp.GlowColorLit.HasValue)
+                        SpriteSystem.LayerSetColor((uid, args.Sprite), glowLayerIdx, comp.GlowColorLit.Value);
+                    SpriteSystem.LayerSetVisible((uid, args.Sprite), glowLayerIdx, true);
+                }
+                // Stories-Fix-End
 
                 break;
             case ExpendableLightState.Dead:
@@ -82,7 +95,7 @@ public sealed class ExpendableLightVisualizerSystem : VisualizerSystem<Expendabl
                     spentLayer = ExpendableLightVisualLayers.Overlay;
                 //RMC14
 
-                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), spentLayer, out layerIdx, true))
+                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), spentLayer, out layerIdx, false))
                 {
                     if (!string.IsNullOrWhiteSpace(comp.IconStateSpent))
                         SpriteSystem.LayerSetRsiState((uid, args.Sprite), layerIdx, comp.IconStateSpent);
@@ -92,7 +105,10 @@ public sealed class ExpendableLightVisualizerSystem : VisualizerSystem<Expendabl
                         args.Sprite.LayerSetShader(layerIdx, null, null);
                 }
 
-                SpriteSystem.LayerSetVisible((uid, args.Sprite), ExpendableLightVisualLayers.Glow, false);
+                // Stories-Fix-Start
+                if (SpriteSystem.LayerMapTryGet((uid, args.Sprite), ExpendableLightVisualLayers.Glow, out glowLayerIdx, false))
+                    SpriteSystem.LayerSetVisible((uid, args.Sprite), glowLayerIdx, false);
+                // Stories-Fix-End
                 break;
         }
     }

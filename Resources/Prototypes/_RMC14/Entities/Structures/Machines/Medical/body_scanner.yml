@@ -30,8 +30,12 @@
         - MachineLayer
   - type: BodyScanner
   - type: ApcPowerReceiver
-    powerLoad: 10000 # 60 idle, 10000 active
-    needsPower: false # TODO RMC14 power
+    powerLoad: 250
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 60
+    activeLoad: 10000
+    channel: Equipment
   - type: DragInsertContainer
     containerId: body_scanner
   - type: NoStunOnExit # Custom stun exit behavior + sound in SharedBodyScannerSystem
@@ -91,8 +95,13 @@
         hard: false
   - type: BodyScannerConsole
   - type: ApcPowerReceiver
-    powerLoad: 0 # No power usage WOT THA SOD
-    needsPower: false # TODO RMC14 power
+    powerLoad: 0
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 0
+    activeLoad: 0
+    # CM13's scanner console checks APC power but has no configured load.
+    channel: Equipment
   - type: Appearance
   - type: GenericVisualizer
     visuals:

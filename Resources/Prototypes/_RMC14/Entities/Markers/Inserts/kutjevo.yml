@@ -110,19 +110,24 @@
     - spawn: "/Maps/_RMC14/Inserts/Kutjevo/surv_spawn_bar.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfsmugglers ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Kutjevo/surv_spawn_medical.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfsmugglers ] # Stories-CLFSurvivor
       offset: -30,-6
     - spawn: "/Maps/_RMC14/Inserts/Kutjevo/surv_spawn_north_botany.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfsmugglers ] # Stories-CLFSurvivor
       offset: -23,-35
     - spawn: "/Maps/_RMC14/Inserts/Kutjevo/surv_spawn_south_botany.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfsmugglers ] # Stories-CLFSurvivor
       offset: -19,-65
     - spawn: "/Maps/_RMC14/Inserts/Kutjevo/surv_spawn_powerplant.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfsmugglers ] # Stories-CLFSurvivor
       offset: 0,-44

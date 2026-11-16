@@ -1,3 +1,4 @@
+using Content.Client._Stories.Chat;
 using Content.Client.Administration.Managers;
 using Content.Client.Ghost;
 using Content.Shared.Administration;
@@ -33,6 +34,12 @@ internal sealed class ChatManager : IChatManager
 
     public void SendMessage(string text, ChatSelectChannel channel)
     {
+        // Stories-AutoReplace-Start
+        var filter = _systems.GetEntitySystemOrNull<ChatFilterSystem>();
+        if (filter != null)
+            text = filter.ApplyClientReplacements(text);
+        // Stories-AutoReplace-End
+
         var str = text.ToString();
         switch (channel)
         {

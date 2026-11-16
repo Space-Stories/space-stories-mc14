@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.CCVar;
+using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Hands;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Actions;
@@ -19,6 +19,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Cassette;
@@ -33,6 +34,7 @@ public abstract class SharedCassetteSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly INetConfigurationManager _netConfig = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IGameTiming _timing = default!; // Stories-CassetteFix
 
     public override void Initialize()
     {
@@ -115,10 +117,12 @@ public abstract class SharedCassetteSystem : EntitySystem
             }
             case AudioState.Paused:
             {
+                // Stories-CassetteFix-Start
                 if (_net.IsServer)
-                    _audio.SetState(ent.Comp.AudioStream, AudioState.Playing);
+                    ResumeAudio(ent.Comp.AudioStream);
                 else if (tape is { Comp.Custom: true })
-                    _audio.SetState(ent.Comp.CustomAudioStream, AudioState.Playing);
+                    ResumeAudio(ent.Comp.CustomAudioStream);
+                // Stories-CassetteFix-End
 
                 var msg = Loc.GetString("rmc-cassette-resume",
                     ("player", ent),
@@ -260,10 +264,12 @@ public abstract class SharedCassetteSystem : EntitySystem
         }
     }
 
-    private void OnPlayerState(Entity<CassettePlayerComponent> ent, ref AfterAutoHandleStateEvent args)
+    // Stories-CassetteFix-Start
+    protected virtual void OnPlayerState(Entity<CassettePlayerComponent> ent, ref AfterAutoHandleStateEvent args)
     {
         _item.VisualsChanged(ent);
     }
+    // Stories-CassetteFix-End
 
     private void OnPlayerRemovedFromContainer(Entity<CassettePlayerComponent> ent, ref EntRemovedFromContainerMessage args)
     {
@@ -369,10 +375,34 @@ public abstract class SharedCassetteSystem : EntitySystem
     {
     }
 
+    // Stories-CassetteFix-Start
+    protected void ResumeAudio(EntityUid? audio)
+    {
+        if (audio == null || !TryComp(audio, out AudioComponent? audioComp))
+            return;
+
+        if (audioComp.State != AudioState.Paused)
+        {
+            _audio.SetState(audio, AudioState.Playing, component: audioComp);
+            return;
+        }
+
+        var playbackPos = MathF.Max(0f, (float) ((audioComp.PauseTime ?? _timing.CurTime) - audioComp.AudioStart).TotalSeconds);
+        _audio.SetState(audio, AudioState.Stopped, component: audioComp);
+        _audio.SetState(audio, AudioState.Playing, component: audioComp);
+        _audio.SetPlaybackPosition(audio, playbackPos);
+    }
+    // Stories-CassetteFix-End
+
     private void StopAllAudio(Entity<CassettePlayerComponent> ent)
     {
         _audio.Stop(ent.Comp.AudioStream);
         _audio.Stop(ent.Comp.CustomAudioStream);
+
+        // Stories-DeletedEntityReferences-Start
+        ent.Comp.AudioStream = null;
+        ent.Comp.CustomAudioStream = null;
+        // Stories-DeletedEntityReferences-End
 
         ent.Comp.State = AudioState.Stopped;
         Dirty(ent);

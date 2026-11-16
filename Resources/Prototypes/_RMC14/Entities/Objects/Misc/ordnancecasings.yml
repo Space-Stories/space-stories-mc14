@@ -24,7 +24,7 @@
     baseFalloff: 75
     minFalloff: 25
     maxExplosionPower: 175
-    maxShards: 128
+    maxShards: 32
     maxFireRadius: 5
     maxFireIntensity: 20
     maxFireDuration: 24
@@ -71,7 +71,7 @@
     minFireRadius: 1
     minFireIntensity: 3
     minFireDuration: 3
-    maxShards: 40
+    maxShards: 10
     addedTags:
     - LauncherCompatibleGrenade
     - RMCGrenadeM40
@@ -89,6 +89,11 @@
   - type: ChangeItemSizeOnTimerTrigger
   - type: CancelUseWithCloak
   - type: CMVocalizeTrigger
+  - type: Tag
+    tags:
+    - LauncherCompatibleGrenade
+    - RMCGrenadeM40
+    - Grenade
   - type: GenericVisualizer
     visuals:
       enum.OrdnanceCasingVisuals.StateId:
@@ -130,7 +135,7 @@
     minFireRadius: 1
     minFireIntensity: 3
     minFireDuration: 3
-    maxShards: 80
+    maxShards: 20
     addedComponents:
     - type: OnUseTimerTrigger
       delay: 4
@@ -145,6 +150,9 @@
   - type: ChangeItemSizeOnTimerTrigger
   - type: CancelUseWithCloak
   - type: CMVocalizeTrigger
+  - type: Tag
+    tags:
+    - Grenade
   - type: GenericVisualizer
     visuals:
       enum.OrdnanceCasingVisuals.StateId:
@@ -182,7 +190,7 @@
     minFireRadius: 2
     minFireIntensity: 3
     minFireDuration: 3
-    maxShards: 40
+    maxShards: 10
     useDirection: false
     coneAngle: 90
   - type: RMCLandmine
@@ -237,9 +245,12 @@
     minFireRadius: 2
     minFireIntensity: 4
     minFireDuration: 5
-    maxShards: 100
+    maxShards: 25
   - type: Sticky
     stickDelay: 5
+    whitelist:
+      components:
+      - RMCWallExplosionDeletable
   - type: StickyVisualizer
   - type: RMCExplosiveDelete
     delay: 10
@@ -317,7 +328,7 @@
     sprite: _RMC14/Objects/Weapons/CustomOrdnance/80mmmortarshell.rsi
     state: icon
   - type: Item
-    size: Normal
+    size: Huge
   - type: OrdnanceCasing
     maxVolume: 60
     requiredFuelReagent: RMCHydrogen
@@ -367,7 +378,7 @@
     minFireRadius: 2
     minFireIntensity: 4
     minFireDuration: 5
-    maxShards: 80
+    maxShards: 20
   - type: Tag
     tags: ["RMCWarhead88"]
 
@@ -391,7 +402,7 @@
     minFireRadius: 3
     minFireIntensity: 5
     minFireDuration: 5
-    maxShards: 200
+    maxShards: 50
   - type: Tag
     tags: ["RMCWarhead80"]
 
@@ -415,6 +426,6 @@
     minFireRadius: 3
     minFireIntensity: 5
     minFireDuration: 5
-    maxShards: 200
+    maxShards: 50
   - type: Tag
     tags: ["RMCWarhead80"]

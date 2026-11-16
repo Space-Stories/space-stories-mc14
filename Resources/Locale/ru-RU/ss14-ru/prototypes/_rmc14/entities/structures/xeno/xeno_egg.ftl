@@ -1,5 +1,5 @@
 ent-XenoEgg = яйцо
-    .desc = It looks like a weird egg.
+    .desc = Похоже на странное яйцо.
 ent-XenoEggDestroyed = яйцо
     .desc = Куча... чего-то.
 ent-XenoEggDestroyedFragile = хрупкое яйцо

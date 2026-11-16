@@ -86,6 +86,7 @@ namespace Content.Client.Stylesheets
         public const string StyleClassLabelBig = "LabelBig";
         public const string StyleClassLabelSmall = "LabelSmall";
         public const string StyleClassButtonBig = "ButtonBig";
+        public const string StyleClassButtonColorOrange = "ButtonColorOrange"; // Stories-Partners
         public const string StyleClassButtonBigOrange = "ButtonBigOrange"; // Stories-Partnert
 
         public const string StyleClassButtonHelp = "HelpButton";
@@ -1720,6 +1721,16 @@ namespace Content.Client.Stylesheets
 
                 Element<Button>().Class("ButtonColorGreen").Pseudo(ContainerButton.StylePseudoClassHover)
                     .Prop(Control.StylePropertyModulateSelf, ButtonColorGoodHovered),
+
+                // Stories-Sponsors
+                Element<Button>().Class("ButtonColorOrange")
+                    .Prop(Control.StylePropertyModulateSelf, ButtonColorOrangeDefault),
+
+                Element<Button>().Class("ButtonColorOrange").Pseudo(ContainerButton.StylePseudoClassNormal)
+                    .Prop(Control.StylePropertyModulateSelf, ButtonColorOrangeDefault),
+
+                Element<Button>().Class("ButtonColorOrange").Pseudo(ContainerButton.StylePseudoClassHover)
+                    .Prop(Control.StylePropertyModulateSelf, ButtonColorOrangeHovered),
 
                 // Accept button (merge with green button?) ---
                 Element<Button>().Class("ButtonAccept")

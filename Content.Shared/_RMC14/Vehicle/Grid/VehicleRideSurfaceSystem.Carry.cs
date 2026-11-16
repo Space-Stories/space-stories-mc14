@@ -1,8 +1,7 @@
-using Content.Shared.Vehicle.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 
-namespace Content.Shared.Vehicle;
+namespace Content.Shared._RMC14.Vehicle;
 
 public sealed partial class VehicleRideSurfaceSystem
 {
@@ -218,7 +217,8 @@ public sealed partial class VehicleRideSurfaceSystem
         VehicleRideSurfaceComponent surface,
         EntityUid rider,
         MapId mapId,
-        out TransformComponent riderXform)
+        out TransformComponent riderXform,
+        bool requireSameMap = true)
     {
         riderXform = default!;
 
@@ -236,7 +236,8 @@ public sealed partial class VehicleRideSurfaceSystem
 
         riderXform = _transformQuery.Comp(rider);
 
-        if (riderXform.MapID != mapId || riderXform.Anchored)
+        if (requireSameMap && riderXform.MapID != mapId ||
+            riderXform.Anchored)
             return false;
 
         if (!surface.CarryBuckled &&

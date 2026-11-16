@@ -10,6 +10,7 @@ using Content.Shared.Explosion.Components.OnTrigger;
 using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
+using Content.Shared.Sticky.Components;
 using Content.Shared.Tag;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
@@ -100,7 +101,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
             }
 
             _transform.SetCoordinates(ent.Comp.WarheadUid, _transform.GetMoverCoordinates(ent));
-            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), args.User);
+            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), CompOrNull<ProjectileComponent>(ent)?.Shooter);
         }
         args.Handled = true;
         QueueDel(ent);
@@ -108,7 +109,8 @@ public sealed class OrdnanceCasingSystem : EntitySystem
 
     private void OnTrigger(Entity<OrdnanceCasingComponent> ent, ref TriggerEvent args)
     {
-        _ordnanceExplosion.Detonate(ent, args.User);
+        var user = TryComp<ProjectileComponent>(ent, out var projectile) ? projectile.Shooter : args.User;
+        _ordnanceExplosion.Detonate(ent, user);
         args.Handled = true;
     }
 
@@ -116,6 +118,12 @@ public sealed class OrdnanceCasingSystem : EntitySystem
     {
         if (ent.Comp.IsLocked)
         {
+            if (ent.Comp.RequiredAssemblyMode == "Plastic")
+            {
+                if (!TryComp<StickyComponent>(ent, out var sticky) || sticky.StuckTo == null)
+                    return;
+            }
+
             if (ent.Comp.SignallerDelay > 0)
             {
                 if (HasComp<ActiveTimerTriggerComponent>(ent))

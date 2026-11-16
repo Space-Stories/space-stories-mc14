@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingKutjevoUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Кутьево, Вне фракций
+ent-RMCPaperCOBriefingKutjevoHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Кутьево, Ястребы
+ent-RMCPaperCOBriefingKutjevoDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Кутьево, Голуби
+ent-RMCPaperCOBriefingKutjevoMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Кутьево, Сороки

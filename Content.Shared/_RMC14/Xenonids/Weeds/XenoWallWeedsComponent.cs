@@ -1,11 +1,11 @@
-﻿using Robust.Shared.GameStates;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Xenonids.Weeds;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent] // Stories-DeletedEntityReferences
 [Access(typeof(SharedXenoWeedsSystem))]
 public sealed partial class XenoWallWeedsComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [DataField] // Stories-DeletedEntityReferences
     public EntityUid? Weeds;
 }

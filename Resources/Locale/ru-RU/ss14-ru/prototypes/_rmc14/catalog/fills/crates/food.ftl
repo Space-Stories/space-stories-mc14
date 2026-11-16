@@ -5,4 +5,4 @@ ent-RMCCrateFoodMRE = ящик ИРП USRMC
 ent-RMCCrateFoodPizza = ящик пиццы
     .desc = { ent-RMCCratePlastic.desc }
 ent-RMCCrateFoodIngredients = ящик ингредиентов
-    .desc = { ent-RMCCratePlastic.desc }
+    .desc = { ent-RMCCrateFreezer.desc }

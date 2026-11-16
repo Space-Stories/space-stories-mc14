@@ -175,6 +175,11 @@ public sealed class PryingSystem : EntitySystem
 
     private void OnDoAfter(EntityUid uid, DoorComponent door, DoorPryDoAfterEvent args)
     {
+        // Stories-FixDoorSoundEntity-Start
+        _audioSystem.Stop(door.SoundEntity);
+        door.SoundEntity = null;
+        // Stories-FixDoorSoundEntity-End
+
         if (args.Cancelled)
             return;
         if (args.Target is null)

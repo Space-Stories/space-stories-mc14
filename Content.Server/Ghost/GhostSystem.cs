@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Numerics;
+using Content.Server._RMC14.Mobs;
 using Content.Server._Stories.Sponsors;
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Managers;
@@ -9,6 +10,8 @@ using Content.Server.Mind;
 using Content.Server.Roles.Jobs;
 using Content.Server.Warps;
 using Content.Shared._RMC14.Ghost;
+using Content.Shared._RMC14.Mentor.ImaginaryFriend;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Actions;
 using Content.Shared.CCVar;
 using Content.Shared.Damage;
@@ -73,11 +76,16 @@ namespace Content.Server.Ghost
         [Dependency] private readonly SponsorsManager _partners = default!; // Stories-Sponsors
         [Dependency] private readonly NameModifierSystem _nameMod = default!;
 
+        // RMC14
+        [Dependency] private readonly CMGhostSystem _cmGhost = default!;
+        // RMC14
+
         private EntityQuery<GhostComponent> _ghostQuery;
         private EntityQuery<PhysicsComponent> _physicsQuery;
 
         private static readonly ProtoId<TagPrototype> AllowGhostShownByEventTag = "AllowGhostShownByEvent";
         private static readonly ProtoId<DamageTypePrototype> AsphyxiationDamageType = "Asphyxiation";
+        private static readonly ProtoId<DamageTypePrototype> BluntDamageType = "Blunt";
 
         public override void Initialize()
         {
@@ -118,7 +126,7 @@ namespace Content.Server.Ghost
             // If component not deleting they can see ghosts.
             if (ent.Comp.LifeStage <= ComponentLifeStage.Running)
             {
-                args.VisibilityMask |= (int)VisibilityFlags.Ghost;
+                args.VisibilityMask |= (int)VisibilityFlags.Ghost | (int)VisibilityFlags.ImaginaryFriend; // RMC14
             }
         }
 
@@ -129,12 +137,12 @@ namespace Content.Server.Ghost
             if (HasComp<GhostHearingComponent>(uid))
             {
                 RemComp<GhostHearingComponent>(uid);
-                _actions.SetToggled(component.ToggleGhostHearingActionEntity, true);
+                _actions.SetToggled(component.ToggleGhostHearingActionEntity, false);
             }
             else
             {
                 AddComp<GhostHearingComponent>(uid);
-                _actions.SetToggled(component.ToggleGhostHearingActionEntity, false);
+                _actions.SetToggled(component.ToggleGhostHearingActionEntity, true);
             }
 
             var str = HasComp<GhostHearingComponent>(uid)
@@ -207,7 +215,7 @@ namespace Content.Server.Ghost
             }
 
             _eye.RefreshVisibilityMask(uid);
-            var time = _gameTiming.CurTime;
+            var time = _gameTiming.RealTime; // Stories-XenoRespawnCooldown
             component.TimeOfDeath = time;
         }
 
@@ -234,6 +242,7 @@ namespace Content.Server.Ghost
         {
             _actions.AddAction(uid, ref component.BooActionEntity, component.BooAction);
             _actions.AddAction(uid, ref component.ToggleGhostHearingActionEntity, component.ToggleGhostHearingAction);
+            _actions.SetToggled(component.ToggleGhostHearingActionEntity, HasComp<GhostHearingComponent>(uid));
             _actions.AddAction(uid, ref component.ToggleLightingActionEntity, component.ToggleLightingAction);
             _actions.AddAction(uid, ref component.ToggleFoVActionEntity, component.ToggleFoVAction);
             _actions.AddAction(uid, ref component.ToggleGhostsActionEntity, component.ToggleGhostsAction);
@@ -241,6 +250,10 @@ namespace Content.Server.Ghost
 
         private void OnGhostExamine(EntityUid uid, GhostComponent component, ExaminedEvent args)
         {
+            // RMC14
+            if (HasComp<ImaginaryFriendComponent>(uid))
+                return;
+
             var timeSinceDeath = _gameTiming.RealTime.Subtract(component.TimeOfDeath);
             var deathTimeInfo = timeSinceDeath.Minutes > 0
                 ? Loc.GetString("comp-ghost-examine-time-minutes", ("minutes", timeSinceDeath.Minutes))
@@ -512,6 +525,10 @@ namespace Content.Server.Ghost
 
             SetCanReturnToBody((ghost, ghostComponent), canReturn);
 
+            // RMC14
+            _cmGhost.SetPostDeathChatMute(ghost, (mind.Owner, mind.Comp), mind.Comp.OwnedEntity);
+            // RMC14
+
             if (canReturn)
                 _minds.Visit(mind.Owner, ghost, mind.Comp);
             else
@@ -603,6 +620,11 @@ namespace Content.Server.Ghost
                     }
 
                     DamageSpecifier damage = new(_prototypeManager.Index(AsphyxiationDamageType), dealtDamage);
+
+                    if (HasComp<XenoComponent>(playerEntity))
+                    {
+                        damage = new(_prototypeManager.Index(BluntDamageType), dealtDamage);
+                    }
 
                     _damageable.TryChangeDamage(playerEntity, damage, true);
                 }

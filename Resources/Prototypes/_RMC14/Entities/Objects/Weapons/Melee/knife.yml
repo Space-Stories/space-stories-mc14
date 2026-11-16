@@ -10,6 +10,10 @@
     angle: 0
   - type: CMArmorPiercing
     amount: 20
+  - type: InteractedBlacklist
+    blacklist:
+      components:
+      - Xeno
 
 - type: entity
   parent: [ RMCBaseMeleeWeapon, BaseKnife, RMCAttachableBase ]
@@ -112,6 +116,41 @@
   - type: AttachableVisuals
     rsi: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
     prefix: combatutilityb
+
+- type: entity
+  parent: RMCM5Bayonet
+  id: RMCType80BayonetReplica
+  name: Type 80 bayonet replica
+  description: A dulled replica of the standard-issue bayonet of the SPP.
+  components:
+  - type: Clothing
+    slots:
+    - mask
+    - pocket
+    - suitstorage
+    sprite: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
+  - type: Sprite
+    sprite: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
+    state: spp_bayonet
+  - type: Item
+    size: Small
+    sprite: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
+  - type: Tag
+    tags:
+    - Knife
+    - RMCAttachmentBarrel
+    - RMCM5Bayonet
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 5
+  - type: DamageOtherOnHit
+    damage:
+      types:
+        Slash: 5
+  - type: AttachableVisuals
+    rsi: _RMC14/Objects/Weapons/Guns/Attachments/barrel.rsi
+    prefix: spp_bayonet
 
 - type: entity
   parent: RMCM5Bayonet

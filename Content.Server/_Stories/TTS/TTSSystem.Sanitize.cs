@@ -1,42 +1,174 @@
-﻿using System.Text;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Content.Server.Chat.Systems;
+using Content.Server._Stories.Chat;
+using Content.Shared._Stories.TTS;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server._Stories.TTS;
 
 // ReSharper disable once InconsistentNaming
 public sealed partial class TTSSystem
 {
+    private readonly Dictionary<string, string> _wordReplacement = new();
+    private readonly List<(Regex Regex, string Replacement)> _regexReplacements = new();
+    private readonly List<(string Pattern, string Replacement)> _multiLetterRules = new();
+    private readonly Dictionary<char, string> _singleLetterRules = new();
+
+    private TTSSanitizeConfigPrototype? _sanitizeConfig;
+
+    private void InitializeSanitize()
+    {
+        SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
+        BuildReplacements();
+    }
+
+    private void OnPrototypesReloaded(PrototypesReloadedEventArgs ev)
+    {
+        if (ev.WasModified<TTSSanitizeConfigPrototype>())
+            BuildReplacements();
+    }
+
+    private void BuildReplacements()
+    {
+        _wordReplacement.Clear();
+        _regexReplacements.Clear();
+        _multiLetterRules.Clear();
+        _singleLetterRules.Clear();
+
+        if (_prototypeManager.TryIndex("Default", out _sanitizeConfig))
+        {
+            foreach (var (pattern, replacement) in _sanitizeConfig.MultiLetterRules.OrderByDescending(rule => rule.Key.Length))
+            {
+                if (pattern.Length == 0)
+                    continue;
+
+                _multiLetterRules.Add((pattern, replacement));
+            }
+
+            foreach (var (letter, replacement) in _sanitizeConfig.SingleLetterRules)
+            {
+                if (letter.Length != 1)
+                    continue;
+
+                _singleLetterRules[char.ToLowerInvariant(letter[0])] = replacement;
+            }
+
+            Log.Info($"TTS Sanitize: successfully indexed Default config. Reading {_sanitizeConfig.Replacements.Count} replacements.");
+            foreach (var replacement in _sanitizeConfig.Replacements)
+            {
+                if (replacement.IsRegex)
+                {
+                    var pattern = replacement.Pattern;
+                    if (pattern.StartsWith(@"\b"))
+                        pattern = @"(?<![a-zA-Zа-яА-ЯёЁ0-9_])" + pattern.Substring(2);
+                    if (pattern.EndsWith(@"\b"))
+                        pattern = pattern.Substring(0, pattern.Length - 2) + @"(?![a-zA-Zа-яА-ЯёЁ0-9_])";
+
+                    _regexReplacements.Add((new Regex(pattern, RegexOptions.IgnoreCase), replacement.ReplacedWith));
+                }
+                else
+                {
+                    _wordReplacement[replacement.Pattern.ToLowerInvariant()] = replacement.ReplacedWith;
+                }
+            }
+        }
+        else
+        {
+            Log.Error("TTS Sanitize: failed to find 'Default' TTSSanitizeConfigPrototype!");
+        }
+    }
+
     private void OnTransformSpeech(ref TransformSpeechEvent args)
     {
-        if (!_isEnabled) return;
-        args.Message = args.Message.Replace("+", "");
+        if (!_isEnabled)
+            return;
     }
 
     private string Sanitize(string text)
     {
         text = text.Trim();
-        text = Regex.Replace(text, @"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]", "");
-        text = Regex.Replace(text, @"[a-zA-Z]", ReplaceLat2Cyr, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+        var serverFilter = EntityManager.System<ServerChatFilterSystem>();
+        text = serverFilter.CensorTTS(text);
+
+        text = Regex.Replace(text, @"\[.*?\]", "");
+
+        foreach (var (regex, replacement) in _regexReplacements)
+        {
+            text = regex.Replace(text, replacement);
+        }
+
+        text = Regex.Replace(text, @"\b[A-ZА-ЯЁ0-9]{1,6}\b", ReplaceAbbreviation);
+
+        text = Regex.Replace(text, @"([^\p{P}])\s*\n", "$1. ");
+        text = text.Replace("\n", " ");
+
+        if (_sanitizeConfig != null && !string.IsNullOrEmpty(_sanitizeConfig.AllowedCharsRegex))
+            text = Regex.Replace(text, _sanitizeConfig.AllowedCharsRegex, "");
+        else
+            text = Regex.Replace(text, @"[^a-zA-Zа-яА-ЯёЁ0-9,\-+?!. ]", "");
         text = Regex.Replace(text, @"(?<![a-zA-Zа-яёА-ЯЁ])[a-zA-Zа-яёА-ЯЁ]+?(?![a-zA-Zа-яёА-ЯЁ])", ReplaceMatchedWord, RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        text = Regex.Replace(text, @"(?<=[1-90])(\.|,)(?=[1-90])", " целых ");
+        text = Regex.Replace(text, @"(?<=[0-9])(\.|,)(?=[0-9])", " целых ");
         text = Regex.Replace(text, @"\d+", ReplaceWord2Num);
         text = text.Trim();
         return text;
     }
 
-    private string ReplaceLat2Cyr(Match oneChar)
+    private string ReplaceAbbreviation(Match match)
     {
-        if (ReverseTranslit.TryGetValue(oneChar.Value.ToLower(), out var replace))
-            return replace;
-        return oneChar.Value;
+        var str = match.Value;
+
+        var sb = new StringBuilder();
+        var currentNum = "";
+
+        foreach (var c in str)
+        {
+            if (char.IsDigit(c))
+            {
+                currentNum += c;
+            }
+            else
+            {
+                if (currentNum.Length > 0)
+                {
+                    sb.Append(NumberConverter.NumberToText(long.Parse(currentNum))).Append(" ");
+                    currentNum = "";
+                }
+                if (_sanitizeConfig != null && _sanitizeConfig.PhoneticAlphabet.TryGetValue(char.ToUpperInvariant(c).ToString(), out var phon))
+                    sb.Append(phon);
+                else
+                    sb.Append(c);
+            }
+        }
+        if (currentNum.Length > 0)
+            sb.Append(NumberConverter.NumberToText(long.Parse(currentNum))).Append(" ");
+
+        return sb.ToString().TrimEnd();
     }
 
     private string ReplaceMatchedWord(Match word)
     {
-        if (WordReplacement.TryGetValue(word.Value.ToLower(), out var replace))
+        var value = word.Value;
+        if (_wordReplacement.TryGetValue(value.ToLowerInvariant(), out var replace))
             return replace;
-        return word.Value;
+
+        if (_sanitizeConfig != null && IsLatinWord(value))
+            return TtsLatinTransliterator.TransliterateWord(value, _multiLetterRules, _singleLetterRules, _sanitizeConfig.ReverseTranslit);
+
+        return value;
+    }
+
+    private static bool IsLatinWord(string value)
+    {
+        foreach (var letter in value)
+        {
+            if (letter is not (>= 'A' and <= 'Z' or >= 'a' and <= 'z'))
+                return false;
+        }
+
+        return value.Length > 0;
     }
 
     private string ReplaceWord2Num(Match word)
@@ -46,179 +178,62 @@ public sealed partial class TTSSystem
         return NumberConverter.NumberToText(number);
     }
 
-    private static readonly IReadOnlyDictionary<string, string> WordReplacement =
-        new Dictionary<string, string>()
-        {
-            {"нт", "Эн Тэ"},
-            {"смо", "Эс Мэ О"},
-            {"гп", "Гэ Пэ"},
-            {"рд", "Эр Дэ"},
-            {"гсб", "Гэ Эс Бэ"},
-            {"гв", "Гэ Вэ"},
-            {"нр", "Эн Эр"},
-            {"нра", "Эн Эра"},
-            {"нру", "Эн Эру"},
-            {"км", "Кэ Эм"},
-            {"кма", "Кэ Эма"},
-            {"кму", "Кэ Эму"},
-            {"си", "Эс И"},
-            {"срп", "Эс Эр Пэ"},
-            {"цк", "Цэ Каа"},
-            {"сцк", "Эс Цэ Каа"},
-            {"пцк", "Пэ Цэ Каа"},
-            {"оцк", "О Цэ Каа"},
-            {"шцк", "Эш Цэ Каа"},
-            {"ншцк", "Эн Эш Цэ Каа"},
-            {"дсо", "Дэ Эс О"},
-            {"рнд", "Эр Эн Дэ"},
-            {"сб", "Эс Бэ"},
-            {"рцд", "Эр Цэ Дэ"},
-            {"брпд", "Бэ Эр Пэ Дэ"},
-            {"рпд", "Эр Пэ Дэ"},
-            {"рпед", "Эр Пед"},
-            {"тсф", "Тэ Эс Эф"},
-            {"срт", "Эс Эр Тэ"},
-            {"обр", "О Бэ Эр"},
-            {"кпк", "Кэ Пэ Каа"},
-            {"пда", "Пэ Дэ А"},
-            {"id", "Ай Ди"},
-            {"мщ", "Эм Ще"},
-            {"вт", "Вэ Тэ"},
-            {"wt", "Вэ Тэ"},
-            {"ерп", "Йе Эр Пэ"},
-            {"се", "Эс Йе"},
-            {"апц", "А Пэ Цэ"},
-            {"лкп", "Эл Ка Пэ"},
-            {"см", "Эс Эм"},
-            {"ека", "Йе Ка"},
-            {"ка", "Кэ А"},
-            {"бса", "Бэ Эс Аа"},
-            {"тк", "Тэ Ка"},
-            {"бфл", "Бэ Эф Эл"},
-            {"бщ", "Бэ Щэ"},
-            {"кк", "Кэ Ка"},
-            {"ск", "Эс Ка"},
-            {"зк", "Зэ Ка"},
-            {"ерт", "Йе Эр Тэ"},
-            {"вкд", "Вэ Ка Дэ"},
-            {"нтр", "Эн Тэ Эр"},
-            {"пнт", "Пэ Эн Тэ"},
-            {"авд", "А Вэ Дэ"},
-            {"пнв", "Пэ Эн Вэ"},
-            {"ссд", "Эс Эс Дэ"},
-            {"крс", "Ка Эр Эс"},
-            {"кпб", "Кэ Пэ Бэ"},
-            {"сссп", "Эс Эс Эс Пэ"},
-            {"крб", "Ка Эр Бэ"},
-            {"бд", "Бэ Дэ"},
-            {"сст", "Эс Эс Тэ"},
-            {"скс", "Эс Ка Эс"},
-            {"икн", "И Ка Эн"},
-            {"нсс", "Эн Эс Эс"},
-            {"емп", "Йе Эм Пэ"},
-            {"бс", "Бэ Эс"},
-            {"цкс", "Цэ Ка Эс"},
-            {"срд", "Эс Эр Дэ"},
-            {"жпс", "Джи Пи Эс"},
-            {"gps", "Джи Пи Эс"},
-            {"ннксс", "Эн Эн Ка Эс Эс"},
-            {"ss", "Эс Эс"},
-            {"тесла", "тэсла"},
-            {"трейзен", "трэйзэн"},
-            {"нанотрейзен", "нанотрэйзэн"},
-            {"рпзд", "Эр Пэ Зэ Дэ"},
-            {"кз", "Кэ Зэ"},
-            {"рхбз", "Эр Хэ Бэ Зэ"},
-            {"рхбзз", "Эр Хэ Бэ Зэ Зэ"},
-            {"днк", "Дэ Эн Ка"},
-            {"мк", "Эм Ка"},
-            {"mk", "Эм Ка"},
-            {"рпг", "Эр Пэ Гэ"},
-            {"с4", "Си 4"}, // cyrillic
-            {"c4", "Си 4"}, // latinic
-            {"бсс", "Бэ Эс Эс"},
-            // Stories-Sanitize-Start
-            {"вп", "Вэ Пэ"},
-            {"вн", "Вэ Эн"},
-            {"нвп", "Эн Вэ Пэ"},
-            {"сг", "Эс Гьэ"},
-            {"ос", "О Съ"},
-            {"пт", "Пэ Тэ"},
-            {"пш", "Пэ Ша"},
-            {"ко", "Кэ ОООО"},
-            {"ор", "О Рр"},
-            {"ссс", "Эс Эссс Эссс"},
-            {"м39", "Эм 39ъ"}, // cyrillic
-            {"m39", "Эм 39ъ"}, // latinic
-            {"м41", "Эм 41"}, // cyrillic
-            {"m41", "Эм 41"}, // latinic
-            {"м41а", "Эм 41 Аа"}, // cyrillic
-            {"m41a", "Эм 41 Аа"}, // latinic
-            {"м4", "Эм 4"}, // cyrillic
-            {"m4", "Эм 4"}, // latinic
-            {"м37", "Эм 37"}, // cyrillic
-            {"m37", "Эм 37"}, // latinic
-            {"м37а2", "Эм 37 Аа 2"}, // cyrillic
-            {"m37a2", "Эм 37 Аа 2"}, // latinic
-            {"м4ра", "Эм 4ЭрАа"}, // cyrillic
-            {"m4ra", "Эм 4ЭрАа"}, // latinic
-            {"м44", "Эм 4 Аа 3"}, // cyrillic
-            {"m44", "Эм 4 Аа 3"}, // latinic
-            {"м4а3", "Эм 44"}, // cyrillic
-            {"m4a3", "Эм 44"}, // latinic
-            {"м10", "Эм 10"}, // cyrillic
-            {"m10", "Эм 10"}, // latinic
-            {"м94", "Эм 94"}, // cyrillic
-            {"m94", "Эм 94"}, // latinic
-            {"бб", "Б Б"},
-            {"вк", "Вэ Ка"},
-            {"вз", "Вэ Зэ"},
-            {"ву", "Вэ У"},
-            {"королева", "Карольэва"},
-            // Stories-Sanitize-End
-        };
 
-    private static readonly IReadOnlyDictionary<string, string> ReverseTranslit =
-        new Dictionary<string, string>()
-        {
-            {"a", "а"},
-            {"b", "б"},
-            {"v", "в"},
-            {"g", "г"},
-            {"d", "д"},
-            {"e", "е"},
-            {"je", "ё"},
-            {"zh", "ж"},
-            {"z", "з"},
-            {"i", "и"},
-            {"y", "й"},
-            {"k", "к"},
-            {"l", "л"},
-            {"m", "м"},
-            {"n", "н"},
-            {"o", "о"},
-            {"p", "п"},
-            {"r", "р"},
-            {"s", "с"},
-            {"t", "т"},
-            {"u", "у"},
-            {"f", "ф"},
-            {"h", "х"},
-            {"c", "ц"},
-            {"x", "кс"},
-            {"ch", "ч"},
-            {"sh", "ш"},
-            {"jsh", "щ"},
-            {"hh", "ъ"},
-            {"ih", "ы"},
-            {"jh", "ь"},
-            {"eh", "э"},
-            {"ju", "ю"},
-            {"ja", "я"},
-        };
 }
 
-// Source: https://codelab.ru/s/csharp/digits2phrase
+public static class TtsLatinTransliterator
+{
+    public static string TransliterateWord(
+        string word,
+        IReadOnlyList<(string Pattern, string Replacement)> multiLetterRules,
+        IReadOnlyDictionary<char, string> singleLetterRules,
+        IReadOnlyDictionary<string, string>? reverseTranslit = null)
+    {
+        if (string.IsNullOrWhiteSpace(word))
+            return word;
+
+        var normalized = word.Trim();
+        if (reverseTranslit != null && reverseTranslit.TryGetValue(normalized.ToLowerInvariant(), out var configured))
+            return configured;
+
+        var builder = new StringBuilder(normalized.Length);
+        for (var i = 0; i < normalized.Length;)
+        {
+            var matched = false;
+
+            foreach (var (pattern, replacement) in multiLetterRules)
+            {
+                if (!normalized.AsSpan(i).StartsWith(pattern.AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                builder.Append(replacement);
+                i += pattern.Length;
+                matched = true;
+                break;
+            }
+
+            if (matched)
+                continue;
+
+            var ch = normalized[i];
+            builder.Append(singleLetterRules.TryGetValue(char.ToLowerInvariant(ch), out var mappedLetter)
+                ? mappedLetter
+                : ch);
+            i++;
+        }
+
+        return PreserveInitialCase(normalized, builder.ToString());
+    }
+
+    private static string PreserveInitialCase(string source, string result)
+    {
+        if (result.Length == 0 || !char.IsUpper(source[0]))
+            return result;
+
+        return char.ToUpperInvariant(result[0]) + result.Substring(1);
+    }
+}
+
 public static class NumberConverter
 {
     private static readonly string[] Frac20Male =
@@ -252,7 +267,7 @@ public static class NumberConverter
     public static string NumberToText(long value, bool male = true)
     {
         if (value >= (long)Math.Pow(10, 15))
-            return String.Empty;
+            return string.Empty;
 
         if (value == 0)
             return "ноль";
@@ -284,7 +299,7 @@ public static class NumberConverter
             AppendWithSpace(str, Tens[tens]);
             var less10 = less100 % 10;
             if (less10 != 0)
-                str.Append(" " + frac20[less100%10]);
+                str.Append(" " + frac20[less100 % 10]);
         }
 
         return str.ToString();
@@ -332,16 +347,11 @@ public static class NumberConverter
     {
         var t = (val % 100 > 20) ? val % 10 : val % 20;
 
-        switch (t)
+        return t switch
         {
-            case 1:
-                return one;
-            case 2:
-            case 3:
-            case 4:
-                return two;
-            default:
-                return five;
-        }
+            1 => one,
+            2 or 3 or 4 => two,
+            _ => five,
+        };
     }
 }

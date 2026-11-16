@@ -5,6 +5,7 @@
   frequency: 1251
   color: "#9b0612"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-spp"
 
 - type: radioChannel
   id: SPPCommand
@@ -13,6 +14,7 @@
   frequency: 1252
   color: "#9b0612"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-spp"
 
 - type: radioChannel
   id: SPPEngi
@@ -21,14 +23,17 @@
   frequency: 1253
   color: "#9b0612"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-spp"
 
 - type: radioChannel
   id: SPPMed
   name: chat-radio-spp-med
-  keycode: "ш"
+  keycode: "ь"
+  radioPrefix: "#"
   frequency: 1254
   color: "#9b0612"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-spp"
 
 - type: radioChannel
   id: SPPCCT
@@ -37,6 +42,7 @@
   frequency: 1255
   color: "#9b0612"
   longRange: true
+  ttsCategory: "stories-tts-category-radio-spp"
 
 - type: radioChannel
   id: Halcyon
@@ -46,6 +52,7 @@
   color: "#F46D29"
   longRange: true
   tower: true
+  ttsCategory: "stories-tts-category-radio-misc"
 
 - type: entity
   parent: CMEncryptionKey
@@ -184,9 +191,9 @@
 
 - type: entity
   parent: RMCHeadsetDistressSPP
-  id: RMCHeadsetSPPPaP
-  name: SPP PaP headset
-  description: A special headset used by the People's Armed Police of the SPP.
+  id: RMCHeadsetSPPPCG
+  name: SPP PCG headset
+  description: A special headset used by the People's Civil Gendarmes of the SPP.
   components:
   - type: ContainerFill
     containers:

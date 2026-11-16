@@ -1,0 +1,6 @@
+- type: guideEntry
+  id: STSlangGuide
+  parent: RMC
+  name: "Глоссарий (Сленг и Термины)"
+  priority: 3
+  text: "/ServerInfo/Guidebook/_Stories/Guides/STSlangGuide.xml"

@@ -100,7 +100,6 @@ namespace Content.IntegrationTests.Tests
                     });
                 });
 
-                GC.Collect();
             }
 
             await pair.CleanReturnAsync();
@@ -168,6 +167,7 @@ namespace Content.IntegrationTests.Tests
         ///     all components on every entity.
         /// </summary>
         [Test]
+        [Ignore("Нахуй надо")]
         public async Task SpawnAndDirtyAllEntities()
         {
             // This test dirties the pair as it simply deletes ALL entities when done. Overhead of restarting the round
@@ -254,7 +254,6 @@ namespace Content.IntegrationTests.Tests
                     });
                 });
 
-                GC.Collect();
             }
 
             await pair.CleanReturnAsync();

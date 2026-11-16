@@ -1,7 +1,10 @@
+using Content.Client.Popups;
+using Content.Client.UserInterface.Systems.Chat;
 using Content.Shared._RMC14.Rules;
 using Content.Shared.GameTicking;
 using Robust.Shared.Audio.Components;
 using Robust.Client.Graphics;
+using Robust.Client.UserInterface;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
@@ -17,11 +20,13 @@ public sealed class RMCScuttleCinematicSystem : EntitySystem
     [Dependency] private readonly IOverlayManager _overlay = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly IUserInterfaceManager _ui = default!;
 
     private RMCScuttleCinematicOverlay? _current;
     private TimeSpan? _cinematicExplosionAt;
     private bool _cinematicExplosionPlayed;
-    private readonly Dictionary<EntityUid, float> _mutedAudio = new();
+    private readonly Dictionary<EntityUid, float> _mutedAudioGains = new();
     private readonly HashSet<EntityUid> _cinematicAudio = new();
 
     public override void Initialize()
@@ -65,6 +70,7 @@ public sealed class RMCScuttleCinematicSystem : EntitySystem
         _cinematicExplosionAt = startedAt + RMCScuttleCinematicTiming.GetExplosionOffset(ev.Duration);
         _cinematicExplosionPlayed = false;
         _overlay.AddOverlay(_current);
+        SetCinematicUiSuppressed(true);
         MuteExistingAudio();
     }
 
@@ -83,6 +89,7 @@ public sealed class RMCScuttleCinematicSystem : EntitySystem
 
     private void Clear()
     {
+        SetCinematicUiSuppressed(false);
         RestoreMutedAudio();
 
         if (_current != null)
@@ -94,14 +101,20 @@ public sealed class RMCScuttleCinematicSystem : EntitySystem
         _cinematicAudio.Clear();
     }
 
+    private void SetCinematicUiSuppressed(bool suppressed)
+    {
+        _ui.GetUIController<ChatUIController>().SetSpeechBubblesSuppressed(suppressed);
+        _popup.SetPopupsSuppressed(suppressed);
+    }
+
     private void AllowCinematicAudio((EntityUid Entity, AudioComponent Component)? audio)
     {
         if (audio is not { } playing)
             return;
 
         _cinematicAudio.Add(playing.Entity);
-        if (_mutedAudio.Remove(playing.Entity, out var volume))
-            _audio.SetVolume(playing.Entity, volume, playing.Component);
+        if (_mutedAudioGains.Remove(playing.Entity, out var gain))
+            _audio.SetGain(playing.Entity, gain, playing.Component);
     }
 
     private void MuteExistingAudio()
@@ -118,20 +131,20 @@ public sealed class RMCScuttleCinematicSystem : EntitySystem
 
     private void MuteAudio(Entity<AudioComponent> ent)
     {
-        if (!_mutedAudio.ContainsKey(ent.Owner))
-            _mutedAudio[ent.Owner] = ent.Comp.Params.Volume;
+        if (!_mutedAudioGains.ContainsKey(ent.Owner))
+            _mutedAudioGains[ent.Owner] = ent.Comp.Gain;
 
         _audio.SetGain(ent.Owner, 0f, ent.Comp);
     }
 
     private void RestoreMutedAudio()
     {
-        foreach (var (uid, volume) in _mutedAudio)
+        foreach (var (uid, gain) in _mutedAudioGains)
         {
             if (TryComp(uid, out AudioComponent? audio))
-                _audio.SetVolume(uid, volume, audio);
+                _audio.SetGain(uid, gain, audio);
         }
 
-        _mutedAudio.Clear();
+        _mutedAudioGains.Clear();
     }
 }

@@ -28,6 +28,14 @@
     - /Audio/_Stories/Voice/Hunter/pred_click5.ogg
 
 - type: soundCollection
+  id: STHunterElderOverseer
+  files:
+    - /Audio/_Stories/Voice/Hunter/pred_elder_overseer_1.ogg
+    - /Audio/_Stories/Voice/Hunter/pred_elder_overseer_2.ogg
+    - /Audio/_Stories/Voice/Hunter/pred_elder_overseer_3.ogg
+    - /Audio/_Stories/Voice/Hunter/pred_elder_overseer_4.ogg
+
+- type: soundCollection
   id: STHunterDeathGasp
   files:
     - /Audio/_Stories/Voice/Hunter/pred_death1.ogg

@@ -1,0 +1,15 @@
+rmc-anti-air-window-title = Консоль системы IX-50 MGAD
+rmc-anti-air-zone-none = Зона не выбрана
+rmc-anti-air-clear = Сбросить цель
+rmc-anti-air-zone-selected = { $zone } (Выбрано)
+rmc-anti-air-status-operational = Полностью готова к работе
+rmc-anti-air-status-disabled = Отключена
+rmc-anti-air-status-engaged = Ведется огонь
+rmc-anti-air-status-disengaged = Огонь прекращен
+rmc-anti-air-status = [bold]Система орудий IX-50 MGAD[/bold] | Статус: { $status } | Цель: { $zone }
+rmc-anti-air-console-disabled = Система IX-50 MGAD отключена.
+rmc-anti-air-ares-target-set = Цель MGAD установлена: { $zone }.
+rmc-anti-air-ares-target-cleared = Цель MGAD сброшена.
+rmc-anti-air-hijack-deterred = Вражеский летательный аппарат, направлявшийся к зоне { $zone }, успешно отбит.
+rmc-anti-air-dropship-jostles = Корабль сильно трясет от взрывов!
+rmc-anti-air-dropship-turns = Вы чувствуете, как корабль резко поворачивает, меняя курс!

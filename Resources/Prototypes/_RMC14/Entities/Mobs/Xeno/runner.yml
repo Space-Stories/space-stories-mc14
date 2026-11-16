@@ -12,8 +12,6 @@
   name: Runner
   description: A small red alien that looks like it could run fairly quickly...
   components:
-  - type: GhostRole
-    name: cm-job-name-xeno-runner
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Runner/runner.rsi
   - type: Eye
@@ -23,6 +21,11 @@
     - Alive
     - Critical
     - Dead
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
   - type: Tag
     tags:
     - DoorBumpOpener
@@ -132,6 +135,12 @@
   parent: CMXenoRunnerBase
   id: CMXenoRunner
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoLeap ]
+      XenoPrimaryTwo: [ ActionXenoBoneChips ]
+      XenoPrimaryThree: [ ActionXenoZoom ]
+  - type: XenoBaseCaste
   - type: GuideHelp
     guides:
     - RMCGuideRoleRunner
@@ -172,6 +181,9 @@
   id: RMCXenoRunnerAcider
   suffix: Acider
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoForTheHive ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Runner/acider_runner.rsi
     layers:

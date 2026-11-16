@@ -14,6 +14,7 @@ using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Explosion;
 using Content.Shared.Explosion.Components;
 using Content.Shared.Popups;
@@ -44,6 +45,7 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
     [Dependency] private readonly RMCReagentSystem _reagents = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solutions = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly IMapManager _map = default!;
 
     private readonly HashSet<EntityUid> _wallsCache = new();
     private readonly List<ReagentQuantity> _reagentCache = new();
@@ -134,7 +136,7 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
 
         var radius = slope > 0 ? maxIntensity / slope : 0f;
         var calcRadius = Math.Max(0f, radius - 1f);
-        var totalIntensity = (float)(Math.PI / 3.0 * slope * Math.Pow(calcRadius, 3));
+        var totalIntensity = Math.Max((float)(Math.PI / 3.0 * slope * Math.Pow(calcRadius, 3)), maxIntensity);
 
         return new EngineExplosionParams(totalIntensity, slope, maxIntensity, radius);
     }
@@ -192,17 +194,19 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
 
         SpawnShrapnel(sourceUid, coords, comp, stats, user);
 
+        var gridCoords = coords.SnapToGrid(EntityManager, _map);
+
         if (stats.FireRadius > 0 && stats.FireIntensity > 0)
         {
             if (comp.AllowStarShape && stats.FireIntensity > 30)
             {
                 var rayRange = (int)Math.Round(stats.FireRadius * 1.5f);
                 rayRange = Math.Min(rayRange, (int)comp.MaxFireRadius);
-                _flammable.SpawnFireLines(stats.FireEntity, coords, rayRange, rayRange, (int)stats.FireIntensity, (int)stats.FireDuration, stats.FireColor);
+                _flammable.SpawnFireLines(stats.FireEntity, gridCoords, rayRange, rayRange, (int)stats.FireIntensity, (int)stats.FireDuration, stats.FireColor);
             }
             else
             {
-                _flammable.SpawnFireDiamond(stats.FireEntity, coords, (int)stats.FireRadius, (int)stats.FireIntensity, (int)stats.FireDuration, stats.FireColor);
+                _flammable.SpawnFireDiamond(stats.FireEntity, gridCoords, (int)stats.FireRadius, (int)stats.FireIntensity, (int)stats.FireDuration, stats.FireColor);
             }
         }
 
@@ -236,7 +240,7 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
         var baseFalloff = casing?.BaseFalloff ?? 75f;
         var minFalloff = casing?.MinFalloff ?? 25f;
         var maxPower = casing?.MaxExplosionPower ?? 175f;
-        var maxShards = casing?.MaxShards ?? 32;
+        var maxShards = casing?.MaxShards ?? 16;
         var maxFireRadius = casing?.MaxFireRadius ?? 5f;
         var maxFireIntensity = casing?.MaxFireIntensity ?? 20f;
         var maxFireDuration = casing?.MaxFireDuration ?? 24f;
@@ -297,7 +301,7 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
             firePenetrating |= proto.FirePenetrating;
 
             if (reagentQuantity.Reagent.Prototype == ironId)
-                shards += (int)qty;
+                shards += (int)(qty * 0.25f);
 
             if (proto.Metabolisms != null)
             {
@@ -319,8 +323,8 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
             }
         }
 
-        if (exPower > 0)
-            shards += 16;
+        if (exPower <= 0)
+            shards = 0;
 
         exPower = Math.Min(exPower, maxPower);
         exFalloff = Math.Max(exFalloff, minFalloff);

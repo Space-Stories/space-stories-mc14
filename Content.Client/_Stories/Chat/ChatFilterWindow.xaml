@@ -1,0 +1,36 @@
+<controls:FancyWindow
+    xmlns="https://spacestation14.io"
+    xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    Title="{Loc 'stories-chat-filter-title'}"
+    SetSize="500 500"
+    MinSize="500 500"
+    MaxSize="500 500"
+>
+    <BoxContainer Orientation="Vertical" Margin="12" SeparationOverride="10" VerticalExpand="True">
+
+        <Button Name="ToggleBanwordsButton" Text="{Loc 'stories-chat-filter-banwords-toggle-show'}" />
+
+        <BoxContainer Name="BanwordsContainer" Orientation="Vertical" SeparationOverride="8" VerticalExpand="True" Visible="False">
+            <RichTextLabel Text="{Loc 'stories-chat-filter-banwords-label'}" />
+
+            <PanelContainer VerticalExpand="True">
+                <PanelContainer.PanelOverride>
+                    <graphics:StyleBoxFlat BackgroundColor="#1E1E24" BorderColor="#4A4A55" BorderThickness="2" />
+                </PanelContainer.PanelOverride>
+                <TextEdit Name="BanwordsEdit" VerticalExpand="True" Margin="4" />
+            </PanelContainer>
+        </BoxContainer>
+
+        <RichTextLabel Text="{Loc 'stories-chat-filter-replacements-label'}" />
+
+        <PanelContainer VerticalExpand="True">
+            <PanelContainer.PanelOverride>
+                <graphics:StyleBoxFlat BackgroundColor="#1E1E24" BorderColor="#4A4A55" BorderThickness="2" />
+            </PanelContainer.PanelOverride>
+            <TextEdit Name="ReplacementsEdit" VerticalExpand="True" Margin="4" />
+        </PanelContainer>
+
+        <Button Name="SaveButton" Text="{Loc 'ui-options-apply'}" MinHeight="35" />
+    </BoxContainer>
+</controls:FancyWindow>

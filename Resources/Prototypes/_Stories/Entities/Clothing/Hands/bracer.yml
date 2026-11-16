@@ -2,7 +2,7 @@
   parent: [STHunterBaseItem, ClothingHandsBase]
   id: STBracerHunter
   name: clan bracers
-  description: An extremely complex, yet simple-to-operate set of armored bracers worn by the Yautja. It has many functions, activate them to use some.
+  description: An extremely complex, yet simple-to-operate set of armored bracers worn by the Hunter. It has many functions, activate them to use some.
   suffix: Base
   components:
   - type: Sprite
@@ -11,6 +11,7 @@
     sprite: _Stories/Objects/Clothing/Hands/Bracer/base.rsi
   - type: Access
     slot: gloves
+    allowInHands: false
   - type: IdCard
     nameLocId: cm-access-id-card-component-owner-name-job-title-text
     fullNameLocId: cm-access-id-card-component-owner-full-name-job-title-text

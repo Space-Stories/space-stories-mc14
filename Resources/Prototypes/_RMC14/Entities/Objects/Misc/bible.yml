@@ -29,6 +29,12 @@
   - type: Tag
     tags:
     - Book
+  - type: BlackMarketValue
+    value: 15
+  - type: InteractedBlacklist
+    blacklist:
+      components:
+      - Xeno
 
 - type: entity
   parent: RMCBible

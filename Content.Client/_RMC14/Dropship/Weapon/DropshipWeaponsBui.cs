@@ -148,16 +148,31 @@ public sealed class DropshipWeaponsBui : RMCPopOutBui<DropshipWeaponsWindow>
 
         string TargetAcquisition()
         {
-            var weapon = EntMan.GetEntity(compScreen.Weapon);
-            return Loc.GetString("rmc-dropship-weapons-target-strike",
+            if (EntMan.TryGetEntity(compScreen.Weapon, out var weapon))
+            {
+                var check = _weaponSystem.TryGetWeaponAmmo(weapon.Value, out var ammo);
+                return Loc.GetString("rmc-dropship-weapons-target-strike",
                 ("mode", compScreen.Weapon == null ? "NONE" : "WEAPON"),
                 ("targetMode", Loc.GetString(compScreen.QuickMode
-                    ? "rmc-dropship-weapons-target-mode-quick"
-                    : "rmc-dropship-weapons-target-mode-standard")),
-                ("weapon", weapon == null ? "" : weapon),
+                ? "rmc-dropship-weapons-target-mode-quick"
+                : "rmc-dropship-weapons-target-mode-standard")),
+                ("weapon", check ? ammo : weapon),
                 ("target", terminal.Target == null ? "NONE" : terminal.Target.Value),
                 ("xOffset", terminal.Offset.X),
                 ("yOffset", terminal.Offset.Y));
+            }
+            else
+            {
+                return Loc.GetString("rmc-dropship-weapons-target-strike",
+                ("mode", compScreen.Weapon == null ? "NONE" : "WEAPON"),
+                ("targetMode", Loc.GetString(compScreen.QuickMode
+                ? "rmc-dropship-weapons-target-mode-quick"
+                : "rmc-dropship-weapons-target-mode-standard")),
+                ("weapon", ""),
+                ("target", terminal.Target == null ? "NONE" : terminal.Target.Value),
+                ("xOffset", terminal.Offset.X),
+                ("yOffset", terminal.Offset.Y));
+            }
         }
 
         void AddButtons(

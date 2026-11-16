@@ -1,0 +1,27 @@
+
+- type: entity
+  parent: BaseItem
+  id: STWorkingJoePDA
+  name: KN5500 PDA
+  description: A Karnak Electronics portable interface used by Working Joes, capable of connecting to the local command AI to relay tasking information.
+  components:
+  - type: Sprite
+    sprite: _Stories/Synth/WorkingJoe/working_joe_pda.rsi
+    state: icon
+  - type: Item
+    size: Small
+  - type: AresTerminal
+  - type: HermesTerminal
+    portable: true
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components: [ Xeno ]
+  - type: ActivatableUI
+    key: enum.HermesUiKey.Key
+    inHandsOnly: true
+  - type: UserInterface
+    interfaces:
+      enum.HermesUiKey.Key:
+        type: HermesBui
+      enum.AresUiKey.Logs:
+        type: AresLogsBui

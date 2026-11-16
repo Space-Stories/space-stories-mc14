@@ -12,18 +12,18 @@
   - Стандартное снаряжение, которое предоставляется морпехам в их казармах и по заявкам, не может быть ограничено или запрещено каким-либо образом. Морпехи имеют право свободно носить и использовать предоставленное им снаряжение.
 
  ## Категории
-  - [textlink="Общие Положения" link="RMCMarineSOPGeneral"]
-  - [textlink="Снаряжение" link="RMCMarineSOPEquipment"]
-  - [textlink="Департамент" link="RMCMarineSOPDepartment"]
-  - [textlink="НЕ изменяемая СОП" link="RMCMarineSOPNONMod"]
+  - [textlink="Общие Положения" link="STMarineSOPGeneral"]
+  - [textlink="Снаряжение" link="STMarineSOPEquipment"]
+  - [textlink="Департамент" link="STMarineSOPDepartment"]
 
   ## НЕ изменяемый СОП
 
   СОП, написанная в этих разделах, может быть изменена только с разрешения ПРОВОСТА.
 
-  - [textlink="НЕ изменяемый Департамент" link="RMCMarineSOPNONModDepartment"]
-  - [textlink="НЕ изменяемая Командная СОП" link="RMCMarineSOPNONModCommand"]
-  - [textlink="НЕ изменяемые Ограничения Развертывания" link="RMCMarineSOPNONModDeployment"]
-  - [textlink="НЕ изменяемый Персонал Третьих Сторон" link="RMCMarineSOPNONModThirdparty"]
+  - [textlink="НЕ изменяемый Департамент" link="STMarineSOPNONModDepartment"]
+  - [textlink="НЕ изменяемая Командная СОП" link="STMarineSOPNONModCommand"]
+  - [textlink="НЕ изменяемые Ограничения Развертывания" link="STMarineSOPNONModDeployment"]
+  - [textlink="НЕ изменяемый Персонал Третьих Сторон" link="STMarineSOPNONModThirdparty"]
+  - [textlink="НЕ изменяемый Федеральный Закон" link="STMarineSOPNONModCivilLaw"]
 
 </Document>

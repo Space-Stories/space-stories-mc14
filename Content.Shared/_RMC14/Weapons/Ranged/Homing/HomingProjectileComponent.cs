@@ -9,7 +9,7 @@ public sealed partial class HomingProjectileComponent : Component
     ///     The target of the homing projectile.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public EntityUid Target;
+    public NetEntity Target = NetEntity.Invalid; // Stories-DeletedEntityReferences
 
     /// <summary>
     ///     The speed of the homing projectile.

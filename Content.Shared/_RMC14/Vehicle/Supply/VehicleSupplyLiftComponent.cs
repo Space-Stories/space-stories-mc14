@@ -13,6 +13,9 @@ public sealed partial class VehicleSupplyLiftComponent : Component
     [DataField]
     public float Radius = 2f;
 
+    [DataField]
+    public float RailingRange = 7f;
+
     [DataField, AutoNetworkedField]
     public VehicleSupplyLiftMode Mode;
 
@@ -64,9 +67,6 @@ public sealed partial class VehicleSupplyLiftComponent : Component
 
     public object? RaisingAnimation;
 
-    [DataField, AutoNetworkedField]
-    public bool HasDispensedArmor;
-
     [NonSerialized]
     public string PendingVehicle = string.Empty;
 
@@ -87,6 +87,9 @@ public sealed partial class VehicleSupplyLiftComponent : Component
 
     [NonSerialized]
     public readonly Dictionary<string, List<EntityUid>> StoredEntities = new();
+
+    [DataField, AutoNetworkedField]
+    public bool OrderedPopVehicle = false;
 }
 
 [Serializable, NetSerializable]

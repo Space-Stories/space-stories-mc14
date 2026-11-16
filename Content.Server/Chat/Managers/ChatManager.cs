@@ -302,8 +302,21 @@ internal sealed partial class ChatManager : IChatManager
             return;
         }
 
+        // Stories-Sponsors-End
+        string playerName = player.Name;
+        var adminData = _adminManager.GetAdminData(player);
+        if (adminData?.Title != null)
+        {
+            playerName = $"\\[{adminData.Title}\\] {playerName}";
+        }
+        else if (_sponsors.TryGetInfo(player.UserId, out var sponsorInfo) && sponsorInfo.TierName != null)
+        {
+            playerName = $"\\[{sponsorInfo.TierName}\\] {playerName}";
+        }
+        // Stories-Sponsors-End
+
         Color? colorOverride = null;
-        var wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message", ("playerName",player.Name), ("message", FormattedMessage.EscapeText(message)));
+        var wrappedMessage = Loc.GetString("chat-manager-send-ooc-wrap-message", ("playerName", playerName), ("message", FormattedMessage.EscapeText(message))); // Stories-Sponsors
         if (_adminManager.HasAdminFlag(player, AdminFlags.NameColor))
         {
             var prefs = _preferencesManager.GetPreferences(player.UserId);
@@ -313,12 +326,12 @@ internal sealed partial class ChatManager : IChatManager
             _linkAccount.GetConnectedPatron(player)?.Tier != null)
         {
             var color = _linkAccount.GetPatronOOCHexColor(player.Channel.UserId);
-            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", $"{color}"),("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
+            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", $"{color}"), ("playerName", playerName), ("message", FormattedMessage.EscapeText(message))); // Stories-Sponsors
         }
         // Stories-Sponsors-OOC-Start
         if (_sponsors.TryGetInfo(player.UserId, out var info) && info.OOCColor != null)
         {
-            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", info.OOCColor), ("playerName", player.Name), ("message", FormattedMessage.EscapeText(message)));
+            wrappedMessage = Loc.GetString("chat-manager-send-ooc-patron-wrap-message", ("patronColor", info.OOCColor), ("playerName", playerName), ("message", FormattedMessage.EscapeText(message)));
         }
         // Stories-Sponsors-OOC-End
 
@@ -397,13 +410,20 @@ internal sealed partial class ChatManager : IChatManager
 
     #region Utility
 
-    public void ChatMessageToOne(ChatChannel channel, string message, string wrappedMessage, EntityUid source, bool hideChat, INetChannel client, Color? colorOverride = null, bool recordReplay = false, string? audioPath = null, float audioVolume = 0, NetUserId? author = null, bool hidePopup = false)
+    // RMC14
+    public void ChatMessageToOne(ChatChannel channel, string message, string wrappedMessage, EntityUid source, bool hideChat, INetChannel client, Color? colorOverride = null, bool recordReplay = false, string? audioPath = null, float audioVolume = 0, NetUserId? author = null, bool hidePopup = false,
+        bool useEmoteSpeechBubble = false,
+        string? languageIcon = null)
+    // RMC14
     {
         var user = author == null ? null : EnsurePlayer(author);
         var netSource = _entityManager.GetNetEntity(source);
         user?.AddEntity(netSource);
 
-        var msg = new ChatMessage(channel, message, wrappedMessage, netSource, user?.Key, hideChat, colorOverride, audioPath, audioVolume, hidePopup, speechStyleClass: _entityManager.GetComponentOrNull<RMCSpeechBubbleSpecificStyleComponent>(source)?.SpeechStyleClass, repeatCheckSender: !_entityManager.HasComponent<ChatRepeatIgnoreSenderComponent>(source));
+        // RMC14
+        var msg = new ChatMessage(channel, message, wrappedMessage, netSource, user?.Key, hideChat, colorOverride, audioPath, audioVolume, hidePopup, useEmoteSpeechBubble, speechStyleClass: _entityManager.GetComponentOrNull<RMCSpeechBubbleSpecificStyleComponent>(source)?.SpeechStyleClass, repeatCheckSender: !_entityManager.HasComponent<ChatRepeatIgnoreSenderComponent>(source),
+            languageIcon: languageIcon);
+        // RMC14
         _netManager.ServerSendMessage(new MsgChatMessage() { Message = msg }, client);
 
         if (!recordReplay)

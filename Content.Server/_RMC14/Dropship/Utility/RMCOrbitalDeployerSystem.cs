@@ -2,6 +2,7 @@ using Content.Server._RMC14.NPC;
 using Content.Shared._RMC14.CrashLand;
 using Content.Shared._RMC14.Dropship.Utility.Systems;
 using Content.Shared._RMC14.ParaDrop;
+using Content.Shared._RMC14.Sentry;
 using Content.Shared._RMC14.SupplyDrop;
 using Robust.Server.GameObjects;
 
@@ -11,6 +12,7 @@ public sealed class RMCOrbitalDeployerSystem : SharedRMCOrbitalDeployerSystem
 {
     [Dependency] private readonly PhysicsSystem _physics = default!;
     [Dependency] private readonly RMCNPCSystem _rmcNpc = default!;
+    [Dependency] private readonly TransformSystem _transform = default!; // Stories-SentryDeploy
 
     public override void Initialize()
     {
@@ -41,6 +43,11 @@ public sealed class RMCOrbitalDeployerSystem : SharedRMCOrbitalDeployerSystem
                 var deployedEntities = Container.EmptyContainer(container, true);
                 foreach (var entity in deployedEntities)
                 {
+                    // Stories-SentryDeploy-Start
+                    if (HasComp<TurretComponent>(entity))
+                        _transform.AnchorEntity(entity, Transform(entity));
+                    // Stories-SentryDeploy-End
+
                     var ev = new ParaDropFinishedEvent();
                     RaiseLocalEvent(entity, ref ev);
                 }

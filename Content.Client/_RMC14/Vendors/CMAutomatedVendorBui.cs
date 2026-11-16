@@ -3,8 +3,10 @@ using Content.Shared._RMC14.Holiday;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Medical.Refill;
 using Content.Shared._RMC14.Vendors;
+using Content.Shared.Interaction.Components;
 using Content.Shared.Mind;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Stacks;
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -45,7 +47,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
     {
         base.Open();
         _window = this.CreateWindow<CMAutomatedVendorWindow>();
-        _window.Title = EntMan.GetComponentOrNull<MetaDataComponent>(Owner)?.EntityName ?? "ColMarTech Vendor";
+        _window.Title = EntMan.GetComponentOrNull<MetaDataComponent>(Owner)?.EntityName ?? "ASRS Vendor";
         _window.ReagentsBar.ForegroundStyleBoxOverride = new StyleBoxFlat(Color.FromHex("#AF7F38"));
 
         if (EntMan.TryGetComponent(Owner, out CMAutomatedVendorComponent? vendor))
@@ -170,6 +172,9 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
 
     private bool IsSectionValid(CMVendorSection section)
     {
+        if (_player.LocalEntity is { } localEntity && EntMan.HasComponent<BypassInteractionChecksComponent>(localEntity))
+            return true;
+
         var validJob = true;
         var validRank = true;
         if (_player.LocalSession != null && _mind.TryGetMind(_player.LocalSession.UserId, out var mindId))
@@ -313,7 +318,10 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
                 }
                 else
                 {
-                    uiEntry.Amount.Text = entry.Amount.ToString();
+                    var hasPartialStack = HasPartialStack(entry.Id, vendor.PartialProductStacks);
+                    uiEntry.Amount.Text = hasPartialStack
+                        ? $"{entry.Amount}*" // Display asterisk (*) for items with partial stacks
+                        : entry.Amount.ToString();
                 }
 
                 uiEntry.Amount.Modulate = disabled ? Color.Red : Color.White;
@@ -331,7 +339,9 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
         }
 
         ApplySearchFilter(_window.Search.Text);
-        _window.PointsLabel.Text = anyEntryWithPoints ? $"Points Remaining: {userPoints}" : string.Empty;
+        _window.PointsLabel.Text = anyEntryWithPoints
+            ? Loc.GetString("rmc-automated-vendor-points", ("points", userPoints))
+            : string.Empty;
 
         if (!EntMan.TryGetComponent(Owner, out CMSolutionRefillerComponent? refiller))
         {
@@ -346,7 +356,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
         _window.ReagentsBar.MinValue = 0;
         _window.ReagentsBar.MaxValue = max.Int();
         _window.ReagentsBar.SetAsRatio((refiller.Current / refiller.Max).Float());
-        _window.ReagentsLabel.Text = $"{current.Int()} units";
+        _window.ReagentsLabel.Text = Loc.GetString("rmc-automated-vendor-units", ("units", current.Int()));
     }
 
     protected override void ReceiveMessage(BoundUserInterfaceMessage message)
@@ -372,7 +382,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
             {
                 if (takeAll == null || !takeAll.Contains((section.TakeAll, entry.Id)))
                 {
-                    name.AddText(" (TAKE ALL)");
+                    name.AddText(Loc.GetString("rmc-automated-vendor-take-all"));
                     break;
                 }
             }
@@ -381,23 +391,34 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
         {
             var takeOne = user?.TakeOne;
             if (takeOne == null || !takeOne.Contains(section.TakeOne))
-                name.AddText(" (TAKE ONE)");
+                name.AddText(Loc.GetString("rmc-automated-vendor-take-one"));
         }
         else if (section.Choices is { } choices)
         {
             if (user == null)
             {
-                name.AddText($" (CHOOSE {choices.Amount})");
+                name.AddText(Loc.GetString("rmc-automated-vendor-choose", ("amount", choices.Amount)));
             }
             else
             {
                 var left = choices.Amount - user.Choices.GetValueOrDefault(choices.Id);
                 if (left > 0)
-                    name.AddText($" (CHOOSE {left})");
+                    name.AddText(Loc.GetString("rmc-automated-vendor-choose", ("amount", left)));
             }
         }
 
         name.Pop();
         return name;
+    }
+
+    private bool HasPartialStack(EntProtoId entryId, Dictionary<string, int> partialStacks)
+    {
+        if (!_prototype.TryIndex(entryId, out var entryProto))
+            return false;
+
+        if (!entryProto.TryGetComponent<StackComponent>("Stack", out var stackComp))
+            return false;
+
+        return partialStacks.TryGetValue(stackComp.StackTypeId, out var partialAmount) && partialAmount > 0;
     }
 }

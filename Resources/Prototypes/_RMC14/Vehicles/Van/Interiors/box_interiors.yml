@@ -6,6 +6,9 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: Tag
+    tags:
+    - HideContextMenu
   - type: Transform
     anchored: true
   - type: Physics
@@ -109,6 +112,9 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: Tag
+    tags:
+    - HideContextMenu
   - type: Transform
     anchored: true
   - type: Sprite
@@ -171,6 +177,7 @@
     state: back_1
   - type: Clickable
   - type: InteractionOutline
+  - type: RMCIgnoreGhostInteractionLimits
 
 - type: entity
   parent: VehicleBoxVanWallBase
@@ -196,6 +203,7 @@
     state: back_1
   - type: Clickable
   - type: InteractionOutline
+  - type: RMCIgnoreGhostInteractionLimits
 
 - type: entity
   parent: VehicleBoxVanWallBase
@@ -205,6 +213,7 @@
     state: back_2
   - type: Clickable
   - type: InteractionOutline
+  - type: RMCIgnoreGhostInteractionLimits
 
 - type: entity
   parent: VehicleBoxVanWallBase
@@ -354,7 +363,9 @@
   id: VehicleBoxVanBackground2
   components:
   - type: Sprite
-    state: background_2
+    layers:
+    - state: background_2
+      map: [ "roof" ]
   - type: InteractionTransparency
 
 - type: entity
@@ -362,7 +373,9 @@
   id: VehicleBoxVanBackground3
   components:
   - type: Sprite
-    state: background_3
+    layers:
+    - state: background_3
+      map: [ "roof" ]
   - type: InteractionTransparency
 
 - type: entity
@@ -371,8 +384,10 @@
   components:
   - type: Sprite
     state: interior_door
+    drawdepth: BelowMobs
   - type: Clickable
   - type: InteractionOutline
+  - type: RMCIgnoreGhostInteractionLimits
   - type: RemoveComponents
     components:
     - type: InteractionTransparency
@@ -390,6 +405,7 @@
     fadeOnSharedGrid: true
   - type: Clickable
   - type: InteractionOutline
+  - type: RMCIgnoreGhostInteractionLimits
   - type: RemoveComponents
     components:
     - type: InteractionTransparency

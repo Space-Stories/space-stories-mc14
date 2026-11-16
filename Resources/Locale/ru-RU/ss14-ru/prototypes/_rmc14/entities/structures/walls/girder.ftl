@@ -5,5 +5,5 @@ ent-CMGirderReinforced = усиленный каркас
 ent-RMCGirderDisplaced = каркас
     .desc = { ent-CMGirder.desc }
     .suffix = Смещенный
-ent-RMCGirderDamaged = damaged girder
-    .desc = A twisted girder that no longer blocks passage.
+ent-RMCGirderDamaged = повреждённый каркас
+    .desc = Искорёженный каркас, который больше не преграждает путь.

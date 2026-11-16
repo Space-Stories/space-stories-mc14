@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared._RMC14.Weapons.Ranged.Ammo.BulletBox;
+using Content.Shared._RMC14.Weapons.Ranged.Flamer;
 using Content.Shared.Vehicle.Components;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._RMC14.Vehicle;
@@ -52,7 +54,7 @@ public readonly record struct VehicleMountedSlot(
     EntityUid SlotOwner,
     string SlotId,
     VehicleSlotPath Path,
-    string HardpointType,
+    EntProtoId HardpointType,
     EntityUid? Item,
     EntityUid? ParentItem,
     VehicleSlotPath? ParentPath)
@@ -70,10 +72,18 @@ public readonly record struct VehicleMountedAmmoProvider(
     VehicleHardpointAmmoComponent HardpointAmmo,
     RefillableByBulletBoxComponent Refill);
 
+public readonly record struct VehicleMountedFlamerProvider(
+    VehicleMountedSlot Slot,
+    EntityUid FlamerUid,
+    RMCFlamerAmmoProviderComponent FlamerAmmo,
+    int ExtraSlots);
+
 public sealed class VehicleTopologySystem : EntitySystem
 {
     [Dependency] private readonly SharedContainerSystem _containers = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+
+    private readonly List<VehicleMountedSlot> _internalSlotsBuffer = new();
 
     public bool TryGetVehicle(EntityUid uid, out EntityUid vehicle, bool includeSelf = true)
     {
@@ -91,9 +101,20 @@ public sealed class VehicleTopologySystem : EntitySystem
         ItemSlotsComponent? itemSlots = null)
     {
         var result = new List<VehicleMountedSlot>();
+        GetMountedSlots(vehicle, result, hardpoints, itemSlots);
+        return result;
+    }
+
+    public void GetMountedSlots(
+        EntityUid vehicle,
+        List<VehicleMountedSlot> result,
+        HardpointSlotsComponent? hardpoints = null,
+        ItemSlotsComponent? itemSlots = null)
+    {
+        result.Clear();
 
         if (!Resolve(vehicle, ref hardpoints, ref itemSlots, logMissing: false))
-            return result;
+            return;
 
         EnumerateMountedSlots(
             vehicle,
@@ -103,8 +124,6 @@ public sealed class VehicleTopologySystem : EntitySystem
             result,
             parentPath: null,
             parentItem: null);
-
-        return result;
     }
 
     public HashSet<string> GetMountedSlotIds(
@@ -204,11 +223,11 @@ public sealed class VehicleTopologySystem : EntitySystem
     public bool TryGetMountedSlotHardpointType(
         EntityUid vehicle,
         string slotId,
-        out string hardpointType,
+        out EntProtoId hardpointType,
         HardpointSlotsComponent? hardpoints = null,
         ItemSlotsComponent? itemSlots = null)
     {
-        hardpointType = string.Empty;
+        hardpointType = default;
 
         if (!TryGetMountedSlot(vehicle, slotId, out var mountedSlot, hardpoints, itemSlots))
             return false;
@@ -223,8 +242,20 @@ public sealed class VehicleTopologySystem : EntitySystem
         ItemSlotsComponent? itemSlots = null)
     {
         var result = new List<VehicleMountedAmmoProvider>();
+        GetMountedAmmoProviders(vehicle, result, hardpoints, itemSlots);
+        return result;
+    }
 
-        foreach (var slot in GetMountedSlots(vehicle, hardpoints, itemSlots))
+    public void GetMountedAmmoProviders(
+        EntityUid vehicle,
+        List<VehicleMountedAmmoProvider> result,
+        HardpointSlotsComponent? hardpoints = null,
+        ItemSlotsComponent? itemSlots = null)
+    {
+        result.Clear();
+
+        GetMountedSlots(vehicle, _internalSlotsBuffer, hardpoints, itemSlots);
+        foreach (var slot in _internalSlotsBuffer)
         {
             if (slot.Item is not { } item)
                 continue;
@@ -234,8 +265,6 @@ public sealed class VehicleTopologySystem : EntitySystem
 
             result.Add(provider);
         }
-
-        return result;
     }
 
     public bool TryGetMountedAmmoProvider(
@@ -320,6 +349,67 @@ public sealed class VehicleTopologySystem : EntitySystem
             return false;
 
         provider = new VehicleMountedAmmoProvider(slot, item, ammo, hardpointAmmo, refill);
+        return true;
+    }
+
+    public List<VehicleMountedFlamerProvider> GetMountedFlamerProviders(
+        EntityUid vehicle,
+        HardpointSlotsComponent? hardpoints = null,
+        ItemSlotsComponent? itemSlots = null)
+    {
+        var result = new List<VehicleMountedFlamerProvider>();
+        GetMountedSlots(vehicle, _internalSlotsBuffer, hardpoints, itemSlots);
+        foreach (var slot in _internalSlotsBuffer)
+        {
+            if (slot.Item is not { } item)
+                continue;
+
+            if (!TryGetFlamerProviderFromItem(slot, item, out var provider))
+                continue;
+
+            result.Add(provider);
+        }
+
+        return result;
+    }
+
+    public bool TryGetMountedFlamerProvider(
+        EntityUid vehicle,
+        VehicleSlotPath path,
+        out VehicleMountedFlamerProvider provider,
+        HardpointSlotsComponent? hardpoints = null,
+        ItemSlotsComponent? itemSlots = null)
+    {
+        provider = default;
+
+        if (!path.IsValid ||
+            !TryGetMountedSlot(vehicle, path, out var mountedSlot, hardpoints, itemSlots) ||
+            mountedSlot.Item is not { } item)
+        {
+            return false;
+        }
+
+        return TryGetFlamerProviderFromItem(mountedSlot, item, out provider);
+    }
+
+    private bool TryGetFlamerProviderFromItem(
+        VehicleMountedSlot slot,
+        EntityUid item,
+        out VehicleMountedFlamerProvider provider)
+    {
+        provider = default;
+
+        if (!TryComp(item, out RMCFlamerAmmoProviderComponent? flamerAmmo))
+            return false;
+
+        if (HasComp<RMCFlamerTankComponent>(item))
+            return false;
+
+        var extraSlots = TryComp(item, out VehicleFlamerTankSlotsComponent? tankSlots)
+            ? Math.Max(0, tankSlots.MaxTanks - 1)
+            : 0;
+
+        provider = new VehicleMountedFlamerProvider(slot, item, flamerAmmo, extraSlots);
         return true;
     }
 

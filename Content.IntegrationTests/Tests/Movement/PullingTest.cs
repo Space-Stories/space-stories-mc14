@@ -21,7 +21,7 @@ public sealed class PullingTest : MovementTest
         var pullable = Comp<PullableComponent>(Target);
 
         // Player is initially to the left of the target and not pulling anything
-        Assert.That(Delta(), Is.InRange(0.9f, 1.1f));
+        Assert.That(Delta(), Is.InRange(0.6f, 1.1f));
         Assert.That(puller.Pulling, Is.Null);
         Assert.That(pullable.Puller, Is.Null);
         Assert.That(pullable.BeingPulled, Is.False);

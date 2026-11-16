@@ -111,6 +111,8 @@
   components:
   - type: RMCToggleableSolutionTransfer
     direction: Output
+  - type: SolutionContainerVisuals
+    maxFillLevels: 0
   - type: Sprite
     sprite: _Stories/Structures/Machinery/hunter_machines.rsi
     layers:
@@ -125,6 +127,8 @@
   components:
   - type: RMCToggleableSolutionTransfer
     direction: Output
+  - type: SolutionContainerVisuals
+    maxFillLevels: 0
   - type: Sprite
     sprite: _Stories/Structures/Machinery/hunter_machines.rsi
     layers:

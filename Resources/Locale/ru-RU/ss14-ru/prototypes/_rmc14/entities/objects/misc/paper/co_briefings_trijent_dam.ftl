@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingTrijentUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Плотина Триджент, Вне фракций
+ent-RMCPaperCOBriefingTrijentHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Плотина Триджент, Ястребы
+ent-RMCPaperCOBriefingTrijentDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Плотина Триджент, Голуби
+ent-RMCPaperCOBriefingTrijentMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Плотина Триджент, Сороки

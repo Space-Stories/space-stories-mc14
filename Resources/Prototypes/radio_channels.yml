@@ -1,4 +1,5 @@
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Common
   name: chat-radio-common
   keycode: ";"
@@ -6,6 +7,7 @@
   color: "#2cdb2c"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: CentCom
   name: chat-radio-centcom
   keycode: 'y'
@@ -14,6 +16,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Command
   name: chat-radio-command
   keycode: 'c'
@@ -21,6 +24,7 @@
   color: "#fcdf03"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Engineering
   name: chat-radio-engineering
   keycode: 'e'
@@ -28,6 +32,7 @@
   color: "#ff733c"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Medical
   name: chat-radio-medical
   keycode: 'm'
@@ -35,6 +40,7 @@
   color: "#57b8f0"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Science
   name: chat-radio-science
   keycode: 'n'
@@ -42,6 +48,7 @@
   color: "#cd7ccd"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Security
   name: chat-radio-security
   keycode: 's'
@@ -49,6 +56,7 @@
   color: "#ff4242"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Service
   name: chat-radio-service
   keycode: 'v'
@@ -56,6 +64,7 @@
   color: "#539c00"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Supply
   name: chat-radio-supply
   keycode: 'u'
@@ -63,6 +72,7 @@
   color: "#b48b57"
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Syndicate
   name: chat-radio-syndicate
   keycode: 't'
@@ -71,6 +81,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Handheld
   name: chat-radio-handheld
   frequency: 1330
@@ -79,6 +90,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Binary
   name: chat-radio-binary
   keycode: 'b'
@@ -88,6 +100,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Freelance
   name: chat-radio-freelance
   keycode: 'f'
@@ -97,6 +110,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Xenoborg
   name: chat-radio-xenoborg
   keycode: 'x'
@@ -106,6 +120,7 @@
   longRange: true
 
 - type: radioChannel
+  showInTTSOptions: false # Stories-TTS
   id: Mothership
   name: chat-radio-mothership
   keycode: 'l'

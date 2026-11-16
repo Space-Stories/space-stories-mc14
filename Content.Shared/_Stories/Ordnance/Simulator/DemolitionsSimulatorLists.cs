@@ -18,7 +18,7 @@ public static class DemolitionsSimulatorLists
         "CMXenoRavager",
         "RMCXenoCrusher",
         "CMXenoPraetorian",
-        "CMXenoBoiler",
+        "RMCXenoBoiler",
         "CMXenoQueen",
         "RMCXenoKing",
     };

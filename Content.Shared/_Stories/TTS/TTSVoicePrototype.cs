@@ -17,25 +17,28 @@ public sealed class TTSVoicePrototype : IPrototype
     /// List of categories forbidden to use this voice (e.g., "Human", "Hunter", "Xeno").
     /// If null or empty, available to everyone.
     /// </summary>
-    [DataField("blacklist")]
-    public HashSet<string>? Blacklist;
+    [DataField]
+    public HashSet<string>? Blacklist { get; private set; }
 
-    [DataField("name")]
-    public string Name { get; } = string.Empty;
+    [DataField]
+    public string Name { get; private set; } = string.Empty;
 
-    [DataField("sex", required: true)]
-    public Sex Sex { get; }
+    [DataField(required: true)]
+    public Sex Sex { get; private set; }
 
     [ViewVariables(VVAccess.ReadWrite)]
-    [DataField("speaker", required: true)]
-    public string Speaker { get; } = string.Empty;
+    [DataField(required: true)]
+    public string Speaker { get; private set; } = string.Empty;
 
     /// <summary>
     /// Whether the species is available "at round start" (In the character editor)
     /// </summary>
-    [DataField("roundStart")]
-    public bool RoundStart { get; } = true;
+    [DataField]
+    public bool RoundStart { get; private set; } = true;
 
-    [DataField("sponsorOnly")]
-    public bool SponsorOnly { get; }
+    [DataField]
+    public bool SponsorOnly { get; private set; }
+
+    [DataField]
+    public string Category { get; private set; } = "Uncategorized";
 }

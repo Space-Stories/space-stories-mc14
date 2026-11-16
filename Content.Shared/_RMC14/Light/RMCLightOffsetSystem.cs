@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Content.Shared._RMC14.Sprite;
 using Robust.Shared.Network;
 
@@ -9,23 +9,31 @@ public sealed class RMCLightOffsetSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedRMCSpriteSystem _sprite = default!;
 
-    protected readonly HashSet<EntityUid> ToUpdate = new();
-
+    private readonly HashSet<EntityUid> ToUpdate = new();
 
     public override void Initialize()
     {
+        SubscribeLocalEvent<RMCLightOffsetComponent, ComponentStartup>(OnLightStartup);
         SubscribeLocalEvent<RMCLightOffsetComponent, MapInitEvent>(OnLightUpdate);
         SubscribeLocalEvent<RMCLightOffsetComponent, EntParentChangedMessage>(OnLightUpdate);
+        SubscribeLocalEvent<RMCLightOffsetComponent, MoveEvent>(OnLightMove); // Stories-LightOffset
+    }
+
+    // Stories-LightOffset-Start
+    private void OnLightMove(Entity<RMCLightOffsetComponent> ent, ref MoveEvent args)
+    {
+        if (args.NewRotation != args.OldRotation)
+            OffsetLight(ent);
+    }
+    // Stories-LightOffset-End
+
+    private void OnLightStartup(Entity<RMCLightOffsetComponent> ent, ref ComponentStartup args)
+    {
+        OffsetLight(ent);
     }
 
     private void OnLightUpdate<T>(Entity<RMCLightOffsetComponent> ent, ref T args)
     {
-        if (!TryComp(ent, out MetaDataComponent? metaData) ||
-            metaData.EntityLifeStage < EntityLifeStage.MapInitialized)
-        {
-            return;
-        }
-
         ToUpdate.Add(ent);
 
         if (_net.IsClient)
@@ -34,8 +42,13 @@ public sealed class RMCLightOffsetSystem : EntitySystem
         if (TerminatingOrDeleted(ent))
             return;
 
+        OffsetLight(ent);
+    }
+
+    private void OffsetLight(Entity<RMCLightOffsetComponent> ent)
+    {
         var sprite = EnsureComp<SpriteSetRenderOrderComponent>(ent);
-        switch (Transform(ent).LocalRotation.GetDir())
+        switch (Transform(ent).LocalRotation.GetCardinalDir()) // Stories-LightOffset
         {
             case Direction.South:
                 _sprite.SetOffset(ent, new Vector2(0.45f, -0.32f));

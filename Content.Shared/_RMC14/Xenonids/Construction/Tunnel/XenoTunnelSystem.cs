@@ -2,9 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Areas;
+using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.Water;
 using Content.Shared._RMC14.Xenonids.Devour;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Plasma;
@@ -46,6 +48,7 @@ public sealed class XenoTunnelSystem : EntitySystem
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly AreaSystem _area = default!;
+    [Dependency] private readonly RMCC4DisarmableSystem _c4Disarm = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
@@ -77,17 +80,21 @@ public sealed class XenoTunnelSystem : EntitySystem
         "omega",
     };
 
+    private EntityQuery<RMCWaterComponent> _rmcWaterQuery;
+
     private int NextTempTunnelId { get; set; }
 
     public override void Initialize()
     {
         base.Initialize();
 
+        _rmcWaterQuery = GetEntityQuery<RMCWaterComponent>();
+
         SubscribeLocalEvent<XenoComponent, XenoDigTunnelActionEvent>(OnCreateTunnel);
         SubscribeLocalEvent<XenoComponent, XenoPlaceResinTunnelDestroyWeedSourceDoAfterEvent>(OnCompleteRemoveWeedSource);
         SubscribeLocalEvent<XenoComponent, XenoDigTunnelDoAfter>(OnFinishCreateTunnel);
 
-        SubscribeLocalEvent<XenoTunnelComponent, InteractHandEvent>(OnInteract);
+        SubscribeLocalEvent<XenoTunnelComponent, ActivateInWorldEvent>(OnActivateInWorld);
         SubscribeLocalEvent<XenoTunnelComponent, GetVerbsEvent<InteractionVerb>>(OnGetInteractVerbs);
         SubscribeLocalEvent<XenoTunnelComponent, ContainerRelayMovementEntityEvent>(OnAttemptMoveInTunnel);
         SubscribeLocalEvent<XenoTunnelComponent, TraverseXenoTunnelMessage>(OnMoveThroughTunnel);
@@ -417,7 +424,7 @@ public sealed class XenoTunnelSystem : EntitySystem
         args.Verbs.Add(interactVerb);
     }
 
-    private void OnInteract(Entity<XenoTunnelComponent> xenoTunnel, ref InteractHandEvent args)
+    private void OnActivateInWorld(Entity<XenoTunnelComponent> xenoTunnel, ref ActivateInWorldEvent args)
     {
         if (args.Handled)
             return;
@@ -635,6 +642,10 @@ public sealed class XenoTunnelSystem : EntitySystem
             return;
         }
 
+        _c4Disarm.TryStartContainedMultitoolDisarm(xenoTunnel.Owner, ref args);
+        if (args.Handled)
+            return;
+
         var tool = args.Used;
         if (TryComp(tool, out XenoTunnelFillerComponent? tunnelFillerComp))
         {
@@ -782,6 +793,22 @@ public sealed class XenoTunnelSystem : EntitySystem
 
         if (!canPlaceStructure)
         {
+            if (popupType == "rmc-xeno-construction-blocked" &&
+                _transform.GetGrid(coords) is { } waterGridId &&
+                TryComp(waterGridId, out MapGridComponent? waterGridComp))
+            {
+                var waterTile = _map.GetTileRef(waterGridId, waterGridComp, coords);
+                var waterAnchored = _map.GetAnchoredEntitiesEnumerator(waterGridId, waterGridComp, waterTile.GridIndices);
+                while (waterAnchored.MoveNext(out var uid))
+                {
+                    if (_rmcWaterQuery.HasComp(uid))
+                    {
+                        popupType = "rmc-xeno-construction-bad-area";
+                        break;
+                    }
+                }
+            }
+
             popupType += "-tunnel";
             _popup.PopupClient(Loc.GetString(popupType), user, user, PopupType.SmallCaution);
             return false;

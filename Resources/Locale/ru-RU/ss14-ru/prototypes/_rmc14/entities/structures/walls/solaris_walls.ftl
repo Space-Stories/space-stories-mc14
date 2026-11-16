@@ -8,4 +8,4 @@ ent-CMWallSolarisRock = скала
     .desc = Крепкие на вид стены, которые со дня своего возведения подверглись воздействию песка. Свидетельство человеческой силы воли.
 ent-RMCWallSolarisRockTimed = { ent-CMWallSolarisRock }
     .desc = { ent-CMWallSolarisRock.desc }
-    .suffix = Сроки
+    .suffix = Временный

@@ -4,11 +4,13 @@ using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Plasma;
 using Content.Shared.Actions;
+using Content.Shared.Actions.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Popups;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Xenonids.Word;
@@ -18,6 +20,7 @@ public sealed class XenoWordQueenSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedCMChatSystem _cmChat = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
@@ -45,7 +48,6 @@ public sealed class XenoWordQueenSystem : EntitySystem
         if (args.Handled)
             return;
 
-        args.Handled = true;
         _ui.TryOpenUi(queen.Owner, XenoWordQueenUI.Key, queen);
     }
 
@@ -57,10 +59,13 @@ public sealed class XenoWordQueenSystem : EntitySystem
         if (string.IsNullOrWhiteSpace(text))
             return;
 
+        if (!CanSend(queen))
+            return;
+
         if (!_xenoPlasma.HasPlasmaPopup(queen.Owner, queen.Comp.PlasmaCost))
             return;
 
-        if (_hive.GetHive(queen.Owner) is not {} hive)
+        if (_hive.GetHive(queen.Owner) is not { } hive)
         {
             _popup.PopupClient(Loc.GetString("cm-xeno-words-of-the-queen-nobody-hear-you"), queen, queen, PopupType.LargeCaution);
             return;
@@ -84,14 +89,20 @@ public sealed class XenoWordQueenSystem : EntitySystem
 
         _xenoPlasma.TryRemovePlasma(queen.Owner, queen.Comp.PlasmaCost);
 
-        text = _newLineRegex.Replace(text, "\n\n");
+        // Stories-TTS-Start
+        text = Regex.Replace(text, @"\[/?.*?\]", "");
         text = _cmChat.SanitizeMessageReplaceWords(queen, text);
+        text = _newLineRegex.Replace(text, "\n\n");
+
         var headerText = Loc.GetString("rmc-xeno-words-of-the-queen-header");
         var wrapped = FormattedMessage.EscapeText(text);
-        var header = $"{_xenoAnnounce.WrapHive(headerText)}";
+        var header = $"{_xenoAnnounce.WrapHive(headerText)}\n";
         var message = $"{header}[color=red][font size=14][bold]{wrapped}[/bold][/font][/color]";
 
         _xenoAnnounce.Announce(queen, xenos, text, message, queen.Comp.Sound);
+
+        RaiseLocalEvent(new XenoWordQueenSpokenEvent(queen.Owner, text, xenos));
+        // Stories-TTS-End
 
         foreach (var (actionId, _) in _actions.GetActions(queen))
         {
@@ -99,4 +110,36 @@ public sealed class XenoWordQueenSystem : EntitySystem
                 _actions.StartUseDelay(actionId);
         }
     }
+
+    private bool CanSend(EntityUid queen)
+    {
+        foreach (var (actionId, action) in _actions.GetActions(queen))
+        {
+            if (!HasComp<XenoWordQueenActionComponent>(actionId))
+                continue;
+
+            if (!action.Enabled || _actions.IsCooldownActive(action, _timing.CurTime))
+                return false;
+
+            return true;
+        }
+
+        return false;
+    }
 }
+
+// Stories-TTS-Start
+public sealed class XenoWordQueenSpokenEvent : EntityEventArgs
+{
+    public EntityUid Source;
+    public string Message;
+    public Filter Filter;
+
+    public XenoWordQueenSpokenEvent(EntityUid source, string message, Filter filter)
+    {
+        Source = source;
+        Message = message;
+        Filter = filter;
+    }
+}
+// Stories-TTS-End

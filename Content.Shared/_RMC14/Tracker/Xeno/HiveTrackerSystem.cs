@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Dialog;
+using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Tracker.SquadLeader;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Egg;
@@ -232,6 +232,17 @@ public sealed class HiveTrackerSystem : EntitySystem
         _alerts.ShowAlert(ent.Owner, alert, severity);
     }
 
+    public void SetTrackerTarget(EntityUid uid, EntityUid? target, ProtoId<TrackerModePrototype>? mode = null)
+    {
+        if (!TryComp(uid, out HiveTrackerComponent? tracker))
+            return;
+
+        tracker.Target = target;
+        if (mode != null)
+            tracker.Mode = mode;
+        Dirty(uid, tracker);
+    }
+
     private void OnRequestTrackableName(Entity<RMCTrackableComponent> ent, ref RequestTrackableNameEvent args)
     {
         if (args.Handled)
@@ -274,6 +285,13 @@ public sealed class HiveTrackerSystem : EntitySystem
         var query = EntityQueryEnumerator<HiveTrackerComponent>();
         while (query.MoveNext(out var uid, out var tracker))
         {
+            // Stories-FixDeletedTrackerTarget-Start
+            if (tracker.Target is { } currentTarget && (TerminatingOrDeleted(currentTarget) || !Exists(currentTarget)))
+            {
+                SetTarget((uid, tracker), null);
+            }
+            // Stories-FixDeletedTrackerTarget-End
+
             if (time < tracker.UpdateAt)
                 continue;
 

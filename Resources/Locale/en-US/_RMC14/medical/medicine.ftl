@@ -37,6 +37,9 @@ reagent-desc-cmleporazine = A drug used to treat hypothermia and hyperthermia. S
 reagent-name-cmtricordrazine = Tricordrazine
 reagent-desc-cmtricordrazine = Tricordrazine is a highly potent stimulant, originally derived from cordrazine. Can be used to treat a wide range of injuries.
 
+reagent-name-rmcultrazine = Ultrazine
+reagent-desc-rmcultrazine = A highly-potent, long-lasting combination CNS and muscle stimulant. Extremely addictive.
+
 reagent-name-cmmeralyne = Meralyne
 reagent-desc-cmmeralyne = Advanced analgesic medication used to treat extremely severe blunt trauma. Allows the body to quickly repair damaged tissue. Overdosing on Meralyne can cause severe corrosion to cell membranes.
 
@@ -47,7 +50,7 @@ reagent-name-cmclonexadone = Clonexadone
 reagent-desc-cmclonexadone = Advanced cryogenic medicine made from cryoxadone. Treats most types of tissue damage. Requires temperatures below 170K to to metabolise correctly.
 
 reagent-name-rmcrussianred = Russian Red
-reagent-desc-rmcrussianred = An emergency radiation treatment. The list of potential side effects include retinal damage and unconsciousness.
+reagent-desc-rmcrussianred = An emergency radiation treatment. The list of potential side effects includes retinal damage and unconsciousness.
 
 # Medical Icon Labels
 rmc-tricordazine-container-label-text = TI
@@ -66,6 +69,8 @@ rmc-russianred-container-label-text = Rr
 rmc-imidazoline-container-label-text = IM
 rmc-dermaline-container-label-text = DE
 rmc-iron-container-label-text = Fe
+rmc-happy-container-label-text = :)
+rmc-mystery-container-label-text = ??
 
 rmc-custom-container-label-text = {$customLabel}
 

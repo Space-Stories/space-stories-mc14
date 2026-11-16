@@ -19,6 +19,9 @@ public sealed class ItemThrowingTest : InteractionTest
         // Setup entities
         var egg = await PlaceInHands("FoodEgg");
         await SpawnTarget("WallSolid");
+        await Server.WaitPost(() => {
+            Server.System<Robust.Server.GameObjects.TransformSystem>().SetCoordinates(STarget!.Value, SEntMan.GetCoordinates(TargetCoords).Offset(new System.Numerics.Vector2(0.5f, 0f)));
+        });
         await RunTicks(5);
         AssertExists(egg);
 

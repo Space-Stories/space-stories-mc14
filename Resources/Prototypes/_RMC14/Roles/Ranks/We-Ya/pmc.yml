@@ -42,7 +42,7 @@
 
 - type: rank
   id: RMCRankWeYaTraumaSurgeon
-  name: Trauma Surgeon
+  name: Хирург-травматолог
   prefix: Док.
   paygrade: ЧВК-ДОК
 
@@ -72,8 +72,8 @@
 
 - type: rank
   id: RMCRankWeYaPMCSynthetic
-  name: Synthetic
-  prefix: SYN.
+  name: Синтетик
+  prefix: Син.
   paygrade: PMC-SYN
 
 - type: rank
@@ -84,14 +84,14 @@
 
 - type: rank
   id: RMCRankWeYaFieldOperaionsLeader
-  name: Field Operations Leader
-  prefix: FOL.
+  name: Руководитель полевых операций
+  prefix: РПО.
   paygrade: PMC-FOL
 
 - type: rank
   id: RMCRankWeYaForceLeader
-  name: Force Leader
-  prefix: FL.
+  name: Командир сил
+  prefix: КС.
   paygrade: PMC-FL
 
 - type: rank
@@ -114,6 +114,6 @@
 
 - type: rank
   id: RMCRankWeYaWhiteout
-  name: Whiteout Team Combat Unit
+  name: Боевая единица Whiteout
   prefix: WO.
   paygrade: ???

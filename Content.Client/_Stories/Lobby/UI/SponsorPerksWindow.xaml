@@ -1,0 +1,20 @@
+<controls:FancyWindow
+    xmlns="https://spacestation14.io"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    xmlns:s="clr-namespace:Content.Client.Stylesheets"
+    x:Class="Content.Client._Stories.Lobby.UI.SponsorPerksWindow"
+    SetSize="600 500"
+    MinSize="600 500"
+    MaxSize="600 500"
+>
+    <BoxContainer Orientation="Vertical" Margin="12" SeparationOverride="10" VerticalExpand="True">
+
+        <Label Text="{Loc 'stories-sponsor-perks-title'}" FontColorOverride="{x:Static s:StyleNano.NanoGold}" StyleClasses="LabelHeadingBigger" HorizontalAlignment="Center"/>
+        <controls:HLine Color="{x:Static s:StyleNano.NanoGold}" Thickness="2" />
+
+        <RichTextLabel Name="PerksText" VerticalExpand="True" Margin="5" />
+
+        <Button Name="BoostyLinkButton" Text="{Loc 'stories-ui-lobby-boosty-button'}" StyleClasses="ButtonBigOrange" HorizontalExpand="True" MinHeight="40" />
+    </BoxContainer>
+</controls:FancyWindow>

@@ -1,4 +1,4 @@
-﻿using Content.Client.Administration.Managers;
+using Content.Client.Administration.Managers;
 using Content.Shared.CCVar;
 using Robust.Client;
 using Robust.Client.UserInterface;
@@ -18,11 +18,17 @@ internal sealed class DebugMonitorManager
 
     public void FrameUpdate()
     {
-        if (_baseClient.RunLevel == ClientRunLevel.InGame
-            && !_admin.IsActive()
-            && _cfg.GetCVar(CCVars.DebugCoordinatesAdminOnly))
+        // Stoires-DebugMonitors-Start
+        if (_baseClient.RunLevel == ClientRunLevel.InGame && !_admin.IsActive())
         {
-            _userInterface.DebugMonitors.SetMonitor(DebugMonitor.Coords, false);
+            if (_cfg.GetCVar(CCVars.DebugCoordinatesAdminOnly))
+            {
+                _userInterface.DebugMonitors.SetMonitor(DebugMonitor.Coords, false);
+            }
+
+            _userInterface.DebugMonitors.SetMonitor(DebugMonitor.Time, false);
+            _userInterface.DebugMonitors.SetMonitor(DebugMonitor.Prof, false);
         }
+        // Stoires-DebugMonitors-End
     }
 }

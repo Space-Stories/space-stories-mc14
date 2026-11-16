@@ -17,9 +17,9 @@
   - type: Sprite
     state: tires
   - type: HardpointItem
-    hardpointType: Wheel
-    vehicleFamily: Humvee
-    slotType: Wheel
+    hardpointType: HardpointTypeWheel
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeWheel
     damageMultiplier: 0.15
     repairRate: 0.0165
   - type: HardpointIntegrity
@@ -35,13 +35,14 @@
   - type: Sprite
     state: humveeturret
   - type: HardpointItem
-    hardpointType: Turret
-    vehicleFamily: Humvee
-    slotType: Turret
+    hardpointType: HardpointTypeTurret
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeTurret
     damageMultiplier: 0.15
     repairRate: 0.008
   - type: HardpointIntegrity
     maxIntegrity: 100
+    integrity: 100
   - type: VehicleTurret
     rotateToCursor: true
     stabilizedRotation: false
@@ -50,10 +51,15 @@
     useDirectionalOffsets: true
     overlayRsi: _RMC14/Structures/Vehicles/humvee.rsi
     overlayState: humveeturret_0
+    overlayDamagedState: humveeturret_1
     pixelOffsetNorth: "0,4"
     pixelOffsetEast: "-6,16"
     pixelOffsetSouth: "0,15"
     pixelOffsetWest: "6,16"
+  - type: ContainerContainer
+    containers:
+      turret-cannon: !type:ContainerSlot
+      turret-launcher: !type:ContainerSlot
   - type: ItemSlots
     slots:
       turret-cannon:
@@ -66,17 +72,18 @@
         whitelist:
           components:
           - HardpointItem
+  - type: HardpointState
   - type: HardpointSlots
-    vehicleFamily: Humvee
+    vehicleFamily: HardpointVehicleFamilyHumvee
     slots:
     - id: turret-cannon
-      hardpointType: Cannon
-      slotType: Cannon
+      hardpointType: HardpointTypeCannon
+      slotType: HardpointSlotTypeCannon
       required: false
       insertDelay: 2.0
     - id: turret-launcher
-      hardpointType: Launcher
-      slotType: Launcher
+      hardpointType: HardpointTypeLauncher
+      slotType: HardpointSlotTypeLauncher
       required: false
       insertDelay: 2.0
 
@@ -129,9 +136,9 @@
   - type: Sprite
     state: humveecannon
   - type: HardpointItem
-    hardpointType: Cannon
-    vehicleFamily: Humvee
-    slotType: Cannon
+    hardpointType: HardpointTypeCannon
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeCannon
     damageMultiplier: 0.1
     repairRate: 0.01
   - type: HardpointIntegrity
@@ -141,7 +148,8 @@
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/humvee.rsi
     overlayState: humveecannon_0
-    fireWhileRotatingGraceDegrees: 20
+    overlayDamagedState: humveecannon_1
+    fireWhileRotatingGraceDegrees: 180
     useBarrelDirectionForShots: true
     maxShotCurvatureDegrees: 10
   - type: GunUseGunOrigin
@@ -180,6 +188,7 @@
     useContainerOwner: false
   - type: HardpointVisual
     vehicleState: humveecannon_0
+    damagedVehicleState: humveecannon_1
 
 - type: entity
   parent: VehicleHumveeCannon
@@ -204,23 +213,26 @@
   - type: Sprite
     state: humveelauncher
   - type: HardpointItem
-    hardpointType: Launcher
-    vehicleFamily: Humvee
-    slotType: Launcher
+    hardpointType: HardpointTypeLauncher
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeLauncher
     damageMultiplier: 0.0
     repairRate: 0.0125
   - type: HardpointIntegrity
     maxIntegrity: 100
   - type: VehicleTurretAttachment
   - type: VehicleTurret
+    fireWhileRotatingGraceDegrees: 180
+    useBarrelDirectionForShots: true
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/humvee.rsi
     overlayState: humveelauncher_0
+    overlayDamagedState: humveelauncher_1
   - type: HardpointVisual
     vehicleState: humveelauncher_0
+    damagedVehicleState: humveelauncher_1
   - type: GunUseGunOrigin
   - type: GunIgnoreContainerOwnerCollision
-  - type: GunIgnorePrediction
   - type: Gun
     fireRate: 0.7
     projectileSpeed: 18
@@ -245,7 +257,7 @@
   - type: GunFireArc
     arc: 120
   - type: RefillableByBulletBox
-    bulletType: VehicleAmmoBoxGrenadeLauncher
+    bulletType: VehicleAmmoBoxSmokeLauncher
 
 - type: entity
   parent: VehicleHumveeHardpointBase
@@ -256,15 +268,16 @@
   - type: Sprite
     state: snowplow
   - type: HardpointItem
-    hardpointType: FrontAttachment
-    vehicleFamily: Humvee
-    slotType: FrontAttachment
+    hardpointType: HardpointTypeFrontAttachment
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeFrontAttachment
     damageMultiplier: 0.075
     repairRate: 0.0125
   - type: HardpointIntegrity
     maxIntegrity: 100
   - type: HardpointVisual
     vehicleState: snowplow_0
+    damagedVehicleState: snowplow_1
 
 - type: entity
   parent: VehicleHumveeHardpointBase
@@ -275,9 +288,9 @@
   - type: Sprite
     state: overlight
   - type: HardpointItem
-    hardpointType: RoofAttachment
-    vehicleFamily: Humvee
-    slotType: RoofAttachment
+    hardpointType: HardpointTypeRoofAttachment
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeRoofAttachment
     damageMultiplier: 0.1
     repairRate: 0.0125
   - type: HardpointIntegrity
@@ -286,6 +299,7 @@
     radiusMultiplier: 2.0
   - type: HardpointVisual
     vehicleState: overlight_0
+    damagedVehicleState: overlight_1
 
 - type: entity
   parent: VehicleHumveeHardpointBase
@@ -296,9 +310,9 @@
   - type: Sprite
     state: humveehatch
   - type: HardpointItem
-    hardpointType: RoofAttachment
-    vehicleFamily: Humvee
-    slotType: RoofAttachment
+    hardpointType: HardpointTypeRoofAttachment
+    vehicleFamily: HardpointVehicleFamilyHumvee
+    slotType: HardpointSlotTypeRoofAttachment
     damageMultiplier: 0.075
     repairRate: 0.0125
   - type: HardpointIntegrity

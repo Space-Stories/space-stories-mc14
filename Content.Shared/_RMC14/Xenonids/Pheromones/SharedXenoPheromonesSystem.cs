@@ -32,20 +32,20 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
-    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IParallelManager _parallel = default!;
-    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
-    [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private readonly SharedRMCDamageableSystem _rmcDamageable = default!;
     [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
-    [Dependency] private readonly IPrototypeManager _protoManager = default!;
+    [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
 
     private readonly TimeSpan _pheromonePlasmaUseDelay = TimeSpan.FromSeconds(1);
 
@@ -68,6 +68,7 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
 
         SubscribeLocalEvent<XenoPheromonesComponent, XenoPheromonesActionEvent>(OnXenoPheromonesAction);
         SubscribeLocalEvent<XenoPheromonesComponent, PlayerDetachedEvent>(OnXenoPheromonesDetached);
+        SubscribeNetworkEvent<XenoPheromonesKeybindEvent>(OnXenoPheromonesKeybind);
 
         SubscribeLocalEvent<XenoWardingPheromonesComponent, UpdateMobStateEvent>(OnWardingUpdateMobState,
             after: [typeof(MobThresholdSystem)]);
@@ -110,10 +111,31 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
 
     private void OnXenoPheromonesChosenBui(Entity<XenoPheromonesComponent> xeno, ref XenoPheromonesChosenBuiMsg args)
     {
-        if (!Enum.IsDefined(args.Pheromones) ||
-            !_xenoPlasma.TryRemovePlasmaPopup(xeno.Owner, xeno.Comp.PheromonesPlasmaCost))
+        TrySetPheromones(xeno, args.Pheromones);
+    }
+
+    private void OnXenoPheromonesKeybind(XenoPheromonesKeybindEvent args, EntitySessionEventArgs session)
+    {
+        if (_net.IsClient ||
+            session.SenderSession.AttachedEntity is not { } user ||
+            !TryComp(user, out XenoPheromonesComponent? pheromones))
         {
             return;
+        }
+
+        TrySetPheromones((user, pheromones), args.Pheromones, closeUi: false);
+    }
+
+    public bool TrySetPheromones(
+        Entity<XenoPheromonesComponent> xeno,
+        XenoPheromones pheromones,
+        bool closeUi = true)
+    {
+        if (!Enum.IsDefined(pheromones) ||
+            !_mobState.IsAlive(xeno.Owner) ||
+            !_xenoPlasma.TryRemovePlasmaPopup(xeno.Owner, xeno.Comp.PheromonesPlasmaCost))
+        {
+            return false;
         }
 
         foreach (var action in _rmcActions.GetActionsWithEvent<XenoPheromonesActionEvent>(xeno))
@@ -121,25 +143,27 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
             _actions.SetToggled(action.AsNullable(), true);
         }
 
-        var popup = Loc.GetString("cm-xeno-pheromones-start", ("pheromones", args.Pheromones.ToString()));
+        var popup = Loc.GetString("cm-xeno-pheromones-start", ("pheromones", pheromones.ToString()));
         _popup.PopupClient(popup, xeno, xeno);
 
-        _ui.CloseUi(xeno.Owner, XenoPheromonesUI.Key, xeno);
+        if (closeUi)
+            _ui.CloseUi(xeno.Owner, XenoPheromonesUI.Key, xeno);
 
         if (_net.IsClient)
-            return;
+            return true;
 
         xeno.Comp.NextPheromonesPlasmaUse = _timing.CurTime + _pheromonePlasmaUseDelay;
         Dirty(xeno);
 
         var active = EnsureComp<XenoActivePheromonesComponent>(xeno);
-        active.Pheromones = args.Pheromones;
+        active.Pheromones = pheromones;
         Dirty(xeno, active);
 
         var ev = new XenoPheromonesActivatedEvent();
         RaiseLocalEvent(xeno, ref ev);
 
         _entityLookup.GetEntitiesInRange(xeno.Owner.ToCoordinates(), xeno.Comp.PheromonesRange, active.Receivers);
+        return true;
     }
 
     private void OnWardingUpdateMobState(Entity<XenoWardingPheromonesComponent> warding, ref UpdateMobStateEvent args)
@@ -223,6 +247,13 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
     private void AssignMaxMultiplier(ref FixedPoint2 a, FixedPoint2 b)
     {
         a = FixedPoint2.Max(a, b);
+    }
+
+    private void MaybeCapPheromones(ref FixedPoint2 multiplier, EntityUid ent, XenoPheromones pheros)
+    {
+        if (TryComp<XenoCappedPheromonesComponent>(ent, out var capped) &&
+            capped.CappedPheromones.ContainsKey(pheros))
+            multiplier = FixedPoint2.Min(multiplier, capped.CappedPheromones[pheros]);
     }
 
     public void DeactivatePheromones(Entity<XenoPheromonesComponent?> xeno)
@@ -395,6 +426,8 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                         oldRecovery.Remove(receiver);
                         var recovery = EnsureComp<XenoRecoveryPheromonesComponent>(receiver);
                         AssignMaxMultiplier(ref recovery.Multiplier, pheromones.PheromonesMultiplier);
+
+                        MaybeCapPheromones(ref recovery.Multiplier, receiver, XenoPheromones.Recovery);
                     }
 
                     break;
@@ -410,6 +443,8 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                         oldWarding.Remove(receiver);
                         var warding = EnsureComp<XenoWardingPheromonesComponent>(receiver);
                         AssignMaxMultiplier(ref warding.Multiplier, pheromones.PheromonesMultiplier);
+
+                        MaybeCapPheromones(ref warding.Multiplier, receiver, XenoPheromones.Warding);
                     }
 
                     break;
@@ -426,6 +461,8 @@ public abstract class SharedXenoPheromonesSystem : EntitySystem
                         var frenzy = EnsureComp<XenoFrenzyPheromonesComponent>(receiver);
                         var old = frenzy.Multiplier;
                         AssignMaxMultiplier(ref frenzy.Multiplier, pheromones.PheromonesMultiplier);
+
+                        MaybeCapPheromones(ref frenzy.Multiplier, receiver, XenoPheromones.Frenzy);
 
                         if (frenzy.Multiplier != old)
                             _refreshSpeeds.Add(receiver);

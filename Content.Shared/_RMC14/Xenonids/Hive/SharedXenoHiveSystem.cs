@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.NightVision;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Evolution;
+using Content.Shared._RMC14.Xenonids.HiveLeader;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
@@ -42,8 +44,8 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     [Dependency] private readonly PullingSystem _pulling = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly XenoSystem _xeno = default!;
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
+    [Dependency] private readonly XenoSystem _xeno = default!;
 
     private EntityQuery<HiveComponent> _query;
     private EntityQuery<HiveMemberComponent> _memberQuery;
@@ -63,6 +65,7 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         SubscribeLocalEvent<HiveComponent, MapInitEvent>(OnMapInit);
 
         SubscribeLocalEvent<XenoEvolutionGranterComponent, MobStateChangedEvent>(OnGranterMobStateChanged);
+        SubscribeLocalEvent<XenoEvolutionGranterComponent, EntityTerminatingEvent>(OnGranterTerminating);
 
         SubscribeLocalEvent<AutoAssignHiveComponent, ComponentStartup>(OnAutoAssignHiveAdded);
 
@@ -112,14 +115,15 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         if (args.NewMobState != MobState.Dead)
             return;
 
-        if (GetHive(ent.Owner) is { } hive)
-        {
-            hive.Comp.LastQueenDeath = _timing.CurTime;
-            hive.Comp.CurrentQueen = null;
-            hive.Comp.AnnouncedQueenDeathCooldownOver = false;
-            hive.Comp.NewQueenAt = _timing.CurTime + hive.Comp.NewQueenCooldown;
-            Dirty(hive);
-        }
+        ClearHiveQueen(ent.Owner, died: true);
+    }
+
+    private void OnGranterTerminating(Entity<XenoEvolutionGranterComponent> ent, ref EntityTerminatingEvent args)
+    {
+        if (_mobState.IsDead(ent))
+            return;
+
+        ClearHiveQueen(ent.Owner);
     }
 
     private void OnMapInit(Entity<HiveComponent> ent, ref MapInitEvent args)
@@ -214,6 +218,14 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         comp.Hive = hive;
         Dirty(member, comp);
 
+        if (HasComp<XenoEvolutionGranterComponent>(member) &&
+            old is { } oldHiveUid &&
+            _query.TryComp(oldHiveUid, out var oldHiveComp) &&
+            oldHiveComp.CurrentQueen == member.Owner)
+        {
+            ClearHiveQueen((oldHiveUid, oldHiveComp));
+        }
+
         if (HasComp<XenoEvolutionGranterComponent>(member) && hiveEnt.HasValue)
             SetHiveQueen(member, hiveEnt.Value);
 
@@ -263,14 +275,58 @@ public abstract class SharedXenoHiveSystem : EntitySystem
 
     public bool SetHiveQueen(EntityUid queen, Entity<HiveComponent> hive)
     {
+        if (hive.Comp.CurrentQueen == queen)
+            return true;
+
         hive.Comp.CurrentQueen = queen;
         Dirty(hive);
+
+        var ev = new XenoHiveQueenChangedEvent();
+        RaiseLocalEvent(hive.Owner, ref ev);
         return true;
+    }
+
+    private void ClearHiveQueen(EntityUid queen, bool died = false)
+    {
+        if (GetHive(queen) is not { } hive || hive.Comp.CurrentQueen != queen)
+            return;
+
+        ClearHiveQueen(hive, died);
+    }
+
+    private void ClearHiveQueen(Entity<HiveComponent> hive, bool died = false)
+    {
+        hive.Comp.CurrentQueen = null;
+
+        if (died)
+        {
+            hive.Comp.LastQueenDeath = _timing.CurTime;
+            hive.Comp.AnnouncedQueenDeathCooldownOver = false;
+            hive.Comp.AnnouncedNoQueenCooldownOver = false;
+            hive.Comp.NewQueenAt = _timing.CurTime + hive.Comp.NewQueenCooldown;
+        }
+
+        Dirty(hive);
+
+        var ev = new XenoHiveQueenChangedEvent();
+        RaiseLocalEvent(hive.Owner, ref ev);
     }
 
     public bool HasHiveCore(Entity<HiveComponent> hive)
     {
         return GetHiveCore(hive) is not null;
+    }
+
+    public bool TryGetHiveCore(EntityUid xeno, [NotNullWhen(true)] out EntityUid? core)
+    {
+        if (GetHive(xeno) is not { } hive || GetHiveCore(hive) is not { } coreEnt)
+        {
+            core = null;
+            return false;
+        }
+
+        core = coreEnt;
+        return true;
     }
 
     public EntityUid? GetHiveCore(Entity<HiveComponent> hive)
@@ -296,6 +352,12 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     public bool TryGetStructureLimit(Entity<HiveComponent> hive, EntProtoId structureProtoId, out int limit)
     {
         return hive.Comp.HiveStructureSlots.TryGetValue(structureProtoId, out limit);
+    }
+
+    public void RecordGib(Entity<HiveComponent> hive, GibbedXenoInfo info)
+    {
+        hive.Comp.GibbedXenos.Add(info);
+        Dirty(hive);
     }
 
     public void SetSeeThroughContainers(Entity<HiveComponent?> hive, bool see)
@@ -354,24 +416,28 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         return hive.Comp.FreeSlots.TryGetValue(caste, out value);
     }
 
-    public void IncreaseBurrowedLarva(int amount)
+    public void ChangeBurrowedLarva(int amount)
     {
         var hives = EntityQueryEnumerator<HiveComponent>();
         while (hives.MoveNext(out var uid, out var hive))
         {
-            IncreaseBurrowedLarva((uid, hive), amount);
+            ChangeBurrowedLarva((uid, hive), amount);
         }
     }
 
-    public void IncreaseBurrowedLarva(Entity<HiveComponent> hive, int amount)
+    public void ChangeBurrowedLarva(Entity<HiveComponent> hive, int amount)
     {
         SetHiveBurrowedLarva(hive, hive.Comp.BurrowedLarva + amount);
     }
 
     private void SetHiveBurrowedLarva(Entity<HiveComponent> hive, int larva)
     {
+        var initialValue = hive.Comp.BurrowedLarva;
         hive.Comp.BurrowedLarva = larva;
         Dirty(hive);
+
+        if (larva >= initialValue)
+            RaiseLocalEvent(new BurrowedLarvaAddedEvent(GetNetEntity(hive), larva));
 
         var ev = new BurrowedLarvaChangedEvent(larva);
         RaiseLocalEvent(hive, ref ev, true);
@@ -417,7 +483,7 @@ public abstract class SharedXenoHiveSystem : EntitySystem
         if (larva == null)
             return false;
 
-        IncreaseBurrowedLarva(hive, -1);
+        ChangeBurrowedLarva(hive, -1);
 
         _xeno.MakeXeno(larva.Value);
         SetHive(larva.Value, hive);
@@ -477,6 +543,125 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     {
         // TODO RMC14
         return FromSameHive(a, b);
+    }
+
+    /// <summary>
+    /// Returns true if the queen has permitted harming infected hosts, per the hive's harming permission.
+    /// The queen and hive leaders always ignore the hive's permission.
+    /// </summary>
+    public bool CanXenoHarm(EntityUid xeno)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (xeno == hive.Comp.CurrentQueen || HasComp<HiveLeaderComponent>(xeno))
+            return true;
+
+        return hive.Comp.HarmPermission switch
+        {
+            XenoHarmPermission.Allowed => true,
+            XenoHarmPermission.Forbidden => false,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to place special hive structures (hive core, egg morpher, cluster,
+    /// recovery node, plasma tree), per the hive's construction permission.
+    /// </summary>
+    public bool CanXenoConstruct(EntityUid xeno)
+    {
+        return CanXenoBuildOrDestroy(xeno, hive => hive.Comp.ConstructionPermission);
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to destroy special hive structures, per the hive's deconstruction
+    /// permission. Ordinary structures (walls, doors, membranes) are not covered by this.
+    /// </summary>
+    public bool CanXenoDeconstruct(EntityUid xeno)
+    {
+        return CanXenoBuildOrDestroy(xeno, hive => hive.Comp.DeconstructionPermission);
+    }
+
+    private bool CanXenoBuildOrDestroy(EntityUid xeno, Func<Entity<HiveComponent>, XenoConstructionPermission> getPermission)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (xeno == hive.Comp.CurrentQueen)
+            return true;
+
+        return getPermission(hive) switch
+        {
+            XenoConstructionPermission.Anyone => true,
+            XenoConstructionPermission.Leaders => HasComp<HiveLeaderComponent>(xeno),
+            XenoConstructionPermission.Queen => false,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to unnest a host, per the hive's unnesting permission.
+    /// </summary>
+    public bool CanXenoUnnest(EntityUid xeno)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (hive.Comp.UnnestPermission == XenoUnnestPermission.Anyone)
+            return true;
+
+        return HasComp<XenoBuilderCasteComponent>(xeno);
+    }
+
+    /// <summary>
+    /// Returns true (and the remaining time) if a permission toggle on this hive is still on cooldown.
+    /// </summary>
+    public bool IsPermissionChangeOnCooldown(TimeSpan? changeAt, out TimeSpan remaining)
+    {
+        remaining = TimeSpan.Zero;
+        if (changeAt is not { } at || _timing.CurTime >= at)
+            return false;
+
+        remaining = at - _timing.CurTime;
+        return true;
+    }
+
+    public void SetHarmPermission(Entity<HiveComponent> hive, XenoHarmPermission value)
+    {
+        hive.Comp.HarmPermission = value;
+        hive.Comp.HarmPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetConstructionPermission(Entity<HiveComponent> hive, XenoConstructionPermission value)
+    {
+        hive.Comp.ConstructionPermission = value;
+        hive.Comp.ConstructionPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetDeconstructionPermission(Entity<HiveComponent> hive, XenoConstructionPermission value)
+    {
+        hive.Comp.DeconstructionPermission = value;
+        hive.Comp.DeconstructionPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetUnnestPermission(Entity<HiveComponent> hive, XenoUnnestPermission value)
+    {
+        hive.Comp.UnnestPermission = value;
+        hive.Comp.UnnestPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
     }
 }
 

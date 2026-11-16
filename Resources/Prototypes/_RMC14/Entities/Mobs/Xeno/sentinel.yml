@@ -11,11 +11,15 @@
   name: Sentinel
   description: A slithery, spitting kind of alien.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoSlowingSpit ]
+      XenoPrimaryTwo: [ ActionXenoScatteredSpit ]
+      XenoPrimaryThree: [ ActionXenoParalyzingSlash ]
+  - type: XenoBaseCaste
   - type: GuideHelp
     guides:
     - RMCGuideRoleSentinel
-  - type: GhostRole
-    name: cm-job-name-xeno-sentinel
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Sentinel/sentinel.rsi
     layers:
@@ -48,6 +52,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     role: CMXenoSentinel
     actionIds:

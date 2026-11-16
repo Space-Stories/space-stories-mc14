@@ -1,0 +1,156 @@
+- type: entity
+  parent:
+  - CMXenoDeveloped
+  - CMXenoTail
+  - CMXenoFlammable
+  - RMCXenoSpeechSounds
+  - RMCXenoMobCollision
+  id: STXenoPredalien
+  name: abomination
+  description: A monstrous fusion of hunter and hive. It hates hunters more than anything else alive.
+  components:
+  - type: Sprite
+    sprite: _Stories/Mobs/Xenos/Predalien/predalien.rsi
+  - type: MobState
+    allowedStates:
+    - Alive
+    - Critical
+    - Dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      650: Critical
+      750: Dead
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - FootstepSound
+    - STXenoPredalien
+  - type: Xeno
+    role: STXenoPredalien
+    actionIds:
+    - ActionXenoRest
+    - ActionXenoWatch
+    - ActionXenoTailStab
+    - ActionSTFeralRush
+    - ActionSTPredalienRoar
+    - ActionSTFeralSmash
+    - ActionSTFeralFrenzy
+    - ActionSTToggleGutTargeting
+    tier: 0
+    bypassTierCount: true
+    countedInSlots: false
+    unlockAt: 0
+    hudOffset: -0.1,0
+    emoteSounds: Predalien
+  - type: Speech
+    speechSounds: STPredalien
+    audioParams:
+      volume: -8
+  - type: STPredalien
+  - type: STFeralRush
+  - type: STPredalienRoar
+  - type: STFeralSmash
+  - type: STFeralFrenzy
+  - type: XenoLeap
+    range: 4
+    delay: 0
+    knockdownTime: 1
+    moveDelayTime: 0
+    plasmaCost: 0
+    leapSound: /Audio/_Stories/Voice/Predalien/predalien_pounce.ogg
+    damage:
+      groups:
+        Brute: 20
+  - type: CMArmor
+    xenoArmor: 30
+    explosionArmor: 100
+  - type: XenoClaws
+    clawType: VerySharp
+  - type: MeleeWeapon
+    attackRate: 1.18
+    damage:
+      groups:
+        Brute: 35
+  - type: XenoTailStab
+    tailDamage:
+      groups:
+        Brute: 48
+  - type: Tackle
+    min: 3
+    stunMin: 3
+    stunMax: 5
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 185
+        mask:
+        - MobMask
+        - BarbedBarricade
+        layer:
+        - MobLayer
+      fix2:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.40
+        density: 0
+        layer:
+        - BulletImpassable
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.2
+    baseSprintSpeed: 4
+  - type: MobMover
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: XenoFootstepLarge
+      params:
+        volume: -6
+  - type: SoundOnDeath
+    sound:
+      path: /Audio/_Stories/Voice/Predalien/predalien_death.ogg
+      params:
+        volume: -6
+  - type: XenoAnnounceDeath
+    message: st-xeno-death-predalien
+    color: "#921992"
+  - type: RMCSize
+    size: Big
+  - type: PreventPulledWhileAlive
+    whitelist:
+      components:
+      - Xeno
+    exceptEffects:
+    - Stun
+    - KnockedDown
+  - type: RMCXenoDamageVisuals
+    prefix: predalien
+  - type: FixedIdentity
+    name: st-job-name-xeno-predalien
+  - type: TacticalMapIcon
+    icon:
+      sprite: /Textures/_RMC14/Interface/map_blips.rsi
+      state: predalien
+    background:
+      sprite: /Textures/_RMC14/Interface/map_blips.rsi
+      state: xeno_ruler
+  - type: StunOnExplosionReceived
+    weak: false
+  - type: XenoOmitNumber
+  - type: RMCImmuneToFireTileDamage
+    bypassWhitelist:
+      components:
+      - RMCFireImmunityBypass
+  - type: RMCActionOrder
+    id: STXenoPredalien
+  - type: StunHostilesOnStep
+    damage:
+      groups:
+        Brute: 15
+    whitelist:
+      components:
+      - Hunter
+  - type: IntelRecoverCorpseObjectiveOnDeath
+    value: 1.4

@@ -132,8 +132,7 @@
     marines: true
     xenos: true
     liveUpdate: true
-
-
+  
 
 - type: entity
   abstract: true

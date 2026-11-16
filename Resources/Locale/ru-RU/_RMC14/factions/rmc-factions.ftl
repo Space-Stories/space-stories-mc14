@@ -1,0 +1,12 @@
+rmc-faction-name-unmc = КМП США
+rmc-faction-name-xeno = Ксеноморфы
+rmc-faction-name-spp = Союз Прогрессивных Народов
+rmc-faction-name-halcyon = ЧВК
+rmc-faction-name-clf = Колониально-освободительный фронт
+rmc-faction-name-we-ya = Вестон-Ямада
+rmc-faction-name-civilian = Выжившие
+rmc-faction-name-royal-marines = Королевская морская пехота
+rmc-faction-name-bureau = Бюро Колониальных Маршалов
+rmc-faction-name-tse = Империя Трех Солнц
+rmc-faction-name-provost = Провост
+rmc-faction-name-hefa = ОППГ

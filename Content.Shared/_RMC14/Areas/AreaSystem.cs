@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._RMC14.CCVar;
+using Content.Shared._RMC14.Components;
+using Content.Shared._RMC14.Dropship.Weapon;
 using Content.Shared._RMC14.GameStates;
 using Content.Shared._RMC14.Warps;
 using Content.Shared._RMC14.Xenonids.Construction;
@@ -18,7 +20,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Areas;
 
-public sealed class AreaSystem : EntitySystem
+public sealed partial class AreaSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -32,6 +34,8 @@ public sealed class AreaSystem : EntitySystem
     [Dependency] private readonly ITileDefinitionManager _tile = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedDropshipWeaponSystem _weapon = default!;
 
     private static readonly ProtoId<TagPrototype> WallTag = "Wall";
 
@@ -44,6 +48,7 @@ public sealed class AreaSystem : EntitySystem
     private EntityQuery<XenoConstructComponent> _xenoConstruct;
 
     private readonly List<EntityUid> _toRender = new();
+    private readonly HashSet<Entity<FlareSignalComponent>> _flareEnts = new();
 
     private TimeSpan _earlySpreadHiveTime;
 
@@ -58,14 +63,45 @@ public sealed class AreaSystem : EntitySystem
         _xenoConstruct = GetEntityQuery<XenoConstructComponent>();
 
         SubscribeLocalEvent<AreaGridComponent, MapInitEvent>(OnAreaGridMapInit);
+        SubscribeLocalEvent<RoofingEntityComponent, MapInitEvent>(OnRoofMapInit);
+        SubscribeLocalEvent<RoofingEntityComponent, EntityTerminatingEvent>(OnRoofRemoved);
 
         Subs.CVar(_config, RMCCVars.RMCHiveSpreadEarlyMinutes, v => _earlySpreadHiveTime = TimeSpan.FromMinutes(v), true);
+    }
+
+    private void UpdateRoof(Entity<RoofingEntityComponent> ent)
+    {
+        _flareEnts.Clear();
+        var roofCoords = _transform.GetMoverCoordinates(ent);
+        _lookup.GetEntitiesInRange(roofCoords, ent.Comp.Range, _flareEnts);
+
+        foreach (var foundEnt in _flareEnts)
+        {
+            if (HasComp<ActiveFlareSignalComponent>(foundEnt)) //This component indicates that the flare is arming, so we wait for that to update the visuals instead
+                continue;
+            _weapon.UpdateSignalFlareVisuals(foundEnt);
+        }
+    }
+
+    private void OnRoofMapInit(Entity<RoofingEntityComponent> ent, ref MapInitEvent args)
+    {
+        UpdateRoof(ent);
+    }
+
+    private void OnRoofRemoved(Entity<RoofingEntityComponent> ent, ref EntityTerminatingEvent args)
+    {
+        ent.Comp.CanCAS = true;
+        UpdateRoof(ent);
     }
 
     private void OnAreaGridMapInit(Entity<AreaGridComponent> ent, ref MapInitEvent args)
     {
         _toRender.Add(ent);
 
+        // Stories-ZLevels-Start
+        ent.Comp.AreaEntities.Clear();
+
+        // Stories-ZLevels-End
         var areas = ent.Comp.Areas.Values.DistinctBy(a => a.Id);
         foreach (var area in areas)
         {
@@ -94,6 +130,52 @@ public sealed class AreaSystem : EntitySystem
         areaGrid.Areas[position] = area;
 
         EnsureAreaEntityExists(areaGrid, area);
+    // Stories-ZLevels-Start
+    }
+
+    public void SetArea(AreaGridComponent areaGrid, Vector2i position, EntProtoId<AreaComponent> area)
+    {
+        areaGrid.Areas[position] = area;
+    }
+
+    public void RemoveArea(AreaGridComponent areaGrid, Vector2i position)
+    {
+        areaGrid.Areas.Remove(position);
+    }
+
+    public void ClearAreaEntities(Entity<AreaGridComponent> grid)
+    {
+        grid.Comp.AreaEntities.Clear();
+        Dirty(grid);
+    // Stories-ZLevels-End
+    }
+
+    // Stories-TacMap-Start
+    public bool TryGetAreaEntity(Entity<AreaGridComponent?> grid, EntProtoId<AreaComponent> proto, out EntityUid areaEnt)
+    {
+        areaEnt = default;
+        if (!Resolve(grid, ref grid.Comp, false))
+            return false;
+
+        return grid.Comp.AreaEntities.TryGetValue(proto, out areaEnt);
+    }
+    // Stories-TacMap-End
+
+    // Stories-TacMapInsert
+    public void QueueRender(EntityUid grid)
+    {
+        if (!_toRender.Contains(grid))
+            _toRender.Add(grid);
+    }
+
+    public bool SetAlwaysPowered(Entity<AreaComponent> area, bool alwaysPowered)
+    {
+        if (area.Comp.AlwaysPowered == alwaysPowered)
+            return false;
+
+        area.Comp.AlwaysPowered = alwaysPowered;
+        Dirty(area);
+        return true;
     }
 
     public bool TryGetArea(
@@ -131,11 +213,15 @@ public sealed class AreaSystem : EntitySystem
         area = default;
         areaPrototype = default;
         if (_transform.GetGrid(coordinates) is not { } gridId ||
-            !_mapGridQuery.TryComp(gridId, out var grid) ||
-            !_areaGridQuery.TryComp(gridId, out var areaGrid))
+            !_mapGridQuery.TryComp(gridId, out var grid)) // Stories-ZLevels
         {
             return false;
         }
+
+        // Stories-ZLevels-Start
+        if (!_areaGridQuery.TryComp(gridId, out var areaGrid))
+            return TryGetUpperPlanetArea(coordinates, out area, out areaPrototype);
+        // Stories-ZLevels-End
 
         var indices = _map.CoordinatesToTile(gridId, grid, coordinates);
         return TryGetArea((gridId, grid, areaGrid), indices, out area, out areaPrototype);
@@ -489,6 +575,7 @@ public sealed class AreaSystem : EntitySystem
                 }
 
                 areaGrid.Colors.Clear();
+                areaGrid.Labels.Clear(); // Stories-TacMapInsert
                 Dirty(ent, areaGrid);
 
                 var tiles = _map.GetAllTilesEnumerator(ent, mapGrid);

@@ -12,7 +12,7 @@ public sealed class OverseerSystem : EntitySystem
             return (uid, comp);
 
         var newUid = Spawn();
-        _metaData.SetEntityName(newUid, "st-hunter-overseer-announcer");
+        _metaData.SetEntityName(newUid, Loc.GetString("st-hunter-overseer-announcer"));
         var newComp = EnsureComp<OverseerComponent>(newUid);
         return (newUid, newComp);
     }

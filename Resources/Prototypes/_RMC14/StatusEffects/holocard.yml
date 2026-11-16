@@ -32,3 +32,10 @@
   icon:
     sprite: /Textures/_RMC14/Interface/health_hud_holocard.rsi
     state: hudhcpurple
+
+- type: healthIcon
+  parent: HolocardIcon
+  id: SsdHolocardIcon
+  icon:
+    sprite: /Textures/_RMC14/Interface/health_hud_holocard.rsi
+    state: hudhcgreen

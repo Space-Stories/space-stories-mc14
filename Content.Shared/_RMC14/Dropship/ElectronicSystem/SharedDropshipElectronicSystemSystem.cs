@@ -80,7 +80,7 @@ public abstract class SharedDropshipElectronicSystemSystem : EntitySystem
             foreach (var protoId in ent.Comp.ProtoIds)
             {
                 if (remove)
-                    _rmcCamera.RemoveProtoId(cameraComputer, protoId);
+                    _rmcCamera.RemoveProtoId((uid, cameraComputer), protoId);
                 else
                 {
                     _rmcCamera.AddProtoId(cameraComputer, protoId);

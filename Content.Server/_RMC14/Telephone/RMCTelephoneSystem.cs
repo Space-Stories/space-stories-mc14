@@ -5,15 +5,17 @@ using Content.Server.Hands.Systems;
 using Content.Server.Radio;
 using Content.Server.Speech;
 using Content.Server.Speech.Components;
+using Content.Server._Stories.TTS; // Stories
 using Content.Shared._RMC14.Communications;
 using Content.Shared._RMC14.Hands;
 using Content.Shared._RMC14.Radio;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Telephone;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._Stories.TTS; // Stories
 using Content.Shared.Chat;
 using Content.Shared.Coordinates;
-using Robust.Server.Audio;
+// using Robust.Server.Audio; // Stories
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
 
@@ -22,13 +24,14 @@ namespace Content.Server._RMC14.Telephone;
 public sealed class RMCTelephoneSystem : SharedRMCTelephoneSystem
 {
     [Dependency] private readonly IAdminManager _adminManager = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
+    // [Dependency] private readonly AudioSystem _audio = default!; // Stories
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly CommunicationsTowerSystem _communicationsTower = default!;
     [Dependency] private readonly HandsSystem _hands = default!;
     [Dependency] private readonly RMCHandsSystem _rmcHands = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly TTSSystem _tts = default!; // Stories
 
     public override void Initialize()
     {
@@ -133,9 +136,32 @@ public sealed class RMCTelephoneSystem : SharedRMCTelephoneSystem
             return;
         }
 
+        var ttsMessage = message; // Stories
         var name = GetPhoneName(rotary);
         message = $"{name} says, \"{FormattedMessage.EscapeText(message)}\"";
-        var sound = _audio.GetSound(ent.Comp.SpeakSound);
-        _chatManager.ChatMessageToOne(ChatChannel.Local, message, message, otherPhone, false, actor.PlayerSession.Channel, Color.FromHex("#9956D3"), true, sound, -12, hidePopup: true);
+
+        // Stories-Start
+        // var sound = _audio.GetSound(ent.Comp.SpeakSound);
+        // _chatManager.ChatMessageToOne(ChatChannel.Local, message, message, otherPhone, false, actor.PlayerSession.Channel, Color.FromHex("#9956D3"), true, sound, -12, hidePopup: true);
+
+        _chatManager.ChatMessageToOne(
+            ChatChannel.Local,
+            message,
+            message,
+            otherPhone,
+            false,
+            actor.PlayerSession.Channel,
+            colorOverride: Color.FromHex("#9956D3"),
+            recordReplay: true,
+            hidePopup: true);
+
+        _ = _tts.PlayRelayedTTS(
+            source,
+            ttsMessage,
+            Filter.SinglePlayer(actor.PlayerSession),
+            otherPhone,
+            TTSAudioEffect.StandardRadio,
+            isRadio: true);
+        // Stories-End
     }
 }

@@ -12,6 +12,7 @@ rmc-guide-entry-marine-law-crimes-variable = Переменные Преступ
 rmc-guide-entry-marine-law-crimes-minor = Мелкие Преступления
 rmc-guide-entry-marine-law-crimes-major = Тяжкие Преступления
 rmc-guide-entry-marine-law-crimes-capital = Особо Тяжкие Преступления
+rmc-guide-entry-marine-law-crimes-optional = Факультативные Преступления
 rmc-guide-entry-marine-law-crimes-precautionary = Меры Предосторожности
 rmc-guide-entry-marine-law-prisoner-rights = Права Заключенных
 rmc-guide-entry-marine-law-appeals = Права Заключенных, Апелляции

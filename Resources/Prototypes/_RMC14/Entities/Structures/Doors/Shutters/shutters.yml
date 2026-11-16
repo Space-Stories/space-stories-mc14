@@ -54,6 +54,18 @@
     canCrush: false
     canPry: false
   - type: Appearance
+  # Stories-DoorLinking-Start
+  - type: DoorSignalControl
+  - type: DeviceLinkSink
+    ports:
+    - Open
+    - Close
+    - Toggle
+    - DoorBolt
+  - type: DeviceLinkSource
+    ports:
+    - DoorStatus
+  # Stories-DoorLinking-End
   - type: UserInterface
     interfaces:
       enum.WiresUiKey.Key:
@@ -69,8 +81,9 @@
     arc: 360
   - type: ApcPowerReceiver
   - type: RMCPowerReceiver
-    idleLoad: 1
-    activeLoad: 20
+    idleLoad: 0
+    activeLoad: 0
+    # CM13 pod doors require powered environment access but have no modeled energy draw.
     channel: Environment
   - type: RMCOpenOnAlertLevel
   - type: RMCMesonsNonviewable
@@ -97,11 +110,38 @@
   id: RMCShutterAlmayer
   components:
   - type: VehicleSmashable
+    minContinueWeightClass: Heavy
     smashSound:
       path: /Audio/_RMC14/Effects/metal_crash.ogg
   - type: RMCPodDoor
   - type: Clickable
   - type: InteractionOutline
+
+- type: entity
+  parent: RMCShutterAlmayer
+  id: RMCShuttleExternalHangarShutter
+  suffix: Shuttle, External Hangar
+  components:
+  - type: FTLBeacon
+  - type: DropshipDestination
+    dockBounds: "-6,-10.5,6,8.5"
+    reserved: true
+    landingClasses: [ external_hangar ]
+    landingTags: [ mainship, ert, external_hangar ]
+  - type: FTLSmashImmune
+  - type: NoFTL
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: false
+  - type: RMCPowerReceiver
+    idleLoad: 0
+    activeLoad: 0
+  - type: RMCDockingPortAirlockControl
+    airlockTags: [ RMCShuttleAirlockExternalHangar ]
+    searchRadius: 8
+  - type: Tag
+    tags:
+    - RMCShuttleAirlockExternalHangar
 
 - type: entity
   parent: RMCShutterAlmayer
@@ -157,6 +197,15 @@
   parent: RMCShutterAlmayer
   id: RMCShutterAlmayerUniformVendors
   name: uniform vendor shutters
+  components:
+  - type: ApcPowerReceiver # Stories-Fixes start
+    needsPower: false
+  - type: Corrodible
+    isCorrodible: false
+  - type: RemoveComponents
+    components:
+    - type: RMCWallExplosionDeletable
+    - type: DestroyedByExplosionType # Stories-Fixes end
 
 - type: entity
   parent: RMCShutterAlmayer

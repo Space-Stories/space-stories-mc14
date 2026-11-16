@@ -19,10 +19,14 @@ public sealed class StoriesSurvivorSystem : EntitySystem
     {
         SubscribeLocalEvent<IntelRescueSurvivorObjectiveComponent, MapInitEvent>(OnSurvivorInit);
         SubscribeLocalEvent<IntelRescueSurvivorObjectiveComponent, ComponentRemove>(OnRescueObjectiveRemoved);
+        SubscribeLocalEvent<StoriesSurvivorDebuffImmuneComponent, MapInitEvent>(OnImmuneInit);
     }
 
     private void OnSurvivorInit(Entity<IntelRescueSurvivorObjectiveComponent> ent, ref MapInitEvent args)
     {
+        if (HasComp<StoriesSurvivorDebuffImmuneComponent>(ent))
+            return;
+
         if (!TryComp<SkillsComponent>(ent, out var skills))
             return;
 
@@ -32,6 +36,15 @@ public sealed class StoriesSurvivorSystem : EntitySystem
         debuff.OriginalFirearms = firearmsSkill;
 
         _skills.SetSkill(ent.Owner, "RMCSkillFirearms", Math.Max(0, firearmsSkill - 1));
+    }
+
+    private void OnImmuneInit(Entity<StoriesSurvivorDebuffImmuneComponent> ent, ref MapInitEvent args)
+    {
+        if (!TryComp<StoriesSurvivorDebuffComponent>(ent, out var debuff))
+            return;
+
+        _skills.SetSkill(ent.Owner, "RMCSkillFirearms", debuff.OriginalFirearms);
+        RemComp<StoriesSurvivorDebuffComponent>(ent);
     }
 
     private void OnRescueObjectiveRemoved(Entity<IntelRescueSurvivorObjectiveComponent> ent, ref ComponentRemove args)

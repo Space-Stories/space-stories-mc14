@@ -1,4 +1,4 @@
-﻿name: "Labels: Review"
+name: "Labels: Review"
 
 on:
   pull_request_target:
@@ -6,6 +6,10 @@ on:
 
 jobs:
   add_label:
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions-ecosystem/action-add-labels@v1

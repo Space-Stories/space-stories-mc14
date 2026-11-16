@@ -6,10 +6,14 @@ using Content.Shared._RMC14.Emote;
 using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.OnCollide;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids.Plasma;
+using Content.Shared._Stories.ZLevels.Core.Components;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Alert;
 using Content.Shared.Atmos;
+using Robust.Shared.Map.Components; // Stories-ZLevels
 using Content.Shared.Atmos.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
@@ -31,6 +35,7 @@ using Content.Shared.Popups;
 using Content.Shared.Projectiles;
 using Content.Shared.Tag;
 using Content.Shared.Whitelist;
+using Content.Shared.Vehicle.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
@@ -70,8 +75,8 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     [Dependency] private readonly SharedRMCEmoteSystem _emote = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
-    private static readonly ProtoId<AlertPrototype> FireAlert = "Fire";
     private static readonly ProtoId<ReagentPrototype> WaterReagent = "Water";
     private static readonly ProtoId<TagPrototype> StructureTag = "Structure";
     private static readonly ProtoId<TagPrototype> WallTag = "Wall";
@@ -84,6 +89,9 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     private EntityQuery<ProjectileComponent> _projectileQuery;
     private EntityQuery<TileFireComponent> _tileFireQuery;
     private EntityQuery<InventoryComponent> _inventoryQuery;
+    private float _igniteAccumulator; // Stories-Optimization
+    private float _steppingAccumulator; // Stories-Optimization
+    private float _tileFireAccumulator; // Stories-Optimization
 
     public override void Initialize()
     {
@@ -282,6 +290,23 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     {
         var rotation = _transform.GetWorldRotation(ent);
         var coordinates = _transform.GetMoverCoordinates(ent);
+        // Stories-ZLevels-Start
+
+        if (args.User is { } user &&
+            TryComp<ZLevelViewerComponent>(user, out var viewer) &&
+            viewer.LookUp)
+        {
+            var shooterMapUid = Transform(user).MapUid;
+            if (shooterMapUid != null && _zLevels.TryMapUp(shooterMapUid.Value, out var mapAbove))
+            {
+                if (TryComp<MapComponent>(mapAbove.Owner, out var mapAboveComp))
+                {
+                    var mapCoords = _transform.ToMapCoordinates(coordinates);
+                    coordinates = _transform.ToCoordinates(mapAbove.Owner, new MapCoordinates(mapCoords.Position, mapAboveComp.MapId));
+                }
+            }
+        }
+        // Stories-ZLevels-End
 
         if (ent.Comp.OffsetForward)
             coordinates = coordinates.Offset(rotation.ToWorldVec() / 2);
@@ -370,17 +395,6 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         RemCompDeferred<RMCFireBypassActiveComponent>(ent);
     }
 
-    public void UpdateFireAlert(EntityUid ent)
-    {
-        var ev = new ShowFireAlertEvent();
-        RaiseLocalEvent(ent, ref ev);
-
-        if (ev.Show)
-            _alerts.ShowAlert(ent, FireAlert);
-        else
-            _alerts.ClearAlert(ent, FireAlert);
-    }
-
     public bool IsOnFire(Entity<FlammableComponent?> ent)
     {
         return Resolve(ent, ref ent.Comp, false) && ent.Comp.OnFire;
@@ -425,7 +439,6 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
                 Dirty(spawned, tileFire); // Stories-Ordnance
             }
 
-
             if (burnColor != null)
             {
                 ignite.BurnColor = burnColor.Value;
@@ -434,12 +447,6 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             // Stories-Ordnance-End
 
             Dirty(spawned, ignite);
-
-            if (TryComp<DamageOnCollideComponent>(spawned, out var dmg) && intensity != null)
-            {
-                dmg.Damage.DamageDict[HeatDamage] = intensity.Value * dmg.DirectHitMultiplier;
-                Dirty(spawned, dmg);
-            }
         }
 
         var onCollide = EnsureComp<DamageOnCollideComponent>(spawned);
@@ -483,6 +490,7 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         // Ensure the center tile is ignited as part of the diamond.
         SpawnFire(center, spawn, chain, range, intensity, duration, out _, burnColor); // Stories-Ordnance
         SpawnFires(spawn, center, range, chain, intensity, duration, burnColor: burnColor); // Stories-Ordnance
+        _onCollide.CleanupChain(chain);
     }
 
     public void SpawnFireLines(EntProtoId spawn, EntityCoordinates center, int cardinalRange, int ordinalRange, int? intensity = null, int? duration = null, Color? burnColor = null) // Stories-Ordnance
@@ -511,16 +519,53 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
                     break;
             }
         }
+
+        _onCollide.CleanupChain(chain);
     }
 
     public int SpawnFire(EntityCoordinates target, EntProtoId spawn, EntityUid chain, int range, int? intensity, int? duration, out bool cont, Color? burnColor = null) // Stories-Ordnance
     {
         cont = false;
+        // Stories-ZLevels-Start
+        var mapCoords = _transform.ToMapCoordinates(target);
+        var mapUid = _map.GetMapEntityId(mapCoords.MapId);
+        var worldPos = mapCoords.Position;
+
+        // Stories-ZLevels-End
         if (!_rmcMap.TryGetTileDef(target, out var tile) ||
-            tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            tile.ID == ContentTileDefinition.SpaceID ||
+            _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
         {
-            cont = true;
-            return range;
+            if (_zLevels.TryMapDown(mapUid, out var mapBelow))
+            {
+                var checkMap = mapBelow;
+                while (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (!_zLevels.TryMapDown(checkMap.Owner, out var nextBelow))
+                        break;
+                    checkMap = nextBelow;
+                }
+
+                if (!_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (TryComp<MapComponent>(checkMap.Owner, out var mapBelowComp))
+                    {
+                        target = _transform.ToCoordinates(checkMap.Owner, new MapCoordinates(worldPos, mapBelowComp.MapId));
+                    }
+                }
+                else
+                {
+                    cont = true;
+                    return range;
+                }
+            }
+            else
+            {
+                cont = true;
+                return range;
+            }
+            // Stories-ZLevels-End
         }
 
         if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(target, out var oldTileFire))
@@ -603,6 +648,8 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             if (CheckViableTile(ent, ignitionTarget))
                 SpawnFireChain(ent.Comp.Spawn, chain, ignitionTarget, intensity, duration);
         }
+
+        _onCollide.CleanupChain(chain);
     }
 
     private EntityCoordinates ChangeTarget(EntityCoordinates target, Direction direction)
@@ -667,10 +714,35 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
     /// </summary>
     private bool CheckViableTile(Entity<DirectionalTileFireOnTriggerComponent> ent, EntityCoordinates target)
     {
+        // Stories-ZLevels-Start
+        var mapCoords = _transform.ToMapCoordinates(target);
+        var mapUid = _map.GetMapEntityId(mapCoords.MapId);
+        var worldPos = mapCoords.Position;
+
+        // Stories-ZLevels-End
         if (!_rmcMap.TryGetTileDef(target, out var tile) ||
-            tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            tile.ID == ContentTileDefinition.SpaceID ||
+            _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
         {
-            return false;
+            if (_zLevels.TryMapDown(mapUid, out var mapBelow))
+            {
+                var checkMap = mapBelow;
+                while (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                {
+                    if (!_zLevels.TryMapDown(checkMap.Owner, out var nextBelow))
+                        break;
+                    checkMap = nextBelow;
+                }
+
+                if (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+            // Stories-ZLevels-End
         }
 
         if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(target, out var oldTileFire))
@@ -816,8 +888,23 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         }
     }
 
+    private bool ShouldIgnoreTileFire(EntityUid uid)
+    {
+        return _blockTileFireQuery.HasComp(uid) || HasComp<VehicleRideSurfaceRiderComponent>(uid);
+    }
+
     private void TryIgnite(Entity<RMCIgniteOnCollideComponent> ent, EntityUid other, bool checkIgnited)
     {
+        // This will ignite too much during hijack otherwise, including fires
+        if (!HasComp<DamageableComponent>(other))
+            return;
+
+        if (_tileFireQuery.HasComp(ent.Owner) && ShouldIgnoreTileFire(other))
+        {
+            RemCompDeferred<SteppingOnFireComponent>(other);
+            return;
+        }
+
         EnsureComp<SteppingOnFireComponent>(other);
         var flammableEnt = new Entity<FlammableComponent?>(other, null);
         if (!Resolve(flammableEnt, ref flammableEnt.Comp, false))
@@ -860,6 +947,12 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
 
     private void ApplyTileEffect(Entity<SteppingOnFireComponent> ent, RMCIgniteOnCollideComponent ignite, EntityUid fireEntity)
     {
+        if (ShouldIgnoreTileFire(ent.Owner))
+        {
+            RemCompDeferred<SteppingOnFireComponent>(ent);
+            return;
+        }
+
         var timing = _timing.CurTime;
 
         if (ignite.TileDamage is not { } tile)
@@ -979,6 +1072,16 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         }
     }
 
+    public void IgniteOnProjectileHit(EntityUid projectile, Reagent reagent)
+    {
+        AddComp(projectile, new IgniteOnProjectileHitComponent
+        {
+            BurnColor = reagent.SubstanceColor,
+            Duration = reagent.Duration,
+            Intensity = reagent.Intensity,
+        }, true);
+    }
+
     private void RunIgniteOnCollide()
     {
         try
@@ -986,11 +1089,6 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             var applyQuery = EntityQueryEnumerator<RMCIgniteOnCollideComponent>();
             while (applyQuery.MoveNext(out var uid, out var apply))
             {
-                foreach (var contact in _physics.GetEntitiesIntersectingBody(uid, (int)apply.Collision))
-                {
-                    TryIgnite((uid, apply), contact, true);
-                }
-
                 var enumerator = _rmcMap.GetAnchoredEntitiesEnumerator(uid);
                 while (enumerator.MoveNext(out var contact))
                 {
@@ -1003,7 +1101,12 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
                 apply.InitDamaged = true;
                 Dirty(uid, apply);
 
-                RemCompDeferred<DamageOnCollideComponent>(uid);
+                foreach (var contact in _physics.GetEntitiesIntersectingBody(uid, (int)apply.Collision))
+                {
+                    TryIgnite((uid, apply), contact, true);
+                }
+
+                _onCollide.DisableDamageOnCollide(uid);
             }
         }
         catch (Exception e)
@@ -1028,14 +1131,23 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
                     continue;
                 }
 
+                // Stories-Optimization-Start
+                TileFireVisuals visual;
                 if (time < fire.SpawnedAt + fire.BigFireDuration)
-                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Four);
+                    visual = TileFireVisuals.Four;
                 else if (timeLeft < fire.Duration * 0.33)
-                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.One);
+                    visual = TileFireVisuals.One;
                 else if (timeLeft < fire.Duration * 0.66)
-                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Two);
+                    visual = TileFireVisuals.Two;
                 else
-                    _appearance.SetData(uid, TileFireLayers.Base, TileFireVisuals.Three);
+                    visual = TileFireVisuals.Three;
+
+                if (fire.LastVisual != visual)
+                {
+                    fire.LastVisual = visual;
+                    _appearance.SetData(uid, TileFireLayers.Base, visual);
+                }
+                // Stories-Optimization-End
             }
         }
         catch (Exception e)
@@ -1115,8 +1227,11 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
             var steppingQuery = EntityQueryEnumerator<SteppingOnFireComponent, PhysicsComponent>();
             while (steppingQuery.MoveNext(out var uid, out var stepping, out var body))
             {
-                stepping.ArmorMultiplier = 1;
-                Dirty(uid, stepping);
+                if (stepping.ArmorMultiplier != 1)
+                {
+                    stepping.ArmorMultiplier = 1;
+                    Dirty(uid, stepping);
+                }
 
                 var isStepping = false;
                 foreach (var contact in _physics.GetContactingEntities(uid, body, approximate: true))
@@ -1156,11 +1271,31 @@ public abstract class SharedRMCFlammableSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        RunIgniteOnCollide();
-        RunTileFires();
+        // Stories-Optimization-Start
+        _igniteAccumulator += frameTime;
+        if (_igniteAccumulator >= 0.2f)
+        {
+            _igniteAccumulator = 0f;
+            RunIgniteOnCollide();
+        }
+
+        _tileFireAccumulator += frameTime;
+        if (_tileFireAccumulator >= 0.2f)
+        {
+            _tileFireAccumulator = 0f;
+            RunTileFires();
+        }
+
         RunExtinguishFire();
         RunSprayExtinguishTileFire();
-        RunSteppingOnFire();
+
+        _steppingAccumulator += frameTime;
+        if (_steppingAccumulator >= 0.15f)
+        {
+            _steppingAccumulator = 0f;
+            RunSteppingOnFire();
+        }
+        // Stories-Optimization-End
     }
 }
 

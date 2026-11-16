@@ -2,7 +2,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechGuns
-  name: ColMarTech automated weapons rack
+  name: ASRS weapons rack
   description: An automated weapon rack hooked up to a big storage of standard-issue weapons.
   components:
   - type: AccessReader
@@ -11,6 +11,12 @@
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/guns.rsi
   - type: CMAutomatedVendor
+    canManualRestock: true
+    ignoreBulkRestockById:
+    - RMCBoxShotgunBuckshot
+    - RMCBoxShotgunFlechette
+    - RMCBoxShotgunSlugs
+    - RMCBoxShotgunBreaching
     access:
     - "CMAccessMarinePrep"
     hackable: true
@@ -142,7 +148,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechSurplus
-  name: ColMarTech surplus uniform vendor
+  name: ASRS surplus uniform vendor
   description: An automated rack hooked up to a small storage of standard marine uniforms.
   components:
   - type: AccessReader
@@ -151,6 +157,7 @@
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/clothing.rsi
   - type: CMAutomatedVendor
+    canManualRestock: true
     access:
     - "CMAccessMarinePrep"
     hackable: true
@@ -165,7 +172,7 @@
         amount: 15
       - id: JumpsuitMarine
         amount: 15
-      - id: CMHandsBrown
+      - id: RMCHandsBrownMarine
         amount: 15
       - id: CMHandsBlackMarine
         amount: 15
@@ -343,6 +350,18 @@
       - id: RMCPoncho
         name: UNMC poncho
         amount: 10
+      # Space-Stories-Start
+      - id: RMCPonchoUrban
+        amount: 10
+      - id: RMCPonchoJungle
+        amount: 10
+      - id: RMCPonchoDesert
+        amount: 10
+      - id: RMCPonchoSnow
+        amount: 10
+      - id: STPonchoBlack
+        amount: 10
+      # Space-Stories-End
       - id: RMCHelmetGarbGunOil
         name: firearm lubricant
         amount: 15
@@ -380,7 +399,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechMunitions
-  name: ColMarTech automated munition squad vendor
+  name: ASRS squad munitions vendor
   description: An automated supply rack hooked up to a small storage of various ammunition types. Can be accessed by any Marine Rifleman.
   components:
   - type: AccessReader
@@ -390,6 +409,7 @@
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_ammo.rsi
   - type: CMAutomatedVendor
+    canManualRestock: true
     access:
     - "CMAccessMarinePrep"
     - "CMAccessRequisitions"
@@ -399,10 +419,6 @@
       entries:
       - id: CMMagazineRifleM4SPRAP
         amount: 4
-      - id: RMCMagazinePistolM13AP
-        amount: 4
-      - id: RMCMagazinePistolM13ExtAP
-        amount: 2
       - id: CMMagazineSMGM63AP
         amount: 3
       - id: CMMagazineRifleM54CAP
@@ -421,8 +437,8 @@
       entries:
       - id: RMCMagazineSmartGun
         amount: 1
-      #- id: CMSpeedLoaderM44Heavy
-      #  amount: 2
+      - id: RMCSpeedLoader44Heavy
+        amount: 2
       - id: RMCSpeedLoader44Marksman
         amount: 2
       - id: RMCMagazinePistolM1984AP
@@ -439,8 +455,6 @@
         amount: 2
       - id: RMCMagazineM2C
         amount: 2
-      - id: RMCBoxShotgunBreaching
-        amount: 2
       - id: RMCBatonSlugHIRR
         amount: 6
       - id: RMCStarShellM74AGMS
@@ -451,7 +465,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechUtilities
-  name: ColMarTech automated utilities squad vendor
+  name: ASRS squad utilities vendor
   description: An automated supply rack hooked up to a small storage of various utilities and tools. Can be accessed by any Marine Rifleman.
   components:
   - type: AccessReader
@@ -459,8 +473,9 @@
     - [ "CMAccessMarinePrep" ]
     - [ "CMAccessRequisitions" ]
   - type: Sprite
-    sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/attachments.rsi
+    sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisition_guns.rsi
   - type: CMAutomatedVendor
+    canManualRestock: true
     access:
     - "CMAccessMarinePrep"
     - "CMAccessRequisitions"
@@ -517,10 +532,12 @@
         amount: 5
       - id: RMCBinoculars
         amount: 1
-      #- id: CMFoldingBarricadesMB6x3
-      #  amount: 2
-      #- id: CMSparePDTLBattleBuddyKit
-      #  amount: 3
+      - id: RMCOverwatchCameraTripod
+        amount: 1
+      - id: CMFoldingBarricadesMB6x3
+        amount: 2
+      - id: CMSparePDTLBattleBuddyKit
+        amount: 3
       - id: RMCPowerCellCrap
         amount: 2
       - id: RMCMagazineSMGNailgun
@@ -539,6 +556,7 @@
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/attachments.rsi
   - type: CMAutomatedVendor
+    canManualRestock: true
     access:
     - "CMAccessMarinePrep"
     - "CMAccessRequisitions"
@@ -592,8 +610,8 @@
         amount: 2
       - id: RMCAttachmentMiniFlamethrower
         amount: 2
-#      - id: CMAttachmentXMVESG1FlamerNozzle
-#        amount: 2
+      - id: RMCAttachmentXMVESG1FlamerNozzle
+        amount: 2
       - id: RMCAttachmentU7UnderbarrelShotgun
         amount: 2
       - id: RMCAttachmentUnderbarrelExtinguisher

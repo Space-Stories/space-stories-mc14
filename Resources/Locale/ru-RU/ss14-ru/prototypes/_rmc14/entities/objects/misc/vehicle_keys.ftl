@@ -1,3 +1,5 @@
+ent-RMCVehicleKeyBase = { ent-BaseItem }
+    .desc = { ent-BaseItem.desc }
 ent-RMCVehicleKey = ключ от транспорта
     .desc = Ключ, выточенный под конкретный замок транспорта.
 ent-RMCVehicleKeyBlank = заготовка ключа от транспорта

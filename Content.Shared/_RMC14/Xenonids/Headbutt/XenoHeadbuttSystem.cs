@@ -1,5 +1,6 @@
 using System.Numerics;
 using Content.Shared._RMC14.Actions;
+using Content.Shared._RMC14.Damage;
 using Content.Shared._RMC14.Damage.ObstacleSlamming;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Stun;
@@ -34,6 +35,7 @@ public sealed class XenoHeadbuttSystem : EntitySystem
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
     [Dependency] private readonly RMCObstacleSlammingSystem _rmcObstacleSlamming = default!;
     [Dependency] private readonly RMCPullingSystem _rmcPulling = default!;
+    [Dependency] private readonly SharedRMCDamageableSystem _rmcDamageable = default!;
     [Dependency] private readonly RMCSizeStunSystem _sizeStun = default!;
     [Dependency] private readonly ThrowingSystem _throwing = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
@@ -86,7 +88,15 @@ public sealed class XenoHeadbuttSystem : EntitySystem
         Dirty(xeno);
 
         _rmcObstacleSlamming.MakeImmune(xeno);
-        _throwing.TryThrow(xeno, diff);
+
+        if (TryComp<PhysicsComponent>(xeno, out var physics))
+        {
+            // Prevent headbutt from having longer/shorter range or skewed direction
+            // based on the xeno's movement when using it.
+            _physics.ResetDynamics(xeno, physics);
+        }
+
+        _throwing.TryThrow(xeno, diff, doSpin: false);
     }
 
     private void OnXenoHeadbuttHit(Entity<XenoHeadbuttComponent> xeno, ref ThrowDoHitEvent args)
@@ -112,14 +122,15 @@ public sealed class XenoHeadbuttSystem : EntitySystem
         if (_net.IsServer)
             _audio.PlayPvs(xeno.Comp.Sound, xeno);
 
-        var finalDamage = xeno.Comp.Damage;
+        // Copy because ExclusiveAdd mutates the damage specifier below.
+        var finalDamage = new DamageSpecifier(xeno.Comp.Damage);
 
         if (TryComp<XenoCrestComponent>(xeno, out var crest) && crest.Lowered)
         {
             finalDamage.ExclusiveAdd(xeno.Comp.CrestedDamageReduction);
         }
 
-        var damage = _damageable.TryChangeDamage(targetId, _xeno.TryApplyXenoSlashDamageMultiplier(targetId, finalDamage), armorPiercing: xeno.Comp.AP, origin: xeno, tool: xeno);
+        var damage = _damageable.TryChangeDamage(targetId, _xeno.ApplyXenoMeleeDamageModifiers(xeno, targetId, finalDamage), armorPiercing: xeno.Comp.AP, origin: xeno, tool: xeno);
         if (damage?.GetTotal() > FixedPoint2.Zero)
         {
             var filter = Filter.Pvs(targetId, entityManager: EntityManager).RemoveWhereAttachedEntity(o => o == xeno.Owner);
@@ -133,7 +144,9 @@ public sealed class XenoHeadbuttSystem : EntitySystem
         StopHeadbutt(xeno);
 
         var origin = _transform.GetMapCoordinates(xeno);
-        _sizeStun.KnockBack(targetId, origin, range, range, 10, true );
+        _sizeStun.KnockBack(targetId, origin, range, range, 10, true);
+
+        _rmcDamageable.DoLethalDamage(targetId, origin: xeno);
 
         if (_net.IsServer)
             SpawnAttachedTo(xeno.Comp.Effect, targetId.ToCoordinates());

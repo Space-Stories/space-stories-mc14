@@ -9,6 +9,12 @@
     sprite: _RMC14/Markers/landmarks.rsi
     layers:
     - state: random_toolbox
+  - type: EntityTableSpawner
+    deleteSpawnerAfterSpawn: false
+    offset: 0
+    table: !type:EntSelector
+      id: RMCBlackMarketHackingDevice
+      prob: 0.0001
   - type: RandomSpawner
     offset: 0
     chance: 1.0
@@ -17,7 +23,7 @@
     - CMBeltUtilityFilled
     - CMMultitool
     - RMCFlashlight
-    - FoodDonkpocket
+    - RMCFoodDonkpocket
     - CMGrenadeSmoke
     - DoorElectronics
     - CMWirecutter
@@ -104,7 +110,7 @@
     - RMCWeaponPistolHandcannon: RMCMagazinePistolHandcannon
     - RMCWeaponRevolver38Magnum: RMCSpeedLoader38
     - WeaponShotgunCustomBuilt: CMShellShotgunBuckshot
-    - RMCWeaponShotgunHG3712: CMShellShotgunBuckshot
+    - RMCWeaponShotgunM12: CMShellShotgunBuckshot
     - RMCWeaponSMGMP27: RMCMagazineSMGMP27
     - RMCWeaponSMGType64: RMCMagazineSMGType64
     - WeaponSMGMAC15: RMCMagazineSMGMAC15
@@ -151,7 +157,7 @@
 
 - type: entity
   parent: MarkerBase
-  id: RMCSpawnerRandomHalyconGuns
+  id: RMCSpawnerRandomHalcyonGuns
   name: random crate loot spawner
   description: This is a random crate loot spawner
   categories: [ HideSpawnMenu ]
@@ -203,6 +209,7 @@
   id: RMCCrateOpenableBase
   components:
   - type: VehicleSmashable
+  - type: ZPhysics # Stories-ZLevels
   - type: CrateOpenable
     spawn:
     - id: RMCPlankWood2
@@ -282,12 +289,12 @@
 
 - type: entity
   parent: RMCCrateLarge
-  id: RMCCrateHalyconFireArms
-  name: Halycon firearm crate
+  id: RMCCrateHalcyonFireArms
+  name: Halcyon firearm crate
   description: A hefty wooden crate.
   components:
   - type: SpawnOnTerminate
-    spawn: RMCSpawnerRandomHalyconGuns
+    spawn: RMCSpawnerRandomHalcyonGuns
 #Todo RMC14: Make it so it does it 3 times
 
 # Black market
@@ -304,6 +311,7 @@
   parent: RMCSecureCaseDouble #Evilass hidden GUN GAMBA CRATEEEEEEEE For CHANCESSSS CLAIMEEEEEEEEEEEEEE
   id: RMCCrateBlackmarketFireArmsHidden
   name: supply crate
+  suffix: Hidden Firearms
   description: A hefty wooden crate.
   components:
   - type: SpawnOnTerminate
@@ -313,6 +321,7 @@
   parent: RMCCrateLarge
   id: RMCCrateBlackmarketConfiscatedEquipment # TODO crate heat 10 and dollar cost 70
   name: seized foreign equipment crate
+  description: A crate of random confiscated foreign equipment.
   components:
   - type: SpawnOnTerminate
     spawn: RMCSpawnerRandomConfiscatedEquipment
@@ -321,6 +330,7 @@
   parent: RMCCrateLarge
   id: RMCCrateBlackmarketConfiscatedWeaponry # TODO crate heat 15 and dollar cost 45
   name: seized foreign weaponry crate
+  description: A crate of random confiscated foreign weaponry.
   components:
   - type: SpawnOnTerminate
     spawn: RMCSpawnerRandomConfiscatedWeaponry
@@ -398,7 +408,7 @@
     - id: RMCSmallFloodlightUnanchored
       amount: 4
   - type: SpawnOnTerminate
-    spawn: FoodDonkpocket
+    spawn: RMCFoodDonkpocket
 
 - type: entity
   parent: RMCSecureCaseStrapped #Floodlights (funny drag stuff)
@@ -505,6 +515,19 @@
       amount: 1
   - type: SpawnOnTerminate
     spawn: CMSheetPlasteel30
+
+- type: entity
+  parent: RMCSecureCase # x6 Sentry M30 ammo drum
+  id: RMCSecureCaseSentryAmmo6
+  name: UN 571-C ammunition drum case (x6)
+  description: An ammunition case containing 6 M30 ammo drums.
+  components:
+  - type: CrateOpenable
+    spawn:
+    - id: RMCMagazineSentry
+      amount: 6
+  - type: SpawnOnTerminate
+    spawn: RMCPlankWood2
 
 #Blackmarket will be down from there TODO RMC14: Blackmarket Crates after R4T rifle
 
@@ -737,6 +760,7 @@
     noRot: true
   - type: InteractionOutline
   - type: Physics
+    canCollide: false
   - type: Fixtures
     fixtures:
       fix1:
@@ -874,6 +898,7 @@
     noRot: true
   - type: InteractionOutline
   - type: Physics
+    canCollide: false
   - type: Fixtures
     fixtures:
       fix1:

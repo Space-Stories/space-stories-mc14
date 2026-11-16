@@ -21,4 +21,4 @@ ent-RMCWindoorSecureTSEPABrig = { ent-CMWindoorSecure }
     .suffix = ИТСПД, Бриг, Закрытый
 ent-CMWindoorSecureBrigPowered = { ent-CMWindoorSecure }
     .desc = { ent-CMWindoorSecure.desc }
-    .suffix = Brig, Locked, Powered
+    .suffix = Бриг, Закрытый, Запитанный

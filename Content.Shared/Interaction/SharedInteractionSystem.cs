@@ -1,3 +1,5 @@
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
+using Content.Shared._Stories.ZLevels.Core.Components;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._RMC14.Barricade.Components;
@@ -20,6 +22,7 @@ using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
+using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Item;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Pulling.Systems;
@@ -91,6 +94,8 @@ namespace Content.Shared.Interaction
         private EntityQuery<UseDelayComponent> _delayQuery;
         private EntityQuery<ActivatableUIComponent> _uiQuery;
         private EntityQuery<BarbedComponent> _barbedQuery;
+        private EntityQuery<VirtualItemComponent> _virtualItemQuery;
+        private EntityQuery<ZPhysicsComponent> _zPhysicsQuery; // Stories-ZLevels
 
         private const CollisionGroup InRangeUnobstructedMask = CollisionGroup.Impassable | CollisionGroup.InteractImpassable;
 
@@ -105,6 +110,7 @@ namespace Content.Shared.Interaction
 
         [Dependency] private readonly SharedRMCLagCompensationSystem _rmcLagCompensation = default!;
         [Dependency] private readonly INetManager _net = default!;
+        [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
         public override void Initialize()
         {
@@ -119,6 +125,8 @@ namespace Content.Shared.Interaction
             _delayQuery = GetEntityQuery<UseDelayComponent>();
             _uiQuery = GetEntityQuery<ActivatableUIComponent>();
             _barbedQuery = GetEntityQuery<BarbedComponent>();
+            _virtualItemQuery = GetEntityQuery<VirtualItemComponent>();
+            _zPhysicsQuery = GetEntityQuery<ZPhysicsComponent>(); // Stories-ZLevels
 
             SubscribeLocalEvent<BoundUserInterfaceCheckRangeEvent>(HandleUserInterfaceRangeCheck);
 
@@ -171,10 +179,11 @@ namespace Content.Shared.Interaction
         private void OnBoundInterfaceInteractAttempt(Entity<UserInterfaceComponent> ent, ref BoundUserInterfaceMessageAttempt ev)
         {
             _uiQuery.TryComp(ev.Target, out var aUiComp);
+            var isAllowedGhostDialog = HasComp<GhostComponent>(ev.Actor) && Equals(ev.UiKey, Content.Shared._RMC14.Dialog.DialogUiKey.Key); // Stories-GhostDialog
             if (!_actionBlockerSystem.CanInteract(ev.Actor, ev.Target))
             {
                 // We permit ghosts to open uis unless explicitly blocked
-                if (ev.Message is not OpenBoundInterfaceMessage
+                if ((ev.Message is not OpenBoundInterfaceMessage && !isAllowedGhostDialog) // Stories-GhostDialog
                     || !HasComp<GhostComponent>(ev.Actor)
                     || aUiComp?.BlockSpectators == true)
                 {
@@ -183,10 +192,16 @@ namespace Content.Shared.Interaction
                 }
             }
 
+            if (isAllowedGhostDialog && ev.Actor == ev.Target) // Stories-GhostDialog
+                return;
+
             var range = _ui.GetUiRange(ev.Target, ev.UiKey);
 
-            // As long as range>0, the UI frame updates should have auto-closed the UI if it is out of range.
-            DebugTools.Assert(range <= 0 || UiRangeCheck(ev.Actor, ev.Target, range));
+            if (range > 0 && !UiRangeCheck(ev.Actor, ev.Target, range))
+            {
+                ev.Cancel();
+                return;
+            }
 
             if (range <= 0 && !IsAccessible(ev.Actor, ev.Target))
             {
@@ -364,8 +379,14 @@ namespace Content.Shared.Interaction
                 return ev.CanInteract;
 
             // Always allow attack in these cases
-            if (target == null || !_handsQuery.TryComp(user, out var hands) || _hands.GetActiveItem((user, hands)) is not null)
+            // Stories-VirtualItemInteract-Start
+            if (target == null || !_handsQuery.TryComp(user, out var hands))
                 return false;
+
+            var activeItem = _hands.GetActiveItem((user, hands));
+            if (activeItem != null && !_virtualItemQuery.HasComp(activeItem))
+                return false;
+            // Stories-VirtualItemInteract-End
 
             // Only eat input if:
             // - Target isn't an item
@@ -420,6 +441,19 @@ namespace Content.Shared.Interaction
 
             if (target != null && Deleted(target.Value))
                 return;
+            // Stories-ZLevels-Start
+
+            if (target != null && Transform(target.Value).MapID != Transform(user).MapID)
+                return;
+
+            if (target != null &&
+                _zPhysicsQuery.TryComp(user, out var userZ) &&
+                _zPhysicsQuery.TryComp(target.Value, out var targetZ) &&
+                MathF.Abs(userZ.LocalPosition - targetZ.LocalPosition) > 1.5f)
+            {
+                return;
+            }
+            // Stories-ZLevels-End
 
             if (!altInteract && _combatQuery.TryComp(user, out var combatMode) && combatMode.IsInCombatMode)
             {
@@ -438,6 +472,7 @@ namespace Content.Shared.Interaction
                 return;
             }
 
+            // RMC14
             var ignoreGhostInteractionLimits =
                 target != null &&
                 HasComp<GhostComponent>(user) &&
@@ -454,6 +489,7 @@ namespace Content.Shared.Interaction
             var inRangeUnobstructed = target == null
                 ? !checkAccess || InRangeUnobstructed(user, coordinates)
                 : !checkAccess || ignoreGhostInteractionLimits || InRangeUnobstructed(user, target.Value); // permits interactions with wall mounted entities
+            // RMC14
 
             // empty-hand interactions
             // combat mode hand interactions will always be true here -- since
@@ -668,9 +704,16 @@ namespace Content.Shared.Interaction
             Ignored? predicate = null,
             bool checkAccess = true)
         {
-            // Have to be on same map regardless.
+            // Stories-ZLevels-Start
             if (other.MapId != origin.MapId)
-                return false;
+            {
+                if (origin.MapId == MapId.Nullspace || other.MapId == MapId.Nullspace ||
+                    !_zLevels.AreInSameNetwork(origin.MapId, other.MapId))
+                {
+                    return false;
+                }
+            }
+            // Stories-ZLevels-End
 
             if (!checkAccess)
                 return true;
@@ -712,6 +755,28 @@ namespace Content.Shared.Interaction
                     }
                 }
             }
+
+            // Stories-ZLevels-Start
+            if (other.MapId != origin.MapId)
+            {
+                var rayDest = new CollisionRay(origin.Position, dir.Normalized(), combinedMask);
+                var rayResultsDest = _broadphase.IntersectRayWithPredicate(other.MapId, rayDest, length, predicate.Invoke, false);
+
+                foreach (var result in rayResultsDest)
+                {
+                    if (_barbedQuery.TryComp(result.HitEntity, out var barbed) && barbed.IsBarbed)
+                        return false;
+
+                    if (_physicsQuery.TryComp(result.HitEntity, out var physics))
+                    {
+                        if ((physics.CollisionLayer & (int) collisionMask) != 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            // Stories-ZLevels-End
 
             return true;
         }
@@ -795,8 +860,12 @@ namespace Content.Shared.Interaction
             bool popup = false,
             bool overlapCheck = true)
         {
-            if (_net.IsServer)
+            if (_net.IsServer &&
+                Resolve(other, ref other.Comp, false) &&
+                !_transform.InRange(otherCoordinates, other.Comp.Coordinates, 0.01f))
+            {
                 range += _rmcLagCompensation.MarginTiles;
+            }
 
             if (origin.Owner == other.Owner && Resolve(other, ref other.Comp, false))
             {
@@ -809,6 +878,23 @@ namespace Content.Shared.Interaction
             MapCoordinates originPos = default;
             var targetPos = _transform.ToMapCoordinates(otherCoordinates);
             Angle targetRot = _transform.GetWorldRotation(otherCoordinates.EntityId) + otherAngle;
+            // Stories-ZLevels-Start
+
+            if (Resolve(origin, ref origin.Comp, false))
+                originPos = _transform.GetMapCoordinates(origin, xform: origin.Comp);
+            else
+                originPos = _transform.GetMapCoordinates(origin, origin);
+
+            if (originPos.MapId != targetPos.MapId)
+                return false;
+
+            if (_zPhysicsQuery.TryComp(origin, out var zPhysOrigin) &&
+                _zPhysicsQuery.TryComp(other, out var zPhysOther) &&
+                MathF.Abs(zPhysOrigin.LocalPosition - zPhysOther.LocalPosition) > 1.5f)
+            {
+                return false;
+            }
+            // Stories-ZLevels-End
 
             // So essentially:
             // 1. If fixtures available check nearest point. We take in coordinates / angles because we might want to use a lag compensated position
@@ -1218,6 +1304,7 @@ namespace Content.Shared.Interaction
             if (checkUseDelay && delayComponent != null && _useDelay.IsDelayed((used, delayComponent)))
                 return false;
 
+            // RMC14
             var ignoreGhostInteractionLimits =
                 HasComp<GhostComponent>(user) &&
                 HasComp<RMCIgnoreGhostInteractionLimitsComponent>(used);
@@ -1232,6 +1319,7 @@ namespace Content.Shared.Interaction
             // This is bypassed IF the interaction happened through an item slot (e.g., backpack UI)
             if (checkAccess && !ignoreGhostInteractionLimits && !IsAccessible(user, used))
                 return false;
+            // RMC14
 
             complexInteractions ??= _actionBlockerSystem.CanComplexInteract(user);
             var activateMsg = new ActivateInWorldEvent(user, used, complexInteractions.Value);

@@ -14,24 +14,29 @@
   name: tank turret
   description: A tank turret hardpoint.
   components:
+  - type: PowerLoaderGrabbable
+    delay: 2
+    virtualRight: RMCVirtualDropshipGearRight
+    virtualLeft: RMCVirtualDropshipGearLeft
   - type: Sprite
     sprite: _RMC14/Structures/Vehicles/tank.rsi
     state: tank_turret_0
   - type: HardpointItem
-    hardpointType: Turret
-    vehicleFamily: Tank
-    slotType: Turret
+    hardpointType: HardpointTypeTurret
+    vehicleFamily: HardpointVehicleFamilyTank
+    slotType: HardpointSlotTypeTurret
     damageMultiplier: 0.05
     repairRate: 0.008
   - type: HardpointIntegrity
     maxIntegrity: 450
   - type: VehicleTurret
     rotateToCursor: true
-    stabilizedRotation: false
+    stabilizedRotation: true
     rotationSpeed: 60
     showOverlay: true
     overlayRsi: _RMC14/Structures/Vehicles/tank.rsi
     overlayState: tank_turret_0
+    overlayDamagedState: tank_turret_1
     useDirectionalOffsets: false
     pixelOffsetNorth: "0,-10"
     pixelOffsetEast: "-10,0"
@@ -50,16 +55,16 @@
           components:
           - HardpointItem
   - type: HardpointSlots
-    vehicleFamily: Tank
+    vehicleFamily: HardpointVehicleFamilyTank
     slots:
     - id: turret-cannon
-      hardpointType: Cannon
-      slotType: Cannon
+      hardpointType: HardpointTypeCannon
+      slotType: HardpointSlotTypeCannon
       required: false
       insertDelay: 2.0
     - id: turret-launcher
-      hardpointType: Launcher
-      slotType: Launcher
+      hardpointType: HardpointTypeLauncher
+      slotType: HardpointSlotTypeLauncher
       required: false
       insertDelay: 2.0
 
@@ -72,9 +77,9 @@
   - type: Sprite
     state: treads
   - type: HardpointItem
-    hardpointType: Wheel
-    vehicleFamily: Tank
-    slotType: Treads
+    hardpointType: HardpointTypeWheel
+    vehicleFamily: HardpointVehicleFamilyTank
+    slotType: HardpointSlotTypeTreads
     damageMultiplier: 0.15
     repairRate: 0.0165
   - type: HardpointIntegrity
@@ -90,9 +95,9 @@
   - type: Sprite
     state: treads
   - type: HardpointItem
-    hardpointType: Wheel
-    vehicleFamily: Tank
-    slotType: Treads
+    hardpointType: HardpointTypeWheel
+    vehicleFamily: HardpointVehicleFamilyTank
+    slotType: HardpointSlotTypeTreads
     damageMultiplier: 0.15
     repairRate: 0.0165
   - type: VehicleWheelItem

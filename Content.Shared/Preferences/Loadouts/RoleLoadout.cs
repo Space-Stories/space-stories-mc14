@@ -9,6 +9,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
+using Content.Shared._Stories.Sponsors; // Stories-SponsorsLoadout
 
 namespace Content.Shared.Preferences.Loadouts;
 
@@ -128,7 +129,7 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
             var loadouts = groupLoadouts[..Math.Min(groupLoadouts.Count, groupProto.MaxLimit)];
 
             // Validate first
-            for (var i = loadouts.Count - 1; i >= 0; i--)
+            for (var i = 0; i < loadouts.Count; i++) // Stories-SponsorsLoadout
             {
                 var loadout = loadouts[i];
 
@@ -136,6 +137,7 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
                 if (!protoManager.TryIndex(loadout.Prototype, out var loadoutProto))
                 {
                     loadouts.RemoveAt(i);
+                    i--; // Stories-SponsorsLoadout
                     continue;
                 }
 
@@ -143,6 +145,7 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
                 if (!groupProto.Loadouts.Contains(loadout.Prototype))
                 {
                     loadouts.RemoveAt(i);
+                    i--; // Stories-SponsorsLoadout
                     continue;
                 }
 
@@ -150,6 +153,7 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
                 if (!IsValid(profile, session, loadout.Prototype, collection, out _))
                 {
                     loadouts.RemoveAt(i);
+                    i--; // Stories-SponsorsLoadout
                     continue;
                 }
 
@@ -220,6 +224,8 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
         var collection = IoCManager.Instance!;
         var roleProto = protoManager.Index(Role);
 
+        Points = roleProto.Points; // Stories-SponsorsLoadout
+
         for (var i = roleProto.Groups.Count - 1; i >= 0; i--)
         {
             var group = roleProto.Groups[i];
@@ -232,8 +238,6 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
 
             var loadouts = new List<Loadout>();
             SelectedLoadouts[group] = loadouts;
-
-            Points = roleProto.Points;
 
             if (groupProto.MinLimit > 0)
             {
@@ -284,6 +288,20 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
             reason = FormattedMessage.FromUnformatted("loadouts-prototype-missing");
             return false;
         }
+
+        // Stories-SponsorsLoadout-Start
+        if (loadoutProto.SponsorOnly)
+        {
+            var sponsorsManager = collection.Resolve<ISharedSponsorsManager>();
+            var isAllowed = sponsorsManager.IsLoadoutAllowed(session, loadoutProto.ID);
+
+            if (!isAllowed)
+            {
+                reason = FormattedMessage.FromUnformatted(Loc.GetString("stories-loadouts-sponsor-only"));
+                return false;
+            }
+        }
+        // Stories-SponsorsLoadout-End
 
         if (loadoutProto.Cost != null && Points != null)
         {

@@ -68,6 +68,7 @@
     shoes: RMCShoesLaceup
     id: CMIDCardLiaison
     ears: RMCHeadsetLiaison
+    pocket1: RMCHandheldDistressBeaconWeYa
 
 - type: entity
   parent: CMSpawnPointJobBase

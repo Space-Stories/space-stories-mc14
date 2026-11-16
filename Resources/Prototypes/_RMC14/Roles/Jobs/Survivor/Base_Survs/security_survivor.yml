@@ -4,6 +4,12 @@
   name: cm-job-name-survivor-security
   description: cm-job-description-survivor
   playTimeTracker: CMJobSurvivorSecurity
+  # Stories-SecuritySurvivorPlaytime-Start
+  requirements:
+  - !type:TotalJobsTimeRequirement
+    group: RMCJobsSurvivor
+    time: 18000 # 5 hours
+  # Stories-SecuritySurvivorPlaytime-End
   ranks:
     RMCRankCivilianSeniorOfficer:
     - !type:RoleTimeRequirement
@@ -73,7 +79,7 @@
     primaryWeapons:
     - [ RMCBeltMarineMAR, RMCWeaponRifleMAR30 ]
     - [ CMBeltMarineMP5, WeaponSMGMP5 ]
-    - [ CMBeltMarineBuckshot, RMCWeaponShotgunHG3712 ]
+    - [ CMBeltMarineBuckshot, RMCWeaponShotgunM12 ]
     - [ CMBeltMarineM16, WeaponRifleM16 ]
     primaryWeaponChance: 1
 

@@ -10,5 +10,7 @@ public enum XenoVisualLayers : byte
     Crest,
     Fortify,
     Ovipositor,
+    EncasedPlates, // Stories-XenoBulwark
+    ReflectiveShield, // Stories-XenoBulwark
     Burrow
 }

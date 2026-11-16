@@ -9,11 +9,3 @@
   showInVote: true
   rules:
   - CMDistressSignal
-
-- type: gamePreset
-  id: CMGreenshift
-  alias:
-  - cmgreenshift
-  name: Гриншифт
-  showInVote: false
-  description: Пресет без событий, чтобы мероприятия админов проходили без помех.

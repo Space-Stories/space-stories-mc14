@@ -34,6 +34,11 @@ public sealed partial class NightVisionComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool OnlyHalf;
+
+    // Stories-MesonFix-Start
+    [DataField, AutoNetworkedField]
+    public NightVisionState? STInnateState;
+    // Stories-MesonFix-End
 }
 
 [Serializable, NetSerializable]

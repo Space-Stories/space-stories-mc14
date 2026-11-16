@@ -1,0 +1,64 @@
+<local:HermesWindow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Title="{Loc stories-hermes-title}" MinSize="560 420" SetSize="900 610">
+    <crt:RMCCrtThemeScope Palette="Blue" Effects="HorizontalScanlines" ScanlineOpacity="0.04">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                <crt:RMCCrtLabel Name="Identity" Access="Public" Text="{Loc stories-hermes-title}"
+                    Heading="True" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Sound" Access="Public" Text="{Loc stories-hermes-sound-on}" />
+                <crt:RMCCrtActionButton Name="Login" Access="Public" Text="{Loc stories-hermes-login}" />
+                <crt:RMCCrtActionButton Name="Logout" Access="Public" Text="{Loc stories-hermes-logout}" />
+            </BoxContainer>
+            <crt:RMCCrtLabel Name="Connection" Access="Public" Tone="Warning" />
+            <crt:RMCCrtPanel Name="LoginPanel" Access="Public" VerticalExpand="True">
+                <crt:RMCCrtLabel Text="{Loc stories-hermes-login-hint}" Margin="15" VerticalAlignment="Center" />
+            </crt:RMCCrtPanel>
+            <BoxContainer Name="Program" Access="Public" Orientation="Vertical" VerticalExpand="True" SeparationOverride="6">
+                <GridContainer Columns="3" HorizontalExpand="True">
+                    <crt:RMCCrtActionButton Name="MaintenanceTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-hermes-maintenance}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="AccessTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-hermes-access-tickets}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="SecurityTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-hermes-security}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="LogsTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-hermes-logs}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="LoginsTab" Access="Public" Variant="Navigation"
+                        Text="{Loc stories-hermes-logins}" HorizontalExpand="True" />
+                    <crt:RMCCrtActionButton Name="AresLogs" Access="Public"
+                        Text="{Loc stories-ares-open-logs}" HorizontalExpand="True" />
+                </GridContainer>
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6">
+                        <crt:RMCCrtPanel Name="Submission" Access="Public">
+                            <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="5">
+                                <crt:RMCCrtOptionButton Name="Category" Access="Public" HorizontalExpand="True" />
+                                <BoxContainer Orientation="Horizontal" SeparationOverride="12">
+                                    <CheckBox Name="Priority" Access="Public" Text="{Loc stories-hermes-priority}" />
+                                    <CheckBox Name="ShowClosed" Access="Public" Text="{Loc stories-hermes-show-closed}"
+                                        HorizontalExpand="True" HorizontalAlignment="Right" />
+                                </BoxContainer>
+                                <crt:RMCCrtTextEdit Name="Details" Access="Public" MinHeight="85" MaxHeight="120" />
+                                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                                    <crt:RMCCrtLabel Name="Counter" Access="Public" Tone="Muted" HorizontalExpand="True" />
+                                    <crt:RMCCrtActionButton Name="Submit" Access="Public" Variant="Filled"
+                                        Text="{Loc stories-hermes-submit}" />
+                                </BoxContainer>
+                            </BoxContainer>
+                        </crt:RMCCrtPanel>
+                        <local:HermesSecurityPanel Name="SecurityPanel" Access="Public" />
+                        <crt:RMCCrtLabel Name="Empty" Access="Public" Text="{Loc stories-hermes-empty}" Tone="Muted" Margin="8" />
+                        <BoxContainer Name="Entries" Access="Public" Orientation="Vertical" SeparationOverride="6" />
+                    </BoxContainer>
+                </ScrollContainer>
+                <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                    <crt:RMCCrtActionButton Name="PreviousPage" Access="Public" Text="{Loc stories-hermes-previous}" />
+                    <crt:RMCCrtLabel Name="PageNumber" Access="Public" HorizontalExpand="True" VerticalAlignment="Center" />
+                    <crt:RMCCrtActionButton Name="NextPage" Access="Public" Text="{Loc stories-hermes-next}" />
+                </BoxContainer>
+            </BoxContainer>
+        </BoxContainer>
+    </crt:RMCCrtThemeScope>
+</local:HermesWindow>

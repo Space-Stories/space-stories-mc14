@@ -1,113 +1,113 @@
 <Document>
-  # Sniper Specialist: The Long-Range Solution
+  # Специалист-снайпер: дальнобойное решение проблем
 
-  ## Precision, Patience, Power
-  Difficulty: [color=#4CAF50]Medium to Hard[/color]
+  ## Точность, терпение, мощь
+  Сложность: [color=#4CAF50]Средняя–высокая[/color]
 
-  This guide covers both the Anti-material Sniper and Sniper specialist
+  Этот гайд охватывает обе специализации: антиматериального снайпера и обычного снайпера
 
-  So, you've picked the Sniper specialist, or you're stepping up as their vital Spotter? Wonderful! You're about to become a critical asset on the battlefield, capable of halting Xenonid advances, eliminating high-value targets, and instilling a healthy dose of fear into the enemy. Let’s get started, shall we?
+  Итак, вы взяли специализацию снайпера — или заступаете его незаменимым корректировщиком? Прекрасно! Вы вот-вот станете критически важной боевой единицей: будете останавливать наступления ксеноморфов, устранять высокоприоритетные цели и вселять здоровую дозу страха в противника. Ну что, приступим?
 
-  # The Sniper's Equipment
-  When you open your specialist kit, you'll find several key pieces of gear:
+  # Снаряжение снайпера
+  Открыв кейс специалиста, вы найдёте несколько ключевых предметов:
   <Box><GuideEntityEmbed Entity="CMM96SSniperRifle"/> <GuideEntityEmbed Entity="RMCXM43E1AntiMaterielRifle"/> <GuideEntityEmbed Entity="CMGlassesM42ScoutSight"/></Box>
 
-  # The Spotter's Equipment
+  # Снаряжение корректировщика
   <GuideEntityEmbed Entity="RMCKitSpotter"/>
-  <Box>If you're taking on the crucial role of the Spotter, your kit will contain these important equipment:</Box>
+  <Box>Если вы берёте на себя важнейшую роль корректировщика, в вашем наборе будет это важное снаряжение:</Box>
   <Box><GuideEntityEmbed Entity="CMPamphletSpotter"/> <GuideEntityEmbed Entity="RMCLaserDesignatorSpotter"/> <GuideEntityEmbed Entity="CMGlassesM42ScoutSight"/></Box>
 
-  ## Understanding Aimed Shot & Enhancements: The Core of Your Craft
+  ## Прицельный выстрел и его усиления: основа ремесла
 
-  The Aimed Shot is your signature ability. When successfully channeled and fired, it deals significant damage and, crucially, applies a [color=#ADD8E6][bold]debuff[/bold][/color] to the target depending on ammo. This debuff works on [italic]ANY[/italic] target, including Queens and Tier 3 Xenonids.
+  Прицельный выстрел — ваша фирменная способность. Успешно подготовленный и произведённый, он наносит значительный урон и, что важнее, накладывает на цель [color=#ADD8E6][bold]дебафф[/bold][/color], зависящий от боеприпаса. Этот дебафф действует на [italic]ЛЮБУЮ[/italic] цель, включая Королеву и ксеноморфов третьего тира.
 
-  Both the Sniper's Targeting Laser and the Spotter's "Spot" ability enhance the Aimed Shot by reducing its channel time, along with the distance to the target:
+  И лазер наведения снайпера, и способность корректировщика «Пометить цель» усиливают Прицельный выстрел, сокращая время его подготовки, на которое влияет и дистанция до цели:
 
-  <Box>[bold]Sniper's Targeting Laser[/bold]:</Box>
-  -   Toggling this on creates a [color=#FF0000]highly visible red laser beam[/color] tethering you to your target.
-  -   [italic]Benefit[/italic]: Reduces Aimed Shot channel time by 50% (halves it).
-  -   [italic]Downside[/italic]: Clearly reveals your position and target to the enemy.
+  <Box>[bold]Лазер наведения снайпера[/bold]:</Box>
+  -   Включив его, вы создаёте [color=#FF0000]хорошо заметный красный луч[/color], связывающий вас с целью.
+  -   [italic]Плюс[/italic]: время подготовки Прицельного выстрела сокращается на 50% (вдвое).
+  -   [italic]Минус[/italic]: явно выдаёт врагу вашу позицию и вашу цель.
 
-  <Box>[bold]Spotter's "Spot" Ability[/bold]:</Box>
-  -   When a Spotter "spots" a target, a [color=#FFA500]orange line[/color] tethers the Spotter to the target if the Spotter is visible.
-  -   [color=#00FF00]Crucially, if the Spotter is cloaked, the spotting laser inherits the cloaker's transparency, making it invisible and not revealing the Spotter's position.[/color]
+  <Box>[bold]Способность корректировщика «Пометить цель»[/bold]:</Box>
+  -   Когда корректировщик «помечает» цель, между ним и целью появляется [color=#FFA500]оранжевая линия[/color] — если корректировщик видим.
+  -   [color=#00FF00]Главное: если корректировщик замаскирован, линия пометки наследует прозрачность маскировки — она невидима и не выдаёт позицию корректировщика.[/color]
 
-  ### Sniper Controls
+  ### Управление снайпера
 
-  When you have your Sniper Rifle in hand, you'll have access to two additional UI buttons:
-  -   [italic]Aimed Shot[/italic]: This initiates the powerful, focused shot that is your primary damage and debuff tool.
-  -   [italic]Toggle Laser[/italic]: Activates a visible laser beam from your rifle to the target, significantly speeding up your Aimed Shot.
-  -   Once Aimed shot is active on your hotbar use [color=#FFA500][keybind="CMUniqueAction"][/color] to begin channeling, speed of which depends on if the target was being spotted or if you had your laser toggled on, once finished, you will fire a homing round at the target
+  Взяв снайперскую винтовку в руки, вы получите две дополнительные кнопки интерфейса:
+  -   [italic]Прицельный выстрел[/italic]: запускает мощный сфокусированный выстрел — ваш главный инструмент урона и дебаффов.
+  -   [italic]Переключить лазер[/italic]: активирует видимый луч от винтовки к цели, значительно ускоряя Прицельный выстрел.
+  -   Когда Прицельный выстрел активен на панели, нажмите [color=#FFA500][keybind="CMUniqueAction"][/color], чтобы начать подготовку; её скорость зависит от того, помечена ли цель и включён ли ваш лазер. По завершении вы выпустите самонаводящийся снаряд в цель
 
-  ### Spotter Controls
+  ### Управление корректировщика
 
-  As a Spotter using your designator, you have one key ability:
-  -   [italic]Spot Target[/italic]: This marks an enemy target, providing benefits to your Sniper by allowing them to use aimed shot faster
-  -   Once Spot Target is active on your hotbar use [color=#FFA500][keybind="CMUniqueAction"][/color] to begin spotting it for you sniper.
+  Как корректировщик с целеуказателем вы владеете одной ключевой способностью:
+  -   [italic]Пометить цель[/italic]: помечает вражескую цель, помогая вашему снайперу быстрее использовать Прицельный выстрел
+  -   Когда «Пометить цель» активна на панели, нажмите [color=#FFA500][keybind="CMUniqueAction"][/color], чтобы начать помечать цель для вашего снайпера.
 
-  ## The Ghillie Suit: Become the Unseen Anchor!
+  ## Костюм гилли: станьте невидимым якорем!
   <GuideEntityEmbed Entity="CMArmorM45"/>
-  Both Sniper and Spotter can utilize the Ghillie Suit, advanced camouflage that's more than just a pretty outfit!
+  Костюм гилли доступен и снайперу, и корректировщику — это продвинутый камуфляж, а не просто красивый наряд!
 
-  -   [bold]Stationary Stealth Mode[/bold]: After a [color=#FFA500]brief channel time[/color], if you stay [color=#ADD8E6]perfectly still[/color], you become [italic]invisible[/italic] to everyone! Move, and you're visible again.
-  -   [color=#00FF00][bold]Ghostly Passthrough![/bold][/color]: While invisible and stationary, bullets [italic]pass right through you[/italic] as if you weren't there! No more blocking shots from your forward perch!
-  -   [bold]Tactical Uses[/bold]:
-  -   Set up [color=#DAA520]daring forward positions[/color] for sniping/spotting.
-  -   Become an [color=#FF6347]unseen lynchpin[/color] in an ambush.
-  -   Hold [color=#ADD8E6]unexpected angles[/color] in defense.
-  -   [bold]Heads Up![/bold]: You're stuck if found while still. This isn't an instant escape tool!
+  -   [bold]Режим неподвижной маскировки[/bold]: после [color=#FFA500]короткой подготовки[/color], если вы стоите [color=#ADD8E6]абсолютно неподвижно[/color], вы становитесь [italic]невидимы[/italic] для всех! Пошевелитесь — и вас снова видно.
+  -   [color=#00FF00][bold]Призрачная проницаемость![/bold][/color]: пока вы невидимы и неподвижны, пули [italic]пролетают сквозь вас[/italic], будто вас нет! Больше никаких перекрытых выстрелов с вашей передовой позиции!
+  -   [bold]Тактические применения[/bold]:
+  -   Занимайте [color=#DAA520]дерзкие передовые позиции[/color] для стрельбы и пометки целей.
+  -   Станьте [color=#FF6347]незримой осью[/color] засады.
+  -   Держите [color=#ADD8E6]неожиданные углы[/color] в обороне.
+  -   [bold]Внимание![/bold]: если вас нашли, пока вы стоите неподвижно, — вы в ловушке. Это не инструмент мгновенного побега!
 
-  ## The M96S Sniper Rifle & Ammunition
+  ## Снайперская винтовка M96S и боеприпасы
 
-  The Standard Sniper, a weapon designed for accurate, debilitating shots from afar using specialized ammunition. This weapon excels at controlling enemy movement and applying potent status effects to key targets.
+  Стандартная снайперская винтовка — оружие для точных, выводящих из строя выстрелов издалека специальными боеприпасами. Она отлично контролирует передвижение врага и накладывает мощные эффекты на ключевые цели.
 
-  <Box> Ammunition Types & Their Aimed Shot Effects: </Box>
-  <Box>[bold]Flak Ammo[/bold]</Box>
-  -Normal Shot: Deals direct damage and AoE spread damage to nearby entities, especially effective against groups or Xenonids.
-  -Aimed Shot Effect: If it hits the designated target, it deals increased damage and applies a [color=#ADD8E6]powerful SUPERSLOW[/color] debuff, crippling their movement.
-  <Box>[bold]Incendiary Ammo[/bold]</Box>
-  -Normal Shot: Deals direct damage and ignites targets with [color=#FFA500]intense fire[/color].
-  -Aimed Shot Effect: Inflicts additional fire effects on the target and will [color=#B0B0B0]temporarily impair their vision[/color].
-  <Box>[bold]Marskman Ammo[/bold]</Box>
-  -Normal Shot: Delivers reliable piercing damage.
-  -Aimed Shot Effect: Enhances damage output to amazing levels, capable of removing any threat with ease.
+  <Box> Типы боеприпасов и эффекты их Прицельного выстрела: </Box>
+  <Box>[bold]Флак-боеприпасы[/bold]</Box>
+  -Обычный выстрел: наносит прямой урон и AoE-урон ближайшим существам, особенно эффективен по группам ксеноморфов.
+  -Эффект Прицельного выстрела: при попадании в помеченную цель наносит повышенный урон и накладывает [color=#ADD8E6]мощное СУПЕРЗАМЕДЛЕНИЕ[/color], снижая её подвижность.
+  <Box>[bold]Зажигательные боеприпасы[/bold]</Box>
+  -Обычный выстрел: наносит прямой урон и поджигает цель [color=#FFA500]сильным пламенем[/color].
+  -Эффект Прицельного выстрела: усиливает поджог цели и [color=#B0B0B0]временно ухудшает ей зрение[/color].
+  <Box>[bold]Марксманские боеприпасы[/bold]</Box>
+  -Обычный выстрел: надёжный пробивающий урон.
+  -Эффект Прицельного выстрела: поднимает урон до великолепного уровня — способен с лёгкостью снять любую угрозу.
 
-  ## XM43E1 Anti Materiel Rifle & Ammunition
+  ## Антиматериальная винтовка XM43E1 и боеприпасы
 
-  An anti-materiel rifle designed to penetrate obstacles and multiple foes, delivering devastating blows particularly effective against the largest and most durable threats.
+  Антиматериальная винтовка, созданная пробивать препятствия и нескольких врагов насквозь; её сокрушительные удары особенно эффективны против самых крупных и живучих угроз.
 
-  <Box>Marksman Ammo & Effects:</Box>
-  <Box>[bold]Normal Shot[/bold]:</Box>
-  -Delivers a very high damage shot with significant armor penetration.
-  -Rounds can pass through multiple targets and cover. Each entity or obstacle hit reduces the projectile's subsequent damage and effective range.
-  -Larger/tougher targets and denser obstacles will reduce damage and range more significantly.
-  <Box>[bold]Aimed Shot Effect[/bold]:</Box>
-  -On top of its powerful base damage (factoring in penetration), an Aimed Shot inflicts [italic]substantial bonus damage[/italic].
-  -This bonus damage often scales with the target's size and current health, making it exceptionally effective against large, high-health enemies like T3 Xenonids or Queens, often dealing a significant percentage of their current health as additional damage.
-  -[bold]Consecutive Hit Bonus:[/bold] Repeatedly hitting the [italic]same target[/italic] with Aimed Shots can increase the potency of this bonus damage, rewarding sustained focus on a single, high-value enemy. Hitting a different target will reset this damage ramp-up.
+  <Box>Марксманские боеприпасы и эффекты:</Box>
+  <Box>[bold]Обычный выстрел[/bold]:</Box>
+  -Очень высокий урон с существенным бронебойным действием.
+  -Пули проходят сквозь несколько целей и укрытий. Каждое задетое существо или препятствие снижает дальнейший урон и эффективную дальность снаряда.
+  -Крупные и прочные цели, а также плотные препятствия снижают урон и дальность сильнее.
+  <Box>[bold]Эффект Прицельного выстрела[/bold]:</Box>
+  -Поверх мощного базового урона (с учётом пробития) Прицельный выстрел наносит [italic]существенный бонусный урон[/italic].
+  -Этот бонус часто масштабируется от размера и текущего здоровья цели, что делает его исключительно эффективным против крупных врагов с большим запасом здоровья вроде ксеноморфов Т3 и Королевы: дополнительный урон нередко составляет заметный процент их текущего здоровья.
+  -[bold]Бонус за серию попаданий:[/bold] повторные Прицельные выстрелы по [italic]одной и той же цели[/italic] усиливают этот бонусный урон, вознаграждая сосредоточенность на одном приоритетном враге. Попадание по другой цели сбрасывает разгон урона.
 
-  ## General Sniper & Spotter Tactics
+  ## Общая тактика снайпера и корректировщика
 
-  -   [bold]Homing Aids Accuracy, Positioning Remains Key[/bold]: While Aimed Shots [color=#00FF00]guide themselves to the target[/color], good initial positioning for clear lines of sight and to manage the aim time (influenced by distance) is still [color=#ADD8E6]vital for effective engagement[/color].
-  -   [bold]Understand Your Ammunition's Purpose[/bold]:
-  -   Standard Sniper: [color=#FFA500]Use Flak for its powerful slowing effect on key targets, or Incendiary for sustained fire damage and visual impairment. Choose based on the desired tactical outcome.[/color]
-  -   Heavy Sniper: [color=#FF6347]Your Aimed Shot is designed to cripple or eliminate the toughest enemies. Focus on building the consecutive hit bonus against these targets. Understand how penetration affects your shots when dealing with groups or cover.[/color]
-  -   [bold]Patience & Opportunity ("The WAIT Strategy")[/bold]: [color=#ADD8E6]Allowing enemies to over-extend and then striking with a debilitating Aimed Shot remains a core, highly effective tactic.[/color] Homing projectiles make these crucial opportunities more reliable.
-  -   [bold]Strategic Target Prioritization[/bold]:
-  -   Standard Sniper: [color=#FFA500]Which debuff (Superslow, Fire/Blur) is most tactically valuable for your team right now?[/color]
-  -   Heavy Sniper: [color=#FF6347]Is it better to continue focusing fire on a damaged T3 to maximize the consecutive hit bonus, or switch to a new, immediate threat? Evaluate when to fire through lesser enemies to hit a target behind them.[/color]
-  -   [bold]Judicious Use of the Sniper's Targeting Laser[/bold]: The Sniper's own laser [color=#FFD700]greatly speeds up Aimed Shots but reveals their position with a clear beam[/color]. Use it when speed is more critical than stealth, or if the enemy is already aware of your general location.
-  -   [bold]The Power of a Cloaked Spotter[/bold]: If your Spotter can remain concealed, their ability to reduce the Sniper's aim time [color=#00FF00]without revealing their own position is a significant tactical advantage[/color].
+  -   [bold]Самонаведение помогает точности, но позиция решает[/bold]: хотя Прицельные выстрелы [color=#00FF00]сами ведут снаряд к цели[/color], грамотная изначальная позиция — с чистыми линиями огня и с учётом времени прицеливания (зависящего от дистанции) — по-прежнему [color=#ADD8E6]жизненно важна для эффективного боя[/color].
+  -   [bold]Понимайте назначение своих боеприпасов[/bold]:
+  -   Обычный снайпер: [color=#FFA500]флак — ради мощного замедления ключевых целей, зажигательные — ради длительного урона огнём и ослепления. Выбирайте под нужный тактический результат.[/color]
+  -   Тяжёлый снайпер: [color=#FF6347]ваш Прицельный выстрел создан калечить и устранять самых прочных врагов. Копите бонус за серию попаданий по таким целям. Поймите, как пробитие влияет на выстрелы сквозь группы и укрытия.[/color]
+  -   [bold]Терпение и момент («стратегия ВЫЖИДАНИЯ»)[/bold]: [color=#ADD8E6]дать врагу зарваться и встретить его сокрушительным Прицельным выстрелом — по-прежнему основа основ и крайне эффективная тактика.[/color] Самонаводящиеся снаряды делают эти преимущества надёжнее.
+  -   [bold]Стратегическая приоритизация целей[/bold]:
+  -   Обычный снайпер: [color=#FFA500]какой дебафф (суперзамедление или огонь с ослеплением) сейчас тактически ценнее для команды?[/color]
+  -   Тяжёлый снайпер: [color=#FF6347]что выгоднее — продолжать бить раненого Т3 ради бонуса за серию или переключиться на новую срочную угрозу? Оценивайте, когда стоит стрелять сквозь мелких врагов, чтобы достать цель за ними.[/color]
+  -   [bold]Обдуманное использование лазера наведения[/bold]: собственный лазер снайпера [color=#FFD700]сильно ускоряет Прицельные выстрелы, но выдаёт позицию отчётливым лучом[/color]. Включайте его, когда скорость важнее скрытности или когда враг и так примерно знает, где вы.
+  -   [bold]Сила замаскированного корректировщика[/bold]: если корректировщик остаётся скрытым, его способность ускорять прицеливание снайпера, [color=#00FF00]не выдавая собственной позиции, — серьёзное тактическое преимущество[/color].
 
-  ## Concluding Thoughts: The Distant Death-Dealer
+  ## Напоследок: смерть приходит издалека
 
-  Mastering the Sniper role, whether as the versatile Standard Sniper or the devastating Heavy Sniper, is a journey of precision, patience, and acute tactical awareness. These are not roles for the impulsive; they reward methodical approaches, careful target selection, and seamless coordination with your Spotter and the wider team.
+  Освоение роли снайпера — хоть универсального обычного, хоть сокрушительного тяжёлого — это путь точности, терпения и обострённого тактического чутья. Эти роли не для импульсивных: они вознаграждают методичность, тщательный выбор целей и слаженную работу с корректировщиком и всей командой.
 
-  The ability to cripple an enemy advance with a well-placed Flak shot, to melt hostiles with an Incendiary payload, or to vaporize a high-value target with a penetrating Marksman round from the XM43E1, can single-handedly turn the tide of an engagement. Remember the value of your Spotter – they are your force multiplier, your second pair of eyes, and the key to unlocking your rifle's fastest engagement potential.
+  Способность остановить вражеское наступление точным флак-выстрелом, выжечь врага зажигательным боеприпасом или испарить приоритетную цель пробивающей марксманской пулей из XM43E1 в одиночку меняет ход столкновения. Помните о ценности корректировщика — он ваш множитель силы, вторая пара глаз и ключ к максимальной скорости стрельбы вашей винтовки.
 
-  So, take up your rifle, calibrate your sights, and communicate with your team. Whether you're providing overwatch, eliminating critical threats, or acting as a powerful psychological deterrent, your impact from afar will be undeniable. Stay sharp, stay patient, and make every shot count.
+  Так что берите винтовку, выверяйте прицел и держите связь с командой. Дозор, устранение критических угроз или просто мощное психологическое сдерживание — ваше влияние издалека будет неоспоримым. Будьте собранны, будьте терпеливы, и пусть каждый выстрел идёт в зачёт.
 
-  Good hunting, Sniper.
+  Удачной охоты, снайпер.
 
 
 </Document>

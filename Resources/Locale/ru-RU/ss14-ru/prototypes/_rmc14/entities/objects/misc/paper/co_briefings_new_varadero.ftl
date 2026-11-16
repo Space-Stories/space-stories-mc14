@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingVaraderoUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Нью-Варадеро, Вне фракций
+ent-RMCPaperCOBriefingVaraderoHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Нью-Варадеро, Ястребы
+ent-RMCPaperCOBriefingVaraderoDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Нью-Варадеро, Голуби
+ent-RMCPaperCOBriefingVaraderoMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Нью-Варадеро, Сороки

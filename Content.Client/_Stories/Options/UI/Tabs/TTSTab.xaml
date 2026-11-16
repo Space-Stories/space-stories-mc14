@@ -1,22 +1,33 @@
-<Control xmlns="https://spacestation14.io"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="clr-namespace:Content.Client.Options.UI"
-                    xmlns:s="clr-namespace:Content.Client.Stylesheets"
-                    x:Class="Content.Client.Options.UI.Tabs.TTSTab">
+<Control
+    xmlns="https://spacestation14.io"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="clr-namespace:Content.Client.Options.UI"
+    xmlns:s="clr-namespace:Content.Client.Stylesheets"
+    x:Class="Content.Client.Options.UI.Tabs.TTSTab"
+>
     <BoxContainer Orientation="Vertical">
-        <BoxContainer Orientation="Vertical" Margin="8 8 8 8" VerticalExpand="True">
-            <CheckBox Name="TtsEnabledCheckBox" Text="{Loc 'stories-ui-options-tts-enabled-client'}" />
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
+            <BoxContainer Orientation="Vertical" Margin="8 8 8 8" VerticalExpand="True">
+                <CheckBox Name="TtsEnabledCheckBox" Text="{Loc 'stories-ui-options-tts-enabled-client'}" />
 
-            <Label Text="{Loc 'ui-options-volume-label'}"
-                   StyleClasses="LabelKeyText"
-                   Margin="0 8 0 0"/>
-            <BoxContainer Orientation="Vertical" Margin="0 3 0 0">
-                <ui:OptionSlider Name="SliderVolumeMarines" Title="{Loc 'stories-ui-options-tts-volume-marines'}" />
-                <ui:OptionSlider Name="SliderVolumeXenos" Title="{Loc 'stories-ui-options-tts-volume-xenos'}" />
-                <ui:OptionSlider Name="SliderVolumeRadio" Title="{Loc 'stories-ui-options-tts-volume-radio'}" />
-                <ui:OptionSlider Name="SliderVolumeOther" Title="{Loc 'stories-ui-options-tts-volume-other'}" />
+                <Label Text="{Loc 'ui-options-volume-label'}" StyleClasses="LabelKeyText" Margin="0 8 0 0" />
+                <BoxContainer Orientation="Vertical" Margin="0 3 0 0">
+                    <ui:OptionSlider Name="SliderVolumeMasterTTS" Title="{Loc 'stories-ui-options-tts-volume-master'}" />
+                    <ui:OptionSlider Name="SliderVolumeRadio" Title="{Loc 'stories-ui-options-tts-volume-radio'}" />
+                    <ui:OptionSlider Name="SliderVolumeAnnounce" Title="{Loc 'stories-ui-options-tts-volume-announce'}" />
+                    <ui:OptionSlider Name="SliderVolumeMarines" Title="{Loc 'stories-ui-options-tts-volume-marines'}" />
+                    <ui:OptionSlider Name="SliderVolumeXenos" Title="{Loc 'stories-ui-options-tts-volume-xenos'}" />
+                    <ui:OptionSlider Name="SliderVolumeOther" Title="{Loc 'stories-ui-options-tts-volume-other'}" />
+                </BoxContainer>
+
+                <Label
+                    Text="{Loc 'stories-ui-options-tts-radio-volumes'}"
+                    StyleClasses="LabelKeyText"
+                    Margin="0 8 0 0"
+                />
+                <BoxContainer Name="RadioVolumesContainer" Orientation="Vertical" Margin="0 3 0 0" />
             </BoxContainer>
-        </BoxContainer>
+        </ScrollContainer>
         <ui:OptionsTabControlRow Name="Control" Access="Public" />
     </BoxContainer>
 </Control>

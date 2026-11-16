@@ -1,0 +1,2013 @@
+# - type: ttsVoice
+#   name: "Папич"
+#   sex: Male
+#   speaker: papich
+#   id: papich
+#   category: "Media"
+#   blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Бэбэй"
+  sex: Male
+  speaker: bebey
+  id: bebey
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Дмитрий Пучков"
+  sex: Male
+  speaker: puchkow
+  id: puchkow
+  category: "Media"
+
+# - type: ttsVoice
+#   name: "Мориарти"
+#   sex: Male
+#   speaker: moriarti
+#   id: moriarti
+#   category: "Media"
+
+- type: ttsVoice
+  name: "Шарлотта"
+  sex: Female
+  speaker: charlotte
+  id: charlotte
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Планя"
+  sex: Female
+  speaker: planya
+  id: planya
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Мана"
+  sex: Female
+  speaker: mana
+  id: mana
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Амина"
+  sex: Female
+  speaker: amina
+  id: amina
+  category: "Media"
+  blacklist: [STHunter]
+
+# - type: ttsVoice
+#   name: "Джо Байден"
+#   sex: Male
+#   speaker: biden
+#   id: biden
+#   category: "Media"
+
+# - type: ttsVoice
+#   name: "Барак Обама"
+#   sex: Male
+#   speaker: obama
+#   id: obama
+#   category: "Media"
+
+# - type: ttsVoice
+#   name: "Дональд Трамп"
+#   sex: Male
+#   speaker: trump
+#   id: trump
+#   category: "Media"
+
+- type: ttsVoice
+  name: "Добакин"
+  sex: Male
+  speaker: dbkn2
+  id: dbkn2
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Хреноид"
+  sex: Male
+  speaker: xrenoid
+  id: xrenoid
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "PlayBoyzTV"
+  sex: Male
+  speaker: playboyztv
+  id: playboyztv
+  category: "Media"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Уоллес Брин"
+  sex: Male
+  speaker: briman
+  id: briman
+  category: "Half-Life 2"
+
+- type: ttsVoice
+  name: "Отец Григорий"
+  sex: Male
+  speaker: father_grigori
+  id: father_grigori
+  category: "Half-Life 2"
+
+- type: ttsVoice
+  name: "Доктор Кляйнер"
+  sex: Male
+  speaker: kleiner
+  id: kleiner
+  category: "Half-Life 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Джудит Моссман"
+  sex: Female
+  speaker: mossman
+  id: mossman
+  category: "Half-Life 2"
+
+- type: ttsVoice
+  name: "Илай Вэнс"
+  sex: Male
+  speaker: vance
+  id: vance
+  category: "Half-Life 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Аликс Вэнс"
+  sex: Female
+  speaker: alyx
+  id: alyx
+  category: "Half-Life 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "G-Man"
+  sex: Male
+  speaker: gman
+  id: gman
+  category: "Half-Life 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Барни Калхун"
+  sex: Male
+  speaker: barni
+  id: barni
+  category: "Half-Life 2"
+  blacklist: [STHunter]
+
+# - type: ttsVoice
+#   name: "Неко-Арк"
+#   sex: Female
+#   speaker: neco
+#   id: neco
+#   category: "Fate"
+#   blacklist: [STHunter]
+
+# - type: ttsVoice
+#   name: "Неко-Арк 2"
+#   sex: Female
+#   speaker: neco_arc_2
+#   id: neco_arc_2
+#   category: "Fate"
+#   blacklist: [STHunter]
+
+# - type: ttsVoice
+#   name: "Злая Неко-Арк"
+#   sex: Female
+#   speaker: angry_neco_arc
+#   id: angry_neco_arc
+#   category: "Fate"
+#   blacklist: [STHunter]
+
+# - type: ttsVoice
+#   name: "Житель"
+#   sex: Male
+#   speaker: villager
+#   id: villager
+#   category: "Minecraft"
+
+# - type: ttsVoice
+#   name: "Сквидвард"
+#   sex: Male
+#   speaker: squidward
+#   id: squidward
+#   category: "Sponge Bob"
+
+- type: ttsVoice
+  name: "SentryBot"
+  sex: Male
+  speaker: sentrybot
+  id: sentrybot
+  category: "Fallout 3"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Мойра Браун"
+  sex: Female
+  speaker: moira_brown
+  id: moira_brown
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Робер МакКриди"
+  sex: Male
+  speaker: robert_maccready
+  id: robert_maccready
+  category: "Fallout 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Тридогнайт"
+  sex: Male
+  speaker: threedog
+  id: threedog
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Тридогнайт Радио"
+  sex: Male
+  speaker: threedog_radio
+  id: threedog_radio
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Мистер Помощник"
+  sex: Male
+  speaker: mister_handy_fl3
+  id: mister_handy_fl3
+  category: "Fallout 3"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Мистер Храбрец"
+  sex: Male
+  speaker: mister_gutsy_fl3
+  id: mister_gutsy_fl3
+  category: "Fallout 3"
+  blacklist: [Human]
+
+- type: ttsVoice
+  name: "Джерико"
+  sex: Male
+  speaker: jericho_fl3
+  id: jericho_fl3
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Старейшина Лайонс"
+  sex: Male
+  speaker: elder_lyons_fl3
+  id: elder_lyons_fl3
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Сара Лайонс"
+  sex: Female
+  speaker: sarah_lyons_fl3
+  id: sarah_lyons_fl3
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Колин Мориарти"
+  sex: Male
+  speaker: colin_moriarty_fl3
+  id: colin_moriarty_fl3
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Джон Генри Эдем"
+  sex: Male
+  speaker: john_henry_eden_fl3
+  id: john_henry_eden_fl3
+  category: "Fallout 3"
+  blacklist: [Human]
+
+- type: ttsVoice
+  name: "Супер-Мутант"
+  sex: Male
+  speaker: super_mutant_fl3
+  id: super_mutant_fl3
+  category: "Fallout 3"
+
+- type: ttsVoice
+  name: "Полина Морозова"
+  sex: Female
+  speaker: polina
+  id: polina
+  category: "Tiny Bunny"
+
+- type: ttsVoice
+  name: "Рома Пятифанов"
+  sex: Male
+  speaker: romka
+  id: romka
+  category: "Tiny Bunny"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Борис Петров"
+  sex: Male
+  speaker: boris_petrov_father_tb
+  id: boris_petrov_father_tb
+  category: "Tiny Bunny"
+
+- type: ttsVoice
+  name: "Карина Петрова"
+  sex: Female
+  speaker: karina_petrova_tb
+  id: karina_petrova_tb
+  category: "Tiny Bunny"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Катя Смирнова"
+  sex: Female
+  speaker: kate_smirnova_tb
+  id: kate_smirnova_tb
+  category: "Tiny Bunny"
+
+- type: ttsVoice
+  name: "Семён Бабурин"
+  sex: Male
+  speaker: semen_baburin_tb
+  id: semen_baburin_tb
+  category: "Tiny Bunny"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Лейтенант Тихонов"
+  sex: Male
+  speaker: tihonov_tb
+  id: tihonov_tb
+  category: "Tiny Bunny"
+
+- type: ttsVoice
+  name: "Цицерон"
+  sex: Male
+  speaker: cicero
+  id: cicero
+  category: "TES 5 Skyrim"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Шеогорат"
+  sex: Male
+  speaker: sheogorath
+  id: sheogorath
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Кодлак Белая Грива"
+  sex: Male
+  speaker: kodlakwhitemane
+  id: kodlakwhitemane
+  category: "TES 5 Skyrim"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Каджит"
+  sex: Male
+  speaker: khajiit
+  id: khajiit
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Эленвен"
+  sex: Female
+  speaker: elenwen
+  id: elenwen
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Тит Мид II"
+  sex: Male
+  speaker: emperor
+  id: emperor
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Стражник"
+  sex: Male
+  speaker: guard
+  id: guard
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Ворожея"
+  sex: Male
+  speaker: hagraven
+  id: hagraven
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Хермеус Мора"
+  sex: Male
+  speaker: hermaeus_mora
+  id: hermaeus_mora
+  category: "TES 5 Skyrim"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Норд"
+  sex: Male
+  speaker: nord
+  id: nord
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Ульфрик Буревестник"
+  sex: Male
+  speaker: ulfric
+  id: ulfric
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Астрид"
+  sex: Female
+  speaker: astrid
+  id: astrid
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Мавен Чёрный Вереск"
+  sex: Female
+  speaker: maven
+  id: maven
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Назир"
+  sex: Male
+  speaker: nazir
+  id: nazir
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Женщина командир"
+  sex: Female
+  speaker: female_commander
+  id: female_commander
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Лорд Харкон"
+  sex: Male
+  speaker: lord_harkon
+  id: lord_harkon
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "Серана"
+  sex: Female
+  speaker: serana
+  id: serana
+  category: "TES 5 Skyrim"
+
+- type: ttsVoice
+  name: "GLaDOS"
+  sex: Female
+  speaker: glados
+  id: glados
+  category: "Portal 2"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Модуль Приключений"
+  sex: Male
+  speaker: adventure_core
+  id: adventure_core
+  category: "Portal 2"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Модуль Фактов"
+  sex: Male
+  speaker: fact_core
+  id: fact_core
+  category: "Portal 2"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Модуль Космоса"
+  sex: Male
+  speaker: space_core
+  id: space_core
+  category: "Portal 2"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Турель"
+  sex: Female
+  speaker: turret_floor
+  id: turret_floor
+  category: "Portal 2"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Геральт из Ривии"
+  sex: Male
+  speaker: geralt
+  id: geralt
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Цирилла"
+  sex: Female
+  speaker: cirilla
+  id: cirilla
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Керис ан Крайт"
+  sex: Female
+  speaker: cerys
+  id: cerys
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Ламберт"
+  sex: Male
+  speaker: lambert
+  id: lambert
+  category: "The Witcher 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Трисс"
+  sex: Female
+  speaker: triss
+  id: triss
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Ковир Ноблеман"
+  sex: Male
+  speaker: kovir_nobleman
+  id: kovir_nobleman
+  category: "The Witcher 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Золтан Хивай"
+  sex: Male
+  speaker: zoltan_chivay
+  id: zoltan_chivay
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Весемир"
+  sex: Male
+  speaker: vesemir
+  id: vesemir
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Гильом де Лонфаль"
+  sex: Male
+  speaker: guillaume_de_launfal
+  id: guillaume_de_launfal
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Филиппа Эйльхарт"
+  sex: Female
+  speaker: philippa_eilhart
+  id: philippa_eilhart
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Эвальд Борсоди"
+  sex: Male
+  speaker: ewald_borsodi
+  id: ewald_borsodi
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Лютик"
+  sex: Male
+  speaker: dandelion
+  id: dandelion
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Шани"
+  sex: Female
+  speaker: shani
+  id: shani
+  category: "The Witcher 3"
+
+- type: ttsVoice
+  name: "Азир"
+  sex: Male
+  speaker: azir
+  id: azir
+  category: "League of Legends"
+
+- type: ttsVoice
+  name: "Экко"
+  sex: Male
+  speaker: ekko
+  id: ekko
+  category: "League of Legends"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Твич"
+  sex: Male
+  speaker: twitch
+  id: twitch
+  category: "League of Legends"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Зиггс"
+  sex: Male
+  speaker: ziggs
+  id: ziggs
+  category: "League of Legends"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Кэйтлин"
+  sex: Female
+  speaker: caitlyn
+  id: caitlyn
+  category: "League of Legends"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Артас Менетил"
+  sex: Male
+  speaker: arthas
+  id: arthas
+  category: "Warcraft 3"
+
+- type: ttsVoice
+  name: "Иллидан Ярость Бури"
+  sex: Male
+  speaker: illidan
+  id: illidan
+  category: "Warcraft 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Рексар"
+  sex: Male
+  speaker: rexxar
+  id: rexxar
+  category: "Warcraft 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Вол'джин"
+  sex: Male
+  speaker: voljin
+  id: voljin
+  category: "Warcraft 3"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Бандит"
+  sex: Male
+  speaker: bandit
+  id: bandit
+  category: "S.T.A.L.K.E.R."
+
+- type: ttsVoice
+  name: "Лесник"
+  sex: Male
+  speaker: forester
+  id: forester
+  category: "S.T.A.L.K.E.R."
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Сидорович"
+  sex: Male
+  speaker: sidorovich
+  id: sidorovich
+  category: "S.T.A.L.K.E.R."
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Стрелок"
+  sex: Male
+  speaker: strelok
+  id: strelok
+  category: "S.T.A.L.K.E.R."
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Трэйсер"
+  sex: Female
+  speaker: tracer
+  id: tracer
+  category: "Overwatch"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Солдат"
+  sex: Male
+  speaker: soldier
+  id: soldier
+  category: "Team Fortress 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Инженер"
+  sex: Male
+  speaker: engineer
+  id: engineer
+  category: "Team Fortress 2"
+
+- type: ttsVoice
+  name: "Хэви"
+  sex: Male
+  speaker: heavy
+  id: heavy
+  category: "Team Fortress 2"
+
+- type: ttsVoice
+  name: "Медик"
+  sex: Male
+  speaker: medic
+  id: medic
+  category: "Team Fortress 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Подрывник"
+  sex: Male
+  speaker: demoman
+  id: demoman
+  category: "Team Fortress 2"
+
+- type: ttsVoice
+  name: "Снайпер"
+  sex: Male
+  speaker: sniper
+  id: sniper
+  category: "Team Fortress 2"
+
+- type: ttsVoice
+  name: "Шпион"
+  sex: Male
+  speaker: spy
+  id: spy
+  category: "Team Fortress 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Каратель"
+  sex: Male
+  speaker: punisher
+  id: punisher
+  category: "The Punisher"
+
+- type: ttsVoice
+  name: "Джонни Сильверхенд"
+  sex: Male
+  speaker: johnny
+  id: johnny
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Панам Палмер"
+  sex: Female
+  speaker: panam
+  id: panam
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Ви"
+  sex: Female
+  speaker: v_female
+  id: v_female
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Джуди Альварес"
+  sex: Female
+  speaker: judy
+  id: judy
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Митч Андерсон"
+  sex: Male
+  speaker: mitch
+  id: mitch
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Скиппи"
+  sex: Male
+  speaker: skippy
+  id: skippy
+  category: "Cyberpunk 2077"
+  blacklist: [STHunter, Human]
+
+- type: ttsVoice
+  name: "Джеки Уэллс"
+  sex: Male
+  speaker: jackie
+  id: jackie
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Майко Маэда"
+  sex: Female
+  speaker: maiko
+  id: maiko
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Брендан"
+  sex: Male
+  speaker: brendan
+  id: brendan
+  category: "Cyberpunk 2077"
+  blacklist: [Human]
+
+- type: ttsVoice
+  name: "Нэнси Хартли"
+  sex: Female
+  speaker: nancy_hartley
+  id: nancy_hartley
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Освальд Форрест"
+  sex: Male
+  speaker: oswald_forrest
+  id: oswald_forrest
+  category: "Cyberpunk 2077"
+
+- type: ttsVoice
+  name: "Стив Санчес"
+  sex: Male
+  speaker: steve
+  id: steve
+  category: "Cyberpunk 2077"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Сержант Дорнан"
+  sex: Male
+  speaker: dornan
+  id: dornan
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Офицер Анклава"
+  sex: Male
+  speaker: officer_enclave
+  id: officer_enclave
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Дик Ричардсон"
+  sex: Male
+  speaker: richardson
+  id: richardson
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Бутч Харрис"
+  sex: Male
+  speaker: butch
+  id: butch
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Маркус"
+  sex: Male
+  speaker: marcus
+  id: marcus
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Сулик"
+  sex: Male
+  speaker: sulik
+  id: sulik
+  category: "Fallout 2"
+
+- type: ttsVoice
+  name: "Майрон"
+  sex: Male
+  speaker: myron
+  id: myron
+  category: "Fallout 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Добрая Талия"
+  sex: Female
+  speaker: good_thalya
+  id: good_thalya
+  category: "Dungeons 3"
+
+- type: ttsVoice
+  name: "Злая Талия"
+  sex: Female
+  speaker: evil_thalya
+  id: evil_thalya
+  category: "Dungeons 3"
+
+- type: ttsVoice
+  name: "Рассказчик"
+  sex: Male
+  speaker: narrator_d3
+  id: narrator_d3
+  category: "Dungeons 3"
+
+- type: ttsVoice
+  name: "Чувак"
+  sex: Male
+  speaker: dude
+  id: dude
+  category: "Postal 2"
+
+- type: ttsVoice
+  name: "Андуин Ринн"
+  sex: Male
+  speaker: anduin
+  id: anduin
+  category: "Hearthstone"
+
+- type: ttsVoice
+  name: "Бру'кан"
+  sex: Male
+  speaker: brukan
+  id: brukan
+  category: "Hearthstone"
+
+- type: ttsVoice
+  name: "Гаррош Адский Крик"
+  sex: Male
+  speaker: garrosh
+  id: garrosh
+  category: "Hearthstone"
+
+- type: ttsVoice
+  name: "Джайна Праудмур"
+  sex: Female
+  speaker: jaina
+  id: jaina
+  category: "Hearthstone"
+
+- type: ttsVoice
+  name: "Утер Светоносный"
+  sex: Male
+  speaker: uther_hs
+  id: uther_hs
+  category: "Hearthstone"
+
+- type: ttsVoice
+  name: "Адъютант"
+  sex: Female
+  speaker: adjutant
+  id: adjutant
+  category: "StarCraft 2"
+  blacklist: [Human]
+
+- type: ttsVoice
+  name: "Ариэль Хэнсон"
+  sex: Female
+  speaker: hanson
+  id: hanson
+  category: "StarCraft 2"
+
+- type: ttsVoice
+  name: "Бралик"
+  sex: Male
+  speaker: bralik
+  id: bralik
+  category: "StarCraft 2"
+
+- type: ttsVoice
+  name: "Мэтт Хорнер"
+  sex: Male
+  speaker: horner
+  id: horner
+  category: "StarCraft 2"
+
+- type: ttsVoice
+  name: "Габриэль Тош"
+  sex: Male
+  speaker: tosh
+  id: tosh
+  category: "StarCraft 2"
+
+- type: ttsVoice
+  name: "Тайкус Финдли"
+  sex: Male
+  speaker: tychus
+  id: tychus
+  category: "StarCraft 2"
+
+- type: ttsVoice
+  name: "Амит Таккар"
+  sex: Male
+  speaker: amitkakkar
+  id: amitkakkar
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Элеазар Фиг"
+  sex: Male
+  speaker: eleazarfig
+  id: eleazarfig
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Эрни Ларк"
+  sex: Male
+  speaker: ernielark
+  id: ernielark
+  category: "Hogwarts Legacy"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Игнатия Уайлдсмит"
+  sex: Female
+  speaker: ignatiaflootravel
+  id: ignatiaflootravel
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Лодгок"
+  sex: Male
+  speaker: lodgok
+  id: lodgok
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Финеас Найджелус Блэк"
+  sex: Male
+  speaker: phineasblack
+  id: phineasblack
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Ранрок"
+  sex: Male
+  speaker: ranrak
+  id: ranrak
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Виктор Руквуд"
+  sex: Male
+  speaker: victorrookwood
+  id: victorrookwood
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Зенобия Ноук"
+  sex: Female
+  speaker: zenobianoke
+  id: zenobianoke
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Глэдвин Мун"
+  sex: Male
+  speaker: gladwinmoon
+  id: gladwinmoon
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Матильда Уизли"
+  sex: Female
+  speaker: matildaweasley
+  id: matildaweasley
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Натсай Онай"
+  sex: Female
+  speaker: natsaionai
+  id: natsaionai
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Оминис Мракс"
+  sex: Male
+  speaker: ominisgaunt
+  id: ominisgaunt
+  category: "Hogwarts Legacy"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Поппи Добринг"
+  sex: Female
+  speaker: poppysweeting
+  id: poppysweeting
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Гоблин В"
+  sex: Male
+  speaker: generic_goblin_c
+  id: generic_goblin_c
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Дина Гекат"
+  sex: Female
+  speaker: dinah_hecat
+  id: dinah_hecat
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Эзоп Шарп"
+  sex: Male
+  speaker: aesop_sharp
+  id: aesop_sharp
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Абрахам Ронен"
+  sex: Male
+  speaker: abraham_ronen
+  id: abraham_ronen
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Саманта Дейл"
+  sex: Female
+  speaker: samantha_dale
+  id: samantha_dale
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Сирона Райан"
+  sex: Female
+  speaker: sirona_ryan
+  id: sirona_ryan
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Софрония Франклин"
+  sex: Female
+  speaker: sophronia_franklin
+  id: sophronia_franklin
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Эверетт Клоптон"
+  sex: Male
+  speaker: everett_clopton
+  id: everett_clopton
+  category: "Hogwarts Legacy"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Гоблин Б"
+  sex: Male
+  speaker: generic_goblin_b
+  id: generic_goblin_b
+  category: "Hogwarts Legacy"
+
+- type: ttsVoice
+  name: "Домовой эльф из святилища"
+  sex: Male
+  speaker: sanctuary_house_elf
+  id: sanctuary_house_elf
+  category: "Hogwarts Legacy"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Abaddon"
+  sex: Male
+  speaker: abaddon_dota_2
+  id: abaddon_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Achemist"
+  sex: Male
+  speaker: alchemist_dota_2
+  id: alchemist_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Anti-Mage"
+  sex: Male
+  speaker: anti-mage_dota_2
+  id: anti-mage_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Arc Warden"
+  sex: Male
+  speaker: arc_warden_dota_2
+  id: arc_warden_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Batrider"
+  sex: Male
+  speaker: batrider_dota_2
+  id: batrider_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Bloodseeker"
+  sex: Male
+  speaker: bloodseeker_dota_2
+  id: bloodseeker_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Bounty STHunter"
+  sex: Male
+  speaker: bounty_SThunter_dota_2
+  id: bounty_SThunter_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Bristleback"
+  sex: Male
+  speaker: bristleback_dota_2
+  id: bristleback_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Broodmother"
+  sex: Female
+  speaker: broodmother_dota_2
+  id: broodmother_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Centaur Warrunner"
+  sex: Male
+  speaker: centaur_warrunner_dota_2
+  id: centaur_warrunner_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Clinkz"
+  sex: Male
+  speaker: clinkz_dota_2
+  id: clinkz_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Clockwerk"
+  sex: Male
+  speaker: clockwerk_dota_2
+  id: clockwerk_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Crystal Maiden"
+  sex: Female
+  speaker: crystal_maiden_dota_2
+  id: crystal_maiden_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Dazzle"
+  sex: Male
+  speaker: dazzle_dota_2
+  id: dazzle_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Disruptor"
+  sex: Male
+  speaker: disruptor_dota_2
+  id: disruptor_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Doom"
+  sex: Male
+  speaker: doom_dota_2
+  id: doom_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Dragon Knight"
+  sex: Male
+  speaker: dragon_knight_dota_2
+  id: dragon_knight_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Dragon Knight Dragon"
+  sex: Male
+  speaker: dragon_knight_dragon_dota_2
+  id: dragon_knight_dragon_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Drow Ranger"
+  sex: Female
+  speaker: drow_ranger_dota_2
+  id: drow_ranger_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Earthshaker"
+  sex: Male
+  speaker: earthshaker_dota_2
+  id: earthshaker_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Ember Spirit"
+  sex: Male
+  speaker: ember_spirit_dota_2
+  id: ember_spirit_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Enigma"
+  sex: Male
+  speaker: enigma_dota_2
+  id: enigma_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Gyrocopter"
+  sex: Male
+  speaker: gyrocopter_dota_2
+  id: gyrocopter_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Huskar"
+  sex: Male
+  speaker: huskar_dota_2
+  id: huskar_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Invoker"
+  sex: Male
+  speaker: invoker_dota_2
+  id: invoker_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Juggernaut"
+  sex: Male
+  speaker: juggernaut_dota_2
+  id: juggernaut_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Keeper Of The Light"
+  sex: Male
+  speaker: keeper_of_the_light_dota_2
+  id: keeper_of_the_light_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Kunkka"
+  sex: Male
+  speaker: kunkka_dota_2
+  id: kunkka_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Legion Commander Demon"
+  sex: Female
+  speaker: legion_commander_demon_dota_2
+  id: legion_commander_demon_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Legion Commander"
+  sex: Female
+  speaker: legion_commander_dota_2
+  id: legion_commander_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Lich"
+  sex: Male
+  speaker: lich_dota_2
+  id: lich_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Lina"
+  sex: Female
+  speaker: lina_dota_2
+  id: lina_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Luna"
+  sex: Female
+  speaker: luna_dota_2
+  id: luna_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Lycan"
+  sex: Male
+  speaker: lycan_dota_2
+  id: lycan_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Lycan Wolf"
+  sex: Male
+  speaker: lycan_wolf_dota_2
+  id: lycan_wolf_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Meepo"
+  sex: Male
+  speaker: meepo_dota_2
+  id: meepo_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Mirana"
+  sex: Female
+  speaker: mirana_dota_2
+  id: mirana_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Monkey King Crown"
+  sex: Male
+  speaker: monkey_king_crown_dota_2
+  id: monkey_king_crown_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Monkey King"
+  sex: Male
+  speaker: monkey_king_dota_2
+  id: monkey_king_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Necrophos"
+  sex: Male
+  speaker: necrophos_dota_2
+  id: necrophos_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Nyx Assassin"
+  sex: Male
+  speaker: nyx_assassin_dota_2
+  id: nyx_assassin_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Omniknight"
+  sex: Male
+  speaker: omniknight_dota_2
+  id: omniknight_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Outworld Destroyer"
+  sex: Male
+  speaker: outworld_destroyer_dota_2
+  id: outworld_destroyer_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Phantom Assassin Arcana"
+  sex: Female
+  speaker: phantom_assassin_arcana_dota_2
+  id: phantom_assassin_arcana_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Phantom Assassin"
+  sex: Female
+  speaker: phantom_assassin_dota_2
+  id: phantom_assassin_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Phantom Lancer"
+  sex: Male
+  speaker: phantom_lancer_dota_2
+  id: phantom_lancer_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Pudge"
+  sex: Male
+  speaker: pudge_dota_2
+  id: pudge_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Queen Of Pain"
+  sex: Female
+  speaker: queen_of_pain_dota_2
+  id: queen_of_pain_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Razor"
+  sex: Male
+  speaker: razor_dota_2
+  id: razor_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Riki"
+  sex: Male
+  speaker: riki_dota_2
+  id: riki_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Rubick"
+  sex: Male
+  speaker: rubick_dota_2
+  id: rubick_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Sand King"
+  sex: Male
+  speaker: sand_king_dota_2
+  id: sand_king_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Shadow Fiend"
+  sex: Male
+  speaker: shadow_fiend_dota_2
+  id: shadow_fiend_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Shadow Shaman"
+  sex: Male
+  speaker: shadow_shaman_dota_2
+  id: shadow_shaman_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Skywrath Mage"
+  sex: Male
+  speaker: skywrath_mage_dota_2
+  id: skywrath_mage_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Slardar"
+  sex: Male
+  speaker: slardar_dota_2
+  id: slardar_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Slark"
+  sex: Male
+  speaker: slark_dota_2
+  id: slark_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Spirit Breaker"
+  sex: Male
+  speaker: spirit_breaker_dota_2
+  id: spirit_breaker_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Storm Spirit"
+  sex: Male
+  speaker: storm_spirit_dota_2
+  id: storm_spirit_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Sven"
+  sex: Male
+  speaker: sven_dota_2
+  id: sven_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Templar Assassin"
+  sex: Female
+  speaker: templar_assassin_dota_2
+  id: templar_assassin_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "TideSThunter"
+  sex: Male
+  speaker: tideSThunter_dota_2
+  id: tideSThunter_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Treant Protector"
+  sex: Male
+  speaker: treant_protector_dota_2
+  id: treant_protector_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Underlord"
+  sex: Male
+  speaker: underlord_dota_2
+  id: underlord_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Ursa"
+  sex: Male
+  speaker: ursa_dota_2
+  id: ursa_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Windranger"
+  sex: Female
+  speaker: windranger_dota_2
+  id: windranger_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Winter Wyvern"
+  sex: Female
+  speaker: winter_wyvern_dota_2
+  id: winter_wyvern_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Witch Doctor"
+  sex: Male
+  speaker: witch_doctor_dota_2
+  id: witch_doctor_dota_2
+  category: "Dota 2"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Wraith King"
+  sex: Male
+  speaker: wraith_king_dota_2
+  id: wraith_king_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Zeus"
+  sex: Male
+  speaker: zeus_dota_2
+  id: zeus_dota_2
+  category: "Dota 2"
+
+- type: ttsVoice
+  name: "Мита"
+  sex: Female
+  speaker: mita
+  id: mita
+  category: "MiSide"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Сонная Мита"
+  sex: Female
+  speaker: mitadream
+  id: mitadream
+  category: "MiSide"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Мита Призрак"
+  sex: Female
+  speaker: mitaghost
+  id: mitaghost
+  category: "MiSide"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Добрая Мита"
+  sex: Female
+  speaker: mitakind
+  id: mitakind
+  category: "MiSide"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Коротковолосая Мита"
+  sex: Female
+  speaker: mitashorthairs
+  id: mitashorthairs
+  category: "MiSide"
+  blacklist: [STHunter]
+
+- type: ttsVoice
+  name: "Культисты Хаоса"
+  sex: Male
+  speaker: chaos_marines_cultists_dow
+  id: chaos_marines_cultists_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Космодесантники Хаоса"
+  sex: Male
+  speaker: chaos_marines_dow
+  id: chaos_marines_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Лорд Хаоса"
+  sex: Male
+  speaker: chaos_marines_lord_dow
+  id: chaos_marines_lord_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Колдун Хаоса"
+  sex: Male
+  speaker: chaos_marines_sorceror_dow
+  id: chaos_marines_sorceror_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Архон Тёмных Эльдар"
+  sex: Male
+  speaker: dark_eldar_archon_dow
+  id: dark_eldar_archon_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Мандрагор Тёмных Эльдар"
+  sex: Male
+  speaker: dark_eldar_mandrake_dow
+  id: dark_eldar_mandrake_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Воин Тёмных Эльдар"
+  sex: Male
+  speaker: dark_eldar_warrior_dow
+  id: dark_eldar_warrior_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Ведьма Тёмных Эльдар"
+  sex: Female
+  speaker: dark_eldar_wych_dow
+  id: dark_eldar_wych_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Стражи Эльдар"
+  sex: Female
+  speaker: eldar_dow
+  id: eldar_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Провидец Эльдар"
+  sex: Female
+  speaker: eldar_farseer_dow
+  id: eldar_farseer_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Огненный Дракон Эльдар"
+  sex: Female
+  speaker: eldar_fire_dragon_dow
+  id: eldar_fire_dragon_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Колдун Эльдар"
+  sex: Female
+  speaker: eldar_warlock_dow
+  id: eldar_warlock_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Ассасин Имперской Гвардии"
+  sex: Male
+  speaker: guard_assassin_dow
+  id: guard_assassin_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Капитан Имперской Гвардии"
+  sex: Male
+  speaker: guard_captain_dow
+  id: guard_captain_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Комиссар Имперской Гвардии"
+  sex: Male
+  speaker: guard_commissar_dow
+  id: guard_commissar_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Техножрец Имперской Гвардии"
+  sex: Male
+  speaker: guard_enginseer_dow
+  id: guard_enginseer_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Сержант Имперской Гвардии"
+  sex: Male
+  speaker: guard_guardsman_sergeant_dow
+  id: guard_guardsman_sergeant_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Команда тяжёлого оружия Имперской Гвардии"
+  sex: Male
+  speaker: guard_heavy_weapons_platoon_dow
+  id: guard_heavy_weapons_platoon_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Касркин Имперской Гвардии"
+  sex: Male
+  speaker: guard_karskin_dow
+  id: guard_karskin_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Огрин Имперской Гвардии"
+  sex: Male
+  speaker: guard_ogryn_dow
+  id: guard_ogryn_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Священник Имперской Гвардии"
+  sex: Male
+  speaker: guard_priest_dow
+  id: guard_priest_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Псайкер Имперской Гвардии"
+  sex: Male
+  speaker: guard_psyker_dow
+  id: guard_psyker_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Бойзы Орков"
+  sex: Male
+  speaker: orks_dow
+  id: orks_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Флэш Гитз и Нобы Орков"
+  sex: Male
+  speaker: orks_flashgitznobs_dow
+  id: orks_flashgitznobs_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Гретчины Орков"
+  sex: Male
+  speaker: orks_grots_dow
+  id: orks_grots_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Варбосс Орков"
+  sex: Male
+  speaker: orks_warboss_dow
+  id: orks_warboss_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Сестры Битвы"
+  sex: Female
+  speaker: sisters_battle_sister_dow
+  id: sisters_battle_sister_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Миссионер Сестёр Битвы"
+  sex: Male
+  speaker: sisters_missionary_dow
+  id: sisters_missionary_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Космодесантники 2"
+  sex: Male
+  speaker: space_marines_2_dow
+  id: space_marines_2_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Капеллан Космодесантников"
+  sex: Male
+  speaker: space_marines_chaplain_dow
+  id: space_marines_chaplain_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Космодесантники"
+  sex: Male
+  speaker: space_marines_dow
+  id: space_marines_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Командир Сил Космодесантников"
+  sex: Male
+  speaker: space_marines_force_commander_dow
+  id: space_marines_force_commander_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Библиарий Космодесантников"
+  sex: Male
+  speaker: space_marines_librarian_dow
+  id: space_marines_librarian_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Эфирный Тау"
+  sex: Male
+  speaker: tau_ethereal_dow
+  id: tau_ethereal_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Крууты Тау"
+  sex: Male
+  speaker: tau_kroot_dow
+  id: tau_kroot_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Инструкторша DOW"
+  sex: Female
+  speaker: tutorial_f_dow
+  id: tutorial_f_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Инструктор DOW"
+  sex: Male
+  speaker: tutorial_m_dow
+  id: tutorial_m_dow
+  category: "Warhammer 40,000: Dawn of War"
+
+- type: ttsVoice
+  name: "Кингпин"
+  sex: Male
+  speaker: kingpin
+  id: kingpin
+  category: "Kingpin: Life of Crime"
+
+- type: ttsVoice
+  name: "Рабочий Джо"
+  sex: Male
+  speaker: working_joe
+  id: working_joe
+  category: "Кастомные"
+  blacklist: [STHunter, Human]

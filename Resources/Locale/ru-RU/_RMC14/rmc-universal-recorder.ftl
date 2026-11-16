@@ -41,6 +41,7 @@ rmc-universal-recorder-playback-silence = Пропуск тишины: { $second
 
 rmc-universal-recorder-transcript-header = Расшифровка:
 rmc-universal-recorder-transcript-name = Расшифровка { $tape }
+rmc-universal-recorder-transcript-language = ({ $language })
 
 rmc-universal-recorder-tape-side = Сейчас используется [color=lightblue]{ $side }[/color].
 rmc-universal-recorder-tape-side-front = лицевая сторона

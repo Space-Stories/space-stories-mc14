@@ -80,6 +80,7 @@ public sealed class MapInsertSystem : EntitySystem
             cumulativeProbability += variation.Probability;
             if (!forceSpawn &&
                 ((variation.NightmareScenario != _distressSignal.ActiveNightmareScenario) &&
+                 !variation.AdditionalNightmareScenarios.Contains(_distressSignal.ActiveNightmareScenario ?? string.Empty) && // Stories-CLFSurvivor
                  !string.IsNullOrEmpty(variation.NightmareScenario) || //only allows either inserts with the correct scenario or no scenario to spawn
                  cumulativeProbability < randomProbability))
                 continue;
@@ -145,7 +146,24 @@ public sealed class MapInsertSystem : EntitySystem
         Timer.Spawn(TimeSpan.FromMilliseconds(50),
             () =>
             {
-                _fixture.Merge((EntityUid)mainGrid, insertGrid, coordinatesi, Angle.Zero);
+                // Stories-MapInsertLifetime-Start
+                if (TerminatingOrDeleted(insertGrid) || EntityManager.IsQueuedForDeletion(insertGrid) ||
+                    !TryComp(insertGrid, out MapGridComponent? insertMapGrid) ||
+                    !TryComp(insertGrid, out TransformComponent? insertTransform))
+                    return;
+
+                if (TerminatingOrDeleted(mainGrid.Value) || EntityManager.IsQueuedForDeletion(mainGrid.Value) ||
+                    !TryComp(mainGrid.Value, out MapGridComponent? mainMapGrid) ||
+                    !TryComp(mainGrid.Value, out TransformComponent? mainTransform))
+                {
+                    QueueDel(insertGrid);
+                    return;
+                }
+
+                _fixture.Merge(mainGrid.Value, insertGrid, coordinatesi, Angle.Zero,
+                    mainMapGrid, insertMapGrid, mainTransform, insertTransform);
+                // Stories-MapInsertLifetime-End
+                _areas.QueueRender(mainGrid.Value); // Stories-TacMapInsert
             });
 
         QueueDel(ent);

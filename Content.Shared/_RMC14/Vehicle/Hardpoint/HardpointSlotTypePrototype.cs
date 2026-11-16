@@ -1,10 +1,11 @@
-using Robust.Shared.Prototypes;
+using Robust.Shared.GameObjects;
+using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Shared._RMC14.Vehicle;
 
-[Prototype]
-public sealed partial class HardpointSlotTypePrototype : IPrototype
+[RegisterComponent]
+public sealed partial class HardpointSlotTypeComponent : Component
 {
-    [IdDataField]
-    public string ID { get; private set; } = string.Empty;
+    [DataField]
+    public float RepairRate = 0.05f;
 }

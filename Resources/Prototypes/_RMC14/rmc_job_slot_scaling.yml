@@ -36,11 +36,13 @@
 #        c: 1
 #        min: 2
 #        max: 3
-#      CMOrdnanceTech:
-#        factor: 60
-#        c: 1
-#        min: 2
-#        max: 3
+      # Stories-Ordnance-Start
+      CMOrdnanceTech:
+       factor: 60
+       c: 1
+       min: 2
+       max: 3
+      # Stories-Ordnance-End
       CMCargoTech:
         factor: 30
         c: 0
@@ -66,3 +68,20 @@
         c: 1
         min: 1
         max: 2
+      CMVehicleCrewman:
+        factor: 1
+        c: 0
+        min: 2
+        max: 2
+      # Stories-Synth-Start
+      RMCJobSynthetic:
+        factor: 120
+        c: 1
+        min: 1
+        max: 2
+      STJobWorkingJoe:
+        factor: 30
+        c: 1
+        min: 3
+        max: 6
+      # Stories-Synth-End

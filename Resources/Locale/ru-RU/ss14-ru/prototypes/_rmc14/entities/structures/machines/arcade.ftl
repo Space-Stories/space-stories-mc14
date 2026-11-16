@@ -1,0 +1,12 @@
+ent-RMCArcadeBroken = сломанный игровой автомат
+    .desc = Сломанный игровой автомат. Поиграть на нём особо не получится.
+    .suffix = RMC
+ent-RMCArcade = игровой автомат
+    .desc = Игровой автомат.
+    .suffix = RMC
+ent-RMCArcadeBlockGame = { ent-RMCArcade }
+    .desc = { ent-RMCArcade.desc }
+    .suffix = { ent-RMCArcade.suffix }
+ent-RMCArcadeSpaceVillain = { ent-RMCArcade }
+    .desc = { ent-RMCArcade.desc }
+    .suffix = { ent-RMCArcade.suffix }

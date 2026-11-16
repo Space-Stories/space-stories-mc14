@@ -1,23 +1,28 @@
-﻿using Robust.Shared.GameStates;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Power;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent]
 [Access(typeof(SharedRMCPowerSystem))]
 public sealed partial class RMCAreaPowerComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [ViewVariables]
     public HashSet<EntityUid> Apcs = new();
 
-    [DataField, AutoNetworkedField]
+    // Stories-ZLevels-Start
+    [ViewVariables]
+    public EntityUid? CanonicalArea;
+    // Stories-ZLevels-End
+
+    [ViewVariables]
     public HashSet<EntityUid> EquipmentReceivers = new();
 
-    [DataField, AutoNetworkedField]
+    [ViewVariables]
     public HashSet<EntityUid> LightingReceivers = new();
 
-    [DataField, AutoNetworkedField]
+    [ViewVariables]
     public HashSet<EntityUid> EnvironmentReceivers = new();
 
-    [DataField, AutoNetworkedField]
-    public int[] Load = new int[Enum.GetValues<RMCPowerChannel>().Length];
+    [ViewVariables]
+    public float[] Load = new float[Enum.GetValues<RMCPowerChannel>().Length];
 }

@@ -3,7 +3,9 @@ rmc-overwatch-console = Overwatch
 rmc-overwatch-console-tactical-map = Tactical Map
 rmc-overwatch-console-stop-overwatch = Stop Overwatch
 rmc-overwatch-console-squad-message-title = Squad Message
+rmc-overwatch-console-confirm = Confirm
 rmc-overwatch-console-message-squad = Message Squad
+rmc-overwatch-console-message-squad-leader = Message Squad Leader
 rmc-overwatch-console-squad-objectives = Squad Objectives
 rmc-overwatch-console-show-squad-info = Show Squad Info
 rmc-overwatch-console-hide-squad-info = Hide Squad Info
@@ -27,7 +29,7 @@ rmc-overwatch-console-status = STATUS
 rmc-overwatch-console-launch-supply-drop = Launch Supply Drop
 rmc-overwatch-console-confirm-supply-drop = Confirm Supply Drop?
 rmc-overwatch-console-save = Save
-rmc-overwatch-console-max-coordinates = Max 3 stored coordinates. Will overwrite oldest first.
+rmc-overwatch-console-max-coordinates = Max 5 stored coordinates. Will overwrite oldest first.
 rmc-overwatch-console-fire = Fire
 rmc-overwatch-console-confirm-fire = Confirm Fire Mission?
 rmc-overwatch-console-disabled-select-squad = OVERWATCH DISABLED - SELECT SQUAD
@@ -37,6 +39,28 @@ rmc-overwatch-console-hide-marine = Hide marine
 rmc-overwatch-console-show-marine = Show marine
 rmc-overwatch-console-promote-squad-leader = Promote marine to Squad Leader
 rmc-overwatch-console-no-camera = (NO CAMERA)
+rmc-overwatch-tripod-camera-role = Tripod Camera
+rmc-overwatch-tripod-camera-active = Active
+rmc-overwatch-tripod-camera-rename = Rename
+rmc-overwatch-tripod-camera-deploy = Deploy
+rmc-overwatch-tripod-camera-pick-up = Pick up
+rmc-overwatch-tripod-camera-rename-prompt = Enter a new name for the field camera.
+rmc-overwatch-tripod-camera-renamed = Camera renamed to { $name }.
+rmc-overwatch-tripod-camera-deployed = You deploy the field camera tripod.
+rmc-overwatch-tripod-camera-picked-up = You pick up the field camera tripod.
+rmc-overwatch-tripod-camera-invalid-location = You need an open floor tile to deploy the field camera tripod.
+rmc-overwatch-tripod-camera-active-hand = You must hold the field camera tripod in your active hand.
+rmc-overwatch-tripod-camera-collapsed = The field camera tripod collapses.
+rmc-overwatch-tripod-camera-destroyed = The field camera tripod is destroyed.
+rmc-overwatch-tripod-camera-examine-label = The label reads: [color=cyan]{ $label }[/color].
+rmc-overwatch-tripod-camera-examine-squad = It is currently assigned to squad: [color=cyan]{ $squad }[/color].
+rmc-overwatch-tripod-camera-change-squad = Change squad
+rmc-overwatch-tripod-camera-squad-selection-title = Camera Squad Assignment
+rmc-overwatch-tripod-camera-squad-selection-prompt = Select the squad to assign this camera to.
+rmc-overwatch-tripod-camera-squad-changed = Camera assigned to { $squad } squad.
+rmc-overwatch-tripod-camera-squad-change-iff-denied = Your IFF does not permit you to reassign this camera.
+rmc-overwatch-tripod-camera-squad-change-no-options = There are no other active { $group } squads available.
+rmc-overwatch-tripod-camera-default-squad-unavailable = No default squad is available for the field camera tripod.
 rmc-overwatch-console-state-unconscious = Unconscious
 rmc-overwatch-console-state-dead = Dead
 rmc-overwatch-console-state-conscious = Conscious
@@ -56,12 +80,17 @@ rmc-overwatch-console-hide-dead = Hide dead
 rmc-overwatch-console-longitude-short = LONG.
 rmc-overwatch-console-latitude-short = LAT.
 rmc-overwatch-console-comment = COMMENT
-rmc-overwatch-console-save-comment = Save Comment
+rmc-overwatch-console-comment-placeholder = Optional comment
+rmc-overwatch-console-comment-autosave = Saves when you press Enter or leave the field.
+rmc-overwatch-console-load = Load
+rmc-overwatch-console-load-coordinates = Load these coordinates
 rmc-overwatch-console-no-crate-loaded = [color=red][bold][ NO CRATE LOADED ][/bold][/color]
 rmc-overwatch-console-crate-loaded = [color=green][bold][ CRATE LOADED ][/bold][/color]
 rmc-overwatch-console-ready = [color=green][bold][ READY ][/bold][/color]
 rmc-overwatch-console-not-ready = [color=red][bold][ NOT READY ][/bold][/color]
+rmc-overwatch-console-orbital-safety-engaged = [color=red][bold][ SAFETY LOCK ENGAGED ][/bold][/color]
 rmc-overwatch-console-cooldown = [color=#D3B400][bold][ COOLDOWN - { $seconds } SECONDS ][/bold][/color]
+rmc-overwatch-console-announcement-cooldown = Wait {$seconds} seconds before sending another announcement to this squad.
 rmc-overwatch-console-no-warhead-loaded = [color=red][bold]No warhead loaded[/bold][/color]
 
 # Transfer messages
@@ -82,8 +111,11 @@ rmc-overwatch-console-choose-marine-transfer = Choose marine to transfer
 rmc-overwatch-console-pain-kicked-out = The pain kicked you out of the console!
 
 # Squad message announcements
-rmc-overwatch-console-announce-message = [color=#3C70FF][bold]Overwatch:[/bold] { $operatorName } transmits: [font size=16][bold]{ $message }[/bold][/font][/color]
+rmc-overwatch-console-announce-message = [color={$color}][bold]Overwatch:[/bold] {$operatorName} transmits: [font size=16][bold]{$message}[/bold][/font][/color]
+rmc-overwatch-console-announce-leader-message = [color=#3C70FF][bold]Overwatch — Squad Leader:[/bold] { $operatorName } transmits: [font size=16][bold]{ $message }[/bold][/font][/color]
 rmc-overwatch-console-squad-message-sent = [bold][color=#6685F5]'{ $squadName }' squad message sent: '{ $message }'.[/color][/bold]
+rmc-overwatch-console-no-squad-leader = The selected squad has no living Squad Leader.
+rmc-overwatch-console-leader-message-sent = Message sent to Squad Leader { $leader }.
 
 # Squad leader promotion messages
 rmc-overwatch-console-marine-unfit-to-lead = { $marineName } is unfit to lead!
@@ -98,9 +130,21 @@ rmc-overwatch-console-objective-secondary = [bold]Secondary Objective[/bold]
 rmc-overwatch-console-objective-placeholder = Enter objective text...
 rmc-overwatch-console-objective-update = Update
 rmc-overwatch-console-objective-cancel = Cancel
-rmc-overwatch-console-announce-objective-updated = [color=#50ECA3][bold]Overwatch:[/bold] { $operatorName } [bold]updated[/bold] the squad { $objectiveType }: [font size=16][bold]{ $objective }[/bold][/font][/color]
-rmc-overwatch-console-announce-objective-cancelled = [color=#50ECA3][bold]Overwatch:[/bold] { $operatorName } [bold]cancelled[/bold] the squad { $objectiveType }: [font size=16][bold]{ $objective }[/bold][/font][/color]
-rmc-overwatch-console-objective-updated = [bold][color=#7FFFD4]'{ $squadName }' { $objectiveType } updated: '{ $objective }'.[/color][/bold]
-rmc-overwatch-console-objective-cancelled = [bold][color=#7FFFD4]'{ $squadName }' { $objectiveType } '{ $objective }' cancelled.[/color][/bold]
+rmc-overwatch-console-announce-objective-updated = [color=#50ECA3][bold]Overwatch:[/bold] { $operatorName } [color=#008000][bold]updated[/bold][color=#50ECA3] the squad { $objectiveType }: [font size=16][bold]{ $objective }[/bold][/font][/color]
+rmc-overwatch-console-announce-objective-cancelled = [color=#50ECA3][bold]Overwatch:[/bold] { $operatorName } [color=#FF0000][bold]cancelled[/bold][color=#50ECA3] the squad { $objectiveType }: [font size=16][bold]{ $objective }[/bold][/font][/color]
+rmc-overwatch-console-objective-updated = [bold][color=#7FFFD4]'{ $squadName }' { $objectiveType } [color=#008000]updated[/color]: '{ $objective }'.[/color][/bold]
+rmc-overwatch-console-objective-cancelled = [bold][color=#7FFFD4]'{ $squadName }' { $objectiveType } '{ $objective }' [color=#FF0000]cancelled[/color].[/bold]
 rmc-overwatch-console-objectives = Your squad objectives:
     { $objectives }
+
+# Role summaries
+rmc-overwatch-role-specialist = Specialist
+rmc-overwatch-role-squad-leader = Squad Leader
+rmc-overwatch-role-smart-gun-operator = Smart Gun Operator
+rmc-overwatch-role-hospital-corpsmen = Hospital Corpsmen
+rmc-overwatch-role-fireteam-leaders = Fire Team Leaders
+rmc-overwatch-role-combat-technicians = Combat Technicians
+rmc-overwatch-console-scoped = You're too busy peering through optics.
+
+ent-RMCOverwatchCameraTripod = Field Camera Tripod
+    .desc = A Motoca-430-T deployable tripod camera that connects to the Overwatch network. It can be renamed and deployed.

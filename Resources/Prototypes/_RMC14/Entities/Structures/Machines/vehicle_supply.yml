@@ -26,9 +26,10 @@
         - MachineLayer
   - type: ActivatableUI
     key: enum.VehicleSupplyUIKey.Key
+  - type: ActivatableUIRequiresPower
   - type: ActivatableUIRequiresAccess
   - type: AccessReader
-    access: [ [ "CMAccessCrewman" ] ] # Stories-Vehicle
+    access: [ [ "RMCAccessVehicleCrew" ] ]
   - type: UserInterface
     interfaces:
       enum.VehicleSupplyUIKey.Key:
@@ -37,7 +38,6 @@
     vehicles:
     - name: Хамви
       vehicle: VehicleHumvee
-      unlock: VehicleHumvee
       hardpoints:
       - VehicleHumveeTurret
       - VehicleHumveeCannon
@@ -48,23 +48,20 @@
       - VehicleHumveeWheel
     - name: Хамви (Медицинский)
       vehicle: VehicleHumveeMedical
-      unlock: VehicleHumveeMedical
       hardpoints:
       - VehicleHumveeSnowplow
       - VehicleHumveeOverlight
       - VehicleHumveeHatch
       - VehicleHumveeWheel
-    - name: Хамви (Транспортный)
+    - name: humvee (transport)
       vehicle: VehicleHumveeTransport
-      unlock: VehicleHumveeTransport
       hardpoints:
       - VehicleHumveeSnowplow
       - VehicleHumveeOverlight
       - VehicleHumveeHatch
       - VehicleHumveeWheel
     - name: БТР
-      vehicle: VehicleAPC
-      unlock: VehicleAPC
+      vehicle: VehicleAPCTracked
       hardpoints:
       - RMCAPCDualCannon
       - RMCAPCFrontCannon
@@ -74,7 +71,6 @@
       - RMCAPCWheel
     - name: БТР (Медицинский)
       vehicle: VehicleAPCMed
-      unlock: VehicleAPCMed
       hardpoints:
       - RMCAPCDualCannon
       - RMCAPCFrontCannon
@@ -84,7 +80,6 @@
       - RMCAPCWheel
     - name: БТР (Командный)
       vehicle: VehicleAPCCommand
-      unlock: VehicleAPCCommand
       hardpoints:
       - RMCAPCDualCannon
       - RMCAPCFrontCannon
@@ -94,31 +89,60 @@
       - RMCAPCWheel
     - name: Танк
       vehicle: VehicleTank
-      unlock: VehicleTank
       hardpoints:
-      - VehicleTankArmorBallistic
-      - VehicleTankArmorConcussive
-      - VehicleTankArmorCaustic
-      - VehicleTankArmorPaladin
+      # - VehicleTankArmorBallistic
+      # - VehicleTankArmorConcussive
+      # - VehicleTankArmorCaustic
+      # - VehicleTankArmorPaladin
       - VehicleTankSnowplow
       - VehicleTankLTAAAPMinigun
-      - VehicleTankLTBCannon
+      # - VehicleTankLTBCannon parity :c
       - VehicleTankAceAutocannon
       - VehicleTankDragonFlamer
       - VehicleTankFlamer
       - VehicleTankGrenadeLauncher
-      - VehicleTankRERE700
+      - VehicleTankM56Cupola
       - VehicleTankWarningArray
       - VehicleTankOverdriveEnhancer
       - VehicleTankRocketLauncher
-      - VehicleTankTowLauncher
+      # - VehicleTankTowLauncher
       - VehicleTankFlareModule
       - VehicleTankArtilleryModule
       - VehicleTankReinforcedTreads
       - VehicleTankTreads
-    - name: Хамви (Разведовательный)
+      hardpointCategories:
+      - key: tank-primary
+        label: Primary
+        sortOrder: 0
+        hardpointTypes:
+        - HardpointTypeCannon
+      - key: tank-secondary
+        label: Secondary
+        sortOrder: 1
+        hardpointTypes:
+        - HardpointTypeLauncher
+      - key: tank-armor
+        label: Armor
+        sortOrder: 2
+        hardpointTypes:
+        - HardpointTypeArmor
+      - key: tank-support
+        label: Support
+        sortOrder: 3
+        hardpointTypes:
+        - HardpointTypeSupport
+      - key: tank-treads
+        label: Treads
+        sortOrder: 4
+        hardpointTypes:
+        - HardpointTypeWheel
+      - key: tank-general
+        label: General
+        sortOrder: 5
+        hardpointItems:
+        - VehicleTankSnowplow
+    - name: humvee (arc)
       vehicle: VehicleHumveeARC
-      unlock: VehicleHumveeARC
       hardpoints:
       - VehicleHumveeTurret
       - VehicleHumveeARCCannon
@@ -132,8 +156,12 @@
     energy: 1.6
     color: "#b89f25"
   - type: ApcPowerReceiver
-    powerLoad: 0
-    needsPower: false
+    powerLoad: 300
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 300
+    activeLoad: 300
+    channel: Equipment
   - type: Appearance
   - type: LitOnPowered
   - type: EmitSoundOnUIOpen
@@ -182,7 +210,6 @@
         - ItemMask
         density: 1000
         hard: false
-  - type: Chasm
   - type: StepTrigger
     requiredTriggeredSpeed: 0
     intersectRatio: 1

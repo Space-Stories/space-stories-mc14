@@ -1,0 +1,13 @@
+ent-CMAirlockCircuitBoard = плата шлюза
+    .desc = Электронная плата, используемая в шлюзах.
+    .suffix = { ent-DoorElectronics.suffix }
+ent-RMCES11MobileFuelCanister = мобильная топливная канистра ES-11
+    .desc = Компактная канистра со сварочным топливом для полевого ремонта и дозаправки.
+ent-RMCSynthRepairKit = ремонтный набор синтетика
+    .desc = Компактный набор полевых инструментов и сменной проводки для ремонта конструкции синтетиков.
+ent-RMCSynthRepairKitFilled = { ent-RMCSynthRepairKit }
+    .desc = { ent-RMCSynthRepairKit.desc }
+    .suffix = Заполненный
+ent-RMCSynthRepairKitEliteFilled = элитный ремонтный набор синтетика
+    .desc = { ent-RMCSynthRepairKit.desc }
+    .suffix = Заполненный

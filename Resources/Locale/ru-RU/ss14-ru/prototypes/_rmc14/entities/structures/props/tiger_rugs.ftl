@@ -1,0 +1,15 @@
+ent-RMCPropTigerRugOrange = тигровый ковёр
+    .desc = Довольно безвкусный, но впечатляющий тигровый ковёр. Наверняка стоило целое состояние привезти его на окраины.
+    .suffix = Оранжевый
+ent-RMCPropTigerRugGrey = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Серый
+ent-RMCPropTigerRugWhite = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Белый
+ent-RMCPropTigerRugSkin = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Шкура
+ent-RMCPropTigerRugHotline = { ent-RMCPropTigerRugOrange }
+    .desc = { ent-RMCPropTigerRugOrange.desc }
+    .suffix = Hotline

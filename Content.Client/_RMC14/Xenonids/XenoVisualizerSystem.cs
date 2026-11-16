@@ -141,6 +141,24 @@ public sealed class XenoVisualizerSystem : VisualizerSystem<XenoComponent>
                     break;
                 }
 
+                // Stories-XenoBulwark-Start
+                if (AppearanceSystem.TryGetData(entity, XenoVisualLayers.EncasedPlates, out bool encasedPlates, appearance) &&
+                    encasedPlates &&
+                    rsi.TryGetState("encased_plates", out _))
+                {
+                    sprite.LayerSetState(layer, "encased_plates");
+                    break;
+                }
+
+                if (AppearanceSystem.TryGetData(entity, XenoVisualLayers.ReflectiveShield, out bool reflectiveShield, appearance) &&
+                    reflectiveShield &&
+                    rsi.TryGetState("reflect_shield", out _))
+                {
+                    sprite.LayerSetState(layer, "reflect_shield");
+                    break;
+                }
+                // Stories-XenoBulwark-End
+
                 if (AppearanceSystem.TryGetData(entity, XenoVisualLayers.Burrow, out bool burrowed, appearance) &&
                     burrowed &&
                     rsi.TryGetState("burrowed", out _))

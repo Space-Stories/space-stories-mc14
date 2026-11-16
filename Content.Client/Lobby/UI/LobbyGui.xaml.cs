@@ -6,6 +6,7 @@ using Robust.Client.Console;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration;
+using Content.Client._Stories.Lobby.UI;
 
 namespace Content.Client.Lobby.UI
 {
@@ -14,11 +15,8 @@ namespace Content.Client.Lobby.UI
     {
         [Dependency] private readonly IClientConsoleHost _consoleHost = default!;
 
-        private readonly IConfigurationManager _cfg; // Stories-Partners
-
         public LobbyGui()
         {
-
             RobustXamlLoader.Load(this);
             IoCManager.InjectDependencies(this);
             SetAnchorPreset(MainContainer, LayoutPreset.Wide);
@@ -26,11 +24,10 @@ namespace Content.Client.Lobby.UI
 
             LobbySong.SetMarkup(Loc.GetString("lobby-state-song-no-song-text"));
 
-            // Stories-Partners-Start
-            var uriOpener = IoCManager.Resolve<IUriOpener>();
-            _cfg = IoCManager.Resolve<IConfigurationManager>();
-            BoostyButton.OnPressed += _ => uriOpener.OpenUri(_cfg.GetCVar(CCVars.InfoLinksPatreon));
-            // Stories-Partners-End
+            // Stories-Sponsors-Start
+            SupportButton.OnPressed += _ => new SponsorPerksWindow().OpenCentered();
+            // Stories-Sponsors-End
+
             LeaveButton.OnPressed += _ => _consoleHost.ExecuteCommand("disconnect");
             OptionsButton.OnPressed += _ => UserInterfaceManager.GetUIController<OptionsUIController>().ToggleWindow();
 

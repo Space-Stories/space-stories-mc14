@@ -1,0 +1,88 @@
+- type: entity
+  parent: RMCStatusDisplayProp
+  id: RMCBrigCellController
+  name: cell controller
+  description: Controls a brig cell and tracks sentences from original encoded incident reports.
+  suffix: ""
+  components:
+  - type: RMCBrigCell
+  - type: Sprite
+    layers:
+    - state: security
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { state: security }
+          False: { state: frame }
+  - type: TextScreenVisuals
+    color: "#db9696"
+    textOffset: 0,5
+    timerOffset: 0,5
+    rows: 1
+    rowLength: 5
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb {}
+  - type: DeviceLinkSource
+    ports: [Start, RMCBrigOpen, RMCBrigClose]
+  - type: AccessReader
+    access: [[CMAccessBrig]]
+  - type: ActivatableUI
+    key: enum.RMCBrigCellUiKey.Key
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUIRequiresAccess
+  - type: UserInterface
+    interfaces:
+      enum.RMCBrigCellUiKey.Key:
+        type: RMCBrigCellBui
+  - type: ApcPowerReceiver
+    needsPower: true
+    powerLoad: 100
+  - type: RMCPowerReceiver
+    idleLoad: 100
+    activeLoad: 0
+    channel: Equipment
+  - type: ExtensionCableReceiver
+  - type: ContainerContainer
+    containers:
+      brig_reports: !type:Container
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Repairable
+    doAfterDelay: 8
+  - type: Destructible
+    thresholds:
+    - trigger: !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [Breakage]
+    - trigger: !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:EmptyAllContainersBehaviour
+      - !type:DoActsBehavior
+        acts: [Destruction]
+
+- type: sourcePort
+  id: RMCBrigOpen
+  name: rmc-brig-port-open
+  description: rmc-brig-port-open-description
+  defaultLinks: [Open]
+
+- type: sourcePort
+  id: RMCBrigClose
+  name: rmc-brig-port-close
+  description: rmc-brig-port-close-description
+  defaultLinks: [Close]

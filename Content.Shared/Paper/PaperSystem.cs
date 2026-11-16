@@ -192,6 +192,10 @@ public sealed class PaperSystem : EntitySystem
 
     private void OnInputTextMessage(Entity<PaperComponent> entity, ref PaperInputTextMessage args)
     {
+        // RMC14: Enforce protected printouts even when an edit is submitted directly through the UI.
+        if (entity.Comp.EditingDisabled)
+            return;
+
         var ev = new PaperWriteAttemptEvent(entity.Owner);
         RaiseLocalEvent(args.Actor, ref ev);
         if (ev.Cancelled)
@@ -259,7 +263,8 @@ public sealed class PaperSystem : EntitySystem
             entity.Comp.StampedBy.Add(stampInfo);
             
             // Clean unfilled form and signature tags when stamping to finalize the document
-            var cleanedContent = CleanUnfilledTags(entity.Comp.Content);
+            // RMC14: Stamping a protected printout must not change its recorded text.
+            var cleanedContent = entity.Comp.EditingDisabled ? entity.Comp.Content : CleanUnfilledTags(entity.Comp.Content);
             if (cleanedContent != entity.Comp.Content)
             {
                 SetContent(entity, cleanedContent);
@@ -326,6 +331,10 @@ public sealed class PaperSystem : EntitySystem
 
     private void OnSignatureRequest(Entity<PaperComponent> entity, ref PaperSignatureRequestMessage args)
     {
+        // RMC14: Signatures are edits and must respect the same protection as pen input.
+        if (entity.Comp.EditingDisabled)
+            return;
+
         var signature = GetPlayerSignature(args.Actor);
         var newText = ReplaceNthSignatureTag(entity.Comp.Content, args.SignatureIndex, signature);
         SetContent(entity, newText);

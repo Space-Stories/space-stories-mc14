@@ -95,6 +95,7 @@ public sealed class ContentReplayPlaybackManager
         if (_client.RunLevel == ClientRunLevel.SinglePlayerGame)
             _client.StopSinglePlayer();
 
+
         Action? retryAction = null;
         Action? cancelAction = null;
 
@@ -103,7 +104,7 @@ public sealed class ContentReplayPlaybackManager
             retryAction = () =>
             {
                 _cfg.SetCVar(CVars.ReplayIgnoreErrors, true);
-
+        
                 IReplayFileReader reader = last.Zip == null
                     ? new ReplayFileReaderResources(_resMan, last.Folder)
                     : new ReplayFileReaderZip(new(_resMan.UserData.OpenRead(last.Zip.Value)), last.Folder);
@@ -118,6 +119,13 @@ public sealed class ContentReplayPlaybackManager
             cancelAction = () =>
             {
                 _stateMan.RequestStateChange(DefaultState);
+            };
+        }
+        else
+        {
+            cancelAction = () =>
+            {
+                ReturnToDefaultState();
             };
         }
 
@@ -137,6 +145,7 @@ public sealed class ContentReplayPlaybackManager
 
         if (_client.RunLevel == ClientRunLevel.SinglePlayerGame)
             _client.StopSinglePlayer();
+
     }
 
     private void OnCheckpointReset()

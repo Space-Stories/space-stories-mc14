@@ -1,11 +1,12 @@
 using System;
 using System.Numerics;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Vehicle;
 using Robust.Client.UserInterface;
 
 namespace Content.Client._RMC14.Vehicle.Ui;
 
-public sealed class VehicleWeaponsBoundUserInterface : BoundUserInterface
+public sealed class VehicleWeaponsBoundUserInterface : BoundUserInterface, IRefreshableBui
 {
     private VehicleWeaponsMenu? _menu;
 
@@ -25,6 +26,7 @@ public sealed class VehicleWeaponsBoundUserInterface : BoundUserInterface
         _menu.OnToggleStabilization += enabled => SendMessage(new VehicleWeaponsStabilizationMessage(enabled));
         _menu.OnToggleAutoTurret += enabled => SendMessage(new VehicleWeaponsAutoModeMessage(enabled));
         _menu.OpenCenteredAt(new Vector2(0.7f, 0.05f));
+        Refresh();
     }
 
     protected override void Dispose(bool disposing)
@@ -41,14 +43,15 @@ public sealed class VehicleWeaponsBoundUserInterface : BoundUserInterface
         _menu = null;
     }
 
-    protected override void UpdateState(BoundUserInterfaceState state)
+    public void Refresh()
     {
-        base.UpdateState(state);
-
-        if (state is not VehicleWeaponsUiState weaponsState)
-        {
+        if (_menu is not { IsOpen: true })
             return;
-        }
+
+        if (!EntMan.TryGetComponent(Owner, out VehicleWeaponsSeatComponent? seat))
+            return;
+
+        var weaponsState = seat.Ui;
 
         _menu?.Update(
             weaponsState.Vehicle,

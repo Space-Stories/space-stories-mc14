@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: RMCMachineScreenBase
   name: monitor
   description: ""
@@ -30,8 +30,9 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 0
+    activeLoad: 0
+    # CM13 multi-monitor variants are non-consuming props; RMC only gates their powered visual.
     channel: Equipment
   - type: GenericVisualizer
     visuals:
@@ -122,3 +123,37 @@
   components:
   - type: Sprite
     state: telescreenbspark
+
+- type: entity
+  parent: RMCMachineScreenBase
+  id: RMCWallEggOn
+  components:
+  - type: Sprite
+    state: wallegg_on
+
+- type: entity
+  parent: RMCMachineScreenBase
+  id: RMCWallEggOff
+  components:
+  - type: Sprite
+    state: wallegg_off
+
+- type: entity
+  parent: RMCMachineScreenBase
+  id: RMCTelescreenEntertainment
+  components:
+  - type: Sprite
+    state: entertainment
+
+- type: entity
+  parent: RMCMachineScreenBase
+  id: RMCRedAlarmProp
+  suffix: Always Red, Prop
+  components:
+  - type: Sprite
+    state: redalarm
+  - type: PointLight
+    radius: 4.5
+    energy: 0.8
+    color: "#FF0000"
+    castShadows: false

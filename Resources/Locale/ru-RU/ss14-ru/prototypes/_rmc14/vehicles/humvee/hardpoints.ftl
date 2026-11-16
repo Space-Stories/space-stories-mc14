@@ -1,7 +1,7 @@
 ent-VehicleHumveeHardpointBase = { ent-BaseItem }
     .desc = { ent-BaseItem.desc }
-ent-VehicleHumveeWheel = колесо Хамви
-    .desc = Усиленное колесо для Хамви.
+ent-VehicleHumveeWheel = колеса Хамви
+    .desc = Усиленные колеса для Хамви.
 ent-VehicleHumveeTurret = турель Хамви
     .desc = Турель Хамви, устанавливаемая на крышу.
 ent-VehicleHumveeTurretArmed = турель Хамви

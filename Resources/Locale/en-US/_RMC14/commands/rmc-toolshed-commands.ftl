@@ -38,8 +38,12 @@ command-description-marine-randomizewithjob = Deletes and then spawns a marine o
 
 command-description-removeinvalidweeds = Removes any weeds that should not have normally spread to where they are from the map.
 
-command-description-requisitions-addbudget = Adds budget to the default Requisitions account.
-command-description-requisitions-removebudget = Removes budget from the default Requisitions account.
+command-description-requisitions-addbudget = Adds budget to the selected Requisitions account. Defaults to Cargo.
+command-description-requisitions-removebudget = Removes budget from the selected Requisitions account. Defaults to Cargo.
+command-arg-sig-requisitions-addbudget-money = <amount (int)>
+command-arg-sig-requisitions-addbudget-account = [account (Cargo|BlackMarket)]
+command-arg-sig-requisitions-removebudget-money = <amount (int)>
+command-arg-sig-requisitions-removebudget-account = [account (Cargo|BlackMarket)]
 
 command-description-rmcrejuvenate-marineplayersinrange = Rejuvenates all marines within a specific range, restoring them to full health, clearing status effects, etc.
 
@@ -100,3 +104,5 @@ command-description-mobstate = Filter entities by their MobState.
 
 command-description-vehiclesupply-addstorage = Adds a vehicle prototype to the nearest vehicle supply lift storage.
 command-description-vehiclesupply-addstoragelift = Adds a vehicle prototype to a specific vehicle supply lift storage.
+command-description-vehicleroundstart-current = Applies the vehicle roundstart thresholds using the current connected player count.
+command-description-vehicleroundstart-test = Applies the vehicle roundstart thresholds using a supplied player count for testing.

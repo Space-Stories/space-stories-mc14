@@ -150,7 +150,7 @@
                                 HorizontalExpand="True"
                                 Visible="False"
                                 SeparationOverride="5">
-                                <OptionButton Name="VoiceButton" HorizontalExpand="True" />
+                                <Button Name="VoiceButton" HorizontalExpand="True" />
                                 <Button Name="VoicePlayButton" Text="▶" MinWidth="30" />
                             </BoxContainer>
                         </GridContainer>

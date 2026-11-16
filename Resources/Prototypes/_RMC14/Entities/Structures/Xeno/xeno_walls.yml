@@ -30,6 +30,8 @@
   - type: XenoStructureUpgradeable
     to: WallXenoResinThick
     cost: 50
+  - type: HiveBoonFortifiableWall
+    heal: 75
   - type: MeleeReceivedMultiplier
     xenoDamage:
       types:
@@ -39,7 +41,8 @@
   parent: WallXenoResinThick
   id: WallXenoResinImpenetrable
   name: impenetrable resin wall
-  suffix: Invincible, 30 minutes
+  description: Completely invulnerable. It should degrade into a vulnerable state given enough time.
+  suffix: Invincible, 25 minutes
   components:
   - type: InvincibleHiveStructure
     replace: WallXenoResinThick
@@ -48,7 +51,8 @@
   parent: DoorXenoResinThick
   id: DoorXenoResinImpenetrable
   name: impenetrable resin door
-  suffix: Invincible, 30 minutes
+  description: Completely invulnerable. It should degrade into a vulnerable state given enough time.
+  suffix: Invincible, 25 minutes
   components:
   - type: InvincibleHiveStructure
     replace: DoorXenoResinThick
@@ -106,6 +110,8 @@
     scalingCost: true
   - type: XenoStructureUpgradeable
     to: null
+  - type: HiveBoonFortifiableWall
+    heal: 100
 
 - type: entity
   parent: CMBaseWallXeno
@@ -298,6 +304,8 @@
   - type: XenoConstructionPlasmaCost
     plasma: 145
     scalingCost: true
+  - type: XenoStructureUpgradeable
+    to: null
   - type: RMCReflective
   - type: ExplosionRandomResistance
     min: 0.3
@@ -315,7 +323,7 @@
   parent: WallXenoResinReflective
   id: WallXenoResinReflectiveUnstable
   name: weakened reflective wall
-  description: Weird slime with strange hardened fragments solidified into a wall. It looks like it last for moment before it will collapse.
+  description: "Weird slime with strange, hardened fragments solidified into a wall.\nIt looks ready to collapse at any moment."
   components:
   - type: TimedDespawn
     lifetime: 13.0

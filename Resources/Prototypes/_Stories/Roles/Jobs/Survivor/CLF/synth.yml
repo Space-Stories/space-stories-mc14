@@ -1,0 +1,82 @@
+- type: job
+  parent: RMCSyntheticColony
+  id: STSurvivorCLFSynth
+  name: st-job-name-clf-survivor-synth
+  description: rmc-job-description-clf-survivor
+  startingGear: STGearSurvivorCLFSynth
+  icon: STJobIconCLFSynth
+  hasIcon: true
+  joinNotifyCrew: false
+  greeting: st-job-greeting-clf-survivor
+  spawnMenuRoleName: CLF Synthetic (Survivor)
+  antagRole: RMCHostileSurvivor
+  camouflageStartingGear:
+    Snow: STGearSurvivorCLFNoCamo
+  survivorSpawnerFallback: []
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: Language
+      preset: RMCLanguagePresetSynthColonist
+    - type: LanguageLearning
+      preset: RMCLanguageLearningPresetSynthColonist
+    - type: NpcFactionMember
+      factions:
+      - CLF
+    - type: RMCSurvivor
+    - type: MotionDetectorTracked
+    - type: StoriesSurvivorDebuffImmune
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+    - type: JobPrefix
+      prefix: st-job-prefix-clf-survivor-synth
+    - type: SynthGeneration
+      generation: RMCSynthGenOne
+      selectable: false
+    - type: Synth
+  hidden: true
+
+- type: startingGear
+  id: STGearSurvivorCLFSynth
+  equipment:
+    head: RMCHeadBeret
+    mask: RMCM5Bayonet
+    ears: RMCHeadsetDistressCLF
+    eyes: RMCGlassesMedicalHUDGlasses
+    jumpsuit: STJumpsuitCLFWebbing
+    outerClothing: RMCCoatMilitia
+    gloves: RMCHandsCombat
+    shoes: RMCShoesCombat
+    id: RMCIDCardSynthColony
+    belt: RMCBeltMedicalDefibAnalyzerFilled
+    back: CMBackpackEngineer
+    pocket1: RMCPouchToolsFill
+    pocket2: RMCPouchSurvivalSynthFill
+  storage:
+    back:
+    - CMFireExtinguisherPortable
+    - CMRollerBedSpawnFolded
+    - RMCExplosivePlastic
+    - RMCExplosivePlastic
+    - CMSheetMetal50
+    - STSynthResetKeyMakeshift
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: STSpawnPointSurvivorCLFSynth
+  name: survivor clf synthetic spawn point
+  components:
+  - type: SpawnPoint
+    job_id: STSurvivorCLFSynth
+  - type: Sprite
+    state: clf_spawn
+
+- type: jobIcon
+  parent: CMJobIconBase
+  id: STJobIconCLFSynth
+  icon:
+    sprite: _RMC14/Interface/job_icons/CLF.rsi
+    state: clf_synth

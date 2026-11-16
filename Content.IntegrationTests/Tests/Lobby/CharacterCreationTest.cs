@@ -3,6 +3,8 @@ using Content.Server.Preferences.Managers;
 using Content.Shared.Preferences;
 using Robust.Client.State;
 using Robust.Shared.Network;
+using Robust.Server.Player;
+using Robust.Shared.IoC;
 
 namespace Content.IntegrationTests.Tests.Lobby
 {
@@ -24,6 +26,9 @@ namespace Content.IntegrationTests.Tests.Lobby
 
             var serverPrefManager = server.ResolveDependency<IServerPreferencesManager>();
 
+
+            var serverPlayerManager = server.ResolveDependency<IPlayerManager>();
+            var serverDependencyCollection = server.ResolveDependency<IDependencyCollection>();
 
             // Need to run them in sync to receive the messages.
             await pair.RunTicksSync(1);
@@ -65,7 +70,12 @@ namespace Content.IntegrationTests.Tests.Lobby
                 var serverCharacters = serverPrefManager.GetPreferences(clientNetId).Characters;
 
                 Assert.That(serverCharacters, Has.Count.EqualTo(2));
-                Assert.That(serverCharacters[1].MemberwiseEquals(profile));
+                
+                var session = serverPlayerManager.GetSessionById(clientNetId);
+                var validProfile = new HumanoidCharacterProfile((HumanoidCharacterProfile)profile);
+                validProfile.EnsureValid(session, serverDependencyCollection);
+
+                Assert.That(serverCharacters[1].MemberwiseEquals(validProfile));
             });
 
             await client.WaitAssertion(() =>
@@ -106,7 +116,12 @@ namespace Content.IntegrationTests.Tests.Lobby
                 var serverCharacters = serverPrefManager.GetPreferences(clientNetId).Characters;
 
                 Assert.That(serverCharacters, Has.Count.EqualTo(2));
-                Assert.That(serverCharacters[1].MemberwiseEquals(profile));
+                
+                var session = serverPlayerManager.GetSessionById(clientNetId);
+                var validProfile = new HumanoidCharacterProfile((HumanoidCharacterProfile)profile);
+                validProfile.EnsureValid(session, serverDependencyCollection);
+
+                Assert.That(serverCharacters[1].MemberwiseEquals(validProfile));
             });
             await pair.CleanReturnAsync();
         }

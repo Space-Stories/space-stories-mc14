@@ -1,0 +1,35 @@
+st-loadout-group-synth-specialization = Синтетик (Специализация)
+
+ent-STSynthSpecializationGeneralData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationCommandData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationEngineeringData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationMedicalData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationRequisitionsData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationMilitaryPoliceData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationAviationData = { "" }
+    .desc = { "" }
+ent-STSynthSpecializationIntelData = { "" }
+    .desc = { "" }
+
+ent-STSynthSpecializationGeneralPreview = Общий профиль
+    .desc = Не имеет формальной подготовки сверх базовой синтетической программы. Одинаково готов оказать поддержку любому отделу по необходимости.
+ent-STSynthSpecializationCommandPreview = Командный
+    .desc = Прошёл дополнительную подготовку по административной и логистической поддержке командного состава.
+ent-STSynthSpecializationEngineeringPreview = Инженерный
+    .desc = Прошёл дополнительную подготовку по техническому обслуживанию и ремонту конструкций.
+ent-STSynthSpecializationMedicalPreview = Медицинский
+    .desc = Прошёл дополнительную подготовку по медицинской поддержке и уходу за пациентами.
+ent-STSynthSpecializationRequisitionsPreview = Снабжение
+    .desc = Прошёл дополнительную подготовку по управлению снабжением и грузовой логистике.
+ent-STSynthSpecializationMilitaryPolicePreview = Военная полиция
+    .desc = Прошёл дополнительную подготовку по процедурам безопасности и поддержке правопорядка.
+ent-STSynthSpecializationAviationPreview = Авиация
+    .desc = Прошёл дополнительную подготовку по обслуживанию дропшипов и техники.
+ent-STSynthSpecializationIntelPreview = Разведка
+    .desc = Прошёл дополнительную подготовку по сбору разведданных и анализу информации.

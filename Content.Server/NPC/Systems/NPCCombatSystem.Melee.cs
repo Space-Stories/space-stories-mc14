@@ -92,8 +92,13 @@ public sealed partial class NPCCombatSystem
             return;
         }
 
-        // TODO: When I get parallel operators move this as NPC combat shouldn't be handling this.
-        _steering.Register(uid, new EntityCoordinates(component.Target, Vector2.Zero), steering);
+        // Stories-Optimization-Start
+        // Only register if not already steering to this target
+        if (steering == null || steering.Coordinates.EntityId != component.Target)
+        {
+            _steering.Register(uid, new EntityCoordinates(component.Target, Vector2.Zero), steering);
+        }
+        // Stories-Optimization-End
 
         if (distance > _rmcMeleeWeapon.GetUserLightAttackRange(uid, component.Target, weapon))
         {

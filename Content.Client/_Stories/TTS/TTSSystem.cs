@@ -1,3 +1,6 @@
+using Robust.Shared.Timing;
+using System.Globalization;
+using Content.Client._Stories.Chat;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.SCCVars;
@@ -12,16 +15,17 @@ using Robust.Shared.Utility;
 
 namespace Content.Client._Stories.TTS;
 
-/// <summary>
-/// Plays TTS audio in world
-/// </summary>
 public sealed class TTSSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly ChatFilterSystem _chatFilter = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
-    private ISawmill _sawmill = default!;
+    private TimeSpan _lastPreviewRequest;
+    private static readonly TimeSpan PreviewCooldown = TimeSpan.FromSeconds(1.0);
+
     private MemoryContentRoot? _contentRoot;
     private static readonly ResPath Prefix = ResPath.Root / "TTS";
 
@@ -31,13 +35,13 @@ public sealed class TTSSystem : EntitySystem
     public const int WhisperMuffledRange = 5;
 
     private const float MinimalVolume = -10f;
+    private const float TtsMultiplier = 6f;
 
     private int _fileIdx = 0;
     private readonly HashSet<NetEntity> _mutedPlayers = new();
 
     public override void Initialize()
     {
-        _sawmill = Logger.GetSawmill("tts");
 
         if (_contentRoot == null)
         {
@@ -50,6 +54,11 @@ public sealed class TTSSystem : EntitySystem
 
     public void RequestPreviewTTS(string voiceId, bool isHunter = false)
     {
+        var curTime = _timing.CurTime;
+        if (curTime < _lastPreviewRequest + PreviewCooldown)
+            return;
+
+        _lastPreviewRequest = curTime;
         RaiseNetworkEvent(new RequestPreviewTTSEvent(voiceId, isHunter));
     }
 
@@ -73,12 +82,16 @@ public sealed class TTSSystem : EntitySystem
         if (!_cfg.GetCVar(SCCVars.TTSEnabledClient))
             return;
 
+        if (_chatFilter.IsLocalBanwordPresent(ev.Text))
+        {
+            return;
+        }
+
         if (ev.OriginalSourceUid.HasValue && IsMuted(ev.OriginalSourceUid.Value))
             return;
 
         if (_contentRoot == null)
         {
-            _sawmill.Error("TTS content root is not initialized, skipping playback.");
             return;
         }
 
@@ -87,7 +100,6 @@ public sealed class TTSSystem : EntitySystem
         {
             name = MetaData(sourceEnt.Value).EntityName;
         }
-        _sawmill.Verbose($"Play TTS audio {ev.Data.Length} bytes from {name} entity");
 
         var filePath = new ResPath($"{_fileIdx++}.ogg");
         _contentRoot.AddOrUpdateFile(filePath, ev.Data);
@@ -95,28 +107,51 @@ public sealed class TTSSystem : EntitySystem
         var audioResource = new AudioResource();
         audioResource.Load(IoCManager.Instance!, Prefix / filePath);
 
-        float volumeCVar;
-        if (ev.SourceUid == null)
+        float volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeOther);
+
+        if (ev.IsAnnounce)
+        {
+            volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeAnnounce);
+        }
+        else if (ev.IsRadio)
         {
             volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeRadio);
+
+            if (ev.RadioChannel != null)
+            {
+                var str = _cfg.GetCVar(SCCVars.TTSRadioVolumes);
+                if (!string.IsNullOrWhiteSpace(str))
+                {
+                    var pairs = str.Split(';');
+                    foreach (var pair in pairs)
+                    {
+                        var kv = pair.Split('=');
+                        if (kv.Length == 2 && kv[0] == ev.RadioChannel && float.TryParse(kv[1], CultureInfo.InvariantCulture, out var vol))
+                        {
+                            volumeCVar = vol;
+                            break;
+                        }
+                    }
+                }
+            }
         }
-        else if (TryGetEntity(ev.SourceUid.Value, out var source) && source.HasValue)
+        else if (ev.SourceUid != null && TryGetEntity(ev.SourceUid.Value, out var source) && source.HasValue)
         {
             if (HasComp<MarineComponent>(source.Value))
                 volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeMarines);
             else if (HasComp<XenoComponent>(source.Value))
                 volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeXenos);
-            else
-                volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeOther);
-        }
-        else
-        {
-            volumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeOther);
         }
 
         var audioParams = AudioParams.Default
-            .WithVolume(AdjustVolume(ev.IsWhisper, volumeCVar))
-            .WithMaxDistance(AdjustDistance(ev.IsWhisper));
+            .WithVolume(AdjustVolume(ev.IsWhisper, volumeCVar, ev.VolumeMultiplier))
+            .WithMaxDistance(AdjustDistance(ev.IsWhisper, ev.MaxDistanceOverride));
+
+        if (ev.ReferenceDistanceOverride != null)
+            audioParams = audioParams.WithReferenceDistance(ev.ReferenceDistanceOverride.Value);
+
+        if (ev.RolloffFactorOverride != null)
+            audioParams = audioParams.WithRolloffFactor(ev.RolloffFactorOverride.Value);
 
         if (ev.SourceUid != null && TryGetEntity(ev.SourceUid.Value, out var sourceUid))
         {
@@ -130,9 +165,12 @@ public sealed class TTSSystem : EntitySystem
         _contentRoot.RemoveFile(filePath);
     }
 
-    private float AdjustVolume(bool isWhisper, float volumeCVar)
+    private float AdjustVolume(bool isWhisper, float volumeCVar, float volumeMultiplier)
     {
-        var volume = MinimalVolume + SharedAudioSystem.GainToVolume(volumeCVar);
+        var masterVolumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeMaster);
+        var combinedMultiplier = volumeCVar * masterVolumeCVar * TtsMultiplier * volumeMultiplier;
+
+        var volume = MinimalVolume + SharedAudioSystem.GainToVolume(combinedMultiplier);
 
         if (isWhisper)
         {
@@ -142,8 +180,8 @@ public sealed class TTSSystem : EntitySystem
         return volume;
     }
 
-    private float AdjustDistance(bool isWhisper)
+    private float AdjustDistance(bool isWhisper, float? maxDistanceOverride)
     {
-        return isWhisper ? WhisperMuffledRange : VoiceRange;
+        return maxDistanceOverride ?? (isWhisper ? WhisperMuffledRange : VoiceRange);
     }
 }

@@ -1,0 +1,14 @@
+ent-RMCCOCareerInfantryData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerEngineeringData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerMedicalData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerIntelData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerLogisticsData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerAviationData = { "" }
+    .desc = { "" }
+ent-RMCCOCareerTankerData = { "" }
+    .desc = { "" }

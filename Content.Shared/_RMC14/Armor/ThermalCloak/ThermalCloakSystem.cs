@@ -7,6 +7,7 @@ using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared._RMC14.Xenonids.Projectile;
 using Content.Shared._Stories.AntiGrief.Cadet;
 using Content.Shared._Stories.Hunter.Bracer.Components;
+using Content.Shared._Stories.Xenonids.Predalien.PredalienRoar;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Explosion.EntitySystems;
@@ -55,6 +56,7 @@ public sealed class ThermalCloakSystem : EntitySystem
         SubscribeLocalEvent<EntityActiveInvisibleComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<EntityActiveInvisibleComponent, XenoDevouredEvent>(OnDevour);
         SubscribeLocalEvent<EntityActiveInvisibleComponent, XenoParasiteInfectEvent>(OnParasiteInfect);
+        SubscribeLocalEvent<EntityActiveInvisibleComponent, STPredalienRevealEvent>(OnPredalienReveal); // Stories-Abomination
 
         SubscribeLocalEvent<GunComponent, AttemptShootEvent>(OnAttemptShoot);
         SubscribeLocalEvent<CancelUseWithCloakComponent, UseInHandEvent>(OnTimerUse, before: [typeof(SharedTriggerSystem)]);
@@ -289,6 +291,13 @@ public sealed class ThermalCloakSystem : EntitySystem
     {
         TrySetInvisibility(ent.Owner, false, true);
     }
+
+    // Stories-Abomination-Start
+    private void OnPredalienReveal(Entity<EntityActiveInvisibleComponent> ent, ref STPredalienRevealEvent args)
+    {
+        TrySetInvisibility(ent.Owner, false, true);
+    }
+    // Stories-Abomination-End
 
     public Entity<ThermalCloakComponent>? FindWornCloak(EntityUid player)
     {

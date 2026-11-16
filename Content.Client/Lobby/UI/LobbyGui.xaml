@@ -90,8 +90,10 @@
                     <controls:HSpacer Spacing="10" />
                     <!-- Voting & misc button bar -->
                     <BoxContainer Orientation="Horizontal" MinSize="0 40" HorizontalAlignment="Right">
-                        <Button Name="BoostyButton" Access="Public" Text="{Loc 'stories-ui-lobby-boosty-button'}"
+                        <!-- Stories-Sponsors-Start -->
+                        <Button Name="SupportButton" Access="Public" Text="{Loc 'stories-ui-lobby-support-button'}"
                                 StyleClasses="ButtonBigOrange" /> <!-- Stories-Partners -->
+                        <!-- Stories-Sponsors-Start -->
                         <Button Name="AHelpButton" Access="Public" Text="{Loc 'ui-lobby-ahelp-button'}"
                                 StyleClasses="ButtonBig" />
                         <vote:VoteCallMenuButton Name="CallVoteButton" StyleClasses="ButtonBig" />
@@ -126,7 +128,7 @@
             </PanelContainer>
         </SplitContainer>
         <PanelContainer Name="ExpandPanel"
-                        StyleClasses="AngleRect" 
+                        StyleClasses="AngleRect"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Margin="0 2 2 0"

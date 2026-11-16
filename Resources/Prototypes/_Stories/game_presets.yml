@@ -1,0 +1,50 @@
+- type: gamePreset
+  id: STDistressSignal
+  alias:
+  - stdistresssignal
+  - stcmds
+  name: rmc-distress-signal-title
+  description: rmc-distress-signal-description
+  showInVote: false
+  minPlayers: 51
+  supportedMaps: STDefaultMapPool
+  rules:
+  - CMDistressSignal
+
+- type: gamePreset
+  id: STDistressSignalLowPop
+  alias:
+  - stdistresssignallowpop
+  - stdslowpop
+  - stlowpop
+  name: rmc-distress-signal-title
+  description: rmc-distress-signal-description
+  showInVote: false
+  maxPlayers: 50
+  supportedMaps: STLowPopMapPool
+  rules:
+  - STDistressSignalLowPop
+
+- type: gamePreset
+  id: STDistressSignalNoEnd
+  alias:
+  - stdistresssignalnoend
+  - stdsnoend
+  - stnoend
+  name: stories-distress-signal-no-end-title
+  description: stories-distress-signal-no-end-description
+  showInVote: false
+  rules:
+  - STDistressSignalNoEnd
+
+- type: gamePreset
+  id: STGreenshift
+  alias:
+  - stgreenshift
+  - stgreen
+  - greenshift
+  name: stories-greenshift-title
+  description: stories-greenshift-description
+  showInVote: false
+  rules:
+  - STGreenshift

@@ -52,8 +52,25 @@ public sealed partial class XenoEggRetrieverSystem : SharedXenoEggRetrieverSyste
        var target = args.Target;
         args.Handled = true;
 
+        // Stories-XenoEggRetrieve-Start
+        var inRange = _interact.InRangeUnobstructed(eggRetriever, target, range: 1.5f);
+        if (!inRange)
+        {
+            foreach (var ent in _lookup.GetEntitiesIntersecting(target))
+            {
+                if (TryComp<XenoEggComponent>(ent, out var egg) &&
+                    egg.State == XenoEggState.Item &&
+                    _interact.InRangeUnobstructed(eggRetriever.Owner, ent, range: 1.5f))
+                {
+                    inRange = true;
+                    break;
+                }
+            }
+        }
+        // Stories-XenoEggRetrieve-End
+
         // If none of the entities on the selected, in-range tile are eggs, try to pull an egg out of inventory
-        if (_interact.InRangeUnobstructed(eggRetriever, target))
+        if (inRange)
         {
             var clickedEntities = _lookup.GetEntitiesIntersecting(target);
             var tileHasEggs = false;

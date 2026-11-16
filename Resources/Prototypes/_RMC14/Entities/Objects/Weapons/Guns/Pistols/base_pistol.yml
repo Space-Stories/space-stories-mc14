@@ -20,6 +20,8 @@
     - suitStorage
     - belt
   - type: Wieldable
+  - type: Akimbo # Stories-Balance
+  - type: GunClickToFire
   - type: WieldDelay
     baseDelay: 0.2
   - type: MeleeWeapon
@@ -64,6 +66,8 @@
   - type: GunPointBlank
   - type: GunDualWielding
     weaponGroup: Handgun
+    accuracyAddMult: -0.5 # Stories-Akimbo-Balance
+    scatterModifier: 10 # Stories-Akimbo-Balance
   - type: AttachableHolder
     slots:
       rmc-aslot-barrel:
@@ -84,6 +88,9 @@
           tags:
           - RMCAttachmentBurstFireAssembly
           - RMCAttachmentLaserSight
+  - type: RMCFireGroup # Stories-GunBalance
+    group: Sidearm
+    delay: 0
 
 - type: entity
   abstract: true
@@ -117,6 +124,10 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+  - type: InteractedBlacklist
+    blacklist:
+      components:
+      - Xeno
 
 - type: entity
   abstract: true

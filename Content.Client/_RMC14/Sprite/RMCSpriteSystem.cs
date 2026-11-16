@@ -1,11 +1,12 @@
-﻿using System.Numerics;
+using System.Numerics;
+using Content.Shared._RMC14.Buckle;
 using Content.Shared._RMC14.CrashLand;
 using Content.Shared._RMC14.Mobs;
-using Content.Shared._RMC14.ParaDrop;
 using Content.Shared._RMC14.Sprite;
 using Content.Shared._RMC14.Xenonids.Hide;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Ghost;
+using Content.Shared._RMC14.ParaDrop;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
 using Robust.Shared.Map;
@@ -38,7 +39,7 @@ public sealed class RMCSpriteSystem : SharedRMCSpriteSystem
         if (!TryComp(sprite, out SpriteComponent? comp))
             return depth;
 
-        _sprite.SetDrawDepth((sprite, comp), (int)depth);
+        _sprite.SetDrawDepth((sprite, comp), (int) depth);
         return depth;
     }
 
@@ -121,11 +122,19 @@ public sealed class RMCSpriteSystem : SharedRMCSpriteSystem
             {
                 if (TryComp(player, out BuckleComponent? buckle) && buckle.Buckled)
                 {
-                    UpdateDrawDepth(player);
+                    if (buckle.BuckledTo is { } strapEnt &&
+                        TryComp(strapEnt, out RMCStrapDrawDepthComponent? strapDepth))
+                    {
+                        _sprite.SetDrawDepth((player, playerSprite), (int) strapDepth.StrappedDepth - 1);
+                    }
+                    else
+                    {
+                        UpdateDrawDepth(player);
+                    }
                     return;
                 }
 
-                _sprite.SetDrawDepth((player, playerSprite), (int)Shared.DrawDepth.DrawDepth.BelowMobs);
+                _sprite.SetDrawDepth((player, playerSprite), (int) Shared.DrawDepth.DrawDepth.BelowMobs);
             }
         }
         catch (Exception e)

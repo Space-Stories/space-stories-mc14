@@ -197,6 +197,21 @@ public sealed partial class CMDistressSignalRuleComponent : Component
     };
 
     [DataField]
+    public bool MarinesLanded;
+
+    [DataField]
+    public TimeSpan FirstDeploymentAnnouncementDelay = TimeSpan.FromSeconds(5);
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
+    public TimeSpan? FirstDeploymentAnnouncementAt;
+
+    [DataField]
+    public bool FirstDeploymentAnnouncementDone;
+
+    [DataField]
+    public string? FirstDeploymentWarshipName;
+
+    [DataField]
     public ProtoId<JobPrototype> QueenJob = "CMXenoQueen";
 
     [DataField]
@@ -274,6 +289,7 @@ public sealed partial class CMDistressSignalRuleComponent : Component
         ("CMSurvivorSecurity", 2),
         ("CMSurvivorCorporate", 2),
         ("CMSurvivorScientist", 2),
+        ("RMCSyntheticColony", 1), // Stories-SynthSurvivor
         ("CMSurvivor", -1),
     };
 
@@ -299,10 +315,10 @@ public sealed partial class CMDistressSignalRuleComponent : Component
     public bool AresGreetingDone;
 
     [DataField]
-    public TimeSpan AresMapDelay = TimeSpan.FromSeconds(20);
+    public bool AresPreflightDone;
 
     [DataField]
-    public bool AresMapDone;
+    public int AresAnnouncementIndex;
 
     [DataField]
     public TimeSpan? StartTime;

@@ -13,6 +13,24 @@ rmc-xeno-internal-health-increase-user = Вы чувствуете, как ув�
 rmc-xeno-not-enough-fury = Мы недостаточно злы для этого!
 rmc-xeno-fury-increase-user = Нас одолевает ярость!
 
+# Queen psychic communication
+rmc-xeno-psychic-whisper-message = Психический шёпот для { $target }.
+rmc-xeno-psychic-whisper-sent = Мы шепчем { $target }.
+rmc-xeno-psychic-target-unknown = этому разуму
+rmc-xeno-psychic-radiance-message = Излучить психическое сообщение.
+rmc-xeno-psychic-radiance-no-targets = Рядом нет разумов, которым можно передать излучение.
+rmc-xeno-psychic-radiance-sent = Мы излучаем свои мысли ближайшим разумам: { $count }.
+rmc-xeno-psychic-give-order-message = Отдать приказ { $target }.
+rmc-xeno-psychic-give-order-must-watch = Мы должны наблюдать за сестрой, чтобы отдать приказ.
+rmc-xeno-psychic-give-order-sent = Мы отдаём приказ { $target }.
+rmc-xeno-psychic-target-invalid = Этот разум больше не в пределах нашей досягаемости.
+rmc-xeno-psychic-message-xeno = [color=#921992][font size=14][bold]Голос { $queen } звучит в нашей голове:[/bold] "{ $message }"[/font][/color]
+rmc-xeno-psychic-message-alien = [color=#921992][font size=14][bold]Вы слышите странный чужеродный голос в своей голове:[/bold] "{ $message }"[/font][/color]
+rmc-xeno-psychic-message-order = [color=#921992][font size=14][bold]{ $queen } приказывает вам:[/bold] "{ $message }"[/font][/color]
+rmc-xeno-psychic-ghost-whisper = [color=#921992][font size=14][bold]Психический шёпот ({ $queen } -> { $target }):[/bold] "{ $message }"[/font][/color]
+rmc-xeno-psychic-ghost-radiance = [color=#921992][font size=14][bold]Психическое излучение ({ $queen }, получателей: { $count }):[/bold] "{ $message }"[/font][/color]
+rmc-xeno-psychic-ghost-order = [color=#921992][font size=14][bold]Психический приказ ({ $queen } -> { $target }):[/bold] "{ $message }"[/font][/color]
+
 # Acid reserves
 rmc-xeno-not-enough-acid = У вас недостаточно кислоты!
 rmc-xeno-acid-increase-user = Вы чувствуете, как увеличивается запас кислоты!
@@ -55,14 +73,48 @@ rmc-xeno-evolution-cant-evolve-recent-queen-death-seconds = Мы должны п
 rmc-xeno-evolution-cant-evolve-caste-cooldown = Мы не можем снова превратиться в эту касту! (Осталось { $minutes } минут и { $seconds } секунд)
 rmc-xeno-evolution-failed-early-weeds = Улей еще не настолько развился, чтобы вы могли эволюционировать от сорняков!
 rmc-xeno-evolution-failed-bad-location = Мы не можем развиваться здесь.
+rmc-xeno-evolution-failed-marines-dropped = Небесные верзилы уже высадились, мы больше не можем принять эту форму.
+rmc-xeno-evolution-failed-queen-exists = В улье уже есть Королева!
+rmc-xeno-evolution-failed-not-enough-points = Нам нужно больше материала эволюции.
 rmc-xeno-evolution-start-self = Мы начинаем скручиваться и деформироваться.
 rmc-xeno-evolution-start-others = { $xeno } начинает крутиться и извиваться.
+rmc-xeno-evolution-raffle-entered = Мы выдвинули себя, чтобы стать { $caste }. Улей решит, когда откроется место.
+rmc-xeno-evolution-raffle-won = Улей выбрал нас!
+rmc-xeno-evolution-raffle-grace-health = Место открылось для нас, но мы должны быть полностью здоровы! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-grace-location = Место открылось для нас, но мы не можем развиваться здесь! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-grace-weeds = Место открылось для нас, но мы должны быть на сорняках! У нас есть { $seconds } секунд.
+rmc-xeno-evolution-raffle-missed = Мы не успели подготовиться вовремя и потеряли свое место в лотерее.
+rmc-xeno-evolution-raffle-blocked-lower = Место открылось для нас, но в улье уже слишком много сестёр ранга { $tier } и выше — одна должна пасть или должно открыться место для ранга { $tier }, прежде чем мы сможем подняться напрямую.
+rmc-xeno-evolution-tab-evolve = Эволюция
+rmc-xeno-evolution-tab-raffle = Лотерея
+
+# Insight
+rmc-xeno-insight-empower = Мы получили достаточно проницательности относительно нашей добычи, чтобы усилить наше следующее размещение ловушек!
+
+# Deploy Traps
+rmc-xeno-deploy-traps-self = Мы создаём внезапную вспышку ловушек!
+rmc-xeno-deploy-traps-others = Сапёр создаёт внезапную вспышку ловушек!
+rmc-xeno-deploy-traps-empower = Мы черпаем силы из наших резервов, чтобы подготовить более мощную Кислотную мину!
+rmc-xeno-deploy-traps-range-fail = Эта цель слишком далеко!
+rmc-xeno-deploy-traps-see-fail = Что-то мешает обзору!
+
+
+# Acid Mine
+rmc-xeno-acid-mine-self = Мы заставляем скрытую мину взорваться!
+rmc-xeno-acid-mine-others = Сапёр заставляет скрытую мину взорваться!
+rmc-xeno-acid-mine-range-fail = Эта цель слишком далеко!
+rmc-xeno-acid-mine-see-fail = Что-то мешает обзору!
+
+# Adrenaline Surge
+rmc-xeno-adrenaline-surge-ready = Вы чувствуете, как ваши адреналиновые железы снова наполняются! Ваше ускорение снова активируется.
+rmc-xeno-adrenaline-surge-start = Ваш адреналин закипает, увеличивая вашу скорость!
 
 # Fortify
 cm-xeno-fortify-cant-headbutt = Вы не можете ударить головой во время укрепления!
 cm-xeno-fortify-cant-rest = Вы не можете отдыхать во время укрепления!
 cm-xeno-fortify-cant-tail-sweep = Вы не можете сделать удар хвостом во время укрепления!
 cm-xeno-fortify-cant-toggle-crest = Вы не можете опускать гребень во время укрепления!
+cm-xeno-fortify-cant-vehicle = Транспорт мешает нам укрепиться!
 
 # Headbutt
 rmc-xeno-headbutt-too-far = Мы не можем бить головой с такого расстояния с опущенным гребнем!
@@ -83,11 +135,13 @@ rmc-xeno-acid-too-weak = { CAPITALIZE($target) } слишком прочный, 
 rmc-acid-pickup-blocked = { CAPITALIZE($target) } покрыт коррозийной кислотой!
 rmc-acid-hole-already-weakened = Оно уже ослаблено.
 rmc-acid-hole-only-small-xenos = Только маленькие ксеносы могут пролезть через это отверстие.
-rmc-acid-hole-too-large = Мы слишком велики, чтобы протиснуться в это отверстие.
+rmc-acid-hole-too-large-non-xeno = Вы слишком велики, чтобы пролезть через это отверстие.
 rmc-acid-hole-wrong-side = Нам нужно подойти к отверстию со стороны входа!
+rmc-acid-hole-entrance-blocked = Что-то заслоняет эту сторону отверстия.
 rmc-acid-hole-no-exit = Там нет места, чтобы проползти.
 rmc-acid-hole-blocked = Что-то блокирует проход с другой стороны.
 rmc-acid-hole-repair-blocked = Стена пробита, сначала её нужно заделать.
+rmc-acid-hole-repair-requires-nailgun = Вам нужен гвоздомёт, чтобы заделать этот брешь.
 
 # Paralyzing Slash
 cm-xeno-paralyzing-slash-activate = Ваш следующий удар применит нейротоксин!
@@ -161,6 +215,7 @@ rmc-xeno-invisibility-expire-bump = Мы наткнулись на кого-то
 # Ovipositor
 cm-xeno-ovipositor-attach = Мы начинаем прикрепляться к яйцекладу.
 cm-xeno-ovipositor-detach = Мы начинаем отделяться от яйцеклада.
+cm-xeno-ovipositor-vehicle = Мы не можем сделать яйцеклад внутри транспортного средства!
 
 # Retrieve Egg
 cm-xeno-retrieve-egg-no-eggs = У нас не хранятся яйца!
@@ -295,6 +350,7 @@ rmc-xeno-sacrifice-heal-announce = ;НАША СЕСТРА НЕ УМРЕТ!!!
 # Dodge
 rmc-xeno-dodge-self = Теперь мы можем пробираться сквозь врагов!
 rmc-xeno-dodge-end = Мы больше не можем пробираться сквозь врагов!
+rmc-xeno-dodge-end-manual = Мы заканчиваем наш танец пораньше!
 
 # Vanguard Shield
 rmc-xeno-shield-vanguard-hit = Наш щит принял удар на себя!
@@ -345,7 +401,7 @@ rmc-xeno-abduct-cancel = Мы расслабляем хвост.
 rmc-xeno-abduct-no-room = У нас нет места для похищения!
 rmc-xeno-abduct-none = Наш хвост ничего не поймал!
 rmc-xeno-abduct-one = Наш хвост поймал и замедлил одну цель!
-rmc-xeno-abduct-two = Наш хвост ловит и корёжит две цели!
+rmc-xeno-abduct-two = Наш хвост лочит и корёжит две цели!
 rmc-xeno-abduct-more = Наш хвост ловит и оглушает { $targets } цели!
 
 # Tail Lash
@@ -414,3 +470,18 @@ rmc-doomed-fail = Это не сработало...
 # Destroy
 rmc-destroy-cant-reach = У нас нет прямого пути к этому месту!
 rmc-destroy-cant-area = Мы не можем прыгнуть в эту область!
+
+# Queen Eye
+rmc-xeno-weeds-no-nearby-node = Нам нужно, чтобы сорняки были ближе!
+rmc-xeno-queen-eye-no-weeds = Мы не можем переместить туда своё око, там нет сорняков!
+rmc-xeno-queen-eye-expand-weeds-name = Расширить сорняки (50)
+rmc-xeno-queen-eye-expand-weeds-desc = Расширить существующие сорняки или превратить плитку сорняков в узел.
+
+# Swift Steps
+rmc-xeno-swift-steps-self = Мы едва увернулись от { THE($bullet) }!
+rmc-xeno-swift-steps-others = { CAPITALIZE(THE($user)) } отскакивает в сторону, уклоняясь от { THE($bullet) }!
+
+# Finesse
+rmc-xeno-marked-critical-apply = Ты чувствуешь, как страх пробегает по твоей спине... ты можешь быть следующим!
+rmc-xeno-marked-critical-disappear = Ты успокаиваешься и приходишь в себя.
+rmc-xeno-marked-critical-consumed = Ты пришёл в себя!

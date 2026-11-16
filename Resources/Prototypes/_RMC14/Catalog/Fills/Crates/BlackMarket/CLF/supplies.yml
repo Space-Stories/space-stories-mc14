@@ -1,0 +1,47 @@
+- type: entityTable
+  id: RMCBlackMarketCLFBonus
+  table: !type:GroupSelector
+    children:
+    - id: RMCCigarettePackExecutiveSelect
+    - id: CMMatchBook
+    - id: RMCCrayonBox
+    - id: RMCDrinkAlcoholWhiskey
+    - id: RMCTieHorrible
+    - id: RMCFoodSnackHUNK
+    - id: RMCFlashlight
+
+- type: entityTable
+  id: RMCBlackMarketCLFToys
+  table: !type:GroupSelector
+    children:
+    - id: CMPlushieFarwa
+    - id: RMCSpinningToy
+
+- type: entityTable
+  id: RMCBlackMarketCLFSupplyKits
+  table: !type:GroupSelector
+    children:
+    - id: RMCSupplyKitPursuit
+    - id: RMCSupplyKitPursuit
+    - id: RMCSupplyKitPursuit
+    - id: RMCSupplyKitSelfDefense
+    - id: RMCSupplyKitSelfDefense
+    - id: RMCSupplyKitSelfDefense
+    - id: RMCSupplyKitMiniMedic
+    - id: RMCSupplyKitMiniMedic
+    - id: RMCSupplyKitMiniMedic
+    - id: RMCSupplyKitMOU53
+    - id: RMCSupplyKitMOU53
+    - id: RMCSupplyKitHeavySupport
+
+- type: entityTable
+  id: RMCBlackMarketCLFMaterials
+  table: !type:GroupSelector
+    children:
+    - id: CMSheetMetal1
+    - id: CMSheetPlasteel1
+    - id: RMCSheetPlastic1
+    - id: CMSheetGlass1
+    - id: CMSheetPhoron1
+    - id: RMCGoldOre1
+    - id: RMCDiamondOre1

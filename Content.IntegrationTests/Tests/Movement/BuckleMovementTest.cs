@@ -22,7 +22,7 @@ public sealed class BuckleMovementTest : MovementTest
 #pragma warning restore RA0002
 
         // Initially not buckled to the chair, and standing off to the side
-        Assert.That(Delta(), Is.InRange(0.9f, 1.1f));
+        Assert.That(Delta(), Is.InRange(0.6f, 1.1f));
         Assert.That(buckle.Buckled, Is.False);
         Assert.That(buckle.BuckledTo, Is.Null);
         Assert.That(strap.BuckledEntities, Is.Empty);

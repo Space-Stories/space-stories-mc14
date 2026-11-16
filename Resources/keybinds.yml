@@ -1,4 +1,4 @@
-﻿version: 1 # Not used right now, whatever.
+version: 1 # Not used right now, whatever.
 binds:
 - function: UIClick
   type: State
@@ -256,6 +256,18 @@ binds:
   type: State
   key: E
   mod1: Shift
+- function: SmartEquipPocket1
+  type: State
+  key: N
+  mod1: Shift
+- function: SmartEquipPocket2
+  type: State
+  key: M
+  mod1: Shift
+- function: SmartEquipSuitStorage
+  type: State
+  key: H
+  mod1: Shift
 - function: OpenBackpack
   type: State
   key: V
@@ -476,6 +488,7 @@ binds:
 - function: OpenSandboxWindow
   type: State
   key: B
+  mod1: Control
 - function: TakeScreenshot
   type: State
   key: F2
@@ -682,3 +695,41 @@ binds:
   type: State
   key: R
   mod1: Shift
+- function: RMCResist
+  type: State
+  key: B
+- function: RMCUnloadWeapon
+  type: State
+  key: Z
+  mod1: Shift
+- function: RMCXenoPrimaryActionOne
+  type: State
+  key: C
+- function: RMCXenoPrimaryActionTwo
+  type: State
+  key: V
+- function: RMCXenoPrimaryActionThree
+  type: State
+  key: G
+- function: RMCXenoPrimaryActionFive
+  type: State
+  key: N
+- function: RMCXenoCorrosiveAcid
+  type: State
+  key: C
+  mod1: Shift
+- function: SmartEquipUniform
+  type: State
+  key: N
+  mod1: Alt
+- function: SmartEquipArmor
+  type: State
+  key: M
+  mod1: Alt
+- function: SmartEquipHelmet
+  type: State
+  key: H
+  mod1: Alt
+- function: ToggleLookUp
+  type: State
+  key: PageUp

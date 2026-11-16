@@ -1,0 +1,5 @@
+<local:AresLegacyLogRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.ARES.Interface"
+    Orientation="Vertical" HorizontalExpand="True">
+    <RichTextLabel Name="Message" Access="Public" Margin="0 0 0 2.5" />
+</local:AresLegacyLogRow>

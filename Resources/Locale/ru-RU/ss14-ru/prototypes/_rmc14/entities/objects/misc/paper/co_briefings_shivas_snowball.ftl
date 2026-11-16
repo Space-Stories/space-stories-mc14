@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingShivasUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Снежок Шивы, Вне фракций
+ent-RMCPaperCOBriefingShivasHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Снежок Шивы, Ястребы
+ent-RMCPaperCOBriefingShivasDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Снежок Шивы, Голуби
+ent-RMCPaperCOBriefingShivasMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Снежок Шивы, Сороки

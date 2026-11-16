@@ -283,8 +283,6 @@ ent-RMCFigurinePatronKallKallovski = Kall Kallovski figurine
     .desc = Delta leads the way.
 ent-RMCFigurinePatronAtlasWolfySnowlight = Katerina AW Dragunov figurine
     .desc = A short figure depicting one of the poster child of the success of the Artificial Womb program. Katerina ability to inspire her fellow marines and fear in the enemies of the UN resulted in WE-YA making her into a figure, despite her objections. As many have learn to their dismay her bite is stronger than her bark. It smells like strawberries.
-ent-RMCFigurinePatronCaineRuffRuffalo = Caine 'Ruff' Ruffalo figurine
-    .desc = Ruff as a Ruffalo. Always Ruffs. Is always Rough as a Ruff.
 ent-RMCFigurinePatronAnneTaylor = Anne Taylor figurine
     .desc = If you see her piloting the Alamo and it still looks normal, something is horribly wrong.
 ent-RMCFigurinePatronYeoSakuraBunnia = Yeo 'Sakura' Bunnia figurine
@@ -299,7 +297,7 @@ ent-RMCFigurinePatronSamsonParker = Samson Parker figurine
     .desc = An Alpha squad leader willing to give up his life for his men! Reckless but with a big heart, always seeking to make the best out of the worst situations and NOT die in the process...
 ent-RMCFigurinePatronKasuni = Kasuni figurine
     .desc = Kasuni is fix, will be ok soon.
-ent-RMCFigurinePatronRikkiNakesone = Rikki Nakesone figurine
+ent-RMCFigurinePatronLaveCCOLonomia = Lave 'CCO' Lonomia figurine
     .desc = When one loaf of banana bread isn't enough.
 ent-RMCFigurinePatronSudie-Mim = Sudie-Mim figurine
     .desc = { ent-RMCBaseFigurinePatron.desc }
@@ -457,8 +455,6 @@ ent-RMCFigurinePatronTrinityRathens = Trinity Rathens figurine
     .desc = Beaten and bloodied, Trinity holds out a cigar to share with a piercing stare and a smile on her face. You are unsure if the blood is hers or not, or if you should even accept the cigar, for she also has her hand resting on her pistol in its holster. Will you tempt fate?
 ent-RMCFigurinePatronSethXi = Seth Xi figurine
     .desc = As you gaze upon the figurine, a sudden surge of motivation stirs within you. From afar comes the clash of blades and the shatter of glass, drifting toward you like the warning of an approaching storm.
-ent-RMCFigurinePatronEats-The-Crayons = Eats-The-Crayons figurine
-    .desc = { ent-RMCBaseFigurinePatron.desc }
 ent-RMCFigurinePatronKaliDarland = Kali Darland figurine
     .desc = This is a young martian felinid. All craftsmanship is of the highest quality.
         She holds her rifle slung over her shoulder, striking a smug, triumphant pose. Ninth time's the charm, darling.
@@ -477,6 +473,185 @@ ent-RMCFigurinePatronEinukoTwitchSteelfeather = Einuko 'Twitch' Steelfeather fig
         -!!- WARNING - DO NOT IGNITE -!!-
 ent-RMCFigurinePatronKaraHathaway = Kara Hathaway figurine
     .desc = "You got a sandwich in there?"
+ent-RMCFigurinePatronSelinaCavityAlara = Selina 'Cavity' Alara figurine
+    .desc = This figure is covered in cookie crumbs and smells like pure sugar!
+ent-RMCFigurinePatronKaraLifelineGreenland = Kara 'Lifeline' Greenland figurine
+    .desc = Smells faintly of... Blueberries???
+ent-RMCFigurinePatronBorisScavmanchez = Boris Scavmanchez figurine
+    .desc = Seems like this guy gets around just about everywhere. Though he's sporting his MP uniform, here, with a M42 shotgun held by his hip in one hand and a stun baton resting on his shoulder in the other. He truly IS the law!
+ent-RMCFigurinePatronRodrickRoyal = Rodrick Royal figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronBugsPaperboySwedersson = Bugs 'Paperboy' Swedersson figurine
+    .desc = The figurine is warm to the touch.
+ent-RMCFigurinePatronErisVoltia = Eris Voltia figurine
+    .desc = A tiny label on the bottom reads:  "This figurine is not a replacement for a licensed Chemist, Surgeon, or Pilot. Please contact a trained professional if you are in need of life saving treatment or rescue."
+ent-RMCFigurinePatronSilasChitterCandlewing = Silas 'Chitter' Candlewing figurine
+    .desc = You get the get the feeling that the gun is likely a lot smarter than he is.
+ent-RMCFigurinePatronMichaelMikeyMcGoggins = Michael 'Mikey' McGoggins figurine
+    .desc = Part of a series of figures meant to boost UNMC recruitment, found at most large Recruiting Centers. The base says "McGoggins was an ordinary citizen just like you- until he joined the Marines! Enlist today!" There is a code to call the UNMC recruitment hotline attached.
+ent-RMCFigurinePatronEdithHestiBClausell = Edith 'Hesti' B Clausell figurine
+    .desc = "Supply on 30, -197."
+        "Contacts rotating northeast."
+
+        The figurine, depicting a Delta FTL, wears a cheeky, confident smile that annoys you. You kinda want to throw it out the Alamo.
+
+        "Why does your figurine have an ATL?"
+        "W-why not..?"
+
+        It gives you confidence that you'll probably make it to tomorrow's sunrise.
+
+        Probably.
+ent-RMCFigurinePatronGuppyDeBoots = Guppy DeBoots figurine
+    .desc = Goppy, Gupp, Goop... Gop? Gups? You can't quite remember his name, but you know it's something stupid.
+ent-RMCFigurinePatronZoeyKillerGrimshaw = Zoey 'Killer' Grimshaw figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronDruMisinputKeller = Dru 'Misinput' Keller figurine
+    .desc = "It was a missinput, missinput! Calm down, YOU CALM THE FUCK DOWN! IT WAS A MISSINPUT!"
+ent-RMCFigurinePatronRenomi = Renomi figurine
+    .desc = Typically spotted in medbay or crashing out in the FOB about her friends getting hurt.
+
+        Totally normal about hot cocoa.
+ent-RMCFigurinePatronCassyKennedy = Cassy Kennedy figurine
+    .desc = Small little thing, a label on the stand says "MOEW YOU'RE GUNNA GET IT!!!"
+ent-RMCFigurinePatronKhaunami = Khaunami figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronLyonSurgeonAugust = Lyon 'Surgeon' August figurine
+    .desc = Smells awfully like tobacco, cinnamon, and a weird mix of chemicals.
+ent-RMCFigurinePatronRileyTilterStone = Riley 'Tilter' Stone figurine
+    .desc = It appears lightly chewed, with the right side's earpiece missing.
+ent-RMCFigurinePatronKalaLightseeker = Kala Lightseeker figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronBigWhiskerfield = Big Whiskerfield figurine
+    .desc = A greedy little Fobbit, jumping around the corner, looking for crumbs of scrap metal..
+ent-RMCFigurinePatronBethanyAWXiphos = Bethany AW Xiphos figurine
+    .desc = Peak!
+ent-RMCFigurinePatronPatches-It-Up = Patches-It-Up figurine
+    .desc = "They don't call her Armory for nothing!"
+
+        This figurine usually comes with a printed Submachine gun, Shotgun and M13 autopistols, with a hidden pistol in her boot. Additionally, it has a clip on the back of her armor to hang onto keychains or to attach an included parachute. Too bad it doesn't have any of those add-ons.
+
+        Handle with care!
+ent-RMCFigurinePatronLumenLosinfobLamplight = Lumen 'Losinfob' Lamplight figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronVeraWilliams = Vera Williams figurine
+    .desc = Captured in her finest outdoors attire, this figurine reminds everyone that looking like a leader is far more cost-effective than actually managing the situation.
+ent-RMCFigurinePatronAutumnCocktailSheauvern = Autumn 'Cocktail' Sheauvern figurine
+    .desc = Try Cocktail's Cocktail™ today! Just add gauze, and they'll be walking in no time!
+ent-RMCFigurinePatronTraces-The-Constellations = Traces-The-Constellations figurine
+    .desc = "If this is the lesson, it’s a rough one."
+ent-RMCFigurinePatronSlyeWelding = Slye Welding figurine
+    .desc = "God where's a good bottle of Vodka when you need one..."
+ent-RMCFigurinePatronMathewMothewLampyris = Mathew 'Mothew' Lampyris figurine
+    .desc = He's a green moth that is fuzzy, he has a scar on his lip.
+ent-RMCFigurinePatronAmbroseMommaBearHelichrysum = Ambrose 'Momma Bear' Helichrysum figurine
+    .desc = The everyday MP Ambrose. Just like the real one! Doesn't includes battle scars, PTSD and sweetness... or height.
+ent-RMCFigurinePatronReikaSweetToothInazuma = Reika 'SweetTooth' Inazuma figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronNezuni-Arksai = Nezuni-Arksai figurine
+    .desc = Intel? Pending. Order of operations? By the seat of their pants. Touching groundside? As if. Running around the Almayer doing a million jobs? 100%. This short bird does it all! (kinda)
+ent-RMCFigurinePatronSpits-The-Fire = Spits-The-Fire figurine
+    .desc = It's Spits! He lives to set things on fire!
+
+        Hand this figurine to your squad SL to redeem for a B-gel tank!
+ent-RMCFigurinePatronDrejaScrapsKel = Dreja 'Scraps' Kel figurine
+    .desc = Sometimes a point-man, sometimes a QRF, but most of the time support infantry. Stars save our precious Queen, wof!
+ent-RMCFigurinePatronElle = Elle figurine
+    .desc = Ratcket launcher!
+ent-RMCFigurinePatronLiamPropertyDamageHarper = Liam 'Property Damage' Harper figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronPetraMeowMeowYork = Petra 'Meow Meow' York figurine
+    .desc = Nyanyame nyanyajyuunyanya-do no nyarabi de nyakunyaku inyanyaku nyanyahan nyanyadai nyanynaku nyarabete nyaganyagame.
+ent-RMCFigurinePatronAriaShark-Scale = Aria Shark-Scale figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronWyattHossCross = Wyatt 'Hoss' Cross figurine
+    .desc = It's a bird, it’s a plane, it's a little Hoss! With a big old smile, he's equipped with a mini cornbread MRE and a miniature smartgun!
+ent-RMCFigurinePatronMixes-the-Fuel = Mixes-the-Fuel figurine
+    .desc = Mixes is a small kobold with a positive attitude that always speaks in third person, but always tries to follow their duties to the letter. They always like be as friendly as they can be, and they are a bit silly and goofy at times, although they tend to be quite happy about completing their assigned tasks.
+
+        Warning: Do not give them a flamer under any circumstance. It will only end up in a disaster.
+ent-RMCFigurinePatronShanaSnowMcTavish = Shana 'Snow' McTavish figurine
+    .desc = Hates walls. Likes marines being nearby. Smells like vanilla.
+ent-RMCFigurinePatronRhonaDeerHanes = Rhona 'Deer' Hanes figurine
+    .desc = Looks like someone who hates rain, and snow, and sun, and heat, and cold.
+ent-RMCFigurinePatronJatayuNerdCorvuson = Jatayu 'Nerd' Corvuson figurine
+    .desc = "They're jumping me!!"
+ent-RMCFigurinePatronCadeStripesSagan = Cade 'Stripes' Sagan figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronCheeryHeather = Cheery Heather figurine
+    .desc = A mini of a middle-aged rabbit woman.  She has a smile on her face, and dark circles under her eyes.
+
+        She's holding the usual.
+ent-RMCFigurinePatronSamanthaMotherOppenheimer = Samantha 'Mother' Oppenheimer figurine
+    .desc = My work... my work lies where i left it... if there is anyone brave enough and... clever enough, to take it and... return, the keys to time... perhaps the foundation... of a new empire...
+ent-RMCFigurinePatronRosemaryAWGlaive = Rosemary AW Glaive figurine
+    .desc = The Galaxy's Second-best Henchwoman.
+ent-RMCFigurinePatronMoffusSnowlight = Moffus Snowlight figurine
+    .desc = A seemingly unremarkable, tan colored moth person. Despite being somewhat new to the flight crew, this little guy is still highly experienced and not afraid to give you advice on how to run the dropships.
+
+        What? "Marcus Snow"? I think I've heard of that one before...
+
+        Eh, this figurine is cooler anyways. 
+ent-RMCFigurinePatronNoelleShimizu-Lockhart = Noelle Shimizu-Lockhart figurine
+    .desc = Noelle Shimizu-Lockhart — We-Ya Office Edition
+
+        One of the many poised faces of Weston-Yamada diplomacy. Presented in her signature executive attire, she reflects the refinement, discipline, and quiet confidence of Her Majesty the Empress' Core Worlds. She does not look as though she belongs on the Frontier. This collectible figurine commemorates one of Weston-Yamada's most respectable Corporate Liaisons and includes a subtle tribute to her long-running-if decidedly professional-office rivalry with Executive Specialist Geraldine Birgitsdottir.
+
+        Curiously, the figurine smells faintly of freshly printed paper and perfume.
+ent-RMCFigurinePatronNibbles-The-Fixtures = Nibbles-The-Fixtures figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronSteveLungCancerMichaels = Steve 'Lung Cancer' Michaels figurine
+    .desc = WARNING:
+
+        Manufactured in a facility that produces tobacco products. Thirdhand smoke exposure is likely.
+ent-RMCFigurinePatronScottDadGreaves = Scott 'Dad' Greaves figurine
+    .desc = He may not be your father. But he's sure as hell your Dad.
+ent-RMCFigurinePatronAmberUnluckySummer = Amber 'Unlucky' Summer figurine
+    .desc = She calls herself Fopsquez, I have no idea why, she says it's a movie reference? I don't get it honestly.
+ent-RMCFigurinePatronAelicaMomDanara = Aelica 'Mom' Danara figurine
+    .desc = A figurine of 'Mom', her confidence radiates from her smile. Simply looking at her feels... soothing.
+ent-RMCFigurinePatronShyPeepsJunie = Shy 'Peeps' Junie figurine
+    .desc = "Ma, can a rodentia still be brave if she is afraid?"
+ent-RMCFigurinePatronFeels-The-Burn = Feels-The-Burn figurine
+    .desc = Smells burnt, careful not to step in his way...
+ent-RMCFigurinePatronJulianUberchargeCompton = Julian 'Ubercharge' Compton figurine
+    .desc = A steely eyed HM that has seen the worst of wipes and seems now unfazed by death. A closer look shows a touch of madness and grief in the eyes.
+ent-RMCFigurinePatronBuckPrettyTern = Buck 'Pretty' Tern figurine
+    .desc = A strange moff with colorful wings. Get on his good side and he'll fight the world for you.. or at least try.
+ent-RMCFigurinePatronTomMelonMalone = Tom 'Melon' Malone figurine
+    .desc = Little Bravo dude who is always seen holding a blowtorch and a lemon.
+ent-RMCFigurinePatronNalaWitchWhitewitch = Nala 'Witch' Whitewitch figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronMarla = Marla figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronAshlynWinters = Ashlyn Winters figurine
+    .desc = Comes with brushable hair! You did remember to keep the included UNMC Figurine Hair Comb, right?
+
+        The included mini-speaker emits a sound closer to an industrial angle grinder than any coherent speech. The manufacturer elected to apply a sticky label to the figurine’s base instead.
+
+        "When I sing, it is my heartbeat against the ticking of a stopwatch."
+ent-RMCFigurinePatronSahr-Shahvee = Sahr-Shahvee figurine
+    .desc = Only the bestest ASO!
+ent-RMCFigurinePatronBlankaDisaterZaun = Blanka 'Disater' Zaun figurine
+    .desc = Carrying this figurine makes you feel very susceptible to misfortune...and getting blown up...
+ent-RMCFigurinePatronMiDan = Mi Dan figurine
+    .desc = A special edition Mi Dan Figurine, a homage to the felinid's heritage.
+
+        On the bottom of the figurine stand reads — 'What could've been'.
+        Something just feels off about the figurine, that wasn't the price.
+ent-RMCFigurinePatronEulaEventide = Eula Eventide figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronAdamSalamanderThatcher = Adam 'Salamander' Thatcher figurine
+    .desc = A Japanese man who looks like he has seen the fires of war. This one seems to be kitted in Royal Crown Marine gunner armor and seems ready to serve the Empress. He also has written on the smart gun, "FOR THE EMPRESS!!"
+ent-RMCFigurinePatronRikkiNakesone = Rikki Nakesone figurine
+    .desc = When one loaf of banana bread isn't enough.
+ent-RMCFigurinePatronEats-The-Crayons = Eats-The-Crayons figurine
+    .desc = { ent-RMCBaseFigurinePatron.desc }
+ent-RMCFigurinePatronCarlosKennedy = Carlos Kennedy figurine
+    .desc = Small little thing, a label on the stand says "MOEW YOU'RE GUNNA GET IT!!!"
+ent-RMCFigurinePatronGunnerWilo = Gunner Wilo figurine
+    .desc = "Clogging arteries is my hobby. In the Corps, you only live once and not for long, so why not enjoy it?"
+ent-RMCFigurinePatronCaineRuffRuffalo = Caine 'Ruff' Ruffalo figurine
+    .desc = Ruff as a Ruffalo. Always Ruffs. Is always Rough as a Ruff.
 ent-RMCFigurinePatronKillsTheMice = мусор
     .desc = мусор
 ent-RMCFigurinePatronJermaineBaitMcClune = мусор

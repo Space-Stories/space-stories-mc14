@@ -1,6 +1,6 @@
+using Content.Shared._RMC14.Evacuation;
 using Content.Shared.Doors.Components;
 using Content.Shared.Shuttles.Systems;
-using Content.Shared._RMC14.Spawning;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -9,7 +9,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 namespace Content.Shared._RMC14.Dropship;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
-[Access(typeof(SharedDropshipSystem), typeof(SharedGridSpawnerSystem))]
+[Access(typeof(SharedDropshipSystem), typeof(SharedEvacuationSystem))]
 public sealed partial class DropshipComponent : Component
 {
     [DataField, AutoNetworkedField]
@@ -40,7 +40,7 @@ public sealed partial class DropshipComponent : Component
     public TimeSpan LockCooldown = TimeSpan.FromSeconds(1);
 
     [DataField, AutoNetworkedField]
-    public Dictionary<DoorLocation, TimeSpan> LastLocked = new ();
+    public Dictionary<DoorLocation, TimeSpan> LastLocked = new();
 
     [DataField, AutoNetworkedField]
     public HashSet<EntityUid> AttachmentPoints = new();
@@ -95,7 +95,7 @@ public sealed partial class DropshipComponent : Component
 
     [DataField]
     public SoundSpecifier? LaunchAlarmSound = new SoundPathSpecifier("/Audio/_RMC14/Machines/Shuttle/dropship_launch_alarm.ogg")
-        {
-            Params = AudioParams.Default.WithVolume(2f).WithReferenceDistance(10).WithMaxDistance(30).WithLoop(true),
-        };
+    {
+        Params = AudioParams.Default.WithVolume(2f).WithReferenceDistance(10).WithMaxDistance(30).WithLoop(true),
+    };
 }

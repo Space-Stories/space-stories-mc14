@@ -46,7 +46,7 @@
         points: 20          # Stories-Parity
       #- id: /obj/item/trash/ceramic_plate
       #  points: 10
-      - id: RMCSpaceCash1000 # TODO RMC14 counterfiet
+      - id: RMCSpaceCash1000Counterfeit
         name: $1000 UND, unmarked bills
         points: 5
       - id: CMEncryptionKeyWEYA
@@ -73,7 +73,7 @@
         points: 5
       - id: CMDrinkCanBeerLite
         points: 5
-      - id: DrinkGlass
+      - id: RMCDrinkGlass
         points: 1
       - id: RMCWestonYamadaCup
         points: 1
@@ -115,3 +115,6 @@
         points: 15
       - id: CMEncryptionKeyColony
         points: 20
+  - type: GuideHelp
+    guides:
+    - RMCGuideCorporateLiaison

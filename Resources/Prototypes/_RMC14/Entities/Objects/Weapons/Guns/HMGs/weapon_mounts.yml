@@ -75,6 +75,8 @@
   - type: XenoCrusherChargable
   - type: Physics
     bodyType: Dynamic
+  - type: RMCHealthExaminable
+    speciesType: Mechanical
 
 - type: entity
   parent: RMCBaseWeaponMount
@@ -270,7 +272,7 @@
     isWeaponLocked: true
     canRotateWithoutTool: true
     mountOnDeploy: true
-    mountExclusionAreaSize: 0
+    mountExclusionAreaSize: 5 # Stories-Balance
     barricadeExclusionAreaSize: 2
     assembleDelay: 0.5
     undeploySound: null

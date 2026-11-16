@@ -8,6 +8,8 @@ using Robust.Shared.Random;
 using Content.Shared.Coordinates;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared._RMC14.Emote;
+using Content.Shared._RMC14.Synth; // Stories-SynthNoPainEmote
+using Content.Shared._Stories.Xenonids.AcidBloodSplash; // Stories-AcidBloodDodge
 using Content.Shared.Popups;
 using Robust.Shared.Player;
 using Content.Shared._RMC14.Xenonids;
@@ -83,6 +85,11 @@ public sealed class AcidBloodSplashSystem : EntitySystem
             if (closeRangeTargets.Contains(target))
                 hitProbability += 30;
 
+            // Stories-AcidBloodDodge-Start
+            if (TryComp<AcidBloodDodgeComponent>(target, out var dodge))
+                hitProbability -= dodge.Chance;
+            // Stories-AcidBloodDodge-End
+
             hitProbability /= 100f; // Reduce the value to decimal
 
             if (_random.NextFloat() > hitProbability)
@@ -98,7 +105,7 @@ public sealed class AcidBloodSplashSystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("rmc-xeno-acid-blood-target-self"), target, target, PopupType.MediumCaution);
 
             // TODO: don't activate when target don't feel pain
-            if (_random.NextFloat() < ent.Comp.TargetScreamProbability && !HasComp<RMCUnconsciousComponent>(target))
+            if (_random.NextFloat() < ent.Comp.TargetScreamProbability && !HasComp<RMCUnconsciousComponent>(target) && !HasComp<SynthComponent>(target)) // Stories-SynthNoPainEmote
                 _emote.TryEmoteWithChat(target, ScreamProto);
 
             var filter = Filter.Pvs(target, entityManager: EntityManager).RemoveWhereAttachedEntity(o => o == ent.Owner);

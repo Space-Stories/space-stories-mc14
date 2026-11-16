@@ -8,7 +8,6 @@ namespace Content.Shared._RMC14.Vehicle;
 [RegisterComponent, NetworkedComponent]
 public sealed partial class VehicleHardpointVisualsComponent : Component
 {
-    [DataField]
     public List<VehicleHardpointLayerState> Layers = new();
 }
 
@@ -29,12 +28,7 @@ public partial record struct VehicleHardpointLayerState
 }
 
 [Serializable, NetSerializable]
-public sealed class VehicleHardpointVisualsComponentState : ComponentState
+public enum VehicleHardpointVisualsVisuals : byte
 {
-    public readonly List<VehicleHardpointLayerState> Layers;
-
-    public VehicleHardpointVisualsComponentState(List<VehicleHardpointLayerState> layers)
-    {
-        Layers = layers;
-    }
+    Layers,
 }

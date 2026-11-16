@@ -41,10 +41,10 @@ cm-chatsan-word-xx-121-marine = xx-121
 cm-chatsan-replacement-xx-121-marine = xenonids
 
 cm-chatsan-word-xenoid = xenoid
-cm-chatsan-replacement-xenoid = ксенонид
+cm-chatsan-replacement-xenoid = ксеноморф
 
 cm-chatsan-word-xenoids = xenoids
-cm-chatsan-replacement-xenoids = ксенониды
+cm-chatsan-replacement-xenoids = ксеноморфы
 
 cm-chatsan-word-beno = beno
 cm-chatsan-replacement-beno = ксено
@@ -289,12 +289,6 @@ cm-chatsan-replacement-felinid = кошачий носитель
 cm-chatsan-word-felinids = фелиниды
 cm-chatsan-replacement-felinids = кошачьи носители
 
-cm-chatsan-word-cat = кот
-cm-chatsan-replacement-cat = кошачий носитель
-
-cm-chatsan-word-cats = коты
-cm-chatsan-replacement-cats = кошачьи носители
-
 cm-chatsan-word-vamp = vamp
 cm-chatsan-word-replacement-vamp = vampire lurker
 
@@ -313,12 +307,6 @@ cm-chatsan-replacement-vulp = псовый носитель
 cm-chatsan-word-vulps = вульпы
 cm-chatsan-replacement-vulps = псовые носители
 
-cm-chatsan-word-dog = собака
-cm-chatsan-replacement-dog = псовый носитель
-
-cm-chatsan-word-dogs = собаки
-cm-chatsan-replacement-dogs = псовые носители
-
 cm-chatsan-word-avali = авали
 cm-chatsan-replacement-avali = четырех-ухий носитель
 
@@ -334,18 +322,6 @@ cm-chatsan-replacement-rodentias = пищащие носители
 cm-chatsan-word-rodentiae = грызуны
 cm-chatsan-replacement-rodentiae = пищащие носители
 
-cm-chatsan-word-rat = крыса
-cm-chatsan-replacement-rat = пищащий носитель
-
-cm-chatsan-word-rats = крысы
-cm-chatsan-replacement-rats = пищащие носители
-
-cm-chatsan-word-mouse = мышь
-cm-chatsan-replacement-mouse = пищащий носитель
-
-cm-chatsan-word-mice = мыши
-cm-chatsan-replacement-mice = пищащие носители
-
 cm-chatsan-word-feroxi = ферокси
 cm-chatsan-replacement-feroxi = водный носитель
 
@@ -358,8 +334,59 @@ cm-chatsan-replacement-shark = водный носитель
 cm-chatsan-word-sharks = акулы
 cm-chatsan-replacement-sharks = водные носители
 
-cm-chatsan-word-fish = рыба
+cm-chatsan-word-dog = собака
+cm-chatsan-replacement-dog = псовый носитель
+
+cm-chatsan-word-corgi = corgi
+cm-chatsan-word-mrwiggles = mr.wiggles
+cm-chatsan-word-mr-wiggles = mr wiggles
+cm-chatsan-word-mister-wiggles = mister wiggles
+cm-chatsan-word-puppy = puppy
+cm-chatsan-replacement-corgi = canine fuzzy
+
+cm-chatsan-word-dogs = собаки
+cm-chatsan-word-corgies = corgies
+cm-chatsan-word-puppies = puppies
+cm-chatsan-replacement-dogs = псовые носители
+
+cm-chatsan-word-cat = кот
+cm-chatsan-word-kitty = kitty
+cm-chatsan-word-kitten = kitten
+cm-chatsan-replacement-cat = кошачий носитель
+
+cm-chatsan-word-cats = коты
+cm-chatsan-word-kitties = kitties
+cm-chatsan-word-kittens = kittens
+cm-chatsan-replacement-cats = кошачьи носители
+
+cm-chatsan-word-carp = carp
 cm-chatsan-replacement-fish = водный носитель
+
+cm-chatsan-word-rat = крыса
+cm-chatsan-word-mouse = мышь
+cm-chatsan-replacement-rat = пищащий носитель
+
+cm-chatsan-word-rats = крысы
+cm-chatsan-word-mice = мыши
+cm-chatsan-replacement-rats = пищащие носители
+
+cm-chatsan-word-monkey = monkey
+cm-chatsan-word-monke = monke
+cm-chatsan-word-kobold = kobold
+cm-chatsan-word-farwa = farwa
+cm-chatsan-word-stok = stok
+cm-chatsan-word-neaera = neaera
+cm-chatsan-word-yiren = yiren
+cm-chatsan-replacement-monkey = small host
+
+cm-chatsan-word-monkeys = monkeys
+cm-chatsan-word-monkies = monkies
+cm-chatsan-word-kobolds = kobolds
+cm-chatsan-word-farwas = farwas
+cm-chatsan-word-stoks = stoks
+cm-chatsan-word-neaeras = neaeras
+cm-chatsan-word-yirens = yirens
+cm-chatsan-replacement-monkeys = small hosts
 
 cm-chatsan-word-grenade = граната
 cm-chatsan-replacement-grenade = гром-палка
@@ -807,7 +834,7 @@ cm-chatsan-word-replacement-xover = конец
 cm-chatsan-word-m2c = m2c
 cm-chatsan-word-replacement-m2c = heavy mounted spitter
 
-cm-chatsan-word-m13 = м13
+cm-chatsan-word-m13 = м10
 cm-chatsan-word-replacement-m13 = быстрый плеватель
 
 cm-chatsan-word-m63 = м39

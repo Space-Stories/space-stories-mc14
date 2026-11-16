@@ -37,7 +37,7 @@
   - type: RMCSelectiveFire
     scatterWielded: 0
     scatterUnwielded: 0
-    baseFireRate: 10
+    baseFireRate: 8
     burstScatterMult: 0
   - type: ShootAtFixedPoint
     maxFixedRange: 15

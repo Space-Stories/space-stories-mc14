@@ -52,6 +52,10 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Solaris/se-checkpoint.yml"
       probability: 0.7
+    # Stories grid
+    - spawn: "/Maps/_Stories/Inserts/Solaris/Bio_1.yml"
+      probability: 0.15
+      offset: 20,-13
 
 - type: entity
   parent: RMCMapInsertSolarisBase
@@ -110,6 +114,10 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Solaris/filtration_restored.yml"
       probability: 0.35
+      offset: 0,24.0
+    # Stories grid
+    - spawn: "/Maps/_Stories/Inserts/Solaris/Bio_2.yml"
+      probability: 0.4
       offset: 0,24.0
 
 - type: entity
@@ -298,60 +306,33 @@
 # Regular Surv Spawns
 - type: entity
   parent: RMCMapInsertSolarisBaseScenario
-  id: RMCMapInsertSolarisSurvSpawnAdmin
-  name: Admin Surv Spawn
+  id: RMCMapInsertSolarisSurvSpawnTogether
+  name: Together Surv Spawn
   suffix: Insert Solaris
   components:
   - type: MapInsert
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Solaris/surv_spawn_admin.yml"
-      probability: 1
-      nightmareScenario: solaris_surv_spawn_admin
-
-- type: entity
-  parent: RMCMapInsertSolarisBaseScenario
-  id: RMCMapInsertSolarisSurvSpawnBar
-  name: Bar Surv Spawn
-  suffix: Insert Solaris
-  components:
-  - type: MapInsert
-    variations:
+      probability: 0.2
+      nightmareScenario: none
+      additionalNightmareScenarios: [ clfmining ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Solaris/surv_spawn_bar.yml"
-      probability: 1
-      nightmareScenario: solaris_surv_spawn_bar
-
-- type: entity
-  parent: RMCMapInsertSolarisBaseScenario
-  id: RMCMapInsertSolarisSurvSpawnOffice
-  name: Office Surv Spawn
-  suffix: Insert Solaris
-  components:
-  - type: MapInsert
-    variations:
+      probability: 0.2
+      nightmareScenario: none
+      additionalNightmareScenarios: [ clfmining ] # Stories-CLFSurvivor
+      offset: 36,1
     - spawn: "/Maps/_RMC14/Inserts/Solaris/surv_spawn_office.yml"
-      probability: 1
-      nightmareScenario: solaris_surv_spawn_office
-
-- type: entity
-  parent: RMCMapInsertSolarisBaseScenario
-  id: RMCMapInsertSolarisSurvSpawnSouthMarshals
-  name: South Marshals Surv Spawn
-  suffix: Insert Solaris
-  components:
-  - type: MapInsert
-    variations:
+      probability: 0.2
+      nightmareScenario: none
+      additionalNightmareScenarios: [ clfmining ] # Stories-CLFSurvivor
+      offset: 50,-19
     - spawn: "/Maps/_RMC14/Inserts/Solaris/surv_spawn_south_marshals.yml"
-      probability: 1
-      nightmareScenario: solaris_surv_spawn_south_marshals
-
-- type: entity
-  parent: RMCMapInsertSolarisBaseScenario
-  id: RMCMapInsertSolarisSurvSpawnStorage
-  name: Storage Surv Spawn
-  suffix: Insert Solaris
-  components:
-  - type: MapInsert
-    variations:
+      probability: 0.2
+      nightmareScenario: none
+      additionalNightmareScenarios: [ clfmining ] # Stories-CLFSurvivor
+      offset: 14,20
     - spawn: "/Maps/_RMC14/Inserts/Solaris/surv_spawn_storage.yml"
-      probability: 1
-      nightmareScenario: solaris_surv_spawn_storage
+      probability: 0.2
+      nightmareScenario: none
+      additionalNightmareScenarios: [ clfmining ] # Stories-CLFSurvivor
+      offset: 10,-31

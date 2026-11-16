@@ -11,6 +11,17 @@
   special:
   - !type:AddComponentSpecial
     components:
+    - type: Language
+      spokenLanguages:
+      - Russian
+      - English
+      - Chinese
+      understoodLanguages:
+      - Russian
+      - English
+      - Chinese
+      currentLanguage: Russian
+      defaultLanguage: Russian
     - type: Skills
       skills:
         RMCSkillEndurance: 2
@@ -62,6 +73,10 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: EntityPreset
+    additionalGear:
+    - id: RMCGrenadeType8
+      amount: 2
+      prob: 0.04
     randomOutfits:
     - [ RMCHeadCapSPPCivilianPlantWorker, RMCLabcoatShort, RMCShoesWhite ]
     - [ RMCLabcoatShort, RMCShoesLaceupBrown ]

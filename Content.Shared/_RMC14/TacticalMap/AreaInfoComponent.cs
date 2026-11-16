@@ -16,4 +16,21 @@ public sealed partial class AreaInfoComponent : Component
 
     [DataField]
     public TimeSpan UpdateInterval = TimeSpan.FromSeconds(2);
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan LastMoveUpdate;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan LastMoveInterval = TimeSpan.FromSeconds(1);
+
+    // Stories-Optimization-Start
+    [DataField]
+    public string? LastAreaName;
+
+    [DataField]
+    public short? LastCeilingLevel;
+
+    [DataField]
+    public string? LastRestrictions;
+    // Stories-Optimization-End
 }

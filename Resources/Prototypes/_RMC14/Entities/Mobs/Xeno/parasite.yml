@@ -11,6 +11,9 @@
   - type: GuideHelp
     guides:
     - RMCGuideRoleParasite
+  - type: BlackMarketValue
+    value: 20
+    deadValue: 0
   - type: GhostRole
     name: cm-job-name-xeno-parasite
     prob: 0
@@ -18,6 +21,11 @@
       settings: parasiteTimeRequirement
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Parasite/parasite.rsi
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
   - type: MobState
     allowedStates:
     - Alive
@@ -146,15 +154,21 @@
     ventCrawlIcon: parasite
   - type: Unshieldable
   - type: ExcludedFromKingVote
+  - type: MindTakeoverBehavior
+    ejectFromLarvaQueues: false
   - type: RemoveComponents
     components:
     - type: ComplexInteraction
+    - type: CanBeLarvaQueued
 
 - type: entity
   parent: CMXenoParasiteBase
   id: CMXenoParasite
   suffix: Normal
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoLeap ]
   - type: SleepNPC
   - type: ParasiteAI
   - type: XenoEvolution
@@ -168,6 +182,10 @@
   id: RMCXenoParasiteWatcher
   suffix: Parasite, Watcher
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoLeap ]
+      XenoPrimaryThree: [ ActionXenoZoom ]
   - type: Xeno
     actionIds:
     - ActionXenoRest

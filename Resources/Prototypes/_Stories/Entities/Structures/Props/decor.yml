@@ -38,7 +38,7 @@
 - type: entity
   parent: RMCPropBase
   id: STHunterArmorProp
-  name: ancient yautja armor
+  name: ancient hunter armor
   description: An ancient suit of armor. It looks incredibly old, yet most likely still functional, although it's fixed to the wall, and purely used as a ceremonial adornment.
   suffix: 1
   components:
@@ -108,7 +108,7 @@
   parent: STHunterConsoleBase
   id: STHunterConsoleCrew
   name: hunter health monitor
-  description: Used to monitor active health sensors of all Yautja in the system. You can see that the console highlights the human's ship areas with BLUE and the hunting locations with RED.
+  description: Used to monitor active health sensors of all Hunter in the system. You can see that the console highlights the human's ship areas with BLUE and the hunting locations with RED.
   components:
   - type: Sprite
     drawdepth: SmallObjects

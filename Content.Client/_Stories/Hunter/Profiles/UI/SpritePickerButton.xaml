@@ -4,24 +4,20 @@
     xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
     MinSize="64 64"
     MaxSize="64 64">
-    <!-- Highlight for selection (Green) -->
     <PanelContainer Name="Highlight" Visible="False">
         <PanelContainer.PanelOverride>
             <gfx:StyleBoxFlat BackgroundColor="#00FF0020" BorderColor="#00FF00" BorderThickness="2" />
         </PanelContainer.PanelOverride>
     </PanelContainer>
 
-    <!-- Highlight for Sponsor Item (Gold) -->
     <PanelContainer Name="SponsorHighlight" Visible="False">
         <PanelContainer.PanelOverride>
             <gfx:StyleBoxFlat BackgroundColor="#FFD70010" BorderColor="#FFD700" BorderThickness="1" />
         </PanelContainer.PanelOverride>
     </PanelContainer>
 
-    <!-- The Item Sprite -->
     <SpriteView Name="SpriteView" Scale="2.0 2.0" Margin="2" MouseFilter="Ignore" />
 
-    <!-- Visual for "Nothing" / Unequip (Red Cross Texture) -->
     <TextureRect Name="NoneTexture" TexturePath="/Textures/Interface/Nano/cross.svg.png"
                  Stretch="KeepAspectCentered"
                  SetSize="32 32"
@@ -30,7 +26,6 @@
                  Visible="False"
                  ModulateSelfOverride="Red"/>
 
-    <!-- Lock overlay for non-sponsors -->
     <PanelContainer Name="LockOverlay" Visible="False">
         <PanelContainer.PanelOverride>
             <gfx:StyleBoxFlat BackgroundColor="#00000080" />

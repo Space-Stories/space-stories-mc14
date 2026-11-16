@@ -1,9 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Labels.Components;
 using Content.Shared.Paper;
+using Content.Shared.Prototypes;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Utility;
@@ -16,11 +18,22 @@ namespace Content.Server._RMC14.Requisitions
         [Dependency] private readonly ItemSlotsSystem _slots = default!;
         [Dependency] private readonly MetaDataSystem _metaSystem = default!;
 
-        private void PrintInvoice(EntityUid requisitionOrder, EntityCoordinates coordinates, string paperwork)
+        private void PrintInvoice(
+            EntityUid requisitionOrder,
+            EntityCoordinates coordinates,
+            string paperwork,
+            RequisitionsOrderDetails? request = null,
+            int? returnReward = null)
         {
             // Create a sheet of paper to write the order details on
             // Order information sprinkled with flavor text
             var printedPaper = EntityManager.SpawnEntity(paperwork, coordinates);
+
+            if (returnReward is { } reward && TryComp(printedPaper, out RequisitionsInvoiceComponent? invoice))
+            {
+                invoice.Reward = reward;
+                Dirty(printedPaper, invoice);
+            }
 
             if (!TryComp<PaperComponent>(printedPaper, out var paper))
                 return;
@@ -81,18 +94,62 @@ namespace Content.Server._RMC14.Requisitions
             _metaSystem.SetEntityName(printedPaper, Loc.GetString(
                 "requisition-paper-print-name", ("name", orderName)));
 
-            _paperSystem.SetContent((printedPaper, paper), Loc.GetString(
+            var manifest = Loc.GetString(
                 "requisition-paper-print-manifest",
                 ("containerName", orderName.ToUpper()),
                 ("content", contentList.ToMarkup()),
                 ("weight", weight),
                 ("lot", lotNum),
-                ("serialNumber", $"{serialNum:000000}")));
+                ("serialNumber", $"{serialNum:000000}"));
+
+            if (request != null)
+            {
+                var details = Loc.GetString("rmc-requisitions-request-manifest",
+                    ("number", request.Number),
+                    ("requester", FormattedMessage.EscapeText(request.RequestedBy)),
+                    ("approver", FormattedMessage.EscapeText(request.ApprovedBy)));
+                manifest = Loc.GetString("rmc-requisitions-request-invoice-header", ("details", details)) +
+                           "\n\n" + manifest;
+            }
+
+            _paperSystem.SetContent((printedPaper, paper), manifest);
 
             // attempt to attach the label to the item
             if (TryComp<PaperLabelComponent>(requisitionOrder, out var label))
             {
                 _slots.TryInsert(requisitionOrder, label.LabelSlot, printedPaper, null);
+            }
+        }
+
+        private void SetShipmentReturns(Entity<RequisitionsComputerComponent> computer, List<RequisitionsEntry> orders)
+        {
+            if (!TryComp(computer.Comp.Account, out RequisitionsAccountComponent? account))
+                return;
+
+            var factory = EntityManager.ComponentFactory;
+            _prototype.Index(ReturnCrate).TryGetComponent<RequisitionsCrateComponent>(out var crate, factory);
+            _prototype.Index(PaperRequisitionInvoice).TryGetComponent<RequisitionsInvoiceComponent>(out var invoice, factory);
+            var paid = 0;
+            var crateAssigned = 0;
+            var invoiceAssigned = 0;
+            // Allocate cumulative differences so the number of parcels cannot change the purchase's total refund.
+            foreach (var order in orders)
+            {
+                if (order.BlackMarket)
+                    continue;
+
+                paid += order.Cost;
+                var rewards = RequisitionsReturns.Calculate(paid, account.ShipmentReturnPercent,
+                    crate?.Reward ?? 0, invoice?.Reward ?? 0);
+                order.CrateReturn = rewards.Crate - crateAssigned;
+                order.InvoiceReturn = rewards.Invoice - invoiceAssigned;
+                crateAssigned = rewards.Crate;
+                invoiceAssigned = rewards.Invoice;
+                if (!_prototype.Index(order.Crate).HasComponent<RequisitionsCrateComponent>(factory))
+                {
+                    order.InvoiceReturn += order.CrateReturn;
+                    order.CrateReturn = 0;
+                }
             }
         }
 

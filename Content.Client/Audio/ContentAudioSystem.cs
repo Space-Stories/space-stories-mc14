@@ -30,7 +30,6 @@ public sealed partial class ContentAudioSystem : SharedContentAudioSystem
     public const float LobbyMultiplier = 3f;
     public const float InterfaceMultiplier = 2f;
     public const float TtsMultiplier = 6f; // Stories-TTS
-    public const float HijackMultiplier = 3f; // Stories-HijackVolume
 
     public override void Initialize()
     {

@@ -1,45 +1,55 @@
+# Names inspired after police ranks
+# Differs from CM - Deputies stay the same, specialists in their field are Corporals/Sergeants, Riot Control unit leaders are Lieutenants, Marshals are Captains. CMB Synthetics are either ranked Detective/Corporal/Sergeant depending on their speciality
+
+# Deputy
 - type: rank
   id: RMCRankCMBDeputy
-  name: БКМ Заместитель
-  prefix: Зам.
-  paygrade: БКМЗ
+  name: Deputy
+  prefix: Dep.
+  paygrade: CMB
 
+- type: rank
+  id: RMCRankCMBSeniorDeputy
+  name: Senior Deputy
+  prefix: Sr. Dep.
+  paygrade: CMB
+
+# Corporal (Specialists/Very senior deputies)
+- type: rank
+  id: RMCRankCMBCorporal
+  name: Corporal
+  prefix: Cpl.
+  paygrade: CMB
+
+# Sergeant (Specialists)
+- type: rank
+  id: RMCRankCMBSergeant
+  name: Sergeant
+  prefix: Sgt.
+  paygrade: CMB
+
+# Lieutenant (Team Leaders)
+- type: rank
+  id: RMCRankCMBLieutenant
+  name: Lieutenant
+  prefix: Lt.
+  paygrade: CMB
+
+# Captain (Marshal)
 - type: rank
   id: RMCRankCMBMarshal
-  name: БКМ Маршал
-  prefix: Маршал
-  paygrade: БКММ
+  name: Captain
+  prefix: Capt.
+  paygrade: CMB
 
+# Detective
 - type: rank
-  id: RMCRankCMBInvestigativeSynthetic
-  name: БКМ Следователь-Синтетик
-  prefix: Син.
+  id: RMCRankCMBDetective
+  name: Detective
+  prefix: Det.
+  paygrade: CMB
 
-- type: rank
-  id: RMCRankCMBRiotControlSynthetic
-  name: БКМ Синтетик Подавления Бунтов
-  prefix: Син.
-
-- type: rank
-  id: RMCRankCMBRiotControlOfficer
-  name: БКМ Офицер Подавления Бунтов
-  prefix: Оф.
-
-- type: rank
-  id: RMCRankCMBMedicalTechnician
-  name: БКМ Медицинский Техник
-  prefix: Мед.
-
-- type: rank
-  id: RMCRankCMBBreachingTechnician
-  name: БКМ Техник По Взлому
-  prefix: Взлом.
-
-- type: rank
-  id: RMCRankCMBSWATSpecialist
-  name: БКМ SWAT Специалист
-  prefix: Спец.
-
+# ICB ranks
 - type: rank
   id: RMCRankICBAgent
   name: Агент Межзвездного Бюро Торговли

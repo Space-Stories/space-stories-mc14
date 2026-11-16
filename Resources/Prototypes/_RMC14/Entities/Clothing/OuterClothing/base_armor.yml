@@ -4,6 +4,7 @@
   id: RMCBaseArmorNoAccessory
   abstract: true
   components:
+  - type: TackleResist # Stories-Armor-Balance
   - type: Sprite
     state: icon # default state used by most inheritors
   - type: Item
@@ -31,6 +32,8 @@
       params:
         volume: -4
   - type: Clothing
+    equipDelay: 2
+    unequipDelay: 2
     equipSound:
       path: /Audio/_RMC14/Machines/armor_equip.ogg
   - type: MoveOrderArmor
@@ -80,6 +83,7 @@
       - RMCXM51Holster
       - RMCDetector
       - RMCMatebaHolster
+      - RMCFoldingBarricade
       - STHunterMelee # Stories-Hunter
       - STHunterQuiver # Stories-Hunter
 
@@ -101,6 +105,7 @@
       - Binoculars
       - RMCGeneralPistolHolster
       - RMCGeneralRevolverHolster
+      - RMCFoldingBarricade
 
 - type: entity
   abstract: true
@@ -128,6 +133,7 @@
       - RMCMacheteScabbard
       - RMCScabbardKatana
       - RMCDetector
+      - RMCFoldingBarricade
 
 - type: entity
   abstract: true
@@ -145,6 +151,7 @@
       - RMCG8Pouch
       #TODO mines
       - RMCDetector
+      - RMCFoldingBarricade
       #Note should get all magazines and ignore guns
       - CMMagazineSmg
       - CMMagazinePistol
@@ -184,6 +191,7 @@
       - RMCMatebaHolster
       - RMCCeremonialSword
       - RMCDetector
+      - RMCFoldingBarricade
 
 - type: entity
   abstract: true
@@ -207,6 +215,7 @@
       - Flashlight
       - Machete
       - RMCDetector
+      - RMCFoldingBarricade
 
 # TODO: Add separate whitelists for 'safari jacket' and 'bureau deputy jacket'
 
@@ -265,12 +274,6 @@
       sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/armor_overlays.rsi
       state: sql-armor
   - type: RMCStorageEjectHand
-  - type: ClothingRequireEquipped
-    autoUnequip: true
-    denyReason: rmc-armor-not-marine-jumpsuit
-    whitelist:
-      tags:
-      - RMCUniformMarine
 
 - type: entity
   parent: RMCBaseArmorNoAccessory

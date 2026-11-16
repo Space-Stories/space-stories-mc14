@@ -24,7 +24,7 @@ public sealed class TTSManager
         "Timings of TTS API requests",
         new HistogramConfiguration()
         {
-            LabelNames = new[] {"type"},
+            LabelNames = new[] { "type" },
             Buckets = Histogram.ExponentialBuckets(.1, 1.5, 10),
         });
 
@@ -68,12 +68,6 @@ public sealed class TTSManager
         true);
     }
 
-    /// <summary>
-    /// Generates audio with passed text by API
-    /// </summary>
-    /// <param name="speaker">Identifier of speaker</param>
-    /// <param name="text">SSML formatted text</param>
-    /// <returns>OGG audio bytes or null if failed</returns>
     public Task<byte[]?> ConvertTextToSpeech(string speaker, string text)
     {
         WantedCount.Inc();

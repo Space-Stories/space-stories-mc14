@@ -1,0 +1,321 @@
+- type: ttsSanitizeConfig
+  id: Default
+  allowedCharsRegex: "[^a-zA-Zа-яА-ЯёЁ0-9,\\-+?!. ]"
+  multiLetterRules:
+    sch: ш
+    sh: ш
+    ch: ч
+    zh: ж
+    ph: ф
+    th: с
+    ae: э
+    oe: о
+    ie: и
+    ee: и
+    ea: э
+    ai: и
+    qu: кв
+    ck: к
+    ce: се
+    ci: си
+    cy: си
+  singleLetterRules:
+    x: кс
+    q: к
+    w: в
+    y: и
+    j: дж
+    c: к
+    g: г
+    s: с
+    t: т
+    d: д
+    f: ф
+    h: х
+    v: в
+    b: б
+    n: н
+    m: м
+    l: л
+    r: р
+    k: к
+    p: п
+    a: а
+    e: е
+    i: и
+    o: о
+    u: у
+    z: з
+  replacements:
+    - pattern: 'США'
+      replacedWith: 'сэ шэ а'
+      isRegex: true
+    - pattern: 'ВКСШ'
+      replacedWith: 'вэ ке сэ шэ'
+      isRegex: true
+    - pattern: 'ARES v3.2'
+      replacedWith: 'Арес.'
+      isRegex: true
+    - pattern: 'ARES'
+      replacedWith: 'Арес'
+      isRegex: true
+    - pattern: 'USCM'
+      replacedWith: 'ю эс си эм'
+      isRegex: true
+    - pattern: '\bКом-Серж\b'
+      replacedWith: 'комендор сержант'
+      isRegex: true
+    - pattern: '\bСерж\.-Майор\b'
+      replacedWith: 'сержант майор'
+      isRegex: true
+    - pattern: '\b1-й Сержант\b'
+      replacedWith: 'первый сержант'
+      isRegex: true
+    - pattern: '\bМст-Серж\b'
+      replacedWith: 'мастер сержант'
+      isRegex: true
+    - pattern: '\bШтаб-Серж\b'
+      replacedWith: 'штаб сержант'
+      isRegex: true
+    - pattern: '\bСерж\b'
+      replacedWith: 'сержант'
+      isRegex: true
+    - pattern: '\bКапрал\b'
+      replacedWith: 'капрал'
+      isRegex: true
+    - pattern: '\bМл\. Капрал\b'
+      replacedWith: 'младший капрал'
+      isRegex: true
+    - pattern: '\bМл\.Капрал\b'
+      replacedWith: 'младший капрал'
+      isRegex: true
+    - pattern: '\bРяд\. 1-го Кл\b'
+      replacedWith: 'рядовой первого класса'
+      isRegex: true
+    - pattern: '\bРяд\b'
+      replacedWith: 'рядовой'
+      isRegex: true
+    - pattern: '\bРекр\b'
+      replacedWith: 'рекрут'
+      isRegex: true
+    - pattern: '\bМат-Рек\b'
+      replacedWith: 'матрос рекрут'
+      isRegex: true
+    - pattern: '\bМл\. Мат\b'
+      replacedWith: 'младший матрос'
+      isRegex: true
+    - pattern: '\bМат\b'
+      replacedWith: 'матрос'
+      isRegex: true
+    - pattern: '\bПОIII\b'
+      replacedWith: 'петти офицер третьего класса'
+      isRegex: true
+    - pattern: '\bПОII\b'
+      replacedWith: 'петти офицер второго класса'
+      isRegex: true
+    - pattern: '\bПОI\b'
+      replacedWith: 'петти офицер первого класса'
+      isRegex: true
+    - pattern: '\bЧПО\b'
+      replacedWith: 'чиф петти офицер'
+      isRegex: true
+    - pattern: '\bСЧПО\b'
+      replacedWith: 'старший чиф петти офицер'
+      isRegex: true
+    - pattern: '\bГСЧПО\b'
+      replacedWith: 'главный старший чиф петти офицер'
+      isRegex: true
+    - pattern: '\bМЧПО\b'
+      replacedWith: 'мастер чиф петти офицер'
+      isRegex: true
+    - pattern: '\bГМЧПО\b'
+      replacedWith: 'главный мастер чиф петти офицер'
+      isRegex: true
+    - pattern: '\bЛКМД\b'
+      replacedWith: 'лейтенант коммандер'
+      isRegex: true
+    - pattern: '\bКМД\b'
+      replacedWith: 'коммандер'
+      isRegex: true
+    - pattern: '\bКМДР\b'
+      replacedWith: 'коммодор'
+      isRegex: true
+    - pattern: '\bСт\. КМДР\b'
+      replacedWith: 'старший коммодор'
+      isRegex: true
+    - pattern: '\bМл\. К-Адм\b'
+      replacedWith: 'младший контр адмирал'
+      isRegex: true
+    - pattern: '\bК-Адм\b'
+      replacedWith: 'контр адмирал'
+      isRegex: true
+    - pattern: '\bВ-Адм\b'
+      replacedWith: 'вице адмирал'
+      isRegex: true
+    - pattern: '\bАдм\b'
+      replacedWith: 'адмирал'
+      isRegex: true
+    - pattern: '\bГМО\b'
+      replacedWith: 'глава морских операций'
+      isRegex: true
+    - pattern: '\bГен\. Майор\b'
+      replacedWith: 'генерал майор'
+      isRegex: true
+    - pattern: '\bБриг\. Ген\b'
+      replacedWith: 'бригадный генерал'
+      isRegex: true
+    - pattern: '\bПолк\b'
+      replacedWith: 'полковник'
+      isRegex: true
+    - pattern: '\bПодполк\b'
+      replacedWith: 'подполковник'
+      isRegex: true
+    - pattern: '\bМайор\b'
+      replacedWith: 'майор'
+      isRegex: true
+    - pattern: '\bКапитан\b'
+      replacedWith: 'капитан'
+      isRegex: true
+    - pattern: '\b1-ый\. Лейт\b'
+      replacedWith: 'первый лейтенант'
+      isRegex: true
+    - pattern: '\b2-ой\. Лейт\b'
+      replacedWith: 'второй лейтенант'
+      isRegex: true
+    - pattern: '\bСт\. Уор\. Оф\b'
+      replacedWith: 'старший уоррент офицер'
+      isRegex: true
+    - pattern: '\bУор\. Оф\b'
+      replacedWith: 'уоррент офицер'
+      isRegex: true
+    - pattern: '\bСек\. Маршал\b'
+      replacedWith: 'секторальный маршал'
+      isRegex: true
+    - pattern: '\bСт\. Маршал\b'
+      replacedWith: 'старший маршал'
+      isRegex: true
+    - pattern: '\bМаршал\b'
+      replacedWith: 'маршал'
+      isRegex: true
+    - pattern: '\bЗам\. Маршала\b'
+      replacedWith: 'заместитель маршала'
+      isRegex: true
+    - pattern: '\bГлав\. Инсп\b'
+      replacedWith: 'главный инспектор'
+      isRegex: true
+    - pattern: '\bИнсп\. ВП\b'
+      replacedWith: 'инспектор военной полиции'
+      isRegex: true
+    - pattern: '\bОфиц\. связи\b'
+      replacedWith: 'офицер связи'
+      isRegex: true
+    - pattern: '\bСтж\b'
+      replacedWith: 'стажер'
+      isRegex: true
+    - pattern: '\bМл\. Рук\b'
+      replacedWith: 'младший руководитель'
+      isRegex: true
+    - pattern: '\bРук\b'
+      replacedWith: 'руководитель'
+      isRegex: true
+    - pattern: '\bСт\. Рук\b'
+      replacedWith: 'старший руководитель'
+      isRegex: true
+    - pattern: '\bИсп\. Спц\b'
+      replacedWith: 'исполнительный специалист'
+      isRegex: true
+    - pattern: '\bИсп\. Спвайз\b'
+      replacedWith: 'исполнительный супервайзер'
+      isRegex: true
+    - pattern: '\bАссист\. Мндж\b'
+      replacedWith: 'ассистент менеджера'
+      isRegex: true
+    - pattern: '\bПодр\. Мндж\b'
+      replacedWith: 'менеджер подразделения'
+      isRegex: true
+    - pattern: '\bГл\. Рук\b'
+      replacedWith: 'главный руководитель'
+      isRegex: true
+    - pattern: '\bЗам\. Директор\b'
+      replacedWith: 'заместитель директора'
+      isRegex: true
+    - pattern: '\bДиректор\b'
+      replacedWith: 'директор'
+      isRegex: true
+    - pattern: '\bЮр\. Спц\b'
+      replacedWith: 'юридический специалист'
+      isRegex: true
+    - pattern: '\bЮр\. Спвайз\b'
+      replacedWith: 'юридический супервайзер'
+      isRegex: true
+    - pattern: '\bВсп\. син\b'
+      replacedWith: 'вспомогательный синтетик'
+      isRegex: true
+    - pattern: '\bАсс\. син\b'
+      replacedWith: 'ассистент синтетик'
+      isRegex: true
+    - pattern: '\bАдм\. син\b'
+      replacedWith: 'административный синтетик'
+      isRegex: true
+    - pattern: '\bСтж\.ТХ\b'
+      replacedWith: 'стажер телохранитель'
+      isRegex: true
+    - pattern: '\bТелохр\b'
+      replacedWith: 'телохранитель'
+      isRegex: true
+    - pattern: '\bСпц\.ТХ\b'
+      replacedWith: 'специалист телохранитель'
+      isRegex: true
+    - pattern: '\bКоорд\.ТХ\b'
+      replacedWith: 'координатор телохранителей'
+      isRegex: true
+    - pattern: '\bОПР\b'
+      replacedWith: 'оператор'
+      isRegex: true
+    - pattern: '\bСИЛ\b'
+      replacedWith: 'силовик'
+      isRegex: true
+    - pattern: '\bСПЦТ\b'
+      replacedWith: 'специалист транспорта'
+      isRegex: true
+    - pattern: '\bСПЦП\b'
+      replacedWith: 'специалист поддержки'
+      isRegex: true
+    - pattern: '\bСПЦМ\b'
+      replacedWith: 'специалист медицины'
+      isRegex: true
+    - pattern: '\bСПЦОР\b'
+      replacedWith: 'специалист по оружию'
+      isRegex: true
+    - pattern: '\bСПЦКС\b'
+      replacedWith: 'специалист ксено'
+      isRegex: true
+    - pattern: '\bТЕХ\b'
+      replacedWith: 'техник'
+      isRegex: true
+    - pattern: '\bЭОП\b'
+      replacedWith: 'элитный оператор'
+      isRegex: true
+    - pattern: '\bЭЛМ\b'
+      replacedWith: 'элитный медик'
+      isRegex: true
+    - pattern: '\bЭЛС\b'
+      replacedWith: 'элитный стрелок'
+      isRegex: true
+    - pattern: '\bСин\b'
+      replacedWith: 'синтетик'
+      isRegex: true
+    - pattern: '\bЛИД\b'
+      replacedWith: 'лидер группы'
+      isRegex: true
+    - pattern: '\bРПО\b'
+      replacedWith: 'руководитель полевых операций'
+      isRegex: true
+    - pattern: '\bКС\b'
+      replacedWith: 'командир сил'
+      isRegex: true
+    - pattern: '\bЭЛИД\b'
+      replacedWith: 'элитный лидер группы'
+      isRegex: true
+    - pattern: '\bВП\b'
+      replacedWith: 'военная полиция'

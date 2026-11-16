@@ -1,5 +1,6 @@
 using Content.Shared.Eui;
 using Content.Shared.Roles;
+using Robust.Shared.Prototypes; // Stories-GhostRoleWhitelist
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.Ghost.Roles
@@ -32,6 +33,7 @@ namespace Content.Shared.Ghost.Roles
         /// </summary>
         public TimeSpan RaffleEndTime { get; set; }
 
+        public ProtoId<JobPrototype>? Job { get; set; } // Stories-GhostRoleWhitelist
     }
 
     [NetSerializable, Serializable]

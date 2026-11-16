@@ -8,3 +8,6 @@ ent-STWeaponBracerScimitarAlt = { ent-STWeaponBracerScimitar }
     .desc = { ent-STWeaponBracerScimitar.desc }
 ent-STWeaponBracerChainGauntlets = цепные перчатки
     .desc = Перчатки из инопланетного сплава с обмотанными вокруг них цепями для жестокого боя.
+
+ent-STWeaponBracerShield = Наручный щит
+    .desc = Экран изготовлен из концентрических пластин из металлического сплава. Пластины складываются одна в другую для компактного хранения, обеспечивая при этом превосходную защиту.

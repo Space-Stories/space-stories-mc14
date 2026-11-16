@@ -5,7 +5,7 @@
   - type: AllowSuitStorage
     whitelist:
       components:
-      - Gun
+      # - Gun # Stories-Balance
       - Stunbaton
       - CrewMonitoringConsole
       tags:
@@ -28,7 +28,7 @@
       - RMCDetector
 
 - type: entity
-  parent: [ClothingOuterStorageBase]
+  parent: [ClothingOuterStorageBase, RMCAllowSuitStorageClothingExternalWebbing]
   id: RMCOuterClothingExternalWebbing
   name: external webbing
   description: Designed to be worn over a jumpsuit rather than clipped on.

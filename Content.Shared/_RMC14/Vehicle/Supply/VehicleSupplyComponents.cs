@@ -17,13 +17,33 @@ public sealed partial class VehicleSupplyEntry
     public EntProtoId Vehicle;
 
     [DataField]
-    public string? Unlock;
+    public List<EntProtoId> Hardpoints = new();
 
     [DataField]
-    public List<EntProtoId> Hardpoints = new();
+    public List<VehicleHardpointCategory> HardpointCategories = new();
 }
 
-[RegisterComponent]
+[DataDefinition]
+[Serializable, NetSerializable]
+public sealed partial class VehicleHardpointCategory
+{
+    [DataField(required: true)]
+    public string Key = string.Empty;
+
+    [DataField(required: true)]
+    public string Label = string.Empty;
+
+    [DataField]
+    public int SortOrder;
+
+    [DataField]
+    public List<EntProtoId> HardpointTypes = new();
+
+    [DataField]
+    public List<EntProtoId> HardpointItems = new();
+}
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
 public sealed partial class VehicleSupplyConsoleComponent : Component
 {
     [DataField(required: true)]
@@ -32,18 +52,17 @@ public sealed partial class VehicleSupplyConsoleComponent : Component
     [DataField]
     public float LiftSearchRange = 20f;
 
+    [NonSerialized]
+    public EntityUid? Lift;
+
     [DataField]
     public string SelectedVehicle = string.Empty;
 
     [DataField]
     public int SelectedVehicleCopyIndex;
-}
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-public sealed partial class VehicleSupplyTechComponent : Component
-{
-    [DataField, AutoNetworkedField]
-    public List<string> Unlocked = new();
+    [AutoNetworkedField]
+    public VehicleSupplyUiState Ui = new(null, false, null, null, 0, null, new List<VehicleSupplyEntryState>());
 }
 
 [RegisterComponent]
@@ -51,11 +70,6 @@ public sealed partial class VehicleHardpointVendorComponent : Component
 {
     [DataField]
     public float ConsoleSearchRange = 20f;
-
-    // Stories-Vehicle-Start
-    [NonSerialized]
-    public string SelectedVehicle = string.Empty;
-    // Stories-Vehicle-End
 
     [NonSerialized]
     public readonly Dictionary<string, int> LastVehicleCounts = new();

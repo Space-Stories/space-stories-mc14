@@ -1,31 +1,22 @@
 using System;
 using Content.Shared.Containers.ItemSlots;
-using Content.Shared.Popups;
 using Content.Shared.Tools.Components;
-using Content.Shared.Vehicle;
 using Content.Shared.Vehicle.Components;
-using Content.Shared._RMC14.Repairable;
 using Content.Shared._RMC14.Vehicle;
 using Content.Shared.Interaction;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
 using Robust.Shared.GameStates;
-using Robust.Shared.Audio.Systems;
 using Robust.Shared.Localization;
 
 namespace Content.Shared._RMC14.Vehicle;
 
-// I initally thought each wheel was its own thing for some reason, hence this supporting multiple wheels even though its not necessary
 public sealed class VehicleWheelSystem : EntitySystem
 {
-    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly Content.Shared.Vehicle.VehicleSystem _vehicles = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly RMCRepairableSystem _repairable = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedContainerSystem _containers = default!;
     [Dependency] private readonly HardpointSystem _hardpoints = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private readonly Content.Shared.Vehicle.VehicleSystem _vehicles = default!;
 
     public override void Initialize()
     {
@@ -83,7 +74,7 @@ public sealed class VehicleWheelSystem : EntitySystem
         {
             foreach (var slot in hardpoints.Slots)
             {
-                if (string.Equals(slot.HardpointType, VehicleWheelSlotsComponent.HardpointTypeId, StringComparison.OrdinalIgnoreCase))
+                if (slot.HardpointType == VehicleWheelSlotsComponent.HardpointTypeId)
                     component.Slots.Add(slot.Id);
             }
         }
@@ -178,7 +169,6 @@ public sealed class VehicleWheelSystem : EntitySystem
         return count;
     }
 
-    // For some reason I thought each wheels was its own thing, so did this. but at least it supports it if that ever is a thing
     private float GetAverageWheelIntegrityFraction(EntityUid uid, VehicleWheelSlotsComponent component, ItemSlotsComponent? itemSlots = null)
     {
         if (!Resolve(uid, ref itemSlots, false))
@@ -236,6 +226,14 @@ public sealed class VehicleWheelSystem : EntitySystem
         return integrity.Integrity > 0f;
     }
 
+    public bool HasAnyFunctionalWheel(EntityUid vehicle)
+    {
+        if (!TryComp(vehicle, out VehicleWheelSlotsComponent? wheels))
+            return false;
+
+        return GetFunctionalWheelCount(vehicle, wheels) > 0;
+    }
+
     public void DamageWheels(EntityUid vehicle, float amount)
     {
         if (amount <= 0f || !TryComp(vehicle, out VehicleWheelSlotsComponent? wheels))
@@ -252,7 +250,38 @@ public sealed class VehicleWheelSystem : EntitySystem
                 slot.Item is not { } wheel)
                 continue;
 
-            if (_hardpoints.DamageHardpoint(vehicle, wheel, amount))
+            if (_hardpoints.DamageHardpoint(vehicle, wheel, amount, skipWheelUpdate: true))
+                changed = true;
+        }
+
+        if (!changed)
+            return;
+
+        UpdateAppearance(vehicle, wheels);
+        RefreshCanRun(vehicle);
+    }
+
+    public void DamageWheelsCorrosive(EntityUid vehicle, float amount, float acidResistantMultiplier)
+    {
+        if (amount <= 0f || !TryComp(vehicle, out VehicleWheelSlotsComponent? wheels))
+            return;
+
+        if (!TryComp(vehicle, out ItemSlotsComponent? itemSlots))
+            return;
+
+        var changed = false;
+
+        foreach (var slotId in wheels.Slots)
+        {
+            if (!_itemSlots.TryGetSlot(vehicle, slotId, out var slot, itemSlots) ||
+                slot.Item is not { } wheel)
+                continue;
+
+            var wheelAmount = amount;
+            if (TryComp(wheel, out VehicleWheelItemComponent? wheelItem) && wheelItem.AcidResistant)
+                wheelAmount *= acidResistantMultiplier;
+
+            if (_hardpoints.DamageHardpoint(vehicle, wheel, wheelAmount, skipWheelUpdate: true))
                 changed = true;
         }
 

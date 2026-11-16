@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: RMCSurveillanceCameraAlmayer
   name: ship-grade camera
   description: It's used to monitor rooms.
@@ -16,7 +16,8 @@
   - type: InteractionOutline
   - type: WallMount
   - type: ApcPowerReceiver
-    needsPower: false # TODO RMC14 power
+    powerLoad: 250
+    needsPower: false
   - type: ExtensionCableReceiver
   - type: Eye
     zoom: 0.5, 0.5
@@ -72,11 +73,29 @@
     anchored: false
   - type: Physics
     bodyType: Static
+    canCollide: false
   - type: Sprite
     sprite: _RMC14/Structures/Machines/computer.rsi
-    state: security_cam
-    layers: []
+    layers:
+    - state: "security_cam0"
+    - map: ["enum.PowerDeviceVisualLayers.Powered"]
+      state: "security_cam"
     drawdepth: SmallObjects
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: true }
+          False: { visible: false }
+  - type: ApcPowerReceiver
+    powerLoad: 250
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 300
+    activeLoad: 300
+    channel: Equipment
+  - type: ActivatableUIRequiresPower
   - type: InteractionOutline
   - type: ActivatableUI
     key: enum.RMCCameraUiKey.Key

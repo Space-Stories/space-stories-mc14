@@ -1,6 +1,7 @@
 - type: guideEntry
   parent: RMC
   id: RMCMarineLaw
+  serverGuide: RMC14
   name: rmc-guide-entry-rules-marine-law
   text: "/ServerInfo/Guidebook/_RMC14/Law/RMCMarineLaw.xml"
   priority: 3

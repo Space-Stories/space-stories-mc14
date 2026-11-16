@@ -11,12 +11,19 @@
   name: Burrower
   description: A beefy alien with sharp claws.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoResinHole ]
+      XenoPrimaryThree: [ ActionXenoBurrow ]
+      XenoPrimaryFour: [ ActionXenoTremor ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
+  - type: XenoBaseCaste
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
     - RMCGuideRoleBurrower
-  - type: GhostRole
-    name: cm-job-name-xeno-burrower
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Burrower/burrower.rsi
   - type: MobState
@@ -28,6 +35,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: MobThresholds
     thresholds:
       0: Alive

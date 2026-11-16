@@ -24,7 +24,7 @@
         givePrefix: rmc-job-prefix-weapons-specialist-demo
         isAppendPrefix: true
         giveIcon:
-          sprite: _RMC14/Interface/cm_job_icons.rsi
+          sprite: _RMC14/Interface/job_icons/UNMC/marine.rsi
           state: hudsquad_spec_demo
         giveMapBlip:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
@@ -35,7 +35,7 @@
         givePrefix: rmc-job-prefix-weapons-specialist-grenadier
         isAppendPrefix: true
         giveIcon:
-          sprite: _RMC14/Interface/cm_job_icons.rsi
+          sprite: _RMC14/Interface/job_icons/UNMC/marine.rsi
           state: hudsquad_spec_grenadier
         giveMapBlip:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
@@ -63,7 +63,7 @@
         givePrefix: rmc-job-prefix-weapons-specialist-pyro
         isAppendPrefix: true
         giveIcon:
-          sprite: _RMC14/Interface/cm_job_icons.rsi
+          sprite: _RMC14/Interface/job_icons/UNMC/marine.rsi
           state: hudsquad_spec_pyro
         giveMapBlip:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
@@ -80,7 +80,7 @@
         givePrefix: rmc-job-prefix-weapons-specialist-sniper
         isAppendPrefix: true
         giveIcon:
-          sprite: _RMC14/Interface/cm_job_icons.rsi
+          sprite: _RMC14/Interface/job_icons/UNMC/marine.rsi
           state: hudsquad_spec_sniper
         giveMapBlip:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
@@ -93,7 +93,7 @@
         givePrefix: rmc-job-prefix-weapons-specialist-anti-materiel-sniper
         isAppendPrefix: true
         giveIcon:
-          sprite: _RMC14/Interface/cm_job_icons.rsi
+          sprite: _RMC14/Interface/job_icons/UNMC/marine.rsi
           state: hudsquad_spec_anti_materiel_sniper
         giveMapBlip:
           sprite: /Textures/_RMC14/Interface/map_blips.rsi
@@ -144,8 +144,10 @@
         name: Зажигательные Гранаты M40 HIDP (x6)
         points: 40
         spawn: 6
-      #- id: M40HPDPWhitePhosphorusGrenadesx6
-      #  points: 40
+      - id: RMCGrenadeWhitePhosphorusCompound
+        name: M40 CCDP Chemical Compound Grenades (x6)
+        points: 40
+        spawn: 6
       - id: RMC40MMGrenadeM74AGMF
         points: 40
         spawn: 6
@@ -169,7 +171,7 @@
 - type: entity
   parent: [ColMarTechBase, RMCVendorWeaponsSpecialistGearBase]
   id: ColMarTechSWSGear
-  name: ColMarTech squad weapons specialist gear rack
+  name: ASRS squad weapons specialist gear rack
   description: An automated gear rack for Squad Weapons Specialists.
   components:
   - type: RMCVendorSpecialist
@@ -207,7 +209,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechSWSEquipment
-  name: ColMarTech squad weapons specialist equipment rack
+  name: ASRS squad weapons specialist equipment rack
   description: An automated rack hooked up to a colossal storage of Squad Weapons Specialist standard-issue equipment.
   components:
   - type: AccessReader
@@ -298,8 +300,8 @@
       entries:
       - id: RMCMagazinePistolM13Ext
         points: 6
-      # - id: RMCSpeedLoader44Heavy
-      #  points: 10
+      - id: RMCSpeedLoader44Heavy
+        points: 10
       - id: RMCSpeedLoader44Marksman
         points: 10
       - id: RMCMagazinePistolM1984HP

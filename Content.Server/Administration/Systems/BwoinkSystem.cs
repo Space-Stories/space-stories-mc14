@@ -5,13 +5,14 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Content.Server._Stories.Sponsors;
 using Content.Server.Administration.Managers;
-using Content.Server.Preferences.Managers;
 using Content.Server.Afk;
 using Content.Server.Database;
 using Content.Server.Discord;
 using Content.Server.GameTicking;
 using Content.Server.Players.RateLimiting;
+using Content.Server.Preferences.Managers;
 using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
@@ -45,6 +46,7 @@ namespace Content.Server.Administration.Systems
         [Dependency] private readonly IServerDbManager _dbManager = default!;
         [Dependency] private readonly PlayerRateLimitManager _rateLimit = default!;
         [Dependency] private readonly IServerPreferencesManager _preferencesManager = default!;
+        [Dependency] private readonly SponsorsManager _sponsors = default!; // Stories-Sponsors
 
         [GeneratedRegex(@"^https://discord\.com/api/webhooks/(\d+)/((?!.*/).*)$")]
         private static partial Regex DiscordRegex();
@@ -115,7 +117,7 @@ namespace Content.Server.Administration.Systems
             SubscribeNetworkEvent<BwoinkClientTypingUpdated>(OnClientTypingUpdated);
             SubscribeLocalEvent<RoundRestartCleanupEvent>(_ => _activeConversations.Clear());
 
-        	_rateLimit.Register(
+            _rateLimit.Register(
                 RateLimitKey,
                 new RateLimitRegistration(CCVars.AhelpRateLimitPeriod,
                     CCVars.AhelpRateLimitCount,
@@ -660,12 +662,20 @@ namespace Content.Server.Administration.Systems
             string bwoinkText;
             string adminPrefix = "";
             Color? colorOverride = null;
+            string? sponsorColor = null; // Stories-Sponsors
 
+            // Stories-Sponsors-Start
             //Getting an administrator position
             if (_config.GetCVar(CCVars.AhelpAdminPrefix) && senderAdmin is not null && senderAdmin.Title is not null)
             {
-                adminPrefix = $"[bold]{senderAdmin.Title}[/bold] ";
+                adminPrefix = $"[bold]\\[{senderAdmin.Title}\\][/bold] ";
             }
+            else if (_sponsors.TryGetInfo(senderSession.UserId, out var sponsorInfo) && sponsorInfo.TierName != null)
+            {
+                adminPrefix = $"[bold]\\[{sponsorInfo.TierName}\\][/bold] ";
+                sponsorColor = sponsorInfo.OOCColor;
+            }
+            // Stories-Sponsors-End
 
             if (senderAdmin is not null &&
                 senderAdmin.Flags ==
@@ -681,7 +691,16 @@ namespace Content.Server.Administration.Systems
             }
             else
             {
-                bwoinkText = $"{senderSession.Name}";
+                // Stories-Sponsors-Start
+                if (sponsorColor != null)
+                {
+                    bwoinkText = $"[color={sponsorColor}]{adminPrefix}{senderSession.Name}[/color]";
+                }
+                else
+                {
+                    bwoinkText = $"{adminPrefix}{senderSession.Name}";
+                }
+                // Stories-Sponsors-End
             }
 
             bwoinkText = $"{(message.AdminOnly ? Loc.GetString("bwoink-message-admin-only") : !message.PlaySound ? Loc.GetString("bwoink-message-silent") : "")} {bwoinkText}: {escapedText}";
@@ -706,6 +725,12 @@ namespace Content.Server.Administration.Systems
             {
                 adminPrefixWebhook = $"[bold]\\[{senderAdmin.Title}\\][/bold] ";
             }
+            // Stories-Sponsors-Start
+            else if (_config.GetCVar(CCVars.AhelpAdminPrefixWebhook) && _sponsors.TryGetInfo(senderSession.UserId, out var webhookSponsorInfo) && webhookSponsorInfo.TierName != null)
+            {
+                adminPrefixWebhook = $"[bold]\\[{webhookSponsorInfo.TierName}\\][/bold] ";
+            }
+            // Stories-Sponsors-End
 
             // Notify player
             if (_playerManager.TryGetSessionById(message.UserId, out var session) && !message.AdminOnly)
@@ -729,7 +754,9 @@ namespace Content.Server.Administration.Systems
                         }
                         else
                         {
-                            overrideMsgText = $"{senderSession.Name}"; // Not an admin, name is not overridden.
+                            // Stories-Sponsors-Start
+                            overrideMsgText = $"{adminPrefix}{senderSession.Name}"; // Not an admin, name is not overridden.
+                            // Stories-Sponsors-End
                         }
 
                         overrideMsgText = $"{(message.PlaySound ? "" : "(S) ")}{overrideMsgText}: {escapedText}";

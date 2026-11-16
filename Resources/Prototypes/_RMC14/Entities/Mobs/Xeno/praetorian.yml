@@ -11,8 +11,6 @@
   name: Praetorian
   description: A huge, looming beast of an alien.
   components:
-  - type: GhostRole
-    name: cm-job-name-xeno-praetorian
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Praetorian/praetorian.rsi
     layers:
@@ -141,6 +139,13 @@
   parent: CMXenoPraetorianBase
   id: CMXenoPraetorian
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoSpitPraetorian ]
+      XenoPrimaryTwo: [ ActionXenoDash ]
+      XenoPrimaryThree: [ ActionXenoAcidBall ]
+      XenoPrimaryFour: [ ActionXenoSprayAcidPraetorian ]
+  - type: XenoBaseCaste
   - type: GuideHelp
     guides:
     - RMCGuideRolePraetorian
@@ -180,6 +185,12 @@
   id: RMCXenoPraetorianValkyrie
   suffix: Valkyrie
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoTantrum ]
+      XenoPrimaryTwo: [ ActionXenoHighGallop ]
+      XenoPrimaryThree: [ ActionXenoFightOrFlight ]
+      XenoPrimaryFour: [ ActionXenoRetrieve ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleValkyrie
@@ -253,14 +264,27 @@
   id: RMCXenoPraetorianDancer
   suffix: Dancer
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoImpale ]
+      XenoPrimaryTwo: [ ActionXenoDodge ]
+      XenoPrimaryThree: [ ActionXenoTailTrip ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Praetorian/dancer_praetorian.rsi
+  - type: XenoRegen
+    critHealMultiplier: 0.4455  # 35% increased regeneration
+    standHealingMultiplier: 0.567
+    restHealMultiplier: 1.35
+  - type: XenoCappedPheromones
+    cappedPheromones:
+      Recovery: 3
   - type: Xeno
     actionIds:
     - ActionXenoRest
     - ActionXenoRegurgitate
     - ActionXenoWatch
-    - ActionXenoTailStab
+    - ActionXenoTailStabLance
+    - ActionXenoTailStabLanceAlt
     - ActionXenoImpale
     - ActionXenoDodge
     - ActionXenoTailTrip
@@ -280,6 +304,11 @@
       groups:
         Brute: 40
   - type: XenoTailTrip
+  - type: XenoAltTailStab
+    tailDamage:
+      groups:
+        Brute: 8
+  - type: XenoSwiftSteps
   - type: XenoHidden
   - type: RMCActionOrder
     id: RMCXenoPraetorianDancer
@@ -289,6 +318,12 @@
   id: RMCXenoPraetorianVanguard
   suffix: Vanguard
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPierce ]
+      XenoPrimaryTwo: [ ActionXenoBlitz ]
+      XenoPrimaryThree: [ ActionXenoCleaveRoot ]
+      XenoPrimaryFour: [ ActionXenoCleaveFling ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleVanguard
@@ -342,6 +377,11 @@
   id: RMCXenoPraetorianOppressor
   suffix: Oppressor
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoAbduct ]
+      XenoPrimaryTwo: [ ActionXenoDislocate ]
+      XenoPrimaryThree: [ ActionXenoTailLash ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleOppressor

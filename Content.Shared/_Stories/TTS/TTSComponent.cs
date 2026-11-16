@@ -3,16 +3,9 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Shared._Stories.TTS;
 
-/// <summary>
-/// Apply TTS for entity chat say messages
-/// </summary>
-[RegisterComponent] [NetworkedComponent]
-// ReSharper disable once InconsistentNaming
+[RegisterComponent, NetworkedComponent]
 public sealed partial class TTSComponent : Component
 {
-    /// <summary>
-    /// Prototype of used voice for TTS.
-    /// </summary>
     [ViewVariables(VVAccess.ReadWrite)]
     [DataField("voice", customTypeSerializer: typeof(PrototypeIdSerializer<TTSVoicePrototype>))]
     public string? VoicePrototypeId { get; set; }

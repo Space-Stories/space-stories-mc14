@@ -20,7 +20,7 @@ namespace Content.IntegrationTests.Tests.Interaction
 
         private static readonly Vector2 InteractionRangeDivided15X = new(InteractionRangeDivided15, 0f);
 
-        private const float InteractionRangeDivided15Times3 = InteractionRangeDivided15 * 3;
+        private const float IncreasedInteractionRange = InteractionRange * 3;
 
         private const float HumanRadius = 0.35f;
 
@@ -101,12 +101,12 @@ namespace Content.IntegrationTests.Tests.Interaction
                     // Checks with increased range
 
                     // Entity <-> Entity
-                    Assert.That(interactionSys.InRangeUnobstructed(origin, other, InteractionRangeDivided15Times3));
-                    Assert.That(interactionSys.InRangeUnobstructed(other, origin, InteractionRangeDivided15Times3));
+                    Assert.That(interactionSys.InRangeUnobstructed(origin, other, IncreasedInteractionRange));
+                    Assert.That(interactionSys.InRangeUnobstructed(other, origin, IncreasedInteractionRange));
 
                     // Entity <-> MapCoordinates
-                    Assert.That(interactionSys.InRangeUnobstructed(origin, mapCoordinates, InteractionRangeDivided15Times3));
-                    Assert.That(interactionSys.InRangeUnobstructed(mapCoordinates, origin, InteractionRangeDivided15Times3));
+                    Assert.That(interactionSys.InRangeUnobstructed(origin, mapCoordinates, IncreasedInteractionRange));
+                    Assert.That(interactionSys.InRangeUnobstructed(mapCoordinates, origin, IncreasedInteractionRange));
                 });
             });
 

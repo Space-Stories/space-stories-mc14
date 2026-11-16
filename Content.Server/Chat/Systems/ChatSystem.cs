@@ -4,20 +4,26 @@ using System.Text;
 using Content.Server._RMC14.Admin;
 using Content.Server._RMC14.Chat.Chat;
 using Content.Server._RMC14.Emote;
+using Content.Server._RMC14.Language.Systems;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Server.Chat.Managers;
+using Content.Server.Database;
 using Content.Server.GameTicking;
 using Content.Server.Players.RateLimiting;
 using Content.Server.Radio.EntitySystems;
 using Content.Server.Speech.Components;
-using Content.Server.Speech.Prototypes;
 using Content.Server.Speech.EntitySystems;
+using Content.Server.Speech.Prototypes;
 using Content.Server.Station.Components;
 using Content.Server.Station.Systems;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Language;
+using Content.Shared._RMC14.Language.Prototypes;
+using Content.Shared._RMC14.Language.Systems;
 using Content.Shared._RMC14.Marines;
+using Content.Shared._RMC14.Mentor.ImaginaryFriend;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.ActionBlocker;
@@ -78,7 +84,9 @@ public sealed partial class ChatSystem : SharedChatSystem
     [Dependency] private readonly INetConfigurationManager _netConfigManager = default!;
 
     // RMC14
+    [Dependency] private readonly LanguageSystem _language = default!;
     [Dependency] private readonly RMCChatBansManager _rmcChatBans = default!;
+    // RMC14
 
     public const int VoiceRange = 10; // how far voice goes in world units
     public const int WhisperClearRange = 2; // how far whisper goes while still being understandable, in world units
@@ -131,7 +139,8 @@ public sealed partial class ChatSystem : SharedChatSystem
             Loc.GetString(val ? "chat-manager-crit-looc-chat-enabled-message" : "chat-manager-crit-looc-chat-disabled-message"));
     }
 
-        private void OnDeadChatEnabledChanged(bool val)
+    // RMC14
+    private void OnDeadChatEnabledChanged(bool val)
     {
         if (_DeadchatEnabled == val)
             return;
@@ -140,6 +149,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         _chatManager.DispatchServerAnnouncement(
             Loc.GetString(val ? "set-dchat-command-dchat-enabled" : "set-dchat-command-dchat-disabled"));
     }
+    // RMC14
 
     private void OnGameChange(GameRunLevelChangedEvent ev)
     {
@@ -202,11 +212,10 @@ public sealed partial class ChatSystem : SharedChatSystem
         ICommonSession? player = null,
         string? nameOverride = null,
         bool checkRadioPrefix = true,
-        bool ignoreActionBlocker = false,
-        bool ignoreXenos = false
+        bool ignoreActionBlocker = false
         )
     {
-        if (HasComp<GhostComponent>(source))
+        if (HasComp<GhostComponent>(source) && !HasComp<ImaginaryFriendComponent>(source)) //RMC14
         {
             // Ghosts can only send dead chat messages, so we'll forward it to InGame OOC.
             TrySendInGameOOCMessage(source, message, InGameOOCChatType.Dead, range == ChatTransmitRange.HideChat, shell, player);
@@ -240,6 +249,10 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.EnsurePlayer(player.UserId).AddEntity(GetNetEntity(source));
         }
 
+        // RMC14
+        var currentLanguage = GetCurrentLanguageForSpeech(source);
+        // RMC14
+
         if (desiredType == InGameICChatType.Speak && message.StartsWith(LocalPrefix))
         {
             // prevent radios and remove prefix.
@@ -265,6 +278,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (string.IsNullOrEmpty(message))
             return;
 
+        // RMC14
         // This message may have a radio prefix, and should then be whispered to the resolved radio channel
         if (checkRadioPrefix)
         {
@@ -284,8 +298,18 @@ public sealed partial class ChatSystem : SharedChatSystem
                     if (channelsSent.Contains(modChannel.ID))
                         continue;
 
-                    SendEntityWhisper(source, modMsg, range, modChannel, nameOverride, hideLog, ignoreActionBlocker, ignoreXenos);
-                    channelsSent.Add(modChannel.ID);
+                    SendEntityWhisperWithLanguage(
+                        source,
+                        modMsg,
+                        range,
+                        modChannel,
+                        nameOverride,
+                        hideLog,
+                        ignoreActionBlocker,
+                        currentLanguage);
+
+                    if (modChannel != null)
+                        channelsSent.Add(modChannel.ID);
                     // Stories-Hunter-End
                 }
 
@@ -294,24 +318,35 @@ public sealed partial class ChatSystem : SharedChatSystem
 
             if (TryProccessRadioMessage(source, message, out var modMessage, out var channel) && channel != null) // Stories-Hunter
             {
-                SendEntityWhisper(source, modMessage, range, channel, nameOverride, hideLog, ignoreActionBlocker, ignoreXenos); // Stories-Hunter
+                SendEntityWhisperWithLanguage(
+                    source,
+                    modMessage,
+                    range,
+                    channel,
+                    nameOverride,
+                    hideLog,
+                    ignoreActionBlocker,
+                    currentLanguage);
                 return;
             }
         }
+        // RMC14
 
+        // RMC14
         // Otherwise, send whatever type.
         switch (desiredType)
         {
             case InGameICChatType.Speak:
-                SendEntitySpeak(source, message, range, nameOverride, hideLog, ignoreActionBlocker);
+                SendEntitySpeakWithLanguage(source, message, range, nameOverride, hideLog, ignoreActionBlocker, currentLanguage);
                 break;
             case InGameICChatType.Whisper:
-                SendEntityWhisper(source, message, range, null, nameOverride, hideLog, ignoreActionBlocker, ignoreXenos);
+                SendEntityWhisperWithLanguage(source, message, range, null, nameOverride, hideLog, ignoreActionBlocker, currentLanguage);
                 break;
             case InGameICChatType.Emote:
                 SendEntityEmote(source, message, range, nameOverride, hideLog: hideLog, ignoreActionBlocker: ignoreActionBlocker);
                 break;
         }
+        // RMC14
     }
 
     public void TrySendInGameOOCMessage(
@@ -340,7 +375,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         // If dead player LOOC is disabled, unless you are an admin with Moderator perms, send dead messages to dead chat
         if ((_adminManager.IsAdmin(player) && _adminManager.HasAdminFlag(player, AdminFlags.Moderator)) // Override if admin
             || _deadLoocEnabled
-            || (!HasComp<GhostComponent>(source) && !_mobStateSystem.IsDead(source))) // Check that player is not dead
+            || (!HasComp<GhostComponent>(source) && !_mobStateSystem.IsDead(source)) // Check that player is not dead
+            || HasComp<ImaginaryFriendComponent>(player.AttachedEntity)) // RMC14
         {
         }
         else
@@ -464,167 +500,6 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     #region Private API
 
-    private void SendEntitySpeak(
-        EntityUid source,
-        string originalMessage,
-        ChatTransmitRange range,
-        string? nameOverride,
-        bool hideLog = false,
-        bool ignoreActionBlocker = false
-        )
-    {
-        if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
-            return;
-
-        var message = TransformSpeech(source, originalMessage);
-
-        if (message.Length == 0)
-            return;
-
-        var speech = GetSpeechVerb(source, message);
-
-        // get the entity's apparent name (if no override provided).
-        string name;
-        if (nameOverride != null)
-        {
-            name = nameOverride;
-        }
-        else
-        {
-            var nameEv = new TransformSpeakerNameEvent(source, Name(source));
-            RaiseLocalEvent(source, nameEv);
-            name = nameEv.VoiceName;
-            // Check for a speech verb override
-            if (nameEv.SpeechVerb != null && _prototypeManager.TryIndex(nameEv.SpeechVerb, out var proto))
-                speech = proto;
-        }
-
-        name = FormattedMessage.EscapeText(name);
-
-        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
-            ("entityName", name),
-            ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
-            ("fontType", speech.FontId),
-            ("fontSize", speech.FontSize),
-            ("message", FormattedMessage.EscapeText(message)));
-
-        SendInVoiceRange(ChatChannel.Local, message, wrappedMessage, source, range);
-
-        var ev = new EntitySpokeEvent(source, message, originalMessage, null, null); // Stories-TTS: Spec symbol sanitize
-        RaiseLocalEvent(source, ev, true);
-
-        // To avoid logging any messages sent by entities that are not players, like vendors, cloning, etc.
-        // Also doesn't log if hideLog is true.
-        if (!HasComp<ActorComponent>(source) || hideLog)
-            return;
-
-        if (originalMessage == message)
-        {
-            if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user} as {name}: {originalMessage}.");
-            else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user}: {originalMessage}.");
-        }
-        else
-        {
-            if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Say from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
-            else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Say from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
-        }
-    }
-
-    private void SendEntityWhisper(
-        EntityUid source,
-        string originalMessage,
-        ChatTransmitRange range,
-        RadioChannelPrototype? channel,
-        string? nameOverride,
-        bool hideLog = false,
-        bool ignoreActionBlocker = false,
-        bool ignoreXenos = false
-        )
-    {
-        if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
-            return;
-
-        var message = TransformSpeech(source, FormattedMessage.RemoveMarkupOrThrow(originalMessage));
-        if (message.Length == 0)
-            return;
-
-        var obfuscatedMessage = ObfuscateMessageReadability(message, 0.2f);
-
-        // get the entity's name by visual identity (if no override provided).
-        string nameIdentity = FormattedMessage.EscapeText(nameOverride ?? Identity.Name(source, EntityManager));
-        // get the entity's name by voice (if no override provided).
-        string name;
-        if (nameOverride != null)
-        {
-            name = nameOverride;
-        }
-        else
-        {
-            var nameEv = new TransformSpeakerNameEvent(source, Name(source));
-            RaiseLocalEvent(source, nameEv);
-            name = nameEv.VoiceName;
-        }
-        name = FormattedMessage.EscapeText(name);
-
-        var wrappedMessage = Loc.GetString("chat-manager-entity-whisper-wrap-message",
-            ("entityName", name), ("message", FormattedMessage.EscapeText(message)));
-
-        var wrappedobfuscatedMessage = Loc.GetString("chat-manager-entity-whisper-wrap-message",
-            ("entityName", nameIdentity), ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
-
-        var wrappedUnknownMessage = Loc.GetString("chat-manager-entity-whisper-unknown-wrap-message",
-            ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
-
-
-        foreach (var (session, data) in GetRecipients(source, WhisperMuffledRange, ignoreXenos))
-        {
-            EntityUid listener;
-
-            if (session.AttachedEntity is not { Valid: true } playerEntity)
-                continue;
-            listener = session.AttachedEntity.Value;
-
-            if (MessageRangeCheck(session, data, range) != MessageRangeCheckResult.Full)
-                continue; // Won't get logged to chat, and ghosts are too far away to see the pop-up, so we just won't send it to them.
-
-            if (data.Range <= WhisperClearRange)
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, message, wrappedMessage, source, false, session.Channel);
-            //If listener is too far, they only hear fragments of the message
-            else if (_examineSystem.InRangeUnOccluded(source, listener, WhisperMuffledRange))
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedobfuscatedMessage, source, false, session.Channel);
-            //If listener is too far and has no line of sight, they can't identify the whisperer's identity
-            else
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
-        }
-
-        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range), speechStyleClass: CompOrNull<RMCSpeechBubbleSpecificStyleComponent>(source)?.SpeechStyleClass, repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source)));
-
-        var ev = new EntitySpokeEvent(source, message, originalMessage, channel, obfuscatedMessage); // Stories-TTS: Spec symbol sanitize
-        RaiseLocalEvent(source, ev, true);
-        if (!hideLog)
-            if (originalMessage == message)
-            {
-                if (name != Name(source))
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Whisper from {ToPrettyString(source):user} as {name}: {originalMessage}.");
-                else
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Whisper from {ToPrettyString(source):user}: {originalMessage}.");
-            }
-            else
-            {
-                if (name != Name(source))
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Whisper from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
-                else
-                    _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Whisper from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
-            }
-    }
 
     private void SendEntityEmote(
         EntityUid source,
@@ -678,6 +553,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.ChatMessageToOne(ChatChannel.Server, bannedMsg, bannedMsg, default, false, player.Channel);
             return;
         }
+        // RMC14
 
         // If crit player LOOC is disabled, don't send the message at all.
         if (!_critLoocEnabled && _mobStateSystem.IsCritical(source))
@@ -699,8 +575,10 @@ public sealed partial class ChatSystem : SharedChatSystem
         var clients = GetDeadChatClients();
         var playerName = Name(source);
         string wrappedMessage;
+        // RMC14
         if (!_adminManager.IsAdmin(player) && !_DeadchatEnabled) // RMC14 - Check the status of the "rmc.dead_chat_enabled" CCvar before continuing.
             return;
+        // RMC14
 
         // RMC14
         if (_rmcChatBans.IsChatBanned(player.UserId, ChatType.Dead))
@@ -710,10 +588,20 @@ public sealed partial class ChatSystem : SharedChatSystem
             return;
         }
 
-        if (_adminManager.IsAdmin(player))
+        var isAdmin = false;
+        var title = "Admin";
+        var data = _adminManager.GetAdminData(player);
+        if (data != null)
+        {
+            isAdmin = true;
+            title = data.Title ?? "Admin";
+        }
+        // RMC14
+
+        if (isAdmin)
         {
             wrappedMessage = Loc.GetString("chat-manager-send-admin-dead-chat-wrap-message",
-                ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")),
+                ("adminChannelName", title), //RMC14
                 ("userName", player.Channel.UserName),
                 ("message", FormattedMessage.EscapeText(message)));
             _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Admin dead chat from {player:Player}: {message}");
@@ -729,6 +617,7 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         _chatManager.ChatMessageToMany(ChatChannel.Dead, message, wrappedMessage, source, hideChat, true, clients.ToList(), author: player.UserId);
     }
+
     #endregion
 
     #region Utility
@@ -784,7 +673,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// </summary>
     private void SendInVoiceRange(ChatChannel channel, string message, string wrappedMessage, EntityUid source, ChatTransmitRange range, NetUserId? author = null)
     {
-        foreach (var (session, data) in GetRecipients(source, VoiceRange))
+        foreach (var (session, data) in GetRecipients(source, channel, VoiceRange)) // RMC14
         {
             var entRange = MessageRangeCheck(session, data, range);
             if (entRange == MessageRangeCheckResult.Disallowed)
@@ -905,8 +794,11 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         var msg = message;
 
+        // Stories-Chat
+        // RMC14
         msg = _wordreplacement.ApplyReplacements(msg, ChatSanitize_Accent);
         msg = _cmChat.SanitizeMessageReplaceWords(source, msg);
+        // RMC14
 
         return msg;
     }
@@ -914,7 +806,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Returns list of players and ranges for all players withing some range. Also returns observers with a range of -1.
     /// </summary>
-    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, float voiceGetRange, bool ignoreXenos = false)
+    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, ChatChannel channel, float voiceGetRange) // RMC14 channel param
     {
         // TODO proper speech occlusion
 
@@ -938,37 +830,45 @@ public sealed partial class ChatSystem : SharedChatSystem
 
             var observer = ghostHearing.HasComponent(playerEntity);
 
+            /*if (playerEntity == source && HasComp<ImaginaryFriendComponent>(source))
+            {
+                recipients[player] = new ICChatRecipientData(0, false, false);
+                continue;
+            }*/
             // even if they are a ghost hearer, in some situations we still need the range
             if (sourceCoords.TryDistance(EntityManager, transformEntity.Coordinates, out var distance) && distance < voiceGetRange)
             {
-                recipients.Add(player, new ICChatRecipientData(distance, observer));
+                // RMC14
+                var hasLOS = observer || _examineSystem.InRangeUnOccluded(source, playerEntity, voiceGetRange);
+                recipients.Add(player, new ICChatRecipientData(distance, observer, HasLOS: hasLOS));
+                // RMC14
                 continue;
             }
 
             if (observer)
-                recipients.Add(player, new ICChatRecipientData(-1, true));
+            {
+                // RMC14
+                var hasLOS = _examineSystem.InRangeUnOccluded(source, playerEntity, voiceGetRange);
+                recipients.Add(player, new ICChatRecipientData(-1, true, HasLOS: hasLOS));
+                // RMC14
+            }
         }
 
         RaiseLocalEvent(new ExpandICChatRecipientsEvent(source, voiceGetRange, recipients));
 
-        var ev = new ChatMessageAfterGetRecipients(recipients); // Stories-Hunter
+        // RMC14
+        var ev = new ChatMessageAfterGetRecipientsEvent(recipients, channel);
         RaiseLocalEvent(source, ref ev);
-
-        if (ignoreXenos)
-        {
-            foreach (var session in recipients.Keys.ToArray())
-            {
-                if (HasComp<XenoComponent>(session.AttachedEntity))
-                    recipients.Remove(session);
-            }
-        }
+        // RMC14
 
         return recipients;
     }
 
-    public readonly record struct ICChatRecipientData(float Range, bool Observer, bool? HideChatOverride = null)
+    // RMC14
+    public readonly record struct ICChatRecipientData(float Range, bool Observer, bool? HideChatOverride = null, bool HasLOS = true)
     {
     }
+    // RMC14
 
     private string ObfuscateMessageReadability(string message, float chance)
     {
@@ -1048,6 +948,9 @@ public sealed class EntitySpokeEvent : EntityEventArgs
     public readonly string Message;
     public readonly string OriginalMessage; // Stories-TTS: Spec symbol sanitize
     public readonly string? ObfuscatedMessage; // not null if this was a whisper
+    // RMC14
+    public readonly ProtoId<LanguagePrototype> Language;
+    // RMC14
 
     /// <summary>
     ///     If the entity was trying to speak into a radio, this was the channel they were trying to access. If a radio
@@ -1055,14 +958,17 @@ public sealed class EntitySpokeEvent : EntityEventArgs
     /// </summary>
     public RadioChannelPrototype? Channel;
 
-    public EntitySpokeEvent(EntityUid source, string message, string originalMessage, RadioChannelPrototype? channel, string? obfuscatedMessage) // Stories-TTS: Spec symbol sanitize
+    // RMC14
+    public EntitySpokeEvent(EntityUid source, string message, string originalMessage, RadioChannelPrototype? channel, string? obfuscatedMessage, ProtoId<LanguagePrototype>? language = null) // Stories-TTS: Spec symbol sanitize
     {
         Source = source;
         Message = message;
         OriginalMessage = originalMessage; // Stories-TTS: Spec symbol sanitize
         Channel = channel;
         ObfuscatedMessage = obfuscatedMessage;
+        Language = language ?? SharedLanguageSystem.CommonLanguage;
     }
+    // RMC14
 }
 
 /// <summary>

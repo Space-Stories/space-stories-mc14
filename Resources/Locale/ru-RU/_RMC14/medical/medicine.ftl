@@ -37,6 +37,9 @@ reagent-desc-cmleporazine = Препарат, используемый для л
 reagent-name-cmtricordrazine = Трикордразин
 reagent-desc-cmtricordrazine = Трикордразин — сильнодействующий стимулятор, первоначально полученный из кордразина. Может использоваться для лечения широкого спектра травм.
 
+reagent-name-rmcultrazine = Ультразин
+reagent-desc-rmcultrazine = Ультразин — сильнодействующий комбинированный стимулятор ЦНС и мышечной системы длительного действия. Вызывает крайне сильную зависимость.
+
 reagent-name-cmmeralyne = Мералин
 reagent-desc-cmmeralyne = Передовой анальгетический препарат, используемый для лечения крайне тяжелых тупых травм. Позволяет организму быстро восстанавливать поврежденные ткани. Передозировка мералина может вызвать сильную коррозию клеточных мембран.
 
@@ -66,6 +69,8 @@ rmc-russianred-container-label-text = Рк
 rmc-imidazoline-container-label-text = ИМ
 rmc-dermaline-container-label-text = ДЕ
 rmc-iron-container-label-text = ЖЕ
+rmc-happy-container-label-text = :)
+rmc-mystery-container-label-text = ??
 
 rmc-custom-container-label-text = { $customLabel }
 

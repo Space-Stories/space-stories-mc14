@@ -8,6 +8,9 @@
         </controls:NanoHeading>
         <BoxContainer Name="Loaded" Orientation="Vertical"
                       Visible="False">
+            <!-- Stories-Sponsors-Start -->
+            <RichTextLabel Name="SponsorTitle" HorizontalAlignment="Center" Margin="3 3" Visible="False"/>
+            <!-- Stories-Sponsors-End -->
             <Label Name="Summary" HorizontalAlignment="Center" Margin="3 3"/>
             <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center">
 

@@ -5,10 +5,11 @@ using Content.Shared._RMC14.Attachable.Systems;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Emplacements;
 using Content.Shared._RMC14.Random;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Weapons.Ranged.Flamer;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
-using Content.Shared._RMC14.Vehicle;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions;
 using Content.Shared.Administration.Logs;
@@ -24,7 +25,9 @@ using Content.Shared.Effects;
 using Content.Shared.Examine;
 using Content.Shared.Gravity;
 using Content.Shared.Hands;
+using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
 using Content.Shared.Stunnable;
@@ -83,7 +86,7 @@ public abstract partial class SharedGunSystem : EntitySystem
     [Dependency] protected readonly SharedTransformSystem TransformSystem = default!;
     [Dependency] protected readonly TagSystem TagSystem = default!;
     [Dependency] protected readonly ThrowingSystem ThrowingSystem = default!;
-    [Dependency] private   readonly UseDelaySystem _useDelay = default!;
+    [Dependency] protected readonly UseDelaySystem _useDelay = default!;
     [Dependency] private   readonly EntityWhitelistSystem _whitelistSystem = default!;
     [Dependency] private   readonly SharedStaminaSystem _stamina = default!;
     [Dependency] private   readonly SharedStunSystem _stun = default!;
@@ -97,6 +100,7 @@ public abstract partial class SharedGunSystem : EntitySystem
     [Dependency] private readonly SharedRMCFlamerSystem _flamer = default!;
     [Dependency] private readonly VehicleWeaponsSystem _rmcVehicleWeapons = default!;
     [Dependency] private readonly RMCSharedWeaponControllerSystem _rmcSharedWeaponController = default!;
+    [Dependency] private readonly AkimboSystem _akimbo = default!;
 
     private const float InteractNextFire = 0.3f;
     private const double SafetyNextFire = 0.5;
@@ -135,6 +139,75 @@ public abstract partial class SharedGunSystem : EntitySystem
         Subs.CVar(_config, RMCCVars.RMCGunPrediction, v => GunPrediction = v, true);
     }
 
+    // Stories-GunBalance-Start
+    public bool IsGunInHands(EntityUid user, EntityUid gun)
+    {
+        if (_hands.IsHolding(user, gun))
+            return true;
+
+        if (_attachableHolder.TryGetHolder(gun, out var holder) && _hands.IsHolding(user, holder))
+            return true;
+
+        if (TryComp<AssistedReloadReceiverComponent>(user, out var receiver) && receiver.Weapon == gun)
+            return true;
+
+        if (Containers.TryGetContainingContainer((gun, null), out var container))
+        {
+            if (TryComp<AssistedReloadReceiverComponent>(container.Owner, out var containerReceiver) &&
+                containerReceiver.Weapon == gun)
+            {
+                return true;
+            }
+
+            if (_hands.IsHolding(user, container.Owner))
+                return true;
+
+            if (HasComp<WeaponMountComponent>(container.Owner))
+                return true;
+        }
+
+        if (HasComp<WeaponMountComponent>(gun))
+            return true;
+
+        if (TryComp<MountableWeaponComponent>(gun, out var mountable) && mountable.MountedTo != null)
+            return true;
+
+        return false;
+    }
+
+    public bool HasOtherHandFree(EntityUid user, EntityUid weapon)
+    {
+        if (!TryComp<HandsComponent>(user, out var hands) || hands.Count < 2)
+            return false;
+
+        var weaponHolder = weapon;
+        if (_attachableHolder.TryGetHolder(weapon, out var holder))
+            weaponHolder = holder.Value;
+        else if (Containers.TryGetContainingContainer((weapon, null), out var container) && _hands.IsHolding(user, container.Owner))
+            weaponHolder = container.Owner;
+
+        foreach (var held in _hands.EnumerateHeld(user))
+        {
+            if (held == weaponHolder || held == weapon)
+                continue;
+
+            if (TryComp<VirtualItemComponent>(held, out var virt) && (virt.BlockingEntity == weaponHolder || virt.BlockingEntity == weapon))
+                continue;
+
+            return false;
+        }
+
+        return true;
+    }
+    // Stories-GunBalance-End
+
+    // Stories-Akimbo-Start
+    public bool TryGetAkimboGuns(EntityUid gunUid, out Entity<AkimboComponent> akimboGun, out Entity<AkimboComponent> otherAkimboGun)
+    {
+        return _akimbo.TryGetAkimboGuns(gunUid, out akimboGun, out otherAkimboGun);
+    }
+    // Stories-Akimbo-End
+
     private void OnMapInit(Entity<GunComponent> gun, ref MapInitEvent args)
     {
 #if DEBUG
@@ -171,9 +244,28 @@ public abstract partial class SharedGunSystem : EntitySystem
         }
 
         if (userGun != gun)
+        {
+            // Stories-Akimbo-Start
+            if (TryGetAkimboGuns(gunUid, out _, out var otherAkimbo) &&
+                TryComp<GunComponent>(otherAkimbo.Owner, out var otherGun) &&
+                userGun == otherGun)
+            {
+                StopShooting(gunUid, gun);
+                StopShooting(otherAkimbo.Owner, otherGun);
+                return;
+            }
+            // Stories-Akimbo-End
             return;
+        }
 
         StopShooting(gunUid, gun);
+        // Stories-Akimbo-Start
+        if (TryGetAkimboGuns(gunUid, out _, out var otherAkimboGun) &&
+            TryComp<GunComponent>(otherAkimboGun.Owner, out var otherGunComponent))
+        {
+            StopShooting(otherAkimboGun.Owner, otherGunComponent);
+        }
+        // Stories-Akimbo-End
     }
 
     public bool CanShoot(GunComponent component)
@@ -184,6 +276,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         return true;
     }
 
+    // RMC14
     /// <summary>
     /// Sets the current gun target, returning the previous value.
     /// </summary>
@@ -193,9 +286,11 @@ public abstract partial class SharedGunSystem : EntitySystem
         gun.Comp.Target = target;
         return previous;
     }
+    // RMC14
 
     public bool TryGetGun(EntityUid entity, out EntityUid gunEntity, [NotNullWhen(true)] out GunComponent? gunComp)
     {
+        // RMC14
         if (TryComp(entity, out VehiclePortGunOperatorComponent? portGunOperator) &&
             portGunOperator.Gun is { } portGun &&
             TryComp(portGun, out VehiclePortGunComponent? portGunComp) &&
@@ -216,6 +311,7 @@ public abstract partial class SharedGunSystem : EntitySystem
             gunComp = selectedGun;
             return true;
         }
+        // RMC14
 
         if(_attachableHolder.TryGetInhandSupercedingGun(entity, out gunEntity, out gunComp))
             return true;
@@ -228,6 +324,11 @@ public abstract partial class SharedGunSystem : EntitySystem
         {
             gunEntity = held;
             gunComp = gun;
+
+            // Stories-Akimbo-Start
+            (gunEntity, gunComp) = _akimbo.SelectAkimboGun(entity, held, gun);
+            // Stories-Akimbo-End
+
             return true;
         }
 
@@ -259,6 +360,15 @@ public abstract partial class SharedGunSystem : EntitySystem
         gun.ShotCounter = 0;
         gun.ShootCoordinates = null;
         gun.Target = null;
+        DirtyField(uid, gun, nameof(GunComponent.ShotCounter));
+    }
+
+    public void ResetShotCounter(EntityUid uid, GunComponent gun)
+    {
+        if (gun.ShotCounter == 0)
+            return;
+
+        gun.ShotCounter = 0;
         DirtyField(uid, gun, nameof(GunComponent.ShotCounter));
     }
 
@@ -299,7 +409,12 @@ public abstract partial class SharedGunSystem : EntitySystem
         gun.ShotCounter = 0;
     }
 
-    public List<EntityUid>? AttemptShoot(EntityUid user, EntityUid gunUid, GunComponent gun, List<int>? predictedProjectiles = null, ICommonSession? userSession = null)
+    public List<EntityUid>? AttemptShoot(
+        EntityUid user,
+        EntityUid gunUid,
+        GunComponent gun,
+        List<int>? predictedProjectiles = null,
+        ICommonSession? userSession = null)
     {
         if (gun.FireRateModified <= 0f ||
             !_actionBlockerSystem.CanAttack(user))
@@ -378,8 +493,10 @@ public abstract partial class SharedGunSystem : EntitySystem
             shots = Math.Min(shots, gun.ShotsPerBurstModified - gun.ShotCounter);
         }
 
+        // RMC14
         var originEntity = HasComp<GunUseGunOriginComponent>(gunUid) ? gunUid : user;
         var fromCoordinates = Transform(originEntity).Coordinates;
+        // RMC14
 
         //RMC14
         var shotOriginEv = new BeforeAttemptShootEvent(fromCoordinates, gun.ShootOriginOffset);
@@ -405,10 +522,12 @@ public abstract partial class SharedGunSystem : EntitySystem
             return null;
         }
 
+        // RMC14
         fromCoordinates = attemptEv.FromCoordinates;
         toCoordinates = attemptEv.ToCoordinates;
         if (toCoordinates == null)
             return null;
+        // RMC14
 
         // Remove ammo
         var ev = new TakeAmmoEvent(shots, new List<(EntityUid? Entity, IShootable Shootable)>(), fromCoordinates, user);
@@ -484,6 +603,10 @@ public abstract partial class SharedGunSystem : EntitySystem
 
         var shotEv = new GunShotEvent(user, ev.Ammo, fromCoordinates, toCoordinates.Value);
         RaiseLocalEvent(gunUid, ref shotEv);
+
+        // Stories-Akimbo-Start
+        _akimbo.ApplyAkimboShootDelay(gunUid, gun, user, curTime);
+        // Stories-Akimbo-End
 
         if (userImpulse && TryComp<PhysicsComponent>(user, out var userPhysics))
         {
@@ -776,6 +899,10 @@ public abstract partial class SharedGunSystem : EntitySystem
                     if (ent != null)
                         _flamer.ShootFlamer((ent.Value, flamer), (gunUid, gun), user, fromCoordinates, toCoordinates);
                     break;
+                case RMCFlamerNozzleComponent nozzle:
+                    if (ent != null)
+                        _flamer.ShootNozzle((ent.Value, nozzle), (gunUid, gun), user, fromCoordinates, toCoordinates);
+                    break;
                 case RMCSprayAmmoProviderComponent spray:
                     if (ent != null)
                         _flamer.ShootSpray((ent.Value, spray), (gunUid, gun), user, fromCoordinates, toCoordinates);
@@ -830,9 +957,15 @@ public abstract partial class SharedGunSystem : EntitySystem
     private Angle GetRecoilAngle(TimeSpan curTime, GunComponent component, Angle direction)
     {
         var timeSinceLastFire = (curTime - component.LastFire).TotalSeconds;
-        var newTheta = MathHelper.Clamp(component.CurrentAngle.Theta + component.AngleIncreaseModified.Theta - component.AngleDecayModified.Theta * timeSinceLastFire, component.MinAngleModified.Theta, component.MaxAngleModified.Theta);
+        // Stories-GunSpread-Start
+        var currentTheta = component.CurrentAngle.Theta;
+        if (timeSinceLastFire > 0.6)
+            currentTheta = component.MinAngleModified.Theta;
+
+        var newTheta = MathHelper.Clamp(currentTheta + component.AngleIncreaseModified.Theta - component.AngleDecayModified.Theta * timeSinceLastFire, component.MinAngleModified.Theta, component.MaxAngleModified.Theta);
         component.CurrentAngle = new Angle(newTheta);
         component.LastFire = component.NextFire;
+        // Stories-GunSpread-End
 
         // Convert it so angle can go either side.
         long tick = Timing.CurTick.Value;
@@ -840,8 +973,15 @@ public abstract partial class SharedGunSystem : EntitySystem
         tick = tick | (uint) GetNetEntity(component.Owner).Id;
         var random = new Xoroshiro64S(tick).NextFloat(-0.5f, 0.5f);
         var spread = component.CurrentAngle.Theta * random;
-        var angle = new Angle(direction.Theta + component.CurrentAngle.Theta * random);
-        DebugTools.Assert(spread <= component.MaxAngleModified.Theta);
+
+        // Stories-Akimbo-Start
+        if (TryGetAkimboGuns(component.Owner, out var akimbo, out _))
+        {
+            spread *= akimbo.Comp.ScatterMultiplier;
+        }
+        // Stories-Akimbo-End
+
+        var angle = new Angle(direction.Theta + spread);
         return angle;
     }
 
@@ -850,7 +990,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         if (gun.Target is { } target && !TerminatingOrDeleted(target))
         {
             var targeted = EnsureComp<TargetedProjectileComponent>(uid);
-            targeted.Target = target;
+            targeted.Target = GetNetEntity(target); // Stories-DeletedEntityReferences
             Dirty(uid, targeted);
         }
 

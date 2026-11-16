@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 using Content.Shared._RMC14.Marines.Skills;
 using Robust.Shared.GameStates;
-using Robust.Shared.Maths;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._RMC14.Vehicle;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
 [Access(typeof(VehicleWeaponsSystem))]
 public sealed partial class VehicleWeaponsComponent : Component
 {
@@ -41,7 +39,7 @@ public sealed partial class VehicleWeaponsOperatorComponent : Component
     public TimeSpan NextCooldownFeedbackAt = TimeSpan.Zero;
 }
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
 [Access(typeof(VehicleWeaponsSystem))]
 public sealed partial class VehicleWeaponsSeatComponent : Component
 {
@@ -58,7 +56,7 @@ public sealed partial class VehicleWeaponsSeatComponent : Component
     public bool AllowHotbarSelection = true;
 
     [DataField]
-    public List<string> AllowedHardpointTypes = new();
+    public List<EntProtoId> AllowedHardpointTypes = new();
 
     [DataField]
     public float BaseViewPvsScale;
@@ -71,6 +69,9 @@ public sealed partial class VehicleWeaponsSeatComponent : Component
 
     [DataField]
     public float BaseViewCursorPvsIncrease;
+
+    [AutoNetworkedField]
+    public VehicleWeaponsUiState Ui = new(default, new List<VehicleWeaponsUiEntry>(), false, false, false, false);
 }
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
@@ -90,7 +91,7 @@ public sealed partial class VehicleTurretComponent : Component
     public float MaxShotCurvatureDegrees = 0f;
 
     [DataField, AutoNetworkedField]
-    public bool StabilizedRotation = false;
+    public bool StabilizedRotation = true;
 
     [DataField, AutoNetworkedField]
     public float RotationSpeed = 0f;
@@ -115,6 +116,9 @@ public sealed partial class VehicleTurretComponent : Component
 
     [DataField, AutoNetworkedField]
     public string OverlayState = string.Empty;
+
+    [DataField, AutoNetworkedField]
+    public string OverlayDamagedState = string.Empty;
 
     [DataField, AutoNetworkedField]
     public bool UseDirectionalOffsets = false;
@@ -151,4 +155,10 @@ public sealed partial class VehicleTurretComponent : Component
 
     [NonSerialized]
     public int LastAppliedDirectionSign = 0;
+
+    [AutoNetworkedField]
+    public Angle LastVehicleRotation;
+
+    [AutoNetworkedField]
+    public bool LastVehicleRotationValid;
 }

@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: CMBaseStructure
   abstract: true
   id: CMComputerDropship
@@ -9,6 +9,13 @@
   - type: Corrodible
     isCorrodible: false
   - type: InteractionOutline
+  - type: ApcPowerReceiver
+    powerLoad: 250
+    needsPower: false
+  - type: RMCPowerReceiver
+    idleLoad: 300
+    activeLoad: 300
+    channel: Equipment
 
 - type: entity
   parent: CMComputerDropship
@@ -44,27 +51,100 @@
     state: syndishuttle
   - type: DropshipNavigationComputer
     hijackable: false
-
-- type: entity
-  parent: CMComputerDropship
-  id: CMComputerDropshipNavigationPlanetside
-  name: dropship navigation computer
-  description: A flight computer that can be used to direct linked dropships.
-  suffix: Planetside
-  components:
-  - type: Sprite
-    sprite: _RMC14/Structures/Machines/dropship_nav_computer.rsi
-    state: on
-  - type: ActivatableUI
-    key: enum.DropshipTerminalUiKey.Key
+    requiresRestrictedDestination: true
+    shuttleDockingClass: Standard
+    dockingBounds: "-3.5,-7,3.5,6"
+    navigationWindowTitle: ERT Flight Computer
+    showFlyByDestination: false
+    showPrimaryDestinationLabel: false
+    showIndividualDoorControls: false
+    showLaunchAlarmControls: false
+    showAutopilotControls: false
   - type: AccessReader
-    access: [["CMAccessDropship"], ["CMAccessSquadLeaderPrep"], ["CMAccessXeno"]] # Xeno have access as to not cause the "Access denied!" popup.
-  - type: ActivatableUIRequiresAccess
-  - type: DropshipTerminal
+    access: [["CMAccessERT"]]
   - type: UserInterface
     interfaces:
-      enum.DropshipTerminalUiKey.Key:
-        type: DropshipTerminalBui
+      enum.DropshipNavigationUiKey.Key:
+        type: DropshipNavigationBui
+      enum.DropshipHijackerUiKey.Key:
+        type: DropshipHijackerBui
+
+- type: entity
+  parent: CMComputerDropshipNavigationERT
+  id: CMComputerDropshipNavigationERTCommAlt
+  suffix: Standard, Comm Alt
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/computer.rsi
+    state: comm_alt
+
+- type: entity
+  parent: CMComputerDropshipNavigationERT
+  id: CMComputerDropshipNavigationERTSmall
+  suffix: Small
+  components:
+  - type: DropshipNavigationComputer
+    shuttleDockingClass: Small
+    dockingBounds: "-3,-5,3,4"
+
+- type: entity
+  parent: CMComputerDropshipNavigationERTSmall
+  id: CMComputerDropshipNavigationERTSmallCommAlt
+  suffix: Small, Comm Alt
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/computer.rsi
+    state: comm_alt
+
+- type: entity
+  parent: CMComputerDropshipNavigationERT
+  id: CMComputerDropshipNavigationERTBig
+  suffix: Big
+  components:
+  - type: DropshipNavigationComputer
+    shuttleDockingClass: Big
+    dockingBounds: "-5.5,-10,5.5,8"
+
+- type: entity
+  parent: CMComputerDropshipNavigationERTBig
+  id: CMComputerDropshipNavigationERTBigCommAlt
+  suffix: Big, Comm Alt
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/computer.rsi
+    state: comm_alt
+
+- type: entity
+  parent: CMComputerDropshipNavigation
+  id: CMComputerDropshipNavigationERTTSE
+  name: transport shuttle
+  description: A transport shuttle flight computer.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/hybrisa_computer_props.rsi
+    state: blacksensor_comp2
+  - type: DropshipNavigationComputer
+    hijackable: false
+  - type: Transform
+    anchored: false
+
+- type: entity
+  parent: CMComputerDropshipNavigation
+  id: CMComputerDropshipNavigationERTCLF
+  name: transport shuttle
+  description: A transport shuttle flight computer.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Dropships/clf.rsi
+    state: 93
+  - type: DropshipNavigationComputer
+    hijackable: false
+  - type: Transform
+    anchored: false
+
+- type: entity
+  parent: RMCComputerDropshipRemoteControl
+  id: CMComputerDropshipNavigationPlanetside
 
 - type: entity
   parent: CMComputerDropship
@@ -145,8 +225,17 @@
   - type: Sprite
     drawdepth: Objects
     sprite: _RMC14/Structures/Machines/computer.rsi
-    state: security_cam
-    layers: [ ]
+    layers:
+    - state: "security_cam0"
+    - map: ["enum.PowerDeviceVisualLayers.Powered"]
+      state: "security_cam"
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: false
+  - type: RMCPowerReceiver
+    idleLoad: 300
+    activeLoad: 300
+    channel: Equipment
   - type: Clickable
   - type: Corrodible
     isCorrodible: false
@@ -192,8 +281,10 @@
   - type: Sprite
     drawdepth: Objects
     sprite: _RMC14/Structures/Machines/computer.rsi
-    state: security_cam
-    layers: [ ]
+    layers:
+    - state: "security_cam0"
+    - map: ["enum.PowerDeviceVisualLayers.Powered"]
+      state: "security_cam"
   - type: Clickable
   - type: Corrodible
     isCorrodible: false
@@ -254,6 +345,78 @@
   components:
   - type: DropshipDestination
     spawn: "/Maps/_RMC14/normandy.yml" # The actual Dropship files are private. These are debug versions to ensure tests pass.
+
+- type: entity
+  parent: CMDropshipDestination
+  id: RMCRestrictedShuttleDestination
+  abstract: true
+  name: restricted shuttle destination
+  description: Defines a valid landing location for restricted shuttle routing.
+  components:
+  - type: Transform
+    anchored: true
+    noRot: false
+  - type: Rotatable
+
+- type: entity
+  parent: RMCRestrictedShuttleDestination
+  id: RMCRestrictedShuttleDestinationInternal
+  suffix: Shuttle, Internal
+  components:
+  - type: DropshipDestination
+    dockBounds: "-4,-8.5,4,6.5"
+    reserved: true
+    landingClasses: [ internal ]
+    landingTags: [ mainship, ert, internal ]
+
+- type: entity
+  parent: RMCRestrictedShuttleDestinationInternal
+  id: RMCERTShuttleReturnDestination
+  name: Base
+  suffix: ERT, Return, Internal
+  components:
+  - type: DropshipDestination
+    dockBounds: "-4,-8.5,4,8.5"
+
+- type: entity
+  parent: RMCRestrictedShuttleDestinationExternalSide
+  id: RMCERTShuttleReturnDestinationSmall
+  name: Base
+  suffix: ERT, Return, External Side
+
+- type: entity
+  parent: RMCRestrictedShuttleDestinationExternalHangar
+  id: RMCERTShuttleReturnDestinationBig
+  name: Base
+  suffix: ERT, Return, External Hangar
+
+- type: entity
+  parent: RMCRestrictedShuttleDestination
+  id: RMCRestrictedShuttleDestinationExternalSide
+  suffix: Shuttle, External Side
+  components:
+  - type: DropshipDestination
+    dockBounds: "-5,-9.5,5,7.5"
+    reserved: true
+    landingClasses: [ external_side ]
+    landingTags: [ mainship, ert, external_side ]
+  - type: RMCDockingPortAirlockControl
+    airlockTags: [ RMCShuttleAirlockExternalSide ]
+    searchRadius: 5
+
+- type: entity
+  parent: RMCRestrictedShuttleDestination
+  id: RMCRestrictedShuttleDestinationExternalHangar
+  suffix: Shuttle, External Hangar
+  components:
+  - type: DropshipDestination
+    dockBounds: "-6,-10.5,6,8.5"
+    reserved: true
+    landingClasses: [ external_hangar ]
+    landingTags: [ mainship, ert, external_hangar ]
+  - type: RMCDockingPortAirlockControl
+    airlockTags: [ RMCShuttleAirlockExternalHangar ]
+    searchRadius: 8
 
 - type: entity
   parent: MarkerBase

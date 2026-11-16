@@ -1,20 +1,25 @@
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Content.Shared._RMC14.AlertLevel;
+using Content.Shared._RMC14.ARES;
+using Content.Shared._RMC14.ARES.Logs;
+using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.Marines.GroundsideOperations;
 using Content.Shared._RMC14.Commendations;
 using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Evacuation;
+using Content.Shared._RMC14.Overwatch;
 using Content.Shared._RMC14.Survivor;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
 using Content.Shared.Popups;
 using Content.Shared.UserInterface;
-using System.Globalization;
-using System.Linq;
 using Robust.Shared.Configuration;
-using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -28,17 +33,21 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     [Dependency] private readonly RMCAlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly SharedCommendationSystem _commendation = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly DialogSystem _dialog = default!;
     [Dependency] private readonly SharedEvacuationSystem _evacuation = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly WarshipSystem _warship = default!;
+    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
 
+    private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
     private int _characterLimit = 1000;
 
     public override void Initialize()
@@ -50,6 +59,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         SubscribeLocalEvent<DropshipHijackStartEvent>(OnRefreshComputers);
         SubscribeLocalEvent<RMCAlertLevelChangedEvent>(OnRefreshComputers);
 
+        SubscribeLocalEvent<MarineControlComputerComponent, BoundUserInterfaceMessageAttempt>(OnComputerUIMessageAttempt);
         SubscribeLocalEvent<MarineControlComputerComponent, BeforeActivatableUIOpenEvent>(OnComputerBeforeUIOpen);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerMedalMarineEvent>(OnComputerMedalMarine);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerMedalNameEvent>(OnComputerMedalName);
@@ -75,8 +85,17 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         Subs.BuiEvents<MarineCommunicationsComputerComponent>(MarineCommunicationsComputerUI.Key,
             subs =>
             {
+                subs.Event<MarineCommunicationsToggleEvacuationMsg>(OnMarineCommunicationsToggleEvacuationKeepOpen);
                 subs.Event<MarineControlComputerToggleEvacuationMsg>(OnMarineCommunicationsToggleEvacuation);
                 subs.Event<MarineControlComputerOpenMedalsPanelMsg>(OnMarineCommunicationsOpenMedalsPanel);
+            });
+        Subs.BuiEvents<GroundsideOperationsConsoleComponent>(GroundsideOperationsConsoleUi.Key,
+            subs =>
+            {
+                subs.Event<MarineControlComputerAlertLevelMsg>(OnGroundsideOperationsAlertLevel);
+                subs.Event<MarineControlComputerShipAnnouncementMsg>(OnGroundsideOperationsShipAnnouncement);
+                subs.Event<MarineControlComputerToggleEvacuationMsg>(OnGroundsideOperationsToggleEvacuation);
+                subs.Event<MarineControlComputerOpenMedalsPanelMsg>(OnGroundsideOperationsOpenMedalsPanel);
             });
 
         Subs.CVar(_config, CCVars.ChatMaxMessageLength, limit => _characterLimit = limit, true);
@@ -85,6 +104,18 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     private void OnRefreshComputers<T>(ref T ev)
     {
         RefreshComputers();
+    }
+
+    private void OnComputerUIMessageAttempt(Entity<MarineControlComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || HasComp<OverwatchConsoleComponent>(ent))
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnComputerBeforeUIOpen(Entity<MarineControlComputerComponent> ent, ref BeforeActivatableUIOpenEvent args)
@@ -245,12 +276,26 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
 
     private void OnComputerAlert(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerAlertEvent args)
     {
+        var current = _alertLevel.Get();
+        if (current == RMCAlertLevels.Delta ||
+            args.Level >= RMCAlertLevels.Red ||
+            args.Level == current)
+        {
+            return;
+        }
+
         _alertLevel.Set(args.Level, GetEntity(args.User));
     }
 
     private void OnAlertLevel(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerAlertLevelMsg args)
     {
         var current = _alertLevel.Get();
+        if (current == RMCAlertLevels.Delta)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-alert-delta-locked"), args.Actor, PopupType.MediumCaution);
+            return;
+        }
+
         var options = new List<DialogOption>();
         foreach (var level in Enum.GetValues<RMCAlertLevels>())
         {
@@ -272,6 +317,14 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         );
     }
 
+    private void OnGroundsideOperationsAlertLevel(
+        Entity<GroundsideOperationsConsoleComponent> ent,
+        ref MarineControlComputerAlertLevelMsg args)
+    {
+        if (TryComp(ent, out MarineControlComputerComponent? control))
+            OnAlertLevel((ent.Owner, control), ref args);
+    }
+
     private void OnShipAnnouncement(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerShipAnnouncementMsg args)
     {
         if (!CanUseShipAnnouncementPopup(ent, args.Actor))
@@ -288,6 +341,14 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         );
     }
 
+    private void OnGroundsideOperationsShipAnnouncement(
+        Entity<GroundsideOperationsConsoleComponent> ent,
+        ref MarineControlComputerShipAnnouncementMsg args)
+    {
+        if (TryComp(ent, out MarineControlComputerComponent? control))
+            OnShipAnnouncement((ent.Owner, control), ref args);
+    }
+
     private void OnShipAnnouncementDialog(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerShipAnnouncementDialogEvent args)
     {
         if (GetEntity(args.User) is not { Valid: true } user)
@@ -298,13 +359,26 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
 
         ent.Comp.LastShipAnnouncement = _timing.CurTime;
         var map = _warship.TryGetWarshipMap(ent, out var warshipMap) ? warshipMap : _transform.GetMapId(ent.Owner);
+
+        // Stories-Chat-Start
+        var text = args.Message;
+
+        text = Regex.Replace(text, @"\[/?.*?\]", "");
+        text = _rmcChat.SanitizeMessageReplaceWords(user, text);
+        // Stories-Chat-End
+
         _marineAnnounce.AnnounceSigned(
             user,
-            args.Message,
+            text,
             Loc.GetString("rmc-announcement-author-shipside"),
-            sound: SharedMarineAnnounceSystem.AresAnnouncementSound,
-            filter: Filter.BroadcastMap(map).RemoveWhereAttachedEntity(e => !HasComp<MarineComponent>(e) && !HasComp<GhostComponent>(e))
+            options: new SignedAnnouncementOptions
+            {
+                Sound = SharedMarineAnnounceSystem.AresAnnouncementSound,
+                Filter = Filter.BroadcastMap(map).RemoveWhereAttachedEntity(e => !HasComp<MarineComponent>(e) && !HasComp<GhostComponent>(e)),
+            }
         );
+
+        _core.CreateARESLog(ent, LogCat, (string)$"{Name(user)} sent a Warship Announcement: {args.Message}");
     }
 
     private void OnMedal(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerMedalMsg args)
@@ -428,6 +502,14 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         _ui.TryOpenUi(ent.Owner, MarineControlComputerUi.MedalsPanel, args.Actor);
     }
 
+    private void OnGroundsideOperationsOpenMedalsPanel(
+        Entity<GroundsideOperationsConsoleComponent> ent,
+        ref MarineControlComputerOpenMedalsPanelMsg args)
+    {
+        if (TryComp(ent, out MarineControlComputerComponent? control))
+            OnOpenMedalsPanel((ent.Owner, control), ref args);
+    }
+
     protected virtual MarineMedalsPanelBuiState BuildMedalsPanelState(Entity<MarineControlComputerComponent> ent, EntityUid? viewerActor = null)
     {
         return new MarineMedalsPanelBuiState(
@@ -494,7 +576,12 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         if (_ui.HasUi(ent.Owner, MarineCommunicationsComputerUI.Key))
             _ui.CloseUi(ent.Owner, MarineCommunicationsComputerUI.Key, args.Actor);
 
-        if (!ent.Comp.CanEvacuate)
+        TryToggleEvacuation(ent);
+    }
+
+    private void TryToggleEvacuation(Entity<MarineControlComputerComponent> ent)
+    {
+        if (!ent.Comp.CanEvacuate || (_net.IsServer && !CanToggleEvacuation()))
             return;
 
         var time = _timing.CurTime;
@@ -506,6 +593,22 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         // TODO RMC14 evacuation start sound
         _evacuation.ToggleEvacuation(null, ent.Comp.EvacuationCancelledSound, _transform.GetMap(ent.Owner));
         RefreshComputers();
+    }
+
+    private void OnMarineCommunicationsToggleEvacuationKeepOpen(
+        Entity<MarineCommunicationsComputerComponent> ent,
+        ref MarineCommunicationsToggleEvacuationMsg args)
+    {
+        if (TryComp(ent, out MarineControlComputerComponent? control))
+            TryToggleEvacuation((ent.Owner, control));
+    }
+
+    private void OnGroundsideOperationsToggleEvacuation(
+        Entity<GroundsideOperationsConsoleComponent> ent,
+        ref MarineControlComputerToggleEvacuationMsg args)
+    {
+        if (TryComp(ent, out MarineControlComputerComponent? control))
+            OnToggleEvacuationMsg((ent.Owner, control), ref args);
     }
 
     private void OnMarineCommunicationsToggleEvacuation(Entity<MarineCommunicationsComputerComponent> ent, ref MarineControlComputerToggleEvacuationMsg args)
@@ -524,12 +627,28 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         OnOpenMedalsPanel(new Entity<MarineControlComputerComponent>(ent.Owner, controlComp), ref args);
     }
 
+    public bool CanToggleEvacuation() // Stories-Ares
+    {
+        if (_evacuation.IsEvacuationEnabled())
+            return true;
+
+        var dropships = EntityQueryEnumerator<DropshipComponent>();
+        while (dropships.MoveNext(out var dropship))
+        {
+            // Crashed is set when the hijacked flight starts, before the dropship reaches the warship.
+            if (dropship.Crashed)
+                return true;
+        }
+
+        return false;
+    }
+
     private void RefreshComputers()
     {
         if (_net.IsClient)
             return;
 
-        var canEvacuate = _alertLevel.IsRedOrDeltaAlert() || _evacuation.IsEvacuationEnabled();
+        var canEvacuate = CanToggleEvacuation();
         var evacuationEnabled = _evacuation.IsEvacuationEnabled();
         var computers = EntityQueryEnumerator<MarineControlComputerComponent>();
         while (computers.MoveNext(out var uid, out var computer))

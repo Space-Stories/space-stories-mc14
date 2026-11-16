@@ -8,12 +8,15 @@ using Content.Shared._RMC14.Medical.Unrevivable;
 using Content.Shared._RMC14.Sprite;
 using Content.Shared._RMC14.Stealth;
 using Content.Shared._RMC14.Stun;
+using Content.Shared._RMC14.Synth;
 using Content.Shared._RMC14.Xenonids.Construction.Nest;
 using Content.Shared._RMC14.Xenonids.Construction.ResinWhisper;
 using Content.Shared._RMC14.Xenonids.Hide;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.JoinXeno;
 using Content.Shared._RMC14.Xenonids.Leap;
 using Content.Shared._RMC14.Xenonids.Pheromones;
+using Content.Shared._Stories.Hunter.Marking.Components;
 using Content.Shared.Actions;
 using Content.Shared.Atmos.Rotting;
 using Content.Shared.Chat.Prototypes;
@@ -118,6 +121,8 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
             after: [typeof(MobThresholdSystem), typeof(SharedXenoPheromonesSystem)]);
         SubscribeLocalEvent<ParasiteSpentComponent, ExaminedEvent>(OnExamined);
 
+        SubscribeLocalEvent<ParasiteResistanceComponent, ExaminedEvent>(OnParasiteResistanceExamined);
+
         SubscribeLocalEvent<VictimInfectedComponent, MapInitEvent>(OnVictimInfectedMapInit);
         SubscribeLocalEvent<VictimInfectedComponent, ComponentRemove>(OnVictimInfectedRemoved);
         SubscribeLocalEvent<VictimInfectedComponent, ExaminedEvent>(OnVictimInfectedExamined);
@@ -160,7 +165,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
         var range = TryComp<ParasiteAIComponent>(parasite, out var ai) ? ai.MaxInfectRange : parasite.Comp.InfectRange;
 
         if (_transform.InRange(coordinates, args.Leaping.Origin, range))
-            Infect(parasite, args.Hit, false);
+            Infect(parasite, args.Hit, false, true);
     }
 
     private void OnParasiteAfterInteract(Entity<XenoParasiteComponent> ent, ref AfterInteractEvent args)
@@ -245,7 +250,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
 
     private void OnParasiteTryPull(Entity<XenoParasiteComponent> ent, ref PullAttemptEvent args)
     {
-        if (HasComp<ParasiteAIComponent>(ent) && !HasComp<InfectableComponent>(args.PullerUid))
+        if (HasComp<ParasiteAIComponent>(ent) &&
+            !HasComp<InfectableComponent>(args.PullerUid) &&
+            !HasComp<SynthComponent>(args.PullerUid))
         {
             _popup.PopupClient(Loc.GetString("rmc-xeno-parasite-nonplayer-pull", ("parasite", ent)), ent, args.PullerUid, PopupType.SmallCaution);
             args.Cancelled = true;
@@ -391,10 +398,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
         if (TryComp(ent, out FixturesComponent? fixtures))
         {
             var fixture = fixtures.Fixtures.First();
-            if ((fixture.Value.CollisionMask & (int) CollisionGroup.AirlockLayer & (int) CollisionGroup.BarricadeImpassable) != 0)
-                return;
-
-            _physics.SetCollisionMask(ent, fixture.Key, fixture.Value, fixture.Value.CollisionMask ^ (int) ThrownCollisionGroup);
+            _physics.SetCollisionMask(ent, fixture.Key, fixture.Value, fixture.Value.CollisionMask & ~(int) ThrownCollisionGroup);
         }
     }
 
@@ -418,9 +422,21 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
         args.PushMarkup($"[italic]{Loc.GetString("rmc-xeno-parasite-dead", ("parasite", spent))}[/italic]");
     }
 
+    private void OnParasiteResistanceExamined(Entity<ParasiteResistanceComponent> ent, ref ExaminedEvent args)
+    {
+        if (ent.Comp.MaxCount <= 0)
+            return;
+
+        var remaining = (int)(ent.Comp.MaxCount - ent.Comp.Count);
+        var color = remaining > 0 ? "green" : "red";
+        args.PushMarkup($"It can take [color={color}]{remaining}[/color] more hit{(remaining == 1 ? "" : "s")}.");
+    }
+
     private void OnVictimInfectedMapInit(Entity<VictimInfectedComponent> victim, ref MapInitEvent args)
     {
         victim.Comp.BurstAt = _timing.CurTime + victim.Comp.BurstDelay;
+        var ev = new VictimInfectedChangedEvent(victim);
+        RaiseLocalEvent(ref ev);
     }
 
     private void OnVictimInfectedRemoved(Entity<VictimInfectedComponent> victim, ref ComponentRemove args)
@@ -430,6 +446,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
             _status.TryRemoveStatusEffect(victim, "Unconscious");
         }
         _standing.Stand(victim);
+
+        var ev = new VictimInfectedChangedEvent(victim);
+        RaiseLocalEvent(ref ev);
     }
 
     private void OnVictimInfectedCancel<T>(Entity<VictimInfectedComponent> victim, ref T args) where T : CancellableEntityEventArgs
@@ -479,6 +498,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
         if (!CanInfectPopup(parasite, victim, user))
             return false;
 
+        if (_net.IsServer && TryComp<ActorComponent>(user, out var actor))
+            parasite.Comp.PendingInfectorUserId = actor.PlayerSession.UserId;
+
         var ev = new AttachParasiteDoAfterEvent();
         var delay = parasite.Comp.ManualAttachDelay;
 
@@ -492,6 +514,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
         {
             BreakOnMove = true,
             BlockDuplicate = true,
+            CancelDuplicate = false,
             DuplicateCondition = DuplicateConditions.SameEvent,
             AttemptFrequency = AttemptFrequency.EveryTick
         };
@@ -555,6 +578,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
 
         if (!TryComp(victim, out InfectableComponent? infectable))
             return false;
+
+        if (_net.IsServer && TryComp<ActorComponent>(parasite, out var infector))
+            parasite.Comp.PendingInfectorUserId = infector.PlayerSession.UserId;
 
         if (_net.IsServer)
         {
@@ -691,8 +717,17 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
                 var victimComp = EnsureComp<VictimInfectedComponent>(infectedVictim);
                 SetHive((infectedVictim, victimComp), _hive.GetHive(uid)?.Owner);
 
+                if (HasComp<HunterComponent>(infectedVictim)) // Stories-Abomination
+                    SetBurstSpawn((infectedVictim, victimComp), "STXenoPredalienLarva");
+
+                victimComp.InfectorUserId = para.PendingInfectorUserId;
+
+                if (TryComp<ActorComponent>(infectedVictim, out var victimActor))
+                    victimComp.VictimUserId = victimActor.PlayerSession.UserId;
+
                 // TODO RMC14 also do damage to the parasite
-                EnsureComp<ParasiteSpentComponent>(uid);
+                var spent = EnsureComp<ParasiteSpentComponent>(uid);
+                spent.InfectedHost = infectedVictim;
 
                 infectable.BeingInfected = false;
                 Dirty(infectedVictim, infectable);
@@ -705,7 +740,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
             if (_net.IsClient)
                 continue;
 
-            if (infected.BurstAt + infected.AutoBurstTime <= time && infected.SpawnedLarva != null)
+            if (infected.BurstAt + infected.AutoBurstTime <= time && infected.SpawnedLarva != null && !infected.IsBursting)
             {
                 TryBurst((uid, infected));
                 continue;
@@ -732,7 +767,15 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
 
             // spawn the larva
             if (infected.BurstAt <= time && infected.SpawnedLarva == null)
-                SpawnLarva((uid, infected), out _);
+            {
+                SpawnLarva((uid, infected), out var spawnedLarva);
+                var priorityEv = new XenoBurstPriorityEvent(
+                    infected.VictimUserId,
+                    infected.InfectorUserId,
+                    GetNetEntity(infected.Hive),
+                    GetNetEntity(spawnedLarva));
+                RaiseLocalEvent(ref priorityEv);
+            }
 
             // Stages
             // Percentage of how far along we out to burst time times the number of stages, truncated. You can't go back a stage once you've reached one
@@ -880,8 +923,9 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
             BreakOnDamage = false,
             BreakOnMove = false,
             BreakOnRest = false,
+            RequireCanInteract = false,
+            RangeCheck = false,
             Hidden = true,
-            CancelDuplicate = true,
             BlockDuplicate = true,
             DuplicateCondition = DuplicateConditions.SameEvent
         };
@@ -1035,6 +1079,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
     {
         var larvaContainer = _container.EnsureContainer<ContainerSlot>(victim.Owner, victim.Comp.LarvaContainerId);
         spawned = SpawnInContainerOrDrop(victim.Comp.BurstSpawn, victim.Owner, larvaContainer.ID);
+        EnsureComp<LarvaQueuedComponent>(spawned);
         LinkLarvaToVictim(victim, spawned);
     }
 
@@ -1042,6 +1087,7 @@ public abstract partial class SharedXenoParasiteSystem : EntitySystem
     {
         var larvaContainer = _container.EnsureContainer<ContainerSlot>(victim.Owner, victim.Comp.LarvaContainerId);
         _container.InsertOrDrop(spawned, larvaContainer);
+        EnsureComp<LarvaQueuedComponent>(spawned);
         LinkLarvaToVictim(victim, spawned);
     }
 

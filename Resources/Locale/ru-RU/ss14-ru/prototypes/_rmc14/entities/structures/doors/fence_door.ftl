@@ -1,0 +1,10 @@
+ent-RMCFenceDoor = дверь в заборе
+    .desc = Прочная сетчатая дверь между двумя металлическими столбами. Дешёвый способ отгородить участок, не закрывая обзор.
+ent-RMCFenceDoorBroken = сломанная дверь в заборе
+    .desc = Кому-то очень не хотелось пользоваться дверью.
+ent-RMCFenceDoorSPP = { ent-RMCFenceDoor }
+    .desc = { ent-RMCFenceDoor.desc }
+    .suffix = СПН
+ent-RMCFenceDoorBrokenSPP = { ent-RMCFenceDoorBroken }
+    .desc = { ent-RMCFenceDoorBroken.desc }
+    .suffix = СПН

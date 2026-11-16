@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSurvivorSolarisCMBDeputy = solaris cmb deputy spawn point
+ent-RMCSpawnPointSurvivorSolarisCMBDeputy = точка появления заместителя БКМ Соляриса
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

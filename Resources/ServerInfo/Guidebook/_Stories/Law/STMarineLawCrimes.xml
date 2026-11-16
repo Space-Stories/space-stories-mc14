@@ -10,10 +10,10 @@
   - История преступлений или действий может быть принята во внимание.
 
   ## Категории
-  - [textlink="Переменные" link="RMCMarineLawCrimesVariable"]
-  - [textlink="Мелкие" link="RMCMarineLawCrimesMinor"]
-  - [textlink="Тяжкие" link="RMCMarineLawCrimesMajor"]
-  - [textlink="Особо Тяжкие" link="RMCMarineLawCrimesCapital"]
-  - [textlink="Факультативные" link="RMCMarineLawCrimesOptional"]
-  - [textlink="Меры Предосторожности" link="RMCMarineLawCrimesPrecautionary"]
+  - [textlink="Переменные" link="STMarineLawCrimesVariable"]
+  - [textlink="Мелкие" link="STMarineLawCrimesMinor"]
+  - [textlink="Тяжкие" link="STMarineLawCrimesMajor"]
+  - [textlink="Особо Тяжкие" link="STMarineLawCrimesCapital"]
+  - [textlink="Факультативные" link="STMarineLawCrimesOptional"]
+  - [textlink="Меры Предосторожности" link="STMarineLawCrimesPrecautionary"]
 </Document>

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Numerics;
 using Content.Shared._RMC14.Attachable.Components;
+using Content.Shared._RMC14.Attachable.Systems;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Evasion;
 using Content.Shared._RMC14.Hands;
@@ -8,7 +9,9 @@ using Content.Shared._RMC14.Marines.Orders;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Movement;
 using Content.Shared._RMC14.Projectiles;
+using Content.Shared._RMC14.Stack;
 using Content.Shared._RMC14.Stealth;
+using Content.Shared.Stacks;
 using Content.Shared._RMC14.Weapons.Common;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Weapons.Ranged.Whitelist;
@@ -34,6 +37,9 @@ using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
+using Content.Shared.Storage;
+using Content.Shared.Storage.EntitySystems;
+using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Content.Shared.Wieldable;
 using Content.Shared.Wieldable.Components;
@@ -57,6 +63,7 @@ namespace Content.Shared._RMC14.Weapons.Ranged;
 
 public sealed class CMGunSystem : EntitySystem
 {
+    [Dependency] private readonly AttachableHolderSystem _attachables = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedBroadphaseSystem _broadphase = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -77,7 +84,10 @@ public sealed class CMGunSystem : EntitySystem
     [Dependency] private readonly VehicleWeaponsSystem _vehicleWeapons = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly ItemSlotsSystem _slots = default!;
+    [Dependency] private readonly SharedRMCStackSystem _rmcStack = default!;
+    [Dependency] private readonly SharedStackSystem _stack = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
+    [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly UseDelaySystem _useDelay = default!;
@@ -148,7 +158,10 @@ public sealed class CMGunSystem : EntitySystem
 
         SubscribeLocalEvent<UserBlockShootingInsideContainersComponent, ShotAttemptedEvent>(OnUserBlockShootingInsideContainersAttemptShoot);
 
-        SubscribeLocalEvent<RMCAmmoEjectComponent, ActivateInWorldEvent>(OnAmmoEjectActivateInWorld);
+        // Stories-RMCAmmoEject-Start
+        SubscribeLocalEvent<RMCAmmoEjectComponent, GetVerbsEvent<AlternativeVerb>>(OnAmmoEjectAltVerb);
+        SubscribeLocalEvent<HandsComponent, RMCUnloadWeaponEvent>(OnUnloadWeapon);
+        // Stories-RMCAmmoEject-End
 
         SubscribeLocalEvent<AssistedReloadAmmoComponent, AfterInteractEvent>(OnAssistedReloadAmmoAfterInteract);
 
@@ -216,13 +229,8 @@ public sealed class CMGunSystem : EntitySystem
             if (!_physicsQuery.TryComp(projectile, out var physics))
                 continue;
 
-            // Preserve spread direction for multi-projectile shots. Single projectiles still snap to target.
-            var projectileDirection = normalized;
-            if (args.FiredProjectiles.Count > 1 && physics.LinearVelocity != Vector2.Zero)
-                projectileDirection = physics.LinearVelocity.Normalized();
-
-            // Calculate needed impulse to get to target direction, remove all velocity from projectile, then apply.
-            var impulse = projectileDirection * gun.ProjectileSpeedModified * physics.Mass;
+            // Calculate needed impulse to get to target, remove all velocity from projectile, then apply.
+            var impulse = normalized * gun.ProjectileSpeedModified * physics.Mass;
             _physics.SetLinearVelocity(projectile, Vector2.Zero, body: physics);
             _physics.ApplyLinearImpulse(projectile, impulse, body: physics);
             _physics.SetBodyStatus(projectile, physics, BodyStatus.InAir);
@@ -246,7 +254,6 @@ public sealed class CMGunSystem : EntitySystem
                 distance = distance > 0 ? Math.Min(normalProjectile.MaxFixedRange.Value, distance) : normalProjectile.MaxFixedRange.Value;
             }
             // Calculate travel time and equivalent distance based either on click location or calculated max range, whichever is shorter.
-            comp.TargetCoordinates = new MapCoordinates(from.Position + projectileDirection * distance, from.MapId);
             comp.FlyEndTime = time + TimeSpan.FromSeconds(distance / gun.ProjectileSpeedModified);
         }
 
@@ -484,16 +491,7 @@ public sealed class CMGunSystem : EntitySystem
 
         var session = CompOrNull<ActorComponent>(user)?.PlayerSession;
         if (gunComp.Target.Value == user.Owner)
-        {
-            if (gunComp.SelectedMode == SelectiveFire.FullAuto)
-                return;
-
-            if (session != null &&
-                !_netConfig.GetClientCVar(session.Channel, RMCCVars.RMCDamageYourself))
-            {
-                return;
-            }
-        }
+            return; // Stories-SelfDamageGunOFF
 
         if (!_interaction.InRangeUnobstructed(gun.Owner, gunComp.Target.Value, gun.Comp.Range, user: user))
             return;
@@ -655,9 +653,6 @@ public sealed class CMGunSystem : EntitySystem
             if (time < comp.FlyEndTime)
                 continue;
 
-            if (comp.TargetCoordinates is { } targetCoords)
-                _transform.SetMapCoordinates(uid, targetCoords);
-
             StopProjectile((uid, comp));
             RemCompDeferred<ProjectileFixedDistanceComponent>(uid);
             var ev = new ProjectileFixedDistanceStopEvent();
@@ -696,51 +691,266 @@ public sealed class CMGunSystem : EntitySystem
             args.Cancel();
     }
 
-    private void OnAmmoEjectActivateInWorld(Entity<RMCAmmoEjectComponent> gun, ref ActivateInWorldEvent args)
+    // Stories-RMCAmmoEject-Start
+    private void OnAmmoEjectAltVerb(Entity<RMCAmmoEjectComponent> gun, ref GetVerbsEvent<AlternativeVerb> args)
     {
-        if (args.Handled ||
-            !_container.TryGetContainer(gun.Owner, gun.Comp.ContainerID, out var container) ||
-            container.ContainedEntities.Count <= 0 ||
-            _hands.GetActiveHand(args.User) is not { } hand ||
-            !_hands.HandIsEmpty(args.User, hand) ||
-            !_hands.CanPickupToHand(args.User, container.ContainedEntities[0], hand))
-        {
+        if (!args.CanAccess || !args.CanInteract || args.Hands == null)
             return;
+
+        var user = args.User;
+        args.Verbs.Add(new AlternativeVerb
+        {
+            Act = () => TryEjectAmmo(gun, user),
+            Text = Loc.GetString("verb-categories-eject"),
+            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/eject.svg.192dpi.png")),
+            Priority = 2,
+        });
+    }
+    // Stories-RMCAmmoEject-End
+
+    private void OnUnloadWeapon(Entity<HandsComponent> user, ref RMCUnloadWeaponEvent args)
+    {
+        if (!args.Handled)
+            args.Handled = TryEjectAmmoInHand(user);
+    }
+
+    public bool TryEjectAmmoInHand(EntityUid user)
+    {
+        EntityUid? gun = null;
+        if (_attachables.TryGetInhandSupercedingGun(user, out var attachable, out _) &&
+            HasComp<RMCAmmoEjectComponent>(attachable))
+        {
+            gun = attachable;
+        }
+        else if (_hands.TryGetActiveItem(user, out var held))
+        {
+            gun = held;
         }
 
-        var cancelEvent = new RMCTryAmmoEjectEvent(args.User, false);
+        return gun is { } weapon &&
+               TryComp(weapon, out RMCAmmoEjectComponent? ammoEject) &&
+               TryEjectAmmo((weapon, ammoEject), user);
+    }
+
+    public bool TryEjectAmmo(Entity<RMCAmmoEjectComponent> gun, EntityUid user)
+    {
+        if (!_container.TryGetContainer(gun.Owner, gun.Comp.ContainerID, out var container))
+            return false;
+
+        // Stories-RMCAmmoEject-Start
+        var hasBallistic = TryComp(gun.Owner, out BallisticAmmoProviderComponent? ammoProviderComponent);
+        if (hasBallistic)
+        {
+            if (ammoProviderComponent!.Entities.Count + ammoProviderComponent.UnspawnedCount == 0)
+                return false;
+        }
+        else if (container.ContainedEntities.Count == 0)
+        {
+            return false;
+        }
+
+        if (TryComp(user, out HandsComponent? userHands))
+        {
+            var hasFreeHand = _hands.TryGetEmptyHand((user, userHands), out _);
+            if (!hasFreeHand)
+            {
+                var canMerge = false;
+                foreach (var held in _hands.EnumerateHeld((user, userHands)))
+                {
+                    if (TryComp(held, out StackComponent? heldStack) && _stack.GetAvailableSpace(heldStack) > 0)
+                    {
+                        if (hasBallistic)
+                        {
+                            if (ammoProviderComponent!.Entities.Count > 0)
+                            {
+                                var nextEnt = ammoProviderComponent.Entities[^1];
+                                if (TryComp(nextEnt, out StackComponent? nextStack) && nextStack.StackTypeId == heldStack.StackTypeId)
+                                {
+                                    canMerge = true;
+                                    break;
+                                }
+                            }
+                            else if (ammoProviderComponent.Proto != null)
+                            {
+                                canMerge = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            var nextEnt = container.ContainedEntities[0];
+                            if (TryComp(nextEnt, out StackComponent? nextStack) && nextStack.StackTypeId == heldStack.StackTypeId)
+                            {
+                                canMerge = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!canMerge)
+                {
+                    _popup.PopupClient(Loc.GetString("stories-gun-ammo-eject-hands-full"), user, user);
+                    return false;
+                }
+            }
+        }
+        // Stories-RMCAmmoEject-End
+
+        var cancelEvent = new RMCTryAmmoEjectEvent(user, false);
         RaiseLocalEvent(gun.Owner, ref cancelEvent);
-
         if (cancelEvent.Cancelled)
-            return;
+            return false;
 
-        args.Handled = true;
-
-        var ejectedAmmo = container.ContainedEntities[0];
+        EntityUid ejectedAmmo;
+        var playedSlotAudio = false;
 
         // For guns with a BallisticAmmoProviderComponent, if you just remove the ammo from its container, the gun system thinks it's still in the gun and you can still shoot it.
         // So instead I'm having to inflict this shit on our codebase.
-        if (TryComp(gun.Owner, out BallisticAmmoProviderComponent? ammoProviderComponent))
+        if (hasBallistic)
         {
-            var takeAmmoEvent = new TakeAmmoEvent(1, new List<(EntityUid?, IShootable)>(), Transform(gun.Owner).Coordinates, args.User);
+            // Stories-RMCAmmoEject-Start
+            if (_net.IsClient)
+                return true;
+            // Stories-RMCAmmoEject-End
+
+            var takeAmmoEvent = new TakeAmmoEvent(
+                1,
+                new List<(EntityUid?, IShootable)>(),
+                Transform(gun.Owner).Coordinates,
+                user);
             RaiseLocalEvent(gun.Owner, takeAmmoEvent);
 
             if (takeAmmoEvent.Ammo.Count <= 0)
-                return;
+                return false;
 
             var ammo = takeAmmoEvent.Ammo[0].Entity;
 
             if (ammo == null)
-                return;
+                return false;
 
             ejectedAmmo = ammo.Value;
+
+            // Stories-RMCAmmoEject-Start
+            if (TryComp(ejectedAmmo, out StackComponent? ejectedStack) && ejectedStack.Count > 1)
+            {
+                var split = _rmcStack.Split((ejectedAmmo, ejectedStack), 1, Transform(ejectedAmmo).Coordinates);
+                if (split != null)
+                {
+                    _container.Insert(ejectedAmmo, ammoProviderComponent!.Container);
+                    ammoProviderComponent.Entities.Add(ejectedAmmo);
+                    DirtyField(gun.Owner, ammoProviderComponent, nameof(BallisticAmmoProviderComponent.Entities));
+
+                    ejectedAmmo = split.Value;
+                }
+            }
+
+            Dirty(gun.Owner, ammoProviderComponent!);
+            _gun.UpdateBallisticAppearance(gun.Owner, ammoProviderComponent!);
+            _gun.UpdateAmmoCount(gun.Owner, prediction: false);
+            // Stories-RMCAmmoEject-End
+        }
+        else if (HasComp<ItemSlotsComponent>(gun.Owner))
+        {
+            if (!_slots.TryEject(
+                    gun.Owner,
+                    gun.Comp.ContainerID,
+                    user,
+                    out var ejected,
+                    excludeUserAudio: true))
+            {
+                return false;
+            }
+
+            ejectedAmmo = ejected.Value;
+            playedSlotAudio = true;
+        }
+        else
+        {
+            // Stories-RMCAmmoEject-Start
+            ejectedAmmo = container.ContainedEntities[0];
+            if (!_container.Remove(ejectedAmmo, container))
+                return false;
+            // Stories-RMCAmmoEject-End
         }
 
-        if (!HasComp<ItemSlotsComponent>(gun.Owner) || !_slots.TryEject(gun.Owner, gun.Comp.ContainerID, args.User, out _, excludeUserAudio: true))
-            _audio.PlayPredicted(gun.Comp.EjectSound, gun.Owner, args.User);
+        if (!playedSlotAudio)
+            _audio.PlayPredicted(gun.Comp.EjectSound, gun.Owner, user);
 
-        _hands.TryPickup(args.User, ejectedAmmo, hand);
+        // Stories-RMCAmmoEject-Start
+        DeliverEjectedAmmo(user, ejectedAmmo);
+        // Stories-RMCAmmoEject-End
+
+        return true;
     }
+
+    // Stories-RMCAmmoEject-Start
+    private void DeliverEjectedAmmo(EntityUid user, EntityUid ejectedAmmo)
+    {
+        if (TryComp(ejectedAmmo, out StackComponent? ejectedStack))
+        {
+            if (TryComp(user, out HandsComponent? handsComp))
+            {
+                foreach (var held in _hands.EnumerateHeld((user, handsComp)))
+                {
+                    if (!TryComp(held, out StackComponent? heldStack))
+                        continue;
+
+                    if (_stack.TryAdd(ejectedAmmo, held, ejectedStack, heldStack))
+                    {
+                        if (ejectedStack.Count <= 0 || TerminatingOrDeleted(ejectedAmmo))
+                            return;
+                    }
+                }
+            }
+        }
+
+        if (_hands.TryPickupAnyHand(user, ejectedAmmo))
+            return;
+
+        if (_inventory.TryGetContainerSlotEnumerator(user, out var slotEnumerator))
+        {
+            var storageSlots = new List<EntityUid>();
+
+            while (slotEnumerator.MoveNext(out var slot))
+            {
+                if (slot.ContainedEntity is { } slotEnt && HasComp<StorageComponent>(slotEnt))
+                {
+                    storageSlots.Add(slotEnt);
+                }
+            }
+
+            if (TryComp(ejectedAmmo, out ejectedStack))
+            {
+                foreach (var storageEnt in storageSlots)
+                {
+                    if (!TryComp(storageEnt, out StorageComponent? storageComp))
+                        continue;
+
+                    foreach (var contained in storageComp.Container.ContainedEntities)
+                    {
+                        if (!TryComp(contained, out StackComponent? containedStack))
+                            continue;
+
+                        if (_stack.TryAdd(ejectedAmmo, contained, ejectedStack, containedStack))
+                        {
+                            if (ejectedStack.Count <= 0 || TerminatingOrDeleted(ejectedAmmo))
+                                return;
+                        }
+                    }
+                }
+            }
+
+            foreach (var storageEnt in storageSlots)
+            {
+                if (_storage.Insert(storageEnt, ejectedAmmo, out _, user: user, playSound: false))
+                    return;
+            }
+        }
+
+        _transform.DropNextTo(ejectedAmmo, user);
+    }
+    // Stories-RMCAmmoEject-End
 
     private void OnDualWieldingEquippedHand(Entity<GunDualWieldingComponent> gun, ref GotEquippedHandEvent args)
     {

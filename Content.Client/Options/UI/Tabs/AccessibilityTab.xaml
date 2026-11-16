@@ -4,16 +4,37 @@
     <BoxContainer Orientation="Vertical">
         <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
             <BoxContainer Orientation="Vertical" Margin="8">
+                <!-- Stories-StreamerMode-Start -->
+                <Label Text="{Loc 'stories-ui-options-streamer-header'}" StyleClasses="LabelKeyText" />
+                <CheckBox Name="StreamerModeCheckBox" Text="{Loc 'stories-ui-options-streamer-mode'}" />
+                <Button Name="ChatFilterButton" Text="{Loc 'stories-ui-options-chat-filter'}" Margin="0 4 0 8" HorizontalAlignment="Left" />
+                <!-- Stories-StreamerMode-End -->
                 <Label Text="{Loc 'cm-ui-rmc14'}"
                         StyleClasses="LabelKeyText"/>
                 <CheckBox Name="RMCChatSquadColorModeCheckBox" Text="{Loc 'rmc-ui-options-chat-squad-color-mode'}" />
                 <CheckBox Name="RMCUseAlternateSpritesCheckBox" Text="{Loc 'rmc-ui-options-alternate-sprites'}" />
+                <ui:OptionSlider Name="AnnouncementMaxVisibleSlider" Title="{Loc 'rmc-ui-options-announcements-max-visible'}" />
+                <Label Name="AnnouncementPresetOverridesLabel" Text="{Loc 'rmc-ui-options-announcements-style-per-announcement'}"
+                        StyleClasses="LabelKeyText"/>
+                <BoxContainer Name="AnnouncementPresetOverridesContainer" Orientation="Vertical" />
+                <Label Text="{Loc 'rmc-ui-options-announcements-layout'}"
+                       StyleClasses="LabelKeyText"/>
+                <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                    <Button Name="AnnouncementLayoutEditorButton" Text="{Loc 'rmc-ui-options-announcements-layout-open-editor'}" />
+                    <Button Name="AnnouncementLayoutResetButton" Text="{Loc 'rmc-ui-options-announcements-layout-reset-all'}" />
+                </BoxContainer>
+                <RichTextLabel Name="AnnouncementLayoutSummaryLabel" />
+                <!-- RMC14 -->
+                <CheckBox Name="RMCCrtThemeEnabledCheckBox" Text="{Loc 'rmc-ui-options-crt-theme'}" />
+                <CheckBox Name="RMCCrtEffectsEnabledCheckBox" Text="{Loc 'rmc-ui-options-crt-effects'}" />
+                <!-- RMC14 -->
                 <Label Text="{Loc 'ui-options-accessability-header-visuals'}"
                        StyleClasses="LabelKeyText"/>
                 <CheckBox Name="ReducedMotionCheckBox" Text="{Loc 'ui-options-reduced-motion'}" />
                 <CheckBox Name="EnableColorNameCheckBox" Text="{Loc 'ui-options-enable-color-name'}" />
                 <CheckBox Name="ColorblindFriendlyCheckBox" Text="{Loc 'ui-options-colorblind-friendly'}" />
                 <CheckBox Name="XenoAbilityPreviewsCheckBox" Text="{Loc 'rmc-ui-options-xeno-ability-previews'}" />
+                <CheckBox Name="MarineEquipmentPreviewsCheckBox" Text="{Loc 'rmc-ui-options-marine-equipment-previews'}" />
                 <ui:OptionSlider Name="ChatWindowOpacitySlider" Title="{Loc 'ui-options-chat-window-opacity'}" />
                 <ui:OptionSlider Name="SpeechBubbleTextOpacitySlider" Title="{Loc 'ui-options-speech-bubble-text-opacity'}" />
                 <ui:OptionSlider Name="SpeechBubbleSpeakerOpacitySlider" Title="{Loc 'ui-options-speech-bubble-speaker-opacity'}" />
@@ -25,6 +46,9 @@
                 <Label Text="{Loc 'ui-options-accessability-header-content'}"
                        StyleClasses="LabelKeyText"/>
                 <CheckBox Name="CensorNudityCheckBox" Text="{Loc 'ui-options-censor-nudity'}" />
+                <!-- RMC14 -->
+                <CheckBox Name="RMCPostDeathChatMuteCheckBox" Text="{Loc 'rmc-ui-options-post-death-chat-mute'}" />
+                <!-- RMC14 -->
             </BoxContainer>
         </ScrollContainer>
         <ui:OptionsTabControlRow Name="Control" Access="Public" />

@@ -187,7 +187,8 @@ public sealed class RMCExplosionSystem : SharedRMCExplosionSystem
         float tileBreakScale = 1f,
         int maxTileBreak = int.MaxValue,
         bool canCreateVacuum = true,
-        bool addLog = true)
+        bool addLog = true,
+        Vector2? throwDirection = null)
     {
         _explosion.QueueExplosion(
             epicenter,
@@ -199,7 +200,8 @@ public sealed class RMCExplosionSystem : SharedRMCExplosionSystem
             tileBreakScale,
             maxTileBreak,
             canCreateVacuum,
-            addLog
+            addLog,
+            throwDirection
         );
     }
 
@@ -207,9 +209,10 @@ public sealed class RMCExplosionSystem : SharedRMCExplosionSystem
         bool delete = true,
         float? totalIntensity = null,
         float? radius = null,
-        EntityUid? user = null)
+        EntityUid? user = null,
+        Vector2? throwDirection = null)
     {
-        _explosion.TriggerExplosive(uid, null, delete, totalIntensity, radius, user);
+        _explosion.TriggerExplosive(uid, null, delete, totalIntensity, radius, user, throwDirection);
     }
 
     private ProtoId<DecalPrototype>[] GetDecals(string decalTag)

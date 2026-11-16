@@ -1,9 +1,11 @@
 using Content.Server.Access.Systems;
 using Content.Server.Humanoid;
 using Content.Server.IdentityManagement;
+using Content.Server.Jobs;
 using Content.Server.Mind.Commands;
 using Content.Server.PDA;
 using Content.Server.Station.Components;
+using Content.Shared._RMC14.Admin;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
@@ -49,17 +51,18 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
     /// <param name="job">The job to assign, if any.</param>
     /// <param name="profile">The character profile to use, if any.</param>
     /// <param name="stationSpawning">Resolve pattern, the station spawning component for the station.</param>
+    /// <param name="adminSpawned">Set true if spawned by means other than normal ones.</param>
     /// <returns>The resulting player character, if any.</returns>
     /// <exception cref="ArgumentException">Thrown when the given station is not a station.</exception>
     /// <remarks>
     /// This only spawns the character, and does none of the mind-related setup you'd need for it to be playable.
     /// </remarks>
-    public EntityUid? SpawnPlayerCharacterOnStation(EntityUid? station, ProtoId<JobPrototype>? job, HumanoidCharacterProfile? profile, StationSpawningComponent? stationSpawning = null)
+    public EntityUid? SpawnPlayerCharacterOnStation(EntityUid? station, ProtoId<JobPrototype>? job, HumanoidCharacterProfile? profile, StationSpawningComponent? stationSpawning = null, bool adminSpawned = false)
     {
         if (station != null && !Resolve(station.Value, ref stationSpawning))
             throw new ArgumentException("Tried to use a non-station entity as a station!", nameof(station));
 
-        var ev = new PlayerSpawningEvent(job, profile, station);
+        var ev = new PlayerSpawningEvent(job, profile, station, adminSpawned);
 
         RaiseLocalEvent(ev);
         DebugTools.Assert(ev.SpawnResult is { Valid: true } or null);
@@ -79,13 +82,16 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
     /// <param name="profile">Appearance profile to use for the character.</param>
     /// <param name="station">The station this player is being spawned on.</param>
     /// <param name="entity">The entity to use, if one already exists.</param>
+    /// /// <param name="adminSpawn">If the entity was spawned via means other than normal ones.</param>
     /// <returns>The spawned entity</returns>
     public EntityUid SpawnPlayerMob(
         EntityCoordinates coordinates,
         ProtoId<JobPrototype>? job,
         HumanoidCharacterProfile? profile,
         EntityUid? station,
-        EntityUid? entity = null)
+        EntityUid? entity = null,
+        //RMC14
+        bool adminSpawn = false)
     {
         _prototypeManager.TryIndex(job ?? string.Empty, out var prototype, false);
         RoleLoadout? loadout = null;
@@ -134,6 +140,12 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             }
 
             DoJobSpecials(job, jobEntity);
+
+            // Stories-JobEntityIdCard-Start
+            if (prototype != null)
+                SetPdaAndIdCardData(jobEntity, Name(jobEntity), prototype, station);
+            // Stories-JobEntityIdCard-End
+
             _identity.QueueIdentityUpdate(jobEntity);
             return jobEntity;
         }
@@ -144,6 +156,16 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             throw new ArgumentException($"Invalid species prototype was used: {speciesId}");
 
         entity ??= Spawn(species.Prototype, coordinates);
+
+        // RMC14
+        if (adminSpawn)
+            EnsureComp<RMCAdminSpawnedComponent>(entity.Value);
+        // RMC14
+
+        // Stories-SynthAppearance-Start
+        if (profile != null)
+            profile = GetJobProfile(profile, prototype);
+        // Stories-SynthAppearance-End
 
         if (profile != null)
         {
@@ -190,6 +212,44 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             jobSpecial.AfterEquip(entity);
         }
     }
+
+    // Stories-SynthAppearance-Start
+    public HumanoidCharacterProfile GetJobProfile(HumanoidCharacterProfile profile, ProtoId<JobPrototype>? job)
+    {
+        if (job == null || !_prototypeManager.TryIndex(job.Value, out var prototype))
+            return profile;
+
+        return GetJobProfile(profile, prototype);
+    }
+
+    public HumanoidCharacterProfile GetJobProfile(HumanoidCharacterProfile profile, JobPrototype? job)
+    {
+        if (job == null || !IsSynthJob(job))
+            return profile;
+
+        profile = new HumanoidCharacterProfile(profile);
+
+        if (profile.SynthAppearance != null)
+            profile = profile.WithCharacterAppearance(profile.SynthAppearance);
+
+        if (profile.SynthName != string.Empty)
+            profile.Name = profile.SynthName;
+
+        profile.FlavorText = string.Empty;
+        return profile;
+    }
+
+    private static bool IsSynthJob(JobPrototype job)
+    {
+        foreach (var special in job.Special)
+        {
+            if (special is AddComponentSpecial addComponent && addComponent.Components.ContainsKey("Synth"))
+                return true;
+        }
+
+        return false;
+    }
+    // Stories-SynthAppearance-End
 
     /// <summary>
     /// Sets the ID card and PDA name, job, and access data.
@@ -259,10 +319,15 @@ public sealed class PlayerSpawningEvent : EntityEventArgs
     /// </summary>
     public readonly EntityUid? Station;
 
-    public PlayerSpawningEvent(ProtoId<JobPrototype>? job, HumanoidCharacterProfile? humanoidCharacterProfile, EntityUid? station)
+    //RMC14
+    public readonly bool AdminSpawned;
+
+    public PlayerSpawningEvent(ProtoId<JobPrototype>? job, HumanoidCharacterProfile? humanoidCharacterProfile, EntityUid? station, bool adminSpawned)
     {
         Job = job;
         HumanoidCharacterProfile = humanoidCharacterProfile;
         Station = station;
+        AdminSpawned = adminSpawned;
     }
+    //RMC14
 }

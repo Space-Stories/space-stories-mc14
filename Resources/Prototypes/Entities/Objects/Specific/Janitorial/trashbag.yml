@@ -18,10 +18,7 @@
       collection: trashBagRustle
     storageInsertSound:
       collection: trashBagRustle
-    whitelist:
-      tags:
-        - Cartridge
-        - Trash
+    # Stories-TrashBag
   - type: UseDelay
     delay: 0.5
   - type: Tag
@@ -64,6 +61,10 @@
     quickInsert: true
     areaInsert: true
     areaInsertRadius: 5
+    whitelist: # Stories-TrashBag
+      tags:
+        - Cartridge
+        - Trash
 
 - type: entity
   parent: TrashBag
@@ -75,3 +76,7 @@
     maxItemSize: Huge
     grid:
     - 0,0,7,6
+    whitelist: # Stories-TrashBag
+      tags:
+        - Cartridge
+        - Trash

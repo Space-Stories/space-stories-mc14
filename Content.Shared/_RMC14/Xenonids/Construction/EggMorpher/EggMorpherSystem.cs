@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.Xenonids.Egg;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.ManageHive.Boons;
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared._RMC14.Xenonids.Projectile.Parasite;
 using Content.Shared._RMC14.Synth;
@@ -22,6 +23,7 @@ public sealed partial class EggMorpherSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _time = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
+    [Dependency] private readonly HiveBoonSystem _boon = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -36,7 +38,7 @@ public sealed partial class EggMorpherSystem : EntitySystem
 
         SubscribeLocalEvent<EggMorpherComponent, ExaminedEvent>(OnExamineEvent);
 
-        SubscribeLocalEvent<EggMorpherComponent, InteractHandEvent>(OnInteractHand);
+        SubscribeLocalEvent<EggMorpherComponent, ActivateInWorldEvent>(OnActivateInWorld);
         SubscribeLocalEvent<EggMorpherComponent, InteractUsingEvent>(OnInteractUsing);
 
 
@@ -60,7 +62,7 @@ public sealed partial class EggMorpherSystem : EntitySystem
         }
     }
 
-    private void OnInteractHand(Entity<EggMorpherComponent> eggMorpher, ref InteractHandEvent args)
+    private void OnActivateInWorld(Entity<EggMorpherComponent> eggMorpher, ref ActivateInWorldEvent args)
     {
         if (_net.IsClient)
         {
@@ -269,6 +271,9 @@ public sealed partial class EggMorpherSystem : EntitySystem
 
     private TimeSpan GetParasiteSpawnCooldown(Entity<EggMorpherComponent> eggMorpher)
     {
+        if (_boon.HasActiveBoon<HiveBoonFortificationComponent>(eggMorpher.Owner))
+            return eggMorpher.Comp.FortifiedSpawnCooldown;
+
         if (_hive.GetHive(eggMorpher.Owner) is not { } hive)
         {
             return eggMorpher.Comp.StandardSpawnCooldown;

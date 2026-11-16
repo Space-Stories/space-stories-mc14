@@ -28,7 +28,6 @@ public sealed partial class SpritePicker : ScrollContainer
 
         foreach (var gear in sortedGear)
         {
-            // If user is NOT a sponsor, and item is sponsor-only, isUnlocked = false
             var isUnlocked = !gear.SponsorOnly || isSponsor;
             
             var button = new SpritePickerButton(gear.EntityProto, gear.SponsorOnly, isUnlocked);
@@ -36,7 +35,7 @@ public sealed partial class SpritePicker : ScrollContainer
             button.OnPressed += _ =>
             {
                 if (button.IsLocked) 
-                    return; // Do nothing if locked
+                    return;
 
                 OnSelectionChanged?.Invoke(gear.EntityProto);
                 SetSelected(gear.EntityProto);
@@ -47,7 +46,6 @@ public sealed partial class SpritePicker : ScrollContainer
         }
     }
 
-    // Overload for "Nothing" option or manual population
     public void AddCustomButton(string id, string name, bool isSponsor, bool isUnlocked)
     {
         var button = new SpritePickerButton(id, isSponsor, isUnlocked);
@@ -60,7 +58,6 @@ public sealed partial class SpritePicker : ScrollContainer
             SetSelected(id);
         };
         
-        // Add to beginning if possible, or just add
         Container.AddChild(button);
         button.SetPositionFirst();
         _buttons.Add(button);

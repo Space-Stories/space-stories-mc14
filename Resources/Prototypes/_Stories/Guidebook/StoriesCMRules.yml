@@ -1,6 +1,7 @@
 - type: guideEntry
   parent: RMC
   id: STOverview
+  ruleEntry: true
   name: Правила
   priority: -1
   text: "/ServerInfo/Guidebook/_Stories/Rules/STOverview.xml"
@@ -20,6 +21,7 @@
 - type: guideEntry
   parent: RMC
   id: STENGOverview
+  ruleEntry: true
   name: Rules
   priority: 0
   text: "/ServerInfo/Guidebook/_Stories/Rules/STOverview_ENG.xml"

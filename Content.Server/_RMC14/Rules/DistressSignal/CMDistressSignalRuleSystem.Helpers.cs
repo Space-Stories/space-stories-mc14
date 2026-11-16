@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Content.Server.GameTicking; // Stories-SpawnPhase
+using Content.Server.GameTicking.Events; // Stories-SynthSurvivor
 using Content.Server.Power.Components;
 using Content.Server.Spawners.Components;
 using Content.Shared._RMC14.Item;
@@ -9,8 +11,10 @@ using Content.Shared._RMC14.WeedKiller;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Construction.FloorResin;
 using Content.Shared._RMC14.Xenonids.Construction.Tunnel;
+using Content.Shared._Stories.Spawners; // Stories-SpawnPhase
 using Content.Shared.Coordinates;
 using Content.Shared.Fax.Components;
+using Content.Shared.GameTicking.Components;
 using Content.Shared.Roles;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
@@ -22,6 +26,28 @@ namespace Content.Server._RMC14.Rules.DistressSignal;
 
 public sealed partial class CMDistressSignalRuleSystem
 {
+    private void RaiseEndgameChanged(bool wasEndgame)
+    {
+        var isEndgame = IsDistressEndgameActive();
+        if (wasEndgame == isEndgame)
+            return;
+
+        var ev = new DistressSignalEndgameChangedEvent(isEndgame);
+        RaiseLocalEvent(ev);
+    }
+
+    private bool IsDistressEndgameActive()
+    {
+        var query = EntityQueryEnumerator<ActiveGameRuleComponent, CMDistressSignalRuleComponent>();
+        while (query.MoveNext(out _, out var distress))
+        {
+            if (distress.Hijack || distress.ForceEndAt != null)
+                return true;
+        }
+
+        return false;
+    }
+
     private const int FaxPowerLoadValue = 5;
 
     /// <summary>
@@ -36,7 +62,25 @@ public sealed partial class CMDistressSignalRuleSystem
         if (jobBans != null && jobBans.Contains(role))
             return false;
 
-        return _playTime.IsAllowed(player, role);
+        // Stories-SynthSurvivor-Start
+        var ev = new IsJobAllowedEvent(player, role);
+        RaiseLocalEvent(ref ev);
+        if (ev.Cancelled)
+            return false;
+        // Stories-SynthSurvivor-End
+
+        if (!_playTime.IsAllowed(player, role))
+            return false;
+
+        // Check if player has antag preference matching this job
+        if (_prototypes.TryIndex(role, out var rolePrototype) &&
+            rolePrototype.AntagRole is { } antagRole &&
+            !GameTicker.GetPlayerProfile(player).AntagPreferences.Contains(antagRole))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     // TODO RMC14: Move these to a prototype
@@ -240,6 +284,14 @@ public sealed partial class CMDistressSignalRuleSystem
         {
             if (spawner.Job == null)
                 continue;
+
+            // Stories-SpawnPhase-Start
+            if (TryComp(uid, out StoriesSpawnPointPhaseComponent? phase) &&
+                !(GameTicker.RunLevel == GameRunLevel.InRound ? phase.LateJoin : phase.RoundStart))
+            {
+                continue;
+            }
+            // Stories-SpawnPhase-End
 
             var target = IsChamberFull(uid)
                 ? spawners.NonSquadFull.GetOrNew(spawner.Job.Value)

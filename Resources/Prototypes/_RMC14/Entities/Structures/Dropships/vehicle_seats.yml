@@ -53,6 +53,15 @@
     - type: Corrodible
 
 - type: entity
+  parent: RMCSeatDriver
+  id: RMCSeatVanDriver
+  name: van driver seat
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Furniture/chairs.rsi
+    state: comfychair
+
+- type: entity
   parent: CMSeatBase
   id: RMCSeatHunter
   name: hunter chair
@@ -164,7 +173,8 @@
   components:
   - type: VehicleDriverSeat
     skills:
-      all: {}
+      all:
+        RMCSkillVehicles: 3
   - type: VehicleWeaponsSeat
     skills:
       all: {}
@@ -172,7 +182,7 @@
     allowUiSelection: false
     allowHotbarSelection: true
     allowedHardpointTypes:
-    - Support
+    - HardpointTypeSupport
   - type: UserInterface
     interfaces:
       enum.VehicleWeaponsUiKey.Key:
@@ -187,7 +197,8 @@
   components:
   - type: VehicleWeaponsSeat
     skills:
-      all: {}
+      all:
+        RMCSkillVehicles: 3
     isPrimaryOperatorSeat: true
     allowUiSelection: true
     allowHotbarSelection: true
@@ -213,8 +224,8 @@
     baseViewCursorMaxOffset: 5
     baseViewCursorPvsIncrease: 0.5
     allowedHardpointTypes:
-    - Secondary
-    - Launcher
+    - HardpointTypeSecondary
+    - HardpointTypeLauncher
   - type: UserInterface
     interfaces:
       enum.VehicleWeaponsUiKey.Key:
@@ -234,6 +245,8 @@
     sprite: _RMC14/Structures/Vehicles/Interiors/general_humvee.rsi
     state: car_seat
     drawdepth: BelowMobs
+  - type: Strap
+    modifyBuckleDrawDepth: false
   - type: RMCStrapNoDrawDepthChange
   - type: RemoveComponents
     components:
@@ -254,7 +267,18 @@
   components:
   - type: VehicleDriverSeat
     skills:
-      all: {}
+      all:
+        RMCSkillVehicles: 2
+
+- type: entity
+  parent: RMCSeatHumveeBase
+  id: RMCSeatHumveeARCDriver
+  name: ARC driver seat
+  components:
+  - type: VehicleDriverSeat
+    skills:
+      all:
+        RMCSkillVehicles: 2
 
 - type: entity
   parent: RMCSeatHumveeBase
@@ -263,7 +287,8 @@
   components:
   - type: VehicleWeaponsSeat
     skills:
-      all: {}
+      all:
+        RMCSkillVehicles: 2
     isPrimaryOperatorSeat: true
     allowUiSelection: true
     allowHotbarSelection: true

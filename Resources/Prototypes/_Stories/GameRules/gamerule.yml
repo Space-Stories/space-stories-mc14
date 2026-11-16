@@ -1,0 +1,32 @@
+- type: entity
+  id: STDistressSignalLowPop
+  parent: CMDistressSignal
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: CMDistressSignalRule
+    squadIds:
+    - SquadAlpha
+    - SquadBravo
+
+- type: entity
+  id: STDistressSignalNoEnd
+  parent: CMDistressSignal
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: CMDistressSignalRule
+    autoEnd: false
+    requireXenoPlayers: false
+
+- type: entity
+  id: STGreenshift
+  parent: CMDistressSignal
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: CMDistressSignalRule
+    autoEnd: false
+    spawnPlanet: false
+    spawnSurvivors: false
+    spawnXenos: false
+    startARESAnnouncements: false
+    bioscan: false
+    requireXenoPlayers: false

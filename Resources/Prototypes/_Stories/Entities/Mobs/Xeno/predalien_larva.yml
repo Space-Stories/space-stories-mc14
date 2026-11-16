@@ -1,0 +1,106 @@
+- type: entity
+  parent:
+  - CMXenoUndeveloped
+  - CMXenoFlammable
+  - RMCXenoVentCrawler
+  id: STXenoPredalienLarva
+  name: predalien larva
+  description: A larva grown from a hunter host. Something is very wrong with it.
+  components:
+  - type: STPredalienLarva
+  - type: GuideHelp
+    guides:
+    - RMCGuideRoleDrone
+  - type: Sprite
+    sprite: _Stories/Mobs/Xenos/Predalien/predalien_larva.rsi
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  - type: MobState
+    allowedStates:
+    - Alive
+    - Critical
+    - Dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      35: Critical
+      70: Dead
+  - type: Xeno
+    role: STXenoPredalienLarva
+    actionIds:
+    - ActionXenoRest
+    - ActionXenoWatch
+    - ActionXenoHide
+    hudOffset: -0.1,0.125
+    tier: 0
+    unlockAt: 0
+    emoteSounds: Larva
+  - type: XenoRegen
+    healOffWeeds: true
+  - type: XenoLight
+  - type: XenoPlasma
+    plasma: 10
+    maxPlasma: 10
+    plasmaRegenOnWeeds: 0.1
+  - type: RMCGibOnDeath
+    gibChance: 0.25
+  - type: RMCSpawnEntitiesOnGib
+    entities:
+    - RMCGibEffectXenoSmall
+  - type: XenoEvolution
+    canEvolveWithoutGranter: true
+    requiresGranter: false
+    max: 60
+    evolvesTo:
+    - STXenoPredalien
+  - type: XenoHide
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.25
+        density: 185
+        mask:
+        - SmallMobMask
+        - BarbedBarricade
+        - BarricadeImpassable
+        layer:
+        - SmallMobLayer
+  - type: XenoAnimateMovement
+  - type: Flammable
+    canResistFire: false
+  - type: IgnoreBlockPullingDead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3.7
+    baseSprintSpeed: 6.7
+  - type: RestrictEvolveOffWeeds
+  - type: Speech
+    speechSounds: XenonidLarva
+    allowedEmotes: [ "XenoRoar" ]
+    audioParams:
+      volume: -8
+  - type: RMCSize
+    size: Small
+  - type: TacticalMapIcon
+    icon:
+      sprite: /Textures/_RMC14/Interface/map_blips.rsi
+      state: predalien_larva
+  - type: Tag
+    tags:
+    - RMCXenoLarva
+    - RMCSynthGrabbable
+  - type: RMCBuckleOffset
+    offset: 0, 0
+  - type: AutoClimbBlocked
+  - type: FixedIdentity
+    name: st-job-name-xeno-predalien-larva
+  - type: VentCrawler
+    ventCrawlIcon: larva
+  - type: TTS
+    voice: sophronia_franklin
+  - type: RMCActionOrder
+    id: STXenoPredalienLarva

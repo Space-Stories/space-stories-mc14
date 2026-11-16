@@ -430,6 +430,13 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
             return false;
         }
 
+        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        {
+            var msg = Loc.GetString("rmc-xeno-construction-failed-cant-build-resin-hole");
+            _popup.PopupEntity(msg, user, user, PopupType.SmallCaution);
+            return false;
+        }
+
         var neighborAnchoredEntities = _mapSystem.GetCellsInSquareArea(gridId, grid, coords, 1);
 
         foreach (var entity in neighborAnchoredEntities)
@@ -675,7 +682,7 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
 
     private static float GetVehicleWheelDamageForTrapLevel(int trapLevel)
     {
-        // TODO: correct values
+        // TODO RMC14: tune these values against actual vehicle wheel balance.
         return trapLevel switch
         {
             1 => 36.6f,

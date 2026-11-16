@@ -5,6 +5,7 @@ using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.NPC;
 using Content.Shared._RMC14.Tools;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Ranged.Homing;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
@@ -23,6 +24,7 @@ using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -55,8 +57,8 @@ public sealed class SentrySystem : EntitySystem
     [Dependency] private readonly SharedToolSystem _tools = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     [Dependency] private readonly SharedSentryTargetingSystem _targeting = default!;
-    [Dependency] private readonly GunIFFSystem _gunIFF = default!;
     [Dependency] private readonly SharedPointLightSystem _pointLight = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     private readonly HashSet<EntityUid> _toUpdate = new();
 
@@ -73,6 +75,8 @@ public sealed class SentrySystem : EntitySystem
         SubscribeLocalEvent<SentryComponent, SentryDisassembleDoAfterEvent>(OnSentryDisassembleDoAfter);
         SubscribeLocalEvent<SentryComponent, ExaminedEvent>(OnSentryExamined);
         SubscribeLocalEvent<SentryComponent, CombatModeShouldHandInteractEvent>(OnSentryShouldInteract);
+        SubscribeLocalEvent<SentryComponent, BeforeDamageChangedEvent>(OnBeforeDamageChanged);
+        SubscribeLocalEvent<SentryComponent, ZLevelFallMapEvent>(OnSentryFall); // Stories-ZLevels
         SubscribeLocalEvent<SentrySpikesComponent, AttackedEvent>(OnSentrySpikesAttacked);
 
         Subs.BuiEvents<SentryComponent>(SentryUiKey.Key,
@@ -149,36 +153,8 @@ public sealed class SentrySystem : EntitySystem
 
         args.Handled = true;
 
-        var user = args.User;
-        switch (mode)
-        {
-            case SentryMode.Off:
-            {
-                foreach (var defense in _entityLookup.GetEntitiesInRange<SentryComponent>(_transform.GetMapCoordinates(sentry), sentry.Comp.DefenseCheckRange))
-                {
-                    if (sentry != defense && defense.Comp.Mode == SentryMode.On)
-                    {
-                        var ret = Loc.GetString("rmc-sentry-too-close", ("defense", defense));
-                        _popup.PopupClient(ret, sentry, user);
-                        return;
-                    }
-                }
-                mode = SentryMode.On;
-                var msg = Loc.GetString("rmc-sentry-on", ("sentry", sentry));
-                _popup.PopupClient(msg, sentry, user);
-                break;
-            }
-            default:
-            {
-                mode = SentryMode.Off;
-                var msg = Loc.GetString("rmc-sentry-off", ("sentry", sentry));
-                _popup.PopupClient(msg, sentry, user);
-                break;
-            }
-        }
-
-        Dirty(sentry);
-        UpdateState(sentry);
+        var newMode = mode == SentryMode.On ? SentryMode.Off : SentryMode.On;
+        TrySetMode(sentry, newMode, args.User);
     }
 
     private void OnSentryAttemptShoot(Entity<SentryComponent> ent, ref AttemptShootEvent args)
@@ -360,6 +336,15 @@ public sealed class SentrySystem : EntitySystem
         RaiseLocalEvent(newSentry, ref ev);
     }
 
+    private void OnBeforeDamageChanged(Entity<SentryComponent> ent, ref BeforeDamageChangedEvent args)
+    {
+        if (args.Damage.GetTotal() < 0)
+            return;
+
+        if (ent.Comp.Mode == SentryMode.Item)
+            args.Cancelled = true;
+    }
+
     private void UpdateState(Entity<SentryComponent> sentry)
     {
         var fixture = sentry.Comp.DeployFixture is { } fixtureId && TryComp(sentry, out FixturesComponent? fixtures)
@@ -395,6 +380,17 @@ public sealed class SentrySystem : EntitySystem
         }
     }
 
+    // Stories-ZLevels-Start
+    private void OnSentryFall(Entity<SentryComponent> sentry, ref ZLevelFallMapEvent args)
+    {
+        sentry.Comp.Mode = SentryMode.Off;
+        RemCompDeferred<MaxRotationComponent>(sentry);
+        _transform.Unanchor(sentry.Owner, Transform(sentry));
+        UpdateState(sentry);
+        Dirty(sentry);
+    }
+
+    // Stories-ZLevels-End
     private bool CanDeployPopup(
         Entity<SentryComponent> sentry,
         EntityUid user,
@@ -404,6 +400,12 @@ public sealed class SentrySystem : EntitySystem
         coordinates = default;
         rotation = default;
 
+        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        {
+            _popup.PopupClient(Loc.GetString("emplacement-mount-deploy-vehicle"), user, user, PopupType.SmallCaution);
+            return false;
+        }
+
         var moverCoordinates = _transform.GetMoverCoordinateRotation(user, Transform(user));
         coordinates = moverCoordinates.Coords;
         rotation = moverCoordinates.worldRot.GetCardinalDir().ToAngle();
@@ -411,6 +413,17 @@ public sealed class SentrySystem : EntitySystem
         var direction = rotation.GetCardinalDir();
         coordinates = coordinates.Offset(direction.ToVec());
         if (!_rmcMap.CanBuildOn(coordinates))
+        // Stories-ZLevels-Start
+        {
+            var msg = Loc.GetString("rmc-sentry-need-open-area", ("sentry", sentry));
+            _popup.PopupClient(msg, user, user, PopupType.SmallCaution);
+            return false;
+        }
+
+        var mapCoords = _transform.ToMapCoordinates(coordinates);
+        var worldPos = mapCoords.Position;
+        if (Transform(user).MapUid is { } mapUid && _zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
+        // Stories-ZLevels-End
         {
             var msg = Loc.GetString("rmc-sentry-need-open-area", ("sentry", sentry));
             _popup.PopupClient(msg, user, user, PopupType.SmallCaution);
@@ -522,10 +535,43 @@ public sealed class SentrySystem : EntitySystem
         }
     }
 
-    public bool TrySetMode(Entity<SentryComponent> sentry, SentryMode mode)
+    public bool TrySetMode(Entity<SentryComponent> sentry, SentryMode mode, EntityUid? user = null, bool remote = false)
     {
         if (sentry.Comp.Mode == mode)
             return false;
+
+        switch (mode)
+        {
+            case SentryMode.On:
+            {
+                foreach (var defense in _entityLookup.GetEntitiesInRange<SentryComponent>(_transform.GetMapCoordinates(sentry), sentry.Comp.DefenseCheckRange))
+                {
+                    if (sentry != defense && defense.Comp.Mode == SentryMode.On)
+                    {
+                        var ret = Loc.GetString("rmc-sentry-too-close", ("defense", defense));
+                        if (remote && user != null)
+                            _popup.PopupCursor(ret, user.Value, PopupType.SmallCaution);
+                        else
+                        {
+                            _popup.PopupClient(ret, sentry, user);
+                        }
+                        return false;
+                    }
+                }
+
+                mode = SentryMode.On;
+                var msg = Loc.GetString("rmc-sentry-on", ("sentry", sentry));
+                _popup.PopupClient(msg, sentry, user);
+                break;
+            }
+            default:
+            {
+                mode = SentryMode.Off;
+                var msg = Loc.GetString("rmc-sentry-off", ("sentry", sentry));
+                _popup.PopupClient(msg, sentry, user);
+                break;
+            }
+        }
 
         sentry.Comp.Mode = mode;
         UpdateState(sentry);

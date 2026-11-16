@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared.Mobs;
@@ -27,10 +27,12 @@ public enum OverwatchConsoleUI
 [Serializable, NetSerializable]
 public sealed class OverwatchConsoleBuiState(
     List<OverwatchSquad> squads,
-    Dictionary<NetEntity, List<OverwatchMarine>> marines) : BoundUserInterfaceState
+    Dictionary<NetEntity, List<OverwatchMarine>> marines,
+    Dictionary<NetEntity, List<OverwatchTripodCamera>> cameras) : BoundUserInterfaceState
 {
     public readonly List<OverwatchSquad> Squads = squads;
     public readonly Dictionary<NetEntity, List<OverwatchMarine>> Marines = marines;
+    public readonly Dictionary<NetEntity, List<OverwatchTripodCamera>> Cameras = cameras;
 }
 
 [Serializable, NetSerializable]
@@ -105,14 +107,18 @@ public sealed class OverwatchConsoleSupplyDropLatitudeBuiMsg(int latitude) : Bou
 public sealed class OverwatchConsoleSupplyDropLaunchBuiMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
-public sealed class OverwatchConsoleSupplyDropSaveBuiMsg(int longitude, int latitude) : BoundUserInterfaceMessage
+// Stories-ZLevels-Start
+public sealed class OverwatchConsoleSupplyDropSaveBuiMsg(int longitude, int latitude, int z = 0)
+    : BoundUserInterfaceMessage
+// Stories-ZLevels-End
 {
     public readonly int Longitude = longitude;
     public readonly int Latitude = latitude;
+    public readonly int Z = z; // Stories-ZLevels
 }
 
 [Serializable, NetSerializable]
-public sealed class OverwatchConsoleLocationCommentBuiMsg(int index, string comment) : BoundUserInterfaceMessage
+public sealed class OverwatchConsoleSupplyDropCommentBuiMsg(int index, string comment) : BoundUserInterfaceMessage
 {
     public readonly int Index = index;
     public readonly string Comment = comment;
@@ -134,10 +140,14 @@ public sealed class OverwatchConsoleOrbitalLatitudeBuiMsg(int latitude) : BoundU
 public sealed class OverwatchConsoleOrbitalLaunchBuiMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
-public sealed class OverwatchConsoleOrbitalSaveBuiMsg(int longitude, int latitude) : BoundUserInterfaceMessage
+// Stories-ZLevels-Start
+public sealed class OverwatchConsoleOrbitalSaveBuiMsg(int longitude, int latitude, int z = 0)
+    : BoundUserInterfaceMessage
+// Stories-ZLevels-End
 {
     public readonly int Longitude = longitude;
     public readonly int Latitude = latitude;
+    public readonly int Z = z; // Stories-ZLevels
 }
 
 [Serializable, NetSerializable]
@@ -149,6 +159,18 @@ public sealed class OverwatchConsoleOrbitalCommentBuiMsg(int index, string comme
 
 [Serializable, NetSerializable]
 public sealed class OverwatchConsoleSendMessageBuiMsg(string message) : BoundUserInterfaceMessage
+{
+    public readonly string Message = message;
+}
+
+[Serializable, NetSerializable]
+public sealed class OverwatchConsoleSendMessageResultBuiMsg(bool sent) : BoundUserInterfaceMessage
+{
+    public readonly bool Sent = sent;
+}
+
+[Serializable, NetSerializable]
+public sealed class OverwatchConsoleSendLeaderMessageBuiMsg(string message) : BoundUserInterfaceMessage
 {
     public readonly string Message = message;
 }
@@ -186,4 +208,12 @@ public readonly record struct OverwatchMarine(
     Vector2? LeaderDistance,
     ProtoId<RankPrototype>? Rank,
     LocId? RoleOverride
+);
+
+[Serializable, NetSerializable]
+public readonly record struct OverwatchTripodCamera(
+    NetEntity Id,
+    string Name,
+    string AreaName,
+    OverwatchLocation Location
 );

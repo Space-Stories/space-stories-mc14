@@ -1,0 +1,14 @@
+ent-STProjectileDespoilerAcidShot = кислотный выстрел
+    .desc = { ent-BaseBullet.desc }
+ent-STEffectDespoilerLingeringAcid = кислотная лужа
+    .desc = Бурлящая лужа едкой кислоты.
+ent-STEffectDespoilerAcidSpray = кислотный спрей
+    .desc = Шипящий выброс кислоты.
+ent-STEffectDespoilerAcidSprayEmpowered = { ent-STEffectDespoilerAcidSpray }
+    .desc = { ent-STEffectDespoilerAcidSpray.desc }
+ent-STEffectDespoilerCausticTelegraph = { ent-RMCEffectXenoTelegraphGreen }
+    .desc = { ent-RMCEffectXenoTelegraphGreen.desc }
+ent-STEffectDespoilerOozingTelegraph = { ent-RMCEffectXenoTelegraphGreen }
+    .desc = { ent-RMCEffectXenoTelegraphGreen.desc }
+ent-STEffectDespoilerCatalyze = выброс гипертензии
+    .desc = { "" }

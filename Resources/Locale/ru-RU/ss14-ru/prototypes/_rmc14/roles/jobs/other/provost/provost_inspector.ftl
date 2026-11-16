@@ -1,6 +1,3 @@
-ent-RMCSpawnPointProvostInspector = Provost Inspector spawn point
-    .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = { ent-CMSpawnPointJobBase.suffix }
 ent-RMCSpawnerProvostInspector = спавнер провост инспектор
     .suffix = Спавнер, Игрок, Среднее понимание законов
     .desc = { ent-MarkerBase.desc }

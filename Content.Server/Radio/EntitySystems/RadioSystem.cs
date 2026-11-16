@@ -3,11 +3,13 @@ using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.Power.Components;
 using Content.Server.Radio.Components;
+using Content.Server._RMC14.Language.Systems;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Language.Prototypes;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Squads;
-using Content.Shared._RMC14.Tracker.SquadLeader;
 using Content.Shared._RMC14.Radio;
+using Content.Shared._RMC14.Tracker.SquadLeader;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Chat;
 using Content.Shared.Database;
@@ -44,12 +46,17 @@ public sealed class RadioSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!; 
     [Dependency] private readonly IChatManager _chatManager = default!;
-    [Dependency] private readonly TTSSystem _tts = default!; 
     [Dependency] private readonly TtsAudioProcessingSystem _ttsProcessing = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    // Stories-TTS-Start
+    [Dependency] private readonly TTSSystem _tts = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    // Stories-TTS-End
+    // RMC14
+    [Dependency] private readonly LanguageSystem _language = default!;
+    // RMC14
 
     private readonly HashSet<string> _messages = new();
     private EntityQuery<TelecomExemptComponent> _exemptQuery;
@@ -73,26 +80,24 @@ public sealed class RadioSystem : EntitySystem
         _exemptQuery = GetEntityQuery<TelecomExemptComponent>();
     }
 
-    private void OnIntrinsicSpeak(EntityUid uid, IntrinsicRadioTransmitterComponent component, EntitySpokeEvent args)
+    // RMC14
+    private void OnIntrinsicSpeak(Entity<IntrinsicRadioTransmitterComponent> ent, ref EntitySpokeEvent args)
     {
-        if (args.Channel != null && component.Channels.Contains(args.Channel.ID))
+        if (args.Channel != null && ent.Comp.Channels.Contains(args.Channel.ID))
         {
-            SendRadioMessage(uid, args.Message, args.Channel, uid);
-            args.Channel = null;
+            SendRadioMessage(ent.Owner, args.Message, args.Channel, ent.Owner, args.Language);
+            args.Channel = null; // prevent duplicate messages from other listeners.
         }
     }
+    // RMC14
 
-    private void OnIntrinsicReceive(EntityUid uid, IntrinsicRadioReceiverComponent component, ref RadioReceiveEvent args)
+    // RMC14
+    private void OnIntrinsicReceive(Entity<IntrinsicRadioReceiverComponent> ent, ref RadioReceiveEvent args)
     {
-        if (!TryComp(uid, out ActorComponent? actor))
-            return;
-
-        var playerSession = actor.PlayerSession;
-        if (playerSession.Status != SessionStatus.InGame)
-            return;
-
-        _netMan.ServerSendMessage(args.ChatMsg, playerSession.Channel);
+        if (TryComp(ent.Owner, out ActorComponent? actor))
+            _netMan.ServerSendMessage(args.ChatMsg, actor.PlayerSession.Channel);
     }
+    // RMC14
 
     private async void ProcessAndSendRadioTts(EntityUid messageSource, string message, RadioChannelPrototype channel, IEnumerable<ICommonSession> recipients)
     {
@@ -107,11 +112,28 @@ public sealed class RadioSystem : EntitySystem
 
         var processedSoundData = await _ttsProcessing.ProcessRadioAudio(messageSource, soundData);
 
-        var ttsEvent = new PlayTTSEvent(processedSoundData, sourceUid: null, isWhisper: false, originalSourceUid: GetNetEntity(messageSource));
+        var ttsEvent = new PlayTTSEvent(processedSoundData, message, sourceUid: null, isWhisper: false, originalSourceUid: GetNetEntity(messageSource), isRadio: true, radioChannel: channel.ID); // Stories-TTS
 
         var filter = Filter.Empty().AddPlayers(recipients.ToList());
         RaiseNetworkEvent(ttsEvent, filter);
     }
+    // RMC14
+
+    /// <summary>
+    /// Send radio message to all active radio listeners
+    /// </summary>
+    // RMC14
+    public void SendRadioMessage(
+        EntityUid messageSource,
+        string message,
+        ProtoId<RadioChannelPrototype> channel,
+        EntityUid radioSource,
+        ProtoId<LanguagePrototype>? language = null,
+        bool escapeMarkup = true)
+    {
+        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, language, escapeMarkup);
+    }
+    // RMC14
 
     private string GetVoiceId(EntityUid sourceUid)
     {
@@ -123,203 +145,261 @@ public sealed class RadioSystem : EntitySystem
         return "father_grigori";
     }
 
-    public void SendRadioMessage(EntityUid messageSource, string message, ProtoId<RadioChannelPrototype> channel, EntityUid radioSource, bool escapeMarkup = true)
-    {
-        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup);
-    }
-
-    public void SendRadioMessage(EntityUid messageSource, string message, RadioChannelPrototype channel, EntityUid radioSource, bool escapeMarkup = true)
+    /// <summary>
+    /// Send radio message to all active radio listeners
+    /// </summary>
+    /// <param name="messageSource">Entity that spoke the message</param>
+    /// <param name="radioSource">Entity that picked up the message and will send it, e.g. headset</param>
+    // RMC14
+    public void SendRadioMessage(
+        EntityUid messageSource,
+        string message,
+        RadioChannelPrototype channel,
+        EntityUid radioSource,
+        ProtoId<LanguagePrototype>? language = null,
+        bool escapeMarkup = true)
     {
         if (!_messages.Add(message))
             return;
 
-        var evt = new TransformSpeakerNameEvent(messageSource, MetaData(messageSource).EntityName);
-        RaiseLocalEvent(messageSource, evt);
-
-        var name = evt.VoiceName;
-        name = FormattedMessage.EscapeText(name);
-
-        if (TryComp(messageSource, out JobPrefixComponent? prefix))
+        try
         {
-            var prefixText = (prefix.AdditionalPrefix != null ? $"{Loc.GetString(prefix.AdditionalPrefix.Value)} " : "") + Loc.GetString(prefix.Prefix);
-            if (TryComp(messageSource, out SquadMemberComponent? member) &&
-                TryComp(member.Squad, out SquadTeamComponent? team) &&
-                team.Radio != null &&
-                team.Radio != channel.ID)
+            // RMC14
+            var currentLanguage = language ?? _language.GetCurrentLanguage(messageSource);
+            _prototype.TryIndex(currentLanguage, out LanguagePrototype? languagePrototype);
+
+            if (languagePrototype != null && !languagePrototype.CanUseRadio)
+                return;
+
+            var showLanguageName = languagePrototype?.ShowLanguageName ?? false;
+            var languageIcon = showLanguageName ? languagePrototype?.DisplayedLanguageIcon : null;
+            // RMC14
+
+            var evt = new TransformSpeakerNameEvent(messageSource, MetaData(messageSource).EntityName);
+            RaiseLocalEvent(messageSource, evt);
+
+            var name = evt.VoiceName;
+
+            if (TryComp(messageSource, out JobPrefixComponent? prefix))
             {
-                name = $"({Name(member.Squad.Value)} {prefixText}) {name}";
+                var prefixText = (prefix.AdditionalPrefix != null ? $"{Loc.GetString(prefix.AdditionalPrefix.Value)} " : "") + Loc.GetString(prefix.Prefix);
+                if (TryComp(messageSource, out SquadMemberComponent? member) &&
+                    TryComp(member.Squad, out SquadTeamComponent? team) &&
+                    team.Radio != null &&
+                    team.Radio != channel.ID)
+                {
+                    name = $"({Name(member.Squad.Value)} {prefixText}) {name}";
+                }
+                else
+                {
+                    if (TryComp(messageSource, out FireteamMemberComponent? fireteamMember) && fireteamMember.Fireteam >= 0)
+                    {
+                        prefixText += $" FT{fireteamMember.Fireteam + 1}" + (TryComp(messageSource, out FireteamLeaderComponent? fireteamLeader) ? " TL" : "");
+                    }
+                    name = $"({prefixText}) {name}";
+                }
             }
+            else if (TryComp(messageSource, out RMCRadioPrefixComponent? radioPrefix))
+            {
+                var prefixText = Loc.GetString(radioPrefix.Prefix);
+                name = $"{prefixText} {name}";
+            }
+
+            // RMC14
+            SpeechVerbPrototype speech;
+            // RMC14
+            if (evt.SpeechVerb != null && _prototype.TryIndex(evt.SpeechVerb, out var evntProto))
+                speech = evntProto;
             else
+                speech = _chat.GetSpeechVerb(messageSource, message);
+
+            var content = escapeMarkup
+                ? FormattedMessage.EscapeText(message)
+                : message;
+
+            // RMC14
+            var radioFontSize = speech.FontSize;
+            var radioFontId = languagePrototype?.TypefaceId ?? speech.FontId;
+            // RMC14
+            if (TryComp<WearingHeadsetComponent>(messageSource, out var wearingHeadset) &&
+                TryComp<RMCHeadsetComponent>(wearingHeadset.Headset, out var headsetComp))
             {
-                if (TryComp(messageSource, out FireteamMemberComponent? fireteamMember) && fireteamMember.Fireteam >= 0)
+                radioFontSize += headsetComp.RadioTextIncrease ?? 0;
+            }
+            else if (TryComp<RMCInnateRadioTextIncreaseComponent>(messageSource, out var innateRadioIncrease))
+            {
+                radioFontSize += innateRadioIncrease.RadioTextIncrease;
+            }
+
+            var wrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold" : "chat-radio-message-wrap",
+                ("color", channel.Color),
+                // RMC14
+                ("fontType", radioFontId),
+                ("fontSize", radioFontSize),
+                // RMC14
+                ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
+                ("channel", $"\\[{channel.LocalizedName}\\]"),
+                ("name", FormattedMessage.EscapeText(name)),
+                ("message", content));
+
+            var sendAttemptEv = new RadioSendAttemptEvent(channel, radioSource);
+            RaiseLocalEvent(ref sendAttemptEv);
+            RaiseLocalEvent(radioSource, ref sendAttemptEv);
+            var canSend = !sendAttemptEv.Cancelled;
+
+            var sourceMapId = Transform(radioSource).MapID;
+            var hasActiveServer = HasActiveServer(sourceMapId, channel.ID);
+            var sourceServerExempt = _exemptQuery.HasComp(radioSource);
+
+            var ttsRecipients = new HashSet<ICommonSession>();
+            var speakerRelays = new List<EntityUid>();
+            var radioQuery = EntityQueryEnumerator<ActiveRadioComponent, TransformComponent>();
+            while (canSend && radioQuery.MoveNext(out var receiver, out var radio, out var transform))
+            {
+                if (!radio.ReceiveAllChannels)
                 {
-                    prefixText += $" FT{fireteamMember.Fireteam + 1}" + (TryComp(messageSource, out FireteamLeaderComponent? fireteamLeader) ? " TL" : "");
-                }
-                name = $"({prefixText}) {name}";
-            }
-        }
-        else if (TryComp(messageSource, out RMCRadioPrefixComponent? radioPrefix))
-        {
-            var prefixText = Loc.GetString(radioPrefix.Prefix);
-            name = $"{prefixText} {name}";
-        }
-
-        SpeechVerbPrototype speech;
-        if (evt.SpeechVerb != null && _prototype.TryIndex(evt.SpeechVerb, out var evntProto))
-            speech = evntProto;
-        else
-            speech = _chat.GetSpeechVerb(messageSource, message);
-
-        var content = escapeMarkup
-            ? FormattedMessage.EscapeText(message)
-            : message;
-
-        var radioFontSize = speech.FontSize;
-        if (TryComp<WearingHeadsetComponent>(messageSource, out var wearingHeadset) &&
-            TryComp<RMCHeadsetComponent>(wearingHeadset.Headset, out var headsetComp))
-        {
-            radioFontSize += headsetComp.RadioTextIncrease ?? 0;
-        }
-        else if (TryComp<RMCInnateRadioTextIncreaseComponent>(messageSource, out var innateRadioIncrease))
-        {
-            radioFontSize += innateRadioIncrease.RadioTextIncrease;
-        }
-
-        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold" : "chat-radio-message-wrap",
-            ("color", channel.Color),
-            ("fontType", speech.FontId),
-            ("fontSize", radioFontSize), 
-            ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
-            ("channel", $"\\[{channel.LocalizedName}\\]"),
-            ("name", name),
-            ("message", content));
-
-        var chat = new ChatMessage(
-            ChatChannel.Radio,
-            message,
-            wrappedMessage,
-            GetNetEntity(messageSource),
-            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key,
-            repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));
-        var chatMsg = new MsgChatMessage { Message = chat };
-        var ev = new RadioReceiveEvent(message, messageSource, channel, radioSource, chatMsg);
-
-        var sendAttemptEv = new RadioSendAttemptEvent(channel, radioSource);
-        RaiseLocalEvent(ref sendAttemptEv);
-        RaiseLocalEvent(radioSource, ref sendAttemptEv);
-        var canSend = !sendAttemptEv.Cancelled;
-
-        var sourceMapId = Transform(radioSource).MapID;
-        var hasActiveServer = HasActiveServer(sourceMapId, channel.ID);
-        var sourceServerExempt = _exemptQuery.HasComp(radioSource);
-
-        var recipientUids = new List<EntityUid>();
-        
-        // Stories-Fix: Используем HashSet для отслеживания отправленных клиентов, чтобы избежать дублей (призрак + обычный)
-        var sentClients = new HashSet<INetChannel>();
-
-        var radioQuery = EntityQueryEnumerator<ActiveRadioComponent, TransformComponent>();
-        while (canSend && radioQuery.MoveNext(out var receiver, out var radio, out var transform))
-        {
-            if (!radio.ReceiveAllChannels)
-            {
-                if (!radio.Channels.Contains(channel.ID) || (TryComp<IntercomComponent>(receiver, out var intercom) &&
-                                                             !intercom.SupportedChannels.Contains(channel.ID)))
-                    continue;
-            }
-
-            if (!channel.LongRange && transform.MapID != sourceMapId && !radio.GlobalReceive)
-                continue;
-
-            var needServer = !channel.LongRange && !sourceServerExempt;
-            if (needServer && !hasActiveServer)
-                continue;
-
-            var attemptEv = new RadioReceiveAttemptEvent(channel, radioSource, receiver);
-            RaiseLocalEvent(ref attemptEv);
-            RaiseLocalEvent(receiver, ref attemptEv);
-            if (attemptEv.Cancelled)
-                continue;
-
-            RaiseLocalEvent(receiver, ref ev);
-            recipientUids.Add(receiver);
-
-            // Регистрируем клиента получателя
-            if (transform.ParentUid.IsValid() && TryComp<ActorComponent>(transform.ParentUid, out var actor))
-            {
-                sentClients.Add(actor.PlayerSession.Channel);
-            }
-            else if (TryComp<ActorComponent>(receiver, out var directActor)) // На случай встроенного радио у игрока
-            {
-                sentClients.Add(directActor.PlayerSession.Channel);
-            }
-        }
-
-        // Stories-Fix: Отдельный список для призраков для TTS, чтобы не смешивать с EntityUid получателей
-        var ghostSessions = new List<ICommonSession>();
-
-        // Stories-Fix: Рассылка призракам
-        if (canSend)
-        {
-            foreach (var session in _playerManager.Sessions)
-            {
-                if (session.AttachedEntity is not { } ent) continue;
-                
-                // Если это призрак и он еще не получил сообщение (например, через вселение в тело с радио)
-                if (HasComp<GhostComponent>(ent))
-                {
-                    if (sentClients.Contains(session.Channel)) 
+                    if (!radio.Channels.Contains(channel.ID) || (TryComp<IntercomComponent>(receiver, out var intercom) &&
+                                                                 !intercom.SupportedChannels.Contains(channel.ID)))
                         continue;
-
-                    _netMan.ServerSendMessage(chatMsg, session.Channel);
-                    sentClients.Add(session.Channel);
-                    ghostSessions.Add(session);
                 }
-            }
-        }
 
-        if (canSend && (recipientUids.Count > 0 || ghostSessions.Count > 0))
-        {
-            var sessions = new List<ICommonSession>();
-            
-            // Добавляем обычных получателей
-            var actorQuery = GetEntityQuery<ActorComponent>();
-            foreach (var uid in recipientUids)
-            {
-                var parent = Transform(uid).ParentUid;
-                var target = actorQuery.HasComponent(uid) ? uid : (actorQuery.HasComponent(parent) ? parent : (EntityUid?) null);
+                if (!channel.LongRange && transform.MapID != sourceMapId && !radio.GlobalReceive)
+                    continue;
 
-                if (target.HasValue && actorQuery.TryGetComponent(target.Value, out var actor))
+                // don't need telecom server for long range channels or handheld radios and intercoms
+                var needServer = !channel.LongRange && !sourceServerExempt;
+                if (needServer && !hasActiveServer)
+                    continue;
+
+                // check if message can be sent to specific receiver
+                var attemptEv = new RadioReceiveAttemptEvent(channel, radioSource, receiver);
+                RaiseLocalEvent(ref attemptEv);
+                RaiseLocalEvent(receiver, ref attemptEv);
+                if (attemptEv.Cancelled)
+                    continue;
+
+                // send the message
+                // RMC14
+                var actualMessage = message;
+                var actualWrappedMessage = wrappedMessage;
+                string? actualLanguageIcon = languageIcon;
+
+                var listenerEntity = ResolveRadioListener(receiver);
+
+                if (listenerEntity.HasValue && !_language.CanUnderstand(listenerEntity.Value, currentLanguage))
                 {
-                    if (actor.PlayerSession.Status == SessionStatus.InGame)
-                        sessions.Add(actor.PlayerSession);
+                    var obfuscatedMessage = _language.ObfuscateMessageForListener(listenerEntity.Value, message, currentLanguage);
+                    actualMessage = obfuscatedMessage;
+
+                    var actualName = _chat.GetSpeakerNameForListener(messageSource, listenerEntity, name);
+                    actualWrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold" : "chat-radio-message-wrap",
+                        ("color", channel.Color),
+                        ("fontType", radioFontId),
+                        ("fontSize", radioFontSize),
+                        ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
+                        ("channel", $"\\[{channel.LocalizedName}\\]"),
+                        ("name", FormattedMessage.EscapeText(actualName)),
+                        ("message", escapeMarkup ? FormattedMessage.EscapeText(obfuscatedMessage) : obfuscatedMessage));
+                }
+                else if (listenerEntity.HasValue)
+                {
+                    var actualName = _chat.GetSpeakerNameForListener(messageSource, listenerEntity, name);
+                    actualWrappedMessage = Loc.GetString(speech.Bold ? "chat-radio-message-wrap-bold" : "chat-radio-message-wrap",
+                        ("color", channel.Color),
+                        ("fontType", radioFontId),
+                        ("fontSize", radioFontSize),
+                        ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
+                        ("channel", $"\\[{channel.LocalizedName}\\]"),
+                        ("name", FormattedMessage.EscapeText(actualName)),
+                        ("message", escapeMarkup ? FormattedMessage.EscapeText(actualMessage) : actualMessage));
+                }
+
+                var chat = new ChatMessage(
+                    ChatChannel.Radio,
+                    actualMessage,
+                    actualWrappedMessage,
+                    GetNetEntity(messageSource),
+                    _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key,
+                    languageIcon: actualLanguageIcon,
+                    repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));
+
+                var chatMsg = new MsgChatMessage { Message = chat };
+                var ev = new RadioReceiveEvent(actualMessage, messageSource, channel, radioSource, chatMsg, currentLanguage)
+                {
+                    SpeakerRelays = speakerRelays,
+                };
+                // RMC14
+                RaiseLocalEvent(receiver, ref ev);
+
+                var target = receiver;
+                if (!HasComp<ActorComponent>(target))
+                {
+                    var parent = Transform(receiver).ParentUid;
+                    if (HasComp<ActorComponent>(parent))
+                        target = parent;
+                }
+
+                if (TryComp<ActorComponent>(target, out var actor) && actor.PlayerSession.Status == SessionStatus.InGame)
+                {
+                    ttsRecipients.Add(actor.PlayerSession);
                 }
             }
 
-            // Добавляем призраков для TTS
-            sessions.AddRange(ghostSessions);
-
-            if (sessions.Count > 0)
+            if (speakerRelays.Count > 0)
             {
-                ProcessAndSendRadioTts(messageSource, message, channel, sessions);
+                _chat.SendRadioSpeakersWhisperWithLanguage(
+                    speakerRelays, message, currentLanguage, evt.VoiceName, messageSource);
             }
-        }
 
-        if (canSend && _cfg.GetCVar(SCCVars.TTSEnabled) &&
-            !HasComp<XenoComponent>(messageSource) &&
-            HasComp<RMCHeadsetComponent>(radioSource))
+            if (canSend && ttsRecipients.Count > 0)
+            {
+                ProcessAndSendRadioTts(messageSource, message, channel, ttsRecipients);
+            }
+
+            if (canSend &&
+                !HasComp<XenoComponent>(messageSource) &&
+                HasComp<RMCHeadsetComponent>(radioSource))
+            {
+                var filter = Filter.Pvs(messageSource).RemoveWhereAttachedEntity(HasComp<XenoComponent>);
+                _audio.PlayEntity(_radioSound, filter, messageSource, false); // RMC14
+            }
+
+            if (name != Name(messageSource))
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Radio message from {ToPrettyString(messageSource):user} as {name} on {channel.LocalizedName} in {currentLanguage}: {message}");
+            else
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Radio message from {ToPrettyString(messageSource):user} on {channel.LocalizedName} in {currentLanguage}: {message}");
+
+            var replayChat = new ChatMessage(
+                ChatChannel.Radio,
+                message,
+                wrappedMessage,
+                GetNetEntity(messageSource),
+                _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key,
+                languageIcon: languageIcon,
+                repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));
+            _replay.RecordServerMessage(replayChat);
+        }
+        finally
         {
-            var filter = Filter.Pvs(messageSource).RemoveWhereAttachedEntity(HasComp<XenoComponent>);
-            _audio.PlayEntity(_radioSound, filter, messageSource, false);
+            _messages.Remove(message);
+        }
+    }
+    // RMC14
+
+    private EntityUid? ResolveRadioListener(EntityUid receiver)
+    {
+        if (HasComp<IntrinsicRadioReceiverComponent>(receiver))
+            return receiver;
+
+        var wearer = Transform(receiver).ParentUid;
+        if (wearer.IsValid() &&
+            TryComp<WearingHeadsetComponent>(wearer, out var wearing) &&
+            wearing.Headset == receiver)
+        {
+            return wearer;
         }
 
-        if (name != Name(messageSource))
-            _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Radio message from {ToPrettyString(messageSource):user} as {name} on {channel.LocalizedName}: {message}");
-        else
-            _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Radio message from {ToPrettyString(messageSource):user} on {channel.LocalizedName}: {message}");
-
-        _replay.RecordServerMessage(chat);
-        _messages.Remove(message);
+        return null;
     }
 
     private bool HasActiveServer(MapId mapId, string channelId)

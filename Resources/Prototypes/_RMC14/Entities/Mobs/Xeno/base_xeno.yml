@@ -46,11 +46,21 @@
     simple: true
     deadText: rmc-medical-examine-dead-xeno
   - type: RMCBlockMedicalExamine
+  - type: BlackMarketValue
+    deadValue: 50
+    killsMendozaWhenSoldAlive: true
   - type: MobState
     allowedStates:
     - Alive
     - Critical
     - Dead
+  - type: Language
+    spokenLanguages:
+    - Xeno
+    understoodLanguages:
+    - Xeno
+    currentLanguage: Xeno
+    defaultLanguage: Xeno
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -75,6 +85,7 @@
       params:
         volume: -4
   - type: RMCHealthExaminable
+    speciesType: Xeno
   - type: AcidBloodSplash
     closeSplashRadius: 0.5
     standardSplashRadius: 1.5
@@ -92,6 +103,31 @@
   - type: Insulated
   - type: Input
     context: "xenonid"
+  - type: RMCKeybindActions
+    actions:
+      XenoCorrosiveAcid:
+      - ActionXenoAcidWeak
+      - ActionXenoAcidNormal
+      - ActionXenoAcidStrong
+      - ActionXenoAcidAcider
+      XenoPheromones:
+      - ActionXenoPheromones
+      XenoScreech:
+      - ActionXenoScreech
+      XenoWordQueen:
+      - ActionXenoWordQueen
+      XenoTailStab:
+      - ActionXenoTailStab
+      - ActionXenoTailStabCorrosive
+      - ActionXenoTailStabBoiler
+      - ActionXenoTailSlam
+      - ActionXenoTailFountain
+      - ActionXenoTailStabLance
+      - ActionXenoTailSeize
+      XenoHide:
+      - ActionXenoHide
+      XenoEvolve:
+      - ActionXenoEvolve
   - type: Clickable
   - type: InteractionOutline
   - type: InputMover
@@ -199,6 +235,10 @@
         type: XenoFruitChooseBui
       enum.XenoWordQueenUI.Key:
         type: XenoWordQueenBui
+      enum.HiveTeamUIKey.Key:
+        type: HiveTeamBui
+      enum.HiveLeaderSquadUIKey.Key:
+        type: HiveLeaderSquadBui
       enum.TacticalMapUserUi.Key:
         type: TacticalMapUserBui
       enum.XenoReserveParasiteChangeUI.Key:
@@ -228,15 +268,6 @@
   - type: ParalyzeOnPullAttemptImmune
   - type: InfectOnPullAttemptImmune
   - type: GhostTakeoverAvailable
-  - type: GhostRole
-    makeSentient: true
-    allowSpeech: true
-    allowMovement: true
-    name: cm-xeno-name
-    description: cm-xeno-description
-    raffle:
-      settings: short
-    rules: cm-xeno-rules
   - type: StatusEffects
     allowed:
     - Stun
@@ -299,6 +330,7 @@
   - type: NpcFactionMember
     factions:
     - RMCXeno
+  - type: STXenoMaskKnockoff # Stories-MaskKnockoff
   - type: RMCNightVisionVisible
   - type: CrashLandable
   - type: UserBlacklistActivatableUI
@@ -374,15 +406,18 @@
   - type: EmoteCooldown
   - type: TTS # Stories-TTS
     voice: clinkz_dota_2
+  - type: ZPhysics # Stories-ZLevels
   - type: IgnoreInteractionRange
     whitelist:
       components:
       - Corrodible
       - DeletedByWeedKiller
       - Xeno
+      - XenoConstructionPlasmaCost
     range: 1.5
   - type: RMCMesonsNonviewable
     xenoVisible: true
+  - type: CanBeLarvaQueued
 
 - type: entity
   abstract: true

@@ -106,7 +106,7 @@
 
 - type: loadout
   id: ZippoExecRMC
-  cost: 3
+  cost: 2 #Stories-ZippoExecCostRework
   storage:
     back:
     - RMCZippoExec

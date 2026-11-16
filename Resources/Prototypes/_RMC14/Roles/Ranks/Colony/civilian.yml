@@ -1,4 +1,4 @@
-﻿- type: rank
+- type: rank
   id: RMCRankCivilian
   name: Гражданский
   prefix: Гражд.
@@ -17,13 +17,13 @@
 
 - type: rank
   id: RMCRankCivilianAssistantProfessor
-  name: Assistant Professor
-  prefix: Asst. Prof.
+  name: Ассистент профессора
+  prefix: Асс. проф.
 
 - type: rank
   id: RMCRankCivilianAssociateProfessor
-  name: Associate Professor
-  prefix: Assoc. Prof.
+  name: Доцент
+  prefix: Доц.
 
 - type: rank
   id: RMCRankCivilianProfessor
@@ -32,8 +32,8 @@
 
 - type: rank
   id: RMCRankCivilianRegentsProfessor
-  name: Regents Professor
-  prefix: Regents Prof.
+  name: Почетный профессор
+  prefix: Почет. проф.
 
 - type: rank
   id: RMCRankCivilianRepresentative

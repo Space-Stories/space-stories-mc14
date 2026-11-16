@@ -11,8 +11,7 @@
       state: punch
     useDelay: 4
   - type: TargetAction
-    range: 2
-    deselectOnMiss: false
+    range: 1.5
   - type: EntityTargetAction
     event: !type:BoxerPunchActionEvent
   - type: ActionBlockIfResting
@@ -21,7 +20,7 @@
   parent: ActionXenoBase
   id: STActionXenoBoxerJab
   name: Jab
-  description: Jab is a ranged ability that applies a daze and slow to the target you hit, as well as building your KO Counter and has a 3-tile range. Cooldown is reset when landing a Punch. Cooldown 4 seconds.
+  description: Jab is a melee ability that applies a daze and slow to the target you hit, as well as building your KO Counter. Cooldown is reset when landing a Punch. Cooldown 4 seconds.
   components:
   - type: Action
     itemIconStyle: NoItem
@@ -30,8 +29,7 @@
       state: charge
     useDelay: 4
   - type: TargetAction
-    range: 3
-    deselectOnMiss: false
+    range: 1.5
   - type: EntityTargetAction
     event: !type:BoxerJabActionEvent
   - type: ActionBlockIfResting
@@ -49,8 +47,76 @@
       state: rav_clothesline
     useDelay: 15
   - type: TargetAction
-    range: 2
+    range: 1.5
     deselectOnMiss: false
   - type: EntityTargetAction
     event: !type:BoxerUppercutActionEvent
+  - type: ActionBlockIfResting
+
+- type: entity
+  parent: ActionXenoBase
+  id: STActionXenoBulwarkEncasedPlates
+  name: Encased Plates
+  description: STActionXenoBulwarkEncasedPlates
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/xeno_actions.rsi
+      state: encased_plates
+    useDelay: 2
+  - type: InstantAction
+    event: !type:EncasedPlatesActionEvent
+  - type: ActionBlockIfResting
+
+- type: entity
+  parent: ActionXenoBase
+  id: STActionXenoBulwarkPlateBash
+  name: Plate Bash
+  description: STActionXenoBulwarkPlateBash
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/xeno_actions.rsi
+      state: plate_bash
+    useDelay: 8
+  - type: TargetAction
+    range: 3
+    deselectOnMiss: false
+  - type: EntityTargetAction
+    event: !type:PlateBashActionEvent
+  - type: ActionBlockIfResting
+
+- type: entity
+  parent: ActionXenoBase
+  id: STActionXenoBulwarkTailSweep
+  name: Tail Sweep
+  description: STActionXenoBulwarkTailSweep
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/xeno_actions.rsi
+      state: tail_sweep
+    useDelay: 11
+  - type: InstantAction
+    event: !type:BulwarkTailSweepActionEvent
+  - type: ActionBlockIfResting
+  - type: XenoActionPlasma
+    cost: 20
+
+- type: entity
+  parent: ActionXenoBase
+  id: STActionXenoBulwarkReflectiveShield
+  name: Reflective Shield
+  description: STActionXenoBulwarkReflectiveShield
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/xeno_actions.rsi
+      state: reflective_shield
+  - type: InstantAction
+    event: !type:ReflectiveShieldActionEvent
   - type: ActionBlockIfResting

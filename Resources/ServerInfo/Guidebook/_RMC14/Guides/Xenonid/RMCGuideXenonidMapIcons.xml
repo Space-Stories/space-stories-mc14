@@ -17,14 +17,14 @@
     </Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoParasite" Caption=""/>
-      <GuideEntityEmbed Entity="RMCParasiteMapIcon" Caption="Child / Parasite"/>
+      <GuideEntityEmbed Entity="RMCParasiteMapIcon"/>
     </Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoLarva" Caption=""/>
       <GuideEntityEmbed Entity="RMCLarvaMapIcon"/>
     </Box>
   </Box>
-  - Касты Трутней
+  - Касты Дронов
   <Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoDrone" Caption="" Margin="0 40 0 0"/>
@@ -69,7 +69,7 @@
       <GuideEntityEmbed Entity="RMCSpitterMapIcon" Margin="0 32 0 0"/>
     </Box>
     <Box Orientation="Vertical">
-      <GuideEntityEmbed Entity="CMXenoBoiler" Caption=""/>
+      <GuideEntityEmbed Entity="RMCXenoBoiler" Caption=""/>
       <GuideEntityEmbed Entity="RMCBoilerMapIcon"/>
     </Box>
   </Box>

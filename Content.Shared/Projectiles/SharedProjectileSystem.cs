@@ -1,9 +1,12 @@
 using System.Numerics;
+using Content.Shared._RMC14.Emplacements;
 using Content.Shared._RMC14.Projectiles.Penetration;
 using Content.Shared._RMC14.Weapons.Ranged.Prediction;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared._RMC14.Xenonids.Damage;
 using Content.Shared._RMC14.Xenonids.Projectile;
+using Content.Shared._Stories.ZLevels.Core;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Camera;
 using Content.Shared.Damage;
@@ -39,7 +42,9 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private readonly SharedDestructibleSystem _destructible = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    // RMC14
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    // RMC14
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
@@ -47,6 +52,7 @@ public abstract partial class SharedProjectileSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     [Dependency] private readonly SharedGunSystem _guns = default!;
     [Dependency] private readonly SharedCameraRecoilSystem _sharedCameraRecoil = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     public override void Initialize()
     {
@@ -126,7 +132,24 @@ public abstract partial class SharedProjectileSystem : EntitySystem
             RaiseLocalEvent(target, ref popupEv);
         //
 
-        var filter = Filter.Pvs(coordinates, entityMan: EntityManager);
+        // Stories-ZLevels-Start
+        var isCrossZ = false;
+        var shooterEntity = component.Shooter ?? (TryComp(projectile, out PredictedProjectileServerComponent? sp) ? sp.Shooter?.AttachedEntity : null);
+        if (shooterEntity != null && Exists(shooterEntity.Value))
+        {
+            var sMap = Transform(shooterEntity.Value).MapID;
+            var tMap = _transform.GetMapId(coordinates);
+            if (sMap != tMap && sMap != MapId.Nullspace && tMap != MapId.Nullspace && _zLevels.AreInSameNetwork(sMap, tMap))
+            {
+                isCrossZ = true;
+            }
+        }
+
+        var filter = isCrossZ
+            ? StoriesFilter.ZPvs(target, EntityManager)
+            : Filter.Pvs(coordinates, entityMan: EntityManager);
+        // Stories-ZLevels-End
+
         if (_guns.GunPrediction)
         {
             // TODO RMC14 clean this up once gun prediction is using new lag compensation
@@ -412,23 +435,34 @@ public abstract partial class SharedProjectileSystem : EntitySystem
             return;
         }
 
-        if (component.Weapon == null)
-            return;
-
-        if (!HasComp<GunIgnoreContainerOwnerCollisionComponent>(component.Weapon.Value))
-            return;
-
-        var current = component.Weapon.Value;
-        while (_container.TryGetContainingContainer((current, null), out var container))
+        // Stories-ProjectileCollision-Start
+        if (component.Weapon is { } weapon)
         {
-            if (args.OtherEntity == container.Owner)
+            if (TryComp(weapon, out MountableWeaponComponent? mountable) &&
+                mountable.MountedTo != null &&
+                GetEntity(mountable.MountedTo.Value) == args.OtherEntity)
             {
                 args.Cancelled = true;
                 return;
             }
 
-            current = container.Owner;
+            var current = weapon;
+            while (_container.TryGetContainingContainer((current, null), out var container))
+            {
+                if (args.OtherEntity == container.Owner)
+                {
+                    if (HasComp<WeaponMountComponent>(container.Owner) ||
+                        HasComp<GunIgnoreContainerOwnerCollisionComponent>(weapon))
+                    {
+                        args.Cancelled = true;
+                        return;
+                    }
+                }
+
+                current = container.Owner;
+            }
         }
+        // Stories-ProjectileCollision-End
     }
 
     public void SetShooter(EntityUid id, ProjectileComponent component, EntityUid? shooterId = null)
@@ -438,6 +472,11 @@ public abstract partial class SharedProjectileSystem : EntitySystem
 
         component.Shooter = shooterId;
         Dirty(id, component);
+        // Stories-ZLevels-Start
+
+        var ev = new ProjectileSetShooterEvent(shooterId.Value);
+        RaiseLocalEvent(id, ref ev);
+        // Stories-ZLevels-End
     }
 
     [Serializable, NetSerializable]
@@ -446,6 +485,11 @@ public abstract partial class SharedProjectileSystem : EntitySystem
         public override DoAfterEvent Clone() => this;
     }
 }
+// Stories-ZLevels-Start
+
+[ByRefEvent]
+public record struct ProjectileSetShooterEvent(EntityUid Shooter);
+// Stories-ZLevels-End
 
 [Serializable, NetSerializable]
 public sealed class ImpactEffectEvent : EntityEventArgs

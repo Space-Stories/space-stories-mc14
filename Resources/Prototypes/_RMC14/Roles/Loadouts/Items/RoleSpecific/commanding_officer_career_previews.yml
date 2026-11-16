@@ -1,0 +1,79 @@
+# Commanding Officer career loadout preview entities
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerInfantryPreview
+  name: Infantry
+  description: A line-command background. Starts with combat-ready clothing, webbing, sunglasses, and a laser designator.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Hands
+    hands:
+      hand_right:
+        location: Right
+      hand_left:
+        location: Left
+    sortedHands:
+    - hand_right
+    - hand_left
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerInfantry ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerEngineeringPreview
+  name: Engineering
+  description: An engineering background. Starts with insulated gloves, tool webbing, an engineering beret, and a utility vest.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerEngineering ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerMedicalPreview
+  name: Medical
+  description: A medical background. Starts with a white Major beret, patchless officer jacket, and white gloves and shoes.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerMedical ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerIntelPreview
+  name: Intelligence
+  description: An intelligence background. Starts in a subdued formal uniform with a tactical wrap and utility vest.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerIntel ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerLogisticsPreview
+  name: Logistics
+  description: A logistics background. Starts with insulated gloves, tool webbing, a tan beret, and a tan vest.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerLogistics ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerAviationPreview
+  name: Aviation
+  description: An aviation background. Starts with a pilot jacket, aviators, and a black commanding officer beret.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerAviation ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: RMCCOCareerTankerPreview
+  name: Tanker
+  description: An armored-operations background. Starts in an operations uniform with a windbreaker and tactical wrap.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ RMCGearCOCareerTanker ]

@@ -22,7 +22,9 @@ namespace Content.IntegrationTests.Tests.Chemistry
             "RMCCLF3",
             "RMCCLF3Bad",
             "RMCANFO",
-            "RMCNapalm"
+            "RMCNapalm",
+            "RMCPotassiumHydroxide",
+            "RMCFormaldehyde"
         };
 
         [TestPrototypes]
@@ -121,11 +123,13 @@ namespace Content.IntegrationTests.Tests.Chemistry
                         .ToDictionary(x => x, _ => false);
                     foreach (var (reagent, quantity) in solution.Contents)
                     {
-                        Assert.That(foundProductsMap.TryFirstOrNull(x => x.Key.Key == reagent.Prototype && x.Key.Value == quantity, out var foundProduct));
+                        var found = foundProductsMap.TryFirstOrNull(x => x.Key.Key == reagent.Prototype && x.Key.Value == quantity, out var foundProduct);
+                        Assert.That(found, Is.True, $"Reaction {reactionPrototype.ID} failed. Found unexpected reagent {reagent.Prototype} with quantity {quantity}. Expected one of: {string.Join(", ", foundProductsMap.Select(x => $"{x.Key.Key} ({x.Key.Value})"))}");
                         foundProductsMap[foundProduct.Value.Key] = true;
                     }
 
-                    Assert.That(foundProductsMap.All(x => x.Value));
+                    var missingProducts = foundProductsMap.Where(x => !x.Value).Select(x => $"{x.Key.Key} ({x.Key.Value})").ToList();
+                    Assert.That(missingProducts, Is.Empty, $"Reaction {reactionPrototype.ID} failed. Missing products: {string.Join(", ", missingProducts)}");
                 });
 
             }

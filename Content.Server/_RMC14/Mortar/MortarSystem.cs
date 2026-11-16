@@ -1,5 +1,8 @@
 using System.Numerics;
 using Content.Server._RMC14.Dropship;
+using Content.Server.Chat.Systems;
+using Content.Server.Explosion.Components;
+using Content.Server.Explosion.EntitySystems;
 using Content.Server.Popups;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Map;
@@ -12,7 +15,6 @@ using Robust.Shared.Map;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 using static Content.Shared.Popups.PopupType;
-using Content.Server.Chat.Systems;
 
 namespace Content.Server._RMC14.Mortar;
 
@@ -28,6 +30,19 @@ public sealed class MortarSystem : SharedMortarSystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly TriggerSystem _trigger = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<ProjectileGrenadeComponent, MortarShellLandEvent>(OnProjectileGrenadeLand);
+    }
+
+    private void OnProjectileGrenadeLand(Entity<ProjectileGrenadeComponent> shell, ref MortarShellLandEvent args)
+    {
+        _trigger.Trigger(shell, args.User);
+    }
 
     protected override bool CanLoadPopup(
         Entity<MortarComponent> mortar,
@@ -52,6 +67,14 @@ public sealed class MortarSystem : SharedMortarSystem
             _popup.PopupEntity(Loc.GetString("rmc-mortar-targeting", ("mortar", mortar)), user, user, SmallCaution);
             return false;
         }
+
+        // Stories-MortarFix-Start
+        if (mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shell.Owner)
+        {
+            _popup.PopupEntity(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, SmallCaution);
+            return false;
+        }
+        // Stories-MortarFix-End
 
         var time = _timing.CurTime;
         if (time < mortar.Comp.LastFiredAt + mortar.Comp.FireDelay)
@@ -210,11 +233,24 @@ public sealed class MortarSystem : SharedMortarSystem
 
     private bool CheckContainerCapacity(Entity<MortarComponent> mortar, Entity<MortarShellComponent> shell, EntityUid user)
     {
-        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container) &&
-            !_container.CanInsert(shell, container))
+        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container))
         {
-            _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
-            return false;
+            // Stories-MortarFix-Start
+            foreach (var contained in container.ContainedEntities)
+            {
+                if (!HasComp<ActiveMortarShellComponent>(contained))
+                {
+                    _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
+                    return false;
+                }
+            }
+
+            if (!_container.CanInsert(shell, container))
+            {
+                _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, SmallCaution);
+                return false;
+            }
+            // Stories-MortarFix-End
         }
 
         return true;

@@ -42,7 +42,7 @@ public sealed partial class XenoWeedsComponent : Component
     [DataField]
     public EntProtoId Spawns = "XenoWeeds";
 
-    [DataField, AutoNetworkedField]
+    [DataField] // Stories-Optimization (Spread was removed from AutoNetworkedField to reduce bandwidth)
     public List<EntityUid> Spread = new();
 
     /// <summary>

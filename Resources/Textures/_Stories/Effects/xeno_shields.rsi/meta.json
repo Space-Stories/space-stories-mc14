@@ -42,6 +42,15 @@
           0.120000005
         ]
       ]
+    },
+    {
+      "name": "hedgehog-shield-quarter"
+    },
+    {
+      "name": "hedgehog-shield-full"
+    },
+    {
+      "name": "hedgehog-shield-half"
     }
   ]
 }

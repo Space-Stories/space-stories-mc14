@@ -13,3 +13,5 @@ ent-RMCBoxSyringeCBRN = коробка шприцев
     .suffix = РХБЗ, Маленький
 ent-RMCBoxBeaker = коробка мензурок
     .desc = Это просто обычная коробка.
+ent-RMCBoxVialCardboard = коробка с пробирками
+    .desc = Это всего лишь обычная коробка с пробирками.

@@ -32,7 +32,6 @@ public sealed partial class SpritePickerButton : ContainerButton
         {
             ToolTip = Loc.GetString("st-hunter-gear-none");
             NoneTexture.Visible = true;
-            // No sprite needed for "Nothing", the texture rect handles it
         }
         else if (_prototypeManager.TryIndex(prototype, out var proto))
         {
@@ -50,7 +49,7 @@ public sealed partial class SpritePickerButton : ContainerButton
         if (IsLocked)
         {
             LockOverlay.Visible = true;
-            MouseFilter = MouseFilterMode.Stop; // Still allow hover for tooltip
+            MouseFilter = MouseFilterMode.Stop;
             ToolTip += "\n" + Loc.GetString("st-hunter-gear-locked");
         }
 
@@ -58,8 +57,7 @@ public sealed partial class SpritePickerButton : ContainerButton
         {
             if (IsLocked)
             {
-                // Prevent toggling if locked
-                Pressed = false; 
+                Pressed = false;
                 return;
             }
             UpdateHighlight();

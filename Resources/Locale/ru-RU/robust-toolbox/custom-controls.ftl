@@ -1,8 +1,8 @@
 ## EntitySpawnWindow
 
 entity-spawn-window-title = Панель спавна сущностей
-entity-spawn-window-search-bar-placeholder = поиск
-entity-spawn-window-clear-button = Очистить
+entity-spawn-window-search-bar-placeholder = search
+entity-spawn-window-clear-button = Clear
 entity-spawn-window-replace-button-text = Заменить
 entity-spawn-window-override-menu-tooltip = Перезапись размещения
 

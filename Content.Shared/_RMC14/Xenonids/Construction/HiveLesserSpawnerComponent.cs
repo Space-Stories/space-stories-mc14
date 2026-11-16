@@ -33,6 +33,14 @@ public sealed partial class HiveLesserSpawnerComponent : Component
     [DataField]
     public TimeSpan NextLesserDroneCooldown = TimeSpan.FromSeconds(125);
 
+    // Stories-HijackLesserDrones-Start
+    [DataField]
+    public int HijackMaxLesserDrones = 20;
+
+    [DataField]
+    public TimeSpan HijackLesserDroneCooldown = TimeSpan.FromSeconds(5);
+    // Stories-HijackLesserDrones-End
+
     [DataField]
     public FixedPoint2 Heal = 100;
 

@@ -5,8 +5,13 @@
   description: It produces items using metal and glass.
   components:
   - type: ApcPowerReceiver
-    powerLoad: 0
-    needsPower: false
+    powerLoad: 250
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 10
+    activeLoad: 100
+    channel: Equipment
+  - type: ActivatableUIRequiresPower
   - type: Sprite
     sprite: _RMC14/Structures/Machines/autolathe.rsi
     layers:
@@ -31,6 +36,7 @@
         layer:
         - MachineLayer
   - type: Lathe
+    printEnergy: 2000
     idleState: autolathe
     runningState: autolathe_n
     producingSound: /Audio/_RMC14/Machines/print.ogg
@@ -69,7 +75,6 @@
   - type: WiresPanel
   - type: ActivatableUI
     key: enum.LatheUiKey.Key
-  - type: ActivatableUIRequiresPower
   - type: UserInterface
     interfaces:
       enum.LatheUiKey.Key:
@@ -101,7 +106,6 @@
   - RMCBucket
   - CMBucketMop
   - RMCBucketJanitorial
-  - RMCReagentJug
   - RMCFlashlight
   - CMFireExtinguisher
   - CMCrowbar
@@ -120,7 +124,7 @@
   - RMCUniversalRecorder
   #    - Airlock electronics (50 metal, 50 glass)->(62, 62)
   #    - Fire alarm electronics (50 metal, 50 glass)->(62, 62)
-  #    - Power control module (50 metal, 50 glass)->(62, 62)
+  - CMAPCElectronics
   - RMCTablePartTan
   - RMCTablePartAlmayer
   - RMCTablePartReinforced

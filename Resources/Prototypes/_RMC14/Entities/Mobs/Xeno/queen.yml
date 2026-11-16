@@ -10,12 +10,20 @@
   name: Queen
   description: A huge, looming alien creature. The biggest and the baddest.
   components:
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
     - RMCGuideRoleQueen
   - type: GhostRole
     name: cm-job-name-xeno-queen
+    makeSentient: true
+    allowSpeech: true
+    allowMovement: true
+    description: cm-xeno-description
+    raffle:
+      settings: short
+    rules: cm-xeno-rules
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Queen/queen.rsi
     layers:
@@ -62,8 +70,9 @@
     - ActionXenoAcidNormal
     - ActionXenoPheromones
     - ActionXenoWordQueen
-#    - ActionXenoPsychicWhisper
-#    - ActionXenoPsychicRadiance
+    - ActionXenoPsychicWhisper
+    - ActionXenoPsychicRadiance
+    - ActionXenoGiveOrder
     - ActionXenoGut
     - ActionXenoPlantWeeds
     - ActionXenoChooseStructure
@@ -109,7 +118,8 @@
     explosionArmor: 100
   - type: XenoWordQueen
   - type: VehicleDamageMultiplier
-    multiplier: 2
+    multiplier: 3
+  - type: XenoPsychicCommunication
   - type: InnateCommandSpeech
   - type: RMCInnateRadioTextIncrease
     radioTextIncrease: 3
@@ -294,20 +304,29 @@
   - type: RemoveComponents
     components:
     - type: Gibbable
+    - type: CanBeLarvaQueued
 
 - type: entity
   parent: RMCXenoQueenBase
   id: CMXenoQueen
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGut ]
+      XenoPrimaryThree: [ ActionXenoSpitQueen ]
+      XenoPrimaryFour: [ ActionXenoChooseStructure ]
+      XenoPrimaryFive: [ ActionXenoSecreteStructure ]
   - type: RMCActionOrder
     id: CMXenoQueen
   - type: XenoAcidAnimation
     actionIds:
     - ActionXenoAcidNormal
     - ActionXenoSpitQueen
-  # - type: XenoEvolution #can be enabled for events like april fools.
-  #   strains:
-  #   - RMCXenoQueenMaid
+    #  - type: XenoEvolution #can be enabled for events like april fools.
+    #    strains:
+    #    - RMCXenoQueenMaid
+    #    - RMCXenoQueenMagical
 
 - type: entity
   id: XenoLeaderPheromoneRelay
@@ -327,6 +346,10 @@
       state: alive
     - map: [ "enum.XenoVisualLayers.Ovipositor" ]
       sprite: _RMC14/Mobs/Xenonids/Extras/Maid_queen/maid_ovipositor.rsi
+    - map: [ "enum.XenoInhandVisualLayers.Left" ]
+      visible: false
+    - map: [ "enum.XenoInhandVisualLayers.Right" ]
+      visible: false
     - map: [ "enum.RMCDamageVisualLayers.Base" ]
       visible: false
   - type: XenoStrain
@@ -338,6 +361,29 @@
     speechSounds: Cat
     audioParams: # Stories-TTS
       volume: -8
+
+- type: entity
+  parent: RMCXenoQueenBase
+  id: RMCXenoQueenMagical
+  suffix: Magical Girl Queen
+  components:
+  - type: Sprite
+    sprite: _RMC14/Mobs/Xenonids/Extras/magicalgirl_queen/magical_queen.rsi
+    layers:
+    - map: [ "enum.XenoVisualLayers.Base" ]
+      state: alive
+    - map: [ "enum.XenoVisualLayers.Ovipositor" ]
+      sprite: _RMC14/Mobs/Xenonids/Extras/magicalgirl_queen/magical_ovipositor.rsi
+    - map: [ "enum.XenoInhandVisualLayers.Left" ]
+      visible: false
+    - map: [ "enum.XenoInhandVisualLayers.Right" ]
+      visible: false
+    - map: [ "enum.RMCDamageVisualLayers.Base" ]
+      visible: false
+  - type: XenoStrain
+    name: rmc-xeno-magicalgirl-name
+    description: rmc-xeno-magicalgirl-description
+    popup: rmc-xeno-magicalgirl-popup
 
 - type: entity
   parent: StationAiHolo

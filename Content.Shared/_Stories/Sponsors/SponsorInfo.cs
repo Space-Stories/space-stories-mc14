@@ -3,11 +3,14 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared._Stories.Sponsors;
 
-[Serializable] [NetSerializable]
+[Serializable, NetSerializable]
 public sealed class SponsorInfo
 {
     [DataField("tier")]
     public int? Tier { get; set; }
+
+    [DataField("tierName")]
+    public string? TierName { get; set; }
 
     [DataField("oocColor")]
     public string? OOCColor { get; set; }
@@ -17,6 +20,12 @@ public sealed class SponsorInfo
 
     [DataField("allowedMarkings")]
     public string[] AllowedMarkings { get; set; } = Array.Empty<string>();
+
+    [DataField("allowedTTSVoices")]
+    public string[] AllowedTTSVoices { get; set; } = Array.Empty<string>();
+
+    [DataField("allowedLoadouts")]
+    public string[] AllowedLoadouts { get; set; } = Array.Empty<string>();
 
     [DataField("roleTimeBypass")]
     public bool RoleTimeBypass { get; set; }

@@ -8,3 +8,6 @@ ent-STBracerAttachmentScimitarsAlt = { ent-STBracerAttachmentScimitars }
     .desc = { ent-STBracerAttachmentScimitars.desc }
 ent-STBracerAttachmentChainGauntlets = крепление цепных перчаток
     .desc = Перчатки из инопланетного сплава. Можно прикрепить к наручам для использования в ближнем бою.
+
+ent-STBracerAttachmentShield = крепление наручного щита
+    .desc = Щит, изготовленный из концентрических пластин из металлического сплава. Может крепиться к наручу для использования в ближнем бою.

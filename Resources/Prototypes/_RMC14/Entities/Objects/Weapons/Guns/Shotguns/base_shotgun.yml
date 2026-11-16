@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: [ BaseItem, CMBaseWeaponGun, RMCBaseAttachableHolder ]
   id: RMCBaseWeaponShotgun
@@ -68,9 +68,6 @@
   - type: Tag
     tags:
     - RMCWeaponShotgun
-  - type: RMCFireGroup
-    group: Shotgun
-    delay: 4
   - type: GunDualWielding
     weaponGroup: Shotgun
   - type: GunPointBlank

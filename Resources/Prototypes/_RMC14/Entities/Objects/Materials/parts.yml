@@ -37,9 +37,9 @@
     spawn:
     - id: CMSheetMetal1
   - type: Material
-  - type: PhysicalComposition
-    materialComposition:
-      CMSteel: 1875
+  # - type: PhysicalComposition # Stories-Balance
+  #   materialComposition:
+  #     CMSteel: 1875
   - type: RMCConstructionItem
     buildable:
     - RMCGrilleBuild

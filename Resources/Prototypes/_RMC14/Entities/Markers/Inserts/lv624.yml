@@ -1,4 +1,4 @@
-﻿# LV624 Base
+# LV624 Base
 - type: entity
   abstract: true
   parent: RMCMapInsertBase
@@ -107,6 +107,10 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/LV624/cargospecial_weapons.yml"
       probability: 0.1
+    #Stories Grid
+    - spawn: "/Maps/_Stories/Inserts/LV624/Water_Pumping_Station.yml"
+      probability: 0.55
+      offset: -20,27
     clearEntities: true
     clearDecals: true
 
@@ -164,8 +168,16 @@
       probability: 0.1
     - spawn: "/Maps/_RMC14/Inserts/LV624/centralcaves_qc.yml"
       probability: 0.1
+    # Stories Grid
+    - spawn: "/Maps/_Stories/Inserts/LV624/Central_2.yml"
+      probability: 0.15
+      offset: 11,43
+    - spawn: "/Maps/_Stories/Inserts/LV624/Central_1.yml"
+      probability: 0.1
+      offset: 18,15
     clearEntities: true
     clearDecals: true
+    #replaceAreas: true
 
 - type: entity
   parent: RMCMapInsertLV624Base
@@ -177,6 +189,24 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/LV624/medbay_destroyed.yml"
       probability: 0.1
+    clearEntities: true
+    clearDecals: true
+
+- type: entity
+  parent: RMCMapInsertBase
+  id: RMCMapInsertLV624SandTempleIntactFlooded
+  name: Sand Temple intact/flooded
+  suffix: Insert LV624
+  components:
+  - type: MapInsert
+    variations:
+    - spawn:  "/Maps/_RMC14/Inserts/LV624/maintemple_intact.yml"
+      probability: 0.1
+      offset: 1,0
+    - spawn: "/Maps/_RMC14/Inserts/LV624/maintemple_flooded.yml"
+      probability: 0.2
+      offset: 1,0
+    replaceAreas: false
     clearEntities: true
     clearDecals: true
 
@@ -233,8 +263,9 @@
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_powerplant.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_nexus.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
       offset: 23,27
-

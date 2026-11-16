@@ -1,0 +1,23 @@
+# ChancesClaim
+- type: entity
+  abstract: true
+  parent: RMCMapInsertBase
+  id: RMCMapInsertChancesClaimBase
+  suffix: Chances Claim
+  components:
+  - type: MapInsert
+    clearEntities: true
+    clearDecals: true
+    replaceAreas: true
+
+- type: entity
+  parent: RMCMapInsertChancesClaimBase
+  id: RMCMapChancesClaimWesternReactor
+  name: Reactor West
+  components:
+  - type: MapInsert
+    variations:
+    - spawn: "/Maps/_Stories/Inserts/Chances/Reactor_West.yml"
+      probability: 0.3
+    clearEntities: true
+    clearDecals: true

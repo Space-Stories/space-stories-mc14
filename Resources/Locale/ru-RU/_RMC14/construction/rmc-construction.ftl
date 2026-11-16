@@ -8,6 +8,8 @@ rmc-construction-melted = Вы не можете находиться рядом
 rmc-construction-upgrade-explosive = Вы применили взрывоустойчивое обновление.
 rmc-construction-upgrade-burn = Вы применили биологическоустойчивое обновление.
 rmc-construction-upgrade-brute = Вы применили удароустойчивое обновление.
+rmc-construction-downgrade = Вы снимаете улучшение с { $ent }, превращая её в обычную баррикаду.
+rmc-construction-require-anchored = Сначала нужно закрепить { THE($ent) }!
 
 rmc-construction-untrained-build = У вас недостаточно навыков для строительства этого...
 rmc-construction-more-material = Вам нужно больше { $material }, чтобы построить { $object }!
@@ -19,3 +21,5 @@ rmc-construction-build-here = Построить здесь
 rmc-construction-name = строительство
 
 rmc-construction-non-anchorable =  Оно не может быть ни закреплено, ни откреплено.
+
+rmc-construction-vehicle = В салоне автомобиля строить нельзя!

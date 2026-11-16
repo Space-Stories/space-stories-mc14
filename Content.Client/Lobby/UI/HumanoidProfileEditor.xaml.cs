@@ -12,6 +12,7 @@ using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.LinkAccount;
+using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.NamedItems;
 using Content.Shared._RMC14.Prototypes;
@@ -102,6 +103,10 @@ namespace Content.Client.Lobby.UI
 
         private List<(string, RequirementsSelector)> _jobPriorities = new();
 
+        private List<(string JobId, OptionButton Button, List<ProtoId<RankPrototype>?> RankIds)> _rankPriorities = new();
+
+        private List<(string JobId, OptionButton Button, List<string?> VariantIds)> _variantPriorities = new();
+
         private readonly Dictionary<string, BoxContainer> _jobCategories;
 
         private Direction _previewRotation = Direction.North;
@@ -111,6 +116,9 @@ namespace Content.Client.Lobby.UI
         private bool _isDirty;
 
         private static readonly ProtoId<GuideEntryPrototype> DefaultSpeciesGuidebook = "Species";
+        // RMC14
+        private static readonly ProtoId<TraitCategoryPrototype> SpeechTraitsCategory = "SpeechTraits";
+        // RMC14
 
         public event Action<List<ProtoId<GuideEntryPrototype>>>? OnOpenGuidebook;
 
@@ -490,7 +498,7 @@ namespace Content.Client.Lobby.UI
 
             TabContainer.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));
             // TODO RMC14 antags
-            TabContainer.SetTabVisible(2, false);
+            TabContainer.SetTabVisible(2, AntagList.ChildCount > 0); // Stories-CLFSurvivor
 
             RefreshTraits();
 
@@ -588,6 +596,28 @@ namespace Content.Client.Lobby.UI
         }
         // Stories-Hunter-End
 
+        // Stories-SynthProfileTab-Start
+        public int GetSynthTabIndex()
+        {
+            var i = 0;
+            foreach (var child in TabContainer.Children)
+            {
+                if (child == SynthTab)
+                    return i;
+                i++;
+            }
+            return -1;
+        }
+
+        public event Action<int>? OnTabChanged
+        {
+            add => TabContainer.OnTabChanged += value;
+            remove => TabContainer.OnTabChanged -= value;
+        }
+
+        public event Action<HumanoidCharacterProfile?>? OnProfileSet;
+        // Stories-SynthProfileTab-End
+
         /// <summary>
         /// Refreshes the flavor text editor status.
         /// </summary>
@@ -676,7 +706,9 @@ namespace Content.Client.Lobby.UI
                     });
                 }
 
-                List<TraitPreferenceSelector?> selectors = new();
+                // RMC14
+                var selectors = new List<(TraitPreferenceSelector Selector, bool IsLanguageTrait)>();
+                // RMC14
                 var selectionCount = 0;
 
                 foreach (var traitProto in categoryTraits)
@@ -702,7 +734,9 @@ namespace Content.Client.Lobby.UI
                         SetDirty();
                         RefreshTraits(); // If too many traits are selected, they will be reset to the real value.
                     };
-                    selectors.Add(selector);
+                    // RMC14
+                    selectors.Add((selector, trait.Language != null));
+                    // RMC14
                 }
 
                 // Selection counter
@@ -715,13 +749,52 @@ namespace Content.Client.Lobby.UI
                     });
                 }
 
-                foreach (var selector in selectors)
+                // RMC14
+                if (categoryId == SpeechTraitsCategory)
                 {
-                    if (selector == null)
-                        continue;
+                    var languageSelectors = selectors
+                        .Where(selector => selector.IsLanguageTrait)
+                        .Select(selector => selector.Selector)
+                        .ToList();
+                    var otherSelectors = selectors
+                        .Where(selector => !selector.IsLanguageTrait)
+                        .Select(selector => selector.Selector)
+                        .ToList();
 
-                    if (category is { MaxTraitPoints: >= 0 } &&
-                        selector.Cost + selectionCount > category.MaxTraitPoints)
+                    AddTraitSelectors(languageSelectors, selectionCount, category, "rmc-trait-group-languages");
+                    AddTraitSelectors(otherSelectors, selectionCount, category, "rmc-trait-group-other-speech");
+                }
+                else
+                {
+                    AddTraitSelectors(selectors.Select(selector => selector.Selector).ToList(), selectionCount, category);
+                }
+                // RMC14
+            }
+
+            // RMC14
+            void AddTraitSelectors(
+                List<TraitPreferenceSelector> selectorsToAdd,
+                int currentSelectionCount,
+                TraitCategoryPrototype? currentCategory,
+                string? groupLabel = null)
+            {
+                if (selectorsToAdd.Count == 0)
+                    return;
+
+                if (groupLabel != null)
+                {
+                    TraitsList.AddChild(new Label
+                    {
+                        Text = Loc.GetString(groupLabel),
+                        Margin = new Thickness(8, 6, 0, 0),
+                        FontColorOverride = Color.LightGray
+                    });
+                }
+
+                foreach (var selector in selectorsToAdd)
+                {
+                    if (currentCategory is { MaxTraitPoints: >= 0 } &&
+                        selector.Cost + currentSelectionCount > currentCategory.MaxTraitPoints)
                     {
                         selector.Checkbox.Label.FontColorOverride = Color.Red;
                     }
@@ -729,6 +802,7 @@ namespace Content.Client.Lobby.UI
                     TraitsList.AddChild(selector);
                 }
             }
+            // RMC14
         }
 
         /// <summary>
@@ -823,6 +897,8 @@ namespace Content.Client.Lobby.UI
 
                 AntagList.AddChild(antagContainer);
             }
+
+            TabContainer.SetTabVisible(2, AntagList.ChildCount > 0); // Stories-CLFSurvivor
         }
 
         private void SetDirty()
@@ -900,6 +976,8 @@ namespace Content.Client.Lobby.UI
             UpdateSkinColor();
             UpdateSpawnPriorityControls();
             UpdateArmorPreferenceControls();
+            UpdatePlaytimeRankPreferenceControls();
+            UpdateVariantPreferenceControls();
             UpdateSquadPreferenceControls();
             UpdateAgeEdit();
             UpdateEyePickers();
@@ -921,6 +999,7 @@ namespace Content.Client.Lobby.UI
             RefreshTraits();
             RefreshFlavorText();
             ReloadPreview();
+            OnProfileSet?.Invoke(Profile); // Stories-SynthProfileTab
         }
 
 
@@ -967,6 +1046,8 @@ namespace Content.Client.Lobby.UI
             JobList.DisposeAllChildren();
             _jobCategories.Clear();
             _jobPriorities.Clear();
+            _rankPriorities.Clear();
+            _variantPriorities.Clear(); // Stories-JobVariantPreference
             var firstCategory = true;
 
             // Get all displayed departments
@@ -1138,14 +1219,103 @@ namespace Content.Client.Lobby.UI
                         };
                     }
 
+                    // RMC14
+                    var rankOptions = new OptionButton()
+                    {
+                        Name = "RankOptionsButton",
+                        HorizontalAlignment = HAlignment.Right,
+                        VerticalAlignment = VAlignment.Center,
+                        Margin = new Thickness(3f, 3f, 0f, 0f)
+                    };
+
+                    // index 0 = Auto (null), subsequent entries map 1:1 to job.Ranks in definition order.
+                    var rankProtoIds = new List<ProtoId<RankPrototype>?> { null };
+
+                    // If the job has ranks we will add the options as buttons.
+                    if (job.Ranks != null && job.SetRankPreference)
+                    {
+                        rankOptions.AddItem("Auto");
+
+                        foreach (var rank in job.Ranks)
+                        {
+                            if (_prototypeManager.TryIndex(rank.Key, out var rankPrototype))
+                            {
+                                rankOptions.AddItem(rankPrototype.Name);
+                                rankProtoIds.Add(rank.Key);
+
+                                if (rank.Value != null && !_requirements.CheckRoleRequirements(rank.Value, Profile, out _))
+                                    rankOptions.SetItemDisabled(rankOptions.ItemCount - 1, true);
+                            }
+                        }
+
+                        rankOptions.SetItemDisabled(rankOptions.ItemCount - 1, true);
+                        // If the job only has 1 rank there is nothing to choose.
+                        if (rankProtoIds.Count <= 2)
+                            rankOptions.Disabled = true;
+
+                        rankOptions.OnItemSelected += args =>
+                        {
+                            rankOptions.SelectId(args.Id);
+                            SetRankPreference(job.ID, rankProtoIds[args.Id]);
+                        };
+                    }
+                    // Else if the job does not contain ranks we do not show it (Xenos as an example).
+                    else
+                    {
+                        rankOptions.Visible = false;
+                    }
+                    // RMC14
+
+                    // Stories-JobVariantPreference-Start
+                    var variantOptions = new OptionButton()
+                    {
+                        Name = "VariantOptionsButton",
+                        HorizontalAlignment = HAlignment.Right,
+                        VerticalAlignment = VAlignment.Center,
+                        Margin = new Thickness(3f, 3f, 0f, 0f)
+                    };
+
+                    var variantIds = new List<string?> { null };
+
+                    if (job.Variants != null && job.SetVariantPreference && !job.HideVariantPreferenceInJobList) // Stories-SynthProfileTab
+                    {
+                        variantOptions.AddItem("Auto");
+
+                        foreach (var (variantId, variantName) in job.Variants)
+                        {
+                            variantOptions.AddItem(Loc.GetString(variantName));
+                            variantIds.Add(variantId);
+                        }
+
+                        if (variantIds.Count <= 2)
+                            variantOptions.Disabled = true;
+
+                        variantOptions.OnItemSelected += args =>
+                        {
+                            variantOptions.SelectId(args.Id);
+                            SetVariantPreference(job.ID, variantIds[args.Id]);
+                        };
+                    }
+                    else
+                    {
+                        variantOptions.Visible = false;
+                    }
+                    // Stories-JobVariantPreference-End
+
                     _jobPriorities.Add((job.ID, selector));
+                    _rankPriorities.Add((job.ID, rankOptions, rankProtoIds));
+                    _variantPriorities.Add((job.ID, variantOptions, variantIds));
                     jobContainer.AddChild(selector);
                     jobContainer.AddChild(loadoutWindowBtn);
+                    jobContainer.AddChild(rankOptions);
+                    jobContainer.AddChild(variantOptions);
                     category.AddChild(jobContainer);
                 }
             }
 
             UpdateJobPriorities();
+            UpdatePlaytimeRankPreferenceControls();
+            UpdateVariantPreferenceControls();
         }
 
         private void OpenLoadout(JobPrototype? jobProto, RoleLoadout roleLoadout, RoleLoadoutPrototype roleLoadoutProto)
@@ -1159,6 +1329,8 @@ namespace Content.Client.Lobby.UI
 
             JobOverride = jobProto;
             var session = _playerManager.LocalSession;
+
+            roleLoadout.EnsureValid(Profile, session, collection); // Stories-SponsorsLoadout
 
             _loadoutWindow = new LoadoutWindow(Profile, roleLoadout, roleLoadoutProto, _playerManager.LocalSession, collection)
             {
@@ -1179,16 +1351,26 @@ namespace Content.Client.Lobby.UI
             _loadoutWindow.OnLoadoutPressed += (loadoutGroup, loadoutProto) =>
             {
                 roleLoadout.AddLoadout(loadoutGroup, loadoutProto, _prototypeManager);
+                // Stories-SponsorsLoadout-Start
+                if (Profile != null)
+                    roleLoadout.EnsureValid(Profile, session, collection);
+                // Stories-SponsorsLoadout-End
                 _loadoutWindow.RefreshLoadouts(roleLoadout, session, collection);
                 Profile = Profile?.WithLoadout(roleLoadout);
+                SetDirty(); // Stories-SponsorsLoadout
                 ReloadPreview();
             };
 
             _loadoutWindow.OnLoadoutUnpressed += (loadoutGroup, loadoutProto) =>
             {
                 roleLoadout.RemoveLoadout(loadoutGroup, loadoutProto, _prototypeManager);
+                // Stories-SponsorsLoadout-Start
+                if (Profile != null)
+                    roleLoadout.EnsureValid(Profile, session, collection);
+                // Stories-SponsorsLoadout-End
                 _loadoutWindow.RefreshLoadouts(roleLoadout, session, collection);
                 Profile = Profile?.WithLoadout(roleLoadout);
+                SetDirty(); // Stories-SponsorsLoadout
                 ReloadPreview();
             };
 
@@ -1392,6 +1574,18 @@ namespace Content.Client.Lobby.UI
         private void SetArmorPreference(ArmorPreference newArmorPreference)
         {
             Profile = Profile?.WithArmorPreference(newArmorPreference);
+            SetDirty();
+        }
+
+        private void SetRankPreference(string jobId, ProtoId<RankPrototype>? rankId)
+        {
+            Profile = Profile?.WithRankPreference(jobId, rankId);
+            SetDirty();
+        }
+
+        private void SetVariantPreference(string jobId, string? variantId)
+        {
+            Profile = Profile?.WithVariantPreference(jobId, variantId);
             SetDirty();
         }
 
@@ -1619,6 +1813,56 @@ namespace Content.Client.Lobby.UI
             }
 
             ArmorPreferenceButton.SelectId((int) Profile.ArmorPreference);
+        }
+
+        private void UpdatePlaytimeRankPreferenceControls()
+        {
+            var preferenceAdjusted = false;
+            foreach (var (jobID, optionsButton, rankIds) in _rankPriorities)
+            {
+                if (!_prototypeManager.TryIndex(jobID, out JobPrototype? job) || job == null)
+                    continue;
+
+                if (job.Ranks == null || !job.SetRankPreference)
+                    continue;
+
+                ProtoId<RankPrototype>? preferredRank = null;
+                Profile?.RankPreferences.TryGetValue(jobID, out preferredRank);
+                var selectedIndex = rankIds.IndexOf(preferredRank);
+                if (selectedIndex < 0)
+                    selectedIndex = 0;
+
+                if (preferredRank is { } rank && rank == rankIds.Last())
+                {
+                    Profile = Profile?.WithRankPreference(jobID, null);
+                    preferenceAdjusted = true;
+                }
+
+                optionsButton.Select(selectedIndex);
+            }
+
+            if (preferenceAdjusted)
+                Save?.Invoke();
+        }
+
+        private void UpdateVariantPreferenceControls()
+        {
+            foreach (var (jobID, optionsButton, variantIds) in _variantPriorities)
+            {
+                if (!_prototypeManager.TryIndex(jobID, out JobPrototype? job) || job == null)
+                    continue;
+
+                if (job.Variants == null || !job.SetVariantPreference || job.HideVariantPreferenceInJobList) // Stories-SynthProfileTab
+                    continue;
+
+                string? preferredVariant = null;
+                Profile?.VariantPreferences.TryGetValue(jobID, out preferredVariant);
+                var selectedIndex = variantIds.IndexOf(preferredVariant);
+                if (selectedIndex < 0)
+                    selectedIndex = 0;
+
+                optionsButton.Select(selectedIndex);
+            }
         }
 
         private void UpdateSquadPreferenceControls()

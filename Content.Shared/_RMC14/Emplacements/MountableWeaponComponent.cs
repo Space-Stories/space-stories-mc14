@@ -1,9 +1,10 @@
+using Content.Shared.Projectiles;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Emplacements;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(MountableWeaponSystem), typeof(SharedWeaponMountSystem))]
+[Access(typeof(MountableWeaponSystem), typeof(SharedWeaponMountSystem), typeof(SharedProjectileSystem))] // Stories-WeaponMount
 public sealed partial class MountableWeaponComponent : Component
 {
     /// <summary>

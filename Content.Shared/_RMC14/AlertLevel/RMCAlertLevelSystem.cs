@@ -1,8 +1,10 @@
 ﻿using Content.Shared._RMC14.ARES;
+using Content.Shared._RMC14.ARES.Logs;
 using Content.Shared._RMC14.Doors;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.Announce;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Doors.Components;
@@ -14,6 +16,7 @@ using Content.Shared.Storage.EntitySystems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared._RMC14.AlertLevel;
 
@@ -21,7 +24,7 @@ public sealed class RMCAlertLevelSystem : EntitySystem
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
-    [Dependency] private readonly ARESSystem _ares = default!;
+    [Dependency] private readonly ARESCoreSystem _aresCore = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedDoorSystem _door = default!;
     [Dependency] private readonly SharedEntityStorageSystem _entityStorage = default!;
@@ -31,11 +34,20 @@ public sealed class RMCAlertLevelSystem : EntitySystem
 
     private EntityQuery<GhostComponent> _ghostQuery;
 
+    private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
     public override void Initialize()
     {
+        base.Initialize();
+
         SubscribeLocalEvent<DropshipHijackLandedEvent>(OnDropshipHijackLanded);
+        SubscribeLocalEvent<RMCAlertLevelDisplayComponent, MapInitEvent>(OnAlertLevelDisplayMapInit);
 
         _ghostQuery = GetEntityQuery<GhostComponent>();
+    }
+
+    private void OnAlertLevelDisplayMapInit(Entity<RMCAlertLevelDisplayComponent> ent, ref MapInitEvent args)
+    {
+        _appearance.SetData(ent.Owner, RMCAlertLevelsVisuals.Alert, Get() ?? RMCAlertLevels.Green);
     }
 
     private void OnDropshipHijackLanded(ref DropshipHijackLandedEvent ev)
@@ -80,6 +92,12 @@ public sealed class RMCAlertLevelSystem : EntitySystem
         return Get() == RMCAlertLevels.Red || Get() ==  RMCAlertLevels.Delta;
     }
 
+    public ProtoId<AnnouncementPresetPrototype> EnsureAlertAnnouncementPreset(RMCAlertLevels level)
+    {
+        var alert = EnsureAlertLevel();
+        return alert.Comp.GetAnnouncementPreset(level);
+    }
+
     public void Set(RMCAlertLevels level, EntityUid? user, bool playSound = true, bool sendAnnouncement = true)
     {
         var ent = EnsureAlertLevel();
@@ -109,6 +127,14 @@ public sealed class RMCAlertLevelSystem : EntitySystem
             almayers.Add(uid);
         }
 
+        if (user != null)
+        {
+            foreach (var almayer in almayers)
+            {
+                _aresCore.CreateARESLog(almayer, LogCat, $"{Name(user.Value)} set the alert level to: {level}");
+            }
+        }
+
         var transformQuery = EntityManager.TransformQuery;
         var filter = Filter.Empty()
             .AddWhereAttachedEntity(entity =>
@@ -131,14 +157,19 @@ public sealed class RMCAlertLevelSystem : EntitySystem
         // Send announcement if sendAnnouncement == true
         if (sendAnnouncement)
         {
+            var preset = ent.Comp.GetAnnouncementPreset(level);
             if (announcement != null)
             {
-                _marineAnnounce.AnnounceToMarines(Loc.GetString(announcement));
+                var text = Loc.GetString(announcement);
+                _marineAnnounce.AnnounceToMarines(text);
+                _marineAnnounce.AnnounceAlertLevel(preset, text, filter);
             }
             else if (message != null)
             {
-                var ares = _ares.EnsureARES();
-                _marineAnnounce.AnnounceRadio(ares, Loc.GetString(message.Value), ent.Comp.RadioChannel);
+                var ares = _aresCore.EnsureMarineARES();
+                var text = Loc.GetString(message.Value);
+                _marineAnnounce.AnnounceRadio(ares, text, ent.Comp.RadioChannel);
+                _marineAnnounce.AnnounceAlertLevel(preset, text, filter);
             }
         }
 

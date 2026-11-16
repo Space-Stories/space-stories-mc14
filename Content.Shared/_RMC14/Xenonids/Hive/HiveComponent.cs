@@ -20,7 +20,7 @@ public sealed partial class HiveComponent : Component
     };
 
     [DataField, AutoNetworkedField]
-    public Dictionary<EntProtoId, int> FreeSlots = new() {["CMXenoHivelord"] = 1, ["CMXenoCarrier"] = 1, ["CMXenoBurrower"] = 1};
+    public Dictionary<EntProtoId, int> FreeSlots = new() { ["CMXenoHivelord"] = 1, ["CMXenoCarrier"] = 1, ["CMXenoBurrower"] = 1 };
 
     [DataField, AutoNetworkedField]
     public Dictionary<EntProtoId, int> HiveStructureSlots = new() { ["HiveCoreXeno"] = 1, ["HiveClusterXeno"] = 8, ["HivePylonXeno"] = 2, ["HiveEggMorpherXeno"] = 6, ["HiveRecoveryNodeXeno"] = 6, ["HivePlasmaTreeXeno"] = 3 };
@@ -36,6 +36,9 @@ public sealed partial class HiveComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool AnnouncedQueenDeathCooldownOver;
+
+    [DataField, AutoNetworkedField]
+    public bool AnnouncedNoQueenCooldownOver;
 
     [DataField, AutoNetworkedField]
     public bool AnnouncedHiveCoreCooldownOver;
@@ -57,6 +60,9 @@ public sealed partial class HiveComponent : Component
 
     [DataField, AutoNetworkedField]
     public TimeSpan NewQueenCooldown = TimeSpan.FromMinutes(5);
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan NoQueenAlertTime = TimeSpan.FromMinutes(4);
 
     [DataField, AutoNetworkedField]
     public bool GotOvipositorPopup;
@@ -93,4 +99,34 @@ public sealed partial class HiveComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntProtoId BurrowedLarvaId = "CMXenoLarva";
+
+    [DataField, AutoNetworkedField]
+    public HashSet<GibbedXenoInfo> GibbedXenos = new();
+
+    [DataField, AutoNetworkedField]
+    public XenoHarmPermission HarmPermission = XenoHarmPermission.Allowed;
+
+    [DataField, AutoNetworkedField]
+    public XenoConstructionPermission ConstructionPermission = XenoConstructionPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public XenoConstructionPermission DeconstructionPermission = XenoConstructionPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public XenoUnnestPermission UnnestPermission = XenoUnnestPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan PermissionChangeCooldown = TimeSpan.FromSeconds(30);
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? HarmPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? ConstructionPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? DeconstructionPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? UnnestPermissionChangeAt;
 }

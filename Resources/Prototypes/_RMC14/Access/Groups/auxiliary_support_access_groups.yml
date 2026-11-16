@@ -28,6 +28,7 @@
   - RMCAccessDatabase
   - RMCAccessFieldDoctor
   - RMCAccessSeniorCommand
+  - RMCAccessLogs
 
 - type: accessGroup
   id: Pilot
@@ -71,3 +72,4 @@
   - CMAccessCharlie
   - CMAccessDelta
   - CMAccessMarinePrep
+  - RMCAccessVehicleCrew

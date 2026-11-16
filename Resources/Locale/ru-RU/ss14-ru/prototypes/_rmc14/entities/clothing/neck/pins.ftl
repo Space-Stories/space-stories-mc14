@@ -1,5 +1,5 @@
-ent-RMCPridePinBase = pride pin
-    .desc = An abstract pride pin.
+ent-RMCPridePinBase = значок гордости
+    .desc = Абстрактный значок гордости.
 ent-RMCClothingNeckLGBTPin = { ent-ClothingNeckLGBTPin }
     .desc = { ent-ClothingNeckLGBTPin.desc }
 ent-RMCClothingNeckAromanticPin = { ent-ClothingNeckAromanticPin }

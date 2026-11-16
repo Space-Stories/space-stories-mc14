@@ -29,7 +29,8 @@ rmc-dropship-weapons-target-strike = Приобретение цели
   Ударный режим: { $mode }
   Режим цели: { $targetMode }
 
-  Конфигурация удара { $weapon }
+  Конфигурация удара:
+  { $weapon }
 
   Цель выбрана: { $target }
 
@@ -107,6 +108,14 @@ rmc-dropship-fabricator-equipment = [bold]Снаряжение[/bold]
 rmc-dropship-fabricator-ammo = [bold]Патроны[/bold]
 rmc-dropship-fabricator-fabricate = Изготовить ({ $cost })
 rmc-dropship-fabricator-busy = Изготовитель деталей для дропшиппинга занят. Пожалуйста, подождите завершения предыдущей операции.
+rmc-dropship-fabricator-current = [bold]Сейчас:[/bold] { $item }
+rmc-dropship-fabricator-idle = [bold]Сейчас:[/bold] ожидание
+rmc-dropship-fabricator-queue = [bold]Очередь:[/bold] { $count }/{ $max }
+rmc-dropship-fabricator-queue-empty = Нет ожидающих заказов.
+rmc-dropship-fabricator-queue-entry = { $position }. { $item } ({ $cost })
+rmc-dropship-fabricator-cancel = Отмена
+rmc-dropship-fabricator-queue-full = Очередь изготовителя деталей десантного корабля заполнена.
+rmc-dropship-fabricator-insufficient-points = У вас недостаточно очков для изготовления.
 
 rmc-dropship-firemission-warning = Десантный корабль ведет огонь в направлении { $direction }.
 rmc-dropship-firemission-warning-above = Десантный корабль ведет огонь прямо над вами!
@@ -133,6 +142,32 @@ rmc-dropship-locked = Эта птица теперь наша на { $minutes } 
 rmc-dropship-locked-out = Шаттл не отвечает, попробуйте еще раз через { $minutes } минут.
 rmc-dropship-locked-out-bypass = Вы частично обошли блокировку, попробуйте еще раз!
 rmc-dropship-locked-out-bypass-complete = Вы успешно сняли блокировку!
+rmc-dropship-terminal-xeno-clueless = Вы растерянно смотрите на { $terminal }.
+rmc-dropship-terminal-no-nearby-destinations = Рядом с вами нет точек назначения для десантного корабля!
+rmc-dropship-terminal-dropship-inbound = Сюда уже летит десантный корабль!
+rmc-dropship-terminal-dropship-present = Десантный корабль уже здесь!
+rmc-dropship-terminal-not-primary = Шаттл не отвечает на команды; похоже, это не основной шаттл.
+rmc-dropship-terminal-call-down-success = Вы вызываете один из десантных кораблей к своему местоположению.
+rmc-dropship-terminal-no-available-dropships = Нет доступных десантных кораблей! Подождите немного.
+rmc-dropship-terminal-unknown-location = ???
+rmc-dropship-terminal-remote-control-disabled = У этого десантного корабля не включено дистанционное управление.
+rmc-dropship-terminal-dropship-busy = Этот десантный корабль сейчас занят. Повторите попытку позже.
+rmc-dropship-terminal-dropship-routed = Этот десантный корабль уже в пути.
+rmc-dropship-destination-unavailable = Эта точка назначения больше недоступна.
+rmc-dropship-planetside-only = Этот шаттл может следовать только к наземным посадочным зонам.
+rmc-dropship-destination-reserved = Эта точка назначения зарезервирована для шаттлов с ограниченным доступом.
+rmc-dropship-destination-not-configured = Эта точка назначения не настроена для шаттлов с ограниченным доступом.
+rmc-dropship-destination-invalid-class = Эта точка назначения не может принять шаттл данного класса.
+rmc-dropship-destination-invalid-tags = Эта точка назначения не соответствует текущим правилам маршрутизации шаттла.
+rmc-dropship-destination-blocked-tags = Эта точка назначения запрещена текущими правилами маршрутизации шаттла.
+rmc-dropship-destination-occupied = Эта точка назначения уже занята.
+rmc-dropship-destination-obstructed = Посадочная зона перекрыта сооружением.
+rmc-dropship-invalid-docking-footprint = У шаттла отсутствует допустимый стыковочный контур.
+rmc-dropship-no-compatible-docking-port = Для этого шаттла нет совместимого стыковочного порта.
+rmc-dropship-clearance-port = Шаттл выходит за левую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
+rmc-dropship-clearance-starboard = Шаттл выходит за правую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
+rmc-dropship-clearance-aft = Шаттл выходит за кормовую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
+rmc-dropship-clearance-forward = Шаттл выходит за носовую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
 
 rmc-dropship-equipment-deployer-text = { $deployName }
 rmc-dropship-equipment-deployer-health = Статус: { $status }
@@ -148,6 +183,7 @@ rmc-dropship-equipment-operational = В СТРОЮ
 rmc-dropship-equipment-damaged = ПОВРЕЖДЕНО
 rmc-dropship-equipment-destroyed = УНИЧТОЖЕНО
 
+rmc-dropship-launch-bay-fire-not-flying = Вы можете запускать оборудование только во время полёта.
 rmc-dropship-launch-bay-screen-text = Внутренняя пусковая установка сторожевого корабля LAG-14
 rmc-dropship-launch-bay-screen-text-loaded = Внутренняя пусковая установка сторожевого корабля LAG-14
 

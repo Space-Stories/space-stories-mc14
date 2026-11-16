@@ -26,5 +26,5 @@ ent-RMCDropshipAttachmentAmmoRocketMiniMike = НАР-59 "Мини-Майк"
     .desc = Мини-ракета НАР-59 "Мини-Майк" — дешевое и эффективное средство для поражения цели на расстоянии. Хотя ракеты не имеют системы наведения, это компенсируется их количеством в боекомплекте. Может быть загружена в ракетную установку АПУ-229.
 ent-RMCDropshipAttachmentAmmoRocketMiniMikeIncendiary = НАР-59-З "Мини-Майк"
     .desc = Зажигательная мини-ракета НАР-59-З "Мини-Майк" — дешевое и эффективное средство для поражения цели на расстоянии И ПОДЖОГА ее! Хотя ракеты не имеют системы наведения, это компенсируется их количеством в боекомплекте. Может быть загружена в ракетную установку АПУ-229.
-ent-RMCDropshipAttachmentAmmoLaunchableSentry = A/C-49-P Air Deployable Sentry
-    .desc = An omni-directional sentry, capable of defending an area from lightly armored hostile incursion. Can be loaded into the LAG-14 Internal Sentry Launcher.
+ent-RMCDropshipAttachmentAmmoLaunchableSentry = сбрасываемая турель A/C-49-P
+    .desc = Всенаправленная турель, способная защищать участок от вторжения легкобронированного противника. Заряжается во внутреннюю пусковую установку турелей LAG-14.

@@ -1,14 +1,13 @@
 - type: entity
+  parent: RMCVehicleBase
   id: VehicleTankBase
   abstract: true
   name: tank
   description: A heavy armored tank built for battlefield dominance.
   components:
-  - type: Vehicle
-    movementKind: Grid
-  - type: Clickable
-  - type: RMCIgnoreGhostInteractionLimits
-  - type: RequireProjectileTarget
+  - type: WarpPoint
+    follow: true
+    location: Tank
   - type: GridVehicleMover
     maxSpeed: 3
     acceleration: 1.154
@@ -18,16 +17,19 @@
     turnDelay: 1
     turnInPlace: true
     turnInPlaceMaxSpeed: 0.5
-    pushCooldown: 2
+    pushCooldown: 1
     canPushVehicles: true
     blockingMobBypassNudgeLimit: 2
     xenoBlockMinimumSize: Immobile
     canXenosPush: false
-  - type: VehicleRideSurface
-    bounds:
-    - -1.3,-1.9,1.3,1.9
-    climbBounds:
-    - -1.8,1.8,1.8,2.8
+    weightClass: Medium
+  # Stories-RideSurfaceFix-Start
+  # - type: VehicleRideSurface
+  #   bounds:
+  #   - -1.3,-1.9,1.3,1.9
+  #   climbBounds:
+  #   - -1.8,1.8,1.8,2.8
+  # Stories-RideSurfaceFix-End
   - type: VehicleOvercharge
     speedMultiplier: 1.3
     duration: 3
@@ -36,16 +38,13 @@
   - type: VehicleSound
     runningSound: /Audio/Effects/Vehicle/vehicleengineidle.ogg
     runningSoundCooldown: 2
-    hornSound: /Audio/Effects/Vehicle/carhorn.ogg
+    hornSound: /Audio/Effects/Vehicle/carhorn.ogg # todo rmc14 add unique tank horn
     hornCooldown: 1
-    collisionSoundCooldown: 0.5
     mobCollisionSound: /Audio/_RMC14/Xeno/alien_claw_block.ogg
   - type: VehicleSpotlight
     radius: 8
     energy: 3
     softness: 2
-  - type: Physics
-    bodyType: Dynamic
   - type: Fixtures
     fixtures:
       world:
@@ -58,8 +57,10 @@
         - HighImpassable
         - LowImpassable
         - LargeMobLayer
+        - Vehicle
         layer:
         - LargeMobLayer
+        - Vehicle
       mob:
         shape:
           !type:PhysShapeAabb
@@ -73,8 +74,7 @@
         - LargeMobLayer
   - type: Damageable
     damageContainer: StructuralMarine
-    damageModifierSet: VehicleFrameTank
-  - type: InteractionOutline
+    damageModifierSet: VehicleFrameTank # tank damage modifier
   - type: Sprite
     drawdepth: Mobs
     sprite: _RMC14/Structures/Vehicles/tank.rsi
@@ -86,6 +86,7 @@
       visible: false
     - map: [ primary ]
       state: tank_turret_0
+      visible: false
     - map: [ secondary ]
       state: SECONDARY
       visible: false
@@ -94,13 +95,6 @@
       visible: false
     - map: [ rmc-wheels ]
       state: wheels_1
-  - type: SpriteMovement
-    movementLayers:
-      rmc-wheels:
-        state: wheels_0
-    noMovementLayers:
-      rmc-wheels:
-        state: wheels_1
   - type: PointLight
     enabled: false
     radius: 12
@@ -108,18 +102,7 @@
     softness: 2
     autoRot: true
     offset: "0,0.9"
-  - type: Corrodible
-    isCorrodible: false
-  - type: DoAfter
-  - type: UserInterface
-    interfaces:
-      enum.HardpointUiKey.Key:
-        type: HardpointBoundUserInterface
-      enum.VehicleWeaponsUiKey.Key:
-        type: VehicleWeaponsBoundUserInterface
-  - type: VehicleWeapons
   - type: VehicleHardpointVisuals
-  - type: InputMover
   - type: ItemSlots
     slots:
       armor:
@@ -149,42 +132,35 @@
           components:
           - VehicleWheelItem
   - type: HardpointSlots
-    vehicleFamily: Tank
+    vehicleFamily: HardpointVehicleFamilyTank
     slots:
     - id: armor
-      hardpointType: Armor
-      slotType: Armor
+      hardpointType: HardpointTypeArmor
+      slotType: HardpointSlotTypeArmor
       visualLayer: armor
       insertDelay: 2.5
       required: false
     - id: primary
-      hardpointType: Turret
-      slotType: Turret
+      hardpointType: HardpointTypeTurret
+      slotType: HardpointSlotTypeTurret
       visualLayer: primary
       insertDelay: 3.0
       required: false
     - id: secondary
-      hardpointType: Secondary
+      hardpointType: HardpointTypeSecondary
       visualLayer: secondary
       insertDelay: 2.5
       required: false
     - id: support
-      hardpointType: Support
-      slotType: SupportAttachment
+      hardpointType: HardpointTypeSupport
+      slotType: HardpointSlotTypeSupportAttachment
       visualLayer: support
       insertDelay: 2.0
       required: false
     - id: wheel-1
-      hardpointType: Wheel
-      slotType: Treads
+      hardpointType: HardpointTypeWheel
+      slotType: HardpointSlotTypeTreads
       insertDelay: 2.0
-  - type: VehicleWheelSlots
-    slotCount: 1
-  - type: HardpointIntegrity
-    maxIntegrity: 1000
-    repairFuelCost: 20
-    bypassEntryOnZero: true
-  - type: Appearance
   - type: VehicleEnter
     interiorPath: /Maps/_RMC14/Vehicles/tank_interior.yml
     enterDoAfter: 1.0
@@ -198,13 +174,48 @@
 
 - type: entity
   parent: VehicleTankBase
+  id: VehicleTankTest
+  name: test tank (autodrive)
+  description: A test tank that automatically drives east on spawn.
+  suffix: Debug
+  components:
+  - type: RMCVehicleAutopilot
+    direction: 1,0
+
+- type: entity
+  parent: VehicleTankBase
   id: VehicleTank
+  suffix: Drivable, Tank, Base, Tracked
+  components:
+  - type: VehicleEnter
+    interiorPath: /Maps/_RMC14/Vehicles/tank_interior.yml
+    enterDoAfter: 1.0
+    exitDoAfter: 1.0
+    maxPassengers: 3
+    maxXenos: 2
+    reservedPassengerPools:
+    - slots: 2
+      eligibleJobs:
+      - CMVehicleCrewman
+    entryPoints:
+    - offset: 0,2
+      radius: 1
+      interiorCoords: 0.5,-1
+  - type: MarineMapTracked
+  - type: TacticalMapTracked
+  - type: TacticalMapIcon
+    icon:
+      sprite: /Textures/_RMC14/Interface/map_blips_large.rsi
+      state: tank
+
+## SPP
 
 - type: entity
   parent: VehicleTankBase
   id: VehicleSPPTank
   name: SPP tank
   description: A heavy SPP battle tank.
+  suffix: Drivable, Tank, SPP
   components:
   - type: VehicleEnter
     interiorPath: /Maps/_RMC14/Vehicles/spp_tank_interior.yml
@@ -226,6 +237,7 @@
       visible: false
     - map: [ primary ]
       state: tank_turret_0
+      visible: false
     - map: [ secondary ]
       state: SECONDARY
       visible: false
@@ -264,38 +276,38 @@
           components:
           - VehicleWheelItem
   - type: HardpointSlots
-    vehicleFamily: Tank
+    vehicleFamily: HardpointVehicleFamilyTank
     slots:
     - id: armor
-      hardpointType: Armor
-      slotType: Armor
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeArmor
+      slotType: HardpointSlotTypeArmor
+      compatibilityId: HardpointCompatibilitySPPTank
       visualLayer: armor
       insertDelay: 2.5
       required: false
     - id: primary
-      hardpointType: Turret
-      slotType: Turret
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeTurret
+      slotType: HardpointSlotTypeTurret
+      compatibilityId: HardpointCompatibilitySPPTank
       visualLayer: primary
       insertDelay: 3.0
       required: false
     - id: secondary
-      hardpointType: Secondary
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeSecondary
+      compatibilityId: HardpointCompatibilitySPPTank
       visualLayer: secondary
       insertDelay: 2.5
       required: false
     - id: support
-      hardpointType: Support
-      slotType: SupportAttachment
-      compatibilityId: SPPTank
+      hardpointType: HardpointTypeSupport
+      slotType: HardpointSlotTypeSupportAttachment
+      compatibilityId: HardpointCompatibilitySPPTank
       visualLayer: support
       insertDelay: 2.0
       required: false
     - id: wheel-1
-      hardpointType: Wheel
-      slotType: Treads
+      hardpointType: HardpointTypeWheel
+      slotType: HardpointSlotTypeTreads
       insertDelay: 2.0
 
 - type: entity
@@ -303,6 +315,7 @@
   id: VehicleSPPTankCommand
   name: SPP command tank
   description: A heavy SPP command tank.
+  suffix: Drivable, Tank, SPP, Command Interior
   components:
   - type: VehicleEnter
     interiorPath: /Maps/_RMC14/Vehicles/spp_tank_command_interior.yml

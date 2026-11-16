@@ -18,18 +18,19 @@
       path: /Audio/Handling/taperecorder_drop.ogg
   - type: Appearance
   - type: UniversalRecorder
-    tapeSlot:
-      name: rmc-universal-recorder-slot-name
-      insertSuccessPopup: rmc-universal-recorder-popup-insert-generic
-      insertSound: /Audio/Items/taperecorder/taperecorder_close.ogg
-      ejectSound: /Audio/Items/taperecorder/taperecorder_open.ogg
-      whitelist:
-        components:
-        - UniversalRecorderTape
   - type: ContainerContainer
     containers:
       rmc_universal_recorder_tape: !type:ContainerSlot {}
   - type: ItemSlots
+    slots:
+      rmc_universal_recorder_tape:
+        name: rmc-universal-recorder-slot-name
+        insertSuccessPopup: rmc-universal-recorder-popup-insert-generic
+        insertSound: /Audio/Items/taperecorder/taperecorder_close.ogg
+        ejectSound: /Audio/Items/taperecorder/taperecorder_open.ogg
+        whitelist:
+          components:
+          - UniversalRecorderTape
   - type: UserInterface
     interfaces:
       enum.UniversalRecorderUiKey.Recorder:
@@ -38,6 +39,9 @@
     materialComposition:
       CMSteel: 60
       CMGlass: 30
+  - type: Tag
+    tags:
+    - Recorder
 
 - type: entity
   parent: RMCUniversalRecorderBase
@@ -57,9 +61,17 @@
   name: universal recorder
   description: A device that can record dialogue on magnetic tape and play it back. Good for appeals or witness statements.
   components:
-  - type: UniversalRecorder
-    tapeSlot:
-      startingItem: RMCUniversalRecorderTape
+  - type: ItemSlots
+    slots:
+      rmc_universal_recorder_tape:
+        name: rmc-universal-recorder-slot-name
+        insertSuccessPopup: rmc-universal-recorder-popup-insert-generic
+        insertSound: /Audio/Items/taperecorder/taperecorder_close.ogg
+        ejectSound: /Audio/Items/taperecorder/taperecorder_open.ogg
+        whitelist:
+          components:
+          - UniversalRecorderTape
+        startingItem: RMCUniversalRecorderTape
 
 - type: entity
   abstract: true
@@ -104,6 +116,9 @@
     materialComposition:
       CMSteel: 20
       CMGlass: 5
+  - type: Tag
+    tags:
+    - Recorder
 
 - type: entity
   parent: RMCUniversalRecorderTapeBase
@@ -129,3 +144,6 @@
     contents:
     - id: RMCUniversalRecorderTape
       amount: 5
+
+- type: Tag
+  id: Recorder

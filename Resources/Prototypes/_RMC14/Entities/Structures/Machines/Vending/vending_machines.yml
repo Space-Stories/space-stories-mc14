@@ -63,8 +63,12 @@
     radius: 1.5
   - type: LitOnPowered
   - type: ApcPowerReceiver
-    needsPower: false # TODO RMC14
-    powerLoad: 0
+    powerLoad: 250
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 10
+    activeLoad: 0
+    channel: Equipment
   - type: Appearance
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/generic.rsi
@@ -122,6 +126,67 @@
 - type: vendingMachineInventory
   id: CMVendomat
 
+- type: entity
+  parent: CMBaseStructure
+  id: VehicleHardpointVendor
+  name: vehicle hardpoint printer
+  description: A machine for printing vehicle hardpoints.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/VendingMachines/vending_64x32.rsi
+    layers:
+    - state: "vehicle_gear_off"
+    - state: "vehicle_gear"
+      map: [ "rmc_flick_animation" ]
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-1.0,-0.45,1.0,0.45"
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+        density: 200
+  - type: ActivatableUI
+    key: enum.CMAutomatedVendorUI.Key
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
+    access: [ [ "RMCAccessVehicleCrew" ] ]
+  - type: UserInterface
+    interfaces:
+      enum.CMAutomatedVendorUI.Key:
+        type: CMAutomatedVendorBui
+  - type: CMAutomatedVendor
+    scaling: false
+    sound:
+      path: /Audio/_RMC14/Machines/vending_drop.ogg
+      params:
+        maxDistance: 2
+        volume: -4
+    baseSprite:
+      sprite: _RMC14/Structures/Machines/VendingMachines/vending_64x32.rsi
+      state: vehicle_gear
+    animationSprite:
+      sprite: _RMC14/Structures/Machines/VendingMachines/vending_64x32.rsi
+      state: vehicle_gear_vend
+    sections: []
+  - type: VehicleHardpointVendor
+  - type: ApcPowerReceiver
+    powerLoad: 0
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 0
+    activeLoad: 0
+    # CM13's vehicle crew vendor inherits the zero-load cm_vending base.
+    channel: Equipment
+  - type: InteractionOutline
+  - type: RequireProjectileTarget
+
 
 # Coffee
 - type: entity
@@ -135,7 +200,12 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/coffee.rsi
   - type: VendingMachine
     pack: CMVendorCoffee
+    vendEnergy: 85000
     ejectState: eject-unshaded
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: entity
   parent: CMVendorCoffee
@@ -193,6 +263,7 @@
     RMCFoodSnackCheeseburgerPackaged: 12
     RMCFoodSnackBurritoPackaged: 12
     RMCFoodSnackHotdogPackaged: 12
+    RMCFoodSnackSamosaPackaged: 12
     RMCFoodSnackKeplarCrisps: 12
     RMCFoodSnackKeplarFlamehotCrisps: 12
     RMCFoodSnackChipsPepper: 12
@@ -215,12 +286,13 @@
     RMCFoodSnackCheeseburgerPackaged: 40
     RMCFoodSnackBurritoPackaged: 40
     RMCFoodSnackHotdogPackaged: 40
+    RMCFoodSnackSamosaPackaged: 40
 
 - type: entity
   parent: CMVendorSnack
   id: RMCVendorSnackSPP
-  name: Surplus Ration Vendor
-  description: A vending machine full of surplus rations, viewed as the luxury of ready-avaliable SPP rations.
+  name: surplus ration vendor
+  description: A vending machine full of surplus rations, viewed as the luxury of ready-available SPP rations.
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/spp_snack.rsi
@@ -237,6 +309,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/cola.rsi
   - type: VendingMachine
     pack: CMVendorCola
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorCola
@@ -325,6 +401,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/sodavend.rsi
   - type: VendingMachine
     pack: RMCVendorSoda
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: RMCVendorSoda
@@ -457,7 +537,7 @@
 - type: entity
   parent: CMVendorCigs
   id: RMCVendorCigsSPP
-  name: Komandir Cigarettes Vendor
+  name: Komandir cigarettes vendor
   description: A state-owned cigarette vendor. Its drab colour was chosen to discourage purchases, but its existence is an admittance to the necessity for such machines to exist in the first place.
   components:
   - type: Sprite
@@ -493,7 +573,7 @@
     CMBeltSecurityMP: 10
     CMFlash: 5
     RMCFoodDonut: 12
-    # Evidence box 6
+    RMCBoxEvidence: 6
     CMArmorHelmetM10MP: 6
     # PeakedMPCap: 6
     CMHeadCapMP: 6
@@ -501,9 +581,10 @@
     CMHeadBeretRed: 6
     CMGlassesSecurity: 3
     CMHeadset: 6
-    #RegulationTape: 5
-    #TapeRecorder: 3
-    #ClueScanner: 3
+    RMCUniversalRecorder: 3
+    RMCBoxRegulationTapes: 5
+    RMCPoliceForensicScanner: 3
+    RMCForensicSpray: 3
     #Camera: 8
     #CameraFilm: 8
     RMCWhistle: 5
@@ -573,7 +654,7 @@
     CMBurnAidKitFilled: 2
     RMCRadiationAidKitFilled: 1
     RMCCPRDummy: 5
-    # Crew Monitor
+    RMCPortableCrewMonitor: 1
 
 
 # Nutriments
@@ -589,6 +670,10 @@
     pack: CMVendorNutri
     denyState: deny-unshaded
     ejectState: eject-unshaded
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorNutri
@@ -684,13 +769,18 @@
     - state: "off"
       map: ["enum.VendingMachineVisualLayers.Base"]
     - state: "normal-unshaded"
-      map: [ "enum.VendingMachineVisualLayers.BaseUnshaded" ]
+      map: [ "enum.PowerDeviceVisualLayers.Powered" ]
       shader: unshaded
     - state: "panel"
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
   - type: ApcPowerReceiver
-    needsPower: false # TODO RMC14
-    powerLoad: 0
+    needsPower: true
+    powerLoad: 250
+  - type: RMCPowerReceiver
+    idleLoad: 10
+    activeLoad: 0
+    channel: Equipment
+  - type: ActivatableUIRequiresPower
   - type: Appearance
   - type: LitOnPowered
   - type: Wires
@@ -702,6 +792,7 @@
     timeToApply: 4
     structure: true
   - type: CMAutomatedVendor
+    vendEnergy: 150
     scaling: false
     sections:
     - name: Products
@@ -714,8 +805,10 @@
         amount: 5
       - id: DrinkShaker
         amount: 5
-      - id: DrinkGlass
+      - id: RMCDrinkGlass
         amount: 8
+      - id: DrinkGlass
+        amount: 4
       - id: ClothingOuterApronChef
         amount: 2
       - id: RMCCondimentSmallSalt
@@ -798,6 +891,10 @@
     sprite: _RMC14/Structures/Machines/VendingMachines/sovietsoda.rsi
   - type: VendingMachine
     pack: CMVendorSodaSoviet
+  - type: RMCPowerReceiver
+    idleLoad: 211
+    activeLoad: 0
+    channel: Equipment
 
 - type: vendingMachineInventory
   id: CMVendorSodaSoviet
@@ -834,9 +931,9 @@
         amount: 24
       - id: FoodMeatSausage
         amount: 18
-      - id: DrinkMilkCarton
+      - id: RMCDrinkMilkCarton
         amount: 24
-      - id: DrinkSoyMilkCarton
+      - id: RMCDrinkSoyMilkCarton
         amount: 12
       - id: RMCCondimentEnzyme
         amount: 12
