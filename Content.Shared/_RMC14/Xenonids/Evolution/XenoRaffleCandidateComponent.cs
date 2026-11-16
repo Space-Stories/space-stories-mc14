@@ -13,6 +13,13 @@ public sealed partial class XenoRaffleCandidateComponent : Component
     [DataField, AutoNetworkedField]
     public EntProtoId Target;
 
+    // Stories-XenoEvolutionQueue-Start
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId> Path = new();
+
+    public EntProtoId CurrentTarget => Path.Count > 0 ? Path[0] : Target;
+    // Stories-XenoEvolutionQueue-End
+
     [DataField, AutoNetworkedField]
     public int Tier;
 
