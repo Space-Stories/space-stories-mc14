@@ -97,6 +97,7 @@
       - id: RMCMagazineRifleType71
         amount: 2
     - !type:AllSelector # MAR-50
+      weight: 0.45597116
       children:
       - id: RMCWeaponMar50LMG
       - id: RMCMagazineMar50LMG

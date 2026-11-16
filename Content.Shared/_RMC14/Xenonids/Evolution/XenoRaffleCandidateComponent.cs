@@ -1,3 +1,4 @@
+using Content.Shared.DoAfter;
 using Content.Shared.FixedPoint;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -26,6 +27,8 @@ public sealed partial class XenoRaffleCandidateComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool Evolving;
+
+    public DoAfterId? EvolutionDoAfter; // Stories-XenoEvolutionQueue
 
     [DataField, AutoNetworkedField]
     public FixedPoint2 RaffleCost;

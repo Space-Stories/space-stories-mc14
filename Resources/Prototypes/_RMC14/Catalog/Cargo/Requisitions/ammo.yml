@@ -215,5 +215,8 @@
         unit: true
         crate: RMCTankFlamerBGel
 
+      - cost: 4000
+        crate: RMCCrateMagazineFlamerMixed
+
       - cost: 6000
         crate: RMCCrateMagazineAmmoSurplus
