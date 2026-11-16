@@ -36,6 +36,7 @@ public abstract partial class SharedCMSurgerySystem : EntitySystem
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     private readonly Dictionary<EntProtoId, EntityUid> _surgeries = new();
 

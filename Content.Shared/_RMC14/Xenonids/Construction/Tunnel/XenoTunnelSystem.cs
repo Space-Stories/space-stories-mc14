@@ -370,6 +370,11 @@ public sealed class XenoTunnelSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        // Stories-UIValidation-Start
+        if (!_ui.IsUiOpen(xenoTunnel.Owner, NameTunnelUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         var name = args.TunnelName;
         if (name.Length > 50)
             name = name[..50];

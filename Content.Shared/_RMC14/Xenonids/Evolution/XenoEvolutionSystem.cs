@@ -246,6 +246,11 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        // Stories-UIValidation-Start
+        if (args.Actor != xeno.Owner)
+            return;
+        // Stories-UIValidation-End
+
         if (!xeno.Comp.Strains.Contains(args.Choice))
         {
             Log.Warning($"{ToPrettyString(actor)} sent an invalid strain choice: {args.Choice}.");
@@ -272,7 +277,18 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private void OnXenoDevolveBui(Entity<XenoDevolveComponent> xeno, ref XenoDevolveBuiMsg args)
     {
-        _ui.CloseUi(xeno.Owner, XenoEvolutionUIKey.Key, xeno);
+        // Stories-UIValidation-Start
+        if (_net.IsClient)
+            return;
+
+        if (args.Actor != xeno.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(xeno.Owner, XenoDevolveUIKey.Key, args.Actor))
+            return;
+
+        _ui.CloseUi(xeno.Owner, XenoDevolveUIKey.Key, args.Actor);
+        // Stories-UIValidation-End
         TryDevolve(xeno, args.Choice);
     }
 
