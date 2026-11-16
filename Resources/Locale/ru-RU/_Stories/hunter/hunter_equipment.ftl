@@ -76,3 +76,7 @@ st-hunter-cleaner-already-melting = Этот предмет уже раство�
 st-hunter-cleaner-start = Вы начинаете лить растворяющий гель на { $target }...
 st-hunter-cleaner-success = { $target } тает и исчезает без следа.
 st-hunter-vendor-hands-full = Ваши руки заняты.
+
+stories-alerts-bracer-power-name = Заряд наручей
+stories-alerts-bracer-power-desc = Энергия наручей. Тратится на маскировку, плазмакастер и другие функции, восстанавливается со временем.
+stories-alerts-bracer-power-charge = Заряд: { $charge } / { $max }

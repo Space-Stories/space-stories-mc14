@@ -1,0 +1,8 @@
+- type: alert
+  id: STTethered
+  clickEvent: !type:StoriesTetherResistAlertEvent
+  icons:
+  - sprite: /Textures/Interface/Alerts/ensnared.rsi
+    state: ensnared
+  name: stories-alerts-tethered-name
+  description: stories-alerts-tethered-desc

@@ -21,8 +21,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/base.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -49,8 +49,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/retro.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -77,8 +77,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/ebony.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -105,8 +105,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/bronze.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -133,8 +133,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/silver.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -161,8 +161,8 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/bone.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
 
@@ -189,7 +189,7 @@
     state: powerbar_7
   - sprite: /Textures/_Stories/Interface/Alerts/Energy/crimson.rsi
     state: powerbar_full
-  name: alerts-bracer-power-name
-  description: alerts-bracer-power-desc
+  name: stories-alerts-bracer-power-name
+  description: stories-alerts-bracer-power-desc
   minSeverity: 0
   maxSeverity: 9
