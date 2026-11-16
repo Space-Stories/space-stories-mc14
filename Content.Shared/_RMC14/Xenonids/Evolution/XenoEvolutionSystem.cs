@@ -185,11 +185,16 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (args.Actor != xeno.Owner)
             return;
 
+        // Stories-XenoEvolutionQueue-Start
+        if (TryComp(xeno, out XenoRaffleCandidateComponent? evolvingCand) && evolvingCand.Evolving)
+            return;
+
         if (ShouldRaffle(xeno, args.Choice))
         {
             TryEnterRaffle(xeno, args.Choice);
             return;
         }
+        // Stories-XenoEvolutionQueue-End
 
         if (!CanEvolvePopup(xeno, args.Choice))
         {
@@ -230,8 +235,24 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (xeno.Comp.EvolutionDelay > TimeSpan.Zero)
             _popup.PopupClient(Loc.GetString("cm-xeno-evolution-start"), xeno, xeno);
 
-        if (_doAfter.TryStartDoAfter(doAfter))
+        if (_doAfter.TryStartDoAfter(doAfter, out var doAfterId)) // Stories-XenoEvolutionQueue
         {
+            // Stories-XenoEvolutionQueue-Start
+            if (TryComp(xeno, out XenoRaffleCandidateComponent? cand))
+            {
+                if (args.Choice == cand.Target)
+                {
+                    LeaveRaffle(xeno.Owner);
+                }
+                else
+                {
+                    cand.Evolving = true;
+                    cand.EvolutionDoAfter = doAfterId;
+                    cand.EvolutionEvent = ev;
+                    Dirty(xeno, cand);
+                }
+            }
+            // Stories-XenoEvolutionQueue-End
             _jitter.DoJitter(xeno, xeno.Comp.EvolutionDelay, true, 80, 8, true);
 
             var popupOthers = Loc.GetString("rmc-xeno-evolution-start-others", ("xeno", xeno));
@@ -304,20 +325,18 @@ public sealed class XenoEvolutionSystem : EntitySystem
         // Stories-XenoEvolutionQueue-Start
         var candidate = CompOrNull<XenoRaffleCandidateComponent>(xeno);
         if (args.Raffle &&
-            (candidate == null || !candidate.Evolving || candidate.Target != args.Choice ||
+            (candidate == null || !candidate.Evolving || candidate.CurrentTarget != args.Choice ||
              candidate.EvolutionEvent != args))
         {
             return;
         }
 
-        if (args.Raffle)
+        if (candidate != null && candidate.EvolutionEvent == args)
         {
-            candidate!.EvolutionDoAfter = null;
+            candidate.EvolutionDoAfter = null;
             candidate.EvolutionEvent = null;
         }
-        // Stories-XenoEvolutionQueue-End
 
-        // Stories-XenoEvolutionQueue-Start
         var valid = !args.Cancelled &&
                     _mind.TryGetMind(xeno, out _, out _) &&
                     CanEvolvePopup(xeno, args.Choice, ignoreEvolvesTo: args.IgnoreEvolvesTo) &&
@@ -329,6 +348,10 @@ public sealed class XenoEvolutionSystem : EntitySystem
             if (TryComp(xeno, out XenoRaffleCandidateComponent? interrupted) && interrupted.Evolving)
             {
                 interrupted.Evolving = false;
+                // Stories-XenoEvolutionQueue-Start
+                interrupted.EvolutionDoAfter = null;
+                interrupted.EvolutionEvent = null;
+                // Stories-XenoEvolutionQueue-End
                 Dirty(xeno, interrupted);
                 if (_xenoHive.GetHive(xeno.Owner) is { } candHive)
                     RefreshRaffleUi(candHive);
@@ -339,7 +362,7 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
         args.Handled = true;
 
-        var wonRaffle = HasComp<XenoRaffleCandidateComponent>(xeno);
+        var wonRaffle = args.Raffle; // Stories-XenoEvolutionQueue
 
         var newXeno = TransferXeno(xeno, args.Choice);
         var ev = new NewXenoEvolvedEvent(xeno, newXeno, true);
@@ -623,11 +646,38 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (!ignoreFixable && !ContainedCheckPopup(xeno, doPopup))
             return false;
 
-        if (prototype.HasComponent<XenoEvolutionGranterComponent>(_compFactory) && HiveHasLivingQueen(xeno.Owner))
+        if (prototype.HasComponent<XenoEvolutionGranterComponent>(_compFactory))
         {
-            if (doPopup)
-                _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-failed-queen-exists"), xeno, xeno, PopupType.MediumCaution);
-            return false;
+            if (HiveHasLivingQueen(xeno.Owner))
+            {
+                if (doPopup)
+                    _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-failed-queen-exists"), xeno, xeno, PopupType.MediumCaution);
+                return false;
+            }
+
+            // Stories-XenoEvolutionQueue-Start
+            if (_xenoHive.GetHive(xeno.Owner) is { } queenHive &&
+                queenHive.Comp.LastQueenDeath is { } lastQueenDeath &&
+                _timing.CurTime < lastQueenDeath + queenHive.Comp.NewQueenCooldown)
+            {
+                if (doPopup)
+                {
+                    var left = lastQueenDeath + queenHive.Comp.NewQueenCooldown - _timing.CurTime;
+                    var msg = Loc.GetString("rmc-xeno-evolution-cant-evolve-recent-queen-death-minutes",
+                        ("minutes", left.Minutes),
+                        ("seconds", left.Seconds));
+                    if (left.Minutes == 0)
+                    {
+                        msg = Loc.GetString("rmc-xeno-evolution-cant-evolve-recent-queen-death-seconds",
+                            ("seconds", left.Seconds));
+                    }
+
+                    _popup.PopupEntity(msg, xeno, xeno, PopupType.MediumCaution);
+                }
+
+                return false;
+            }
+            // Stories-XenoEvolutionQueue-End
         }
 
         // TODO RMC14 revive jelly when added should not bring back dead queens
@@ -699,7 +749,7 @@ public sealed class XenoEvolutionSystem : EntitySystem
             !newXenoComp.BypassTierCount &&
             _xenoHive.GetHive(xeno.Owner) is { } oldHive)
         {
-            var reserved = reservedTierSlots ?? GetReservedTierSlots(oldHive, newXenoComp.Tier, xeno.Owner); // Stories-XenoEvolutionQueue
+            var reserved = reservedTierSlots ?? GetReservedTierSlots(oldHive, newXenoComp.Tier, xeno.Owner);
 
             if (!HasTierRoom(oldHive, newXeno, newXenoComp.Tier, reserved))
             {
@@ -797,8 +847,10 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
     private void OnRaffleCandidateMobStateChanged(Entity<XenoRaffleCandidateComponent> ent, ref MobStateChangedEvent args)
     {
-        if (_net.IsClient || args.NewMobState == MobState.Alive)
+        // Stories-XenoEvolutionQueue-Start
+        if (_net.IsClient || args.NewMobState != MobState.Dead)
             return;
+        // Stories-XenoEvolutionQueue-End
 
         LeaveRaffle(ent.Owner);
     }
@@ -811,7 +863,6 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
         LeaveRaffle(ent.Owner);
     }
-    // Stories-XenoEvolutionQueue-End
 
     private void OnXenoJoinRaffleBui(Entity<XenoEvolutionComponent> xeno, ref XenoJoinRaffleBuiMsg args)
     {
@@ -821,24 +872,16 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (args.Actor != xeno.Owner)
             return;
 
-        TryEnterRaffle(xeno, args.Choice);
+        TryEnterRaffle(xeno, args.Choice, args.Path);
     }
 
-    private bool TryEnterRaffle(Entity<XenoEvolutionComponent> xeno, EntProtoId target)
+    private bool TryEnterRaffle(Entity<XenoEvolutionComponent> xeno, EntProtoId target, List<EntProtoId>? path = null)
     {
-        // Stories-XenoEvolutionQueue-Start
         if (!_mobState.IsAlive(xeno) || !_mind.TryGetMind(xeno, out _, out _))
             return false;
 
-        if (TryComp(xeno, out XenoRaffleCandidateComponent? existing))
-        {
-            if (existing.Evolving)
-                return false;
-
-            if (existing.Target == target)
-                return true;
-        }
-        // Stories-XenoEvolutionQueue-End
+        if (TryComp(xeno, out XenoRaffleCandidateComponent? existing) && existing.Evolving)
+            return false;
 
         if (!_prototypes.TryIndex(target, out var proto) ||
             !proto.TryGetComponent(out XenoComponent? targetXeno, _compFactory))
@@ -846,61 +889,42 @@ public sealed class XenoEvolutionSystem : EntitySystem
             return false;
         }
 
-        // Stories-XenoEvolutionRaffle-Start
         if (proto.Abstract ||
             proto.HasComponent<XenoStrainComponent>(_compFactory) ||
-            proto.HasComponent<XenoHiddenComponent>(_compFactory))
+            proto.HasComponent<XenoHiddenComponent>(_compFactory) ||
+            (proto.HasComponent<XenoEvolutionGranterComponent>(_compFactory) && HiveHasLivingQueen(xeno.Owner)))
         {
             return false;
         }
-        // Stories-XenoEvolutionRaffle-End
 
         if (_xenoHive.GetHive(xeno.Owner) is not { } hive)
             return false;
 
-        var raffle = EnsureHiveRaffle(hive);
-        if (!raffle.RaffleTiers.TryGetValue(targetXeno.Tier, out var phaseAEnabled))
+        if (!ValidateEvolutionPath(xeno, target, path, out var resolvedPath) || resolvedPath.Count == 0)
             return false;
 
-        var normal = xeno.Comp.EvolvesTo.Contains(target) ||
-                     xeno.Comp.EarlyEvolvesTo.Contains(target) ||
-                     xeno.Comp.EvolvesToWithoutPoints.Contains(target);
-        var phaseAOpen = phaseAEnabled && !raffle.PhaseAClosedTiers.Contains(targetXeno.Tier);
+        if (existing != null && existing.Target == target && existing.Path.SequenceEqual(resolvedPath))
+            return true;
 
-        var leapfrog = false;
-        if (!normal)
+        var stepTarget = resolvedPath[0];
+        if (!_prototypes.TryIndex(stepTarget, out var stepProto) ||
+            !stepProto.TryGetComponent(out XenoComponent? stepXeno, _compFactory))
         {
-            var currentTier = CompOrNull<XenoComponent>(xeno)?.Tier ?? 0;
-            if (!phaseAOpen || currentTier >= targetXeno.Tier)
-                return false;
-
-            // Stories-XenoEvolutionRaffle-Start
-            if (!raffle.LeapfrogTargets.TryGetValue(targetXeno.Tier, out var validTargets) ||
-                !validTargets.Contains(target))
-            {
-                return false;
-            }
-            // Stories-XenoEvolutionRaffle-End
-
-            leapfrog = true;
-        }
-
-        // Stories-XenoEvolutionPoints-Start
-        if (!leapfrog && !xeno.Comp.EvolvesToWithoutPoints.Contains(target) && xeno.Comp.Points < xeno.Comp.Max)
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-failed-not-enough-points"), xeno, xeno, PopupType.MediumCaution);
             return false;
         }
-        // Stories-XenoEvolutionPoints-End
 
         var cand = EnsureComp<XenoRaffleCandidateComponent>(xeno);
         cand.Target = target;
-        cand.Tier = targetXeno.Tier;
-        cand.Leapfrog = leapfrog;
-        cand.GraceUntil = null; // Stories-XenoEvolutionQueue
-
+        cand.Path = resolvedPath;
+        cand.Tier = stepXeno.Tier;
+        cand.Leapfrog = false;
+        cand.GraceUntil = null;
+        cand.LastFullBlockNotify = null;
+        cand.Evolving = false;
+        cand.EvolutionDoAfter = null;
+        cand.EvolutionEvent = null;
         cand.RaffleProgress = FixedPoint2.Zero;
-        cand.RaffleCost = leapfrog ? ComputeLeapfrogCost(xeno, target) : FixedPoint2.Zero;
+        cand.RaffleCost = FixedPoint2.Zero;
 
         Dirty(xeno, cand);
 
@@ -908,9 +932,10 @@ public sealed class XenoEvolutionSystem : EntitySystem
         RefreshRaffleUi(hive);
         return true;
     }
+    // Stories-XenoEvolutionQueue-End
 
     // Stories-XenoEvolutionQueue-Start
-    public int GetReservedTierSlots(Entity<HiveComponent> hive, int tier, EntityUid? ignore = null)
+    public int GetReservedTierSlots(Entity<HiveComponent> hive, int tier, EntityUid? ignore = null, bool includeWaiting = false)
     {
         var reserved = 0;
         var query = EntityQueryEnumerator<XenoRaffleCandidateComponent, HiveMemberComponent>();
@@ -922,10 +947,8 @@ public sealed class XenoEvolutionSystem : EntitySystem
             if (_mobState.IsDead(uid))
                 continue;
 
-            // Stories-XenoEvolutionQueue-Start
-            if (cand.Evolving || cand.GraceUntil != null)
+            if (includeWaiting || cand.Evolving || cand.GraceUntil != null)
                 reserved++;
-            // Stories-XenoEvolutionQueue-End
         }
 
         return reserved;
@@ -941,12 +964,35 @@ public sealed class XenoEvolutionSystem : EntitySystem
             return false;
         }
 
-        var raffle = EnsureHiveRaffle(hive);
         // Stories-XenoEvolutionQueue-Start
-        if (raffle.RaffleTiers.ContainsKey(targetXeno.Tier))
+        if (proto.HasComponent<XenoEvolutionGranterComponent>(_compFactory))
+        {
+            if (HiveHasLivingQueen(xeno.Owner))
+                return false;
+
+            if (hive.Comp.LastQueenDeath is { } lastQueenDeath &&
+                _timing.CurTime < lastQueenDeath + hive.Comp.NewQueenCooldown)
+            {
+                return true;
+            }
+
+            var queenQuery = EntityQueryEnumerator<XenoRaffleCandidateComponent, HiveMemberComponent>();
+            while (queenQuery.MoveNext(out var uid, out var cand, out var member))
+            {
+                if (member.Hive == hive.Owner && uid != xeno.Owner && !_mobState.IsDead(uid) && cand.Target == target)
+                    return true;
+            }
+
+            return false;
+        }
+
+        if (!xeno.Comp.EvolvesToWithoutPoints.Contains(target) && xeno.Comp.Points < xeno.Comp.Max)
             return true;
 
-        var reserved = GetReservedTierSlots(hive, targetXeno.Tier, xeno.Owner);
+        if (targetXeno.UnlockAt > _gameTicker.RoundDuration())
+            return true;
+
+        var reserved = GetReservedTierSlots(hive, targetXeno.Tier, xeno.Owner, true);
         return !targetXeno.BypassTierCount && (!HasTierRoom(hive, target, targetXeno.Tier, reserved) || reserved > 0);
         // Stories-XenoEvolutionQueue-End
     }
@@ -958,6 +1004,11 @@ public sealed class XenoEvolutionSystem : EntitySystem
 
         if (args.Actor != xeno.Owner)
             return;
+
+        // Stories-XenoEvolutionQueue-Start
+        if (TryComp(xeno, out XenoRaffleCandidateComponent? cand) && cand.Evolving)
+            return;
+        // Stories-XenoEvolutionQueue-End
 
         LeaveRaffle(xeno.Owner);
     }
@@ -1011,12 +1062,21 @@ public sealed class XenoEvolutionSystem : EntitySystem
         var query = EntityQueryEnumerator<XenoRaffleCandidateComponent>();
         while (query.MoveNext(out var uid, out var cand))
         {
-            if (!_mobState.IsAlive(uid) || !_mind.TryGetMind(uid, out _, out _) || // Stories-XenoEvolutionQueue
-                _xenoHive.GetHive(uid) is not { } candHive)
+            // Stories-XenoEvolutionQueue-Start
+            if (_mobState.IsDead(uid) || !_mind.TryGetMind(uid, out _, out _) ||
+                _xenoHive.GetHive(uid) is not { } candHive ||
+                string.IsNullOrEmpty(cand.Target.Id) ||
+                (_prototypes.TryIndex(cand.Target, out var targetProto) &&
+                 targetProto.HasComponent<XenoEvolutionGranterComponent>(_compFactory) &&
+                 HiveHasLivingQueen(uid)))
             {
                 LeaveRaffle(uid);
                 continue;
             }
+
+            if (!_mobState.IsAlive(uid))
+                continue;
+            // Stories-XenoEvolutionQueue-End
 
             byHive.GetOrNew(candHive.Owner).Add((uid, cand));
         }
@@ -1066,6 +1126,8 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (!TryComp(cand.Owner, out XenoEvolutionComponent? evo))
             return false;
 
+        // Stories-XenoEvolutionQueue-Start
+        var stepTarget = cand.Comp.CurrentTarget;
         var tier = cand.Comp.Tier;
         var reservedForTier = reserved.GetValueOrDefault(tier);
 
@@ -1075,19 +1137,11 @@ public sealed class XenoEvolutionSystem : EntitySystem
             return false;
         }
 
-        if (!CanEvolvePopup((cand.Owner, evo), cand.Comp.Target, false, ignoreEvolvesTo: cand.Comp.Leapfrog, reservedTierSlots: reservedForTier, ignoreFixable: true))
+        if (!CanEvolvePopup((cand.Owner, evo), stepTarget, false, ignoreEvolvesTo: false, reservedTierSlots: reservedForTier, ignoreFixable: true))
         {
             return ClearGraceIfHeld(cand);
         }
-
-        if (cand.Comp.Leapfrog && GetBlockingLowerTier(hive, cand.Owner, tier, reserved) is { } blockedTier)
-        {
-            NotifyLeapfrogBlocked(cand, blockedTier);
-            return ClearGraceIfHeld(cand);
-        }
-
-        if (cand.Comp.Leapfrog && cand.Comp.RaffleProgress < cand.Comp.RaffleCost)
-            return ClearGraceIfHeld(cand);
+        // Stories-XenoEvolutionQueue-End
 
         if (GetUnmetGraceRequirement((cand.Owner, evo)) is { } reason)
         {
@@ -1119,20 +1173,19 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (!StartRaffleEvolve(cand, (cand.Owner, evo)))
             return false;
 
-        if (raffle.RaffleTiers.ContainsKey(tier) && raffle.PhaseAClosedTiers.Add(tier))
-            Dirty(hive.Owner, raffle);
-
         reserved[tier] = reservedForTier + 1;
         return true;
     }
 
     private bool StartRaffleEvolve(Entity<XenoRaffleCandidateComponent> cand, Entity<XenoEvolutionComponent> evo)
     {
-        var ev = new XenoEvolutionDoAfterEvent(cand.Comp.Target)
+        // Stories-XenoEvolutionQueue-Start
+        var stepTarget = cand.Comp.CurrentTarget;
+        var ev = new XenoEvolutionDoAfterEvent(stepTarget)
         {
-            IgnoreEvolvesTo = cand.Comp.Leapfrog,
-            Raffle = true, // Stories-XenoEvolutionQueue
+            Raffle = true,
         };
+        // Stories-XenoEvolutionQueue-End
         var doAfter = new DoAfterArgs(EntityManager, cand.Owner, evo.Comp.EvolutionDelay, ev, cand.Owner)
         {
             BreakOnRest = false,
@@ -1228,6 +1281,151 @@ public sealed class XenoEvolutionSystem : EntitySystem
             PopupType.MediumCaution);
     }
 
+    // Stories-XenoEvolutionQueue-Start
+    public List<List<EntProtoId>> GetEvolutionPaths(EntProtoId startProto, bool marinesLanded)
+    {
+        var results = new List<List<EntProtoId>>();
+        var currentPath = new List<EntProtoId>();
+        var visited = new HashSet<EntProtoId> { startProto };
+
+        CollectEvolutionPaths(startProto, marinesLanded, currentPath, visited, results);
+        return results;
+    }
+
+    private void CollectEvolutionPaths(
+        EntProtoId currentProtoId,
+        bool marinesLanded,
+        List<EntProtoId> currentPath,
+        HashSet<EntProtoId> visited,
+        List<List<EntProtoId>> results)
+    {
+        if (!_prototypes.TryIndex(currentProtoId, out var currentProto) ||
+            !currentProto.TryGetComponent(out XenoEvolutionComponent? evo, _compFactory))
+        {
+            return;
+        }
+
+        var currentTier = currentProto.TryGetComponent(out XenoComponent? currentXeno, _compFactory)
+            ? currentXeno.Tier
+            : 0;
+
+        foreach (var next in evo.EvolvesTo)
+        {
+            TryExtendPath(next, currentTier, marinesLanded, currentPath, visited, results);
+        }
+
+        if (!marinesLanded)
+        {
+            foreach (var next in evo.EarlyEvolvesTo)
+            {
+                TryExtendPath(next, currentTier, marinesLanded, currentPath, visited, results);
+            }
+        }
+    }
+
+    private void TryExtendPath(
+        EntProtoId next,
+        int currentTier,
+        bool marinesLanded,
+        List<EntProtoId> currentPath,
+        HashSet<EntProtoId> visited,
+        List<List<EntProtoId>> results)
+    {
+        if (!visited.Add(next))
+            return;
+
+        if (_prototypes.TryIndex(next, out var nextProto) &&
+            !nextProto.Abstract &&
+            !nextProto.HasComponent<XenoStrainComponent>(_compFactory) &&
+            !nextProto.HasComponent<XenoHiddenComponent>(_compFactory) &&
+            nextProto.TryGetComponent(out XenoComponent? nextXeno, _compFactory) &&
+            nextXeno.Tier >= currentTier)
+        {
+            currentPath.Add(next);
+            results.Add(new List<EntProtoId>(currentPath));
+            CollectEvolutionPaths(next, marinesLanded, currentPath, visited, results);
+            currentPath.RemoveAt(currentPath.Count - 1);
+        }
+
+        visited.Remove(next);
+    }
+
+    private bool ValidateEvolutionPath(
+        Entity<XenoEvolutionComponent> xeno,
+        EntProtoId target,
+        List<EntProtoId>? path,
+        out List<EntProtoId> resolvedPath)
+    {
+        resolvedPath = new List<EntProtoId>();
+        var startProto = Prototype(xeno.Owner)?.ID;
+        if (string.IsNullOrEmpty(startProto))
+            return false;
+
+        if (xeno.Comp.EvolvesToWithoutPoints.Contains(target) && (path == null || path.Count <= 1))
+        {
+            resolvedPath.Add(target);
+            return true;
+        }
+
+        var marinesLanded = xeno.Comp.MarinesLanded;
+        if (path != null && path.Count > 0 && path[^1] == target &&
+            IsValidPathSequence(startProto, path, marinesLanded))
+        {
+            resolvedPath.AddRange(path);
+            return true;
+        }
+
+        foreach (var candidatePath in GetEvolutionPaths(startProto, marinesLanded))
+        {
+            if (candidatePath.Count > 0 && candidatePath[^1] == target)
+            {
+                resolvedPath = candidatePath;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsValidPathSequence(EntProtoId startProto, List<EntProtoId> path, bool marinesLanded)
+    {
+        if (path.Count > 16)
+            return false;
+
+        var current = startProto;
+        var visited = new HashSet<EntProtoId> { current };
+        foreach (var step in path)
+        {
+            if (!visited.Add(step))
+                return false;
+
+            if (!_prototypes.TryIndex(current, out var currentProto) ||
+                !currentProto.TryGetComponent(out XenoEvolutionComponent? evo, _compFactory))
+            {
+                return false;
+            }
+
+            var hasEdge = evo.EvolvesTo.Contains(step) ||
+                          (!marinesLanded && evo.EarlyEvolvesTo.Contains(step));
+            if (!hasEdge)
+                return false;
+
+            if (!_prototypes.TryIndex(step, out var stepProto) ||
+                stepProto.Abstract ||
+                stepProto.HasComponent<XenoStrainComponent>(_compFactory) ||
+                stepProto.HasComponent<XenoHiddenComponent>(_compFactory) ||
+                !stepProto.HasComponent<XenoComponent>(_compFactory))
+            {
+                return false;
+            }
+
+            current = step;
+        }
+
+        return true;
+    }
+    // Stories-XenoEvolutionQueue-End
+
     private XenoEvolveBuiState BuildEvolveState(EntityUid xeno)
     {
         var candidates = new Dictionary<string, int>();
@@ -1239,8 +1437,14 @@ public sealed class XenoEvolutionSystem : EntitySystem
             TryComp(xeno, out XenoEvolutionComponent? evoComp))
         {
             var xenoEnt = new Entity<XenoEvolutionComponent>(xeno, evoComp);
-            var raffle = EnsureHiveRaffle(hive);
-            var currentTier = CompOrNull<XenoComponent>(xeno)?.Tier ?? 0;
+
+            // Stories-XenoEvolutionQueue-Start
+            foreach (var target in evoComp.EvolvesToWithoutPoints)
+            {
+                if (ShouldRaffle(xenoEnt, target))
+                    raffleGated.Add(target.Id);
+            }
+            // Stories-XenoEvolutionQueue-End
 
             foreach (var target in evoComp.EvolvesTo)
             {
@@ -1254,26 +1458,15 @@ public sealed class XenoEvolutionSystem : EntitySystem
                     raffleGated.Add(target.Id);
             }
 
-            foreach (var (tier, phaseAEnabled) in raffle.RaffleTiers)
-            {
-                var phaseAOpen = phaseAEnabled && !raffle.PhaseAClosedTiers.Contains(tier);
-                if (!phaseAOpen)
-                    continue;
-
-                phaseAActive = true;
-
-                if (currentTier < tier &&
-                    raffle.LeapfrogTargets.TryGetValue(tier, out var targets))
-                {
-                    foreach (var target in targets)
-                        leapfrogTargets.Add(target.Id);
-                }
-            }
+            // Stories-XenoEvolutionQueue-Start
+            if (Prototype(xeno)?.ID is { } protoId)
+                phaseAActive = GetEvolutionPaths(protoId, evoComp.MarinesLanded).Count > 0;
+            // Stories-XenoEvolutionQueue-End
 
             var query = EntityQueryEnumerator<XenoRaffleCandidateComponent, HiveMemberComponent>();
-            while (query.MoveNext(out _, out var cand, out var member))
+            while (query.MoveNext(out var uid, out var cand, out var member))
             {
-                if (member.Hive != hive.Owner)
+                if (member.Hive != hive.Owner || _mobState.IsDead(uid)) // Stories-XenoEvolutionQueue
                     continue;
 
                 candidates[cand.Target.Id] = candidates.GetValueOrDefault(cand.Target.Id) + 1;
@@ -1291,7 +1484,7 @@ public sealed class XenoEvolutionSystem : EntitySystem
         var xenos = EntityQueryEnumerator<ActorComponent, XenoEvolutionComponent, HiveMemberComponent>();
         while (xenos.MoveNext(out var uid, out _, out _, out var member))
         {
-            if (member.Hive == hive.Owner)
+            if (member.Hive == hive.Owner && _ui.IsUiOpen(uid, XenoEvolutionUIKey.Key)) // Stories-XenoEvolutionQueue
                 _ui.SetUiState(uid, XenoEvolutionUIKey.Key, BuildEvolveState(uid));
         }
     }
@@ -1453,6 +1646,36 @@ public sealed class XenoEvolutionSystem : EntitySystem
         _xenoHive.SetSameHive(xeno, newXeno);
 
         RemComp<CanBeLarvaQueuedComponent>(xeno);
+
+        // Stories-XenoEvolutionQueue-Start
+        if (TryComp(xeno, out XenoRaffleCandidateComponent? oldCand) && proto != oldCand.Target)
+        {
+            List<EntProtoId>? nextPath = null;
+            if (oldCand.Path.Count > 1 && oldCand.Path[0] == proto)
+            {
+                nextPath = oldCand.Path.Skip(1).ToList();
+            }
+            else if (TryComp(newXeno, out XenoEvolutionComponent? newEvo) &&
+                     ValidateEvolutionPath((newXeno, newEvo), oldCand.Target, null, out var foundPath))
+            {
+                nextPath = foundPath;
+            }
+
+            if (nextPath is { Count: > 0 } &&
+                _prototypes.TryIndex(nextPath[0], out var nextProto) &&
+                nextProto.TryGetComponent(out XenoComponent? nextXeno, _compFactory))
+            {
+                var newCand = EnsureComp<XenoRaffleCandidateComponent>(newXeno);
+                newCand.Target = oldCand.Target;
+                newCand.Path = nextPath;
+                newCand.Tier = nextXeno.Tier;
+                newCand.Leapfrog = false;
+                newCand.Evolving = false;
+                newCand.GraceUntil = null;
+                Dirty(newXeno, newCand);
+            }
+        }
+        // Stories-XenoEvolutionQueue-End
 
         if (_mind.TryGetMind(xeno, out var mindId, out _))
         {

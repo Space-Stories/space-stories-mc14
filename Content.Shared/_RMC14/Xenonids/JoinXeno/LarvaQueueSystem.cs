@@ -172,9 +172,7 @@ public sealed class LarvaQueueSystem : EntitySystem
                     ExpireOffer(ev.Player.UserId, notifyPlayer: true, removeFromQueue: false);
                     return;
                 }
-                // Stories-LarvaQueue-End
 
-                // Stories-LarvaQueue-Start
                 var tier = pending.BurstVictim != null
                     ? "Burst Victim"
                     : InfectorSet.TryGetValue(pending.Hive.Owner, out var iqSet2) && iqSet2.Contains(ev.Player.UserId)

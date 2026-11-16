@@ -87,6 +87,8 @@ rmc-xeno-evolution-raffle-missed = We were not ready in time and lost our place 
 rmc-xeno-evolution-raffle-blocked-lower = A slot has opened for us, but the hive already has too many Tier {$tier} and higher sisters — one must fall or a Tier {$tier} slot open before we can ascend directly.
 rmc-xeno-evolution-tab-evolve = Evolve
 rmc-xeno-evolution-tab-raffle = Raffle
+rmc-xeno-evolution-path-title = Choose evolution path
+rmc-xeno-evolution-raffle-queued = Queued: {$target} ({$path})
 
 # Insight
 rmc-xeno-insight-empower = We have gained sufficient insight in our prey to empower our next Deploy Traps!
