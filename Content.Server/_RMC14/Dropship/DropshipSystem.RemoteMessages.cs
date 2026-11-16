@@ -251,6 +251,17 @@ public sealed partial class DropshipSystem
             return;
         }
 
+        // Stories-DropshipLockout-Start
+        if (_timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            SetAutopilotStatus(dropship, autopilot, DropshipAutopilotStatus.Blocked,
+                Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+            _popup.PopupEntity(Loc.GetString("rmc-dropship-autopilot-status-detail-locked"), console, args.Actor, PopupType.MediumCaution);
+            RefreshRemoteControlConsoles();
+            return;
+        }
+        // Stories-DropshipLockout-End
+
         if (!TryGetNextAutopilotTarget(dropship, autopilot, out var target, out var reason))
         {
             var holdingAtRouteHangar = Loc.GetString("rmc-dropship-autopilot-status-detail-holding-hangar");
@@ -286,6 +297,17 @@ public sealed partial class DropshipSystem
         {
             return;
         }
+
+        // Stories-DropshipLockout-Start
+        if (_timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            SetAutopilotStatus(dropship, autopilot, DropshipAutopilotStatus.Blocked,
+                Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+            _popup.PopupEntity(Loc.GetString("rmc-dropship-autopilot-status-detail-locked"), console, args.Actor, PopupType.MediumCaution);
+            RefreshRemoteControlConsoles();
+            return;
+        }
+        // Stories-DropshipLockout-End
 
         if (!TryResolveRouteHangar(dropship, autopilot, out var routeHangar))
         {

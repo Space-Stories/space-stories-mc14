@@ -13,14 +13,13 @@ namespace Content.Server._Stories.Synth.VoiceSynthesizer;
 
 public sealed class STSynthVoiceSynthesizerSystem : EntitySystem
 {
-    [Dependency] private readonly IComponentFactory _compFactory = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly IComponentFactory _compFactory = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     public override void Initialize()
@@ -71,6 +70,9 @@ public sealed class STSynthVoiceSynthesizerSystem : EntitySystem
 
     private void OnPlayLine(Entity<STSynthVoiceSynthesizerComponent> ent, ref STSynthVoicePlayLineMsg args)
     {
+        if (args.Actor != ent.Owner || !_ui.IsUiOpen(ent.Owner, STSynthVoiceUIKey.Key, args.Actor))
+            return;
+
         if (_timing.CurTime < ent.Comp.NextLineTime)
             return;
 

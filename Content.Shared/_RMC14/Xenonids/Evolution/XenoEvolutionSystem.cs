@@ -178,6 +178,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        if (args.Actor != xeno.Owner)
+            return;
+
         if (ShouldRaffle(xeno, args.Choice))
         {
             TryEnterRaffle(xeno, args.Choice);
@@ -757,6 +760,9 @@ public sealed class XenoEvolutionSystem : EntitySystem
         if (_net.IsClient)
             return;
 
+        if (args.Actor != xeno.Owner)
+            return;
+
         TryEnterRaffle(xeno, args.Choice);
     }
 
@@ -767,6 +773,15 @@ public sealed class XenoEvolutionSystem : EntitySystem
         {
             return false;
         }
+
+        // Stories-XenoEvolutionRaffle-Start
+        if (proto.Abstract ||
+            proto.HasComponent<XenoStrainComponent>(_compFactory) ||
+            proto.HasComponent<XenoHiddenComponent>(_compFactory))
+        {
+            return false;
+        }
+        // Stories-XenoEvolutionRaffle-End
 
         if (_xenoHive.GetHive(xeno.Owner) is not { } hive)
             return false;
@@ -786,6 +801,14 @@ public sealed class XenoEvolutionSystem : EntitySystem
             var currentTier = CompOrNull<XenoComponent>(xeno)?.Tier ?? 0;
             if (!phaseAOpen || currentTier >= targetXeno.Tier)
                 return false;
+
+            // Stories-XenoEvolutionRaffle-Start
+            if (!raffle.LeapfrogTargets.TryGetValue(targetXeno.Tier, out var validTargets) ||
+                !validTargets.Contains(target))
+            {
+                return false;
+            }
+            // Stories-XenoEvolutionRaffle-End
 
             leapfrog = true;
         }
@@ -826,8 +849,7 @@ public sealed class XenoEvolutionSystem : EntitySystem
             if (_mobState.IsDead(uid))
                 continue;
 
-            if (cand.Evolving || cand.GraceUntil != null)
-                reserved++;
+            reserved++;
         }
 
         return reserved;
@@ -844,21 +866,21 @@ public sealed class XenoEvolutionSystem : EntitySystem
         }
 
         var raffle = EnsureHiveRaffle(hive);
-        if (!raffle.RaffleTiers.TryGetValue(targetXeno.Tier, out var phaseAEnabled))
-            return false;
-
-        if (phaseAEnabled && !raffle.PhaseAClosedTiers.Contains(targetXeno.Tier))
+        // Stories-XenoEvolutionQueue-Start
+        if (raffle.RaffleTiers.ContainsKey(targetXeno.Tier))
             return true;
 
-        // Stories-XenoEvolutionQueue-Start
         var reserved = GetReservedTierSlots(hive, targetXeno.Tier, xeno.Owner);
-        return !targetXeno.BypassTierCount && !HasTierRoom(hive, target, targetXeno.Tier, reserved);
+        return !targetXeno.BypassTierCount && (!HasTierRoom(hive, target, targetXeno.Tier, reserved) || reserved > 0);
         // Stories-XenoEvolutionQueue-End
     }
 
     private void OnXenoLeaveRaffleBui(Entity<XenoEvolutionComponent> xeno, ref XenoLeaveRaffleBuiMsg args)
     {
         if (_net.IsClient)
+            return;
+
+        if (args.Actor != xeno.Owner)
             return;
 
         LeaveRaffle(xeno.Owner);
