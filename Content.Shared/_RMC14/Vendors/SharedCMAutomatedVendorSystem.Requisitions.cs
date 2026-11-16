@@ -9,8 +9,7 @@ public abstract partial class SharedCMAutomatedVendorSystem
 {
     public static bool IsRequisitionEntry(CMVendorSection section, CMVendorEntry entry)
     {
-        // Alternate package buttons share a counter. Only expose the underlying stock item.
-        return entry.Box == null && entry.Points == null && entry.Spawn == 1 && entry.LinkedEntries.Count == 0 &&
+        return entry.Points == null && entry.Spawn == 1 && entry.LinkedEntries.Count == 0 &&
                entry.GiveSquadRoleName == null && entry.GiveIcon == null && entry.GivePrefix == null &&
                entry.GiveMapBlip == null &&
                section.Choices == null && section.TakeAll == null && section.TakeOne == null &&
@@ -21,20 +20,62 @@ public abstract partial class SharedCMAutomatedVendorSystem
     public int GetRequisitionAmount(
         Entity<CMAutomatedVendorComponent> vendor, CMVendorSection section, CMVendorEntry entry)
     {
-        if (!IsRequisitionEntry(section, entry) || entry.Amount is <= 0 ||
+        if (!TryGetRequisitionSource(vendor, section, entry, out _, out var source, out var units))
+            return 0;
+
+        var amount = source.Amount ?? int.MaxValue;
+        if (amount == int.MaxValue)
+            return int.MaxValue;
+
+        // A partly filled last stack cannot satisfy an order for a complete product or package.
+        var prototype = _prototypes.Index(source.Id);
+        if (prototype.TryGetComponent<StackComponent>(out var stack, _compFactory) &&
+            vendor.Comp.PartialProductStacks.GetValueOrDefault(stack.StackTypeId) > 0)
+            amount--;
+        return Math.Max(0, amount) / units;
+    }
+
+    public bool TryGetRequisitionSource(Entity<CMAutomatedVendorComponent> vendor,
+        CMVendorSection section, CMVendorEntry entry,
+        out CMVendorSection sourceSection, out CMVendorEntry source, out int units)
+    {
+        sourceSection = section;
+        source = entry;
+        units = 1;
+        if (!IsRequisitionProduct(section, entry))
+            return false;
+
+        if (entry.Box is not { } stockId)
+            return true;
+
+        foreach (var candidateSection in vendor.Comp.Sections)
+        {
+            foreach (var candidate in candidateSection.Entries)
+            {
+                if (candidate.Id != stockId)
+                    continue;
+                if (candidate.Box != null || !IsRequisitionProduct(candidateSection, candidate))
+                    return false;
+
+                sourceSection = candidateSection;
+                source = candidate;
+                units = GetBoxRemoveAmount(entry);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsRequisitionProduct(CMVendorSection section, CMVendorEntry entry)
+    {
+        if (!IsRequisitionEntry(section, entry) ||
             !_prototypes.TryIndex(entry.Id, out var prototype) ||
             !prototype.HasComponent<ItemComponent>(_compFactory) ||
             prototype.HasComponent<CMVendorBundleComponent>(_compFactory) ||
             prototype.HasComponent<CMVendorMapToSquadComponent>(_compFactory) ||
             prototype.HasComponent<CMChangeUserOnVendComponent>(_compFactory))
-            return 0;
-
-        var amount = entry.Amount ?? int.MaxValue;
-        // A partly filled last stack cannot satisfy an order for a complete product.
-        if (entry.Amount != null && prototype.TryGetComponent<StackComponent>(out var stack, _compFactory) &&
-            vendor.Comp.PartialProductStacks.GetValueOrDefault(stack.StackTypeId) > 0)
-            amount--;
-        return Math.Max(0, amount);
+            return false;
+        return true;
     }
 
     public bool TryIssueRequisition(Entity<CMAutomatedVendorComponent> vendor, EntityUid actor, int section, int entry)
@@ -52,6 +93,14 @@ public abstract partial class SharedCMAutomatedVendorSystem
         RaiseLocalEvent(vendor.Owner, attempt);
         if (attempt.Cancelled)
             return false;
+
+        if (selected.Box != null)
+        {
+            var available = GetRequisitionAmount(vendor, vendor.Comp.Sections[section], selected);
+            if (available <= 0)
+                return false;
+            selected.Amount = available == int.MaxValue ? null : available;
+        }
 
         var message = new CMVendorVendBuiMsg(section, entry, new()) { Actor = actor };
         VendFromMenu(vendor, ref message, autoGrab: false);

@@ -1,0 +1,42 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogGear
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-gear
+      entries:
+      - cost: 25
+        unit: true
+        crate: CMFlare
+      - cost: 200
+        unit: true
+        crate: CMPackFlare
+
+      - cost: 500
+        unit: true
+        crate: RMCFulton20
+
+      - cost: 2000
+        unit: true
+        crate: RMCMotionDetector
+
+      # Stories-OverwatchCameras-Start
+      - cost: 667
+        unit: true
+        crate: RMCOverwatchCameraTripod
+
+      # Stories-OverwatchCameras-End
+      - cost: 188
+        unit: true
+        crate: RMCFlareCAS
+      - cost: 1500
+        unit: true
+        crate: RMCPackFlareCAS
+
+      - cost: 200
+        unit: true
+        crate: RMCParachute
+
+      - cost: 2000
+        crate: RMCCrateGearBinoculars

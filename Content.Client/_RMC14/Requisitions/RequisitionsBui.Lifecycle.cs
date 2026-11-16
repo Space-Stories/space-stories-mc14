@@ -63,6 +63,8 @@ public sealed partial class RequisitionsBui
         _mendozaDialogue = null;
         _selectedCategory = null;
         _selectedBlackMarketCategory = null;
+        _importedPreset = null;
+        _presetNameBeforeImport = string.Empty;
         _state = null;
         _window = null;
     }

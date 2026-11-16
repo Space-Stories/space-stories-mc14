@@ -1,0 +1,63 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogEngineering
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-engineering
+      entries:
+      - cost: 2000
+        unit: true
+        crate: CMFoldingBarricadesMB6x3
+
+      - cost: 2000
+        unit: true
+        crate: CMSandbagEmpty50
+
+      - cost: 2000
+        unit: true
+        crate: CMSheetGlass
+
+      - cost: 2000
+        unit: true
+        crate: CMSheetMetal
+
+      - cost: 3000
+        unit: true
+        crate: CMSheetPlasteel
+
+      - cost: 667
+        unit: true
+        crate: RMCBoxLightsMixed
+
+      - cost: 125
+        unit: true
+        crate: RMCFlashlight
+
+      - cost: 2000
+        unit: true
+        crate: RMCPlankWood
+
+      - cost: 3000
+        unit: true
+        crate: RMCPortableGeneratorPacmanMachineCircuitBoard
+
+      - cost: 4000
+        unit: true
+        crate: RMCPortableGeneratorSuperPacmanMachineCircuitboard
+
+      - cost: 125
+        unit: true
+        crate: RMCPowerCellHigh
+
+      - cost: 2000
+        crate: RMCCrateElectricalMaintenance
+
+      - cost: 2000
+        crate: RMCCrateInflatableBarriers
+
+      - cost: 2000
+        crate: RMCCrateMechanicalMaintenance
+
+      - cost: 3000
+        crate: RMCCrateSandbagsConstructionKit

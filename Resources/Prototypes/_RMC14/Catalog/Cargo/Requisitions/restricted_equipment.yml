@@ -1,0 +1,17 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogRestrictedEquipment
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-restricted-equipment
+      entries:
+      - cost: 2000
+        unit: true
+        crate: RMCKitIntel
+
+      - cost: 2000
+        crate: RMCCrateRestrictedEquipmentArmorB12
+
+      - cost: 2000
+        crate: RMCCrateRestrictedEquipmentArmorM4

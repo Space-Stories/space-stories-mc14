@@ -73,6 +73,9 @@ public sealed partial class TacticalMapSystem
         if (!ent.Comp.CanDraw)
             return;
 
+        if (!IsCanvasValid(args))
+            return;
+
         if (!TryResolveUserMap(ent, out var map))
             return;
 
@@ -105,6 +108,9 @@ public sealed partial class TacticalMapSystem
             return;
 
         if (!_skills.HasSkill(user, ent.Comp.Skill, ent.Comp.SkillLevel))
+            return;
+
+        if (!IsCanvasValid(args))
             return;
 
         if (!TryResolveComputerMap(ent, out var map))

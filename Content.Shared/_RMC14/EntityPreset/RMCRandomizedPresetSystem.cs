@@ -85,6 +85,11 @@ public sealed class RMCRandomizedPresetSystem : EntitySystem
             }
         }
 
+        foreach (var item in EntitySpawnCollection.GetSpawns(preset.AdditionalGear, _random))
+        {
+            Equip(entity, new EntProtoId(item), tryInHand: true, tryEquip: false);
+        }
+
         var rareItemNumber = _random.Next(1, preset.RareItemCoefficient);
         if (preset.RareItems.Count == 0)
             return;

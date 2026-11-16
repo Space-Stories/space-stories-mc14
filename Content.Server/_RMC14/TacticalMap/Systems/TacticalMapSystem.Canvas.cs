@@ -5,6 +5,20 @@ namespace Content.Server._RMC14.TacticalMap;
 
 public sealed partial class TacticalMapSystem
 {
+    private bool IsCanvasValid(TacticalMapUpdateCanvasMsg args)
+    {
+        if (args.Lines == null || args.Labels == null || args.Labels.Count > LabelLimit)
+            return false;
+
+        foreach (var label in args.Labels.Values)
+        {
+            if (label.Text == null || label.Text.Length > LabelLengthLimit)
+                return false;
+        }
+
+        return true;
+    }
+
     private void SanitizeCanvas(Entity<TacticalMapComponent> map,
         ref List<TacticalMapLine> lines,
         ref Dictionary<Vector2i, TacticalMapLabelData> labels)

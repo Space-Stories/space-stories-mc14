@@ -4,6 +4,7 @@ using Content.Shared._RMC14.Dropship.Fabricator;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Requisitions;
 using Content.Shared._RMC14.Scaling;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared.Access.Systems;
 using Content.Shared.GameTicking;
@@ -24,6 +25,7 @@ public sealed class TechSystem : EntitySystem
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedRequisitionsSystem _requisitions = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly ScalingSystem _scaling = default!;
     [Dependency] private readonly SharedGameTicker _ticker = default!;
 
@@ -38,12 +40,19 @@ public sealed class TechSystem : EntitySystem
         SubscribeLocalEvent<TechLogisticsDeliveryEvent>(OnTechLogisticsDelivery);
 
         SubscribeLocalEvent<TechControlConsoleComponent, BeforeActivatableUIOpenEvent>(OnControlConsoleBeforeOpen);
+        SubscribeLocalEvent<TechControlConsoleComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         Subs.BuiEvents<TechControlConsoleComponent>(TechControlConsoleUI.Key,
             subs =>
             {
                 subs.Event<TechPurchaseOptionBuiMsg>(OnPurchaseOptionMsg);
             });
+    }
+
+    private void OnUIMessageAttempt(Entity<TechControlConsoleComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is TechControlConsoleUI.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnTechAnnounce(TechAnnounceEvent ev)

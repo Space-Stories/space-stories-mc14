@@ -5,6 +5,7 @@ using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Labels.Components;
 using Content.Shared.Paper;
+using Content.Shared.Prototypes;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Utility;
@@ -22,15 +23,15 @@ namespace Content.Server._RMC14.Requisitions
             EntityCoordinates coordinates,
             string paperwork,
             RequisitionsOrderDetails? request = null,
-            bool noReward = false)
+            int? returnReward = null)
         {
             // Create a sheet of paper to write the order details on
             // Order information sprinkled with flavor text
             var printedPaper = EntityManager.SpawnEntity(paperwork, coordinates);
 
-            if (noReward && TryComp(printedPaper, out RequisitionsInvoiceComponent? invoice))
+            if (returnReward is { } reward && TryComp(printedPaper, out RequisitionsInvoiceComponent? invoice))
             {
-                invoice.Reward = 0;
+                invoice.Reward = reward;
                 Dirty(printedPaper, invoice);
             }
 
@@ -117,6 +118,38 @@ namespace Content.Server._RMC14.Requisitions
             if (TryComp<PaperLabelComponent>(requisitionOrder, out var label))
             {
                 _slots.TryInsert(requisitionOrder, label.LabelSlot, printedPaper, null);
+            }
+        }
+
+        private void SetShipmentReturns(Entity<RequisitionsComputerComponent> computer, List<RequisitionsEntry> orders)
+        {
+            if (!TryComp(computer.Comp.Account, out RequisitionsAccountComponent? account))
+                return;
+
+            var factory = EntityManager.ComponentFactory;
+            _prototype.Index(ReturnCrate).TryGetComponent<RequisitionsCrateComponent>(out var crate, factory);
+            _prototype.Index(PaperRequisitionInvoice).TryGetComponent<RequisitionsInvoiceComponent>(out var invoice, factory);
+            var paid = 0;
+            var crateAssigned = 0;
+            var invoiceAssigned = 0;
+            // Allocate cumulative differences so the number of parcels cannot change the purchase's total refund.
+            foreach (var order in orders)
+            {
+                if (order.BlackMarket)
+                    continue;
+
+                paid += order.Cost;
+                var rewards = RequisitionsReturns.Calculate(paid, account.ShipmentReturnPercent,
+                    crate?.Reward ?? 0, invoice?.Reward ?? 0);
+                order.CrateReturn = rewards.Crate - crateAssigned;
+                order.InvoiceReturn = rewards.Invoice - invoiceAssigned;
+                crateAssigned = rewards.Crate;
+                invoiceAssigned = rewards.Invoice;
+                if (!_prototype.Index(order.Crate).HasComponent<RequisitionsCrateComponent>(factory))
+                {
+                    order.InvoiceReturn += order.CrateReturn;
+                    order.CrateReturn = 0;
+                }
             }
         }
 

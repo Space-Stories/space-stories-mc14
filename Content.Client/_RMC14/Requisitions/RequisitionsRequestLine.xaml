@@ -18,7 +18,7 @@
                 <Button Name="Add" Access="Public" Text="+" StyleClasses="ButtonSquare" MinWidth="30" />
                 <Control MinWidth="8" />
                 <CheckBox Name="Purchase" Access="Public" Text="{Loc rmc-requisitions-purchase-missing}"
-                          ToolTip="{Loc rmc-requisitions-purchase-missing-tooltip}" Pressed="True" />
+                          ToolTip="{Loc rmc-requisitions-purchase-missing-tooltip}" />
             </BoxContainer>
             <RichTextLabel Name="Preview" Access="Public" HorizontalExpand="True" />
             <RichTextLabel Name="PurchasePreview" Access="Public" HorizontalExpand="True" />

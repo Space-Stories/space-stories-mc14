@@ -119,7 +119,7 @@
     id: RMCIDCardFreelancer
     ears: RMCHeadsetDistressDukes
     pocket1: RMCPouchFirstAidERTFill
-    pocket2: RMCPouchExplosiveFilledHEDP
+    pocket2: RMCPouchExplosiveFilledSPP
 
 - type: playTimeTracker
   id: RMCJobFreelancerStandard

@@ -38,6 +38,11 @@ public sealed partial class RequisitionsComputerComponent : Component
     [AutoNetworkedField]
     public Dictionary<EntProtoId, int> Stock = new();
 
+    // RMC14
+    [AutoNetworkedField]
+    public RequisitionsStock StockInventory = new();
+    // RMC14
+
     [AutoNetworkedField]
     public List<int> InsertedRequests = new();
 
@@ -47,18 +52,13 @@ public sealed partial class RequisitionsComputerComponent : Component
     public EntProtoId UnitShipment = "RMCCrateRequisitionShipment";
 
     [DataField, AutoNetworkedField]
-    public int ShipmentItems = 20;
+    public int ShipmentItems = 34;
+
+    [DataField, AutoNetworkedField]
+    public int ShipmentWeightLimit = 34;
 
     [DataField, AutoNetworkedField]
     public int MaxProcessingAmount = 500;
-
-    [DataField]
-    public Dictionary<EntProtoId, int> UnitPrices = new();
-
-    [DataField]
-    public TimeSpan RequestCooldown = TimeSpan.FromSeconds(3);
-
-    public TimeSpan NextRequest;
 
     [DataField]
     public EntityUid? Account;

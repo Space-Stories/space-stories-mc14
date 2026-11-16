@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Overwatch;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.UserInterface;
 using Robust.Shared.Configuration;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Maths;
@@ -31,6 +32,8 @@ public abstract class SharedTacticalMapSystem : EntitySystem
     private EntityQuery<SquadTeamComponent> _squadTeamQuery;
 
     public int LineLimit { get; private set; }
+    public int LabelLimit { get; private set; }
+    public int LabelLengthLimit { get; private set; }
 
     public override void Initialize()
     {
@@ -38,9 +41,17 @@ public abstract class SharedTacticalMapSystem : EntitySystem
 
         SubscribeLocalEvent<TacticalMapUserComponent, OpenTacticalMapActionEvent>(OnUserOpenAction);
         SubscribeLocalEvent<TacticalMapUserComponent, OpenTacMapAlertEvent>(OnUserOpenAlert);
+        SubscribeLocalEvent<TacticalMapUserComponent, BoundUserInterfaceMessageAttempt>(OnUserUIMessageAttempt);
 
         Subs.CVar(_config, RMCCVars.RMCTacticalMapLineLimit, v => LineLimit = v, true);
+        Subs.CVar(_config, RMCCVars.RMCTacticalMapLabelLimit, v => LabelLimit = Math.Max(0, v), true);
+        Subs.CVar(_config, RMCCVars.RMCTacticalMapLabelLengthLimit, v => LabelLengthLimit = Math.Max(0, v), true);
+    }
 
+    private void OnUserUIMessageAttempt(Entity<TacticalMapUserComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is TacticalMapUserUi && args.Actor != ent.Owner)
+            args.Cancel();
     }
 
     private void OnUserOpenAction(Entity<TacticalMapUserComponent> ent, ref OpenTacticalMapActionEvent args)
