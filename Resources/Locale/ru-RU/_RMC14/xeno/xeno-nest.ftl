@@ -15,3 +15,5 @@ rmc-xeno-nest-failed-dead = Этот хозяин мертв.
 rmc-xeno-nest-unnest-verb = Освободить носителя
 rmc-xeno-nest-unnest-permission-denied = Нам не стоит вмешиваться в гнездо, оставим это строителям.
 rmc-xeno-nest-unnest-start = Мы начинаем высвобождать { $target } из гнезда...
+
+rmc-xeno-nest-freed-ghost = [font size=24][color=red]You have been freed from your nest and may go back to your body![/color][/font]

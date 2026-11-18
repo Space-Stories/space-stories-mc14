@@ -7,3 +7,7 @@ rmc-hive-core-cooldown-over = Улей восстановился после р�
 rmc-hive-supports-castes = Теперь улей может поддерживать: { $castes }
 rmc-hive-supports-castes-human = Вы слышите отдалённый визг и чувствуете, как у вас всё внутри замирает... Что-то новое появилось вместе с вами в этой колонии.
 rmc-hive-supports-castes-synth = Вы слышите отдалённый зов неизвестной биоформы, похоже, она сообщает другим об изменении формы. Вы начинаете анализировать и расшифровывать странную вокализацию.
+
+rmc-xeno-announce-queen-mother = [bold][color=#7575F3][font size=24]Queen Mother Psychic Directive[/font][/color][/bold]
+
+    {"["}color=red][font size=14]{$message}[/font][/color]

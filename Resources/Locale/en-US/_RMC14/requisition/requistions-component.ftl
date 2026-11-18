@@ -143,3 +143,12 @@ ui-supply-drop-crate-status =
         [true] Supply Pad Status: crate loaded.
        *[false] No crate loaded.
     }
+
+### Requisitions console
+rmc-requisitions-ui-back-to-categories = Back to all categories
+rmc-requisitions-ui-order-items = Order items
+rmc-requisitions-ui-view-requests = View requests
+rmc-requisitions-ui-view-orders = View orders
+rmc-requisitions-ui-main-menu = Main Menu
+rmc-requisitions-ui-search-item = Search item
+rmc-requisitions-ui-search-placeholder = Search...

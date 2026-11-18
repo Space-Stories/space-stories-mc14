@@ -23,3 +23,12 @@ rmc-xeno-parasite-ghost-carrier-reserved = { $xeno } зарезервирова�
 rmc-xeno-parasite-ghost-carrier-dead = { $xeno } мертв, и все { POSS_ADJ($xeno) } умерли вместе с { OBJECT($xeno) }.
 
 rmc-xeno-parasite-carrier-death = Щебечущая масса крошечных инопланетян пытается спастись { $xeno }!
+
+rmc-xeno-parasite-thrower-on-fire = Retrieving a stored parasite while we're on fire would burn it!
+rmc-xeno-parasite-touch-on-fire = Touching the parasite while you're on fire would burn it!
+rmc-xeno-parasite-hits-left = It can take [color={$color}]{$remaining}[/color] more {$remaining ->
+    [one] hit
+    *[other] hits
+}.
+rmc-xeno-infected-examine-xeno = This one is hosting a sister! She will emerge in time.
+rmc-xeno-infected-examine-ghost = This creature is infected.

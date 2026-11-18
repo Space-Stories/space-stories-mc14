@@ -6,5 +6,5 @@ namespace Content.Shared._Stories.Hunter.Medical.Components.SurgeryTools;
 [RegisterComponent] [NetworkedComponent]
 public sealed partial class HealingGunToolComponent : Component, ICMSurgeryToolComponent
 {
-    public string ToolName => "a healing gun";
+    public LocId ToolName => "st-surgery-tool-healing-gun";
 }

@@ -152,3 +152,6 @@ rmc-overwatch-console-scoped = Вы слишком заняты наблюден
 
 ent-RMCOverwatchCameraTripod = Полевая камера на треноге
     .desc = Развёртываемая полевая камера Мотока-430-T на треноге, подключающаяся к сети наблюдения. Её можно переименовать и установить.
+
+rmc-overwatch-console-save-comment = Save Comment
+rmc-overwatch-console-promoted-squad-suffix = {" "}for {$squad}

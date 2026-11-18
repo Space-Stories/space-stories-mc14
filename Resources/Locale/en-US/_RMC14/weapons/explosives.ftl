@@ -7,3 +7,5 @@ rmc-c4-acid-too-weak = Your acid is too weak to dissolve {$explosive}.
 rmc-c4-disarm-start = You start disarming {$explosive}.
 rmc-c4-disarm-stop = You stop disarming {$explosive}.
 rmc-c4-disarm-finish = You finish disarming {$explosive}.
+
+rmc-explosive-random-timer-examine = [color=cyan]This will have a random timer between {$min} and {$max} seconds on use![/color]

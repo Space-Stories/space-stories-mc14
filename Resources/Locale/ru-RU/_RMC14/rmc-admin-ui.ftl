@@ -21,3 +21,17 @@ rmc-ui-ert-requests = Запросы ОБР
 rmc-ui-rejuvenate-nearby-marines = Возродить всех ближайших пехотинцев
 rmc-ui-chat-bans = Баны чата
 rmc-ui-delay-round-end = Задержка завершения раунда
+
+rmc-admin-ui-title = RMC Admin UI
+rmc-admin-ui-tab-marines = Marines
+rmc-admin-ui-tab-xenos = Xenos
+rmc-admin-ui-tab-tactical-map = Tactical Map
+rmc-admin-ui-tab-factions = Factions
+rmc-admin-ui-squads = Squads
+rmc-admin-ui-refresh = Refresh
+rmc-admin-ui-marines-alive = Total marine players alive: {$count}
+rmc-admin-ui-xenos-alive = Total xenonid players alive: {$count}
+rmc-admin-ui-xeno-tier = Tier {$tier}: {$amount} xenos
+rmc-admin-ui-tacmap-round = Round {$round} by {$actor}
+rmc-admin-ui-tacmap-selected-none = Selected: None
+rmc-admin-ui-tacmap-selected = Selected: Round {$round} by {$actor}

@@ -27,3 +27,5 @@ rmc-unstrippable = Вы не можете снять { $item } с { $owner }!
 
 rmc-no-visors-to-swap = Нет визоров для переключения!
 rmc-visor-down = { CAPITALIZE($visor) } опущен.
+
+rmc-night-vision-while-scoping = You cannot use the night vision optic while using optics.

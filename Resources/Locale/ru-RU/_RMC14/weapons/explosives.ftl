@@ -7,3 +7,5 @@ rmc-c4-acid-too-weak = Ваша кислота слишком слаба, что
 rmc-c4-disarm-start = Вы начинаете обезвреживать { $explosive }.
 rmc-c4-disarm-stop = Вы прекращаете обезвреживать { $explosive }.
 rmc-c4-disarm-finish = Вы обезвреживаете { $explosive }.
+
+rmc-explosive-random-timer-examine = [color=cyan]This will have a random timer between {$min} and {$max} seconds on use![/color]

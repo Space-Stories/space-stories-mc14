@@ -177,3 +177,10 @@ rmc-ui-options-announcements-layout-no-presets = No announcement presets are ava
 # Dialog input
 rmc-dialog-input-placeholder-default = Enter text
 rmc-dialog-input-placeholder-smart-check = More than 3 consecutive spaces will be trimmed
+
+### Misc windows
+rmc-radio-filter-title = Set Filter
+rmc-camera-window-title = Ship Security Cameras
+rmc-camera-window-search = Search for a camera
+
+rmc-ui-pop-out = Pop Out

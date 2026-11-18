@@ -47,7 +47,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
     {
         base.Open();
         _window = this.CreateWindow<CMAutomatedVendorWindow>();
-        _window.Title = EntMan.GetComponentOrNull<MetaDataComponent>(Owner)?.EntityName ?? "ASRS Vendor";
+        _window.Title = EntMan.GetComponentOrNull<MetaDataComponent>(Owner)?.EntityName ?? Loc.GetString("rmc-vendor-ui-default-title");
         _window.ReagentsBar.ForegroundStyleBoxOverride = new StyleBoxFlat(Color.FromHex("#AF7F38"));
 
         if (EntMan.TryGetComponent(Owner, out CMAutomatedVendorComponent? vendor))
@@ -112,7 +112,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
                     var hoverColor = CMAutomatedVendorPanel.DefaultBorderColor;
                     if (section.TakeAll != null || section.TakeOne != null)
                     {
-                        name = $"Mandatory: {name}";
+                        name = Loc.GetString("rmc-vendor-ui-mandatory", ("name", name));
                         color = Color.FromHex("#251A0C");
                         borderColor = Color.FromHex("#805300");
                         hoverColor = Color.FromHex("#805300");
@@ -120,7 +120,7 @@ public sealed class CMAutomatedVendorBui : BoundUserInterface
                     else if (entry.Recommended)
                     {
                         uiEntry.Panel.Button.Label.Text = $"★ {uiEntry.Panel.Button.Label.Text}";
-                        name = $"Recommended: {name}";
+                        name = Loc.GetString("rmc-vendor-ui-recommended", ("name", name));
                         color = Color.FromHex("#102919");
                         borderColor = Color.FromHex("#3A9B52");
                         hoverColor = Color.FromHex("#3A9B52");

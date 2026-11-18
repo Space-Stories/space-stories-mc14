@@ -15,3 +15,4 @@ rmc-xeno-nest-failed-dead = This host is dead.
 rmc-xeno-nest-unnest-verb = Release host
 rmc-xeno-nest-unnest-permission-denied = We shouldn't interfere with the nest, leave that to the builders.
 rmc-xeno-nest-unnest-start = We begin working {$target} free from the nest...
+rmc-xeno-nest-freed-ghost = [font size=24][color=red]You have been freed from your nest and may go back to your body![/color][/font]

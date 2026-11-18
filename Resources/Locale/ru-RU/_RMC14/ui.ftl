@@ -177,3 +177,8 @@ rmc-ui-options-announcements-layout-no-presets = Нет доступных дл�
 # Dialog input
 rmc-dialog-input-placeholder-default = Введите текст
 rmc-dialog-input-placeholder-smart-check = Более 3 последовательных пробелов будут удалены.
+
+rmc-radio-filter-title = Set Filter
+rmc-camera-window-title = Ship Security Cameras
+rmc-camera-window-search = Search for a camera
+rmc-ui-pop-out = Pop Out

@@ -23,3 +23,7 @@ rmc-construction-name = строительство
 rmc-construction-non-anchorable =  Оно не может быть ни закреплено, ни откреплено.
 
 rmc-construction-vehicle = В салоне автомобиля строить нельзя!
+
+rmc-construction-window-title = Construction
+rmc-construction-window-title-using = Construction using the {$item}
+rmc-construction-window-amount-left = Amount Left: {$amount}

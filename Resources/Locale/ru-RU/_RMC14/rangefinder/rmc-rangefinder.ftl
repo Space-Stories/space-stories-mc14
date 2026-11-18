@@ -22,3 +22,7 @@ rmc-laser-designator-switch-mode = Переключение в режим { $mod
 rmc-laser-designator-in-rangefinder-mode = Для { CAPITALIZE($item) } в данный момент установлен режим дальномера.
 rmc-laser-designator-in-designator-mode = Для { CAPITALIZE($item) } в данный момент установлен режим подсветки CAS.
 rmc-laser-designator-to-switch = [color=cyan]Alt + Щелчок по обозначению для переключения режимов.[/color]
+
+rmc-rangefinder-supply-drop = Supply Drop
+rmc-rangefinder-mortar = Mortar
+rmc-rangefinder-close-air-support = Close Air Support
