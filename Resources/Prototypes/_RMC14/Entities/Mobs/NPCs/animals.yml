@@ -376,7 +376,7 @@
     follow: true
     location: Jones
   - type: BlackMarketValue
-    value: 50
+    value: 250
     deadValue: 0
 
 - type: entity

@@ -164,7 +164,7 @@
   - type: Sprite
     sprite: _RMC14/Structures/Storage/Lockers/pilot.rsi
   - type: AccessReader
-    access: [["CMAccessPilot"]]
+    access: [ [ "CMAccessPilot" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 - type: entity
   parent: CMLockerBase
@@ -413,7 +413,7 @@
   - type: Sprite
     sprite: _RMC14/Structures/Storage/Lockers/medical.rsi
   - type: AccessReader
-    access: [["RMCAccessFieldDoctor"]]
+    access: [ [ "RMCAccessFieldDoctor" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 # Engineering
 - type: entity

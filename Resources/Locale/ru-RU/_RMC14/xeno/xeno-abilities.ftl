@@ -87,6 +87,8 @@ rmc-xeno-evolution-raffle-missed = Мы не успели подготовить
 rmc-xeno-evolution-raffle-blocked-lower = Место открылось для нас, но в улье уже слишком много сестёр ранга { $tier } и выше — одна должна пасть или должно открыться место для ранга { $tier }, прежде чем мы сможем подняться напрямую.
 rmc-xeno-evolution-tab-evolve = Эволюция
 rmc-xeno-evolution-tab-raffle = Лотерея
+rmc-xeno-evolution-path-title = Выберите путь эволюции
+rmc-xeno-evolution-raffle-queued = В очереди: { $target } ({ $path })
 
 # Insight
 rmc-xeno-insight-empower = Мы получили достаточно проницательности относительно нашей добычи, чтобы усилить наше следующее размещение ловушек!

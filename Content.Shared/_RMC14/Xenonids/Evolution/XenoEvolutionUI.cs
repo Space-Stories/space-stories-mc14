@@ -41,9 +41,10 @@ public sealed class XenoEvolveBuiMsg(EntProtoId choice) : BoundUserInterfaceMess
 }
 
 [Serializable, NetSerializable]
-public sealed class XenoJoinRaffleBuiMsg(EntProtoId choice) : BoundUserInterfaceMessage
+public sealed class XenoJoinRaffleBuiMsg(EntProtoId choice, List<EntProtoId>? path = null) : BoundUserInterfaceMessage // Stories-XenoEvolutionQueue
 {
     public readonly EntProtoId Choice = choice;
+    public readonly List<EntProtoId>? Path = path; // Stories-XenoEvolutionQueue
 }
 
 [Serializable, NetSerializable]

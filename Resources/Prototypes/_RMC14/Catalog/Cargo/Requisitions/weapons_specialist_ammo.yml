@@ -6,6 +6,18 @@
     categories:
     - name: rmc-requisitions-category-weapons-specialist-ammo
       entries:
+      - cost: 4000
+        crate: RMCCrateMagazineM96SMixed
+
+      - cost: 3000
+        crate: RMCCrateM5DemoSpecMixed
+
+      - cost: 4000
+        crate: RMCCrateMagazineM4SPRCustomMixed
+
+      - cost: 6000
+        crate: RMCCratePyroTankMixed
+
       - cost: 667
         unit: true
         crate: CMMagazineSniperM96S
