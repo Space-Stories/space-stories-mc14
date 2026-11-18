@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Content.Server._RMC14.Dropship;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
 using Content.Shared._RMC14.CrashLand;
@@ -13,6 +14,7 @@ namespace Content.Server._RMC14.Evacuation;
 public sealed class EvacuationSystem : SharedEvacuationSystem
 {
     [Dependency] private readonly SharedCrashLandSystem _crashLand = default!;
+    [Dependency] private readonly DropshipSystem _dropship = default!; // Stories-ShuttleDoorLock
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ShuttleSystem _shuttle = default!;
@@ -44,6 +46,7 @@ public sealed class EvacuationSystem : SharedEvacuationSystem
                 door.Locked = true;
                 Dirty(child, door);
                 TryDisableEvacuationOpen(child);
+                _dropship.LockDoor(child); // Stories-ShuttleDoorLock
 
                 _doors.Clear();
                 _entityLookup.GetEntitiesInRange(child.ToCoordinates(), 2.5f, _doors);
@@ -52,6 +55,7 @@ public sealed class EvacuationSystem : SharedEvacuationSystem
                     nearbyDoor.Comp.Locked = true;
                     Dirty(nearbyDoor);
                     TryDisableEvacuationOpen(nearbyDoor);
+                    _dropship.LockDoor(nearbyDoor.Owner); // Stories-ShuttleDoorLock
                 }
             }
         }

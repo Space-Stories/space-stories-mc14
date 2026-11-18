@@ -117,7 +117,7 @@
   suffix: Security, Glass, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessBrig" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessBrig" ] ] # Stories-Access
 
 - type: entity
   parent: CMDoubleDoorSecuritySolid
@@ -125,4 +125,4 @@
   suffix: Security, Solid, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessBrig" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessBrig" ] ] # Stories-Access

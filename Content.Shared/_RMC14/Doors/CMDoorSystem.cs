@@ -1,6 +1,7 @@
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._Stories.Doors;
 using Content.Shared.Access.Systems;
 using Content.Shared.Directions;
 using Content.Shared.Doors;
@@ -177,6 +178,11 @@ public sealed class CMDoorSystem : EntitySystem
 
         var buttonName = button.Comp.Id ?? Name(button);
         var buttonTransform = Transform(button);
+
+        // Stories-Turnstile-Start
+        var buttonPressedEv = new StoriesDoorButtonPressedEvent(button, user, buttonName);
+        RaiseLocalEvent(ref buttonPressedEv);
+        // Stories-Turnstile-End
 
         var doors = EntityQueryEnumerator<RMCPodDoorComponent, DoorComponent, TransformComponent, MetaDataComponent>();
         while (doors.MoveNext(out var door, out var podDoor, out var doorComp, out var doorTransform, out var metaData))

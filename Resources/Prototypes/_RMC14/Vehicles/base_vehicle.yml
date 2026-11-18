@@ -8,6 +8,7 @@
     priority: -2
   - type: Vehicle
     movementKind: Grid
+  - type: CrashLandable # Stories-VehicleCrashLand
   - type: LagCompensation
   - type: Clickable
   - type: WarpPoint

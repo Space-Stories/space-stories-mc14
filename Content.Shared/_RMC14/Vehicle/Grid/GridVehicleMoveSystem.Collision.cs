@@ -167,16 +167,16 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
                     continue;
                 }
 
+                // Stories-VehicleDoorFix-Start
                 if (applyEffects && candidate.Door is { } door && !_net.IsClient &&
-                    (candidate.CollisionClass == VehicleCollisionClass.Breakable || candidate.CollisionClass == VehicleCollisionClass.Ignore))
+                    !candidate.IsUnpoweredDoor &&
+                    door.State == DoorState.Closed)
                 {
-                    if (!candidate.IsUnpoweredDoor)
-                    {
-                        _door.TryOpen(candidate.Entity, door, operatorUid);
-                        if (candidate.IsBarricade)
-                            _door.OnPartialOpen(candidate.Entity, door);
-                    }
+                    _door.TryOpen(candidate.Entity, door, operatorUid);
+                    if (candidate.IsBarricade)
+                        _door.OnPartialOpen(candidate.Entity, door);
                 }
+                // Stories-VehicleDoorFix-End
 
                 if (candidate.CollisionClass == VehicleCollisionClass.Ignore)
                     continue;
@@ -1535,6 +1535,11 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
 
         if (isMob || isXeno)
             return VehicleCollisionClass.SoftMob;
+
+        // Stories-VehicleDoorFix-Start
+        if (hasDoor && !isBarricade && hardCollidable)
+            return VehicleCollisionClass.Hard;
+        // Stories-VehicleDoorFix-End
 
         if (IsNormallyMobPassable(otherFixtures))
             return VehicleCollisionClass.Ignore;
