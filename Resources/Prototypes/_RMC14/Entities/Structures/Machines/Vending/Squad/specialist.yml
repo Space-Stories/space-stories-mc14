@@ -159,7 +159,7 @@
         spawn: 6
       # -id: RMCElectroshockGrenadex6
       # points: 40
-    - name: Дополнительные Огнеметные Балоны
+    - name: Дополнительные Огнемётные Балоны
       entries:
       - id: RMCTankFlamerLarge
         points: 40
