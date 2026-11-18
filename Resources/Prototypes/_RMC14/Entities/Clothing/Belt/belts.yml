@@ -199,6 +199,7 @@
       - Welder
       - PowerCell
       - TrayScanner
+      - DemolitionsScanner # Stories-EngineeringScanner (existing scanner component)
       - GasAnalyzer
       - LightReplacer
       - EntrenchingTool
@@ -244,6 +245,7 @@
       - Welder
       - PowerCell
       - TrayScanner
+      - DemolitionsScanner # Stories-EngineeringScanner (existing scanner component)
       - GasAnalyzer
       - LightReplacer
       - EntrenchingTool
@@ -311,6 +313,7 @@
       - Welder
       - PowerCell
       - TrayScanner
+      - DemolitionsScanner # Stories-EngineeringScanner (existing scanner component)
       - GasAnalyzer
       - LightReplacer
       - EntrenchingTool

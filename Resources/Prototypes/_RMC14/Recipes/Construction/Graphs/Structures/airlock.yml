@@ -29,7 +29,7 @@
         store: board
         name: "door electronics circuit board"
         icon:
-          sprite: "Objects/Misc/module.rsi"
+          sprite: "_RMC14/Objects/Misc/module.rsi"
           state: "door_electronics"
         doAfter: 4
 
@@ -97,6 +97,9 @@
   - node: airlock
     entity: CMAirlock
     doNotReplaceInheritingEntities: true
+    transform:
+    - !type:RMCApplyDoorElectronics
+      container: board
     actions:
     - !type:SetWiresPanelSecurity
       wiresAccessible: true
@@ -130,7 +133,7 @@
         store: board
         name: "door electronics circuit board"
         icon:
-          sprite: "Objects/Misc/module.rsi"
+          sprite: "_RMC14/Objects/Misc/module.rsi"
           state: "door_electronics"
         doAfter: 4
 
@@ -206,6 +209,9 @@
   - node: glassAirlock
     entity: CMAirlockGlass
     doNotReplaceInheritingEntities: true
+    transform:
+    - !type:RMCApplyDoorElectronics
+      container: board
     actions:
     - !type:SetWiresPanelSecurity
       wiresAccessible: true

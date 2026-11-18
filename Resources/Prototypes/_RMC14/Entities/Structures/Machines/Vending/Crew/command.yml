@@ -1047,10 +1047,10 @@
       - CMChiefEngineer
       takeAll: CMStandard
       entries:
-      - id: CMHeadsetCE
       - id: RMCWeldingGoggles
       - id: RMCNailgunTactical
-      # TODO KN5500/2 PDA
+      - id: RMCMagazineSMGNailgun
+      - id: RMCKN5500PDA # Stories-EngineeringPDA (uses the existing HERMES interface)
     - name: Uniform
       jobs:
       - CMChiefEngineer
@@ -1091,9 +1091,19 @@
       choices: { CMBackpack: 1 }
       entries:
       - id: CMSatchel
+        replaceSlot: back
+      - id: CMSatchelMarineTech
+        replaceSlot: back
+      - id: RMCBackpackRTO
+        replaceSlot: back
+      - id: RMCWeldingKit
+        replaceSlot: back
       - id: RMCSatchelWelder
+        replaceSlot: back
       - id: RMCSatchelWelderChestrig
+        replaceSlot: back
       - id: CMBackpackWelder
+        replaceSlot: back
     - name: Belt
       jobs:
       - CMChiefEngineer
@@ -1101,6 +1111,7 @@
       entries:
       - id: RMCBeltConstruction
       - id: RMCBeltUtilityGeneral
+      - id: CMBeltUtilityFilled
     - name: Patches
       jobs:
       - CMChiefEngineer
@@ -1173,6 +1184,24 @@
       - id: RMCWebbingDropPouchBlack
       - id: RMCToolWebbingSmallFilled
         name: small tool webbing (Full)
+      - id: RMCToolDropPouchSmallFilled
+    - name: Engineering Supplies
+      jobs:
+      - CMChiefEngineer
+      takeAll: RMCCEEngineeringSupplies
+      entries:
+      - id: RMCAccessConfigurator
+      - id: RMCDoorElectronics
+        spawn: 4
+      - id: CMSheetMetal50
+      - id: CMSheetGlass
+      - id: CMSheetPlasteel50
+      - id: RMCSheetPlastic
+      - id: RMCWelderIndustrial
+      - id: RMCES11MobileFuelCanister
+      - id: RMCFireAxe
+      - id: RMCArmorFirefighter
+      - id: RMCArmorHelmetFirefighter
     # CE Deployment Gear
     - name: Deployment Gear
       entries: [ ]
@@ -1184,7 +1213,7 @@
       takeAll: CMStandard
       entries:
       - id: RMCArmorM3SO
-      - id: CMBootsBlackFilled
+      - id: CMHandsBlackInsulated
       - id: RMCLaserDesignator
     - name: Combat Helmet
       jobs:

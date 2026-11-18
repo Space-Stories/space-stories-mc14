@@ -16,6 +16,7 @@ using Content.Shared.Popups;
 using Content.Shared.Smoking;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Network;
@@ -27,6 +28,7 @@ namespace Content.Shared._RMC14.Chemistry;
 public abstract class SharedRMCChemistrySystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!; // Stories-Ordnance
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly EntityWhitelistSystem _entityWhitelist = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
@@ -59,6 +61,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, GetVerbsEvent<AlternativeVerb>>(OnToggleableSolutionTransferVerbs);
 
         SubscribeLocalEvent<RMCSolutionTransferWhitelistComponent, SolutionTransferAttemptEvent>(OnTransferWhitelistAttempt);
+        SubscribeLocalEvent<RMCSolutionRefillSoundComponent, SolutionTransferredEvent>(OnRefillSound);
 
         SubscribeLocalEvent<NoMixingReagentsComponent, ExaminedEvent>(OnNoMixingReagentsExamined);
         SubscribeLocalEvent<NoMixingReagentsComponent, SolutionTransferAttemptEvent>(OnNoMixingReagentsTransferAttempt);
@@ -258,6 +261,12 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
             if (_entityWhitelist.IsWhitelistFail(ent.Comp.TargetWhitelist, args.From))
                 args.Cancel(Loc.GetString(ent.Comp.Popup));
         }
+    }
+
+    private void OnRefillSound(Entity<RMCSolutionRefillSoundComponent> ent, ref SolutionTransferredEvent args)
+    {
+        if (args.Amount > 0)
+            _audio.PlayPredicted(ent.Comp.Sound, ent, args.User);
     }
 
     private void OnNoMixingReagentsExamined(Entity<NoMixingReagentsComponent> ent, ref ExaminedEvent args)

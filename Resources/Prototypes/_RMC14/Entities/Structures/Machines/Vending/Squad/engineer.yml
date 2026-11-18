@@ -36,8 +36,8 @@
         points: 15
     - name: Engineering Supplies
       entries:
-    #- id: CMAirlockCircuitBoard
-    #  points: 2
+      - id: RMCDoorElectronics
+        points: 2
       - id: CMAPCElectronics
         points: 2
       - id: CMEntrenchingTool
@@ -63,8 +63,8 @@
         recommended: true
       - id: RMCPowerCellSuper
         points: 10
-    #- id: CMES11MobileFuelCanister
-    #  points: 4
+      - id: RMCES11MobileFuelCanister
+        points: 4
     - name: Explosives
       entries:
       - id: CMPacketGrenadeHighExplosiveFilled
@@ -309,6 +309,7 @@
       - id: RMCToolWebbingSmallFilled
         name: small tool webbing (Full)
         recommended: true
+      - id: RMCToolDropPouchSmallFilled
       - id: CMWebbingBlack
       - id: CMWebbingBrown
       - id: RMCWebbingLegPouch
