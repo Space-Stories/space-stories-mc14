@@ -26,7 +26,7 @@
   suffix: Kitchen, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessKitchen" ] ]
+    access: [ [ "CMAccessKitchen" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMRequisitions
 
@@ -36,7 +36,7 @@
   suffix: Kitchen, Locked, Glass
   components:
   - type: AccessReader
-    access: [ [ "CMAccessKitchen" ] ]
+    access: [ [ "CMAccessKitchen" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMRequisitions
 
@@ -46,7 +46,7 @@
   suffix: Kitchen, Locked, Maint
   components:
   - type: AccessReader
-    access: [ [ "CMAccessKitchen" ] ]
+    access: [ [ "CMAccessKitchen" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMRequisitions
 
@@ -126,7 +126,7 @@
   suffix: Chemistry, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessChemistry" ] ]
+    access: [ [ "CMAccessChemistry" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 - type: entity
   parent: CMAirlockMedical
@@ -158,7 +158,7 @@
   suffix: Field Doctor, Locked
   components:
   - type: AccessReader
-    access: [ [ "RMCAccessFieldDoctor" ] ]
+    access: [ [ "RMCAccessFieldDoctor" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 - type: entity
   parent: CMAirlockGlassMedical
@@ -166,7 +166,7 @@
   suffix: Field Doctor, Locked, Glass
   components:
   - type: AccessReader
-    access: [ [ "RMCAccessFieldDoctor" ] ]
+    access: [ [ "RMCAccessFieldDoctor" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 # Correspondent
 - type: entity
@@ -175,7 +175,7 @@
   suffix: Press, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessPress" ] ]
+    access: [ [ "CMAccessPress" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMOther
 
@@ -185,7 +185,7 @@
   suffix: Press, Locked, Glass
   components:
   - type: AccessReader
-    access: [ [ "CMAccessPress" ] ]
+    access: [ [ "CMAccessPress" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMOther
 
@@ -195,7 +195,7 @@
   suffix: Press, Locked, Maint
   components:
   - type: AccessReader
-    access: [ [ "CMAccessPress" ] ]
+    access: [ [ "CMAccessPress" ], [ "RMCAccessCommand" ] ] # Stories-Access
   - type: PaintableAirlock
     department: CMOther
 
@@ -206,7 +206,7 @@
   suffix: Security, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessBrig" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessBrig" ] ] # Stories-Access
 
 - type: entity
   parent: CMAirlockGlassSecurity
@@ -214,7 +214,7 @@
   suffix: Security, Locked
   components:
   - type: AccessReader
-    access: [ [ "CMAccessBrig" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessBrig" ] ] # Stories-Access
 
 # Liaison
 - type: entity

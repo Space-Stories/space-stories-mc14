@@ -244,7 +244,7 @@
   suffix: Locked, Field Doctor
   components:
   - type: AccessReader
-    access: [ [ "RMCAccessFieldDoctor" ] ]
+    access: [ [ "RMCAccessFieldDoctor" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 # \Shipside Buttons
 
@@ -456,7 +456,7 @@
   suffix: Locked, Field Doctor
   components:
   - type: AccessReader
-    access: [ [ "RMCAccessFieldDoctor" ] ]
+    access: [ [ "RMCAccessFieldDoctor" ], [ "RMCAccessCommand" ] ] # Stories-Access
 
 # \Shipside Buttons
 

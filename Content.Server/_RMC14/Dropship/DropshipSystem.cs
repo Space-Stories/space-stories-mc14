@@ -21,6 +21,7 @@ using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared.Administration.Logs;
@@ -35,12 +36,14 @@ using Content.Shared.Popups;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Timing;
+using Content.Shared.Vehicle.Components;
 using Robust.Server.Audio;
 using Robust.Server.Containers;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -91,6 +94,9 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     private readonly HashSet<EntityUid> _restrictedDockingObstacles = new();
     private readonly Dictionary<EntityUid, DockingConfig> _restrictedDockingTargets = new();
+    // Stories-ShuttleDoorLock-Start
+    private readonly HashSet<EntityUid> _doorPushEntities = new();
+    // Stories-ShuttleDoorLock-End
 
     private TimeSpan _lzPrimaryAutoDelay;
     private TimeSpan _flyByTime;
@@ -1585,8 +1591,17 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
         if (_doorQuery.TryComp(door, out var doorComp) &&
             doorComp.State != DoorState.Closed)
         {
+            // Stories-ShuttleDoorLock-Start
+            PushEntitiesOutOfDoor(door.Owner);
+            // Stories-ShuttleDoorLock-End
+
             var oldCheck = doorComp.PerformCollisionCheck;
             doorComp.PerformCollisionCheck = false;
+
+            // Stories-ShuttleDoorLock-Start
+            if (doorComp.State == DoorState.Opening)
+                _door.SetState(door, DoorState.Open, doorComp);
+            // Stories-ShuttleDoorLock-End
 
             _door.StartClosing(door);
             _door.OnPartialClose(door);
@@ -1597,6 +1612,68 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
         if (_doorBoltQuery.Resolve(door, ref door.Comp, false))
             _door.SetBoltsDown((door.Owner, door.Comp), true);
     }
+
+    // Stories-ShuttleDoorLock-Start
+    private void PushEntitiesOutOfDoor(EntityUid doorUid)
+    {
+        if (!_xformQuery.TryComp(doorUid, out var doorXform))
+            return;
+
+        var doorWorldPos = _transform.GetWorldPosition(doorXform);
+        var pushDir = Vector2.Zero;
+
+        if (doorXform.GridUid is { } gridUid && TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            var doorTile = _mapSystem.TileIndicesFor(gridUid, grid, doorXform.Coordinates);
+            var gridRot = _transform.GetWorldRotation(gridUid);
+            Span<Vector2i> dirs =
+            [
+                new(0, 1),
+                new(0, -1),
+                new(1, 0),
+                new(-1, 0),
+            ];
+
+            foreach (var dir in dirs)
+            {
+                if (_mapSystem.TryGetTileRef(gridUid, grid, doorTile + dir, out var tileRef) && !tileRef.Tile.IsEmpty)
+                    continue;
+
+                pushDir = gridRot.RotateVec(new Vector2(dir.X, dir.Y));
+                break;
+            }
+        }
+
+        _doorPushEntities.Clear();
+        _entityLookup.GetEntitiesIntersecting(doorUid, _doorPushEntities);
+
+        foreach (var target in _doorPushEntities)
+        {
+            if (target == doorUid || TerminatingOrDeleted(target) || _doorQuery.HasComp(target))
+                continue;
+
+            if (!_xformQuery.TryComp(target, out var targetXform) || targetXform.Anchored)
+                continue;
+
+            if (!_physicsQuery.TryComp(target, out var physics) || physics.BodyType == BodyType.Static)
+                continue;
+
+            var targetPos = _transform.GetWorldPosition(targetXform);
+            var dir = pushDir;
+            if (dir == Vector2.Zero)
+            {
+                var away = targetPos - doorWorldPos;
+                dir = away.LengthSquared() > 0.001f ? away.Normalized() : Vector2.UnitY;
+            }
+
+            var rel = targetPos - doorWorldPos;
+            var lateral = rel - dir * Vector2.Dot(rel, dir);
+            var offset = HasComp<VehicleComponent>(target) ? 2.2f : 1.15f;
+            _transform.SetWorldPosition(target, doorWorldPos + lateral + dir * offset);
+            _physics.SetLinearVelocity(target, dir * 2f, body: physics);
+        }
+    }
+    // Stories-ShuttleDoorLock-End
 
     public void UnlockDoor(Entity<DoorBoltComponent?> door, bool forceSafetyUnlock = false)
     {

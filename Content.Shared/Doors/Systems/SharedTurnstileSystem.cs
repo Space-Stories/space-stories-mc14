@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Access.Systems;
 using Content.Shared.Doors.Components;
 using Content.Shared.Movement.Pulling.Systems;
@@ -98,6 +99,11 @@ public abstract partial class SharedTurnstileSystem : EntitySystem
         // if they passed through:
         PlayAnimation(ent, ent.Comp.SpinState);
         _audio.PlayPredicted(ent.Comp.TurnSound, ent, args.OtherEntity);
+
+        // Stories-Turnstile-Start
+        var ev = new TurnstilePassedEvent(args.OtherEntity);
+        RaiseLocalEvent(ent, ref ev);
+        // Stories-Turnstile-End
     }
 
     private void OnEndCollide(Entity<TurnstileComponent> ent, ref EndCollideEvent args)
@@ -115,6 +121,10 @@ public abstract partial class SharedTurnstileSystem : EntitySystem
         var otherXform = Transform(other);
 
         var (pos, rot) = _transform.GetWorldPositionRotation(xform);
+        // Stories-Turnstile-Start
+        if (ent.Comp.LocalCenter != Vector2.Zero)
+            pos += rot.RotateVec(ent.Comp.LocalCenter);
+        // Stories-Turnstile-End
         var otherPos = _transform.GetWorldPosition(otherXform);
 
         var approachAngle = (pos - otherPos).ToAngle();
@@ -125,11 +135,29 @@ public abstract partial class SharedTurnstileSystem : EntitySystem
         if (diff > Math.PI)
             diff = MathHelper.TwoPi - diff;
 
-        return diff < Math.PI / 4;
+        // Stories-Turnstile-Start
+        return diff < ent.Comp.MaxApproachAngle;
+        // Stories-Turnstile-End
     }
 
     protected virtual void PlayAnimation(EntityUid uid, string stateId)
     {
 
     }
+
+    // Stories-Turnstile-Start
+    public void AddCollideException(Entity<TurnstileComponent> ent, EntityUid other)
+    {
+        ent.Comp.CollideExceptions.Add(other);
+        if (_pulling.GetPulling(other) is { } uid)
+            ent.Comp.CollideExceptions.Add(uid);
+
+        Dirty(ent);
+    }
+    // Stories-Turnstile-End
 }
+
+// Stories-Turnstile-Start
+[ByRefEvent]
+public readonly record struct TurnstilePassedEvent(EntityUid Other);
+// Stories-Turnstile-End
