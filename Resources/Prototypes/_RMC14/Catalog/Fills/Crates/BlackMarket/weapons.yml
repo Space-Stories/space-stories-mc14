@@ -83,6 +83,17 @@
 
 - type: entity
   parent: RMCCrateWoodenBuildable
+  id: STCrateBlackMarketM357Sawn
+  name: sawn-off M357 Rival crate
+  description: Includes a sawn-off M357 Rival and a box with five buckshot shells.
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponShotgunM357Sawn
+    - id: RMCBoxShotgunBuckshot
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
   id: RMCCrateBlackMarketFP9000
   name: FN FP9000 submachine gun crate
   description: Includes an FN FP9000 submachine gun and five magazines.
@@ -190,6 +201,18 @@
     - id: RMCWeaponPistolHandcannon
     - id: RMCMagazinePistolHandcannon
       amount: 4
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: STCrateBlackMarketL54Custom
+  name: custom L54 service pistol crate
+  description: Includes a custom L54 service pistol and two spare L54-S magazines.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCWeaponPistolL54Custom
+    - id: RMCMagazinePistolL54Custom
+      amount: 2
 
 - type: entity
   parent: RMCCrateWoodenBuildable

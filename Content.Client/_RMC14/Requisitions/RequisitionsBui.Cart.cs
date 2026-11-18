@@ -211,7 +211,14 @@ public sealed partial class RequisitionsBui
         if (_cartTotals != totals)
             _window.BuyButton.IsConfirming = false;
         _cartTotals = totals;
-        SetText(_window.CartTotalLabel, GetCartTotalText(supplyTotal, blackMarketTotal), markup: true);
+        var showHeatWarning = _blackMarketMode && _state is { BlackMarketHeatWarning: true };
+        _window.BlackMarketHeatSummary.Visible = showHeatWarning;
+        _window.CartTotalLabel.Visible = !showHeatWarning;
+        var totalLabel = showHeatWarning ? _window.BlackMarketCartTotalLabel : _window.CartTotalLabel;
+        SetText(totalLabel, GetCartTotalText(supplyTotal, blackMarketTotal), markup: true);
+        if (showHeatWarning)
+            SetText(_window.BlackMarketHeatWarning, Loc.GetString("rmc-requisitions-black-market-cart-heat-warning"),
+                color: Color.Orange);
         _window.CartShipping.Visible = !RequestOnly && !_blackMarketMode && _state != null && cart.Count > 0;
         if (_window.CartShipping.Visible)
         {

@@ -13,7 +13,7 @@
       offset: 0
       table: !type:EntSelector
         id: RMCBlackMarketHackingDevice
-        prob: 0.0005
+        prob: 0.08
     - type: RandomSpawner
       prototypes:
         - CMScrewdriver
@@ -39,7 +39,7 @@
       offset: 0
       table: !type:EntSelector
         id: RMCBlackMarketHackingDevice
-        prob: 0.0125
+        prob: 0.2
     - type: RandomSpawner
       prototypes:
         - RMCToolboxMechanicalFilled # x3
@@ -67,7 +67,7 @@
       offset: 0
       table: !type:EntSelector
         id: RMCBlackMarketHackingDevice
-        prob: 0.0035
+        prob: 0.12
     - type: RandomSpawner
       prototypes:
         - RMCPowerCellCrap
@@ -114,40 +114,19 @@
       layers:
         - sprite: _RMC14/Objects/Medical/health_analyzer.rsi
           state: health
-    - type: RandomSpawner
-      prototypes:
-        - CMTRayScanner # x10
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMTRayScanner
-        - CMRadioHandheld # x8
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMRadioHandheld
-        - CMHealthAnalyzer # x10
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - CMHealthAnalyzer
-        - RMCBlackMarketHackingDevice # x2
-        - RMCBlackMarketHackingDevice
-      chance: 0.75
+    - type: EntityTableSpawner
       offset: 0
+      table: !type:GroupSelector
+        prob: 0.75
+        children:
+        - id: CMTRayScanner
+          weight: 10
+        - id: CMRadioHandheld
+          weight: 8
+        - id: CMHealthAnalyzer
+          weight: 10
+        - id: RMCBlackMarketHackingDevice
+          weight: 32
 
 - type: entity
   parent: MarkerBase
@@ -164,7 +143,7 @@
       offset: 0
       table: !type:EntSelector
         id: RMCBlackMarketHackingDevice
-        prob: 0.035
+        prob: 0.28
     - type: RandomSpawner
       prototypes:
         # TODO:

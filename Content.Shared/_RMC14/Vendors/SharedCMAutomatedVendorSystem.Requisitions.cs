@@ -1,7 +1,9 @@
+using Content.Shared.Coordinates;
 using Content.Shared.Item;
 using Content.Shared.Prototypes;
 using Content.Shared.Stacks;
 using Content.Shared.UserInterface;
+using Robust.Shared.Map;
 
 namespace Content.Shared._RMC14.Vendors;
 
@@ -78,9 +80,35 @@ public abstract partial class SharedCMAutomatedVendorSystem
         return true;
     }
 
-    public bool TryIssueRequisition(Entity<CMAutomatedVendorComponent> vendor, EntityUid actor, int section, int entry)
+    public EntityCoordinates GetRequisitionDeliveryCoordinates(EntityUid console)
     {
-        if (_net.IsClient || !_accessReader.IsAllowed(actor, vendor) || !_rmcPower.IsPowered(vendor) ||
+        var origin = Transform(console);
+        var coordinates = origin.Coordinates;
+        if (origin.GridUid == null)
+            return coordinates;
+
+        var closest = float.MaxValue;
+        var markers = EntityQueryEnumerator<RMCRequisitionsChairComponent, TransformComponent>();
+        while (markers.MoveNext(out var uid, out var marker, out var transform))
+        {
+            if (!transform.Anchored || transform.GridUid != origin.GridUid || TerminatingOrDeleted(uid) ||
+                !origin.Coordinates.TryDistance(EntityManager, _transform, transform.Coordinates, out var distance) ||
+                distance >= closest)
+                continue;
+
+            closest = distance;
+            coordinates = uid.ToCoordinates(marker.OffsetItem);
+        }
+
+        return coordinates;
+    }
+
+    public bool TryIssueRequisition(
+        Entity<CMAutomatedVendorComponent> vendor, EntityUid actor, int section, int entry,
+        EntityCoordinates? deliveryCoordinates)
+    {
+        if (_net.IsClient || TerminatingOrDeleted(vendor) ||
+            !_accessReader.IsAllowed(actor, vendor) || !_rmcPower.IsPowered(vendor) ||
             section < 0 || section >= vendor.Comp.Sections.Count ||
             entry < 0 || entry >= vendor.Comp.Sections[section].Entries.Count)
             return false;
@@ -103,8 +131,12 @@ public abstract partial class SharedCMAutomatedVendorSystem
         }
 
         var message = new CMVendorVendBuiMsg(section, entry, new()) { Actor = actor };
-        VendFromMenu(vendor, ref message, autoGrab: false);
-        return true;
+        var counterCoordinates = CanDispenseToCounter(vendor) ? deliveryCoordinates : null;
+        return TryVendFromMenu(vendor, ref message, counterCoordinates, fromRequisition: true);
     }
 
+    private bool CanDispenseToCounter(EntityUid vendor)
+    {
+        return TryComp<RMCRequisitionsVendorComponent>(vendor, out var component) && component.Enabled;
+    }
 }

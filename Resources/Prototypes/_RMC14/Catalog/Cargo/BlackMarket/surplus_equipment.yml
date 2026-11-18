@@ -38,6 +38,20 @@
       - cost: 0
         unit: true
         blackMarket: true
+        blackMarketCost: 60
+        blackMarketHeat: 8
+        crate: RMCDefibrillatorCompact
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 6
+        crate: RMCPortableCrewMonitor
+
+      - cost: 0
+        unit: true
+        blackMarket: true
         blackMarketCost: 35
         blackMarketHeat: 5
         crate: RMCMK45AutomagCase

@@ -471,7 +471,12 @@ public sealed partial class RequisitionsBui : BoundUserInterface, IRefreshableBu
             "rmc-requisitions-black-market-balance",
             ("wy", _state.BlackMarketBalance))));
 
-        home.DialoguePanel.Visible = PopulateBlackMarketDialogue(home.DialogueContents);
+        home.MendozaHeatWarning.Visible = _state.BlackMarketHeatWarning;
+        if (home.MendozaHeatWarning.Visible)
+            SetText(home.MendozaHeatWarning, Loc.GetString("rmc-requisitions-black-market-mendoza-heat-warning"),
+                color: Color.LightGray);
+        home.DialoguePanel.Visible = PopulateBlackMarketDialogue(home.DialogueContents) ||
+                                     home.MendozaHeatWarning.Visible;
 
         home.BriefingButton.Visible = true;
         home.BriefingButton.Text = Loc.GetString(_mendozaBriefingExpanded
