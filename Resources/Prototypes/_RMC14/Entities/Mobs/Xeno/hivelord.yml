@@ -168,6 +168,12 @@
     plasmaTransferDelay: 0.5
   - type: AcidTrap
   - type: XenoEvolution
+    raffleOnlyEvolvesTo:
+    - CMXenoRavager
+    - CMXenoPraetorian
+    - RMCXenoBoiler
+    - STXenoDespoiler
+    - RMCXenoCrusher
     strains:
     - CMXenoHivelordResinWhisperer
     - CMXenoHivelordDesigner

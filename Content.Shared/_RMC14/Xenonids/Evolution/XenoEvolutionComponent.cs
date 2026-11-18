@@ -21,6 +21,9 @@ public sealed partial class XenoEvolutionComponent : Component
     public List<EntProtoId> EvolvesTo = new();
 
     [DataField, AutoNetworkedField]
+    public List<EntProtoId> RaffleOnlyEvolvesTo = new();
+
+    [DataField, AutoNetworkedField]
     public List<EntProtoId> EarlyEvolvesTo = new();
 
     [DataField, AutoNetworkedField]
