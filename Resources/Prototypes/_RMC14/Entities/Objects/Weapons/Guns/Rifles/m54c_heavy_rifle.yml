@@ -116,6 +116,7 @@
     tags:
     - CMMagazineRifle
     - CMMagazineRifleM54CE2
+    - RMCMagazineRifleM54CE2Standard
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -145,6 +146,11 @@
   id: CMMagazineRifleM54CE2HT
   name: "M54CE2 HT magazine (10x24mm)"
   components:
+  - type: Tag
+    tags:
+    - CMMagazineRifle
+    - CMMagazineRifleM54CE2
+    - RMCMagazineRifleM54CE2HT
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -191,6 +197,10 @@
   id: CMMagazineRifleM54CE2AP
   name: "M54CE2 AP magazine (10x24mm)"
   components:
+  - type: Tag
+    tags:
+    - CMMagazineRifle
+    - CMMagazineRifleM54CE2
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -213,6 +223,11 @@
   id: RMCMagazineRifleM54CE2HEAP
   name: "M54CE2 HEAP magazine (10x24mm)"
   components:
+  - type: Tag
+    tags:
+    - CMMagazineRifle
+    - CMMagazineRifleM54CE2
+    - RMCMagazineRifleM54CE2HEAP
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -235,6 +250,10 @@
   id: RMCMagazineRifleM54CE2WP
   name: "M54CE2 WP magazine (10x24mm)"
   components:
+  - type: Tag
+    tags:
+    - CMMagazineRifle
+    - CMMagazineRifleM54CE2
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -257,6 +276,10 @@
   id: RMCMagazineRifleM54CE2Incendiary
   name: "M54CE2 incendiary magazine (10x24mm)"
   components:
+  - type: Tag
+    tags:
+    - CMMagazineRifle
+    - CMMagazineRifleM54CE2
   - type: BallisticAmmoProvider
     mayTransfer: True
     whitelist:
@@ -279,6 +302,15 @@
 
 - type: Tag
   id: CMMagazineRifleM54CE2
+
+- type: Tag
+  id: RMCMagazineRifleM54CE2Standard
+
+- type: Tag
+  id: RMCMagazineRifleM54CE2HT
+
+- type: Tag
+  id: RMCMagazineRifleM54CE2HEAP
 
 - type: Tag
   id: CMCartridgeRifle10x24mmHT

@@ -555,6 +555,114 @@
   iconColor: "#887b67"
   objectType: Item
 
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineRifleM54CE2Empty
+  name: Magazine Box (M54CE2)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineRifleM54CE2Empty
+  category: construction-category-cm-box-magazine
+  description: An empty box for M54CE2 magazines.
+  iconColor: "#485058"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineRifleM54CE2HTEmpty
+  name: Magazine Box (M54CE2 HT)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineRifleM54CE2HTEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for M54CE2 HT magazines.
+  iconColor: "#485058"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineRifleM54CE2HEAPEmpty
+  name: Magazine Box (M54CE2 HEAP)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineRifleM54CE2HEAPEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for M54CE2 HEAP magazines.
+  iconColor: "#485058"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineSmartGunEmpty
+  name: Magazine Box (ML66A)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineSmartGunEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for ML66A magazines.
+  iconColor: "#515a3f"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineSmartGunIrradiatedEmpty
+  name: Magazine Box (Irradiated ML79A)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineSmartGunIrradiatedEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for Irradiated ML79A magazines.
+  iconColor: "#515a3f"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineML66DEmpty
+  name: Magazine Box (ML66D)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineML66DEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for ML66D magazines.
+  iconColor: "#655b44"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazineM2CEmpty
+  name: Magazine Box (M2C)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazineM2CEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for M2C magazines.
+  iconColor: "#647040"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxFlamerTankBGelEmpty
+  name: Flamer Tank Box (B-Gel)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxFlamerTankBGelEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for B-Gel fuel tanks.
+  iconColor: "#3d3832"
+  objectType: Item
+
+- type: construction
+  parent: RMC
+  id: RMCBoxMagazinePistolM1984IncendiaryEmpty
+  name: Magazine Box (M1984 Incendiary)
+  graph: RMCBoxMagazine
+  startNode: start
+  targetNode: RMCBoxMagazinePistolM1984IncendiaryEmpty
+  category: construction-category-cm-box-magazine
+  description: An empty box for M1984 Incendiary magazines.
+  iconColor: "#b2976e"
+  objectType: Item
+
 # Construct graphs
 - type: constructionGraph
   parent: RMC
@@ -563,6 +671,52 @@
   graph:
   - node: start
     edges:
+
+    - to: RMCBoxMagazineRifleM54CE2Empty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineRifleM54CE2HTEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineRifleM54CE2HEAPEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineSmartGunEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineSmartGunIrradiatedEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineML66DEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazineM2CEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxFlamerTankBGelEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
+    - to: RMCBoxMagazinePistolM1984IncendiaryEmpty
+      steps:
+      - material: RMCSheetCardboard
+        amount: 1
+        doAfter: 0.25
 
     # M54C
     - to: RMCBoxMagazineRifleM54CEmpty
@@ -875,6 +1029,25 @@
         doAfter: 0.25
 
   # Why the fuck do you even need these nodes???
+
+  - node: RMCBoxMagazineRifleM54CE2Empty
+    entity: RMCBoxMagazineRifleM54CE2Empty
+  - node: RMCBoxMagazineRifleM54CE2HTEmpty
+    entity: RMCBoxMagazineRifleM54CE2HTEmpty
+  - node: RMCBoxMagazineRifleM54CE2HEAPEmpty
+    entity: RMCBoxMagazineRifleM54CE2HEAPEmpty
+  - node: RMCBoxMagazineSmartGunEmpty
+    entity: RMCBoxMagazineSmartGunEmpty
+  - node: RMCBoxMagazineSmartGunIrradiatedEmpty
+    entity: RMCBoxMagazineSmartGunIrradiatedEmpty
+  - node: RMCBoxMagazineML66DEmpty
+    entity: RMCBoxMagazineML66DEmpty
+  - node: RMCBoxMagazineM2CEmpty
+    entity: RMCBoxMagazineM2CEmpty
+  - node: RMCBoxFlamerTankBGelEmpty
+    entity: RMCBoxFlamerTankBGelEmpty
+  - node: RMCBoxMagazinePistolM1984IncendiaryEmpty
+    entity: RMCBoxMagazinePistolM1984IncendiaryEmpty
 
   # M54C
   - node: RMCBoxMagazineRifleM54CEmpty
