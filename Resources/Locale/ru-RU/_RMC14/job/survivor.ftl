@@ -611,7 +611,7 @@ rmc-job-prefix-tyrargo-cet = БИТ
 rmc-job-name-tyrargo-heavy-gunner = Тяжёлый пулемётчик
 rmc-job-prefix-tyrargo-heavy-gunner = Тяж. Пул.
 
-# КОФ SURVIVORS
+# CLF SURVIVORS
 
 rmc-job-name-clf-survivor-soldier = Партизан КОФ
 rmc-job-prefix-clf-survivor-soldier = ПАРТ
@@ -625,9 +625,9 @@ rmc-job-prefix-clf-survivor-engineer = ТЕХ
 rmc-job-name-clf-survivor-commander = Лидер ячейки КОФ
 rmc-job-prefix-clf-survivor-commander = ЛДР
 
-rmc-job-description-clf-survivor = Вы - член Колониального фронта освобождения, враждебного КМП США.
+rmc-job-description-clf-survivor = Вы — член Колониального фронта освобождения, враждебного КМП США.
 
-rmc-job-greeting-clf-survivor = Вы - член КОФ, прибывший на назначенную встречу с сочувствующими колонистами, но вокруг стоит зловещая тишина.
+rmc-job-greeting-clf-survivor = Вы — член КОФ, прибывший на назначенную встречу с сочувствующими колонистами, но вокруг стоит зловещая тишина.
 
   Вы НЕ знаете об угрозе ксеноморфов.
 

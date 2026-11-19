@@ -7,3 +7,10 @@
     - /Audio/_RMC14/Xeno/alien_claw_flesh3.ogg
     - /Audio/_RMC14/Xeno/alien_claw_flesh4.ogg
     - /Audio/_RMC14/Xeno/alien_claw_flesh5.ogg
+
+- type: soundCollection
+  id: RMCXenoClawMetal
+  files:
+    - /Audio/_RMC14/Xeno/alien_claw_metal1.ogg
+    - /Audio/_RMC14/Xeno/alien_claw_metal2.ogg
+    - /Audio/_RMC14/Xeno/alien_claw_metal3.ogg

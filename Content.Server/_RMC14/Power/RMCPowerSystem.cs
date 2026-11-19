@@ -8,9 +8,11 @@ using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.PowerCell;
 using Content.Server.Wires;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Power;
+using Content.Shared.Damage;
 using Content.Shared.Examine;
 using Content.Shared.Database;
 using Content.Shared.Interaction;
@@ -18,6 +20,7 @@ using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.PowerCell;
 using Content.Shared.SMES;
+using Content.Shared.Stunnable;
 using Content.Shared.Wires;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -54,18 +57,22 @@ public sealed partial class RMCPowerSystem : SharedRMCPowerSystem
     private static readonly SoundSpecifier RestoreAnnouncementSound =
         new SoundPathSpecifier("/Audio/_RMC14/Announcements/ARES/ares_online.ogg");
 
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly IAdminLogManager _adminLog = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly AreaSystem _area = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly BatterySystem _battery = default!;
     [Dependency] private readonly PowerCellSystem _cell = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly ElectrocutionSystem _electrocution = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly WiresSystem _wires = default!;
@@ -390,7 +397,7 @@ public sealed partial class RMCPowerSystem : SharedRMCPowerSystem
             SetAllApcChannels((uid, apc), false);
             if (TryGetApcCell((uid, apc)) is { } cell)
                 _battery.SetCharge(cell, 0, cell.Comp);
-            Dirty(uid, apc);
+            UpdateApcAppearance((uid, apc));
             changed = true;
         }
 
@@ -444,7 +451,7 @@ public sealed partial class RMCPowerSystem : SharedRMCPowerSystem
                 apc.Channels[i].Button = RMCApcButtonState.Auto;
             if (TryGetApcCell((uid, apc)) is { } cell)
                 _battery.SetCharge(cell, cell.Comp.MaxCharge, cell.Comp);
-            Dirty(uid, apc);
+            UpdateApcAppearance((uid, apc));
             changed = true;
         }
 
@@ -1278,8 +1285,9 @@ public sealed partial class RMCPowerSystem : SharedRMCPowerSystem
 
     private void FinishApcVisuals(Apc apc)
     {
+        UpdateApcAppearance((apc.Uid, apc.Component));
         _appearance.SetData(apc.Uid, RMCApcVisualsLayers.Power, apc.Component.ChargeStatus);
-        _light.SetEnabled(apc.Uid, CanApcOperate(apc.Uid, apc.Component));
+        _light.SetEnabled(apc.Uid, apc.Component.State is RMCApcState.Working or RMCApcState.WorkingBreakerOff);
         _light.SetColor(apc.Uid,
             apc.Component.ChargeStatus switch
             {

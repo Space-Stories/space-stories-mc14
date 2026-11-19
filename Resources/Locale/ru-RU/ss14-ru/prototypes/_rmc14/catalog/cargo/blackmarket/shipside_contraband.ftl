@@ -1,0 +1,2 @@
+ent-RMCBlackMarketCatalogShipsideContraband = { "" }
+    .desc = { "" }

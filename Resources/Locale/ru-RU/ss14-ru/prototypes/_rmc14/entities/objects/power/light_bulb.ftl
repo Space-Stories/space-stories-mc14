@@ -1,17 +1,5 @@
 ent-RMCLightBulbBase = { ent-BaseItem }
     .desc = { ent-BaseItem.desc }
-ent-RMCLightBulb = лампочка
-    .desc =  Сколько нужно техников, чтобы заменить лампочку?
-    .suffix = Теплый
-ent-RMCLightBulbBlue = { ent-RMCLightBulb }
-    .desc = { ent-RMCLightBulb.desc }
-    .suffix = Синий
-ent-RMCLightBulbRed = { ent-RMCLightBulb }
-    .desc = { ent-RMCLightBulb.desc }
-    .suffix = Красный
-ent-RMCLightBulbBroken = лампочка
-    .desc = Сколько нужно техников, чтобы заменить лампочку?
-    .suffix = Сломанный
 ent-CMLightBulbBase = { ent-BaseLightbulb }
     .desc = { ent-BaseLightbulb.desc }
 ent-CMLightBulb = лампочка

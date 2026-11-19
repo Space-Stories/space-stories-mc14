@@ -9,6 +9,6 @@ cm-magazine-box-examine-almost-full = Кажется, она почти полн
 cm-magazine-box-examine-magazines = В ней { $filled } { $filled ->
     [one] магазин
     [few] магазина
-   *[other] магазинов
+    *[other] магазинов
 } из { $total }
 cm-magazine-box-pick-up = Поднять

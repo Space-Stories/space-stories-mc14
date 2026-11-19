@@ -1,11 +1,11 @@
 rmc-ert-admin-command-player-only = Эта команда доступна только игроку.
 rmc-ert-admin-command-admin-only = Эта команда доступна только активному администратору.
 rmc-ert-admin-command-force-usage = Использование: rmcertcall <callId> [причина]
-rmc-ert-admin-command-force-success = Принудительно создан запрос ОБР {$id} для {$call}.
+rmc-ert-admin-command-force-success = Принудительно создан запрос ОБР { $id } для { $call }.
 rmc-ert-admin-command-force-call-hint = Прототип вызова ОБР
 rmc-ert-admin-command-force-reason-hint = Необязательная причина
 rmc-ert-admin-command-force-list-empty = Нет доступных вызовов ОБР для принудительного вызова.
-rmc-ert-admin-command-force-list-entry = {$id} | {$name} | {$category} | {$organization}
+rmc-ert-admin-command-force-list-entry = { $id } | { $name } | { $category } | { $organization }
 
 rmc-ert-admin-window-title = Диспетчер ОБР
 rmc-ert-admin-window-header = Запросы групп экстренного реагирования
@@ -14,16 +14,16 @@ rmc-ert-admin-tab-force = Принудительный вызов
 rmc-ert-admin-no-requests = Активных запросов ОБР нет.
 rmc-ert-admin-force-no-calls = Нет доступных вызовов ОБР.
 rmc-ert-admin-force-reason = Причина:
-rmc-ert-admin-force-row-category = Категория: {$category}
-rmc-ert-admin-force-row-id = Прототип: {$id}
-rmc-ert-admin-force-row-organization = Организация: {$organization}
-rmc-ert-admin-force-row-compact-meta = Прототип: {$id} | Организация: {$organization}
-rmc-ert-admin-row-summary = {$state} | {$source} | {$requester} через {$sourceName} | {$createdAt}
-rmc-ert-admin-row-reason = Причина: {$reason}
-rmc-ert-admin-row-selected = Выбрано: {$call}
-rmc-ert-admin-row-error = Ошибка: {$error}
-rmc-ert-admin-row-warning = Предупреждение: {$warning}
-rmc-ert-admin-card-created = Создано: {$time}
+rmc-ert-admin-force-row-category = Категория: { $category }
+rmc-ert-admin-force-row-id = Прототип: { $id }
+rmc-ert-admin-force-row-organization = Организация: { $organization }
+rmc-ert-admin-force-row-compact-meta = Прототип: { $id } | Организация: { $organization }
+rmc-ert-admin-row-summary = { $state } | { $source } | { $requester } через { $sourceName } | { $createdAt }
+rmc-ert-admin-row-reason = Причина: { $reason }
+rmc-ert-admin-row-selected = Выбрано: { $call }
+rmc-ert-admin-row-error = Ошибка: { $error }
+rmc-ert-admin-row-warning = Предупреждение: { $warning }
+rmc-ert-admin-card-created = Создано: { $time }
 rmc-ert-admin-card-requester = Запросил:
 rmc-ert-admin-card-source = Источник:
 rmc-ert-admin-card-via = Через:
@@ -36,7 +36,7 @@ rmc-ert-admin-card-no-actions = Нет доступных действий
 rmc-ert-admin-card-none = -
 rmc-ert-admin-action-approve-random = Одобрить случайный
 rmc-ert-admin-action-deny = Отклонить
-rmc-ert-admin-action-send = Отправить {$call}
+rmc-ert-admin-action-send = Отправить { $call }
 rmc-ert-admin-action-launch = Запустить
 rmc-ert-admin-action-cancel = Отменить
 rmc-ert-admin-action-complete = Завершить
@@ -68,7 +68,7 @@ rmc-ert-popup-console-unavailable = Эта консоль не может пер
 rmc-ert-popup-console-alert-required = Аварийный маяк можно передать только при красной тревоге или выше.
 rmc-ert-popup-no-source-teams = Для этого источника бедствия не настроены группы реагирования.
 rmc-ert-prompt-console-reason = Укажите причину запуска аварийного маяка.
-rmc-ert-prompt-handheld-reason = Укажите причину для {$title}.
+rmc-ert-prompt-handheld-reason = Укажите причину для { $title }.
 rmc-ert-console-request-announcement = Аварийный маяк запущен. Верховное командование рассматривает запрос.
 
 rmc-ert-admin-actor-server = сервер
@@ -76,55 +76,55 @@ rmc-ert-admin-actor-auto-resolve = автоматический ответ
 rmc-ert-launcher-automatic = автоматический таймер запуска
 rmc-ert-response-team-fallback = группа реагирования
 rmc-ert-ship-fallback = корабль
-rmc-ert-admin-request = Запрос ОБР {$id} от {$requester} через {$source}: {$reason}
-rmc-ert-admin-request-with-extra = {$base} {$extra}
+rmc-ert-admin-request = Запрос ОБР { $id } от { $requester } через { $source }: { $reason }
+rmc-ert-admin-request-with-extra = { $base } { $extra }
 
-rmc-ert-success-handheld = Запрос аварийного маяка отправлен: {$recipient}.
+rmc-ert-success-handheld = Запрос аварийного маяка отправлен: { $recipient }.
 rmc-ert-success-console = Аварийный маяк передан Верховному командованию.
 
-rmc-ert-briefing-title = Брифинг {$team}
-rmc-ert-briefing-reason = Причина: {$reason}
+rmc-ert-briefing-title = Брифинг { $team }
+rmc-ert-briefing-reason = Причина: { $reason }
 rmc-ert-briefing-objectives = Задачи:
 rmc-ert-briefing-bullet = -
 rmc-ert-briefing-features = Оперативные заметки:
-rmc-ert-briefing-role = Назначенная роль: {$role}
+rmc-ert-briefing-role = Назначенная роль: { $role }
 
-rmc-ert-error-unknown-call = Неизвестный прототип вызова ОБР: {$id}
-rmc-ert-error-call-not-allowed = {$call} недоступен для этого источника бедствия.
+rmc-ert-error-unknown-call = Неизвестный прототип вызова ОБР: { $id }
+rmc-ert-error-call-not-allowed = { $call } недоступен для этого источника бедствия.
 rmc-ert-error-console-random-only = Запросы аварийного маяка с консоли можно одобрять только как случайную группу реагирования.
 rmc-ert-error-specific-selection-disabled = Этот запрос ОБР нельзя одобрить как конкретную группу реагирования.
-rmc-ert-error-call-disabled = {$call} отключён.
+rmc-ert-error-call-disabled = { $call } отключён.
 rmc-ert-error-selected-call-missing = Выбранный вызов ОБР больше не существует.
-rmc-ert-error-load-shuttle-map = Не удалось загрузить карту шаттла ОБР {$map}.
-rmc-ert-error-missing-ghost-role = Отсутствует прототип сущности роли призрака {$entity} для {$call}.
-rmc-ert-error-empty-ghost-role-pool = У роли {$role} вызова ОБР {$call} нет записей в пуле ролей призраков.
-rmc-ert-error-invalid-ghost-role-pool-weight = У роли {$role} вызова ОБР {$call} неверный вес пула ролей призраков {$weight} для {$entity}.
-rmc-ert-error-min-slots-over-max = Вызову ОБР {$call} требуется минимум {$required} слотов, но настроенный максимум равен {$maximum}.
-rmc-ert-error-planned-slots-too-low = Запланировано только {$planned} слотов ОБР, но требуется {$required}.
-rmc-ert-error-unknown-shuttle-spawner = Неизвестный прототип спавнера шаттла ОБР {$id}.
-rmc-ert-error-shuttle-spawner-missing-grid = У спавнера шаттла ОБР {$id} отсутствует GridSpawnerComponent.
-rmc-ert-error-shuttle-spawner-no-map = Спавнер шаттла ОБР {$id} не задаёт карту шаттла.
+rmc-ert-error-load-shuttle-map = Не удалось загрузить карту шаттла ОБР { $map }.
+rmc-ert-error-missing-ghost-role = Отсутствует прототип сущности роли призрака { $entity } для { $call }.
+rmc-ert-error-empty-ghost-role-pool = У роли { $role } вызова ОБР { $call } нет записей в пуле ролей призраков.
+rmc-ert-error-invalid-ghost-role-pool-weight = У роли { $role } вызова ОБР { $call } неверный вес пула ролей призраков { $weight } для { $entity }.
+rmc-ert-error-min-slots-over-max = Вызову ОБР { $call } требуется минимум { $required } слотов, но настроенный максимум равен { $maximum }.
+rmc-ert-error-planned-slots-too-low = Запланировано только { $planned } слотов ОБР, но требуется { $required }.
+rmc-ert-error-unknown-shuttle-spawner = Неизвестный прототип спавнера шаттла ОБР { $id }.
+rmc-ert-error-shuttle-spawner-missing-grid = У спавнера шаттла ОБР { $id } отсутствует GridSpawnerComponent.
+rmc-ert-error-shuttle-spawner-no-map = Спавнер шаттла ОБР { $id } не задаёт карту шаттла.
 rmc-ert-error-beacon-no-teams = Маяк не может найти настроенные группы реагирования.
 rmc-ert-error-raffles-in-progress = Розыгрыши ролей призраков для этой группы реагирования всё ещё идут.
 rmc-ert-error-no-volunteers = Никто из добровольцев не принял развёртывание группы экстренного реагирования.
-rmc-ert-error-not-enough-volunteers = Развёртывание приняли только {$accepted} бойцов экстренного реагирования, но требуется {$required}.
+rmc-ert-error-not-enough-volunteers = Развёртывание приняли только { $accepted } бойцов экстренного реагирования, но требуется { $required }.
 rmc-ert-error-not-enough-role-volunteers = Требуемую роль { $role } приняли только { $accepted } добровольцев, а нужно { $required }.
-rmc-ert-arrived-detail-no-shuttle = {$launcher} без шаттла
+rmc-ert-arrived-detail-no-shuttle = { $launcher } без шаттла
 rmc-ert-error-no-navigation-computer = На шаттле ОБР нет навигационного компьютера.
 rmc-ert-error-no-landing-zone = Нет доступной зоны посадки ОБР.
 rmc-ert-error-launch-failed = Шаттл ОБР не смог запуститься.
 rmc-ert-error-docking-verification-failed = Шаттл ОБР не смог состыковаться с выбранным посадочным портом.
-rmc-ert-warning-no-compatible-landing-zone = {$call} нельзя одобрить: нет совместимой зоны посадки или стыковочного порта.
+rmc-ert-warning-no-compatible-landing-zone = { $call } нельзя одобрить: нет совместимой зоны посадки или стыковочного порта.
 rmc-ert-error-no-random-calls = Для этого запроса нет доступных взвешенных случайных вызовов ОБР.
 rmc-ert-error-random-selection-failed = Взвешенный случайный выбор ОБР завершился ошибкой.
-rmc-ert-error-min-round-time = Для {$call} требуется минимум {$minutes} минут раунда.
-rmc-ert-error-max-calls-reached = {$call} уже был отправлен в этом раунде.
-rmc-ert-error-source-cooldown = {$call} находится на перезарядке для этого источника бедствия.
+rmc-ert-error-min-round-time = Для { $call } требуется минимум { $minutes } минут раунда.
+rmc-ert-error-max-calls-reached = { $call } уже был отправлен в этом раунде.
+rmc-ert-error-source-cooldown = { $call } находится на перезарядке для этого источника бедствия.
 rmc-ert-error-source-pending = Запрос бедствия от этого источника уже ожидает рассмотрения.
-rmc-ert-error-call-not-force-callable = {$call} недоступен для принудительного вызова.
-rmc-ert-error-force-call-failed = Не удалось принудительно вызвать {$call}.
-rmc-ert-error-no-shuttle = Для {$call} нет доступного шаттла.
-rmc-ert-error-missing-shuttle-cargo = Для {$call} не настроен груз шаттла.
+rmc-ert-error-call-not-force-callable = { $call } недоступен для принудительного вызова.
+rmc-ert-error-force-call-failed = Не удалось принудительно вызвать { $call }.
+rmc-ert-error-no-shuttle = Для { $call } нет доступного шаттла.
+rmc-ert-error-missing-shuttle-cargo = Для { $call } не настроен груз шаттла.
 
 rmc-ert-category-response = Реагирование
 rmc-ert-category-military = Военные
@@ -284,63 +284,63 @@ rmc-ert-announcement-title-priority-alert = Приоритетная трево�
 rmc-ert-announcement-title-distress-beacon = Аварийный маяк
 rmc-ert-announcement-title-intercepted-transmission = Перехваченная передача:
 
-rmc-ert-announcement-message = [font size=16][bold][color=#CECECE]{$title}[/color][/bold][/font][font size=16][color=red]
+rmc-ert-announcement-message = [font size=16][bold][color=#CECECE]{ $title }[/color][/bold][/font][font size=16][color=red]
 
-    {$message}[/color][/font]
+    { $message }[/color][/font]
 
-rmc-ert-announcement-priority-alert = С корабля {$ship} был запущен аварийный маяк.
+rmc-ert-announcement-priority-alert = С корабля { $ship } был запущен аварийный маяк.
 rmc-ert-announcement-distress-dispatch = Получен зашифрованный сигнал с ближайшего судна. Ожидайте.
 rmc-ert-announcement-distress-no-response = Аварийный сигнал не получил ответа, пусковые трубы перекалибровываются.
 
-rmc-ert-announcement-recruiting-immediate = {$team} принимает добровольцев для немедленного развёртывания.
-rmc-ert-announcement-recruiting = {$team} принимает добровольцев.
-rmc-ert-announcement-launch = {$team} запущена.
+rmc-ert-announcement-recruiting-immediate = { $team } принимает добровольцев для немедленного развёртывания.
+rmc-ert-announcement-recruiting = { $team } принимает добровольцев.
+rmc-ert-announcement-launch = { $team } запущена.
 
-rmc-ert-announcement-cbrn-dispatch = Верховное командование одобрило реагирование на сигнал бедствия. {$team} собирается.
+rmc-ert-announcement-cbrn-dispatch = Верховное командование одобрило реагирование на сигнал бедствия. { $team } собирается.
 rmc-ert-announcement-cbrn-arrival = Внимание, это ВКСШ Курц, мы отправили отряд РХБЗ на ваш корабль по вашему сигналу бедствия. Ожидайте прибытия.
-rmc-ert-announcement-cbrn-failed = Верховное командование сообщает, что развёртывание {$team} не удалось: {$reason}
+rmc-ert-announcement-cbrn-failed = Верховное командование сообщает, что развёртывание { $team } не удалось: { $reason }
 rmc-ert-announcement-cbrn-denied = Верховное командование отклонило запрос бедствия.
 
-rmc-ert-announcement-pmc-dispatch = Корпоративный экстренный контракт принят. {$team} готовится к развёртыванию.
-rmc-ert-announcement-pmc-arrival = {$ship}, это коммерческий звездолёт "Ройс" отвечает на ваш сигнал бедствия. Мы приступаем к абордажу. Любые враждебные действия будут встречены летальной силой.
+rmc-ert-announcement-pmc-dispatch = Корпоративный экстренный контракт принят. { $team } готовится к развёртыванию.
+rmc-ert-announcement-pmc-arrival = { $ship }, это коммерческий звездолёт "Ройс" отвечает на ваш сигнал бедствия. Мы приступаем к абордажу. Любые враждебные действия будут встречены летальной силой.
 rmc-ert-announcement-pmc-denied = Корпоративные каналы реагирования отклонили запрос.
 
-rmc-ert-announcement-bodyguard-dispatch = {$ship}, это шаттл отряда корпоративной охраны Ве-Я направляется к маяку представителя.
-rmc-ert-announcement-bodyguard-arrival = {$team} состыковалась с боевым кораблём и движется для охраны принципала.
+rmc-ert-announcement-bodyguard-dispatch = { $ship }, это шаттл отряда корпоративной охраны Ве-Я направляется к маяку представителя.
+rmc-ert-announcement-bodyguard-arrival = { $team } состыковалась с боевым кораблём и движется для охраны принципала.
 rmc-ert-announcement-bodyguard-denied = Корпоративная охрана отклонила запрос на защиту руководителя.
 
-rmc-ert-announcement-lawyers-dispatch = Отдел корпоративных дел подтвердил запрос бедствия. {$team} готовится к развёртыванию.
-rmc-ert-announcement-lawyers-arrival = {$team} состыковалась с боевым кораблём и готовится рассмотреть нарушения контрактов.
+rmc-ert-announcement-lawyers-dispatch = Отдел корпоративных дел подтвердил запрос бедствия. { $team } готовится к развёртыванию.
+rmc-ert-announcement-lawyers-arrival = { $team } состыковалась с боевым кораблём и готовится рассмотреть нарушения контрактов.
 rmc-ert-announcement-lawyers-denied = Отдел корпоративных дел отклонил запрос юридической помощи.
 
 rmc-ert-announcement-cmb-inspection-request = Запрошено расследование Бюро колониальных маршалов!
-rmc-ert-announcement-cmb-inspection-arrival = {$ship}, это станция Анкорпойнт, Бюро колониальных маршалов. Внимание: транспорт БКМ готовится подняться к вам на борт; передаём федеральное разрешение на стыковку. Ожидайте.
+rmc-ert-announcement-cmb-inspection-arrival = { $ship }, это станция Анкорпойнт, Бюро колониальных маршалов. Внимание: транспорт БКМ готовится подняться к вам на борт; передаём федеральное разрешение на стыковку. Ожидайте.
 rmc-ert-announcement-cmb-black-market-request = Запрошено расследование деятельности чёрного рынка!
-rmc-ert-announcement-cmb-black-market-dispatch = Верховное командование Третьего флота вызывает {$ship}: мы обнаружили расхождения в грузовых ведомостях и нарушения в системе ASRS вашего корабля. Для проверки и снятия подозрений к вам направлена следственная группа БКМ.
-rmc-ert-announcement-cmb-black-market-arrival = Входящая передача: {$ship}, это станция Анкорпойнт, Бюро колониальных маршалов. По запросу GSO-91 мы направляем к вам группу маршалов. Передаём утверждённое разрешение на стыковку. Конец связи.
-rmc-ert-announcement-cmb-riot-arrival = Входящая передача: {$ship}, это станция Анкорпойнт, Бюро колониальных маршалов. Мы приняли ваш сигнал бедствия и направляем ближайшую группу подавления беспорядков для немедленного абордажа. Ожидайте.
+rmc-ert-announcement-cmb-black-market-dispatch = Верховное командование Третьего флота вызывает { $ship }: мы обнаружили расхождения в грузовых ведомостях и нарушения в системе ASRS вашего корабля. Для проверки и снятия подозрений к вам направлена следственная группа БКМ.
+rmc-ert-announcement-cmb-black-market-arrival = Входящая передача: { $ship }, это станция Анкорпойнт, Бюро колониальных маршалов. По запросу GSO-91 мы направляем к вам группу маршалов. Передаём утверждённое разрешение на стыковку. Конец связи.
+rmc-ert-announcement-cmb-riot-arrival = Входящая передача: { $ship }, это станция Анкорпойнт, Бюро колониальных маршалов. Мы приняли ваш сигнал бедствия и направляем ближайшую группу подавления беспорядков для немедленного абордажа. Ожидайте.
 
-rmc-ert-announcement-spp-dispatch = Обнаружен иностранный трафик реагирования. {$team} готовится к развёртыванию.
-rmc-ert-announcement-spp-arrival = Это диспетчер СПН. {$ship}, мы отвечаем на ваш сигнал бедствия и окажем посильную помощь. Не открывайте огонь.
-rmc-ert-announcement-spp-hostile-arrival = Это абордажный отряд СПН. {$ship}, сложите оружие и приготовьтесь к захвату.
+rmc-ert-announcement-spp-dispatch = Обнаружен иностранный трафик реагирования. { $team } готовится к развёртыванию.
+rmc-ert-announcement-spp-arrival = Это диспетчер СПН. { $ship }, мы отвечаем на ваш сигнал бедствия и окажем посильную помощь. Не открывайте огонь.
+rmc-ert-announcement-spp-hostile-arrival = Это абордажный отряд СПН. { $ship }, сложите оружие и приготовьтесь к захвату.
 
-rmc-ert-announcement-tse-dispatch = {$team} приняла запрос бедствия.
-rmc-ert-announcement-tse-arrival = {$team} состыковалась с боевым кораблём и входит в район операции.
-rmc-ert-announcement-tse-arrival-patna = {$ship}, это КЕВ "Патна"; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
-rmc-ert-announcement-tse-arrival-thunderchild = {$ship}, это КЕВ "Тандерчайлд"; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
+rmc-ert-announcement-tse-dispatch = { $team } приняла запрос бедствия.
+rmc-ert-announcement-tse-arrival = { $team } состыковалась с боевым кораблём и входит в район операции.
+rmc-ert-announcement-tse-arrival-patna = { $ship }, это КЕВ "Патна"; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
+rmc-ert-announcement-tse-arrival-thunderchild = { $ship }, это КЕВ "Тандерчайлд"; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
 
 rmc-ert-announcement-provost-request = Запрошено расследование Провоста!
 
 rmc-ert-announcement-clf-arrival = 'Внимание, вы вторглись на нашу суверенную территорию. Не ждите пощады.'
-rmc-ert-announcement-contractors-arrival = {$ship}, это коммерческий звездолёт "Инхеритор" компании Вэнгардс Эрроу Инкорпорейтед, основные операции; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
-rmc-ert-announcement-contractors-covert-arrival = {$ship}, это коммерческий звездолёт "Самбуран" компании Вэнгардс Эрроу Инкорпорейтед, специальные операции; мы начинаем абордаж согласно Закону о военной помощи 2177 года, код авторизации X-Ray 19601.
-rmc-ert-announcement-freelancers-friendly-arrival = {$ship}, это шаттл фрилансеров, отвечающий на ваш сигнал бедствия. Приготовьтесь к абордажу.
-rmc-ert-announcement-freelancers-hostile-arrival = {$ship}, это шаттл фрилансеров. Мы идём на абордаж; любой, кто встанет на пути, станет законной целью.
-rmc-ert-announcement-wy-commando-arrival = {$ship}, это коммерческий звездолёт "Ниссёку" отвечает на ваш сигнал бедствия. Мы идём на абордаж. Любые враждебные действия будут встречены летальной силой.
+rmc-ert-announcement-contractors-arrival = { $ship }, это коммерческий звездолёт "Инхеритор" компании Вэнгардс Эрроу Инкорпорейтед, основные операции; мы отвечаем на ваш сигнал бедствия и начинаем абордаж согласно Закону о военной помощи 2177 года, код аутентификации Lima-18153.
+rmc-ert-announcement-contractors-covert-arrival = { $ship }, это коммерческий звездолёт "Самбуран" компании Вэнгардс Эрроу Инкорпорейтед, специальные операции; мы начинаем абордаж согласно Закону о военной помощи 2177 года, код авторизации X-Ray 19601.
+rmc-ert-announcement-freelancers-friendly-arrival = { $ship }, это шаттл фрилансеров, отвечающий на ваш сигнал бедствия. Приготовьтесь к абордажу.
+rmc-ert-announcement-freelancers-hostile-arrival = { $ship }, это шаттл фрилансеров. Мы идём на абордаж; любой, кто встанет на пути, станет законной целью.
+rmc-ert-announcement-wy-commando-arrival = { $ship }, это коммерческий звездолёт "Ниссёку" отвечает на ваш сигнал бедствия. Мы идём на абордаж. Любые враждебные действия будут встречены летальной силой.
 rmc-ert-announcement-xenos-arrival = Неопознанные враждебные формы жизни проникли на боевой корабль.
 rmc-ert-announcement-feral-xenos-arrival = Неопознанные дикие формы жизни проникли на боевой корабль.
 
-rmc-ert-announcement-pizza-dispatch = Пицца Гэлакси приняла экстренный заказ доставки. {$team} готовится к развёртыванию.
+rmc-ert-announcement-pizza-dispatch = Пицца Гэлакси приняла экстренный заказ доставки. { $team } готовится к развёртыванию.
 rmc-ert-announcement-pizza-arrival = 'С вас... шестнадцать порций сырной картошки, восемь больших пицц с двойной начинкой, девять бутылок "Фор Локо"... алло? Есть кто-нибудь на этом корабле? Ваша пицца остывает.'
 rmc-ert-announcement-supply-drop-dispatch = Получен сигнал автоматического сброса припасов Ве-Я 334-Q. Процедуры стыковки начаты.
 rmc-ert-announcement-supply-drop-arrival = Автоматический сброс припасов Ве-Я 334-Q состыковался с боевым кораблём.
@@ -365,5 +365,5 @@ rmc-ert-recipient-pizza = диспетчерская Пицца Гэлакси
 rmc-ert-beacon-request-title-pizza = аварийный маяк доставки пиццы
 
 rmc-ert-objective-pizza-tip = Убедитесь, что получите чаевые!
-rmc-ert-objective-provost-enforce-marine-law = Высадитесь на {$ship} и обеспечьте соблюдение Военного Закона.
+rmc-ert-objective-provost-enforce-marine-law = Высадитесь на { $ship } и обеспечьте соблюдение Военного Закона.
 rmc-ert-feature-pizza-wrong-place = Вы ПОЧТИ уверены, что это то самое место.
