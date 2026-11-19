@@ -109,6 +109,4 @@ rmc-apc-ui-cover-disengaged = Disengaged
 rmc-apc-ui-channel-equipment = Equipment:
 rmc-apc-ui-channel-lighting = Lighting:
 rmc-apc-ui-channel-environment = Environment:
-rmc-apc-frame-invalid-spot = You cannot place the APC here.
-rmc-apc-frame-invalid-area = You cannot place an APC in this area.
 rmc-apc-construction-area-occupied = There is already an APC in this area.

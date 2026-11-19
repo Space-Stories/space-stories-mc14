@@ -1,2 +1,2 @@
-ent-STSynthExperimentalToolsToken = synthetic experimental tools token
-    .desc = A Weston-Yamada token authorized for one synthetic support unit to draw from the experimental tools cache.
+ent-STSynthExperimentalToolsToken = жетон экспериментальных инструментов синтетика
+    .desc = Жетон Weston-Yamada, дающий одному синтетическому юниту поддержки право получить снаряжение из запаса экспериментальных инструментов.

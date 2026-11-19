@@ -1,2 +1,2 @@
-ent-STSyntheticMaintenanceStation = synthetic maintenance station
-    .desc = A wall-mounted maintenance cradle for synthetic units.
+ent-STSyntheticMaintenanceStation = станция обслуживания синтетиков
+    .desc = Настенная ремонтная капсула для синтетических юнитов.

@@ -1,2 +1,2 @@
-ent-STWorkingJoeStorageCloset = Seegson storage closet
-    .desc = A storage closet for Working Joe synthetic units, built to keep them powered down and out of the way between shifts.
+ent-STWorkingJoeStorageCloset = шкаф хранения Seegson
+    .desc = Шкаф хранения для синтетических юнитов Working Joe, предназначенный для того, чтобы держать их обесточенными и не путающимися под ногами между сменами.

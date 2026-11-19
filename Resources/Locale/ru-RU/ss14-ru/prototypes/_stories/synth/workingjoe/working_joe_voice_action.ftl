@@ -1,2 +1,2 @@
-ent-STActionWorkingJoeVoice = Voice Synthesizer
-    .desc = Open the voice synthesizer panel.
+ent-STActionWorkingJoeVoice = синтезатор голоса
+    .desc = Открыть панель синтезатора голоса.

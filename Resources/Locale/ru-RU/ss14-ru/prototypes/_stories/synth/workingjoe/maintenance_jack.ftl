@@ -1,2 +1,2 @@
-ent-STMaintenanceJack = K92 maintenance jack
-    .desc = A combination crowbar, wrench, and generally large bludgeoning device that comes in handy in emergencies. Pretty hefty, though.
+ent-STMaintenanceJack = ремонтный домкрат K92
+    .desc = Универсальный лом, гаечный ключ и, в целом, увесистое орудие для тупых ударов, которое пригодится в чрезвычайной ситуации. Правда, довольно тяжёлый.

@@ -1,2 +1,2 @@
-ent-STJugSpaceCleanerWorkingJoe = space cleaner jug
-    .desc = A large jug of space cleaner for refilling spray bottles.
+ent-STJugSpaceCleanerWorkingJoe = канистра космического очистителя
+    .desc = Большая канистра космического очистителя для заправки распылителей.

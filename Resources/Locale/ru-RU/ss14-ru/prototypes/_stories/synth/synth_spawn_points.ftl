@@ -1,6 +1,6 @@
-ent-STSpawnPointSynthRoundStart = synthetic roundstart spawn point
+ent-STSpawnPointSynthRoundStart = точка спавна синтетика (старт раунда)
     .desc = { ent-RMCSpawnPointSynth.desc }
-    .suffix = Job Spawn, Round Start
-ent-STSpawnPointSynthLateJoin = synthetic late join spawn point
+    .suffix = Спавн профессии, старт раунда
+ent-STSpawnPointSynthLateJoin = точка спавна синтетика (поздний вход)
     .desc = { ent-RMCSpawnPointSynth.desc }
-    .suffix = Job Spawn, Late Join
+    .suffix = Спавн профессии, поздний вход
