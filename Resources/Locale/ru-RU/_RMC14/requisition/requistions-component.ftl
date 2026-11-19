@@ -88,7 +88,6 @@ rmc-requisitions-black-market-seizure-unauthorized = Несанкциониро�
 rmc-requisitions-black-market-seizure-investigation = БКМ проводит расследование в отношении этой консоли.
 rmc-requisitions-black-market-seizure-thanks = Спасибо за сотрудничество.
 rmc-requisitions-black-market-mendoza-dead-dialogue = .......
-rmc-requisitions-black-market-cart-heat-warning = Мендоса предупредил, что наши заказы привлекают слишком много внимания. Стоит подумать, как отвести подозрения.
 rmc-requisitions-black-market-mendoza-heat-warning = Эй, притормози, а? Мы с тобой и так слишком много шуму подняли. Возьми пока чего попроще.
 rmc-requisitions-black-market-mendoza-intro-1 = Погоди... охренеть, что? Эй, эй! Наконец-то! Я чёрт знает когда отправил ЭТУ плату наверх на замену. Уже совсем на неё забил.
 rmc-requisitions-black-market-mendoza-intro-2 = У тебя наверняка есть вопросы, да-да... сейчас отвечу.

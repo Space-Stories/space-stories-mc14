@@ -87,7 +87,6 @@ rmc-requisitions-black-market-seizure-unauthorized = Unauthorized Access Removed
 rmc-requisitions-black-market-seizure-investigation = This console is currently under CMB investigation.
 rmc-requisitions-black-market-seizure-thanks = Thank you for your cooperation.
 rmc-requisitions-black-market-mendoza-dead-dialogue = .......
-rmc-requisitions-black-market-cart-heat-warning = Mendoza warned that our orders are drawing too much attention. We should think about how to deflect suspicion.
 rmc-requisitions-black-market-mendoza-heat-warning = Hey, slow down, will ya? We've already kicked up too much noise. Pick up something a little less flashy for now.
 rmc-requisitions-black-market-mendoza-intro-1 = Hold on- holy shit, what? Hey, hey! Finally! I've set THAT circuit board for replacement shipping off god knows how long ago. I had totally given up on it.
 rmc-requisitions-black-market-mendoza-intro-2 = You probably have some questions, yes, yes... let me answer them.
