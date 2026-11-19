@@ -17,7 +17,6 @@ ui-options-function-rmc-pick-up-dropped-items = Подобрать упавши�
 ui-options-function-rmc-interact-with-other-hand = Взаимодействие с другой рукой
 ui-options-function-rmc-pushup = Отжаться
 ui-options-function-rmc-pushup-routine = Начать серию отжиманий
-ui-options-function-rmc-weak-pushup = Отжаться с колен
 ui-options-function-rmc-rest = Отдыхать
 ui-options-function-rmc-resist = Сопротивляться
 ui-options-function-rmc-marine-issue-order = Отдать приказ
@@ -34,6 +33,7 @@ ui-options-function-rmc-quick-equip-inventory = Быстро экипирова�
 
 rmc-keybind-auto-eject-enabled = Автоматическое извлечение магазина включено.
 rmc-keybind-auto-eject-disabled = Автоматическое извлечение магазина выключено.
+ui-options-function-rmc-weak-pushup = Отжаться с колен
 
 ui-options-header-rmc-xeno = Ксеноморфы
 

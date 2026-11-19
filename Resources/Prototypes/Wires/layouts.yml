@@ -235,7 +235,7 @@
 
 - type: wireLayout
   id: RMCAPC
-  dummyWires: 3
+  # dummyWires: 3 # Stories-ApcParity
   wires:
   - !type:RMCApcMainPowerWireAction
   - !type:RMCApcIdScannerWireAction

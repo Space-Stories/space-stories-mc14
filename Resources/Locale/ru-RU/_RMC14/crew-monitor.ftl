@@ -1,10 +1,6 @@
 ent-RMCComputerCrewMonitoring = консоль мониторинга экипажа
     .desc = Консоль, отображающая состояние и последнее известное местоположение персонала с включёнными датчиками униформы.
 
-ent-RMCComputerCrewMonitoringCompact = { ent-RMCComputerCrewMonitoring }
-    .desc = Компактная консоль, отображающая состояние и последнее известное местоположение персонала с включёнными датчиками униформы.
-    .suffix = Компактный
-
 rmc-crew-monitor-title = Монитор экипажа
 rmc-crew-monitor-refresh = Обновить монитор экипажа
 rmc-crew-monitor-search-placeholder = Поиск по имени, должности, отряду или местоположению…

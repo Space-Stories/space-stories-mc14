@@ -1,0 +1,2 @@
+ent-RMCRequisitionsCatalogAttachments = { "" }
+    .desc = { "" }

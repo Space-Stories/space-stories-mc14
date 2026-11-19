@@ -1,10 +1,10 @@
+ent-RMCBaseStunBaton = { ent-BaseItem }
+    .desc = { ent-BaseItem.desc }
 ent-RMCStunBatonDamaged = поврежденный шокер
     .desc = Шокер для выведения людей из строя. Этот, похоже, сильно сломан и избит, особенно в районе переключателя включения/выключения.
 ent-CMStunbaton = электрошоковая дубинка
     .desc = Электрошоковая дубинка для обездвиживания людей.
 ent-RMCTelescopicBaton = телескопическая дубинка
     .desc = Компактное, но сбалансированное оружие личной обороны. В сложенном состоянии может скрываться.
-ent-RMCBaseStunBaton = { ent-BaseItem }
-    .desc = { ent-BaseItem.desc }
 ent-RMCStunprod = самодельная электрошоковая дубинка
     .desc = Импровизированная электрошоковая дубинка.

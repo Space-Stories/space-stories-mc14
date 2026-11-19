@@ -1,0 +1,12 @@
+ent-RMCAirlockERT = { ent-CMAirlock }
+    .desc = { ent-CMAirlock.desc }
+    .suffix = ERT, Always Powered
+ent-RMCAirlockCommandLockedERT = { ent-CMAirlockCommandLocked }
+    .desc = { ent-CMAirlockCommandLocked.desc }
+    .suffix = Command, Locked, ERT, Always Powered
+ent-RMCAirlockEngineerERT = { ent-CMAirlockEngineer }
+    .desc = { ent-CMAirlockEngineer.desc }
+    .suffix = Engineering, ERT, Always Powered
+ent-RMCAirlockMedicalERT = { ent-CMAirlockMedical }
+    .desc = { ent-CMAirlockMedical.desc }
+    .suffix = Medical, ERT, Always Powered

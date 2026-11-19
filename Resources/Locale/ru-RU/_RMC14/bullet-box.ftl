@@ -8,6 +8,6 @@ rmc-bullet-box-mag-full = В магазине больше нет места д�
 rmc-bullet-box-transfer-done = Вы переместили { $amount ->
     [one] { $amount } патрон
     [few] { $amount } патрона
-   *[other] { $amount } патронов
+    *[other] { $amount } патронов
 } в { $used }.
 rmc-bullet-box-transferto = Заполнить коробку
