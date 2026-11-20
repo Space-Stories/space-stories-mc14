@@ -31,6 +31,13 @@ public sealed class DropshipHijackerBui(EntityUid owner, Enum uiKey) : BoundUser
         {
             _window = this.CreateWindow<DropshipHijackerWindow>();
             _window.Header.SetMarkup("[bold]Where to 'land'?[/bold]");
+            // Stories-Refuse-Hijack-Start
+            _window.RefuseButton.OnPressed += _ =>
+            {
+                SendPredictedMessage(new DropshipHijackerRefuse());
+                Close();
+            };
+            // Stories-Refuse-Hijack-End
         }
 
         _window.Destinations.DisposeAllChildren();
