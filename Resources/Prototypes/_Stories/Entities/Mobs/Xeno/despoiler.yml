@@ -115,7 +115,7 @@
     acidComponents:
     - type: UserAcided
       armorPiercing: 40
-      duration: 12
+      maxDuration: 12
       damageEvery: 1
       damage:
         types:
