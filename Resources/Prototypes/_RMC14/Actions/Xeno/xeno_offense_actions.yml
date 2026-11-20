@@ -184,6 +184,7 @@
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
+      sprite: _RMC14/Actions/xeno_actions.rsi
       state: tail_attack_acid
 
 - type: entity
@@ -416,6 +417,7 @@
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
+      sprite: _RMC14/Actions/xeno_actions.rsi
       state: xeno_spit_neuro
 
 - type: entity
@@ -1749,6 +1751,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
+    sprite: _RMC14/Actions/xeno_actions.rsi
     state: gas_mine
 
 - type: entity

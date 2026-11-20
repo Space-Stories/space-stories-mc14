@@ -146,6 +146,10 @@ entities:
       data: {}
     - type: RMCWeatherCycle
       minTimeBetweenEvents: 1800
+      warnTime: 60
+      minTimeBetweenChecks: 0
+      minCheckVariance: 0
+      startChance: 1
       weatherEvents:
       - lightningSound: !type:SoundCollectionSpecifier
           collection: RMCThunder
@@ -153,9 +157,12 @@ entities:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
         lightningChance: 0.04
-        weatherType: RMCStrataStormLight
+        fireSmotheringStrength: 2
+        weatherType: RMCStrataStormVeryLight
+        screenOverlay: Low
         duration: 180
-        name: Heavy Rain
+        name: Light Rain
+        displayName: rmc-weather-name-light-rain
     - type: RMCAmbientLightEffects
       sunset: RMCColorSequenceSunsetCold
     - type: Broadphase
@@ -213438,5 +213445,27 @@ entities:
     components:
     - type: Transform
       pos: -44.5,52.5
+      parent: 1
+- proto: STHunterTeleportDestination
+  entities:
+  - uid: 30976
+    components:
+    - type: Transform
+      pos: -77.5,13.5
+      parent: 1
+  - uid: 30977
+    components:
+    - type: Transform
+      pos: 90.5,35.5
+      parent: 1
+  - uid: 30978
+    components:
+    - type: Transform
+      pos: -52.5,40.5
+      parent: 1
+  - uid: 30979
+    components:
+    - type: Transform
+      pos: 75.5,-14.5
       parent: 1
 ...

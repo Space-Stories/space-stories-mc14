@@ -466,23 +466,33 @@ entities:
       data: {}
     - type: RMCWeatherCycle
       minTimeBetweenEvents: 1200
+      minTimeBetweenChecks: 0
+      minCheckVariance: 0
       weatherEvents:
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
+      - screenOverlay: Low
+        displayName: rmc-weather-name-duststorm
+        duration: 360
+        weatherType: RMCSolarisDust
         lightningEffects:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
-        weatherType: RMCBigRedDust
-        duration: 360
+        lightningSound: !type:SoundCollectionSpecifier
+          collection: RMCThunder
+        fireSmotheringStrength: 1
+        cleansDecals: False
+        effectMessage: rmc-weather-effect-dust
         name: Duststorm
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
+      - screenOverlay: Medium
+        displayName: rmc-weather-name-rainstorm
+        duration: 360
+        weatherType: RMCTrijentRainLight
+        lightningChance: 0.01
         lightningEffects:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
-        lightningChance: 0.01
-        weatherType: RMCTrijentRainLight
-        duration: 360
+        lightningSound: !type:SoundCollectionSpecifier
+          collection: RMCThunder
+        fireSmotheringStrength: 4
         name: Rainstorm
     - type: RMCAmbientLightEffects
     - type: BecomesStation
@@ -283823,5 +283833,17 @@ entities:
     components:
     - type: Transform
       pos: 181.5,-68.5
+      parent: 1
+- proto: STHunterTeleportDestination
+  entities:
+  - uid: 39015
+    components:
+    - type: Transform
+      pos: 187.5,-65.5
+      parent: 1
+  - uid: 39016
+    components:
+    - type: Transform
+      pos: 64.5,-158.5
       parent: 1
 ...

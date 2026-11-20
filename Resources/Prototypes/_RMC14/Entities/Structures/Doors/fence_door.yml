@@ -80,9 +80,6 @@
     percentageDamage: 0.25
   - type: XenoCrusherChargable
     instantDestroy: true
-  - type: VehicleSmashable
-    deleteOnHit: false
-    damageOnHit: 50
 
 - type: entity
   parent: CMBaseStructureCorrodible

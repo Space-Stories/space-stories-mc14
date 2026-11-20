@@ -145,31 +145,32 @@ entities:
       data: {}
     - type: RMCWeatherCycle
       minTimeBetweenEvents: 1200
+      minTimeBetweenChecks: 0
+      minCheckVariance: 0
       weatherEvents:
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
-        lightningEffects:
-        - RMCColorSequenceLightningSharpPeak
-        - RMCColorSequenceLightningFlicker
-        weatherType: RMCStrataClearsky
+      - screenOverlay: Low
+        displayName: rmc-weather-name-snow
         duration: 600
+        weatherType: RMCStrataClearsky
+        lightningEffects:
+        - RMCColorSequenceLightningSharpPeak
+        - RMCColorSequenceLightningFlicker
+        lightningSound: !type:SoundCollectionSpecifier
+          collection: RMCThunder
+        cleansDecals: False
         name: Snow
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
-        lightningEffects:
-        - RMCColorSequenceLightningSharpPeak
-        - RMCColorSequenceLightningFlicker
-        weatherType: RMCStrataSnowing
+      - screenOverlay: Medium
+        displayName: rmc-weather-name-snowstorm
         duration: 360
-        name: Snowstorm
-      - lightningSound: !type:SoundCollectionSpecifier
-          collection: RMCThunder
+        weatherType: RMCStrataSnowing
         lightningEffects:
         - RMCColorSequenceLightningSharpPeak
         - RMCColorSequenceLightningFlicker
-        weatherType: RMCStrataBlizzard
-        duration: 240
-        name: Blizzard
+        lightningSound: !type:SoundCollectionSpecifier
+          collection: RMCThunder
+        fireSmotheringStrength: 1
+        cleansDecals: False
+        name: Snowstorm
     - type: RMCAmbientLightEffects
       sunset: RMCColorSequenceSunsetCold
     - type: MapGrid
@@ -139592,5 +139593,27 @@ entities:
     components:
     - type: Transform
       pos: 180.5,134.5
+      parent: 1
+- proto: STHunterTeleportDestination
+  entities:
+  - uid: 18739
+    components:
+    - type: Transform
+      pos: 97.5,155.5
+      parent: 1
+  - uid: 18740
+    components:
+    - type: Transform
+      pos: 63.5,120.5
+      parent: 1
+  - uid: 18741
+    components:
+    - type: Transform
+      pos: 124.5,95.5
+      parent: 1
+  - uid: 18742
+    components:
+    - type: Transform
+      pos: 97.5,40.5
       parent: 1
 ...
