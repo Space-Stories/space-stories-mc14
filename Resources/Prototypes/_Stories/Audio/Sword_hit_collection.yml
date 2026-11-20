@@ -1,0 +1,5 @@
+- type: soundCollection
+  id: STHunterSwordHit
+  files:
+    - /Audio/_Stories/Weapons/clan_sword_hit_1.ogg
+    - /Audio/_Stories/Weapons/clan_sword_hit_2.ogg
