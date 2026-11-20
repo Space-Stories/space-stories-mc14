@@ -16,6 +16,12 @@ public sealed partial class FaxWindow : DefaultWindow
     public event Action? SendButtonPressed;
     public event Action? RefreshButtonPressed;
     public event Action<string>? PeerSelected;
+    // Stories-fax-templates-Start
+    public event Action<string>? PrintTemplatePressed;
+    public event Action<string>? TemplateSelected;
+    // Stories-fax-templates-Stop
+
+
 
     public bool OfficePaper = false;
 
@@ -25,21 +31,52 @@ public sealed partial class FaxWindow : DefaultWindow
 
         PaperButtonPressed += OnPaperButtonPressed;
 
-        FileButton.OnPressed += _ => FileButtonPressed?.Invoke(); 
-        PaperButton.OnPressed += _ => PaperButtonPressed?.Invoke(); 
+        FileButton.OnPressed += _ => FileButtonPressed?.Invoke();
+        PaperButton.OnPressed += _ => PaperButtonPressed?.Invoke();
         CopyButton.OnPressed += _ => CopyButtonPressed?.Invoke();
         SendButton.OnPressed += _ => SendButtonPressed?.Invoke();
         RefreshButton.OnPressed += _ => RefreshButtonPressed?.Invoke();
+        // Stories-fax-templates-Start
+        PrintTemplate.OnPressed += _ =>
+        {
+            int selectedIndex = TemplatesSelector.SelectedId;
+            if (selectedIndex == -1) return;
+            if (TemplatesSelector.GetItemMetadata(selectedIndex) is string selectedId)
+                PrintTemplatePressed?.Invoke(selectedId);
+        };
         PeerSelector.OnItemSelected += args =>
-            PeerSelected?.Invoke((string) args.Button.GetItemMetadata(args.Id)!);
+            PeerSelected?.Invoke((string)args.Button.GetItemMetadata(args.Id)!);
+        TemplatesSelector.OnItemSelected += args =>
+            TemplateSelected?.Invoke((string)args.Button.GetItemMetadata(args.Id)!);
+        // Stories-fax-templates-Stop
     }
 
-    public void UpdateState(FaxUiState state)
+    public void UpdateState(FaxUiState state, List<FaxTemplatePrototype> templates)
     {
         CopyButton.Disabled = !state.CanCopy;
         SendButton.Disabled = !state.CanSend;
         FromLabel.Text = state.DeviceName;
+        // Stories-fax-templates-Start
+        TemplatesSelector.Clear();
+        foreach (var template in templates)
+        {
+            var id = AddTemplate(template);
+            if (template.ID == state.TemplateSelected)
+                TemplatesSelector.Select(id);
+        }
 
+        if (TemplatesSelector.ItemCount == 0)
+        {
+            TemplatesSelector.Disabled = true;
+            TemplatesSelector.AddItem("Нет доступных шаблонов");
+            PrintTemplate.Disabled = true;
+        }
+        else
+        {
+            TemplatesSelector.Disabled = false;
+            PrintTemplate.Disabled = false;
+        }
+        // Stories-fax-templates-Stop
         if (state.IsPaperInserted)
         {
             PaperStatusLabel.FontColorOverride = Color.Green;
@@ -94,9 +131,17 @@ public sealed partial class FaxWindow : DefaultWindow
     {
         OfficePaper = !OfficePaper;
 
-        if(OfficePaper)
+        if (OfficePaper)
             PaperButton.Text = Loc.GetString("fax-machine-ui-paper-button-office");
         else
             PaperButton.Text = Loc.GetString("fax-machine-ui-paper-button-normal");
     }
+    // Stories-fax-templates-Start
+    private int AddTemplate(FaxTemplatePrototype template)
+    {
+        TemplatesSelector.AddItem(template.Label);
+        TemplatesSelector.SetItemMetadata(TemplatesSelector.ItemCount - 1, template.ID);
+        return TemplatesSelector.ItemCount - 1;
+    }
+    // Stories-fax-templates-Stop
 }

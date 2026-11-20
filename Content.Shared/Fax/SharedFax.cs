@@ -1,4 +1,5 @@
 using Robust.Shared.Serialization;
+using Robust.Shared.Prototypes; // Stories-fax-templates
 
 namespace Content.Shared.Fax;
 
@@ -17,13 +18,15 @@ public sealed class FaxUiState : BoundUserInterfaceState
     public bool IsPaperInserted { get; }
     public bool CanSend { get; }
     public bool CanCopy { get; }
+    public string? TemplateSelected { get; } // Stories-fax-templates
 
     public FaxUiState(string deviceName,
         Dictionary<string, string> peers,
         bool canSend,
         bool canCopy,
         bool isPaperInserted,
-        string? destAddress)
+        string? destAddress,
+        string? templateSel) // Stories-fax-templates
     {
         DeviceName = deviceName;
         AvailablePeers = peers;
@@ -31,6 +34,7 @@ public sealed class FaxUiState : BoundUserInterfaceState
         CanSend = canSend;
         CanCopy = canCopy;
         DestinationAddress = destAddress;
+        TemplateSelected = templateSel; // Stories-fax-templates
     }
 }
 
@@ -80,3 +84,28 @@ public sealed class FaxDestinationMessage : BoundUserInterfaceMessage
         Address = address;
     }
 }
+// Stories-fax-templates-Start
+[Serializable, NetSerializable]
+public sealed class FaxTemplateSelected : BoundUserInterfaceMessage
+{
+    public string Id_Template { get; }
+
+    public FaxTemplateSelected(string id_template)
+    {
+        Id_Template = id_template;
+    }
+}
+
+[Prototype("faxTemplate"), Serializable]
+public sealed class FaxTemplatePrototype : IPrototype
+{
+    [IdDataField]
+    public string ID { get; private set; } = default!;
+
+    [DataField("label")]
+    public string Label { get; private set; } = string.Empty;
+
+    [DataField("content")]
+    public string Content { get; private set; } = string.Empty;
+}
+// Stories-fax-templates-Stop

@@ -30,6 +30,14 @@ public sealed partial class FaxMachineComponent : Component
     [ViewVariables(VVAccess.ReadWrite)]
     [DataField("destinationAddress")]
     public string? DestinationFaxAddress { get; set; }
+    // Stories-fax-templates-Start
+    /// <summary>
+    /// Selected document template in fax
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("faxTemplateSelected")]
+    public string? TemplateSelected { get; set; }
+    // Stories-fax-templates-Stop
 
     /// <summary>
     /// Contains the item to be sent, assumes it's paper...
