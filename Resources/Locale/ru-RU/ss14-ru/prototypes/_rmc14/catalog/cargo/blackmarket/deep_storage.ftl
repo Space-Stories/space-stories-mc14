@@ -1,0 +1,2 @@
+ent-RMCBlackMarketCatalogDeepStorage = { "" }
+    .desc = { "" }

@@ -117,10 +117,19 @@ public sealed partial class RMCApcComponent : Component
     public int XenoExposeWiresMaxHits = 4;
 
     [DataField]
+    public int XenoHitsToCutWires = 10;
+
+    [DataField]
     public RMCSizes XenoElectronicsDamageSize = RMCSizes.Big;
 
     [DataField]
-    public SoundSpecifier XenoAttackSound = new SoundPathSpecifier("/Audio/_RMC14/Effects/metal_crash.ogg");
+    public SoundSpecifier XenoAttackSound = new SoundCollectionSpecifier("RMCXenoClawMetal");
+
+    [DataField]
+    public SoundSpecifier SparksSound = new SoundCollectionSpecifier("sparks");
+
+    [DataField]
+    public EntProtoId SparksEffect = "EffectSparks";
 
     [ViewVariables]
     public int XenoHits;
@@ -141,6 +150,9 @@ public sealed partial class RMCApcComponent : Component
     public ProtoId<ToolQualityPrototype> WeldingTool = "Welding";
 
     [DataField, AutoNetworkedField]
+    public ProtoId<ToolQualityPrototype> WrenchTool = "Anchoring";
+
+    [DataField, AutoNetworkedField]
     public ProtoId<StackPrototype> CableStack = "RMCCable";
 
     [DataField, AutoNetworkedField]
@@ -151,6 +163,9 @@ public sealed partial class RMCApcComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntProtoId ElectronicsPrototype = "CMAPCElectronics";
+
+    [DataField, AutoNetworkedField]
+    public EntProtoId FramePrototype = "CMAPCFrame";
 
     [DataField, AutoNetworkedField]
     public TimeSpan InstallTerminalDelay = TimeSpan.FromSeconds(2);
@@ -168,7 +183,10 @@ public sealed partial class RMCApcComponent : Component
     public TimeSpan SecureElectronicsDelay = TimeSpan.FromSeconds(2);
 
     [DataField, AutoNetworkedField]
-    public TimeSpan RepairFrameDelay = TimeSpan.FromSeconds(4);
+    public TimeSpan RepairFrameDelay = TimeSpan.FromSeconds(5);
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan DeconstructDelay = TimeSpan.FromSeconds(5);
 
     [DataField]
     public SoundSpecifier CrowbarSound = new SoundPathSpecifier("/Audio/Items/crowbar.ogg");
@@ -249,16 +267,15 @@ public enum RMCApcElectronics
 public enum RMCApcState
 {
     Working,
+    WorkingBreakerOff,
     WiresExposed,
     CoverOpenBattery,
     CoverOpenNoBattery,
     CoverRemovedBattery,
     CoverRemovedNoBattery,
     Broken,
-    BrokenCoverRemovedBattery,
-    BrokenCoverRemovedNoBattery,
-    TerminalMissing,
-    Maintenance,
+    OpenMaintenance,
+    ClosedMaintenance,
 }
 
 [Serializable, NetSerializable]
@@ -311,7 +328,17 @@ public sealed class RMCApcMainBreakerBuiMsg : BoundUserInterfaceMessage;
 public sealed class RMCApcChargeModeBuiMsg : BoundUserInterfaceMessage;
 
 [RegisterComponent]
-public sealed partial class RMCApcFrameComponent : Component;
+public sealed partial class RMCApcFrameComponent : Component
+{
+    [DataField]
+    public EntProtoId BuildingPrototype = "CMApcBuilding";
+
+    [DataField]
+    public EntProtoId MetalPrototype = "CMSheetMetal2";
+
+    [DataField]
+    public ProtoId<ToolQualityPrototype> WrenchTool = "Anchoring";
+}
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class RMCApcConstructionFrameComponent : Component;
@@ -336,3 +363,6 @@ public sealed partial class RMCApcUnsecureElectronicsDoAfterEvent : SimpleDoAfte
 
 [Serializable, NetSerializable]
 public sealed partial class RMCApcRepairFrameDoAfterEvent : SimpleDoAfterEvent;
+
+[Serializable, NetSerializable]
+public sealed partial class RMCApcDeconstructDoAfterEvent : SimpleDoAfterEvent;

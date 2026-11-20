@@ -48,8 +48,8 @@ rmc-announcement-first-deployment-message = [font="CozetteBold"]{ $operation }[/
     { $time }
     { $planet }
     { $assignment }
-rmc-announcement-first-deployment-operation = ОПЕРАЦИЯ { $name }
 rmc-announcement-first-deployment-time = { $time } Ч, { $numericDate }
+rmc-announcement-first-deployment-operation = ОПЕРАЦИЯ { $name }
 rmc-announcement-first-deployment-assignment-combat = 2-я рота «Падающие соколы»
 rmc-announcement-first-deployment-assignment-flight-crew = Лётный состав, { $warship }
 rmc-announcement-first-deployment-assignment-security = Военная полиция, { $warship }
@@ -105,7 +105,7 @@ rmc-announcement-anti-air = [color=#CECECE][font size=16][bold]Система П
     { $message }[/bold][/font][/color]
 
 rmc-announcement-emergency-dropship-crash = [font size=14][bold][color=#CECECE]ТРЕВОГА[/color][/bold][/font][font size=14][color=red]
-  ДЕСАНТНЫЙ КОРАБЛЬ НА КУРСЕ СТОЛКНОВЕНИЯ. КРУШЕНИЕ НЕИЗБЕЖНО.[/color][/font]
+    ДЕСАНТНЫЙ КОРАБЛЬ НА КУРСЕ СТОЛКНОВЕНИЯ. КРУШЕНИЕ НЕИЗБЕЖНО.[/color][/font]
 
 rmc-announcement-delta = [color=#CECECE][font size=14][bold]АВАРИЙНОЕ САМОУНИЧТОЖЕНИЕ РАЗРЕШЕНО[/bold][/font][/color][color=red][font size=14][bold]
 

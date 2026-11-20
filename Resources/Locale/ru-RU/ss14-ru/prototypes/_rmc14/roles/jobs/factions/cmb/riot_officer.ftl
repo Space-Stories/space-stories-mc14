@@ -1,0 +1,12 @@
+ent-RMCRandomHumanoidBureauRiotOfficer = bureau ghost role riot control officer
+    .desc = { ent-RMCRandomHumanoidBureauDeputy.desc }
+    .suffix = Spawner, Player, Friendly, Riot
+ent-RMCRandomHumanoidBureauRiotOfficerShotgun = { ent-RMCRandomHumanoidBureauRiotOfficer }
+    .desc = { ent-RMCRandomHumanoidBureauRiotOfficer.desc }
+    .suffix = Spawner, Player, Friendly, Riot, Shotgun
+ent-RMCRandomHumanoidBureauRiotOfficerLauncher = { ent-RMCRandomHumanoidBureauRiotOfficer }
+    .desc = { ent-RMCRandomHumanoidBureauRiotOfficer.desc }
+    .suffix = Spawner, Player, Friendly, Riot, Launcher
+ent-RMCRandomHumanoidBureauRiotOfficerSMG = { ent-RMCRandomHumanoidBureauRiotOfficer }
+    .desc = { ent-RMCRandomHumanoidBureauRiotOfficer.desc }
+    .suffix = Spawner, Player, Friendly, Riot, SMG

@@ -1,16 +1,5 @@
 ent-RMCCableBase = { ent-CableHV }
     .desc = { ent-CableHV.desc }
-ent-RMCCableHeavy = силовой кабель большого сечения
-    .desc = Этот кабель очень прочный. Его нельзя перерезать обычными ручными инструментами.
-ent-RMCCableBlue = кабель питания
-    .desc = Этот кабель очень прочный. Его нельзя перерезать обычными ручными инструментами.
-    .suffix = Синий
-ent-RMCCableRed = кабель питания
-    .desc = { ent-RMCCableBlue.desc }
-    .suffix = Красный
-ent-RMCCableYellow = кабель питания
-    .desc = { ent-RMCCableBlue.desc }
-    .suffix = Желтый
 ent-RMCCableTerminal = { ent-CableTerminal }
     .desc = { ent-CableTerminal.desc }
     .suffix = RMC

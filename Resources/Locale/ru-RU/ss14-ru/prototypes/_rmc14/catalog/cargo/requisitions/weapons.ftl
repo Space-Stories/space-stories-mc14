@@ -1,0 +1,2 @@
+ent-RMCRequisitionsCatalogWeapons = { "" }
+    .desc = { "" }

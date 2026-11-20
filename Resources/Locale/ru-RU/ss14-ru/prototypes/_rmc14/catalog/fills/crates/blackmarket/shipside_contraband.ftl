@@ -1,0 +1,15 @@
+ent-RMCCrateBlackMarketShipsideAlcohol = ящик с конфискованным алкоголем
+    .desc = Содержит пять случайных бутылок алкоголя, конфискованного на корабле.
+    .suffix = { ent-RMCCrateWoodenBuildable.suffix }
+ent-RMCCrateBlackMarketShipsideMedicine = ящик с конфискованными медикаментами
+    .desc = Содержит пять случайных наборов медикаментов, конфискованных на корабле.
+    .suffix = { ent-RMCCrateWoodenBuildable.suffix }
+ent-RMCCrateBlackMarketShipsideCuisine = ящик с конфискованной едой
+    .desc = Содержит семь случайных порций еды, конфискованной на корабле.
+    .suffix = { ent-RMCCrateWoodenBuildable.suffix }
+ent-RMCCrateBlackMarketShipsideNicotine = ящик с конфискованными табачными изделиями
+    .desc = Содержит два случайных конфискованных табачных изделия.
+    .suffix = { ent-RMCCrateWoodenBuildable.suffix }
+ent-RMCCrateBlackMarketShipsideMiscellaneous = ящик с разными конфискованными вещами
+    .desc = Содержит шесть случайных предметов, конфискованных на корабле.
+    .suffix = { ent-RMCCrateWoodenBuildable.suffix }

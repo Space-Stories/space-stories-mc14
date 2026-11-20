@@ -1,0 +1,2 @@
+ent-RMCRequisitionsCatalogGear = { "" }
+    .desc = { "" }

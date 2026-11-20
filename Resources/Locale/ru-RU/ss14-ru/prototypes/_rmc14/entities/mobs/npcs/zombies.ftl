@@ -1,3 +1,6 @@
+ent-RMCRandomHumanoidZombie = zombie ghost role
+    .desc = { ent-MarkerBase.desc }
+    .suffix = Spawner, Player, Hostile
 ent-RMCSpawnZombifiedColonist = спавнер зомби
     .desc = { "" }
     .suffix = Колонист
