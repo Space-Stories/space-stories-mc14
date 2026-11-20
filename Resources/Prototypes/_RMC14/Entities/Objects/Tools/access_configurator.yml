@@ -73,3 +73,68 @@
     denialSound:
       path: /Audio/Machines/custom_deny.ogg
     doAfter: 0.5
+
+- type: entity
+  parent: AccessConfigurator
+  id: RMCAccessConfigurator
+  name: access configurator
+  description: A portable engineering tool for changing access requirements.
+  components:
+  - type: RMCAccessConfigurator
+  - type: AccessReader
+    access: [[CMAccessCE]]
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components:
+      - Xeno
+  - type: AccessOverrider
+    accessLevels:
+    - RMCMarineDefaultAccess
+    - RMCAccessDatabase
+    - RMCAccessLogs
+    - RMCAccessSeniorCommand
+    - CMAccessRequisitions
+    - CMAccessKitchen
+    - CMAccessEngineering
+    - CMAccessMaint
+    - CMAccessOT
+    - CMAccessMedical
+    - CMAccessChemistry
+    - CMAccessResearch
+    - RMCAccessFieldDoctor
+    - CMAccessPress
+    - CMAccessColonyPublic
+    - CMAccessColonyLogistics
+    - CMAccessColonyEngineering
+    - CMAccessColonyResearch
+    - CMAccessColonyBrig
+    - CMAccessColonyMedbay
+    - CMAccessColonyCommand
+    - CMAccessColonyChem
+    - RMCAccessCommand
+    - CMAccessCMP
+    - CMAccessQM
+    - CMAccessSEA
+    - CMAccessCO
+    - CMAccessCMO
+    - CMAccessCE
+    - CMAccessASO
+    - CMAccessCorp
+    - CMAccessHighCommand
+    - CMAccessDropship
+    - CMAccessPilot
+    - CMAccessCrewman
+    - CMAccessAlpha
+    - CMAccessBravo
+    - CMAccessCharlie
+    - CMAccessDelta
+    - CMAccessMarinePrep
+    - CMAccessMedPrep
+    - CMAccessCombatTechPrep
+    - CMAccessSquadLeaderPrep
+    - CMAccessSpecPrep
+    - CMAccessSmartPrep
+    - CMAccessFTLPrep
+    - CMAccessMarineRifleman
+    - CMAccessBrig
+    - CMAccessArmory

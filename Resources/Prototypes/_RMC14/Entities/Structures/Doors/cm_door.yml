@@ -41,7 +41,7 @@
     weldedLayer: WallLayer
   - type: ContainerFill
     containers:
-      board: [ DoorElectronics ]
+      board: [ RMCDoorElectronics ]
   - type: Door
     crushDamage:
       types:

@@ -49,7 +49,11 @@
     - name: Сканеры
       entries:
       #Atmos scanner
-      #Demo scanner
+      # Stories-EngineeringScanner-Start
+      # Stock the existing Stories scanner.
+      - id: STDemolitionsScanner
+        amount: 2
+      # Stories-EngineeringScanner-End
       #Meson scanner
       #Reagent scanner
       - id: CMTRayScanner
@@ -141,7 +145,7 @@
         amount: 6
     - name: Печатные Платы
       entries:
-      - id: DoorElectronics
+      - id: RMCDoorElectronics
         amount: 8
       - id: CMAPCElectronics
         amount: 8

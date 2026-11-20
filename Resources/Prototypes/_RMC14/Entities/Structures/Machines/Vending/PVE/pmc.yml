@@ -170,6 +170,8 @@
         amount: 5
       - id: RMCWelderPVE
         amount: 1
+      - id: RMCDoorElectronicsWeYa
+        amount: 3
     - name: Explosives
       entries:
       - id: RMCExplosivePlastic

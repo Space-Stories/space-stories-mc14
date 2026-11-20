@@ -1,0 +1,87 @@
+- type: accessGroup
+  id: RMCDoorElectronicsAccess
+  hidden: true
+  tags:
+  - RMCMarineDefaultAccess
+  - RMCAccessCommand
+  - CMAccessCO
+  - CMAccessASO
+  - CMAccessCE
+  - CMAccessCMO
+  - CMAccessCMP
+  - CMAccessQM
+  - CMAccessSEA
+  - RMCAccessSeniorCommand
+  - RMCAccessDatabase
+  - RMCAccessLogs
+  - CMAccessEngineering
+  - CMAccessMaint
+  - CMAccessOT
+  - CMAccessMedical
+  - RMCAccessMorgue
+  - CMAccessChemistry
+  - CMAccessResearch
+  - RMCAccessFieldDoctor
+  - CMAccessBrig
+  - CMAccessArmory
+  - CMAccessRequisitions
+  - CMAccessKitchen
+  - CMAccessPress
+  - RMCAccessSynth
+  - CMAccessDropship
+  - CMAccessPilot
+  - CMAccessCrewman
+  - RMCAccessVehicleCrew
+  - CMAccessAlpha
+  - CMAccessBravo
+  - CMAccessCharlie
+  - CMAccessDelta
+  - RMCAccessEcho
+  - RMCAccessFoxtrot
+  - CMAccessMarinePrep
+  - CMAccessMedPrep
+  - CMAccessCombatTechPrep
+  - CMAccessSquadLeaderPrep
+  - CMAccessSpecPrep
+  - CMAccessSmartPrep
+  - CMAccessFTLPrep
+  - CMAccessMarineRifleman
+  - CMAccessColonyPublic
+  - CMAccessColonyLogistics
+  - CMAccessColonyEngineering
+  - CMAccessColonyResearch
+  - CMAccessColonyBrig
+  - CMAccessColonyMedbay
+  - CMAccessColonyCommand
+  - CMAccessColonyArmory
+  - CMAccessColonyChem
+
+- type: accessGroup
+  id: RMCDoorElectronicsTSEPAAccess
+  hidden: true
+  tags:
+  - RMCAccessTSEPA
+  - RMCAccessTSEPABrig
+  - RMCAccessTSEPAInspector
+
+- type: accessGroup
+  id: RMCDoorElectronicsSPPAccess
+  hidden: true
+  tags:
+  - RMCAccessSPPGeneral
+  - RMCAccessSPPMedical
+  - RMCAccessSPPEngineering
+  - RMCAccessSPPSecurity
+  - RMCAccessSPPArmory
+  - RMCAccessSPPflight
+  - RMCAccessSPPResearch
+  - RMCAccessSPPCommando
+  - RMCAccessSPPLeadership
+  - RMCAccessSPPSeniorLead
+
+- type: accessGroup
+  id: RMCDoorElectronicsWeYaAccess
+  hidden: true
+  tags:
+  - RMCAccessWeYa
+  - RMCAccessWeYaFlight

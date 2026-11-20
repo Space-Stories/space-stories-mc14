@@ -1,0 +1,38 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "CM-SS13 Development Team. Original KN5500/2 and in-hand states from https://github.com/cmss13-devs/cmss13/blob/b782b5adf5ae7d4ffa8e7da65211c6928d31015c/icons/obj/items/synth/wj_pda.dmi, https://github.com/cmss13-devs/cmss13/blob/b782b5adf5ae7d4ffa8e7da65211c6928d31015c/icons/mob/humans/onmob/inhands/equipment/devices_lefthand.dmi, https://github.com/cmss13-devs/cmss13/blob/b782b5adf5ae7d4ffa8e7da65211c6928d31015c/icons/mob/humans/onmob/inhands/equipment/devices_righthand.dmi.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "off"
+        },
+        {
+            "name": "on",
+            "delays": [
+                [
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1,
+                    0.1
+                ]
+            ]
+        },
+        {
+            "name": "inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right",
+            "directions": 4
+        }
+    ]
+}

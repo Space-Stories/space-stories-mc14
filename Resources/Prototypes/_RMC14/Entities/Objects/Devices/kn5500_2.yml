@@ -1,0 +1,9 @@
+- type: entity
+  parent: STWorkingJoePDA # Stories-EngineeringPDA (inherit the existing Working Joe PDA behavior)
+  id: RMCKN5500PDA
+  name: KN5500/2 PDA
+  description: A Karnak Electronics handheld terminal used by marine technicians to connect to the ship's AI and receive work orders.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Devices/kn5500_2.rsi
+    state: on
