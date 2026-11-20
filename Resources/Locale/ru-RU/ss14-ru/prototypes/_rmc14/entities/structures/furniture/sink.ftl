@@ -4,3 +4,6 @@ ent-CMSinkEmpty = раковина
 ent-CMSink = раковина
     .desc = { ent-CMSinkEmpty.desc }
     .suffix = Вода
+ent-RMCSinkPuddle = puddle
+    .desc = A puddle of hopefully clean water.
+    .suffix = { ent-CMSink.suffix }

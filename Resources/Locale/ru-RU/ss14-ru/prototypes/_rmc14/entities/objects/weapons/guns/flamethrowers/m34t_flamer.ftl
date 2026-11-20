@@ -1,5 +1,8 @@
 ent-RMCWeaponFlamerSpec = огнемётная установка M240-T
     .desc = Улучшенная версия огнемётной установки M240, модель M240-T способна распылять более широкий спектр видов топлива.
+ent-RMCWeaponFlamerSpecAuto = M34-T2 incinerator unit
+    .desc = A prototyped model of the M34-T incinerator unit, it was discontinued after its automatic mode was deemed too expensive to deploy in the field.
+    .suffix = DO NOT MAP
 ent-RMCTankFlamerLarge = большой баллон M240-T
     .desc = Большой топливный баллон для использования в огнемётной установке M240-T. Обращайтесь с крайней осторожностью.
 ent-RMCTankFlamerLargeB = большой баллон M240-T (Б)

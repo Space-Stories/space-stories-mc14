@@ -20,3 +20,7 @@ ent-RMCSuitEVACivilian = белый скафандр
     .desc = { ent-RMCSuitEVABase.desc }
 ent-RMCHelmetEVACivilian = белый шлем скафандра
     .desc = { ent-RMCHelmetEVABase.desc }
+ent-RMCSuitCivilianCompressionSuit = civilian-issued compression suit
+    .desc = A heavy, bulky civilian space suit, fitted with armored plates.
+ent-RMCHelmetCivilianCompressionSuit = civilian-issued compression helmet
+    .desc = A heavy space helmet, designed to be coupled with the civilian-issued compression suit. Feels like you could hotbox in here.

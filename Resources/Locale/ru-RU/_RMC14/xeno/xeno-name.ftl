@@ -17,7 +17,8 @@ rmc-xeno-prime-parasite = Безжалостный { $baseName }
 # Only 1 because getting king multiple times will be rare
 rmc-xeno-mature-king = Беспощадный { $baseName }
 
-# Only 3 because it's a larva
 rmc-xeno-young-larva = Маленькая { $baseName }
 rmc-xeno-mature-larva = Зрелая { $baseName }
 rmc-xeno-elder-larva = Большая { $baseName }
+rmc-xeno-ancient-larva = Big { $baseName }
+rmc-xeno-prime-larva = Fat { $baseName }

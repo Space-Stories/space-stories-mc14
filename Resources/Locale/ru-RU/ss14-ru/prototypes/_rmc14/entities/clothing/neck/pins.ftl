@@ -26,3 +26,5 @@ ent-RMCClothingNeckAutismPin = { ent-ClothingNeckAutismPin }
     .desc = { ent-ClothingNeckAutismPin.desc }
 ent-RMCClothingNeckGoldAutismPin = { ent-ClothingNeckGoldAutismPin }
     .desc = { ent-ClothingNeckGoldAutismPin.desc }
+ent-RMCClothingNeckAllyPin = { ent-ClothingNeckAllyPin }
+    .desc = { ent-ClothingNeckAllyPin.desc }
