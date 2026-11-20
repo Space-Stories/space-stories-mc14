@@ -1,8 +1,8 @@
 ﻿rmc-keycard-device = Keycard Authentication Device
 rmc-keycard-device-description = This device is used to trigger some
   high security events.
-  It requires authorization at two
-  separate keycard devices.
+  It requires first pressing the red alert button on the devices
+  then swiping or tapping high-level IDs to the scanners.
 rmc-keycard-ob-safety = Toggle OB Cannon Safety
 rmc-keycard-unpowered = The keycard authentication device is not receiving power.
 rmc-keycard-busy = The device is already processing an authentication request.

@@ -42,7 +42,7 @@ public sealed class XenoAnnounceSystem : SharedXenoAnnounceSystem
 
         if (needsQueen)
         {
-            if (Hive.GetHive(source) is { } sourceHive)
+            if (Hive.GetHiveOrSelf(source) is { } sourceHive)
             {
                 if (!Hive.HasHiveQueen(sourceHive))
                     return;

@@ -14,12 +14,12 @@
       Magpies: RMCPaperCOBriefingLV624Magpies
     announcements:
     - text: rmc-announcement-planet-lv
-    #smallHostVariants:
-      #- RMCMobSmallHostFarwa
-      #- CMMobSmallHostMonkey
-      #- CMMobSmallHostKobold
-      #- RMCMobSmallHostNeaera
-      #- RMCMobSmallHostStok
+    smallHostVariants:
+    - RMCMobSmallHostFarwa
+    - CMMobSmallHostMonkey
+    - CMMobSmallHostKobold
+    - RMCMobSmallHostNeaera
+    - RMCMobSmallHostStok
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clf_ship
@@ -144,8 +144,8 @@
       Hawks: RMCPaperCOBriefingSolarisHawks
       Doves: RMCPaperCOBriefingSolarisDoves
       Magpies: RMCPaperCOBriefingSolarisMagpies
-    #smallHostVariants:
-      #RMCMobSmallHostNeaera
+    smallHostVariants:
+    - RMCMobSmallHostNeaera
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clfmining
@@ -293,8 +293,8 @@
       Magpies: RMCPaperCOBriefingShivasMagpies
     announcements:
     - text: rmc-announcement-planet-shiva
-    #smallHostVariants:
-      #RMCMobSmallHostYiren
+    smallHostVariants:
+    - RMCMobSmallHostYiren
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clfraid_shivas
@@ -412,8 +412,8 @@
       Magpies: RMCPaperCOBriefingFiorinaMagpies
     announcements:
     - text: rmc-announcement-planet-fiorina
-    #smallHostVariants:
-      #RMCMobSmallHostFarwa
+    smallHostVariants:
+    - RMCMobSmallHostFarwa
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: rocinante_clf
@@ -531,8 +531,8 @@
       Magpies: RMCPaperCOBriefingTrijentMagpies
     announcements:
     - text: rmc-announcement-planet-trijent
-    #smallHostVariants:
-      #RMCMobSmallHostStok
+    smallHostVariants:
+    - RMCMobSmallHostStok
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clf_pods
@@ -540,7 +540,7 @@
     # Stories-CLFSurvivor-End
     - scenarioName: none # Reduce this to 0.5 once CLF survivors are in
       scenarioProbability: 0.5 # Stories-CLFSurvivor
-    - scenarioName: spp_bar
+    - scenarioName: spp_spetsnaz_trijent
       scenarioProbability: 0.4
     # Stories-SynthSurvivor-Start
     survivorJobs:
@@ -587,7 +587,7 @@
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
       # Stories-CLFSurvivor-End
-      spp_bar:
+      spp_spetsnaz_trijent:
       - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorDoctor: 1
       - CMSurvivorEngineer: 1
@@ -608,26 +608,26 @@
         CMSurvivor:
         - RMCSurvivorCLFSoldier: -1
       # Stories-CLFSurvivor-End
-      spp_bar:
+      spp_spetsnaz_trijent:
         # Stories-SynthSurvivor-Start
         RMCSyntheticColony:
-        - RMCSurvivorSPPCrashlandSynth: 1
+        - RMCSurvivorSPPSpetsnazTrijentSynth: 1
         # Stories-SynthSurvivor-End
         CMSurvivorDoctor:
-        - RMCSurvivorSPPCrashlandMedic: 1
+        - RMCSurvivorSPPSpetsnazTrijentMedic: 1
         CMSurvivorEngineer:
-        - RMCSurvivorSPPCrashlandSapper: 1
+        - RMCSurvivorSPPSpetsnazTrijentSapper: 1
         CMSurvivorSecurity:
-        - RMCSurvivorSPPCrashlandSL: 1
-        - RMCSurvivorSPPCrashlandSpec: 1
+        - RMCSurvivorSPPSpetsnazTrijentSL: 1
+        - RMCSurvivorSPPSpetsnazTrijentSpec: 1
         CMSurvivor:
-        - RMCSurvivorSPPCrashlandSoldier: -1
+        - RMCSurvivorSPPSpetsnazTrijentOperator: -1
     survivorJobOverrideScenarios:
       clf_pods: # Stories-CLFSurvivor-Start
         CMSurvivorCorporate: CMSurvivor
         CMSurvivorScientist: CMSurvivor
       # Stories-CLFSurvivor-End
-      spp_bar:
+      spp_spetsnaz_trijent:
         CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorCorporate: CMSurvivor
 #    survivorJobVariantScenarios:
@@ -711,8 +711,8 @@
     - text: rmc-announcement-planet-varadero-6
       announcement: "rmc-announcement-ares-varadero"
       delay: 9000 # 150 minutes
-    #smallHostVariants:
-      #CMMobSmallHostKobold
+    smallHostVariants:
+    - CMMobSmallHostKobold
     nightmareScenarios: # 100% chance of regular survivors, reduce to 0.9 once CLF survs are in
     - scenarioName: none
       scenarioProbability: 1
@@ -778,9 +778,9 @@
       Magpies: RMCPaperCOBriefingKutjevoMagpies
     announcements:
     - text: rmc-announcement-planet-kutjevo
-    #smallHostVariants:
-      #RMCMobSmallHostNeaera
-      #RMCMobSmallHostStok
+    smallHostVariants:
+    - RMCMobSmallHostNeaera
+    - RMCMobSmallHostStok
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clfsmugglers
@@ -876,9 +876,9 @@
       Magpies: RMCPaperCOBriefingChancesMagpies
     announcements:
     - text: rmc-announcement-planet-chances
-    #smallHostVariants:
-      #RMCSmallHostMobNaera
-      #RMCSmallHostMobStok
+    smallHostVariants:
+    - RMCMobSmallHostNeaera
+    - RMCMobSmallHostStok
     selectRandomSurvivorVariant: false
     survivorJobs:
     - RMCSurvivorCommandingOfficer: 1
@@ -932,8 +932,8 @@
       Magpies: RMCPaperCOBriefingHybrisaMagpies
     announcements:
     - text: rmc-announcement-planet-hybrisa
-    #smallHostVariants:
-      #CMMobSmallHostMonkey
+    smallHostVariants:
+    - CMMobSmallHostMonkey
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clfspaceport
@@ -1072,15 +1072,15 @@
       Magpies: RMCPaperCOBriefingSorokyneMagpies
     announcements:
     - text: rmc-announcement-planet-sorokyne
-    #smallHostVariants:
-      #RMCMobSmallHostStok
-      #CMMobSmallHostKobold
+    smallHostVariants:
+    - RMCMobSmallHostStok
+    - CMMobSmallHostKobold
     nightmareScenarios:
     # Stories-CLFSurvivor-Start
     - scenarioName: clfcamp
       scenarioProbability: 0.1
     # Stories-CLFSurvivor-End
-    - scenarioName: spp_sof
+    - scenarioName: spp_spetsnaz
       scenarioProbability: 0.4
     - scenarioName: none # reduce by 0.1 once clf survs are in
       scenarioProbability: 0.5 # Stories-CLFSurvivor
@@ -1142,7 +1142,7 @@
       - CMSurvivorDoctor: 1
       - CMSurvivor: -1
       # Stories-CLFSurvivor-End
-      spp_sof:
+      spp_spetsnaz:
       - RMCSyntheticColony: 1 # Stories-SynthSurvivor
       - CMSurvivorEngineer: 1
       - CMSurvivorDoctor: 1
@@ -1163,26 +1163,26 @@
         CMSurvivor:
         - RMCSurvivorCLFSoldier: -1
       # Stories-CLFSurvivor-End
-      spp_sof:
+      spp_spetsnaz:
         # Stories-SynthSurvivor-Start
         RMCSyntheticColony:
-        - RMCSurvivorSPPSOFSynth: 1
+        - RMCSurvivorSPPSpetsnazSynth: 1
         # Stories-SynthSurvivor-End
         CMSurvivorSecurity:
-        - RMCSurvivorSPPSOFSpec: 1
-        - RMCSurvivorSPPSOFSL: 1
+        - RMCSurvivorSPPSpetsnazSpec: 1
+        - RMCSurvivorSPPSpetsnazSL: 1
         CMSurvivorDoctor:
-        - RMCSurvivorSPPSOFMedic: 1
+        - RMCSurvivorSPPSpetsnazMedic: 1
         CMSurvivorEngineer:
-        - RMCSurvivorSPPSOFSapper: 1
+        - RMCSurvivorSPPSpetsnazSapper: 1
         CMSurvivor:
-        - RMCSurvivorSPPSOFSoldier: -1
-    survivorJobOverrideScenarios: # Scientist rolls for SOF medic
+        - RMCSurvivorSPPSpetsnazOperator: -1
+    survivorJobOverrideScenarios: # Scientist rolls for Spetsnaz medic
       clfcamp: # Stories-CLFSurvivor-Start
         CMSurvivorCorporate: CMSurvivor
         CMSurvivorScientist: CMSurvivor
       # Stories-CLFSurvivor-End
-      spp_sof :
+      spp_spetsnaz :
         CMSurvivorScientist: CMSurvivorDoctor
         CMSurvivorCorporate: CMSurvivor
     replacements: # Stories-Survivor

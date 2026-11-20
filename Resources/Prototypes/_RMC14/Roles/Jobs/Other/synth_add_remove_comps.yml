@@ -45,6 +45,7 @@
   - type: AcidBloodDodge
     chance: 45
   # Stories-AcidBloodDodge-End
+  - type: SPPSpecWhitelist
 
 - type: entity
   id: RMCSynthRemoveComponents
