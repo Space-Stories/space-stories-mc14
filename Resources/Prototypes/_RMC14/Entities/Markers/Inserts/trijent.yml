@@ -72,6 +72,9 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Trijent/temple_intact.yml"
       probability: 0.1
+    - spawn: "/Maps/_Stories/Inserts/Trijent/Wreckage_Ruins.yml"
+      probability: 0.2
+      offset: 70,200
 
 - type: entity
   parent: RMCMapInsertTrijentBase
