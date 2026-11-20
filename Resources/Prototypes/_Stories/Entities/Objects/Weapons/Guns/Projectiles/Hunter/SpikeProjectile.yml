@@ -1,0 +1,15 @@
+- type: entity
+  parent: RMCBaseBullet
+  id: STSpikeProjectile
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/spike.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 45
+  - type: CMArmorPiercing
+    amount: 20

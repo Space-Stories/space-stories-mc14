@@ -212,3 +212,34 @@
     maxIntensity: 170
   - type: CMExplosionEffect
   - type: RMCScorchEffect
+
+- type: entity
+  parent: STPlasmaBoltBaseProjectile
+  id: STPistolBolt
+  name: pistol bolt
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Ammunition/Projectiles/pulse_projectiles.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Heat: 75
+
+- type: entity
+  parent: STPlasmaBoltBaseProjectile
+  id: STPistolBoltIncendiary
+  name: pistol Incendiary bolt
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/incendiarypulse.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Heat: 100
+  - type: IgniteOnProjectileHit
