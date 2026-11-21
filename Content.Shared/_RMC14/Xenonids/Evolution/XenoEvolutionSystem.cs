@@ -1281,12 +1281,19 @@ public sealed class XenoEvolutionSystem : EntitySystem
             return false;
         }
 
-        if (!CanEvolvePopup((cand.Owner, evo), stepTarget, false, ignoreEvolvesTo: false, reserved: reserved, ignoreFixable: true))
+        var isEarlyEvo = evo.EarlyEvolvesTo.Contains(stepTarget);
+        var inLine = evo.EvolvesTo.Contains(stepTarget) ||
+                     evo.EvolvesToWithoutPoints.Contains(stepTarget) ||
+                     (isEarlyEvo && !evo.MarinesLanded);
+        if (!inLine)
         {
             _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-raffle-out-of-line"), cand.Owner, cand.Owner, PopupType.MediumCaution);
             RemComp<XenoRaffleCandidateComponent>(cand);
             return true;
         }
+
+        if (!CanEvolvePopup((cand.Owner, evo), stepTarget, false, ignoreEvolvesTo: false, reserved: reserved, ignoreFixable: true))
+            return false;
         // Stories-XenoEvolutionQueue-End
 
         if (GetUnmetGraceRequirement((cand.Owner, evo)) is { } reason)
@@ -1828,13 +1835,10 @@ public sealed class XenoEvolutionSystem : EntitySystem
             _mind.UnVisit(mindId);
         }
 
-        if (TryComp(xeno, out XenoRaffleCandidateComponent? candidate))
-        {
-            if (candidate.Target.Id != proto.Id && !TryCarryRaffleEntry(xeno, candidate, newXeno))
-                _popup.PopupEntity(Loc.GetString("rmc-xeno-evolution-raffle-left-changed"), newXeno, newXeno, PopupType.MediumCaution);
-
+        // Stories-XenoEvolutionQueue-Start
+        if (HasComp<XenoRaffleCandidateComponent>(xeno))
             LeaveRaffle(xeno);
-        }
+        // Stories-XenoEvolutionQueue-End
 
         foreach (var held in _hands.EnumerateHeld(xeno))
         {
