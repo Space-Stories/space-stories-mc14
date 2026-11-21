@@ -9,7 +9,7 @@ rmc-xeno-ancient = Ancient {$baseName}
 rmc-xeno-prime = Prime {$baseName}
 rmc-xeno-apex = Apex {$baseName}
 rmc-xeno-perfected = Perfected {$baseName}
-rmc-xeno-progenitor = Progenitor {$baseName}
+rmc-xeno-progenitor = Chimera {$baseName}
 rmc-xeno-firstborn = Firstborn {$baseName}
 
 rmc-xeno-mature-parasite = Fledgling {$baseName}
