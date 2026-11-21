@@ -188,11 +188,8 @@
     sections:
     - name: Engineer Supplies
       entries:
-      # /obj/item/circuitboard/airlock - 2 Points
-      # Stories-SynthVendorParity-Start
-      - id: DoorElectronics
+      - id: RMCDoorElectronics
         points: 2
-      # Stories-SynthVendorParity-End
       - id: CMAPCElectronics
         points: 2
       - id: CMEntrenchingTool
@@ -214,7 +211,8 @@
         points: 7
       - id: RMCExplosivePlastic
         points: 3
-      # /obj/item/tool/weldpack/minitank - 4 Points
+      - id: RMCES11MobileFuelCanister
+        points: 4
       - id: RMCEngineerKit
         points: 1
       - id: RMCTacticalPrybar

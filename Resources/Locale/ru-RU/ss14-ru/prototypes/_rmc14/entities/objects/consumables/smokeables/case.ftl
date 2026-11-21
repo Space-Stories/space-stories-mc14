@@ -4,3 +4,5 @@ ent-RMCTarbackCase = портсигар тарбакс
     .desc = Не позволяйте модной коробке и бумажке, на которой написано о традициях и качестве, обмануть вас. Эти сигареты — дно бочки. Скручены в Колумбии...
 ent-RMCShioRoyalsCase = коробка сигар «Шио Роялс»
     .desc = Деревянная коробка для сигар «Шио Роялс». Золотые буквы невероятно вычурны для сигар, которые лучше всего описывает слово «нормальные». Скручено в Японии.
+ent-RMCMonteComunePack = Montecomune Pack
+    .desc = A well-designed pack of premium SPP pack-cigars, outclasses anything on the UN's market, but also rarer then anything on the UN's market. Rolled somewhere undisclosed.

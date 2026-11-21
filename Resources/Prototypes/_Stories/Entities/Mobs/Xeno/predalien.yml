@@ -118,13 +118,6 @@
     color: "#921992"
   - type: RMCSize
     size: Big
-  - type: PreventPulledWhileAlive
-    whitelist:
-      components:
-      - Xeno
-    exceptEffects:
-    - Stun
-    - KnockedDown
   - type: RMCXenoDamageVisuals
     prefix: predalien
   - type: FixedIdentity

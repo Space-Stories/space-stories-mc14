@@ -1,223 +1,232 @@
-﻿<Document>
-
-  Руководство от frog6645 в Discord
-
-  [bold]Если вы читаете это в начале раунда, не имея ни малейшего представления о том, что делаете, найдите кого-то, кто знает, возьмите дробовик и следуйте за ним. Вы, вероятно, умрете. Удачи![/bold]
-
-  #Выживший
-
-  Роль Выжившего не предназначена для новичков. Вы умрете десятки раз от вещей, находящихся вне вашего контроля. Прежде чем пытаться играть Выжившим для оптимального опыта, обязательно изучите медицину, инженерию и бой.
-
-  ##Важные Заметки
-
-  Выжившие — это колонисты, запертые на колонии вместе с ксеноморфами. У всех выживших есть роль. Убедитесь, что вы знаете, что делаете, прежде чем выбрать роль. Если вы новичок в роли Выжившего, выберите Выжившего Охраны!
-
-  Как Выжившему, время работает против вас. Каждая секунда, которую вы тратите на сбор добычи, — это секунда, за которую ксеноморфы могут организовать на вас атаку. Через 50 секунд игры вполне вероятно, что вы уже будете атакованы десятками дронов.
-
-  Вашим первым приоритетом должна быть проверка по радио. Поздоровайтесь, скажите свою работу, дайте знать людям, где вы находитесь. В идеале вы попытаетесь подойти к другому выжившему, чтобы не быть одному. Единственное, что у вас есть против любого ксеноморфа, — это командная работа, обязательно используйте ее.
-
-  Еще одна крайне важная вещь — достать дробовик. Дробовики позволяют убивать ксеноморфов через оглушение. Почти любой ксеноморф, с которым у вас есть шанс сразиться, может быть оглушен дробовиком. Для боя на ходу дробовики будут чрезвычайно полезны.
-
-  [bold]Действуйте быстро[/bold]. Вы не сможете добраться до определенных мест так легко, как в начале раунда, по мере его развития. Медицинский центр Trijent, например, находится очень близко к улью. Добывайте добычу сначала рядом с ульем, затем приближайтесь к месту, где будет ваше укрепление.
-
-  ##Начало
-
-  Первое, что вы должны сделать, это проверить свой аварийный подсумок!
-
-  <GuideEntityEmbed Entity="RMCPouchSurvival"/>
-
-  Внутри вашего аварийного подсумка находится несколько предметов, необходимых для выживания. В зависимости от вашей работы, вы можете появиться с набором различных вещей, но аварийный подсумок — это основное, что остается неизменным.
-
-  [bold]Самый важный предмет — ваш фонарик![/bold]
-
-  <GuideEntityEmbed Entity="RMCFlashlight"/>
-
-  Ничто из того, что у вас есть, не имеет значения, если вы не можете видеть, что делаете. Обязательно держите фонарик в руках, положите его в слот для снаряжения костюма или в один из карманов, чтобы иметь возможность перемещаться по карте. [bold]Выживший Инженер[/bold] появляется с каской, которая немного хуже, но оставляет ваши руки и карманы свободными!
-
-  [bold]Если вы застряли в комнате, используйте лом![/bold]
-
-  <GuideEntityEmbed Entity="CMCrowbarRed"/>
-
-  Ломом можно мгновенно открыть любую обесточенную дверь или ставню.
-
-  [bold] Вы появляетесь с базовыми медикаментами![/bold]
-
-  <GuideEntityEmbed Entity="CMPacketPillsTricordrazine"/>
-
-  Трикордазин ужасно лечит, но вы берете все, что можете достать. Трикордазин немного лечит синяки и ожоги, каждая таблетка содержит 15 ед. Вы можете безопасно принять две таблетки, прежде чем произойдет передозировка, но не забывайте, что вы также можете использовать другие медикаменты вместе с трикордазином для гораздо более быстрого исцеления. Используйте таблетки в качестве дополнения.
-
-  ##Навигация
-
-  [bold]Навигация по карте сильно зависит от знания карты. Обязательно проверяйте веб-карты, чтобы знать, куда вы идете![/bold]
-
-  Как Выжившему, колония, скорее всего, будет обесточена, если вы не предпримете действий для ее включения. Это означает, что вам понадобится ваш [bold]лом[/bold] для перемещения по карте! Дробовик с картечью может выбить дверь двумя выстрелами в крайнем случае. Обесточенные двери нельзя открыть ломом, поэтому обязательно знайте альтернативный путь. Иногда можно разбить окно и разобрать раму.
-
-  Полезный совет: [bold]Зоны Высадки[/bold] имеют тенденцию располагаться вдоль определенной стороны карты. Противоположная сторона карты почти всегда является местом расположения [bold]Улья[/bold]. Улей — это место, которого следует избегать, если только вы не горите желанием подраться или найти добычу, расположенную внутри него. Суждение о взаимодействии с локациями под контролем ксеноморфов нельзя объяснить, только научиться. Выбирайте свой путь мудро.
-
-  Перемещаясь по заросшим районам, будьте крайне осторожны. Как Выжившему, вы рассчитываете на быстрые действия, и у вас нет времени ждать, пока заросли рассеются после уничтожения узлов. Если вы собираетесь путешествовать, делайте это как можно быстрее и не пытайтесь обезопасить свой фланг. Вы не сможете.
-
-  Наконец, большинство колоний имеют некую организацию. Даже если вы не знаете карту, вы обнаружите, что жилые помещения обычно находятся рядом с медицинскими зонами, а зоны безопасности обычно также находятся рядом. Это не всегда верно, но помните, что здравый смысл может помочь вам далеко зайти без каких-либо предварительных знаний.
-
-  ##Профессии Выживших
-
-  У всех выживших есть какая-то роль, и даже самые худшие из них довольно сильны по сравнению с морпехами! Все выжившие имеют навык [bold]Переноса на Плече[/bold], и у всех есть [bold] Выносливость 2 [/bold]. Переносить на плече можно, схватив кого-то, схватив его снова, затем нажав на его спрайт и перетащив его на свой. После короткой анимации вы взвалите его на спину! Самое приятное, что для этого нужна только одна рука.
-
-  Вот краткое описание того, что может делать каждая роль Выжившего.
-
-  [bold]Выживший Охраны[/bold]
-  <GuideEntityEmbed Entity="RMCWeaponRevolverSpearhead"/>
-
-  [bold]Выживший Охраны[/bold] — это боец группы. У них нет навыков, которые делали бы их слишком важными, чтобы умереть, и они имеют врожденные бонусы к бою. У них есть бонус к урону в ближнем бою, они владеют ближним боем и могут мгновенно использовать автоинжекторы. Кроме того, они появляются с лучшим снаряжением. В общем, вы должны защищать других выживших и помогать им собирать добычу в опасных местах. [bold] Это лучшая роль для вашей первой игры![/bold]
-
-  [bold]Выживший Инженер[/bold]
-  <GuideEntityEmbed Entity="RMCHardhatWhite"/>
-
-  [bold]Выживший Инженер[/bold] способен ремонтировать АРС, генераторы и системы связи. Как и Выживший Охраны, он не настолько важен, чтобы его смерть погубила команду, но он должен быть осторожен и выполнять свои инженерные обязанности перед боем! Стройте и ремонтируйте баррикады, а также чините генераторы, если вашей команде это нужно. [bold]Не забывайте, что починка генераторов на сильно урбанизированных картах может скорее помешать вашей команде, чем помочь![/bold]
-
-  [bold]Медицинский Выживший[/bold]
-  <GuideEntityEmbed Entity="CMSurgicalCase"/>
-
-  [bold]Медицинский Выживший[/bold] — это источник жизни группы. Если вы играете Медицинским Выжившим, вы должны быть невероятно осторожны. Если все Медицинские Выжившие умрут, никто не сможет их вернуть. Ваша задача — лечить других выживших и следить за тем, чтобы они были в надлежащей форме для выполнения своей работы. Когда все в добром здравии, вы можете добавить несколько коктейлей Молотова. [bold]Сосредоточьтесь на стабилизации критических выживших и воскрешении мертвых, а не на чем-либо другом.[/bold]
-
-  [bold]Корпоративный Выживший[/bold]
-  <GuideEntityEmbed Entity="CMPen"/>
-
-  [bold]Корпоративный Выживший[/bold] — это ролевая роль. Вы крайне похожи на Гражданского Выжившего, единственная разница — в вашей позиции. Однако вы не сможете отыгрывать роль, если будете мертвы. Найдите место для обороны вместе с другими выжившими, или, если дела пойдут плохо, место, чтобы спрятаться. Сражайтесь бок о бок с Выжившим Охраны и зарабатывайте свою зарплату, или попадите в плен к менее опасному дрону после того, как бросите всех, чтобы спрятаться в шкафчике. [bold]Как только вас спасут, найдите Корпоративного Связного Аламайера и представьтесь![/bold]
-
-  [bold]Гражданский Выживший[/bold]
-  <GuideEntityEmbed Entity="CMJumpsuitColonist"/>
-
-  [bold]Гражданский Выживший[/bold] не имеет никаких уникальных преимуществ. Вы стрелок с возможностью перносить на плече и лишь немного сложнее вас повалить. Делайте все, что в ваших силах, чтобы выжить.
-
-
-  ##Сбор Добычи
-
-  Сбор добычи как Выжившего — самый важный шаг. Даже если вы выберете лучшее место для обороны и будете сражаться идеально, если у вас не будет снаряжения, вы потерпите неудачу. Следующие утверждения в целом верны и помогут вам решить, где добывать.
-
-  В медицинском отделе есть медицинские торговые автоматы, в которых есть почти все, что вам нужно. В идеале вы возьмете весь медицинский торговый автомат, открутив его и перетащив с собой. Если торгового автомата нет, в медицинском отделе, скорее всего, все равно найдется неказистое оборудование, которое может пригодиться в крайнем случае.
-
-  В отделе безопасности есть оружие и броня. Кроме того, на трупах могут быть броня и медицинские принадлежности.
-
-  В Грузовом/Складском отделе часто имеется разнообразное снаряжение.
-
-  В Административных Зданиях часто есть бумага, которая используется для коктейлей Молотова. Мусорные баки можно поднимать, щелкнув по ним правой кнопкой мыши! Кроме того, они помещаются в рюкзаки и ящики.
-  В Баре есть алкоголь, который используется для коктейлей Молотова. В идеале вы возьмете с собой весь торговый автомат со спиртным.
-
-
-  Многие из этих вещей могут показаться бесполезными, но без любой из них ваши шансы на выживание резко падают. Вы хотите иметь хорошо сбалансированное снаряжение с избытком медикаментов, боеприпасов и прочных баррикад.
-
-  [bold]Сбор добычи — самая важная часть выживания! Ваши навыки не имеют значения, если вам нечем их проявить![/bold]
-
-  ##Оружие
-
-  Выжившие имеют доступ к оружию, которого нет у морпехов. Вы, вероятно, будете не знакомы со многими из них. Это оружие часто имеет определенную особенность или характеристику, выделяющую его среди морских вариантов. Некоторое оружие на колонии такое же, как и у морпехов, но все равно будет упомянуто из-за его иного применения в руках выжившего.
-
-  [bold]Дробовики, вероятно, станут вашим основным оружием при перемещении по карте благодаря их способности оглушать и уничтожать случайных ксеноморфов.[/bold]
-
-  <GuideEntityEmbed Entity="WeaponShotgunM42A2"/>
-
-  Помповый дробовик M42A2 — самое надежное оружие для выжившего. С установленным штыком помповый дробовик способен драться, пробивать заросли и отбрасывать большинство противников. Это оружие следует использовать одной рукой и заряжать картечью. Используя помповый дробовик, будьте предельно осторожны, чтобы не стрелять в союзников. Неудачно выпущенная картечь может мгновенно убить любого, кто не носит брони, и нанести длительное оглушение любому, кто выживет после попадания. К счастью, картечь также может краткосрочно оглушать ксеноморфов и замедлять их на продолжительное время после попадания. Маневрируйте вокруг врагов, добивайте более слабых целей и создавайте возможности для ваших союзников.
-
-  <GuideEntityEmbed Entity="RMCWeaponShotgunM12"/>
-
-  Помповый дробовик HG 37-12 — менее надежная, более специализированная версия помпового дробовика M42A2. HG 37 в настоящее время ограничен тем, что у него нет функции двойного магазина, позволяющей пользователю переключаться на ходу. HG 37 следует использовать, держа в руках и заряжая патронами по выбору пользователя. При использовании пулевых патронов HG 37 обладает высокой точностью. Если вы используете картечь, используйте HG 37 аналогично помповому дробовику, но обязательно держите оружие в руках перед выстрелом, чтобы ваша цель не уклонилась.
-
-  <GuideEntityEmbed Entity="WeaponShotgunCustomBuilt"/>
-
-  Это, пожалуй, самое смертоносное оружие, которое можно получить без вмешательства администрации. Самодельный дробовик, часто называемый "кастомным" в игре, — это дробовик емкостью 6 патронов. Он оснащен режимом очередного огня, способным быстро выпустить два картечных патрона подряд. Это может мгновенно убить почти любого T1 или ужасно ранить любого T2. Будьте предельно осторожны при использовании этого оружия рядом с союзниками.
-
-  <GuideEntityEmbed Entity="WeaponShotgunM890"/>
-
-  M890 — очень надежный дробовик, способный вместить восемь патронов в магазин, не требующий перезарядки помпой. Морпех может быть знаком с этим дробовиком как с дробовиком из оружейной на Аламайере во время красного кода. M890 обладает превосходной скорострельностью по сравнению с помповым дробовиком M42A2, что делает его чрезвычайно эффективным в ближнем бою. По сути, это линейное улучшение помповых дробовиков и конкурент кастомного дробовика.
-
-
-  [bold]Винтовки — очень эффективный выбор, однако многие винтовки, доступные только выжившим, не очень полезны, если не используются определенным образом.[/bold]
-
-  <GuideEntityEmbed Entity="WeaponRifleAR10"/>
-
-  Штурмовая винтовка AR10 известна в сообществе выживших как смехотворно ужасное оружие, однако у нее есть несколько достоинств. Несмотря на низкий DPS, каждый патрон наносит большой урон, что делает ее очень эффективной с точки зрения расхода боеприпасов и хорошей для удержания ксеноморфов от ваших баррикад в течение продолжительного времени. Кроме того, любая AR10 на карте [bold]гарантированно[/bold] появляется с насадками, которые можно снять и поставить на менее ужасную пушку. Используйте то, что у вас есть, даже если это AR10.
-
-  <GuideEntityEmbed Entity="WeaponRifleM16"/>
-
-  M16 — прямое улучшение AR10. Она обладает более высокой скорострельностью, точностью и схожим уроном на патрон с AR10, что делает ее надежным оружием. У M16 также очень большое падение урона на расстоянии и она хорошо реагирует на насадки. Это одна из самых надежных пушек, с которой вы можете столкнуться как выживший, и обычно, когда она присутствует, боеприпасов к ней много. Используйте M16 как оружие для ближнего боя в задней линии вашей группы или для стрельбы по ксеноморфам, атакующим ваши укрепления, с намерением нанести серьезный урон.
-
-  <GuideEntityEmbed Entity="RMCWeaponRifleM54C"/> <GuideEntityEmbed Entity="RMCWeaponRifleM54CMK1"/> <GuideEntityEmbed Entity="WeaponRifleM4SPRCustom"/>
-
-  Стандартизированное оружие морпехов. Боеприпасы к этому оружию лучше всего экономить для более крупных боев и фазы удержания, однако они невероятно полезны в ближнем бою, если использовать их правильно. M4SPR позволяет двигаться с полной скоростью при удержании, MK2 имеет высокий DPS, а MK1 в целом немного лучше MK2. Используйте их так же, как и морпех, но более экономно. Вы не можете заказать поставку по заявке... обычно.
-
-  <GuideEntityEmbed Entity="WeaponRifleMAR40"/>
-
-  Крайне ненадежное оружие, вопреки внутриигровому описанию. MAR40 смехотворно неточен и не может использоваться вне предельно близкого расстояния, сравнимого с дробовиком. Если вы собираетесь использовать это оружие, используйте его, потому что у него избыток боеприпасов и оно может постоянно вести огонь по цели. Кроме того, сошки и коллиматорный прицел позволяют этому оружию стрелять достаточно прямо и использовать его мощные пули. Используйте это оружие в качестве последнего средства, похожего на AR10, или всякий раз, когда вы участвуете в ближнем бою и вам нужно нанести урон чему-то, что не может быть оглушено дробовиком.
-
-
-  [bold] Выжившие получают доступ к очень мощным и очень ужасным пистолетам. [/bold]
-
-
-  <GuideEntityEmbed Entity="RMCWeaponPistolMK45"/>
-
-  MK45 — медленный, надежный пистолет, известный своей бронебойностью. Плохо против мягких целей, MK45 лучше всего использовать в качестве дополнения или запасного оружия. Он также невероятно полезен во время обороны, если у вас нет другого способа справиться с броней.
-
-  <GuideEntityEmbed Entity="RMCWeaponRevolverSpearhead"/>
-
-  Спирхед — револьвер, известный своим невероятно низким разбросом, который можно эффективно использовать одной рукой. Заметно плох против врагов с [bold]уклонением[/bold] из-за низкого показателя точности, но чрезвычайно мощный против умеренно бронированных целей. Имеет боеприпасы с экспансивной пулей, которые почти конкурируют с лучшими из лучших. Кроме того, у Спирхеда практически нет падения урона. Используйте его, чтобы поразить любую цель, убегающую от вас.
-
-
-  [bold]MAR50, Гвоздемёт и Базира Армстронг не сравнимы с другим оружием, занимая более нишевые роли.[/bold]
-
-
-  <GuideEntityEmbed Entity="RMCWeaponMar50LMG"/>
-
-  MAR50, одно из самых опасных видов оружия, которое может попасть в руки выжившего или любого морпеха. Подобно MAR40, MAR50 стреляет патронами 7.62x39, что означает, что он может использовать магазины от MAR40. Кроме того, MAR50 точен до предела, обладает приемлемой скорострельностью и имеет огромную ударную силу. MAR50 также имеет специализированные барабанные магазины, способные вместить до 100 патронов. Установленный на сошки, MAR50 может уничтожить все на своем пути. Даже без сошек, это самый сильный вариант, который у вас есть. Не потеряйте его.
-
-  <GuideEntityEmbed Entity="RMCWeaponBoltActionRifle"/>
-
-  Охотничья винтовка Базира — оружие умеренно ситуационное. Она оснащена бронебойными патронами, которые имеют незначительное падение урона и могут стрелять довольно быстро. Оружие необходимо перезаряжать после каждого выстрела, подобно тому, как перезаряжается дробовик помповым действием. Используйте ее во время обороны, чтобы обстреливать более живучих врагов и отгонять их от ваших баррикад. Будьте очень осторожны, чтобы не попасть по своим союзникам, они не оценят бронебойный выстрел в спину.
-
-  <GuideEntityEmbed Entity="WeaponNailgun"/>
-
-  Гвоздемёт, в отличие от его морпеховского аналога, может стрелять гвоздями! Каждый гвоздь наносит умеренный бронебойный урон, а сам гвоздемёт может быть установлен в режим очередного огня, стреляя довольно быстро. Гвоздемёт страдает от падения урона на расстоянии, однако он хорош для удержания более живучих каст от баррикад или даже их добивания. Что более важно, гвоздемёт также может чинить баррикады! Держите материал, из которого сделана баррикада, в руке, затем щелкните по баррикаде с выбранным гвоздемётом. Вы израсходуете несколько гвоздей и немного материала, но быстро почините баррикаду.
-
-
-  ##Ячейковый Бой (Cell Combat)
-
-  Основная идея боя за выжившего заключается в том, что вы сражаетесь не для того, чтобы уничтожить ксеноморфов, а для того, чтобы сломить их боевой дух и убедиться, что меньше из них сможет вернуться, чтобы убить вас позже. В обычном раунде вы не победите ксеноморфов. Их слишком много, они слишком сильны, и у вас нет возможности сражаться с самыми мощными врагами, когда дело доходит до этого. Тем не менее, вы не беспомощны.
-
-  В течение первых 15 минут раунда вы можете сражаться с ксеноморфами, правильно применяя [bold]Ячейковый Бой (Cell Combat).[/bold] Как морпех, обычно двигаются большой группой морпехов и атакуют ксеноморфов, превосходя их огневой мощью. Поскольку у вас этого нет, вам нужно использовать превосходящую тактику. Пусть все экипируются оружием, которое лучше всего подходит для их роли. Снабдите выживших охраны своими лучшими дробовиками и самой защитной броней, а медиков оставьте с винтовками в тылу, чтобы они оставались в безопасности. Пусть все остальные будут гибкими и помогают в бою, где это необходимо.
-
-  Вы не ведете войну на истощение с ксеноморфами, вы работаете над быстрым достижением побед, которые сокрушают их боевой дух или численность. Это означает, что если бой длится сколько-нибудь продолжительное время, вам следует выйти из боя, прежде чем ксеноморфы вернутся с подкреплением.
-
-  Огонь — невероятно важный инструмент в Ячейковом Бою (Cell Combat), потому что это контроль над полем боя, чего вам иначе не хватает. Огонь наносит урон со временем и препятствует исцелению ксеноморфов любыми средствами. Это означает, что если ксеноморф решает вступить в бой через огонь, он тем самым заявляет вам о своей уверенности в том, что он сможет войти, атаковать вас, а затем отступить, не имея возможности исцелиться, при этом получая постоянный урон со временем. Докажите ему обратное.
-
-  Огонь — это инструмент, используемый для прекращения атак ксеноморфов, обычно не для использования против отступающих ксеноморфов. Если вы подожгли ксеноморфа и он один, он фактически приговорен к смерти, потому что ему придется катиться или он сгорит. Множество ксеноморфов могут убежать и потушить огонь друг на друге. Это означает, что если вы не угрожаете уроном со временем во время активного боя, огонь малоэффективен. Кроме того, поджигание ксеноморфа во время боя ставит его перед тем же ультиматумом: "беги или встреть меня с дебаффом". По крайней мере, это заставит их союзников тратить время, которое могло быть потрачено на нападение на вас, на их тушение.
-
-  Приоритет целей очень важен из-за вашего низкого урона. [bold]Когда кто-то атакует определенного ксеноморфа, вы должны стараться атаковать его тоже![/bold] Будьте осторожны, чтобы нанести как можно меньше дружественного огня. Вы должны стараться совершить как можно больше убийств, чтобы перевесить численность в свою пользу во время боя.
-
-  Наконец, это, пожалуй, самая важная поговорка для выжившего! [bold]ТРЯСИ, А НЕ СТРЕЛЯЙ!!![/bold] Тряска союзников поднимает их на ноги. Это позволяет им трясти вас и стрелять из своего оружия, возвращая численность в вашу пользу. Оглушенный союзник почти так же хорош, как мертвый, поэтому трясите их, чтобы вы оба могли поддерживать друг друга! Ячейковый Бой (Cell Combat) — это прежде всего сплоченность и командная работа. Вы должны заботиться о своих союзниках, чтобы они могли заботиться о вас.
-
-
-  ##Выбор Места Обороны
-
-  Выбор места для обороны очень важно сделать в начале раунда, так как это предотвращает разделение ресурсов. Если кто-то предлагает место для обороны, и оно жизнеспособно, вам не следует спорить с ним, чтобы сэкономить время. Ваша цель — доставить добычу в место обороны и выжить при этом.
-
-  Очевидно, что любое место, которое вы выберете для обороны, должно быть пригодным для выживания. Постарайтесь обороняться рядом с зоной высадки, в месте, где есть узкие места, но которое оставляет вам достаточно места, чтобы избежать атак по площади, таких как плевок бойлера. Открытое место, обеспечивающее небольшое укрытие для атакующих, с достаточным количеством мест для сосредоточенного огня, необходимо для выживания.
-
-  Еще одним соображением является сложность транспортировки добычи к месту. Если вам нужно переместить торговый автомат со спиртным через всю карту до места, это уже сразу менее благоприятно.
-
-  Коктейли Молотова невероятно важны для обороны. На картах с большим количеством коктейлей Молотова вы можете позволить себе оборонять более открытые пространства, потому что для этого требуется больше коктейлей Молотова. На картах с очень небольшим количеством коктейлей Молотова стоит быть более уязвимым для атак по площади, чтобы сэкономить коктейли Молотова.
-
-  Последнее главное соображение — это ресурсы. У вас достаточно металла и пластмассы, чтобы должным образом укрепить это место? Если нет, вы не должны пытаться оборонять его. Ксеноморфы очень хорошо находят ваше самое слабое звено. Не забывайте, что они могут плавить стены. Они всегда найдут способ проникнуть внутрь.
-
-  ##Оборона
-
-  <GuideEntityEmbed Entity="RMCGrenadeMolotov"/>
-
-  [bold]Прежде всего, обращение с коктейлями Молотова — самая важная часть обороны. У коктейлей Молотова случайный фитиль от 1 до 4 секунд. Это означает, что коктейль Молотова может взорваться у вас в руке в течение секунды после его поджигания. Перед поджиганием коктейля Молотова точно знайте, куда вы собираетесь его бросить, и делайте это без каких-либо других мыслей. Что бы ни случилось, вы должны бросить его туда, иначе вы можете замереть и носить коктейль Молотова с собой. Это буквально тикающая бомба.[/bold]
-
-  Одна из самых важных частей обороны — использование коктейлей Молотова. Коктейли Молотова — это зажигательные бомбы, которые можно создать, держа кусок бумаги и щелкая по подходящей бутылке алкоголя. Если вы осмотрите бутылку, там будет сказано, что ее можно превратить в коктейль Молотова, если это возможно. Коктейли Молотова создают зону огня, которая наносит несколько слабый огненный урон любому ксеноморфу, который ее касается. Весь огонь, включая огонь от коктейлей Молотова, можно потушить, но в остальном он длится довольно долго.
-
-  Коктейли Молотова невероятно полезны для выигрыша времени. Обратите внимание, что коктейли Молотова функционируют не очень интуитивно. У коктейлей Молотова есть первоначальный взрыв перед тем, как они создадут огонь. Этот огонь повреждает баррикады и наносит прямой ожог в дополнение к любому урону, полученному от огня. Избегайте бросать коктейли Молотова прямо на свои баррикады, если вы не в отчаянии.
-  Способ тушения огня также очень важен для выжившего. Обязательно используйте огнетушители и правильно их складируйте, чтобы устранить любые ошибки, вызванные коктейлями Молотова.
-
-  В остальном строительство баррикад невероятно простое. Стройте баррикады, чтобы задержать, а не чтобы они продержались. По возможности делайте каждую баррикаду биоопасной. Бросайте коктейли Молотова, стреляйте в ксеноморфов и лечитесь, когда можете. Кроме того, не забывайте нормировать свои ресурсы. Как только вы заняли оборону, вы, скорее всего, не получите ни одного убийства, если только не решите контратаковать, что иногда является правильным выбором. Делайте все с мыслью о том, чтобы делать немного, но с большой отдачей.
-
+<Document>
+  # The Survivors
+  The survivors are colonists who are stranded on the colony with the xenonid threat. They must survive long enough for rescue to arrive.
+  <Box>
+    [color=#a88b5e][bold]The Survivors[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCivilian" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCorporate" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorDoctor" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorScientist" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorEngineer" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorSecurity" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorSynthetic" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCommander" Caption=""/>
+  </Box>
+  As a survivor, you must find a way to survive long enough for the marines to land and rescue you. While you have better skills than the average marine, you are often ill-equipped to handle extended engagements. Improvisation and teamwork are key to survival.
+  <ColorBox Color="#3d1f1f" OutlineColor="#a83232">
+    <Box Orientation="Vertical" HorizontalAlignment="Center" Margin="6">
+      <Box> [head=2][bold][color=#ff6b6b]WARNING![/color][/bold][/head] </Box>
+      Survivor is a role that is very difficult to play and learn. Due to the fast pacing of the role, it is very unlikely you will receive guidance while you are in the round. It is very likely that you will die to circumstances outside of your control early into the round and become unable to play as a humanoid for the remainder of it. If you are not comfortable with this, it is not recommended for you to play survivor.
+    </Box>
+  </ColorBox>
+
+  ## Getting Started
+  As a survivor, you will begin in a random location within the colony alongside the other survivors. [bold]If you are immediately lost or confused, follow someone else. Help them scavenge supplies and follow them to where you will be holding out.[/bold] 
+
+  All survivors begin with randomized equipment depending on their role. Most survivors are likely to spawn with a weapon and ammunition, while survivors such as engineer survivor may instead spawn with a tool belt. All survivors begin with 20 metal sheets, a random sidearm, and a spare magazine in their backpack.
+
+  <Box>
+    [color=#a88b5e][bold]Your Survival Pouch[/bold][/color]
+  </Box>
+  <Box> All survivors begin with a survival pouch.</Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCPouchSurvival" Caption="Survival Pouch"/>
+  </Box>
+  <Box> Your survival pouch always contains the following emergency equipment, </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCFlashlightLantern" Caption="Lantern"/>
+    <GuideEntityEmbed Entity="CMCrowbarRed" Caption="Crowbar"/>
+    <GuideEntityEmbed Entity="CMPacketPillsTricordrazine" Caption="Pills"/>
+    <GuideEntityEmbed Entity="CMGauze10" Caption="Gauze"/>
+    <GuideEntityEmbed Entity="RMCRadioHandheldColonyOff" Caption="Radio"/>
+    <GuideEntityEmbed Entity="RMCM5Bayonet" Caption="Knife"/>
+  </Box>
+  - Your [bold]lantern[/bold] illuminates a small radius around you sufficient enough to navigate with. If you cannot see your immediate surroundings when you begin, make sure to take out your lantern and turn it on.
+  - Your [bold]crowbar[/bold] allows you to pry open unpowered doors and shutters. Given the colony is usually unpowered when you begin, this is ideal for getting around.
+  - Your [bold]pills[/bold] hold four 15u doses of tricordrazine, which slowly heals most damage types. You can safely take two pills at once without overdosing.
+  - Your [bold]gauze[/bold] stops bleeding. Note that bloodloss is particularly difficult to treat and manage as a survivor; stop bleeding as soon as possible.
+  - Your [bold]handheld radio[/bold] is your only way to communicate with other survivors, as groundside communications will be down. Make sure to turn it off or set it to listen-only if you are all in close proximity to one another.
+  - Your [bold]knife[/bold] allows you to cut fences and destroy objects such as windows and lockers fairly quickly. Note that, like other melee weapons, your knife can be used offensively against armored xenonids.
+
+  <Box>
+    [color=#a88b5e][bold]Inserts[/bold][/color]
+  </Box>
+  <Box> [bold]Inserts[/bold] are shorthand for [bold]nightmare inserts[/bold] and [bold]scenarios[/bold], both of which are map-altering events that are randomized every round. </Box>
+  - [bold]Nightmare inserts[/bold] change survivor roles, equipment, skills, spawn location, and parts of the map. Survivors could be part of a different faction, often military.
+  - [bold]Scenarios[/bold] change the map, replacing one area with another, modifying an area, or modifying the loot in an area.
+
+  ## Preparing for Survivor
+  While survivor is difficult to learn in the moment, there are ways to prepare yourself for the expectations of the role as a marine.
+  - [bold]Familiarize yourself with map layouts.[/bold] As a survivor, you do not have a tactical map, nor any means of externally pinpointing your location. As a marine, learn how to navigate maps based on landmarks and structures.
+  - [bold]Learn how to improvise.[/bold] As a survivor, you will need to work with what you have, even if it is not best suited for the situation. As a marine, try improvising with what you have or putting what you find groundside to use.
+  - [bold]Know how to fight.[/bold] As a survivor, your strength is not in numbers. Your strength is in how proficient and equipped you are, next to how well you can improvise. As a marine, participate in small-scale engagements and learn how to hold your own.
+  - [bold]Be proficient in medical and engineering.[/bold] As a survivor, you may need to perform one or the other, even if you are unqualified or otherwise lack certain capabilities. You may need to treat someone despite having no medical skill, or construct barricades despite not being an engineer. As a marine, be comfortable with medical and engineering systems such that you can improvise despite a lack of skills.
+
+  When beginning as a survivor, it is recommended to play on maps you are familiar with first until you are comfortable with the gameplay loop and expectations of survivor.
+
+  The rest of this guide is designed to acquaint newer players with the basics of playing survivor, enough so to get them through their first rounds. If you believe you have the sufficient knowledge to play survivor but are unsure of how to play the role itself, continue reading!
+
+  ## Survivor Roles
+  There are seven unique survivor roles to choose from. All survivors have higher endurance, the ability to construct basic barricades, and to fireman carry.
+  
+  <Box>
+    [color=#a88b5e][bold]Civilian Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCivilian" Caption=""/>
+  </Box>
+  [bold]Civilian survivors[/bold] are rather unremarkable in the sense that they lack any skills beyond what is standard for survivors. As a civilian survivor, you are as useful as you make yourself.
+  - Civilian survivors tend to have variants on some maps, which can vary their skillset or appearance.
+  - In inserts, civilian survivors usually appear as the standard, or otherwise 'rifleman,' of featured factions.
+
+  <Box>
+    [color=#a88b5e][bold]Corporate Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCorporate" Caption=""/>
+  </Box>
+  [bold]Corporate survivors[/bold] are as skilled as civilian survivors. They present as colony executives of a corporation, such as the Weston-Yamada corporation.
+  - Corporate survivors appear uniquely as corporate executives. The corporation for which they work may change depending on the map.
+  - In inserts, corporate survivors usually appear as the standard, or otherwise 'rifleman,' of featured factions. In corporate inserts, corporate survivors may appear as a high-ranking administrator.
+
+  <Box>
+    [color=#a88b5e][bold]Doctor and Scientist Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorDoctor" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorScientist" Caption=""/>
+  </Box>
+  [bold]Doctor survivors[/bold] and [bold]scientist survivors[/bold] are colony doctors and researchers. In addition to standard survivor skills, they are capable of medicine and surgery. Scientist survivors are additionally capable of research, although this is not implemented yet. These survivors should prioritize finding medical supplies and providing treatment.
+  - Doctor survivors appear as doctors, hospital workers, and paramedics.
+  - Scientist survivors appear as archeologists, xenobiologists, and other scientific professions.
+  - In inserts, doctor survivors and scientist survivors usually appear as the medic, or otherwise 'hospital corpsman,' of featured factions.
+  <ColorBox Color="#3a3320" OutlineColor="#b08d3c">
+    <Box Orientation="Vertical" HorizontalAlignment="Center" Margin="6">
+      <Box> [head=3][bold][color=#ddb24d]WARNING![/color][/bold][/head] </Box>
+      In inserts, there is usually only one medic. You may be upheld to more responsibilities than you are knowledgeable of or ready for. Keep this in mind if you would like to play doctor survivor.
+    </Box>
+  </ColorBox>
+
+  <Box>
+    [color=#a88b5e][bold]Engineer Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorEngineer" Caption=""/>
+  </Box>
+  [bold]Engineer survivors[/bold] are colony engineers and maintenance workers. They are capable of constructing advanced structures and performing engineering-related tasks, as well as operating machinery. Engineer survivors should prioritize locating materials and constructing barricades as soon as possible, above securing weapons or other loot.
+  - Engineer survivors appear as construction workers, technicians, and other engineering professions.
+  - In inserts, engineer survivors usually appear as the engineer, or otherwise 'combat technician,' of featured factions.
+  <ColorBox Color="#3a3320" OutlineColor="#b08d3c">
+    <Box Orientation="Vertical" HorizontalAlignment="Center" Margin="6">
+      <Box> [head=3][bold][color=#ddb24d]WARNING![/color][/bold][/head] </Box>
+      Engineer survivor is a very difficult role to begin with, as the fate of the survivors is very often in your hands. It is not recommended you begin playing survivor with engineer survivor.
+      
+      In inserts, there is usually only one engineer. You may be upheld to more responsibilities than you are knowledgeable of or ready for. Keep this in mind if you would like to play engineer survivor.
+    </Box>
+  </ColorBox>
+
+  <Box>
+    [color=#a88b5e][bold]Security Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorSecurity" Caption=""/>
+  </Box>
+  [bold]Security survivors[/bold] are colony security and police. They present with improved firearms and melee weapon handling and engineering skills, and are capable of instantly using autoinjectors. Security survivors should prioritize securing weapons and ammunition, protecting the other survivors, and facing xenonid confrontation. It is recommended to begin playing survivor with security survivor.
+  - Security survivors appear as civilian police, corporate security, and other similar roles.
+  - In inserts, security survivors usually appear as the leader or specialist, or otherwise 'squad leader' or 'weapons specialist,' of featured factions. Do not play security survivor with the expectation of appearing as either.
+
+  <Box>
+    [color=#a88b5e][bold]Synthetic and Commander Survivor[/bold][/color]
+  </Box>
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorSynthetic" Caption=""/>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCommander" Caption=""/>
+  </Box>
+  [bold]Synthetic survivors[/bold] and [bold]commander survivors[/bold] are both whitelist-exclusive survivor roles. They are both vastly capable, often being able to fill in for other survivor roles where necessary.
+  
+  - Synthetic survivors appear as colony synthetics, which vary in occupation and appearance.
+  - Commander survivors appear as colony protection coordinators or military commanders.
+  - In inserts, synthetic survivors usually appear as the support synthetic of featured factions. Commander survivors usually appear as the commander, or 'Commanding Officer,' of featured factions.
+
+  ## Your Round
+  Your round as a survivor can be definitively separated into a [bold]looting phase[/bold] and [bold]holdout phase[/bold].
+
+  ### Looting Phase
+  The [bold]looting phase[/bold] concerns collecting what you need from various points in the colony, such as materials and medicine.
+
+  [bold]Communication is esssential to ensuring the hold is well-supplied.[/bold] Too many survivors scavenging the same supplies can easily doom the holdout. Call out what you intend to scavenge and listen for what others are as well.
+
+  Note that looting locations are intuitive. You can expect to find weapons in armories, materials in engineering, medicine in hospitals, etc.
+
+  During the looting phase, you have roughly a minute before xenonids are capable of evolution. Use this time to scavenge what you can and ideally group up with your fellow survivors at the location you intend to hold out at.
+
+  <Box> This begs the question: What should you scavenge for? </Box>
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCWeaponSMGPCAC5A4" Caption="Weapons"/>
+    <GuideEntityEmbed Entity="WeaponShotgunCustomBuilt" Caption="Shotguns"/>
+    <GuideEntityEmbed Entity="RMCBoxShotgunBuckshot" Caption="Ammo"/>
+    <GuideEntityEmbed Entity="CMMagazinePistolM77AP" Caption="AP"/>
+    <GuideEntityEmbed Entity="RMCCoatBureauDeputy" Caption="Armor"/>
+    <GuideEntityEmbed Entity="RMCWeaponFlamerColony" Caption="Fire"/>
+    <GuideEntityEmbed Entity="RMCPillCanisterBicaridineNoSkill" Caption="Pills"/>
+    <GuideEntityEmbed Entity="CMSheetMetal" Caption="Materials"/>
+  </Box>
+
+  - [bold]Weapons[/bold] are the means by which you will be fighting the xenonids. Survivor weapons are unique in comparison to marine weapons, often featuring a special mechanic or trait, such as being bolt-action or firing a unique caliber. 
+  - [bold]Shotguns[/bold] are practical due to the close-quarters nature of the holdout and the potential for point-blank stuns dealt when using buckshot, which can both significantly wound and stun a xenonid long enough to kill it.
+  - [bold]Ammo[/bold] such as magazines and shells are crucial to sustain the holdout during extended engagements.
+  - [bold]AP[/bold], or armor-piercing, for when armored xenonids may appear. Some survivor weapons have intrinsic armor-piercing. Melee weapons and lit blowtorches also have intrinsic armor-piercing, and can be used to force armored xenonids off of barricades as a last resort.
+  - [bold]Armor[/bold], as most survivors begin with little protection. Seek armor options with little to no slowdown, such as armored jackets, and hand-carry those with a considerable slowdown to the holdout.
+  - [bold]Fire[/bold], which can appear as improvised firebombs or a flamethrower. Flames present burst damage and damage over time, provide area denial, and prevent all xenonid healing. Note that you can hand-craft improvised firebombs with a bottle of alcohol and paper.
+  - [bold]Pills[/bold], which allow for much faster recovery from injuries, especially in tandem with the tricordrazine survivors start with. Only those with medical training can open pill bottles.
+  - [bold]Materials[/bold], which are necessary to construct barricades. The more materials you have, the more barricade lines, critical repairs, and barricade reinforcements you can afford.
+
+  ### Holdout Phase
+  The [bold]holdout phase[/bold] concerns surviving long enough to be rescued by the marines.
+
+  During the [bold]holdout phase[/bold], proper communication and execution is paramount. Poor trigger discipline, mistiming a grenade, or accidentally flaming barricades can quickly cascade into a total wipeout. 
+  
+  Inversely, the worst thing you can be doing during the [bold]holdout phase[/bold] is nothing at all. Given it is few survivors against many xenonids, there is no room for idle hands.
+
+  <Box>
+    [color=#a88b5e][bold]Contesting[/bold][/color]
+  </Box>
+  [bold]Contesting[/bold] refers to actively defending the holdout and confronting any xenonids that present themselves.
+
+  With [bold]contesting[/bold], you are fighting to stall the xenonid advance and buy time for the other survivors to reinforce the hold.
+
+  In order to properly [bold]contest[/bold],
+  - [bold]Practice trigger discipline.[/bold] It is very unlikely you will be able to recover quickly from friendly fire. Hold your fire if there is a likelihood you will hit another survivor.
+  - [bold]Improvise with what you have and doing so conservatively.[/bold] Put your weapons and ammunition to use. Use fire to deny advances and chamber armor-piercing to deter armored xenonids. Use what you have with purpose.
+  - [bold]Collectively focus on a single target.[/bold] It is unlikely you will kill any xenonids by your lonesome. Collectively focusing on the most threatening xenonid closest to your hold can result in it's death before it can retreat. Work together.
+  - [bold]Shake other survivors.[/bold] Xenonids are capable of stunning survivors for seconds at a time, which can create vulnerabilities or cause casualties. Shake your fellow survivors to keep them in the fight.
+  - [bold]Maintain spacing.[/bold] Xenonids have an array of area-of-effect stuns that can easily cripple efforts to [bold]contest[/bold] if the survivors are too bunched together. Stay spaced enough for you to shake one another and for these stuns to be a non-issue.
+  - [bold]Know when to give ground.[/bold] Good [bold]contesting[/bold] will typically afford the holdout several lines of barricades. Do not hesitate to retreat if you believe the barricades you are currently holding are soon to collapse.
+
+  If you are uncomfortable with contesting, there are other ways to contribute to the holdout.
+
+  - [bold]Organize loot.[/bold] Keeping the survivor hold organized can help your teammates find what they need as fast as possible.
+  - [bold]Supply other survivors.[/bold] Those [bold]contesting[/bold] may have barricades between them and critical supplies. Throw them what they need, when they ask for it.
+  - [bold]Heal other survivors.[/bold] Use topical treatments on other survivors to stop their bleeding and treat their wounds, especially with medical kits. Be very careful when administering chemical treatments, as survivors may have used their own.
+  - [bold]Shake other survivors.[/bold] Xenonids are capable of stunning survivors for seconds at a time, which can create vulnerabilities or cause casualties. Shake your fellow survivors to keep them in the fight.
+  - [bold]Repair and construct barricades.[/bold] Put loose materials to use and construct more barricade lines. If there is a loose blowtorch, take it and use it to repair barricades, even if it incurs eye damage.
+
+  ## Rescue
+  If you can manage to stave off the xenonid menace for long enough, you may yet live to see the marines rescue you. Remember that, as a survivor, you are upheld to unique roleplay standards, which you can view [textlink="here" link="RMCSurvivorRoleplay"].
+
+  What happens next is up to you. Some of your options include,
+  - Redeploying or contracting to take back the colony.
+  - Contracting to support the effort shipside.
+  - Remaining shipside to roleplay.
+
+  ## Conclusion
+  <Box>
+    <GuideEntityEmbed Entity="RMCGuidebookRoleSurvivorCivilian" Caption=""/>
+  </Box>
+  Survivor is a very difficult role that requires quick thinking, improvisation, and reliable communication to perform well in.
+
+  Most of your survivor learning process will be through trial and error. It takes great coordination and effort to succeed; enter expecting failure, but remember that you have not already lost. Fight for your life.
 </Document>

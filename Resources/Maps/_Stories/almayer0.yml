@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 11/17/2026 12:02:37
+  time: 11/18/2026 17:14:36
   entityCount: 14938
 maps:
 - 1
@@ -17374,6 +17374,18 @@ entities:
       rot: 3.141592653589793 rad
       pos: -41.5,39.5
       parent: 1
+  - uid: 134
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -123.5,3.5
+      parent: 1
+  - uid: 135
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -123.5,-2.5
+      parent: 1
 - proto: CMAirlockGlassSecurity
   entities:
   - uid: 88
@@ -17388,28 +17400,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 57.5,10.5
       parent: 1
-- proto: CMAirlockGlassSecurityLocked
-  entities:
-  - uid: 90
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -123.5,-2.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 91
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -123.5,3.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
 - proto: CMAirlockKitchenLocked
   entities:
   - uid: 92
@@ -17652,35 +17642,6 @@ entities:
       parent: 1
 - proto: CMAirlockMaintBrigLocked
   entities:
-  - uid: 133
-    components:
-    - type: Transform
-      pos: -125.5,-10.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 134
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -114.5,-8.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 135
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -125.5,11.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
   - uid: 136
     components:
     - type: Transform
@@ -17689,12 +17650,6 @@ entities:
       parent: 1
 - proto: CMAirlockMaintCommandLocked
   entities:
-  - uid: 137
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -111.5,1.5
-      parent: 1
   - uid: 138
     components:
     - type: Transform
@@ -17704,22 +17659,6 @@ entities:
     components:
     - type: Transform
       pos: -108.5,-3.5
-      parent: 1
-  - uid: 140
-    components:
-    - type: Transform
-      pos: -118.5,-5.5
-      parent: 1
-  - uid: 141
-    components:
-    - type: Transform
-      pos: -118.5,6.5
-      parent: 1
-  - uid: 142
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -111.5,-0.5
       parent: 1
   - uid: 143
     components:
@@ -17747,6 +17686,33 @@ entities:
       parent: 1
 - proto: CMAirlockMaintEngineerLocked
   entities:
+  - uid: 90
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -125.5,11.5
+      parent: 1
+  - uid: 91
+    components:
+    - type: Transform
+      rot: 4.71238898038469 rad
+      pos: -114.5,-8.5
+      parent: 1
+  - uid: 133
+    components:
+    - type: Transform
+      pos: -125.5,-10.5
+      parent: 1
+  - uid: 137
+    components:
+    - type: Transform
+      pos: -118.5,6.5
+      parent: 1
+  - uid: 142
+    components:
+    - type: Transform
+      pos: -118.5,-5.5
+      parent: 1
   - uid: 147
     components:
     - type: Transform
@@ -71697,6 +71663,20 @@ entities:
     components:
     - type: Transform
       pos: -46.31227,-15.5
+      parent: 1
+- proto: RMCAirlockWeaponsNavigationLocked
+  entities:
+  - uid: 140
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -111.5,-0.5
+      parent: 1
+  - uid: 141
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: -111.5,1.5
       parent: 1
 - proto: RMCAirScrubberPortable
   entities:

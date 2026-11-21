@@ -9,7 +9,7 @@
   startingGear: RMCGearSPPEngineer
   icon: "RMCJobIconSPPEngineer"
   joinNotifyCrew: false
-  access: [ CMAccessERT ]
+  access: [ CMAccessERT, RMCAccessSPPEngineering ]
   accessGroups:
   - Colonist
   - CombatTech
@@ -113,13 +113,14 @@
     gloves: RMCHandsVeteranInsulated
     shoes: RMCBootsSPPFilled
     suitstorage: RMCWeaponRifleType71Flamer
-    id: RMCIDSPP
+    id: RMCIDSPPEngineer
     belt: RMCType71BeltFilled
     back: RMCSatchelSPPWelderEngineer
     pocket1: RMCPouchAutoinjectorFill
     pocket2: RMCPouchConstructionFillFull
   inhand:
     - RMCToolWebbingSmallFilled
+    - RMCDoorElectronicsSPP
 
 - type: playTimeTracker
   id: CMJobSPPEngineer

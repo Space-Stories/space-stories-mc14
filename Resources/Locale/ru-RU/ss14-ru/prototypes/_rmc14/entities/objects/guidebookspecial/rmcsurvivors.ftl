@@ -1,0 +1,16 @@
+ent-RMCGuidebookRoleSurvivorCivilian = Civilian Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorCorporate = Civilian Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorDoctor = Doctor Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorEngineer = Engineer Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorScientist = Scientist Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorSecurity = Security Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorCommander = Commander Survivor
+    .desc = { ent-CMGuidebookRole.desc }
+ent-RMCGuidebookRoleSurvivorSynthetic = Synthetic Survivor
+    .desc = { ent-CMGuidebookRole.desc }

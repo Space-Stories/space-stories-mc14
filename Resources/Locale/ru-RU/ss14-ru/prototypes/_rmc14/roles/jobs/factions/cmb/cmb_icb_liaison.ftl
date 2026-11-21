@@ -1,3 +1,9 @@
 ent-RMCRandomHumanoidICBLiaison = роль призрака связи межзвездного торгового бюро
     .desc = { "" }
     .suffix = Спавнер, Игрок, Нейтральный
+ent-RMCJumpsuitICBLiaisonBlack = { ent-CMJumpsuitLiaisonBlack }
+    .desc = { ent-CMJumpsuitLiaisonBlack.desc }
+    .suffix = ICB, Webbing
+ent-RMCWebbingICBLiasion = { ent-CMWebbingHolster }
+    .desc = { ent-CMWebbingHolster.desc }
+    .suffix = ICB, Filled

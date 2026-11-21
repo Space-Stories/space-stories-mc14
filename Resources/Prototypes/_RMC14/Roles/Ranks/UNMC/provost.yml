@@ -32,6 +32,7 @@
   prefix: Глав. Инсп.
   paygrade: O5
 
+# Whitelisted
 - type: rank
   id: RMCRankProvostInspector
   name: Инспектор военной полиции

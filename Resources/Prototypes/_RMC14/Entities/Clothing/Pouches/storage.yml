@@ -15,7 +15,6 @@
       tags:
       - CMFirstAidKit
       - RMCEngineerKit
-      - RMCBoxStorage
 
 # Medium General Pouch
 - type: entity
@@ -406,8 +405,6 @@
     - state: closed
       map: [ "fullLayer" ]
   - type: CMItemSlots
-    cooldown: 1
-    cooldownPopup: You need to wait before taking another flare!
     count: 16
     slot:
       name: Flare
@@ -513,7 +510,6 @@
       - Flashlight
       - RMCWeldingGoggle
       # - TODO RMC14 RMCAnalyzer
-      # - TODO RMC14 RMCDemoScanner
       # - TODO RMC14 RMCReagentScanner
       - CableCoil
       - PowerCell
@@ -523,6 +519,7 @@
       - RMCSynthResetKey
       components:
       - TrayScanner
+      - DemolitionsScanner # Stories-EngineeringScanner (accept the existing scanner)
       - ComputerBoard
       - MachineBoard
   - type: StorageStoreSkillRequired
@@ -533,7 +530,6 @@
         - Flashlight
         - RMCWeldingGoggle
         # - TODO RMC14 RMCAnalyzer
-        # - TODO RMC14 RMCDemoScanner
         # - TODO RMC14 RMCReagentScanner
         - CableCoil
         - PowerCell
@@ -543,6 +539,7 @@
         - RMCSynthResetKey
         components:
         - TrayScanner
+        - DemolitionsScanner # Stories-EngineeringScanner (apply the skill check to the existing scanner)
         - ComputerBoard
         - MachineBoard
       skills:
@@ -731,6 +728,7 @@
     blacklist:
       components:
       - Xeno
+  - type: CMHolster
 
 # Cassetes Pouch
 - type: entity

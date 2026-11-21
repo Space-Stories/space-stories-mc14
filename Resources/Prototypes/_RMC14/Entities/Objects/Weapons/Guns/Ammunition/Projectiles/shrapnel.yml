@@ -99,3 +99,5 @@
     deleteOnCollide: true
   - type: RMCStaminaDamageOnCollide
     damage: 25
+  - type: ProjectileCoverInteraction
+    stoppedByCover: true

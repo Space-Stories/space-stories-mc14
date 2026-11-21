@@ -98,10 +98,18 @@ rmc-xeno-construction-egg-morpher-already-full = Этот морфер для я
 
 rmc-xeno-egg-morpher-return-self = { CAPITALIZE($parasite) } заползает в морфер яйца.
 
-rmc-xeno-construction-egg-morpher-examine = Укрывается: { $cur_paras }/{ $max_paras } лицехватов.
+rmc-xeno-construction-egg-morpher-examine-count = Sheltering: { $cur_paras }/{ $max_paras } children.
+rmc-xeno-construction-egg-morpher-examine-next-spawn = A new child will grow in [bold]{ $time_left }[/bold] seconds.
 
 rmc-xeno-construction-recovery-node-heal-target = Вы чувствуете, как вас окутывает теплая аура.
 rmc-xeno-construction-recovery-node-heal-other = { CAPITALIZE($target) } светится, когда его окутывает теплая аура.
+rmc-xeno-construction-recovery-node-xeno-examine = Recovers the { -rmc-xeno-construction-recovery-node-type-text(type: $type) } of adjacent Xenonids.
+-rmc-xeno-construction-recovery-node-type-text =
+    { $type ->
+        [Health] [color=green]health[/color]
+        [Plasma] [color=cyan]plasma[/color]
+        *[other] [color=red]unknown[/color]
+    }
 
 rmc-xeno-construction-no-map-structure = Здесь недостаточно твердая почва.
 rmc-xeno-construction-must-have-weeds-structure = Это можно построить только на сорняках!
@@ -127,3 +135,5 @@ rmc-xeno-designer-greater-surge-cooldown = Нам нужно подождать,
 rmc-xeno-designer-greater-surge-none = Поблизости нет узлов дизайнера.
 rmc-xeno-designer-greater-surge-success = Мы преобразовали { $count } узлов дизайнера в толстые стенки из смолы.
 rmc-xeno-designer-infuse-node = Вы вводите плазму в лимфатический узел.
+
+rmc-xeno-weedbound-examined = You sense that this structure will collapse if the weeds it is merged with disappear.

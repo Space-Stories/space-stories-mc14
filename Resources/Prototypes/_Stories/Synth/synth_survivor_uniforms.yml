@@ -53,7 +53,7 @@
     - RMCPatchUNMC
 
 - type: entity
-  parent: RMCJumpsuitSPPSOF
+  parent: RMCJumpsuitSPPSpetsnaz
   id: STJumpsuitSPPSOFSynth
   suffix: SPP SOF Synthetic, Survivor
   categories: [ HideSpawnMenu ]

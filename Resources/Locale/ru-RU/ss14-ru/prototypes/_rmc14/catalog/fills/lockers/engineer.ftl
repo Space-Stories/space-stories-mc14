@@ -13,3 +13,6 @@ ent-RMCLockerEngineerFilled = { ent-CMLockerEngineer }
 ent-RMCLockerEngineerWelderFilled = { ent-CMLockerEngineerWelder }
     .desc = { ent-CMLockerEngineerWelder.desc }
     .suffix = Заполненный
+ent-RMCLockerEngineerAtmosFilled = { ent-RMCLockerEngineerAtmos }
+    .desc = { ent-RMCLockerEngineerAtmos.desc }
+    .suffix = Filled
