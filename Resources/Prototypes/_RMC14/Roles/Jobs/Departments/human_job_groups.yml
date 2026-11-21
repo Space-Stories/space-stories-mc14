@@ -76,7 +76,7 @@
     jobs:
     - CMLiaison
     - CMSurvivorCorporate
-    - CMSurvivorICB
+    #- CMSurvivorICB # Stories-CorporateLodauts
 
 # Survivor roles.
 

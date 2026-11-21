@@ -936,6 +936,8 @@
   id: JobCMSurvivorCorporate
   points: 7
   groups:
+  - LiaisonBackpackRMC
+  - LiaisonRoleSpecificRMC
   - EyewearRMC
   - MasksRMC
   - PaperworkRMC
