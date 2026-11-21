@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazTrijentOperator = special survivor spp spetsnaz operator spawn point
+ent-RMCSpawnPointSPPSpetsnazTrijentOperator = точка появления бойца спецназа СПН (Триджент)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Trjient

@@ -93,7 +93,7 @@ public sealed partial class RMCPoliceSystem
         return false;
     }
 
-    private void UpdateStatus(StationRecordKey key, RMCPoliceRecord security, EntityUid actor)
+    private void UpdateStatus(StationRecordKey key, RMCPoliceRecord security, string? officer = null, string? reason = null)
     {
         if (!_records.TryGetRecord<CriminalRecord>(key, out var criminal))
         {
@@ -102,8 +102,10 @@ public sealed partial class RMCPoliceSystem
         }
 
         var status = ToSecurityStatus(security.Status);
-        _criminal.OverwriteStatus(key, criminal, status,
-            status is SecurityStatus.Wanted or SecurityStatus.Suspected ? security.MajorCrimes : null, Officer(actor));
+        var criminalReason = status is SecurityStatus.Wanted or SecurityStatus.Suspected
+            ? reason ?? criminal.Reason ?? security.MajorCrimes
+            : null;
+        _criminal.OverwriteStatus(key, criminal, status, criminalReason, officer ?? criminal.InitiatorName);
     }
 
     private static SecurityStatus ToSecurityStatus(RMCPoliceStatus status) => status switch
@@ -140,11 +142,14 @@ public sealed partial class RMCPoliceSystem
 
         if (!alreadyReported)
             record.MajorCrimes = string.IsNullOrWhiteSpace(record.MajorCrimes) ? charge : $"{record.MajorCrimes}\n{charge}";
-        record.Status = RMCPoliceStatus.Arrest;
-        UpdateStatus(key, record, args.Actor);
+
+        if (record.Status == RMCPoliceStatus.Arrest)
+            _records.Synchronize(key);
+        else
+            ChangeStatus(ent, args.Actor, key, record, RMCPoliceStatus.Arrest, charge);
+
         LogChange(args.Actor, ent, $"reported {ToPrettyString(target.Value):player} for insubordination");
         _popup.PopupEntity(Loc.GetString("rmc-police-insubordination-reported"), target.Value, target.Value);
         _popup.PopupEntity(Loc.GetString("rmc-police-insubordination-confirmed"), ent, args.Actor);
-        _records.Synchronize(key);
     }
 }

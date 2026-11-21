@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazSL = special survivor spp spetsnaz squad leader spawn point
+ent-RMCSpawnPointSPPSpetsnazSL = точка появления командира отряда спецназа СПН (Сорокина Страта)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Sorokyne

@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazSynth = special survivor spp spetsnaz synthetic spawn point
+ent-RMCSpawnPointSPPSpetsnazSynth = точка появления синтетика спецназа СПН (Сорокина Страта)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Sorokyne

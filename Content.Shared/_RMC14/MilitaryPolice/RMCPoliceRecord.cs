@@ -42,6 +42,8 @@ public enum RMCPoliceMentalStatus : byte
 [Serializable, NetSerializable, DataDefinition]
 public sealed partial class RMCPoliceRecord
 {
+    public const int MaxStatusReasonLength = 256;
+
     public static bool CanAssignJob(IPrototypeManager prototypes, JobPrototype job) =>
         job.IsCM && prototypes.TryIndex<PlayTimeTrackerPrototype>(job.PlayTimeTracker, out var tracker) && !tracker.IsXeno;
 

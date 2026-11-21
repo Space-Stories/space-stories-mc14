@@ -276,12 +276,19 @@ public sealed class RMCPoliceRecordsWindow : RMCPoliceWindow
             Right.AddChild(Button("rmc-police-new-security-record", () => Send(RMCPoliceRecordAction.CreateSecurity)));
             return;
         }
-        Status<RMCPoliceStatus>("rmc-police-status", "rmc-police-status-", security.Status,
-            RMCPoliceRecordAction.Status);
-        Status<RMCPolicePhysicalStatus>("rmc-police-physical", "rmc-police-physical-", security.PhysicalStatus,
-            RMCPoliceRecordAction.PhysicalStatus);
-        Status<RMCPoliceMentalStatus>("rmc-police-mental", "rmc-police-mental-", security.MentalStatus,
-            RMCPoliceRecordAction.MentalStatus);
+        var current = security.Status;
+        Status("rmc-police-status", "rmc-police-status-", current, status =>
+            Edit("rmc-police-status-reason", "", reason => Message?.Invoke(new RMCPoliceRecordMsg(
+                    RMCPoliceRecordAction.Status, record.Id, reason, index: (int) status, expectedStatus: current)),
+                RMCPoliceRecord.MaxStatusReasonLength, multiline: false,
+                validate: reason => string.IsNullOrWhiteSpace(reason)
+                    ? Loc.GetString("rmc-police-status-invalid-reason")
+                    : null),
+            confirmSelection: true);
+        Status("rmc-police-physical", "rmc-police-physical-", security.PhysicalStatus, status =>
+            Send(RMCPoliceRecordAction.PhysicalStatus, index: (int) status));
+        Status("rmc-police-mental", "rmc-police-mental-", security.MentalStatus, status =>
+            Send(RMCPoliceRecordAction.MentalStatus, index: (int) status));
         if (!string.IsNullOrWhiteSpace(security.MajorCrimes))
             Right.AddChild(Text(security.MajorCrimes, RMCCrtTone.Warning));
         Right.AddChild(new RMCCrtSeparator { Margin = new Thickness(0, 6) });
@@ -412,16 +419,26 @@ public sealed class RMCPoliceRecordsWindow : RMCPoliceWindow
         OpenEditor(window);
     }
 
-    private void Status<T>(LocId label, string prefix, T selected, RMCPoliceRecordAction action) where T : struct, Enum
+    private void Status<T>(LocId label, string prefix, T selected, Action<T> select, bool confirmSelection = false)
+        where T : struct, Enum
     {
         Right.AddChild(Text(Loc.GetString(label), RMCCrtTone.Muted));
-        var id = _selected!.Value;
         var option = new RMCCrtOptionButton { HorizontalExpand = true };
         var values = Enum.GetValues<T>();
         for (var i = 0; i < values.Length; i++)
             option.AddItem(Loc.GetString($"{prefix}{values[i]}"), i);
-        option.SelectId(Array.IndexOf(values, selected));
-        option.OnItemSelected += selectedId => Message?.Invoke(new RMCPoliceRecordMsg(action, id, index: selectedId));
+        var current = Array.IndexOf(values, selected);
+        option.SelectId(current);
+        option.OnItemSelected += selectedId =>
+        {
+            if (selectedId == current)
+                return;
+
+            if (confirmSelection)
+                option.SelectId(current);
+
+            select(values[selectedId]);
+        };
         Right.AddChild(option);
     }
 

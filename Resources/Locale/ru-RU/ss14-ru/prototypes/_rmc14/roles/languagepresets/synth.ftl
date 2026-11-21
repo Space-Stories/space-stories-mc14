@@ -1,6 +1,6 @@
-ent-RMCLanguagePresetSynth = Synth Languages
+ent-RMCLanguagePresetSynth = Языки синтетика
     .desc = { "" }
-ent-RMCLanguageLearningPresetSynth = Synth Language Learning
+ent-RMCLanguageLearningPresetSynth = Изучение языков синтетика
     .desc = { "" }
 ent-RMCLanguageLearningPresetSynthColonist = Изучение языков выжившего синтетика-колониста
     .desc = { ent-RMCLanguageLearningPresetSynth.desc }

@@ -359,6 +359,10 @@ class FtlParser:
 class LocalizationManager:
     CYRILLIC_PATTERN = re.compile(r"[А-Яа-яЁё]")
     LATIN_PATTERN = re.compile(r"[a-zA-Z]")
+    MODEL_INDEX_PATTERN = re.compile(
+        r"(?<![\w-])[A-Z]+-?[0-9]+[A-Z0-9]*(?:-[A-Z0-9]+)*(?![\w-])"
+    )
+    WORD_PATTERN = re.compile(r"\w+")
     RE_INNER_DASH = re.compile(r"(?<=\s)-(?=\s)")
 
     def __init__(self, root_dir: Path, format_level: str, config_file: str):
@@ -375,12 +379,15 @@ class LocalizationManager:
         self.prototypes_ru_dir = self.ru_ru_dir / "ss14-ru" / "prototypes"
         self.prototypes_src_dir = self.resources_dir / "Prototypes"
 
-        ignore_paths, ignore_untranslated = self._load_config(config_file)
+        ignore_paths, ignore_untranslated, self.ignored_untranslated_words = (
+            self._load_config(config_file)
+        )
         self.context = RunContext(ignore_paths, ignore_untranslated)
 
-    def _load_config(self, config_file: str) -> Tuple[List[Path], List[Path]]:
+    def _load_config(self, config_file: str) -> Tuple[List[Path], List[Path], Set[str]]:
         ignore_paths: List[Path] = []
         ignore_untranslated_paths: List[Path] = []
+        ignore_untranslated_words: Set[str] = set()
 
         config_path = Path(config_file).resolve()
         if not config_path.exists():
@@ -397,6 +404,16 @@ class LocalizationManager:
                             ignore_untranslated_paths.append(
                                 (self.root_dir / p).resolve()
                             )
+                        words = config_data.get("ignored_untranslated_words", [])
+                        if not isinstance(words, list) or not all(
+                            isinstance(word, str) for word in words
+                        ):
+                            raise ValueError(
+                                "ignored_untranslated_words должен быть списком строк."
+                            )
+                        ignore_untranslated_words.update(
+                            word.strip().casefold() for word in words if word.strip()
+                        )
                 logging.info(f"Конфигурация загружена из {config_path.name}")
             except Exception as e:
                 logging.error(f"Ошибка чтения конфигурации {config_path}: {e}")
@@ -406,7 +423,7 @@ class LocalizationManager:
                 "Игнорирование путей отключено."
             )
 
-        return ignore_paths, ignore_untranslated_paths
+        return ignore_paths, ignore_untranslated_paths, ignore_untranslated_words
 
     def _get_parsed_ftl(
         self, filepath: Path
@@ -1031,18 +1048,15 @@ class LocalizationManager:
                 )
 
             if mem_entry:
-                if proto.name is not None:
-                    if mem_entry.value.strip() and not mem_entry.value.startswith("{"):
-                        entry.value = mem_entry.value
-                        entry.key_space = mem_entry.key_space
-                        entry.val_space = mem_entry.val_space
+                if mem_entry.value.strip() and not mem_entry.value.startswith("{"):
+                    entry.value = mem_entry.value
+                    entry.key_space = mem_entry.key_space
+                    entry.val_space = mem_entry.val_space
 
                 for attr_name, mem_attr in mem_entry.attributes.items():
                     if not mem_attr.value.strip():
                         continue
 
-                    if attr_name == "desc" and proto.desc is None:
-                        continue
                     if attr_name == "suffix" and proto.suffix is None:
                         continue
 
@@ -1143,49 +1157,42 @@ class LocalizationManager:
 
         logging.info(f"Завершена расстановка тире. Изменено файлов: {changed_files}")
 
+    def _is_untranslated(self, text: str) -> bool:
+        clean_text = FtlParser.TAG_REGEX.sub("", FtlParser.REF_REGEX.sub("", text))
+        if self.CYRILLIC_PATTERN.search(clean_text):
+            return False
+
+        words = self.WORD_PATTERN.findall(self.MODEL_INDEX_PATTERN.sub(" ", clean_text))
+        return any(
+            self.LATIN_PATTERN.search(word)
+            and word.casefold() not in self.ignored_untranslated_words
+            for word in words
+        )
+
     def check_untranslated(self) -> None:
         logging.info("Поиск непереведенных строк...")
         untranslated_count = 0
 
-        search_dirs = [self.ru_ru_dir, self.robust_ru_dir]
-
-        for directory in search_dirs:
-            if not directory.exists():
+        for ftl_file in self.ru_ru_dir.rglob("*.ftl"):
+            if self.context.is_ignored(ftl_file):
                 continue
 
-            for ftl_file in directory.rglob("*.ftl"):
-                if self.context.is_ignored(ftl_file):
+            if self.context.is_untranslated_ignored(ftl_file):
+                continue
+
+            entries, _, _ = self._get_parsed_ftl(ftl_file)
+            for key, entry in entries.items():
+                if entry.ignore_untranslated:
                     continue
 
-                if self.context.is_untranslated_ignored(ftl_file):
-                    continue
-
-                entries, _, _ = self._get_parsed_ftl(ftl_file)
-                for key, entry in entries.items():
-                    if entry.ignore_untranslated:
-                        continue
-
-                    def is_untranslated(text: str) -> bool:
-                        if not text:
-                            return False
-                        clean_text = FtlParser.TAG_REGEX.sub(
-                            "", FtlParser.REF_REGEX.sub("", text)
-                        )
-                        if not clean_text.strip():
-                            return False
-                        return bool(
-                            self.LATIN_PATTERN.search(clean_text)
-                            and not self.CYRILLIC_PATTERN.search(clean_text)
-                        )
-
-                    if is_untranslated(entry.value) or any(
-                        is_untranslated(attr.value)
-                        for attr in entry.attributes.values()
-                    ):
-                        logging.warning(
-                            f"Возможно не переведено: {ftl_file.relative_to(self.root_dir)} -> {key}"
-                        )
-                        untranslated_count += 1
+                if self._is_untranslated(entry.value) or any(
+                    self._is_untranslated(attr.value)
+                    for attr in entry.attributes.values()
+                ):
+                    logging.warning(
+                        f"Возможно не переведено: {ftl_file.relative_to(self.root_dir)} -> {key}"
+                    )
+                    untranslated_count += 1
 
         logging.info(f"Найдено потенциально непереведенных строк: {untranslated_count}")
 
@@ -1223,8 +1230,8 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=str,
-        default="localize_config.yml",
-        help="Имя конфигурационного файла (по умолчанию localize_config.yml).",
+        default=str(script_dir / "localize_config.yml"),
+        help="Путь к конфигу (по умолчанию localize_config.yml рядом со скриптом).",
     )
     parser.add_argument(
         "--sync", action="store_true", help="Синхронизировать системные FTL файлы."

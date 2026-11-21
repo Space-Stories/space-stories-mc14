@@ -1,5 +1,5 @@
 ignored_paths: # Игнорирует указанные пути до папок/файлов
-- "Resources/Locale/ru-RU/_stories"
+- "Resources/Locale/ru-RU/_Stories"
 ignored_untranslated_paths: # Игнорирует предупреждения в указанных путях до папок/файлов
 - "Resources/Locale/ru-RU/_RMC14/feroxi"
 - "Resources/Locale/ru-RU/_RMC14/felinid"
@@ -10,3 +10,9 @@ ignored_untranslated_paths: # Игнорирует предупреждения 
 - "Resources/Locale/ru-RU/_RMC14/markings/reptilian.ftl"
 - "Resources/Locale/ru-RU/_RMC14/markings/slimeperson.ftl"
 - "Resources/Locale/ru-RU/_RMC14/cm-chatsan.ftl"
+- "Resources/Locale/ru-RU/ss14-ru/prototypes/_rmc14/entities/objects/patron_figurines.ftl"
+ignored_untranslated_words: # Пропускает отдельные слова без учёта регистра
+- RMC
+- HvH
+- PvE
+- PvP

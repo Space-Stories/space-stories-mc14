@@ -5,6 +5,7 @@ using Content.Server._RMC14.StationRecords.Systems;
 using Content.Server.Access.Systems;
 using Content.Server.CriminalRecords.Systems;
 using Content.Server.Destructible;
+using Content.Server.Radio.EntitySystems;
 using Content.Server.Station.Systems;
 using Content.Server.StationRecords;
 using Content.Server.StationRecords.Systems;
@@ -78,6 +79,7 @@ public sealed partial class RMCPoliceSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
+    [Dependency] private readonly RadioSystem _radio = default!;
     [Dependency] private readonly StationRecordsSystem _records = default!;
     [Dependency] private readonly RMCStationRecordsSystem _rmcRecords = default!;
     [Dependency] private readonly ItemSlotsSystem _slots = default!;
