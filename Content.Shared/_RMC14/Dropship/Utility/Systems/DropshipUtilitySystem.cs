@@ -34,6 +34,9 @@ public sealed class DropshipUtilitySystem : EntitySystem
             return;
 
         utilityComp.Target = GetEntity(args.DropshipTarget);
+        // Stories-MedevacFix-Start
+        Dirty(slot.ContainedEntity.Value, utilityComp);
+        // Stories-MedevacFix-End
     }
 
     /// <summary>

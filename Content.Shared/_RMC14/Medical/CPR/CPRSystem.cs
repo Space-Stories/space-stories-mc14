@@ -104,19 +104,21 @@ public sealed class CPRSystem : EntitySystem
 
         _unrevivable.AddRevivableTime(target, CPRCooldownSeconds);
 
-        if (!TryComp(target, out DamageableComponent? damageable) ||
-            !damageable.Damage.DamageDict.TryGetValue(HealType, out damage))
+        // Stories-CPRFix-Start
+        if (TryComp(target, out DamageableComponent? damageable) &&
+            damageable.Damage.DamageDict.TryGetValue(HealType, out damage) &&
+            damage > 0)
         {
-            return;
+            var heal = -FixedPoint2.Min(damage, HealAmount);
+            var healSpecifier = new DamageSpecifier();
+            healSpecifier.DamageDict.Add(HealType, heal);
+            _damageable.TryChangeDamage(target, healSpecifier, true);
         }
-
-        var heal = -FixedPoint2.Min(damage, HealAmount);
-        var healSpecifier = new DamageSpecifier();
-        healSpecifier.DamageDict.Add(HealType, heal);
-        _damageable.TryChangeDamage(target, healSpecifier, true);
 
         var received = EnsureComp<CPRReceivedComponent>(target);
         received.Last = _timing.CurTime;
+        Dirty(target, received);
+        // Stories-CPRFix-End
 
         if (_net.IsClient)
             return;
@@ -179,14 +181,17 @@ public sealed class CPRSystem : EntitySystem
         if (args.Cancelled)
             return;
 
-        if (!((HasComp<RMCUnconsciousComponent>(ent) || _mobState.IsCritical(ent)) &&
-            TryComp<DamageableComponent>(ent, out var damage) &&
-            damage.DamagePerGroup.TryGetValue(Airloss, out var oxyDamage) &&
-            oxyDamage > 0) ||
-            (_mobState.IsDead(ent) && _unrevivable.IsUnrevivable(ent)))
-        {
+        // Stories-CPRFix-Start
+        var canHealAirloss = (HasComp<RMCUnconsciousComponent>(ent) || _mobState.IsCritical(ent)) &&
+                             TryComp<DamageableComponent>(ent, out var damage) &&
+                             damage.DamagePerGroup.TryGetValue(Airloss, out var oxyDamage) &&
+                             oxyDamage > 0;
+
+        var isRevivableDead = _mobState.IsDead(ent) && !_unrevivable.IsUnrevivable(ent);
+
+        if (!canHealAirloss && !isRevivableDead)
             args.Cancelled = true;
-        }
+        // Stories-CPRFix-End
     }
 
     private bool CanCPRPopup(EntityUid performer, EntityUid target, bool start, out FixedPoint2 damage)

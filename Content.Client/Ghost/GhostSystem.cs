@@ -161,6 +161,7 @@ namespace Content.Client.Ghost
                 return;
 
             _overlay.RemoveOverlay<HalfNightVisionBrightnessOverlay>(); //RMC14
+            _overlay.RemoveOverlay<ThreeQuartersVisionBrightnessOverlay>(); // Stories-NightVisionFix
 
             GhostVisibility = false;
             PlayerRemoved?.Invoke(component);
@@ -188,6 +189,7 @@ namespace Content.Client.Ghost
             GhostVisibility = false;
             PlayerDetached?.Invoke();
             _overlay.RemoveOverlay<HalfNightVisionBrightnessOverlay>(); //RMC14
+            _overlay.RemoveOverlay<ThreeQuartersVisionBrightnessOverlay>(); // Stories-NightVisionFix
         }
 
         private void OnGhostWarpsResponse(GhostWarpsResponseEvent msg)

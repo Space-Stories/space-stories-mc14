@@ -36,7 +36,7 @@ public sealed partial class UserAcidedComponent : Component
     public int Tier;
 
     [DataField, AutoNetworkedField]
-    public TimeSpan[] MultiplierThresholds;
+    public TimeSpan[] MultiplierThresholds = []; // Stories-Despoiler
 
     [DataField, AutoNetworkedField]
     public TimeSpan? NextMultThreshold;
