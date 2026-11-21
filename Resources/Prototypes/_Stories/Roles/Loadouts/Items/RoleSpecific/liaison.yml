@@ -1,0 +1,12 @@
+﻿# Corporate Liaison
+- type: loadout
+  id: STHeadBeretWeYa
+  cost: 1
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:TotalJobsTimeRequirement
+      group: RMCJobsCorporate
+      time: 90000 # 25 hours
+  equipment:
+    head: RMCHeadBeretWeYa

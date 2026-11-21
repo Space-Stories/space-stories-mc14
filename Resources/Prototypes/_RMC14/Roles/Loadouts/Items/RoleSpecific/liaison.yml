@@ -5,8 +5,8 @@
   effects:
   - !type:JobRequirementLoadoutEffect
     requirement:
-      !type:RoleTimeRequirement
-      role: CMJobLiaison
+      !type:TotalJobsTimeRequirement
+      group: RMCJobsCorporate # Stories-CorporateLodauts
       time: 90000 # 25 hours
   storage:
     back:
@@ -18,8 +18,8 @@
   effects:
   - !type:JobRequirementLoadoutEffect
     requirement:
-      !type:RoleTimeRequirement
-      role: CMJobLiaison
+      !type:TotalJobsTimeRequirement
+      group: RMCJobsCorporate # Stories-CorporateLodauts
       time: 252000 # 70 hours
   storage:
     back:
@@ -31,8 +31,8 @@
   effects:
   - !type:JobRequirementLoadoutEffect
     requirement:
-      !type:RoleTimeRequirement
-      role: CMJobLiaison
+      !type:TotalJobsTimeRequirement
+      group: RMCJobsCorporate # Stories-CorporateLodauts
       time: 252000 # 70 hours
   equipment:
     back: RMCBackpackRTOWEYABagPhone
@@ -43,8 +43,8 @@
   effects:
   - !type:JobRequirementLoadoutEffect
     requirement:
-      !type:RoleTimeRequirement
-      role: CMJobLiaison
+      !type:TotalJobsTimeRequirement
+      group: RMCJobsCorporate # Stories-CorporateLodauts
       time: 630000 # 175 hours
   equipment:
     outerClothing: RMCJacketWindbreakerWEYA
