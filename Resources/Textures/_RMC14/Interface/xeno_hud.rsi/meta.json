@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/67a5981e191d9c049ff1e8db6ffce96ab2f968ae/icons/mob/hud/hud.dmi and ayou331 for hudxenoupgrade6, prae_tag_yellow modified by Vermidia.",
+  "copyright": "Taken from cmss13 at https://github.com/cmss13-devs/cmss13/blob/daac1b70c46480c55b1e93b64f04529d364dd60f/icons/mob/hud/hud.dmi and ayou331 for hudxenoupgrade6, prae_tag_yellow modified by Vermidia. hudxenoupgrade6 and hudxenoupgrade6-ui modified by WhiteNight404, taken from Resources/Textures/_RMC14/Interface/xeno_hud.rsi/hudxenoupgrade6.png and Resources/Textures/_RMC14/Interface/xeno_hud.rsi/hudxenoupgrade6-ui.png",
   "size": {
     "x": 32,
     "y": 32
