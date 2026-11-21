@@ -1,12 +1,19 @@
-- type: construction
-  parent: RMC
-  name: APC
-  id: CMApc
-  graph: CMApc
-  startNode: start
-  targetNode: apc
-  category: construction-category-cm-utilities
-  description: "Area Power Controller (APC). Controls power. In an area."
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canBuildInImpassable: true
+# Stories-APC-Start
+# - type: construction
+#   parent: RMC
+#   name: APC
+#   id: CMApc
+#   graph: CMApc
+#   startNode: start
+#   targetNode: apc
+#   category: construction-category-cm-utilities
+#   description: "Area Power Controller (APC). Controls power. In an area."
+#   objectType: Structure
+#   placementMode: SnapgridCenter
+#   canRotate: true
+#   canBuildInImpassable: true
+#   interactionRange: 1.5
+#   conditions:
+#   - !type:WallmountCondition {}
+#   - !type:RMCApcConstructionAreaAvailable {}
+# Stories-APC-End

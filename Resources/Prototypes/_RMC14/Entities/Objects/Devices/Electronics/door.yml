@@ -1,0 +1,72 @@
+- type: entity
+  parent: CMBaseElectronics
+  id: RMCBaseDoorElectronics
+  abstract: true
+  components:
+  - type: Item
+    sprite: _RMC14/Objects/Misc/circuitboard_inhand.rsi
+  - type: Tag
+    tags:
+    - DoorElectronics
+    - RMCCircuitboard
+  - type: StaticPrice
+    price: 55
+  - type: RMCDoorElectronics
+    editorAccess: []
+    requireAll: true
+  - type: ActivatableUI
+    key: enum.RMCDoorElectronicsUiKey.Key
+    inHandsOnly: true
+    requireActiveHand: false
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components:
+      - Xeno
+  - type: UserInterface
+    interfaces:
+      enum.RMCDoorElectronicsUiKey.Key:
+        type: RMCDoorElectronicsBui
+
+- type: entity
+  parent: RMCBaseDoorElectronics
+  id: RMCDoorElectronics
+  name: USCM door electronics
+  description: An airlock circuit board for marine and colony access levels.
+  components:
+  - type: RMCDoorElectronics
+    editorAccess:
+    - CMAccessEngineering
+    - CMAccessColonyEngineering
+
+- type: entity
+  parent: RMCBaseDoorElectronics
+  id: RMCDoorElectronicsSPP
+  name: SPP door electronics
+  description: An airlock circuit board for SPP access levels.
+  components:
+  - type: RMCDoorElectronics
+    accessCatalog: RMCDoorElectronicsSPPAccess
+    editorAccess:
+    - RMCAccessSPPEngineering
+
+- type: entity
+  parent: RMCBaseDoorElectronics
+  id: RMCDoorElectronicsWeYa
+  name: Weyland-Yutani door electronics
+  description: An airlock circuit board for Weyland-Yutani access levels.
+  components:
+  - type: RMCDoorElectronics
+    accessCatalog: RMCDoorElectronicsWeYaAccess
+    editorAccess:
+    - RMCAccessWeYa
+
+- type: entity
+  parent: RMCBaseDoorElectronics
+  id: RMCDoorElectronicsTSEPA
+  name: TSEPA door electronics
+  description: An airlock circuit board for TSEPA access levels.
+  components:
+  - type: RMCDoorElectronics
+    accessCatalog: RMCDoorElectronicsTSEPAAccess
+    editorAccess:
+    - RMCAccessTSEPAInspector

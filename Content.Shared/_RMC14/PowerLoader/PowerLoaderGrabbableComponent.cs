@@ -1,10 +1,12 @@
-﻿using Robust.Shared.GameStates;
+﻿using Content.Shared._RMC14.Chair;
+using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Content.Shared._RMC14.Marines.Skills;
 
 namespace Content.Shared._RMC14.PowerLoader;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(PowerLoaderSystem))]
+[Access(typeof(PowerLoaderSystem), typeof(SharedRMCChairStackSystem))]
 public sealed partial class PowerLoaderGrabbableComponent : Component
 {
     [DataField, AutoNetworkedField]
@@ -15,4 +17,7 @@ public sealed partial class PowerLoaderGrabbableComponent : Component
 
     [DataField, AutoNetworkedField]
     public EntProtoId VirtualLeft;
+
+    [DataField, AutoNetworkedField]
+    public EntProtoId<SkillDefinitionComponent> AttachSkill = "RMCSkillEngineer";
 }

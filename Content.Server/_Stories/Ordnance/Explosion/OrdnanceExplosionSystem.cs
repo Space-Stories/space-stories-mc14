@@ -136,7 +136,7 @@ public sealed class OrdnanceExplosionSystem : EntitySystem
 
         var radius = slope > 0 ? maxIntensity / slope : 0f;
         var calcRadius = Math.Max(0f, radius - 1f);
-        var totalIntensity = (float)(Math.PI / 3.0 * slope * Math.Pow(calcRadius, 3));
+        var totalIntensity = Math.Max((float)(Math.PI / 3.0 * slope * Math.Pow(calcRadius, 3)), maxIntensity);
 
         return new EngineExplosionParams(totalIntensity, slope, maxIntensity, radius);
     }

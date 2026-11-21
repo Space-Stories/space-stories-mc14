@@ -1,0 +1,14 @@
+- type: entity
+  id: STActionWorkingJoeVoice
+  parent: ActionMarineBase
+  name: Voice Synthesizer
+  description: Open the voice synthesizer panel.
+  components:
+  - type: Action
+    checkCanInteract: false
+    icon:
+      sprite: _Stories/Synth/WorkingJoe/voice_synth_action.rsi
+      state: icon
+    useDelay: 0.5
+  - type: InstantAction
+    event: !type:STSynthVoiceOpenEvent

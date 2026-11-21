@@ -1,2 +1,2 @@
-ent-CMCargoCatalog = { "" }
-    .desc = { "" }
+ent-CMCargoCatalog = { ent-RMCRequisitionsCatalogAmmo }
+    .desc = { ent-RMCRequisitionsCatalogAmmo.desc }

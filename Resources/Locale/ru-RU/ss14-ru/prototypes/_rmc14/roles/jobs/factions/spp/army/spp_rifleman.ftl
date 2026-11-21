@@ -1,0 +1,12 @@
+ent-RMCRandomHumanoidSPPRiflemanHostile = роль призрака стрелок СПН
+    .desc = { "" }
+    .suffix = Спавнер, Игрок, Враждебный
+ent-RMCRandomHumanoidSPPRiflemanFriendly = роль призрака стрелок СПН
+    .desc = { "" }
+    .suffix = Спавнер, Игрок, Дружелюбный
+ent-RMCRandomHumanoidSPPRiflemanDoubleHostile = spp ghost role rifleman
+    .desc = { "" }
+    .suffix = Spawner, Player, Hostile, Double
+ent-RMCRandomHumanoidSPPRiflemanDoubleFriendly = spp ghost role rifleman
+    .desc = { "" }
+    .suffix = Spawner, Player, Friendly, Double

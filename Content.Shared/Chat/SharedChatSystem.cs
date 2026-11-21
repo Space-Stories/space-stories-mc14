@@ -2,6 +2,7 @@ using System.Collections.Frozen;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Content.Shared._RMC14.Chat;
+using Content.Shared._RMC14.Radio;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared.Popups;
@@ -50,6 +51,8 @@ public abstract class SharedChatSystem : EntitySystem
     /// </summary>
     public FrozenDictionary<string, RadioChannelPrototype> _keyCodes = default!; // Stories-Hunter
 
+    public static readonly string[] DefaultChannelKeys = new[] { "у", "h" };
+
     public override void Initialize()
     {
         base.Initialize();
@@ -69,10 +72,17 @@ public abstract class SharedChatSystem : EntitySystem
         // RMC14
         var channelDict = new Dictionary<string, RadioChannelPrototype>();
         var prefixSet = new HashSet<char>();
+        var keyCodesDict = new Dictionary<string, RadioChannelPrototype>();
 
         foreach (var radioChannel in _prototypeManager.EnumeratePrototypes<RadioChannelPrototype>())
         {
+            // RMC14 - The intercom channel is a chat routing sentinel, not a selectable radio channel.
+            if (radioChannel.ID == RMCIntercomConstants.Channel)
+                continue;
+            // RMC14
+
             var keyCode = radioChannel.KeyCode.ToLowerInvariant();
+
             channelDict[$"{radioChannel.RadioPrefix}{keyCode}"] = radioChannel;
             prefixSet.Add(radioChannel.RadioPrefix);
 
@@ -81,11 +91,16 @@ public abstract class SharedChatSystem : EntitySystem
                 channelDict[$"{RadioChannelAltPrefix}{keyCode}"] = radioChannel;
                 prefixSet.Add(RadioChannelAltPrefix);
             }
+
+            if (!string.IsNullOrEmpty(keyCode))
+            {
+                keyCodesDict[keyCode] = radioChannel;
+            }
         }
 
         _channelLookup = channelDict.ToFrozenDictionary();
         _validPrefixes = prefixSet.ToFrozenSet();
-        _keyCodes = _channelLookup; // Stories-Hunter: alias for compatibility
+        _keyCodes = keyCodesDict.ToFrozenDictionary(); // Stories-Hunter: alias for compatibility
         // RMC14
     }
 
@@ -133,6 +148,13 @@ public abstract class SharedChatSystem : EntitySystem
             return;
 
         // RMC14
+        if (RMCIntercomConstants.HasPrefix(input))
+        {
+            prefix = input[..2];
+            output = input[2..];
+            return;
+        }
+
         if (!_validPrefixes.Contains(input[0]))
             return;
 
@@ -140,7 +162,8 @@ public abstract class SharedChatSystem : EntitySystem
         var messageWithoutPrefix = input[1..];
         string? foundKey = null;
 
-        foreach (var key in _keyCodes.Keys.OrderByDescending(k => k.Length))
+        var allKeys = _keyCodes.Keys.Concat(DefaultChannelKeys).OrderByDescending(k => k.Length);
+        foreach (var key in allKeys)
         {
             if (messageWithoutPrefix.StartsWith(key, StringComparison.OrdinalIgnoreCase))
             {
@@ -222,6 +245,13 @@ public abstract class SharedChatSystem : EntitySystem
         }
 
         // RMC14
+        if (RMCIntercomConstants.HasPrefix(input))
+        {
+            output = SanitizeMessageCapital(input[2..].TrimStart());
+            channel = _prototypeManager.Index<RadioChannelPrototype>(RMCIntercomConstants.Channel);
+            return true;
+        }
+
         if (!_validPrefixes.Contains(input[0]))
             return false;
         // RMC14
@@ -230,7 +260,8 @@ public abstract class SharedChatSystem : EntitySystem
         var messageWithoutPrefix = message[1..];
         string? channelKey = null;
 
-        foreach (var key in _keyCodes.Keys.OrderByDescending(k => k.Length))
+        var allKeys = _keyCodes.Keys.Concat(DefaultChannelKeys).OrderByDescending(k => k.Length);
+        foreach (var key in allKeys)
         {
             if (messageWithoutPrefix.StartsWith(key, StringComparison.OrdinalIgnoreCase))
             {
@@ -253,8 +284,8 @@ public abstract class SharedChatSystem : EntitySystem
 
         output = SanitizeMessageCapital(message[(1 + channelKey.Length)..].TrimStart()); // Stories-Hunter
 
-        var isDefaultChannel = string.Equals(channelKey, DefaultChannelKey, StringComparison.OrdinalIgnoreCase); // Stories-Hunter
-        var lookupKey = $"{firstChar}{char.ToLowerInvariant(channelKey[0])}";
+        var isDefaultChannel = DefaultChannelKeys.Contains(channelKey); // Stories-Hunter
+        var lookupKey = $"{firstChar}{channelKey.ToLowerInvariant()}";
         var foundChannel = _channelLookup.TryGetValue(lookupKey, out channel);
 
         if (isDefaultChannel)

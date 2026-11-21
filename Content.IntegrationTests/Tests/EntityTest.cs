@@ -100,7 +100,6 @@ namespace Content.IntegrationTests.Tests
                     });
                 });
 
-                GC.Collect();
             }
 
             await pair.CleanReturnAsync();
@@ -255,7 +254,6 @@ namespace Content.IntegrationTests.Tests
                     });
                 });
 
-                GC.Collect();
             }
 
             await pair.CleanReturnAsync();

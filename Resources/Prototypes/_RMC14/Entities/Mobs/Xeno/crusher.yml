@@ -36,7 +36,9 @@
     - ActionXenoStomp
     - ActionXenoDevolve
     tier: 3
-    hudOffset: 0,0.375
+    hudOffset: -0.15,0.1
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 900 # 15 minutes
   - type: XenoRegen
     standHealingMultiplier: 0.66
@@ -69,7 +71,7 @@
       groups:
         Brute: 48
   - type: XenoMeleeSlow
-    slowTime: 2
+    slowTime: 3.5
   - type: Tackle
     chance: 0.25
   - type: MovementSpeedModifier
@@ -115,6 +117,11 @@
   parent: CMXenoCrusherBase
   id: RMCXenoCrusher
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoCharge ]
+      XenoPrimaryTwo: [ ActionXenoStomp ]
+      XenoPrimaryThree: [ ActionXenoDefensiveShield ]
   - type: XenoBaseCaste
   - type: Xeno
     actionIds:
@@ -144,6 +151,12 @@
   id: RMCXenoCrusherCharger
   suffix: Charger
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoToggleCharging ]
+      XenoPrimaryTwo: [ ActionXenoRam ]
+      XenoPrimaryThree: [ ActionXenoStomp ]
+      XenoPrimaryFour: [ ActionXenoTumble ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Crusher/crusher.rsi
   - type: MobThresholds
@@ -182,6 +195,8 @@
     name: rmc-xeno-charger-name
     description: rmc-xeno-charger-description
     popup: rmc-xeno-charger-popup
+  - type: XenoDestrain
+    destrainTo: RMCXenoCrusher
   - type: CombatMode
     toggleMouseRotator: false
   - type: XenoTumble

@@ -56,10 +56,10 @@
     <GuideEntityEmbed Entity="RMCIntelDataTerminal" />
   </Box>
 
-  - These devices must be stored in the intel room.
-  - Data disks must be brought to a SIGINT terminal, decrypted with the key found in your clues, and uploaded before they can be stored for retrieval credit.
-  - Data terminals are located planetside. They require the password from your clues, restored communications, and working colony power.
-  - Some safes may contain miscellaneous intelligence. Their combinations are found through document clues.
+  - Эти устройства должны храниться в комнате разведки.
+  - Диски с данными нужно принести на SIGINT-терминал, расшифровать ключом из ваших улик и выгрузить — только после этого их сдача на хранение будет засчитана.
+  - Терминалы данных расположены на планете. Им нужны пароль из ваших улик, восстановленная связь и работающее электричество колонии.
+  - В некоторых сейфах может лежать прочая разведывательная информация. Комбинации к ним находятся в уликах из документов.
 
   ## Работа в разведке
 
@@ -96,8 +96,8 @@
     <GuideEntityEmbed Entity="RMCTechTreeConsole" />
   </Box>
 
-  After getting geared up you should make yourself familiar with the devices in the intel room and CIC.
-  The intel computer is used to write down what you have read in documents, the SIGINT terminal processes data disks, and the tech tree console allows you to spend collected intelligence. The View Intel Objectives action shows shared objective progress.
+  Снарядившись, освойтесь с устройствами в комнате разведки и ЦИК.
+  Компьютер разведки нужен, чтобы записывать прочитанное в документах, SIGINT-терминал обрабатывает диски с данными, а консоль дерева техники позволяет тратить собранные разведданные. Действие «Просмотр целей Разведки» показывает общий прогресс задач.
 
   [color=#A88B5E][bold]Развертывание[/bold][/color]
 

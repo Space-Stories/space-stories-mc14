@@ -1,3 +1,4 @@
+using Robust.Shared.Timing;
 using System.Globalization;
 using Content.Client._Stories.Chat;
 using Content.Shared._RMC14.Marines;
@@ -20,6 +21,10 @@ public sealed class TTSSystem : EntitySystem
     [Dependency] private readonly IResourceManager _res = default!;
     [Dependency] private readonly AudioSystem _audio = default!;
     [Dependency] private readonly ChatFilterSystem _chatFilter = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+
+    private TimeSpan _lastPreviewRequest;
+    private static readonly TimeSpan PreviewCooldown = TimeSpan.FromSeconds(1.0);
 
     private MemoryContentRoot? _contentRoot;
     private static readonly ResPath Prefix = ResPath.Root / "TTS";
@@ -49,6 +54,11 @@ public sealed class TTSSystem : EntitySystem
 
     public void RequestPreviewTTS(string voiceId, bool isHunter = false)
     {
+        var curTime = _timing.CurTime;
+        if (curTime < _lastPreviewRequest + PreviewCooldown)
+            return;
+
+        _lastPreviewRequest = curTime;
         RaiseNetworkEvent(new RequestPreviewTTSEvent(voiceId, isHunter));
     }
 
@@ -134,8 +144,14 @@ public sealed class TTSSystem : EntitySystem
         }
 
         var audioParams = AudioParams.Default
-            .WithVolume(AdjustVolume(ev.IsWhisper, volumeCVar))
-            .WithMaxDistance(AdjustDistance(ev.IsWhisper));
+            .WithVolume(AdjustVolume(ev.IsWhisper, volumeCVar, ev.VolumeMultiplier))
+            .WithMaxDistance(AdjustDistance(ev.IsWhisper, ev.MaxDistanceOverride));
+
+        if (ev.ReferenceDistanceOverride != null)
+            audioParams = audioParams.WithReferenceDistance(ev.ReferenceDistanceOverride.Value);
+
+        if (ev.RolloffFactorOverride != null)
+            audioParams = audioParams.WithRolloffFactor(ev.RolloffFactorOverride.Value);
 
         if (ev.SourceUid != null && TryGetEntity(ev.SourceUid.Value, out var sourceUid))
         {
@@ -149,10 +165,10 @@ public sealed class TTSSystem : EntitySystem
         _contentRoot.RemoveFile(filePath);
     }
 
-    private float AdjustVolume(bool isWhisper, float volumeCVar)
+    private float AdjustVolume(bool isWhisper, float volumeCVar, float volumeMultiplier)
     {
         var masterVolumeCVar = _cfg.GetCVar(SCCVars.TTSVolumeMaster);
-        var combinedMultiplier = volumeCVar * masterVolumeCVar * TtsMultiplier;
+        var combinedMultiplier = volumeCVar * masterVolumeCVar * TtsMultiplier * volumeMultiplier;
 
         var volume = MinimalVolume + SharedAudioSystem.GainToVolume(combinedMultiplier);
 
@@ -164,8 +180,8 @@ public sealed class TTSSystem : EntitySystem
         return volume;
     }
 
-    private float AdjustDistance(bool isWhisper)
+    private float AdjustDistance(bool isWhisper, float? maxDistanceOverride)
     {
-        return isWhisper ? WhisperMuffledRange : VoiceRange;
+        return maxDistanceOverride ?? (isWhisper ? WhisperMuffledRange : VoiceRange);
     }
 }

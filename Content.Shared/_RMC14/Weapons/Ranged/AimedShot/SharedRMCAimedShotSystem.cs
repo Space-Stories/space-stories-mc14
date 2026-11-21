@@ -118,7 +118,7 @@ public abstract class SharedRMCAimedShotSystem : EntitySystem
         Dirty(gun, aimedShot);
 
         _audio.PlayPredicted(aimedShot.AimingSound, gun, user);
-        _targeting.Target(gun, user, target, laserDuration, targetEffect, showDirection);
+        _targeting.Target(gun, user, target, laserDuration, targetEffect, showDirection, rootUser: true);
     }
 
     /// <summary>
@@ -157,13 +157,13 @@ public abstract class SharedRMCAimedShotSystem : EntitySystem
             Dirty(projectile, aimedProjectile);
 
             var homingProjectile = EnsureComp<HomingProjectileComponent>(projectile);
-            homingProjectile.Target = target;
+            homingProjectile.Target = GetNetEntity(target); // Stories-DeletedEntityReferences
             homingProjectile.ProjectileSpeed = ent.Comp.ProjectileSpeed;
             Dirty(projectile, homingProjectile);
 
             // Make sure the projectile can hit dead targets.
             var targeted = EnsureComp<TargetedProjectileComponent>(projectile);
-            targeted.Target = target;
+            targeted.Target = GetNetEntity(target); // Stories-DeletedEntityReferences
             Dirty(projectile, targeted);
 
             var ev2 = new ShotByAimedShotEvent(ent, target);

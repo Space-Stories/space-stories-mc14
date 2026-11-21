@@ -5,4 +5,4 @@ ent-RMCRackSoro = { ent-CMRack }
     .suffix = Синий
 ent-RMCRackBrown = { ent-CMRack }
     .desc = { ent-CMRack.desc }
-    .suffix = Brown
+    .suffix = Коричневый

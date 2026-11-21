@@ -92,7 +92,7 @@ public sealed partial class OrdnanceCasingComponent : Component
     public float ConeAngle = 60f;
 
     [DataField, AutoNetworkedField]
-    public EntProtoId ShrapnelProto = "CMProjectileShrapnel";
+    public EntProtoId ShrapnelProto = "STProjectileOrdnanceShrapnel";
 
     [DataField, AutoNetworkedField]
     public ProtoId<ReagentPrototype>? RequiredFuelReagent;

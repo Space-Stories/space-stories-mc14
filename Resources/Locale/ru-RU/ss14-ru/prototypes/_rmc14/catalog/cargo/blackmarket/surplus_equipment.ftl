@@ -1,0 +1,2 @@
+ent-RMCBlackMarketCatalogSurplusEquipment = { "" }
+    .desc = { "" }

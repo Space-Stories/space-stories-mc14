@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Content.Server.Administration.Logs;
 using Content.Server.Cargo.Components;
@@ -13,9 +14,14 @@ using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Chasm;
 using Content.Shared.Coordinates;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
+using Content.Shared.FixedPoint;
+using Content.Shared.Humanoid;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Physics;
+using Content.Shared.Popups;
 using Content.Shared.Random.Helpers;
 using Content.Shared.UserInterface;
 using Robust.Server.Audio;
@@ -38,6 +44,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
     [Dependency] private readonly ChasmSystem _chasm = default!;
     [Dependency] private readonly ChatSystem _chatSystem = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly EntityStorageSystem _entityStorage = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
@@ -51,6 +58,8 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
 
     private static readonly EntProtoId AccountId = "RMCASRSAccount";
     private static readonly EntProtoId PaperRequisitionInvoice = "RMCPaperRequisitionInvoice";
+    private static readonly EntProtoId PaperRequisitionShipmentInvoice = "RMCPaperRequisitionShipmentInvoice";
+    private static readonly EntProtoId ReturnCrate = "RMCCrateBase";
     private static readonly EntProtoId<IFFFactionComponent> MarineFaction = "FactionMarine";
 
     private EntityQuery<ChasmComponent> _chasmQuery;
@@ -74,8 +83,15 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         Subs.BuiEvents<RequisitionsComputerComponent>(RequisitionsUIKey.Key, subs =>
         {
             subs.Event<RequisitionsBuyMsg>(OnBuy);
+            subs.Event<RequisitionsBuyCartMsg>(OnBuyCart);
+            subs.Event<RequisitionsBuyBlackMarketCartMsg>(OnBuyBlackMarketCart);
             subs.Event<RequisitionsPlatformMsg>(OnPlatform);
         });
+
+        InitializeBlackMarket();
+        InitializeRequests();
+        InitializeUnits();
+        InitializeForms();
 
         Subs.CVar(_config, RMCCVars.RMCRequisitionsBalanceGain, v => _gain = v, true);
         Subs.CVar(_config, RMCCVars.RMCRequisitionsFreeCratesXenoDivider, v => _freeCratesXenoDivider = v, true);
@@ -84,59 +100,140 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
     private void OnComputerMapInit(Entity<RequisitionsComputerComponent> ent, ref MapInitEvent args)
     {
         ent.Comp.Account = GetAccount();
+        BuildUnitCatalog(ent);
         Dirty(ent);
     }
 
     private void OnComputerBeforeActivatableUIOpen(Entity<RequisitionsComputerComponent> computer, ref BeforeActivatableUIOpenEvent args)
     {
-        SetUILastInteracted(computer);
+        BuildUnitCatalog(computer);
+        RefreshUnitStock(computer);
+        if (!computer.Comp.RequestOnly)
+            SetUILastInteracted(computer);
         SendUIState(computer);
     }
 
     private void OnBuy(Entity<RequisitionsComputerComponent> computer, ref RequisitionsBuyMsg args)
     {
-        var actor = args.Actor;
-        if (args.Category >= computer.Comp.Categories.Count)
+        var items = new List<RequisitionsCartItem>
         {
-            Log.Error($"Player {ToPrettyString(actor)} tried to buy out of bounds requisitions order: category {args.Category}");
-            return;
-        }
+            new(args.Category, args.Order, 1),
+        };
 
-        var category = computer.Comp.Categories[args.Category];
-        if (args.Order >= category.Entries.Count)
-        {
-            Log.Error($"Player {ToPrettyString(actor)} tried to buy out of bounds requisitions order: category {args.Category}");
-            return;
-        }
+        TryBuyCart(computer, args.Actor, items);
+    }
 
-        var order = category.Entries[args.Order];
-        if (!TryComp(computer.Comp.Account, out RequisitionsAccountComponent? account) ||
-            account.Balance < order.Cost)
-        {
-            return;
-        }
+    private void OnBuyCart(Entity<RequisitionsComputerComponent> computer, ref RequisitionsBuyCartMsg args)
+    {
+        var success = TryBuyCart(computer, args.Actor, args.Items);
+        RequestResult(computer, args.Actor, success,
+            success ? "rmc-requisitions-purchase-complete" : "rmc-requisitions-purchase-failed");
+    }
+
+    private bool TryBuyCart(Entity<RequisitionsComputerComponent> computer, EntityUid actor, List<RequisitionsCartItem> items)
+    {
+        if (!CanManageRequisitions(computer, actor))
+            return false;
+
+        if (items == null || items.Count == 0)
+            return false;
 
         if (GetElevator(computer) is not { } elevator)
-            return;
+            return false;
 
-        if (IsFull(elevator))
-            return;
+        var remainingCapacity = GetElevatorCapacity(elevator) - elevator.Comp.Orders.Count;
+        if (remainingCapacity <= 0)
+            return false;
 
-        account.Balance -= order.Cost;
-        elevator.Comp.Orders.Add(order);
+        if (computer.Comp.Account is not { } accountUid ||
+            !TryComp(accountUid, out RequisitionsAccountComponent? account))
+        {
+            return false;
+        }
+
+        if (items.Count > computer.Comp.Categories.Sum(category => category.Entries.Count))
+            return false;
+
+        var purchases = new List<(RequisitionsEntry Product, int Amount, int Line)>();
+        var seen = new HashSet<(int Category, int Order)>();
+        var totalCost = 0;
+        var totalAmount = 0;
+
+        foreach (var item in items)
+        {
+            if (item == null || item.Amount <= 0 || item.Amount > computer.Comp.MaxRequestItems ||
+                !seen.Add((item.Category, item.Order)))
+                return false;
+
+            if (item.Category < 0 || item.Category >= computer.Comp.Categories.Count)
+            {
+                Log.Error($"Player {ToPrettyString(actor)} tried to buy out of bounds requisitions order: category {item.Category}");
+                return false;
+            }
+
+            var category = computer.Comp.Categories[item.Category];
+            if (item.Order < 0 || item.Order >= category.Entries.Count)
+            {
+                Log.Error($"Player {ToPrettyString(actor)} tried to buy out of bounds requisitions order: category {item.Category}, order {item.Order}");
+                return false;
+            }
+
+            var order = category.Entries[item.Order];
+            if (order.BlackMarket || order.BlackMarketCost != 0 || order.Cost < 0 || (order.Unit && order.Cost == 0))
+            {
+                Log.Error($"Player {ToPrettyString(actor)} tried to buy a black market order from the requisitions catalog: category {item.Category}, order {item.Order}");
+                return false;
+            }
+
+            if (order.Cost > 0 && item.Amount > (int.MaxValue - totalCost) / order.Cost)
+                return false;
+
+            if (item.Amount > int.MaxValue - totalAmount)
+                return false;
+
+            totalCost += order.Cost * item.Amount;
+            totalAmount += item.Amount;
+            if (totalAmount > Math.Max(1, computer.Comp.MaxProcessingAmount))
+                return false;
+
+            purchases.Add((order, item.Amount, -1));
+        }
+
+        if (account.Balance < totalCost)
+            return false;
+
+        var shipping = purchases.Select(purchase =>
+            new RequisitionsShippingItem(purchase.Product, purchase.Amount)).ToArray();
+        if (RequisitionsShipping.Count(shipping, computer.Comp.ShipmentWeightLimit, computer.Comp.ShipmentItems,
+                _prototype, EntityManager.ComponentFactory) > remainingCapacity)
+            return false;
+        var orders = PrepareShipments(computer, purchases);
+
+        account.Balance -= totalCost;
+        elevator.Comp.Orders.AddRange(orders);
+        Dirty(accountUid, account);
+        Dirty(elevator);
+
         SendUIStateAll();
-        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(args.Actor):actor} bought requisitions crate {order.Name} with crate {order.Crate} for {order.Cost}");
+        _adminLogs.Add(LogType.RMCRequisitionsBuy, $"{ToPrettyString(actor):actor} bought {totalAmount} requisitions products in {orders.Count} shipments for {totalCost}");
 
-        if(!_prototype.TryIndex(order.Crate, out var prototype))
-            return;
+        foreach (var order in orders)
+        {
+            if (!_prototype.TryIndex(order.Crate, out var prototype))
+                continue;
 
-        _core.CreateARESLog(computer.Owner,
-            LogCat,
-            (string)$"{Name(actor)} bought {prototype.Name} for {order.Cost}$");
+            _core.CreateARESLog(computer.Owner,
+                LogCat,
+                (string)$"{Name(actor)} bought {prototype.Name} for {order.Cost}$");
+        }
+        return true;
     }
 
     private void OnPlatform(Entity<RequisitionsComputerComponent> computer, ref RequisitionsPlatformMsg args)
     {
+        if (!CanManageRequisitions(computer, args.Actor))
+            return;
+
         if (GetElevator(computer) is not { } elevator)
             return;
 
@@ -163,7 +260,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         if (nextMode == null)
             return;
 
-        if (nextMode == Lowering)
+        if (nextMode == Lowering && !CanLowerLivingCargo(computer))
         {
             var mask = (int) (CollisionGroup.MobLayer | CollisionGroup.MobMask);
             foreach (var entity in _physics.GetEntitiesIntersectingBody(elevator, mask, false))
@@ -182,6 +279,18 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             _core.CreateARESLog(computer.Owner, LogCat, (string)$"{Name(args.Actor)} raised the requisitions elevator");
         if (nextMode == Lowering)
             _core.CreateARESLog(computer.Owner, LogCat, (string)$"{Name(args.Actor)} lowered the requisitions elevator");
+    }
+
+    private bool CanLowerLivingCargo(Entity<RequisitionsComputerComponent> computer)
+    {
+        if (computer.Comp.Account is not { } accountUid ||
+            !TryComp(accountUid, out RequisitionsAccountComponent? account))
+        {
+            return false;
+        }
+
+        //disables the ASRS live-organism safety while any linked tradeband is tuned to the black market.
+        return HasBlackMarketTradebandEnabled((accountUid, account));
     }
 
     private Entity<RequisitionsAccountComponent> GetAccount()
@@ -326,16 +435,32 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             int remainingDeliveries = GetElevatorCapacity(elevator);
             foreach (var order in comp.Orders)
             {
-                var crate = SpawnAtPosition(order.Crate, coordinates.Offset(new Vector2(xOffset, yOffset)));
+                var deliveredOrder = GetBlackMarketDeliveryOrder(order);
+                var crate = SpawnAtPosition(deliveredOrder.Crate, coordinates.Offset(new Vector2(xOffset, yOffset)));
                 remainingDeliveries--;
 
-                foreach (var prototype in order.Entities)
+                foreach (var prototype in deliveredOrder.Entities)
                 {
-                    var entity = Spawn(prototype, MapCoordinates.Nullspace);
+                    var entity = SpawnAtPosition(prototype, coordinates.Offset(new Vector2(xOffset, yOffset)));
                     _entityStorage.Insert(entity, crate);
                 }
 
-                PrintInvoice(crate, coordinates, PaperRequisitionInvoice);
+                if (deliveredOrder.BlackMarket)
+                    MarkBlackMarketUnsellableRecursive(crate);
+                else
+                {
+                    if (order.CrateReturn is { } crateReward &&
+                        TryComp(crate, out RequisitionsCrateComponent? shippingCrate))
+                    {
+                        shippingCrate.Reward = crateReward;
+                        Dirty(crate, shippingCrate);
+                    }
+                    PrintInvoice(crate, coordinates,
+                        order.Consolidated ? PaperRequisitionShipmentInvoice : PaperRequisitionInvoice,
+                        order.Request, order.InvoiceReturn);
+                }
+
+                CompleteRequestDelivery(order);
 
                 yOffset--;
                 if (yOffset < -comp.Radius)
@@ -349,6 +474,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             }
 
             comp.Orders.Clear();
+            SpawnPendingMendozaDeathAftermath(elevator, coordinates);
 
             var query = EntityQueryEnumerator<RequisitionsCustomDeliveryComponent>();
 
@@ -386,6 +512,9 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         var entities = _lookup.GetEntitiesIntersecting(elevator);
         var soldAny = false;
         var rewards = 0;
+        var blackMarketRewards = 0;
+        var blackMarketChanged = false;
+        var blackMarketVisited = new HashSet<EntityUid>();
         foreach (var entity in entities)
         {
             if (entity == elevator.Comp.Audio)
@@ -394,26 +523,63 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             if (HasComp<CargoSellBlacklistComponent>(entity))
                 continue;
 
-            rewards += SubmitInvoices(entity);
-
-            if (TryComp(entity, out RequisitionsCrateComponent? crate))
+            if (!HasComp<BlackMarketUnsellableComponent>(entity))
             {
-                rewards += crate.Reward;
-                soldAny = true;
+                rewards += SubmitInvoices(entity);
+
+                if (TryComp(entity, out RequisitionsCrateComponent? crate))
+                {
+                    rewards += crate.Reward;
+                    soldAny = true;
+                }
+
+                if (IsBlackMarketEnabled(account))
+                {
+                    var sale = GetBlackMarketSaleValue(entity, account.Comp, true, blackMarketVisited);
+                    blackMarketRewards += sale.Value;
+                    blackMarketChanged |= sale.Value > 0 || sale.KillsMendoza;
+
+                    if (sale.KillsMendoza)
+                        KillMendoza(account, entity, elevator);
+                }
             }
 
-            QueueDel(entity);
+            HandleSoldEntity(entity, elevator);
         }
 
         if (rewards > 0)
             SendUIFeedback(Loc.GetString("requisition-paperwork-reward-message", ("amount", rewards)));
 
-        account.Comp.Balance += rewards;
+        if (blackMarketRewards > 0)
+            SendUIFeedback(Loc.GetString("rmc-requisitions-black-market-sell-message", ("amount", blackMarketRewards)));
 
-        if (soldAny)
+        account.Comp.Balance += rewards;
+        account.Comp.BlackMarketBalance += blackMarketRewards;
+
+        if (soldAny || rewards > 0 || blackMarketChanged)
             Dirty(account);
 
-        return soldAny;
+        return soldAny || rewards > 0 || blackMarketChanged;
+    }
+
+    private void HandleSoldEntity(EntityUid entity, EntityUid elevator)
+    {
+        if (!HasComp<HumanoidAppearanceComponent>(entity))
+        {
+            QueueDel(entity);
+            return;
+        }
+
+        EnsureComp<CargoSellBlacklistComponent>(entity);
+        _damageable.TryChangeDamage(entity, GetElevatorCrushDamage(), true, origin: elevator);
+        _popup.PopupEntity(Loc.GetString("rmc-requisitions-elevator-crush", ("target", entity)), entity, PopupType.SmallCaution);
+    }
+
+    private static DamageSpecifier GetElevatorCrushDamage()
+    {
+        var damage = new DamageSpecifier();
+        damage.DamageDict["Blunt"] = FixedPoint2.New(60);
+        return damage;
     }
 
     private void GetCrateWeight(Entity<RequisitionsAccountComponent> account, Dictionary<EntProtoId, float> crates, out Entity<RequisitionsComputerComponent> computer)
@@ -423,7 +589,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
         var computers = EntityQueryEnumerator<RequisitionsComputerComponent>();
         while (computers.MoveNext(out var uid, out var comp))
         {
-            if (comp.Account != account)
+            if (comp.RequestOnly || comp.Account != account)
                 continue;
 
             computer = (uid, comp);
@@ -440,9 +606,11 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
 
     public override void Update(float frameTime)
     {
+        UpdateUnitStock();
         base.Update(frameTime);
 
         var time = _timing.CurTime;
+        UpdateBlackMarketScanners(time);
         var updateUI = false;
         var accounts = EntityQueryEnumerator<RequisitionsAccountComponent>();
         while (accounts.MoveNext(out var uid, out var account))
@@ -455,6 +623,10 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
 
                 updateUI = true;
             }
+
+            // Mendoza is dead; nobody's left below to kick free junk onto the ASRS lift for us :(
+            if (account.BlackMarketMendozaDead)
+                continue;
 
             var xenos = _xeno.GetGroundXenosAlive();
             var randomCrates = CollectionsMarshal.AsSpan(account.RandomCrates);
@@ -506,6 +678,9 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
                     var crate = _random.Pick(crateCosts);
                     elevator.Comp.Orders.Add(new RequisitionsEntry { Crate = crate });
                 }
+
+                Dirty(elevator);
+                updateUI = true;
             }
         }
 

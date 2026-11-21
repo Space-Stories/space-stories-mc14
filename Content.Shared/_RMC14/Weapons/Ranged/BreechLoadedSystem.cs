@@ -68,6 +68,11 @@ public sealed class BreechLoadedSystem : EntitySystem
 
         args.Handled = true;
 
+        // Stories-GunBalance-Start
+        if (_gunSystem.IsGunInHands(args.UserUid, gun.Owner) && !_gunSystem.HasOtherHandFree(args.UserUid, gun.Owner))
+            return;
+        // Stories-GunBalance-End
+
         if (TryComp<UseDelayComponent>(gun, out var useDelay) && _useDelay.IsDelayed((gun, useDelay), gun.Comp.DelayId))
         {
             var actionLocale = gun.Comp.Open ? Loc.GetString("rmc-breech-loaded-close") : Loc.GetString("rmc-breech-loaded-open");
@@ -79,7 +84,9 @@ public sealed class BreechLoadedSystem : EntitySystem
         gun.Comp.Open = !gun.Comp.Open;
 
         if (!gun.Comp.Open)
+        {
             gun.Comp.Ready = true;
+        }
 
         if (gun.Comp.ShowBreechOpen && TryComp(gun.Owner, out AppearanceComponent? appearanceComponent))
             _appearanceSystem.SetData(gun, BreechVisuals.Open, gun.Comp.Open, appearanceComponent);

@@ -180,12 +180,18 @@ public sealed class SpraySystem : EntitySystem
                 {
                     // push back the grid the player is standing on
                     var userTransform = Transform(user);
-                    if (userTransform.GridUid == userTransform.ParentUid)
+                    // Stories-SprayRecoil-Start
+                    if (userTransform.GridUid == userTransform.ParentUid &&
+                        TryComp(userTransform.GridUid, out PhysicsComponent? gridBody))
                     {
                         // apply both linear and angular momentum depending on the player position
                         // multiply by a cvar because grid mass is currently extremely small compared to all other masses
-                        _physics.ApplyLinearImpulse(userTransform.GridUid.Value, -impulseDirection * _gridImpulseMultiplier * entity.Comp.PushbackAmount, userTransform.LocalPosition);
+                        _physics.ApplyLinearImpulse(userTransform.GridUid.Value,
+                            -impulseDirection * _gridImpulseMultiplier * entity.Comp.PushbackAmount,
+                            userTransform.LocalPosition,
+                            body: gridBody);
                     }
+                    // Stories-SprayRecoil-End
                 }
             }
         }

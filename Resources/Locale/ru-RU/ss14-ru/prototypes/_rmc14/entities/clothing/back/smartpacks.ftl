@@ -24,4 +24,4 @@ ent-RMCSmartpackA1White = { ent-RMCSmartpackA1Base }
     .desc = { ent-RMCSmartpackA1Base.desc }
 ent-RMCPMCSyntheticSmartpack = { ent-RMCSmartpackA1White }
     .desc = { ent-RMCSmartpackA1White.desc }
-    .suffix = Filled, PMC Synthetic
+    .suffix = Заполненный, Синтетик ЧВК

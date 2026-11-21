@@ -88,3 +88,21 @@
   - type: ContainerFill
     containers:
       st-bracer-attachment-weapon-slot: [ STWeaponBracerChainGauntlets ]
+
+- type: entity
+  parent: STBracerAttachmentBase
+  id: STBracerAttachmentShield
+  name: shield attachment
+  description: A shield made of concentric metal alloy plates. Can be attached to a bracer to be used in melee.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Melee/BracerAttachment/shield.rsi
+    state: icon
+  - type: BracerAttachment
+    deploySound:
+      path: /Audio/_Stories/Weapons/pred_attach.ogg
+    retractSound:
+      path: /Audio/_Stories/Weapons/pred_attach.ogg
+  - type: ContainerFill
+    containers:
+      st-bracer-attachment-weapon-slot: [ STWeaponBracerShield ]

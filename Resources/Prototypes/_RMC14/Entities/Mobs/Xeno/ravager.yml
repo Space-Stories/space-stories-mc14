@@ -51,6 +51,8 @@
     - ActionXenoDevolve
     tier: 3
     hudOffset: 0,0.1
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 900 # 15 minutes
   - type: XenoRegen
     standHealingMultiplier: 0.66
@@ -143,6 +145,11 @@
   parent: RMCXenoRavagerBase
   id: CMXenoRavager
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoAssault ]
+      XenoPrimaryTwo: [ ActionXenoEmpower ]
+      XenoPrimaryThree: [ ActionXenoScissorCut ]
   - type: XenoBaseCaste
   - type: XenoShield
   - type: XenoLeap
@@ -157,14 +164,11 @@
     damageIncreasePer:
       groups:
         Brute: 2
-    damageTailIncreasePer:
-      groups:
-        Brute: 2.4
     leapDamage:
       groups:
         Brute: 45
   - type: VehicleDamageMultiplier
-    multiplier: 2
+    multiplier: 3
   - type: XenoScissorCut
     damage:
       types:
@@ -182,6 +186,11 @@
   id: RMCXenoRavagerBerserker
   suffix: Berserker
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoApprehend ]
+      XenoPrimaryTwo: [ ActionXenoClothesline ]
+      XenoPrimaryThree: [ ActionXenoEviscerate ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Ravager/berserker_ravager.rsi
   - type: XenoCappedPheromones
@@ -211,6 +220,8 @@
     name: rmc-xeno-berserker-name
     description: rmc-xeno-berserker-description
     popup: rmc-xeno-berserker-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoRavager
   - type: XenoPlasma
     plasma: 0
     maxPlasma: 0
@@ -258,6 +269,11 @@
   id: RMCXenoRavagerHedgehog
   suffix: Hedgehog
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoSpikeShield ]
+      XenoPrimaryTwo: [ ActionXenoFireSpikes ]
+      XenoPrimaryThree: [ ActionXenoSpikeShed ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Ravager/hedgehog_ravager.rsi
   - type: Xeno
@@ -282,6 +298,8 @@
     name: rmc-xeno-hedgehog-name
     description: rmc-xeno-hedgehog-description
     popup: rmc-xeno-hedgehog-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoRavager
   - type: XenoPlasma
     plasma: 0
     maxPlasma: 0

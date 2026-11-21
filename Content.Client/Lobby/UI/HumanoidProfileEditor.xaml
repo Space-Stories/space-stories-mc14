@@ -189,6 +189,8 @@
                 </BoxContainer>
                 <!-- Stories-Hunter -->
                 <BoxContainer Name="HunterTab" Access="Public" Orientation="Vertical" Visible="False" />
+                <!-- Stories-SynthProfileTab -->
+                <BoxContainer Name="SynthTab" Access="Public" Orientation="Vertical" />
             </TabContainer>
         </BoxContainer>
         <!-- Right side -->

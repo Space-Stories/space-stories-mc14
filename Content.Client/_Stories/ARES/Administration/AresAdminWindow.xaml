@@ -1,0 +1,51 @@
+<local:AresAdminWindow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.ARES.Administration"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Title="{Loc stories-ares-admin-title}" MinSize="600 440" SetSize="1000 680">
+    <crt:RMCCrtThemeScope Palette="Blue" Effects="HorizontalScanlines" ScanlineOpacity="0.04">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                <crt:RMCCrtLabel Text="{Loc stories-ares-admin-title}" Heading="True" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Refresh" Access="Public" Text="{Loc stories-ares-admin-refresh}" />
+            </BoxContainer>
+            <GridContainer Columns="2" HorizontalExpand="True">
+                <crt:RMCCrtActionButton Name="ConversationsTab" Access="Public" Variant="Navigation"
+                    Text="{Loc stories-ares-admin-conversations}" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="AccessTab" Access="Public" Variant="Navigation"
+                    Text="{Loc stories-ares-admin-access}" HorizontalExpand="True" />
+            </GridContainer>
+            <crt:RMCCrtLabel Name="Feedback" Access="Public" Tone="Warning" />
+            <crt:RMCCrtTwoColumnContainer Name="ConversationsPanel" Access="Public" VerticalExpand="True" ColumnSeparation="8">
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6">
+                    <CheckBox Name="ShowArchived" Access="Public" Text="{Loc stories-ares-admin-show-archived}" />
+                    <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                        <BoxContainer Name="Conversations" Access="Public" Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5" />
+                    </ScrollContainer>
+                </BoxContainer>
+                <crt:RMCCrtSeparator Orientation="Vertical" />
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6">
+                    <crt:RMCCrtLabel Name="SelectedUser" Access="Public" Heading="True" />
+                    <ScrollContainer Name="TranscriptScroll" Access="Public" VerticalExpand="True" HScrollEnabled="False">
+                        <BoxContainer Name="Transcript" Access="Public" Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5" />
+                    </ScrollContainer>
+                    <crt:RMCCrtTextEdit Name="Reply" Access="Public" MinHeight="75" MaxHeight="120" />
+                    <crt:RMCCrtLabel Name="Counter" Access="Public" Tone="Muted" />
+                    <crt:RMCCrtActionButton Name="Send" Access="Public" Variant="Filled"
+                        Text="{Loc stories-ares-admin-send}" HorizontalExpand="True" />
+                </BoxContainer>
+            </crt:RMCCrtTwoColumnContainer>
+            <BoxContainer Name="RequestsPanel" Access="Public" Orientation="Vertical" VerticalExpand="True" SeparationOverride="6">
+                <CheckBox Name="ShowClosed" Access="Public" Text="{Loc stories-hermes-show-closed}" />
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Name="Requests" Access="Public" Orientation="Vertical" HorizontalExpand="True" SeparationOverride="6" />
+                </ScrollContainer>
+            </BoxContainer>
+            <crt:RMCCrtLabel Name="Empty" Access="Public" Text="{Loc stories-hermes-empty}" Tone="Muted" />
+            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                <crt:RMCCrtActionButton Name="Previous" Access="Public" Text="{Loc stories-hermes-previous}" />
+                <crt:RMCCrtLabel Name="Page" Access="Public" VerticalAlignment="Center" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Next" Access="Public" Text="{Loc stories-hermes-next}" />
+            </BoxContainer>
+        </BoxContainer>
+    </crt:RMCCrtThemeScope>
+</local:AresAdminWindow>

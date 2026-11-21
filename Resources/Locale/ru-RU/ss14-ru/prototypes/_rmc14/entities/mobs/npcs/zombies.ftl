@@ -1,3 +1,6 @@
+ent-RMCRandomHumanoidZombie = zombie ghost role
+    .desc = { ent-MarkerBase.desc }
+    .suffix = Spawner, Player, Hostile
 ent-RMCSpawnZombifiedColonist = спавнер зомби
     .desc = { "" }
     .suffix = Колонист
@@ -12,7 +15,7 @@ ent-RMCSpawnZombifiedEngineer = { ent-RMCSpawnZombifiedColonist }
     .suffix = Инженер
 ent-RMCSpawnZombifiedSecurity = { ent-RMCSpawnZombifiedColonist }
     .desc = { ent-RMCSpawnZombifiedColonist.desc }
-    .suffix = Охранник
+    .suffix = Безопасность
 ent-RMCSpawnZombifiedLiaison = { ent-RMCSpawnZombifiedColonist }
     .desc = { ent-RMCSpawnZombifiedColonist.desc }
     .suffix = Связной

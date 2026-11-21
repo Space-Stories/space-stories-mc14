@@ -140,6 +140,20 @@ namespace Content.Server.Database
                 .IsUnique();
             // Stories-Hunter-End
 
+            // Stories-SynthProfile-Start
+            modelBuilder.Entity<STSynthProfile>()
+                .HasOne(s => s.Profile)
+                .WithOne(p => p.SynthProfile)
+                .HasForeignKey<STSynthProfile>(s => s.ProfileId)
+                .OnDelete(DeleteBehavior.Cascade);
+            // Stories-SynthProfile-End
+
+            // Stories-SynthVariantPreference-Start
+            modelBuilder.Entity<VariantPreference>()
+                .HasIndex(v => new { v.ProfileId, v.JobName })
+                .IsUnique();
+            // Stories-SynthVariantPreference-End
+
             modelBuilder.Entity<Admin>()
                 .HasOne(p => p.AdminRank)
                 .WithMany(p => p!.Admins)
@@ -606,6 +620,8 @@ namespace Content.Server.Database
         public RMCSquadPreference? SquadPreference { get; set; }
         public string ArmorPreference { get; set; } = null!;
         public List<Rank> Ranks { get; } = new();
+        public List<VariantPreference> VariantPreferences { get; } = new(); // Stories-SynthVariantPreference
+        public STSynthProfile? SynthProfile { get; set; } // Stories-SynthProfile
         public bool PlaytimePerks { get; set; } = true;
         public string XenoPrefix { get; set; } = string.Empty;
         public string XenoPostfix { get; set; } = string.Empty;
@@ -693,6 +709,37 @@ namespace Content.Server.Database
         public string JobName { get; set; } = null!;
         public string RankName { get; set; } = null!;
     }
+
+    // Stories-SynthVariantPreference-Start
+    public class VariantPreference
+    {
+        public int Id { get; set; }
+        public Profile Profile { get; set; } = null!;
+        public int ProfileId { get; set; }
+
+        public string JobName { get; set; } = null!;
+        public string VariantName { get; set; } = null!;
+    }
+    // Stories-SynthVariantPreference-End
+
+    // Stories-SynthProfile-Start
+    [Table("st_synth_profile")]
+    public class STSynthProfile
+    {
+        [Key]
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; } = null!;
+
+        public string Name { get; set; } = string.Empty;
+        [Column(TypeName = "jsonb")] public JsonDocument? Markings { get; set; }
+        public string? HairName { get; set; }
+        public string? HairColor { get; set; }
+        public string? FacialHairName { get; set; }
+        public string? FacialHairColor { get; set; }
+        public string? EyeColor { get; set; }
+        public string? SkinColor { get; set; }
+    }
+    // Stories-SynthProfile-End
 
 
     #region Loadouts

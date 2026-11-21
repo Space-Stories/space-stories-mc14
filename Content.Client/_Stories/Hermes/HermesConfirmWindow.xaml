@@ -1,0 +1,16 @@
+<local:HermesConfirmWindow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Title="{Loc stories-hermes-confirm-title}" MinSize="360 180" SetSize="440 210">
+    <crt:RMCCrtThemeScope Palette="Blue" Effects="HorizontalScanlines">
+        <BoxContainer Orientation="Vertical" Margin="12" SeparationOverride="10">
+            <crt:RMCCrtLabel Name="Message" Access="Public" Tone="Warning" VerticalExpand="True" />
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                <crt:RMCCrtActionButton Name="Accept" Access="Public" Variant="Danger"
+                    Text="{Loc stories-hermes-confirm}" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Cancel" Access="Public"
+                    Text="{Loc stories-hermes-cancel}" HorizontalExpand="True" />
+            </BoxContainer>
+        </BoxContainer>
+    </crt:RMCCrtThemeScope>
+</local:HermesConfirmWindow>

@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingLV624Unaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = LV-624, Вне фракций
+ent-RMCPaperCOBriefingLV624Hawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = LV-624, Ястребы
+ent-RMCPaperCOBriefingLV624Doves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = LV-624, Голуби
+ent-RMCPaperCOBriefingLV624Magpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = LV-624, Сороки

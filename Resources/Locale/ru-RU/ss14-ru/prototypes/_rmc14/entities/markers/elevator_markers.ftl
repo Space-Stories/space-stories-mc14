@@ -1,0 +1,14 @@
+ent-RMCElevatorDestination = пункт назначения лифта
+    .desc = Задаёт точку, в которую и из которой ездит лифт.
+ent-RMCElevatorDestinationVisible = пункт назначения лифта
+    .desc = { ent-RMCElevatorDestination.desc }
+    .suffix = Видно призракам
+ent-RMCElevatorDestinationMarker = пункт назначения лифта
+    .desc = { ent-RMCElevatorDestination.desc }
+    .suffix = Маппинг
+ent-RMCElevatorDestinationMarkerSpawner = исходная точка лифта
+    .desc = Задаёт точку, в которую и из которой ездит лифт, и спавнит лифт.
+    .suffix = { ent-RMCElevatorDestinationMarker.suffix }
+ent-RMCElevatorDestinationVisibleSpawner = исходная точка лифта
+    .desc = Задаёт точку, в которую и из которой ездит лифт, и спавнит лифт.
+    .suffix = { ent-RMCElevatorDestinationVisible.suffix }

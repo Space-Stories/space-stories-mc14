@@ -12,6 +12,11 @@ public sealed class RMCSpottingSystem : SharedRMCSpottingSystem
 
     private void OnSpotRequest(RequestSpotEvent ev, EntitySessionEventArgs args)
     {
+        // Stories-FixSpottingExploit-Start
+        if (args.SenderSession.AttachedEntity is not { } user || user != GetEntity(ev.User))
+            return;
+        // Stories-FixSpottingExploit-End
+
         SpotRequested(ev.SpottingTool, ev.User, ev.Target);
     }
 }

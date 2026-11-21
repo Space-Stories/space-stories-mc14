@@ -1,0 +1,22 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:access="clr-namespace:Content.Client.Access.UI"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      SetSize="620 440" MinSize="360 220">
+    <BoxContainer Orientation="Vertical" Margin="12 8" SeparationOverride="8">
+        <controls:StripeBack>
+            <RichTextLabel Name="CardHint" Access="Public" />
+        </controls:StripeBack>
+        <Label Name="LastOperator" Access="Public" ClipText="True" Visible="False" />
+        <BoxContainer SeparationOverride="8">
+            <Label Text="{Loc rmc-door-electronics-mode}" VerticalAlignment="Center" />
+            <OptionButton Name="Mode" Access="Public" />
+            <Control HorizontalExpand="True" />
+            <Button Name="ResetAccesses" Access="Public" Text="{Loc rmc-door-electronics-reset-accesses}" />
+        </BoxContainer>
+        <ScrollContainer Name="AccessScroll" Access="Public" VerticalExpand="True" HScrollEnabled="False">
+            <access:AccessLevelControl Name="AccessLevels" Access="Public"
+                                       Columns="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                       HSeparationOverride="6" VSeparationOverride="6" />
+        </ScrollContainer>
+    </BoxContainer>
+</controls:FancyWindow>

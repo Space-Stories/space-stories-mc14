@@ -1,6 +1,9 @@
 cm-xeno-construction-failed-weeds = Здесь нельзя сажать сорняки!
 cm-xeno-construction-failed-need-weeds = Вы можете только формировать на сорняках. Найдите смолу, прежде чем начать строительство!
 cm-xeno-construction-failed-cant-build = Вы не можете строить там!
+rmc-xeno-construction-permission-denied = Королева не позволила нам возводить постройки улья!
+rmc-xeno-construction-permission-denied-deconstruct = Королева не позволила нам разрушать постройки улья!
+rmc-xeno-harm-permission-denied = Королева не позволила нам вредить заражённым носителям!
 cm-xeno-construction-failed-select-structure = Сначала вам нужно выбрать структуру для строительства! Используйте действие "Выбрать структуру из смолы".
 cm-xeno-construction-failed-requires-support = Чтобы { CAPITALIZE(MAKEPLURAL($choice)) } устоял, нужен стена или дверь из смолы рядом.
 
@@ -15,6 +18,7 @@ rmc-xeno-construction-no-map-resin-hole = Здесь нет твердой по�
 rmc-xeno-construction-must-have-weeds-resin-hole = Отверстия из смолы должны быть построены на сорняках.
 rmc-xeno-construction-blocked = Мы не можем здесь это построить.
 rmc-xeno-construction-blocked-resin-hole = Здесь уже что-то построено.
+rmc-xeno-construction-failed-cant-build-resin-hole = Мы чувствуем, что это место не подходит для создания смоляного отверстия.
 rmc-xeno-construction-blocked-structure = Здесь уже что-то построено.
 rmc-xeno-construction-similar-too-close-resin-hole = Поблизости есть и другие смоляные отверстия!
 rmc-xeno-construction-dead-body = Тело на пути!
@@ -94,10 +98,18 @@ rmc-xeno-construction-egg-morpher-already-full = Этот морфер для я
 
 rmc-xeno-egg-morpher-return-self = { CAPITALIZE($parasite) } заползает в морфер яйца.
 
-rmc-xeno-construction-egg-morpher-examine = Укрывается: { $cur_paras }/{ $max_paras } лицехватов.
+rmc-xeno-construction-egg-morpher-examine-count = Sheltering: { $cur_paras }/{ $max_paras } children.
+rmc-xeno-construction-egg-morpher-examine-next-spawn = A new child will grow in [bold]{ $time_left }[/bold] seconds.
 
 rmc-xeno-construction-recovery-node-heal-target = Вы чувствуете, как вас окутывает теплая аура.
 rmc-xeno-construction-recovery-node-heal-other = { CAPITALIZE($target) } светится, когда его окутывает теплая аура.
+rmc-xeno-construction-recovery-node-xeno-examine = Recovers the { -rmc-xeno-construction-recovery-node-type-text(type: $type) } of adjacent Xenonids.
+-rmc-xeno-construction-recovery-node-type-text =
+    { $type ->
+        [Health] [color=green]health[/color]
+        [Plasma] [color=cyan]plasma[/color]
+        *[other] [color=red]unknown[/color]
+    }
 
 rmc-xeno-construction-no-map-structure = Здесь недостаточно твердая почва.
 rmc-xeno-construction-must-have-weeds-structure = Это можно построить только на сорняках!
@@ -123,3 +135,5 @@ rmc-xeno-designer-greater-surge-cooldown = Нам нужно подождать,
 rmc-xeno-designer-greater-surge-none = Поблизости нет узлов дизайнера.
 rmc-xeno-designer-greater-surge-success = Мы преобразовали { $count } узлов дизайнера в толстые стенки из смолы.
 rmc-xeno-designer-infuse-node = Вы вводите плазму в лимфатический узел.
+
+rmc-xeno-weedbound-examined = You sense that this structure will collapse if the weeds it is merged with disappear.

@@ -1,6 +1,7 @@
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Xenonids;
+using Content.Shared._Stories.Doors;
 using Content.Shared.Access.Systems;
 using Content.Shared.Directions;
 using Content.Shared.Doors;
@@ -21,6 +22,7 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Player;
 using Robust.Shared.Timing;
 using Robust.Shared.Audio.Systems;
+using Content.Shared._RMC14.Weapons.Melee;
 
 namespace Content.Shared._RMC14.Doors;
 
@@ -56,8 +58,8 @@ public sealed class CMDoorSystem : EntitySystem
         SubscribeLocalEvent<RMCDoorButtonComponent, ActivateInWorldEvent>(OnButtonActivateInWorld);
 
         SubscribeLocalEvent<DoorComponent, RMCDoorPryEvent>(OnDoorPry);
-
         SubscribeLocalEvent<DoorComponent, RMCBeforePryEvent>(OnBeforePry);
+        SubscribeLocalEvent<DoorComponent, CheckMeleeAttackerEvent>(OnDoorReceivingMeleeAttackAttempt);
 
         SubscribeLocalEvent<RMCPodDoorComponent, GetPryTimeModifierEvent>(OnPodDoorGetPryTimeModifier);
 
@@ -173,9 +175,15 @@ public sealed class CMDoorSystem : EntitySystem
         button.Comp.LastUse = time;
         button.Comp.Used = true;
         Dirty(button);
+        _rmcPower.AddOneOffEnergy(button.Owner, button.Comp.OneOffEnergy);
 
         var buttonName = button.Comp.Id ?? Name(button);
         var buttonTransform = Transform(button);
+
+        // Stories-Turnstile-Start
+        var buttonPressedEv = new StoriesDoorButtonPressedEvent(button, user, buttonName);
+        RaiseLocalEvent(ref buttonPressedEv);
+        // Stories-Turnstile-End
 
         var doors = EntityQueryEnumerator<RMCPodDoorComponent, DoorComponent, TransformComponent, MetaDataComponent>();
         while (doors.MoveNext(out var door, out var podDoor, out var doorComp, out var doorTransform, out var metaData))
@@ -237,11 +245,22 @@ public sealed class CMDoorSystem : EntitySystem
             args.Cancelled = true;
     }
 
+    private void OnDoorReceivingMeleeAttackAttempt(Entity<DoorComponent> ent, ref CheckMeleeAttackerEvent args)
+    {
+        if (args.Skip || args.Defer)
+            return;
+
+        // Prevent open doors from interfering with attacking or disarming entities under them.
+        if (ent.Comp.State is DoorState.Opening or DoorState.Open or DoorState.Closing)
+            args.Defer = true;
+    }
+
     private void OnDoorPry(Entity<DoorComponent> ent, ref RMCDoorPryEvent args)
     {
         if (args.Cancelled)
         {
             _audio.Stop(ent.Comp.SoundEntity);
+            ent.Comp.SoundEntity = null; // Stories-FixDoorSoundEntityNetworking
         }
         if (HasComp<XenoComponent>(args.User) && _net.IsServer && !args.Cancelled)
         {

@@ -63,6 +63,7 @@
   - type: DropshipWeapon
     abbreviation: РКУ
     fireDelay: 5
+    sTLaunchCameraShakeStrength: 1 # Stories-DropshipLaunchEffects
     weaponAttachedSprite:
       sprite: _RMC14/Objects/dropship_attachments.rsi
       state: rocket_pod_installed

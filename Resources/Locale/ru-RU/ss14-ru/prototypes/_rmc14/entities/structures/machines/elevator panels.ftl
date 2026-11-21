@@ -1,0 +1,10 @@
+ent-RMCElevatorPanel = панель управления лифтом
+    .desc = Панель управления лифтом.
+ent-RMCElevatorPanelPower = { ent-RMCElevatorPanel }
+    .desc = { ent-RMCElevatorPanel.desc }
+    .suffix = Требует питания
+ent-RMCElevatorPanelCallOnly = панель вызова лифта
+    .desc = Позволяет вызвать лифт к себе.
+ent-RMCElevatorPanelCallOnlyPower = { ent-RMCElevatorPanelCallOnly }
+    .desc = { ent-RMCElevatorPanelCallOnly.desc }
+    .suffix = Требует питания

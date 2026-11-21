@@ -44,6 +44,8 @@
     - state: egg_item
       map: [ "enum.XenoEggLayers.Base" ]
   - type: XenoEgg
+  - type: BlackMarketValue
+    value: 35
   - type: Damageable
     damageContainer: StructuralXeno
   - type: RMCMesonsNonviewable
@@ -83,6 +85,7 @@
     - Electrocution
   - type: DeletedByWeedKiller
   - type: XenoChargeDontHit
+  - type: BlockXenoConstruction
 
 - type: entity
   parent: BaseItem

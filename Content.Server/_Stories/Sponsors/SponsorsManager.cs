@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -7,14 +8,14 @@ using System.Threading.Tasks;
 using Content.Shared._Stories.Hunter.Profiles;
 using Content.Shared._Stories.SCCVars;
 using Content.Shared._Stories.Sponsors;
-using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Utility;
 
 namespace Content.Server._Stories.Sponsors;
 
-public sealed class SponsorsManager
+public sealed class SponsorsManager : ISharedSponsorsManager
 {
     private readonly Dictionary<NetUserId, SponsorInfo> _cachedSponsors = new();
     [Dependency] private readonly IConfigurationManager _cfg = default!;
@@ -39,6 +40,24 @@ public sealed class SponsorsManager
     public bool TryGetInfo(NetUserId userId, [NotNullWhen(true)] out SponsorInfo? sponsor)
     {
         return _cachedSponsors.TryGetValue(userId, out sponsor);
+    }
+
+    public bool TryGetInfo(ICommonSession? session, [NotNullWhen(true)] out SponsorInfo? sponsor)
+    {
+        sponsor = null;
+        if (session == null)
+            return false;
+        return TryGetInfo(session.UserId, out sponsor);
+    }
+
+    public bool IsLoadoutAllowed(ICommonSession? session, string loadoutId)
+    {
+        if (TryGetInfo(session, out var sponsor))
+        {
+            return sponsor.AllowedLoadouts.Contains(loadoutId);
+        }
+
+        return false;
     }
 
     private async Task OnConnecting(NetConnectingArgs e)
@@ -109,6 +128,7 @@ public sealed class SponsorsManager
             HavePriorityJoin = apiInfo.HavePriorityJoin,
             AllowedMarkings = apiInfo.AllowedMarkings,
             AllowedTTSVoices = apiInfo.AllowedTTSVoices ?? Array.Empty<string>(),
+            AllowedLoadouts = apiInfo.AllowedLoadouts ?? Array.Empty<string>(),
             RoleTimeBypass = apiInfo.RoleTimeBypass,
             WhitelistRoleTimeBypass = apiInfo.WhitelistRoleTimeBypass,
             GhostSkin = apiInfo.GhostSkin,
@@ -140,6 +160,9 @@ public sealed class SponsorsManager
 
         [JsonPropertyName("allowedTTSVoices")]
         public string[] AllowedTTSVoices { get; set; } = Array.Empty<string>();
+
+        [JsonPropertyName("allowedLoadouts")]
+        public string[] AllowedLoadouts { get; set; } = Array.Empty<string>();
 
         [JsonPropertyName("roleTimeBypass")]
         public bool RoleTimeBypass { get; set; }

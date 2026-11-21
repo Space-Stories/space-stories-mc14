@@ -26,24 +26,19 @@
     <GuideEntityEmbed Entity="CMBeltMarine"/>
     <GuideEntityEmbed Entity="RMCPouchFirstAid"/>
   </Box>
-  У тебя есть 45 очков, которые можно потратить на дополнительное снаряжение, такое как гранаты, инструменты или специальные боеприпасы! Каждый предмет имеет свою стоимость в очках, и некоторые предметы более выгодны, чем другие. Сейчас возьми расширенные или бронебойные магазины для M54C и положи их в свой ремень.
+  У тебя есть 45 очков, которые можно потратить на дополнительное снаряжение, такое как гранаты, инструменты или специальные боеприпасы! Каждый предмет имеет свою стоимость в очках, и некоторые предметы более выгодны, чем другие. Сейчас возьми расширенные или бронебойные магазины для M41A MK2 и положи их в свой ремень.
 
   <Box>
     [color=red]Теперь ты выглядишь как морпех![/color]
   </Box>
-   - Meet your new best friend, the [bold]M54C Assault Rifle MK2[/bold]. Take some extra magazines and put them in your belt or pouches, and don't forget to load the gun.
-   - Now you might be tempted to take your new buddy for a spin and get to know eachother a little better. Head to the firing range if you want to practice your aim.
-   -If you are not in the firing range you [color=red]do not[/color] discharge your weapon!
+   - Познакомься со своим новым лучшим другом — [bold]штурмовой винтовкой M41A MK2[/bold]. Возьми запасные магазины, разложи их по поясу и подсумкам и не забудь зарядить оружие.
+   - Теперь тебе наверняка не терпится вывести нового приятеля на прогулку и узнать друг друга получше. Хочешь отработать прицеливание — иди в тир.
+   -Если ты не в тире, ты [color=red]не[/color] стреляешь из оружия!
     <GuideEntityEmbed Entity="RMCWeaponRifleM54C"/>
-   - Make sure you have some standard and armor-piercing (AP) magazines. AP will punch through tougher targets, and that includes marines so WATCH. YOUR. FIRE.
+   - Убедись, что у тебя есть стандартные и бронебойные (ББ) магазины. Бронебойные пробивают крепкие цели насквозь — включая морпехов, так что СЛЕДИ. ЗА. ОГНЁМ.
   <Box>
     <GuideEntityEmbed Entity="ColMarTechGuns"/>
   </Box>
-  Встречай своего нового лучшего друга, [bold]штурмовую винтовку M54C MK2[/bold]. Возьми несколько дополнительных магазинов и положи их в ремень или подсумки, и не забудь зарядить оружие.
-  Теперь у тебя может возникнуть соблазн взять своего нового приятеля на прогулку и немного лучше узнать друг друга. Отправляйся на стрельбище, если хочешь попрактиковаться в стрельбе.
-  Если ты не на стрельбище, ты [color=red]не должен[/color] стрелять из своего оружия!
-  <GuideEntityEmbed Entity="RMCWeaponRifleM54C"/>
-  Убедись, что у тебя есть стандартные и бронебойные (AP) магазины. AP пробьет более прочные цели, включая морпехов, так что СМОТРИ. КУДА. СТРЕЛЯЕШЬ.
   <Box>
     <GuideEntityEmbed Entity="CMMagazineRifleM54C"/>
     <GuideEntityEmbed Entity="CMMagazineRifleM54CAP"/>

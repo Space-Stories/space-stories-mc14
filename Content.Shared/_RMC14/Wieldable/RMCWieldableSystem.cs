@@ -157,15 +157,6 @@ public sealed class RMCWieldableSystem : EntitySystem
         }
 
         args.Handled = true;
-
-        if (!_useDelaySystem.TryGetDelayInfo((wieldable.Owner, useDelayComponent), out var info, WieldUseDelayId))
-        {
-            return;
-        }
-
-        var time = $"{(info.EndTime - _timing.CurTime).TotalSeconds:F1}";
-
-        _popupSystem.PopupClient(Loc.GetString("rmc-wield-use-delay", ("seconds", time), ("wieldable", wieldable.Owner)), args.User, args.User);
     }
 
     public void RefreshWieldDelay(Entity<WieldDelayComponent?> wieldable)
@@ -187,6 +178,9 @@ public sealed class RMCWieldableSystem : EntitySystem
         if (_container.TryGetContainingContainer((wieldable, null), out var container))
             skillModifiedDelay -= TimeSpan.FromSeconds(0.2) * _skills.GetSkill(container.Owner, WieldSkill);
 
+        if (skillModifiedDelay < TimeSpan.Zero)
+            skillModifiedDelay = TimeSpan.Zero;
+
         _useDelaySystem.SetLength(wieldable.Owner, skillModifiedDelay, WieldUseDelayId);
         _useDelaySystem.TryResetDelay(wieldable.Owner, id: WieldUseDelayId);
     }
@@ -204,11 +198,6 @@ public sealed class RMCWieldableSystem : EntitySystem
         }
 
         args.Cancel();
-
-        var time = $"{(info.EndTime - _timing.CurTime).TotalSeconds:F1}";
-
-        //_popupSystem.PopupClient(Loc.GetString("rmc-shoot-use-delay", ("seconds", time), ("wieldable", wieldable.Owner)), args.User, args.User);
-        // Uncomment when there's a cooldown on popups from a source.
     }
 
 #endregion

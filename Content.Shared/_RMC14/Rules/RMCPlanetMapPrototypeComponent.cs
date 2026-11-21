@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Item;
+using Content.Shared._RMC14.Marines.Command;
 using Content.Shared.Paper;
 using Content.Shared.Roles;
 using Robust.Shared.GameStates;
@@ -17,6 +18,14 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
 
     [DataField, AutoNetworkedField]
     public CamouflageType Camouflage = CamouflageType.Jungle;
+    // Stories-ZLevels-Start
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsBelow = new();
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsAbove = new();
+    // Stories-ZLevels-End
 
     [DataField, AutoNetworkedField]
     public int MinPlayers;
@@ -25,7 +34,7 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     public int MaxPlayers;
 
     [DataField, AutoNetworkedField]
-    public string? Announcement;
+    public List<RMCPlanetAnnouncement>? Announcements;
 
     [DataField, AutoNetworkedField]
     public List<(ProtoId<JobPrototype> Job, int Amount)>? SurvivorJobs;
@@ -91,6 +100,23 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     [DataField, AutoNetworkedField, Access(Other = AccessPermissions.ReadExecute)]
     public Dictionary<EntProtoId, EntProtoId?>? Replacements;
     // Stories-Survivor-End
+
+    // Stories-RandomScenarioVariant-Start
+    [DataField, AutoNetworkedField]
+    public HashSet<ProtoId<JobPrototype>>? RandomScenarioVariantJobs;
+    // Stories-RandomScenarioVariant-End
+
+    /// <summary>
+    /// Round-start operational briefings sent to the Commanding Officer, keyed by their affiliation preference.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Dictionary<CommandingOfficerAffiliation, EntProtoId<PaperComponent>>? CommandingOfficerBriefings;
+
+    /// <summary>
+    /// Which small hosts types should spawn on the planet
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId>? SmallHostVariants;
 }
 
 [DataDefinition]
@@ -102,4 +128,18 @@ public sealed partial record RMCNightmareScenario
 
     [DataField]
     public float ScenarioProbability = 1.0f;
+}
+
+[DataDefinition]
+[Serializable, NetSerializable]
+public sealed partial record RMCPlanetAnnouncement
+{
+    [DataField]
+    public TimeSpan Delay = TimeSpan.FromSeconds(20);
+
+    [DataField(required: true)]
+    public LocId Text;
+
+    [DataField]
+    public LocId Announcement = "rmc-announcement-ares-map";
 }

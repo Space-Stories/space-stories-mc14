@@ -1,2 +1,12 @@
 ent-RMCCartridge458SOCOM = горсть пуль .458 SOCOM
     .desc = { ent-CMShellShotgunBase.desc }
+ent-RMCCartridge4570 = горсть патронов .45-70
+    .desc = { ent-CMShellShotgunBase.desc }
+ent-RMCCartridge4570Training = горсть холостых патронов .45-70
+    .desc = { ent-RMCCartridge4570.desc }
+ent-RMCCartridge4570Three = { ent-RMCCartridge4570 }
+    .desc = { ent-RMCCartridge4570.desc }
+    .suffix = 3
+ent-RMCCartridge4570TrainingThree = { ent-RMCCartridge4570Training }
+    .desc = { ent-RMCCartridge4570Training.desc }
+    .suffix = 3

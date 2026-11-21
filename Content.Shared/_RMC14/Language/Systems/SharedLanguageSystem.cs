@@ -4,6 +4,9 @@ using Content.Shared._RMC14.Language.Prototypes;
 using Content.Shared.Ghost;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Content.Shared._Stories.Hunter.Marking.Components;
+using Content.Shared._Stories.Hunter.Bracer.Components;
+using Content.Shared.Inventory;
 
 namespace Content.Shared._RMC14.Language.Systems;
 
@@ -49,10 +52,33 @@ public abstract class SharedLanguageSystem : EntitySystem
 
     public bool CanSpeak(Entity<LanguageComponent?> ent, ProtoId<LanguagePrototype> language)
     {
+        if (HasComp<HunterComponent>(ent.Owner))
+        {
+            if (language.Id == "STHunter")
+                return true;
+
+            if (EntityManager.TrySystem<InventorySystem>(out var invSys) &&
+                invSys.TryGetSlotEntity(ent.Owner, "gloves", out var equipped) &&
+                equipped.HasValue &&
+                HasComp<HunterBracerComponent>(equipped.Value) &&
+                Comp<HunterBracerComponent>(equipped.Value).TranslatorActive)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         if (!Resolve(ent, ref ent.Comp, false))
             return language == CommonLanguage;
 
-        return ent.Comp.SpokenLanguages.Contains(language);
+        if (ent.Comp.SpokenLanguages.Contains(language))
+            return true;
+
+        // Stories-SpeakWhileLearning
+        return TryComp(ent.Owner, out LanguageLearningComponent? learning) &&
+            learning.LanguageStates.TryGetValue(language, out var state) &&
+            (!state.RequiresFirstContact || state.Encountered);
     }
 
     public bool CanUnderstand(EntityUid entity, ProtoId<LanguagePrototype> language)
@@ -62,7 +88,10 @@ public abstract class SharedLanguageSystem : EntitySystem
 
     public bool CanUnderstand(Entity<LanguageComponent?> ent, ProtoId<LanguagePrototype> language)
     {
-        if (HasComp<GhostComponent>(ent))
+        if (HasComp<GhostComponent>(ent.Owner))
+            return true;
+
+        if (HasComp<HunterComponent>(ent.Owner))
             return true;
 
         if (!Resolve(ent, ref ent.Comp, false))
@@ -78,8 +107,42 @@ public abstract class SharedLanguageSystem : EntitySystem
 
     public IReadOnlySet<ProtoId<LanguagePrototype>> GetSpokenLanguages(Entity<LanguageComponent?> ent)
     {
+        if (HasComp<HunterComponent>(ent.Owner))
+        {
+            if (EntityManager.TrySystem<InventorySystem>(out var invSys) &&
+                invSys.TryGetSlotEntity(ent.Owner, "gloves", out var equipped) &&
+                equipped.HasValue &&
+                HasComp<HunterBracerComponent>(equipped.Value) &&
+                Comp<HunterBracerComponent>(equipped.Value).TranslatorActive)
+            {
+                var allLangs = new HashSet<ProtoId<LanguagePrototype>>();
+                foreach (var proto in _prototypeManager.EnumeratePrototypes<LanguagePrototype>())
+                {
+                    allLangs.Add(proto.ID);
+                }
+                return allLangs;
+            }
+            else
+            {
+                return new HashSet<ProtoId<LanguagePrototype>> { "STHunter" };
+            }
+        }
+
         if (!Resolve(ent, ref ent.Comp, false))
             return DefaultLanguages;
+
+        // Stories-SpeakWhileLearning-Start
+        if (TryComp(ent.Owner, out LanguageLearningComponent? learning) && learning.LanguageStates.Count > 0)
+        {
+            var languages = new HashSet<ProtoId<LanguagePrototype>>(ent.Comp.SpokenLanguages);
+            foreach (var (learningLanguage, state) in learning.LanguageStates)
+            {
+                if (!state.RequiresFirstContact || state.Encountered)
+                    languages.Add(learningLanguage);
+            }
+            return languages;
+        }
+        // Stories-SpeakWhileLearning-End
 
         return ent.Comp.SpokenLanguages;
     }

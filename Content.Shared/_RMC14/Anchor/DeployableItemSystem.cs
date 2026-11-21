@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Content.Shared._RMC14.Inventory;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Construction.EntitySystems;
@@ -13,6 +13,7 @@ using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
 using Content.Shared.Verbs;
+using Content.Shared.Wieldable;
 using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -47,14 +48,16 @@ public sealed class DeployableItemSystem : EntitySystem
     {
         SubscribeLocalEvent<DeployableItemComponent, AfterInteractEvent>(OnAfterInteract);
         SubscribeLocalEvent<DeployableItemComponent, InteractHandEvent>(OnInteractHand);
-        SubscribeLocalEvent<DeployableItemComponent, UseInHandEvent>(OnUseInHand);
+        SubscribeLocalEvent<DeployableItemComponent, UseInHandEvent>(OnUseInHand,
+            after: [typeof(SharedWieldableSystem)]);
         SubscribeLocalEvent<DeployableItemComponent, CanDragEvent>(OnCanDrag);
         SubscribeLocalEvent<DeployableItemComponent, CanDropDraggedEvent>(OnCanDropDragged);
         SubscribeLocalEvent<DeployableItemComponent, DragDropDraggedEvent>(OnDragDropDragged);
         SubscribeLocalEvent<DeployableItemComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<DeployableItemComponent, GetVerbsEvent<AlternativeVerb>>(OnGetAlternativeVerbs);
 
-        SubscribeLocalEvent<DeployFoldableComponent, UseInHandEvent>(OnFoldableUseInHand);
+        SubscribeLocalEvent<DeployFoldableComponent, UseInHandEvent>(OnFoldableUseInHand,
+            after: [typeof(SharedWieldableSystem)]);
 
         SubscribeLocalEvent<HandsComponent, CanDropTargetEvent>(OnCanDropTarget);
     }
@@ -101,11 +104,12 @@ public sealed class DeployableItemSystem : EntitySystem
         {
             if (ent.Comp.Position != DeployableItemPosition.None)
             {
-                args.PushMarkup(Loc.GetString("cm-magazine-box-examine-deployed-click"));
-                args.PushMarkup(Loc.GetString("cm-magazine-box-examine-deployed-drag"));
 
                 if (ent.Comp.MagazineExamine)
                 {
+                    args.PushMarkup(Loc.GetString("cm-magazine-box-examine-deployed-click"));
+                    if (!ent.Comp.LeftClickPickup)
+                        args.PushMarkup(Loc.GetString("cm-magazine-box-examine-deployed-drag"));
                     args.PushMarkup(Loc.GetString("cm-magazine-box-examine-magazines",
                         ("filled", filled),
                         ("total", total)));

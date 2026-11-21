@@ -34,6 +34,9 @@ reagent-desc-ice-cafe = Кофейный смузи с чудесным аром
 reagent-name-swiss-lemonade = швейцарский лимонад
 reagent-desc-swiss-lemonade = Как ни странно, это на самом деле не швейцарский продукт, и в нём нет лимонов!
 
+reagent-name-rmc-macho-sauce = соус мачо
+reagent-desc-rmc-macho-sauce = Скорее воспламенение, чем пищеварение.
+
 reagent-name-instant-orange-powder = быстрорастворимый апельсиновый порошок
 reagent-desc-instant-orange-powder = Апельсиновый сок в виде порошка, готовый к смешиванию с водой. Пахнет, какой сюрприз, апельсинами.
 

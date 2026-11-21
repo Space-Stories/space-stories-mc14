@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Areas;
+using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.TacticalMap;
@@ -18,6 +19,7 @@ using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
+using Content.Shared.Ghost;
 using Content.Shared.Hands;
 using Content.Shared.Interaction;
 using Content.Shared.Item.ItemToggle.Components;
@@ -47,6 +49,7 @@ public sealed class XenoTunnelSystem : EntitySystem
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly AreaSystem _area = default!;
+    [Dependency] private readonly RMCC4DisarmableSystem _c4Disarm = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
@@ -148,27 +151,28 @@ public sealed class XenoTunnelSystem : EntitySystem
 
     private void OnExamine(Entity<XenoTunnelComponent> xenoTunnel, ref ExaminedEvent args)
     {
-        if (!HasComp<XenoComponent>(args.Examiner) || !_hive.FromSameHive(args.Examiner, xenoTunnel.Owner))
+        if (HasComp<GhostComponent>(args.Examiner) || (HasComp<XenoComponent>(args.Examiner) && _hive.FromSameHive(args.Examiner, xenoTunnel.Owner)))
         {
-            LocId message = "rmc-xeno-construction-tunnel-examine-not-xeno-empty";
-
-            var container = _container.EnsureContainer<Container>(xenoTunnel, XenoTunnelComponent.ContainedMobsContainerId);
-            if (container.ContainedEntities.Count > 0)
-                message = "rmc-xeno-construction-tunnel-examine-not-xeno";
+            if (!TryGetHiveTunnelName(xenoTunnel, out var tunnelName))
+                return;
 
             using (args.PushGroup(nameof(XenoTunnelComponent)))
             {
-                args.PushMarkup(Loc.GetString(message));
+                args.PushMarkup(Loc.GetString("rmc-xeno-construction-tunnel-examine", ("tunnelName", tunnelName)));
             }
+
             return;
         }
 
-        if (!TryGetHiveTunnelName(xenoTunnel, out var tunnelName))
-            return;
+        LocId message = "rmc-xeno-construction-tunnel-examine-not-xeno-empty";
+
+        var container = _container.EnsureContainer<Container>(xenoTunnel, XenoTunnelComponent.ContainedMobsContainerId);
+        if (container.ContainedEntities.Count > 0)
+            message = "rmc-xeno-construction-tunnel-examine-not-xeno";
 
         using (args.PushGroup(nameof(XenoTunnelComponent)))
         {
-            args.PushMarkup(Loc.GetString("rmc-xeno-construction-tunnel-examine", ("tunnelName", tunnelName)));
+            args.PushMarkup(Loc.GetString(message));
         }
     }
 
@@ -367,6 +371,11 @@ public sealed class XenoTunnelSystem : EntitySystem
     {
         if (_net.IsClient)
             return;
+
+        // Stories-UIValidation-Start
+        if (!_ui.IsUiOpen(xenoTunnel.Owner, NameTunnelUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
 
         var name = args.TunnelName;
         if (name.Length > 50)
@@ -640,6 +649,10 @@ public sealed class XenoTunnelSystem : EntitySystem
             return;
         }
 
+        _c4Disarm.TryStartContainedMultitoolDisarm(xenoTunnel.Owner, ref args);
+        if (args.Handled)
+            return;
+
         var tool = args.Used;
         if (TryComp(tool, out XenoTunnelFillerComponent? tunnelFillerComp))
         {
@@ -839,7 +852,8 @@ public sealed class XenoTunnelSystem : EntitySystem
         var actions = _action.GetActions(ent);
         foreach (var action in actions)
         {
-            _action.SetEnabled(action.AsNullable(), newStatus);
+            if (!HasComp<RMCInContainerActionComponent>(action))
+                _action.SetEnabled(action.AsNullable(), newStatus);
         }
     }
 
@@ -932,7 +946,7 @@ public sealed class SelectDestinationTunnelInterfaceState(Dictionary<string, Net
     public Dictionary<string, NetEntity> HiveTunnels = hiveTunnels;
 }
 
-public sealed partial class XenoDigTunnelActionEvent : InstantActionEvent
+public sealed partial class XenoDigTunnelActionEvent : WorldTargetActionEvent
 {
     [DataField]
     public EntProtoId Prototype = "XenoTunnel";

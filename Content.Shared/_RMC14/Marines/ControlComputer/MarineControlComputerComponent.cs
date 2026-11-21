@@ -5,7 +5,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared._RMC14.Marines.ControlComputer;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, AutoGenerateComponentPause]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true), AutoGenerateComponentPause]
 [Access(typeof(SharedMarineControlComputerSystem))]
 public sealed partial class MarineControlComputerComponent : Component
 {
@@ -54,6 +54,12 @@ public sealed partial class MarineControlComputerComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public HashSet<string> PrintedCommendationIds = new();
+
+    /// <summary>
+    ///     The map this computer toggles the evacuation state of.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public EntityUid? EvacuationMap;
 }
 
 [Serializable, NetSerializable]

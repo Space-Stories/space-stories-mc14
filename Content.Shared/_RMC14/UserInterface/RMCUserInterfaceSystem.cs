@@ -1,4 +1,6 @@
-﻿using Content.Shared.UserInterface;
+﻿using Content.Shared.Ghost;
+using Content.Shared.Interaction;
+using Content.Shared.UserInterface;
 using Content.Shared.Whitelist;
 using JetBrains.Annotations;
 
@@ -6,6 +8,7 @@ namespace Content.Shared._RMC14.UserInterface;
 
 public sealed class RMCUserInterfaceSystem : EntitySystem
 {
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
     private readonly List<(Entity<UserInterfaceComponent?> Ent, Action<Entity<UserInterfaceComponent?>, RMCUserInterfaceSystem> Act)> _toRefresh = new();
@@ -54,6 +57,27 @@ public sealed class RMCUserInterfaceSystem : EntitySystem
         }
 
         return true;
+    }
+
+    public bool CanUseUI(BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return false;
+
+        if (TryComp<GhostComponent>(args.Actor, out var ghost))
+            return ghost.CanGhostInteract || args.Message is OpenBoundInterfaceMessage;
+
+        if (!_interaction.InRangeAndAccessible(args.Actor, args.Target) ||
+            !CanOpenUI((args.Target, null), (args.Actor, null), args.UiKey))
+        {
+            return false;
+        }
+
+        var openAttempt = new ActivatableUIOpenAttemptEvent(args.Actor);
+        RaiseLocalEvent(args.Target, openAttempt);
+        var userAttempt = new UserOpenActivatableUIAttemptEvent(args.Actor, args.Target);
+        RaiseLocalEvent(args.Actor, userAttempt);
+        return !openAttempt.Cancelled && !userAttempt.Cancelled;
     }
 
     public void RefreshUIs<T>(Entity<UserInterfaceComponent?> uiEnt) where T : BoundUserInterface, IRefreshableBui

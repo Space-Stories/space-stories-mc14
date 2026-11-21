@@ -29,7 +29,7 @@
   - type: PhysicalComposition
     materialComposition:
       CMGlass: 150
-  - type: RequiresSkill # Stories-Parity
+  - type: RequiresSkill
     skills:
       RMCSkillMedical: 2
 

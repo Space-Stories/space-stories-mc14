@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Dialog;
+using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Marines.Skills.Pamphlets;
 using Content.Shared._RMC14.Marines.Squads;
@@ -68,6 +68,9 @@ public sealed class SquadLeaderTrackerSystem : EntitySystem
         SubscribeLocalEvent<SquadLeaderTrackerComponent, SquadLeaderTrackerChangeModeEvent>(OnSquadLeaderTrackerChangeMode);
         SubscribeLocalEvent<SquadLeaderTrackerComponent, LeaderTrackerSelectTargetEvent>(OnLeaderTrackerSelectTargetEvent);
         SubscribeLocalEvent<SquadLeaderTrackerComponent, GetMarineSquadNameEvent>(OnRoleChange, after: [typeof(SkillPamphletSystem), typeof(VendorRoleOverrideSystem)]);
+        // Stories-FixDeletedTrackerTarget-Start
+        SubscribeLocalEvent<RMCTrackableComponent, EntityTerminatingEvent>(OnTrackableTerminating);
+        // Stories-FixDeletedTrackerTarget-End
 
         Subs.BuiEvents<SquadLeaderTrackerComponent>(SquadLeaderTrackerUI.Key,
             subs =>
@@ -151,6 +154,18 @@ public sealed class SquadLeaderTrackerSystem : EntitySystem
 
         _alerts.ClearAlert(ent, trackerMode.Alert);
     }
+
+    // Stories-FixDeletedTrackerTarget-Start
+    private void OnTrackableTerminating(Entity<RMCTrackableComponent> ent, ref EntityTerminatingEvent args)
+    {
+        var query = EntityQueryEnumerator<SquadLeaderTrackerComponent>();
+        while (query.MoveNext(out var uid, out var tracker))
+        {
+            if (tracker.Target == ent.Owner)
+                SetTarget((uid, tracker), null);
+        }
+    }
+    // Stories-FixDeletedTrackerTarget-End
 
     private void OnSquadLeaderTrackerClicked(Entity<SquadLeaderTrackerComponent> ent, ref SquadLeaderTrackerClickedEvent args)
     {
@@ -648,6 +663,13 @@ public sealed class SquadLeaderTrackerSystem : EntitySystem
         var query = EntityQueryEnumerator<SquadLeaderTrackerComponent>();
         while (query.MoveNext(out var uid, out var tracker))
         {
+            // Stories-FixDeletedTrackerTarget-Start
+            if (tracker.Target is { } currentTarget && (TerminatingOrDeleted(currentTarget) || !Exists(currentTarget)))
+            {
+                SetTarget((uid, tracker), null);
+            }
+            // Stories-FixDeletedTrackerTarget-End
+
             if (time < tracker.UpdateAt)
                 continue;
 
@@ -745,8 +767,10 @@ public sealed class SquadLeaderTrackerSystem : EntitySystem
                 if (_squadMemberQuery.TryComp(trackableUid, out var targetSquad) && targetSquad.Squad != null)
                     targetSquadProtoId = MetaData(targetSquad.Squad.Value).EntityPrototype?.ID;
 
-                tracker.Target = trackableUid;
-                UpdateDirection((uid, tracker), _transform.GetMapCoordinates(tracker.Target.Value), targetSquadProtoId);
+                // Stories-FixDeletedTrackerTarget-Start
+                SetTarget((uid, tracker), trackableUid);
+                UpdateDirection((uid, tracker), _transform.GetMapCoordinates(trackableUid), targetSquadProtoId);
+                // Stories-FixDeletedTrackerTarget-End
                 break;
             }
 

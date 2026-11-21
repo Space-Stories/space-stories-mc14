@@ -48,6 +48,12 @@ public sealed partial class CMAutomatedVendorComponent : Component
     [DataField, AutoNetworkedField]
     public TimeSpan HackDelay = TimeSpan.FromSeconds(10);
 
+    /// <summary>
+    ///     Energy used for each successfully vended item, in joules.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float VendEnergy;
+
     [DataField, AutoNetworkedField]
     public List<ProtoId<AccessLevelPrototype>> Access = new();
 
@@ -102,12 +108,6 @@ public sealed partial class CMAutomatedVendorComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public Dictionary<string, int> PartialProductStacks = new();
-
-    [DataField, AutoNetworkedField]
-    public Dictionary<EntProtoId, CMVendorEntry> RestockEntries = new();
-
-    [DataField, AutoNetworkedField]
-    public Dictionary<string, CMVendorEntry> StackEntries = new();
 }
 
 internal readonly struct StackRestockPlan

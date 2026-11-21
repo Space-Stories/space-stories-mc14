@@ -7,7 +7,7 @@ cm-action-popup-scoping-user-must-not-contained = Вы не можете исп�
 cm-action-popup-scoping-user-must-wield = Вы должны держать { $scope } двумя руками, чтобы использовать прицел.
 cm-action-popup-scoping-must-attach = { CAPITALIZE($scope) } должен быть прикреплен к оружию, чтобы функционировать!
 rmc-action-popup-scoping-user-cannot-view-cameras = Вы не можете использовать оптику { $scope } во время наблюдения за камерами!
-rmc-action-popup-scoping-user-cannot-viewport = You cannot use the optics of { $scope } while looking through a viewport!
-rmc-action-popup-scoping-user-cannot-vehicle = You cannot use the optics of { $scope } while operating a vehicle!
+rmc-action-popup-scoping-user-cannot-viewport = Вы не можете использовать оптику { $scope } во время просмотра через смотровую щель!
+rmc-action-popup-scoping-user-cannot-vehicle = Вы не можете использовать оптику { $scope } во время управления транспортом!
 
 rcm-action-popup-scope-cycle-zoom = Уровень увеличения изменился на { $zoom }.

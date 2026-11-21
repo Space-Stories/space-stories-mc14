@@ -1,7 +1,7 @@
 name: "Labels: Reviewed By Maintainer"
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened      # Labeler runs when a PR is filed
       - synchronize # and when commits are added.
@@ -11,6 +11,7 @@ on:
       - submitted   # Labeler also runs when a review is added.
 
 permissions:
+  issues: write
   pull-requests: write # Labeler must be able to read and write the pull request metadata.
 
 jobs:
@@ -90,7 +91,7 @@ jobs:
           # If a new commit is pushed, set to needs approval.
           # (GitHub dismisses all reviews on the HEAD commit anyways.)
           # ------------------------------------------------------------
-          if [[ "$EVENT_NAME" == "pull_request" && "$ACTION" == "synchronize" ]]; then
+          if [[ "$EVENT_NAME" == pull_request* && "$ACTION" == "synchronize" ]]; then
             set_status "$LABEL_NEEDS_APPROVAL"
             exit 0
           fi
@@ -99,7 +100,7 @@ jobs:
           # PR opened, keep the old status if it has one,
           # otherwise set S: Needs Review.
           # ------------------------------------------------------------
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+          if [[ "$EVENT_NAME" == pull_request* ]]; then
             if [[ "$ACTION" == "opened" ]]; then
 
               set_status "$LABEL_NEEDS_APPROVAL"

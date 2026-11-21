@@ -40,7 +40,14 @@ public sealed class XenoTailStabSystem : SharedXenoTailStabSystem
         base.Shutdown();
 
 #if DEBUG
-        _console.UnregisterCommand("toggleshowtailattack");
+        try
+        {
+            _console.UnregisterCommand("toggleshowtailattack");
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
 #endif
     }
 

@@ -3,12 +3,14 @@ hc-urgent-description = Пациент имеет травмы, не угрож�
 hc-emergency-description = Пациент получил травмы, угрожающие жизни
 hc-permadead-description = Пациент окончательно скончался
 hc-xeno-description = Пациентка оплодотворяется личинкой ксеноса
+hc-ssd-description = Пациента необходимо переместить в криогенное хранилище
 
 hc-none-name = Нету
 hc-urgent-name = Неотложный
 hc-emergency-name = Чрезвычайный
 hc-permadead-name = Мертвый
 hc-xeno-name = Ксено
+hc-ssd-name = КРС
 
 scannable-holocard-verb-text = Сменить голокарту
 scannable-holocard-verb-message = Сменить голокарту

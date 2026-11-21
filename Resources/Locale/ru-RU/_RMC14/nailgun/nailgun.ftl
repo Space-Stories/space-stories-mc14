@@ -2,5 +2,5 @@ rmc-nailgun-no-nails-message = Для выполнения этого задан
 rmc-nailgun-no-material-message = Чтобы залатать { $target }, вам понадобится соответствующий ремонтный материал в другой руке!
 rmc-nailgun-lost-stack = Похоже, вы перепутали материал для ремонта!
 
-rmc-nailgun-finish-self = Вы прибиваете { $material } к { $target }, восстанавливая часть его целостности!
-rmc-nailgun-finish-others = { $user } гвозди { $material } в { $target }
+rmc-nailgun-finish-self = Вы прибиваете { $material } к { $target }, восстанавливая немного прочности!
+rmc-nailgun-finish-others = { $user } прибивает { $material } к { $target }

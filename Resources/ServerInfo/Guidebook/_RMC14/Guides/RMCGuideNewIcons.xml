@@ -1,37 +1,37 @@
 <Document>
-## New Player Icons
-In some marine roles, like [textlink="Squad Leader" link="RMCGuideSquadLeader"] or Department Heads, you may find [bold]"NEW"[/bold] icons floating above player heads.
-These icons indicate someone's experience both in the game overall and the specific role they are in.
+## Значки новичков
+На некоторых ролях морпехов, вроде [textlink="командира отряда" link="RMCGuideSquadLeader"] или глав отделов, вы можете заметить значки [bold]«NEW»[/bold], парящие над головами игроков.
+Эти значки показывают чей-то опыт — как в игре в целом, так и в конкретной роли.
 
 <Box>
-  <GuideEntityEmbed Entity="RMCNewIconGuidebookPurple" Caption="Purple New"/>
+  <GuideEntityEmbed Entity="RMCNewIconGuidebookPurple" Caption="Фиолетовый NEW"/>
 </Box>
 
-[bold][color=#BF40BF]Purple[/color][/bold] is generally someone's first time playing that role ever. They will have less than one hour in that job. \n
-This icon will be replaced with the [bold][color=#ff000d]Red[/color][/bold] or [bold][color=#008000]Green[/color][/bold] new after they no longer qualify for this icon.
+[bold][color=#BF40BF]Фиолетовый[/color][/bold] — как правило, у того, кто играет на этой роли впервые в жизни. У него меньше часа наигранного времени на этой должности. \n
+Когда игрок перестанет подходить под эти условия, значок сменится на [bold][color=#ff000d]красный[/color][/bold] или [bold][color=#008000]зелёный[/color][/bold].
 
 <Box>
-  <GuideEntityEmbed Entity="RMCNewIconGuidebookRed" Caption="Red New"/>
+  <GuideEntityEmbed Entity="RMCNewIconGuidebookRed" Caption="Красный NEW"/>
 </Box>
 
-[bold][color=#ff000d]Red[/color][/bold] indicates new both the game and the role they are currently in.\n
-They will have less than twenty-five (25) hours of total playtime and less than ten (10) hours of total playtime in that role.
+[bold][color=#ff000d]Красный[/color][/bold] означает новичка и в игре, и в текущей роли.\n
+У такого игрока меньше двадцати пяти (25) часов общего наигранного времени и меньше десяти (10) часов в этой роли.
 
 <Box>
-  <GuideEntityEmbed Entity="RMCNewIconGuidebookYellow" Caption="Yellow New"/>
+  <GuideEntityEmbed Entity="RMCNewIconGuidebookYellow" Caption="Жёлтый NEW"/>
 </Box>
 
-[bold][color=#B8B823]Yellow[/color][/bold] indicates new to the game, but has experience in that specific role.\n
-You will generally see this in roles like Riflemen, Nurse, etc.
+[bold][color=#B8B823]Жёлтый[/color][/bold] означает новичка в игре, у которого при этом есть опыт в конкретной роли.\n
+Обычно вы увидите его на ролях вроде стрелков, фельдшеров и т.п.
 
 <Box>
-  <GuideEntityEmbed Entity="RMCNewIconGuidebookGreen" Caption="Green New"/>
+  <GuideEntityEmbed Entity="RMCNewIconGuidebookGreen" Caption="Зелёный NEW"/>
 </Box>
 
-[bold][color=#008000]Green[/color][/bold] indicates new to the job, but not the game. \n
-This icon, along with [bold][color=#BF40BF]Purple[/color][/bold] NEW will by far be the most seen \n
+[bold][color=#008000]Зелёный[/color][/bold] означает новичка в должности, но не в игре. \n
+Этот значок вместе с [bold][color=#BF40BF]фиолетовым[/color][/bold] NEW вы будете видеть чаще всего \n
 
-You should be using these all of these icons to assist new members of the community or know who may need additional guideance should they ask for it. Always remember to at minimum show patience and understanding with new players.\n
+Используйте все эти значки, чтобы помогать новым членам сообщества и понимать, кому может понадобиться дополнительная подсказка, если её попросят. И как минимум всегда проявляйте терпение и понимание к новым игрокам.\n
 
-Currently, there is a bug at times where no new icon will display when someone has no playtime in a role. If you aren't sure, remember that oftentimes you can use a player's rank to loosely gauge experience (IE: PVT Riflemen, or PFC Corpsmen.).
+Сейчас есть баг: иногда значок не отображается, хотя наигранного времени в роли нет. Если сомневаетесь — помните, что опыт часто можно примерно прикинуть по званию игрока (например, стрелок в звании Рядового или санитар — Рядовой Первого Класса).
 </Document>

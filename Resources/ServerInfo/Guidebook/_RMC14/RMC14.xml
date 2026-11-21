@@ -1,64 +1,64 @@
 ﻿<Document>
-  # RMC-14 Guidebook
+  # Руководство SSMC-14
 
-  Welcome to RMC-14.
+  Добро пожаловать в SSMC-14.
 
-  This is a MRP asymmetric game!
+  Это асимметричная MRP-игра!
 
-  The guidebook, roadmap and rules for the game can be found on the lobby screen, and at any point in the escape menu.
+  Руководство, планы развития и правила игры доступны на экране лобби, а также в любой момент через esc-меню.
 
-  Click any of the tabs on the left to learn about RMC14, and it's unique content.
+  Открывайте вкладки слева, чтобы узнать об SSMC14 и его уникальном контенте.
 
-  Be sure to read the rules if you haven't already.
-  - [textlink="The rules" link="RMCOverview"]
+  Обязательно прочтите правила, если ещё этого не сделали.
+  - [textlink="Правила" link="STOverview"]
 
-  New to RMC-14, or SS14-style games? Be careful! A lot of mechanics and values are not the same as these games.
-  - [textlink="New player guide!" link="RMCGuideNewPlayer"]
-  - [textlink="Your first day as a rifleman!" link="RMCGuideRoleRifleman"]
-  - [textlink="So you've just been born into the hive! Now what?" link="RMCGuideRoleDrone"]
+  Впервые в SSMC-14 или вообще в играх на базе SS14? Будьте осторожны! Многие механики и значения здесь отличаются от привычных.
+  - [textlink="Гайд для новых игроков!" link="RMCGuideNewPlayer"]
+  - [textlink="Твой первый день в роли стрелка!" link="RMCGuideRoleRifleman"]
+  - [textlink="Итак, ты только что родился в улье! Что дальше?" link="RMCGuideRoleDrone"]
 
-  ## Have some experience? Check out these guidebook pages!
+  ## Есть опыт? Загляните на эти страницы руководства!
 
-  Anyone is free to add guides to this page, either through the discord or GitHub.
+  Любой может добавить гайды на эту страницу — через Discord или GitHub.
 
-  Many of these guides are also accessible by examining the role or item they're related to!
+  Многие из этих гайдов также открываются осмотром роли или предмета, к которым они относятся!
 
-  ### Marines and Related
+  ### Морпехи и связанное с ними
 
-  [bold]Roles[/bold]
-  - [textlink="Survivor" link="RMCSurvivor"]
-  - [textlink="Medical" link="RMCMedical"]
-  - [textlink="Requisitions" link="RMCRequisitions"]
-  - [textlink="Intelligence Officer" link="RMCIntel"]
-  - [textlink="Military Police" link="RMCGuideRoleMilitaryPolice"]
-  - [textlink="Combat Technician" link="RMCGuideRoleCombatTechnician"]
-  - [textlink="Maintenance Technician" link="RMCGuideRoleMaintenanceTechnician"]
-  - [textlink="Smart Gun Operator" link="RMCGuideRoleSGO"]
-  - [textlink="Specialists" link="RMCGuideRoleSpec"]
-  - [textlink="Corporate Liaison" link="RMCGuideCorporateLiaison"]
-  - [textlink="Squad Leader" link="RMCGuideSquadLeader"]
+  [bold]Роли[/bold]
+  - [textlink="Выживший" link="RMCSurvivor"]
+  - [textlink="Медицина" link="RMCMedical"]
+  - [textlink="Поставки" link="RMCRequisitions"]
+  - [textlink="Офицер разведки" link="RMCIntel"]
+  - [textlink="Военная полиция" link="RMCGuideRoleMilitaryPolice"]
+  - [textlink="Боевой техник" link="RMCGuideRoleCombatTechnician"]
+  - [textlink="Техник по обслуживанию" link="RMCGuideRoleMaintenanceTechnician"]
+  - [textlink="Оператор смартгана" link="RMCGuideRoleSGO"]
+  - [textlink="Специалисты" link="RMCGuideRoleSpec"]
+  - [textlink="Корпоративный связной" link="RMCGuideCorporateLiaison"]
+  - [textlink="Командир отряда" link="RMCGuideSquadLeader"]
 
-  [bold]General[/bold]
-  - [textlink="Who is in Command?" link="RMCGuideCommandRoles"]
-  - [textlink="Dropships and CAS" link="RMCGuideRoleCAS"]
-  - [textlink="Marine Communications" link="RMCGuideMarineCommunications"]
-  - [textlink="Drink Recipes" link="RMCGuideDrinks"]
-  - [textlink="Cooking Recipes" link="RMCGuideFood"]
+  [bold]Общее[/bold]
+  - [textlink="Кто здесь командует?" link="RMCGuideCommandRoles"]
+  - [textlink="Десантные корабли и КАС" link="RMCGuideRoleCAS"]
+  - [textlink="Связь морпехов" link="RMCGuideMarineCommunications"]
+  - [textlink="Рецепты напитков" link="RMCGuideDrinks"]
+  - [textlink="Кулинарные рецепты" link="RMCGuideFood"]
 
-  [bold]Structures[/bold]
-  - [textlink="Communications towers and sensor towers" link="RMCGuideCommunicationsTowers"]
-  - [textlink="Mortar" link="RMCGuideRoleMortar"]
+  [bold]Постройки[/bold]
+  - [textlink="Вышки связи и сенсорные вышки" link="RMCGuideCommunicationsTowers"]
+  - [textlink="Миномёт" link="RMCGuideRoleMortar"]
 
-  ### Xenonids
+  ### Ксеноморфы
 
-  [bold]Roles[/bold]
-  - [textlink="Caste List" link="RMCGuideXenonidRoles"]
+  [bold]Роли[/bold]
+  - [textlink="Список каст" link="RMCGuideXenonidRoles"]
 
-  [bold]Structures[/bold]
-  - [textlink="Hive Structures" link="RMCGuideHiveStructures"]
-  - [textlink="Resin Holes" link="RMCGuideResinHoles"]
+  [bold]Постройки[/bold]
+  - [textlink="Постройки улья" link="RMCGuideHiveStructures"]
+  - [textlink="Смоляные ловушки" link="RMCGuideResinHoles"]
 
-  [bold]General[/bold]
-  - [textlink="Xenonid Map Icons" link="RMCGuideXenonidMap"]
+  [bold]Общее[/bold]
+  - [textlink="Значки ксеноморфов на карте" link="RMCGuideXenonidMap"]
 
 </Document>

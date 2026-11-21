@@ -28,7 +28,7 @@ public sealed class HomingProjectileSystem : EntitySystem
     /// </summary>
     private void OnStartCollide(Entity<HomingProjectileComponent> ent, ref StartCollideEvent args)
     {
-        if(args.OtherEntity != ent.Comp.Target)
+        if (args.OtherEntity != GetEntity(ent.Comp.Target)) // Stories-DeletedEntityReferences
             return;
 
         RemComp<HomingProjectileComponent>(ent);
@@ -39,7 +39,7 @@ public sealed class HomingProjectileSystem : EntitySystem
     /// </summary>
     private void OnPreventCollide(Entity<HomingProjectileComponent> ent, ref PreventCollideEvent args)
     {
-        if(args.OtherEntity != ent.Comp.Target)
+        if (args.OtherEntity != GetEntity(ent.Comp.Target)) // Stories-DeletedEntityReferences
             return;
 
         RemComp<HomingProjectileComponent>(ent);
@@ -77,8 +77,17 @@ public sealed class HomingProjectileSystem : EntitySystem
                 continue;
 
             // Get the map coordinates and the direction
-            var target = component.Target;
-            var targetCoords = _transform.GetMapCoordinates(target, Transform(target));
+            // Stories-DeletedEntityReferences-Start
+            if (!TryGetEntity(component.Target, out var target) ||
+                TerminatingOrDeleted(target) ||
+                !TryComp(target, out TransformComponent? targetXform))
+            {
+                _toRemove.Add(projectile);
+                continue;
+            }
+
+            var targetCoords = _transform.GetMapCoordinates(target.Value, targetXform);
+            // Stories-DeletedEntityReferences-End
             var projectileCoords = _transform.GetMapCoordinates(projectile, Transform(projectile));
             if (targetCoords.MapId != projectileCoords.MapId)
             {
@@ -89,7 +98,7 @@ public sealed class HomingProjectileSystem : EntitySystem
             var direction = targetCoords.Position - projectileCoords.Position;
 
             // Remove the homing component once the projectile gets close to it's target.
-            if (_transform.InRange(Transform(projectile).Coordinates, Transform(target).Coordinates, 1f))
+            if (_transform.InRange(Transform(projectile).Coordinates, targetXform.Coordinates, 1f)) // Stories-DeletedEntityReferences
             {
                 _toRemove.Add(projectile);
                 continue;

@@ -1,2 +1,2 @@
-ent-RMCRandomComputerDisk = random computer disk spawner
+ent-RMCRandomComputerDisk = случайный спавнер компьютерных дисков
     .desc = { ent-MarkerBase.desc }

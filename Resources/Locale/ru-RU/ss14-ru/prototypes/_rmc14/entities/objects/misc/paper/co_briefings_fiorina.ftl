@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingFiorinaUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Фиорина, Вне фракций
+ent-RMCPaperCOBriefingFiorinaHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Фиорина, Ястребы
+ent-RMCPaperCOBriefingFiorinaDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Фиорина, Голуби
+ent-RMCPaperCOBriefingFiorinaMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Фиорина, Сороки

@@ -1,0 +1,9 @@
+ent-RMCPlatformTyrargoRock = край скалы
+    .desc = Цельная глыба голых камней. Похоже, на неё можно с трудом забраться.
+    .suffix = Тирарго
+ent-RMCPlatformTyrargoRockBroken = разрушенный край скалы
+    .desc = Цельная глыба голых камней. Похоже, на неё можно с трудом забраться. Он разрушен.
+    .suffix = Тирарго
+ent-RMCPlatformTyrargoRockCornerSmall = уголок скалы
+    .desc = Цельная глыба голых камней.
+    .suffix = Тирарго

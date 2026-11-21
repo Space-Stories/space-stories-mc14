@@ -1,7 +1,10 @@
-ent-RMCWeaponFlamerSPP = огнемет LPO80
-    .desc = Устаревший, но эффективный огнемет, официально принятый на вооружение в качестве средства борьбы с укреплениями, но на практике используемый в ближнем бою для выкуривания вражеских бойцов.
+ent-RMCWeaponFlamerSPP = огнемёт LPO80
+    .desc = Устаревший, но эффективный огнемёт, официально принятый на вооружение в качестве средства борьбы с укреплениями, но на практике используемый в ближнем бою для выкуривания вражеских бойцов.
+ent-RMCWeaponFlamerSPPM34Compatible = { ent-RMCWeaponFlamerSPP }
+    .desc = An aged but effective lightweight combat incinerator officially in service as a anti-fortification tool, but in practice, utilized in close quarters combat for flushing out enemy combatants. Due to a quirk in the manufacturing process of this specific weapon, the tank attachment port is technically forward compatible with M34 incinerator tanks.
+    .suffix = M34 Compatible
 ent-RMCWeaponFlamerSPPPVE = { ent-RMCWeaponFlamerSPP }
     .desc = { ent-RMCWeaponFlamerSPP.desc }
     .suffix = PVE
-ent-RMCTankFlamerSPP = бак огнемета LPO80
-    .desc = Топливный бак, используемый для хранения топлива, применяемого в огнемете LPO80. Обращаться с осторожностью.
+ent-RMCTankFlamerSPP = бак огнемёта LPO80
+    .desc = Топливный бак, используемый для хранения топлива, применяемого в огнемёте LPO80. Обращаться с осторожностью.

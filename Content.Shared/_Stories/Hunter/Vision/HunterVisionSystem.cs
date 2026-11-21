@@ -234,7 +234,6 @@ public sealed class HunterVisionSystem : EntitySystem
         userNv.State = NightVisionState.Half;
         userNv.Overlay = true;
         userNv.SeeThroughContainers = true;
-        userNv.Mesons = true;
         userNv.Innate = false;
         userNv.Green = false;
 

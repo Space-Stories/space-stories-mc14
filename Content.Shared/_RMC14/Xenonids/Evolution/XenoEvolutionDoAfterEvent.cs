@@ -10,6 +10,14 @@ public sealed partial class XenoEvolutionDoAfterEvent : DoAfterEvent
     [DataField]
     public EntProtoId Choice = "CMXenoDrone";
 
+    [DataField]
+    public bool IgnoreEvolvesTo;
+
+    // Stories-XenoEvolutionQueue-Start
+    [DataField]
+    public bool Raffle;
+    // Stories-XenoEvolutionQueue-End
+
     public XenoEvolutionDoAfterEvent(EntProtoId choice)
     {
         Choice = choice;

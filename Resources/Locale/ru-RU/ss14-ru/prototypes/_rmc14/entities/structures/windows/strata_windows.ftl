@@ -6,5 +6,5 @@ ent-RMCWindowStrata = окно
     .desc = Стеклянное окно в стеновой раме.
 ent-RMCWindowStrataReinforced = армированное окно
     .desc = Стеклянное окно. При взгляде через него свет преломляется неправильно. Оно выглядит довольно прочным. Потребуется несколько ударов, чтобы разбить его.
-ent-RMCWindowStrataHull = hull window
-    .desc = A glass window. Light refracts incorrectly when looking through. It looks rather strong. No way to get through here.
+ent-RMCWindowStrataHull = корпусное окно
+    .desc = Стеклянное окно. Свет преломляется неправильно, когда смотришь сквозь него. Выглядит довольно прочным. Сюда никак не пробраться.

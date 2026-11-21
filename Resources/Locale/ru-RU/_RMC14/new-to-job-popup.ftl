@@ -36,7 +36,7 @@ rmc-new-to-job-staff-officer = В качестве штабного офицер
 
                                              Ваше основное место дислокации — в ЦИК, на одном из четырех терминалов, обозначенных цветными металлическими пластинами, соответствующими одному из четырех отрядов. Терминал позволяет отправлять сообщения отряду (отправлять синее видимое сообщение отряду независимо от связи), переводить морских пехотинцев в другой отряд, назначать кого-либо исполняющим обязанности командира отряда и напрямую наблюдать за морскими пехотинцами через нашлемные камеры (щелкнув по их имени, что работает только со шлемом или камерой). Вам также доступна тактическая карта, которая обновляется в режиме реального времени с указанием позиций и статуса морских пехотинцев (а также ксеносов, если вышка биосканирования активна), и телефон, позволяющий звонить на любой другой телефон и общаться устно без использования радиосвязи.
 
-                                             Вы также можете отправлять ящики припасов через вкладку "Supply Drop" слева. Свяжитесь с отделом снабжения, чтобы убедиться, что ваш сброс припасов содержит необходимые припасы и что ящик готов, используя радиочастоту отдела снабжения (:п). После того, как ящик будет закрыт, его можно отправить по координатам под крышей нулевого или первого уровня.
+                                             Вы также можете отправлять ящики припасов через вкладку "Сброс припасов" слева. Свяжитесь с отделом снабжения, чтобы убедиться, что ваш сброс припасов содержит необходимые припасы и что ящик готов, используя радиочастоту отдела снабжения (:п). После того, как ящик будет закрыт, его можно отправить по координатам под крышей нулевого или первого уровня.
 
                                              Обычно ваше присутствие на брифинге необходимо, но если вы чувствуете, что вам может понадобиться дополнительная помощь или время, вы можете попросить разрешения отлучиться, чтобы поэкспериментировать и протестировать консоли отряда.
 
@@ -76,7 +76,7 @@ rmc-new-to-job-doctor = В роли врача ваша задача — обе�
 
                                              Обязательно следите за радиоэфиром, ведь от этого может зависеть чья-то жизнь — будь то прибытие десантного корабля с морпехом в критическом состоянии, нехватка медикаментов в снабжении или даже боевые действия на борту корабля.
 
-rmc-new-to-job-cmo = В роли главного врача (CMO) корабля ваша задача — окавать поддержку всем медицинским специалистам как в зоне проведения операции, так и за её пределами, руководить медицинским персоналом на корабле и поддерживать связь с остальным командным составом.
+rmc-new-to-job-cmo = В роли главного врача (ГВ) корабля ваша задача — оказывать поддержку всем медицинским специалистам как в зоне проведения операции, так и за её пределами, руководить медицинским персоналом на корабле и поддерживать связь с остальным командным составом.
 
                                              Как самый высокопоставленный медик на корабле, вы должны обладать как минимум средними знаниями во всех областях медицины. Кроме того, в вашем распоряжении находится собственный кабинет на верхней палубе; вы можете зайти туда в спокойный момент, чтобы забрать хранящуюся там форму старшего офицера.
 
@@ -84,9 +84,9 @@ rmc-new-to-job-cmo = В роли главного врача (CMO) корабл�
 
                                              Ваши второстепенные задачи включают помощь в химической лаборатории или операционных, если ваши подчиненные не справляются из-за высокой нагрузки или нехватки кадров, взаимодействие с другими отделами и оказание специализированных услуг, таких как психологическая оценка.
 
-                                             Как член командного состава, вы обладаете гораздо более широким спектром навыков, чем большинство других, и этот опыт может время от времени требоваться. Например, в экстренных случаях вы можете вести наблюдение (overwatch) за отделениями или обрабатывать разведданные. Обратите внимание, что вы всё еще не обучены обращению с огнестрельным оружием.
+                                             Как член командного состава, вы обладаете гораздо более широким спектром навыков, чем большинство других, и этот опыт может время от времени требоваться. Например, в экстренных случаях вы можете вести наблюдение за отделениями или обрабатывать разведданные. Обратите внимание, что вы всё еще не обучены обращению с огнестрельным оружием.
 
-                                             Обязательно ознакомьтесь со стандартными операционными процедурами (SOP) и Морским законом, особенно в частях, касающихся медицинского отсека. Отдельно стоит отметить ваше право предоставлять доступ в медицинские зоны, что позволяет врачам пользоваться медицинским фабрикатором и камерами содержания в исследовательских лабораториях.
+                                             Обязательно ознакомьтесь со стандартными операционными процедурами (СОП) и Морским законом, особенно в частях, касающихся медицинского отсека. Отдельно стоит отметить ваше право предоставлять доступ в медицинские зоны, что позволяет врачам пользоваться медицинским фабрикатором и камерами содержания в исследовательских лабораториях.
 
 rmc-new-to-job-combat-tech = В качестве боевого техника ваша задача как инженера на передовой — помогать своему отряду, возводя укрепления, ремонтируя технику и проводя взрывные работы.
 
@@ -115,34 +115,82 @@ rmc-new-to-job-maint-tech = В качестве техника по технич
                                              Проведите ремонт участка. Обязательно получите разрешение как от главного инженера, так и от начальника отдела того участка, который вы хотите отремонтировать.
 
                                              Присоединитесь к отряду "Браво" для помощи в строительстве передового поста — ваши инженерные навыки могут оказаться неоценимыми. Обязательно получите разрешение на развертывание от главного инженера или командира.
-rmc-new-to-job-cl = Вы являетесь представителем отдела корпоративных связей корпорации "Weston-Yamada", направленным для обеспечения защиты интересов WEYA, а также для укрепления и развития отношений с UNMC. В качестве корпоративного представителя вы выполняете роль в ролевой игре, призванную сделать игровой процесс интересным и увлекательным, не оказывая при этом существенного влияния на ход событий. Вы подчиняетесь морскому праву и обязаны его соблюдать.
+rmc-new-to-job-cl = Вы являетесь представителем отдела корпоративных связей корпорации "Вестон-Ямада", направленным для обеспечения защиты интересов Ве-Я, а также для укрепления и развития отношений с КМП США. В качестве корпоративного представителя вы выполняете роль в ролевой игре, призванную сделать игровой процесс интересным и увлекательным, не оказывая при этом существенного влияния на ход событий. Вы подчиняетесь морскому праву и обязаны его соблюдать.
 
-                                             В вашем офисе имеется большой запас предметов, необходимых для ролевой игры: от бумаги и ручек до одежды и сигар. Обязательно ознакомьтесь с офисом — по сути, это ваша база. Используйте факс для отправки сообщений в Weston-Yamada с целью передачи информации или подачи запросов. Часто вы не будете получать ответов, и это нормально.
+                                             В вашем офисе имеется большой запас предметов, необходимых для ролевой игры: от бумаги и ручек до одежды и сигар. Обязательно ознакомьтесь с офисом — по сути, это ваша база. Используйте факс для отправки сообщений в Вестон-Ямада с целью передачи информации или подачи запросов. Часто вы не будете получать ответов, и это нормально.
 
-                                             Вы не играете роль антагониста и не участвуете в боевых действиях. Не проявляйте враждебности по отношению к другим игрокам и не предпринимайте враждебных действий: вы должны позитивно представлять компанию "Weston-Yamada". Не отправляйтесь на планету с целью сражаться с инопланетянами. Вы не обучены сражаться, и от вас этого не ожидают.
+                                             Вы не играете роль антагониста и не участвуете в боевых действиях. Не проявляйте враждебности по отношению к другим игрокам и не предпринимайте враждебных действий: вы должны позитивно представлять компанию Вестон-Ямада. Не отправляйтесь на планету с целью сражаться с инопланетянами. Вы не обучены сражаться, и от вас этого не ожидают.
 
                                              Если у вас есть другие вопросы, обратитесь к странице "Корпоративный представитель" в руководстве.
+
+rmc-new-to-job-fireteam-leader = As a Fireteam Leader, your role is possibly the most multifaceted in the squad, foremost of which is leading smaller teams and coordinating fire support.
+
+                                             Your primary duty is communication and small unit leadership aided by a wide range of tools, most importantly your radiotelephone backpack. (For further information on communication methods please refer to the "Marine Communications" guidebook entry.) Relay and execute your squad leader’s directives and pass on supply requests to Requisitions. You are the squad's second-in-command, this means that upon losing your Squad Leader you are first in line to be assigned as Acting Squad Leader (ASL). No one is expecting miracles from you, just listen to your commander and get your jarheads home alive.
+
+                                             You are issued advanced support tools as standard, while you also have access to breaching explosives (Breaching charges and plastic explosives) and very affordable signal flare packs as optional equipment.
+
+                                             You are extensively trained as a Joint Terminal Attack Controller (JTAC), speeding up your laser designator use massively. Use this to mark targets for Close Air Support (CAS) or to obtain coordinates for supply drops (to be transmitted to squad overwatch, preferably by phone), mortar support, or even an orbital strike. (You can switch the designator between laser designation [Target] and rangefinding [Coordinate] modes by alt+left clicking on it.)
+
+                                             Additionally, your engineering and construction skills rival those of a Combat Technician's; permitting you to do everything they can, only marginally slower. It is recommended that you carry tools with you for this reason.
+
+                                             Help maintain cohesion, ensure everyone gets the supplies they need, and leverage the heaviest of UNMC armaments. Bring the hammer down, Lance Corporal.
+
+rmc-new-to-job-smart-gun-operator = As a Smart Gun Operator your job is to provide a robust base of fire and occasionally information to your squad by making use of your advanced equipment and training.
+
+                                             You will find all your specialized gear in the preparations room assigned to you, look for the appropriate marking on the floor near the hypersleep bay. Should you require more ammunition, a few drums may be found in the ASRS munition squad vendor within your squad preparations room along with some at Requisitions, but keep in mind that drums are somewhat expensive to procure.
+
+                                             A quick summary for the parts of your issued ML66A Smart Gun System:
+
+                                              -Combat harness: Reinforced light armor required to use the smartgun, no backpack can be worn while equipping and wearing this (with the sole exception of your optional back scabbard).
+
+                                              -Head mounted sight: An eyepiece with flawless night vision capabilities, allowing for the concurrent use of binoculars unlike standard night vision visors, providing unmatched scouting potential.
+
+                                              -Smart gun: The centrepiece of your kit, a high-tech machine gun equipped with an integral motion detector and Identify Friend or Foe (IFF) technology, allowing you to fire from behind your teammates; note that ONLY fellow marines are protected, civilians and other third parties are not. It also has several smaller features, such as an on-demand armor piercing mode (the hotkey for switching ammo types is space by default) and an integrated magnetic harness. 
+
+                                             You should remember that the battery in your weapon has finite charge, though changing it will only be necessary during the longest and most intense deployments.
+
+                                             Stick close to your squad leader, scout with your sight, and provide mobile area denial to your squad. Light ‘em up, Lance Corporal.
+
+rmc-new-to-job-squad-leader = As a Squad Leader your job is to execute the plan made by shipside command, to navigate, to lead, and to keep your squad alive and combat effective.
+
+                                             Your equipment racks are somewhat unique, in that they are well suited to equipping your squaddies with some otherwise limited pieces of equipment on the cheap, though you are under no obligation to do so.
+
+                                             Your primary task is to direct and organize your squad. The squad tracker interface (Accessible from the alert on the right edge of your screen) is especially helpful in this regard, allowing you to assign fireteams and track other leaders when needed. Delegate tasks to your squaddies and fireteams or lead by example to inspire your men. (For practical advice on leading a squad refer to the "Squad Leader" guidebook entry)
+
+                                             Your skillset is the widest, but also shallowest in your squad, allowing you to fill in for most basic tasks, but perform them worse than those specially trained. You are also trained in leadership, allowing you to give motivating orders to marines close to you.
+
+                                             As a de-facto command member, you are expected to know and abide by Marine Law and the Standard Operating Procedures (SOP), as well as to report, or in the worst case detain offenders (Your armor is issued with a ziptie box).
+
+                                             Listen to the officers in the Combat Information Centre (CIC), keep in contact with your fellow SLs, study the tactical map and exercise initiative to place your squad in advantageous positions. Do the corps proud, Sergeant.
+
+rmc-new-to-job-weapons-specialist = As a weapon specialist, your job is to bring armaments of unparalleled destructive power to the field, and act as a force multiplier to the squad.
+
+                                             You have a multitude of special weapons to choose from, but due to their immense cost only one specialist can employ each specific kit in a given operation. You may choose between Demolitionist (Anti-Tank), Grenadier, Pyro, Scout, Sniper, and Anti-Materiel Rifle kits.  Some choices come with a support kit to be given to a rifleman that allows them to help you become even more lethal. (For further information on specialist equipment please consult the "Specialists” guidebook entry)
+
+                                             Because of your unique ordnance, ammunition conservation and communication with requisitions is essential to stay in the fight. Additionally, heightened situational awareness and careful positioning is vital due to your almost irreplaceable nature. 
+
+                                             Hostile forces will do everything in their power to remove you from the field. Turn the tables on them and help your squad achieve victory. Good hunting, Lance Corporal.
 rmc-new-to-job-cc = В роли корреспондента ваша задача — держать общественность в курсе действий КМП США! Будь то видеосъемка и трансляции, печатная журналистика или любые другие средства.
 
-    Направляйтесь в комнату корреспондентов. Там вы сможете получить базовое снаряжение и телекамеру для съемки происходящего. Эта камера транслирует изображение в реальном времени на любые телевизоры корабля (без звука), так что постарайтесь сделать хорошие кадры для зрителей дома! Факс в комнате также служит вашим инструментом для рассылки статей по кораблю или связи с независимой прессой ("The Free Press").
+    Направляйтесь в комнату корреспондентов. Там вы сможете получить базовое снаряжение и телекамеру для съемки происходящего. Эта камера транслирует изображение в реальном времени на любые телевизоры корабля (без звука), так что постарайтесь сделать хорошие кадры для зрителей дома! Факс в комнате также служит вашим инструментом для рассылки статей по кораблю или связи с независимой прессой ("Свободная пресса").
 
     Корреспонденты могут высадиться на планету или остаться на корабле — выбор за вами! Во время операции на корабле может произойти множество заслуживающих внимания событий, а интервью с невоспетыми героями из вспомогательных отделов всегда популярны среди домашней аудитории. Но если вы или ваши зрители жаждете экшена, вы всегда можете отправиться на передовую.
 
-    Высаживающиеся корреспонденты могут носить с собой личное оружие для самообороны, однако вы не являетесь комбатантом! Время, потраченное на сражения или физическую помощь морпехам — это время, отнятое от съемок или написания статей. Излишняя помощь может превратить вашу форму прессы из щита в мишень для врагов КМ ООН (UNMC). Мертвый корреспондент не сможет отправить репортаж, так что не рискуйте попусту и берегите себя!
+    Высаживающиеся корреспонденты могут носить с собой личное оружие для самообороны, однако вы не являетесь комбатантом! Время, потраченное на сражения или физическую помощь морпехам — это время, отнятое от съемок или написания статей. Излишняя помощь может превратить вашу форму прессы из щита в мишень для врагов КМП США. Мертвый корреспондент не сможет отправить репортаж, так что не рискуйте попусту и берегите себя!
 rmc-new-to-job-combat-correspondent = В роли военного корреспондента вы прикомандированы к КМП США. Ведите репортажи с мест событий, следите за ходом операции и принесите эту историю домой.
 
-                                             Направляйтесь в комнату корреспондентов. Там вы сможете получить базовое снаряжение и телекамеру для съемки происходящего. Эта камера транслирует изображение в реальном времени на любые телевизоры корабля (без звука), так что постарайтесь сделать хорошие кадры для зрителей дома! Факс в комнате также служит вашим инструментом для рассылки статей по кораблю или связи с независимой прессой ("The Free Press").
+                                             Направляйтесь в комнату корреспондентов. Там вы сможете получить базовое снаряжение и телекамеру для съемки происходящего. Эта камера транслирует изображение в реальном времени на любые телевизоры корабля (без звука), так что постарайтесь сделать хорошие кадры для зрителей дома! Факс в комнате также служит вашим инструментом для рассылки статей по кораблю или связи с независимой прессой ("Свободная пресса").
 
                                              Корреспонденты могут высадиться на планету или остаться на корабле — выбор за вами! Во время операции на корабле может произойти множество заслуживающих внимания событий, а интервью с невоспетыми героями из вспомогательных отделов всегда популярны среди домашней аудитории. Но если вы или ваши зрители жаждете экшена, вы всегда можете отправиться на передовую.
 
-                                             Высаживающиеся корреспонденты могут носить с собой личное оружие для самообороны, однако вы не являетесь комбатантом! Время, потраченное на сражения или физическую помощь морпехам — это время, отнятое от съемок или написания статей. Излишняя помощь может превратить вашу форму прессы из щита в мишень для врагов КМ ООН (UNMC). Мертвый корреспондент не сможет отправить репортаж, так что не рискуйте попусту и берегите себя!
+                                             Высаживающиеся корреспонденты могут носить с собой личное оружие для самообороны, однако вы не являетесь комбатантом! Время, потраченное на сражения или физическую помощь морпехам — это время, отнятое от съемок или написания статей. Излишняя помощь может превратить вашу форму прессы из щита в мишень для врагов КМП США. Мертвый корреспондент не сможет отправить репортаж, так что не рискуйте попусту и берегите себя!
 
 rmc-new-to-job-executive-bodyguard = Ваша задача в роли телохранителя руководства — обеспечивать безопасность корпоративного связного на борту корабля, а также активно участвовать с ним в ролевом взаимодействии на протяжении раунда.
 
                                              Для выполнения ваших обязанностей в раздатчиках доступна одежда и снаряжение. Поначалу ассортимент будет ограниченным, но он расширится по мере того, как вы будете получать опыт и игровое время в этой роли.
 
-                                             Вы не являетесь антагонистом. При необходимости сотрудничайте с военной полицией корабля и не вмешивайтесь в их работу, даже если они арестовывают связного. Нарушители, задержанные в офисе за проникновение или нападение на корпоративного связного (CL), должны быть переданы военной полиции.
+                                             Вы не являетесь антагонистом. При необходимости сотрудничайте с военной полицией корабля и не вмешивайтесь в их работу, даже если они арестовывают связного. Нарушители, задержанные в офисе за проникновение или нападение на корпоративного связного (КС), должны быть переданы военной полиции.
 
                                              При любой возможности старайтесь на словах отговаривать связного от враждебных действий против корабля, создания проблем другим игрокам или чрезмерной грубости без веских на то IC-причин (в рамках роли). Вам также рекомендуется сообщать военной полиции о любых незаконных действиях связного, а в случае, если он представляет активную угрозу для других игроков — задержать его и передать ВП.
 
-                                             Не высаживайтесь для борьбы с ксеноморфами и помните, что ваша главная сила заключается в ролевой игре, которую вы можете предложить связному и остальному кораблю. Вам разрешено носить личное оружие при Зелёном коде и длинноствольное при Синем коде, хотя это право может быть отозвано командиром корабля или начальником военной полиции (CMP). Помните о строгом соблюдении правил эскалации конфликта и Морского закона.
+                                             Не высаживайтесь для борьбы с ксеноморфами и помните, что ваша главная сила заключается в ролевой игре, которую вы можете предложить связному и остальному кораблю. Вам разрешено носить личное оружие при Зелёном коде и длинноствольное при Синем коде, хотя это право может быть отозвано командиром корабля или начальником военной полиции (НВП). Помните о строгом соблюдении правил эскалации конфликта и Морского закона.

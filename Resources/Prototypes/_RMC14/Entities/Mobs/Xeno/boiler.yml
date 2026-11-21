@@ -62,6 +62,8 @@
     - ActionXenoDevolve
     tier: 3
     hudOffset: -0.15,0.05
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 900 # 15 minutes
   - type: XenoHeavy
   - type: XenoDevolve
@@ -130,6 +132,7 @@
     radius: 1.8
     softness: 1
     autoRot: true
+    color: "#cbff60"
   - type: RMCSize
     size: Big
   - type: XenoDeathcloud
@@ -170,6 +173,13 @@
   parent: CMXenoBoiler
   id: RMCXenoBoiler
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoBombard ]
+      XenoPrimaryTwo: [ ActionXenoToggleGasType ]
+      XenoPrimaryThree: [ ActionXenoSprayAcidBoiler ]
+      XenoPrimaryFour: [ ActionXenoZoom ]
+      XenoPrimaryFive: [ ActionXenoAcidShroud ]
   - type: Xeno
     actionIds:
     - ActionXenoRest
@@ -203,6 +213,12 @@
   id: RMCXenoBoilerSapper
   suffix: Sapper
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoDeployTraps ]
+      XenoPrimaryTwo: [ ActionXenoAcidMine ]
+      XenoPrimaryThree: [ ActionXenoAcidShotgun ]
+      XenoPrimaryFour: [ ActionXenoZoom ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Boiler/trapper_boiler.rsi
   - type: Xeno
@@ -221,6 +237,9 @@
     name: rmc-xeno-trapper-name
     description: rmc-xeno-trapper-description
     popup: rmc-xeno-trapper-popup
+  - type: XenoDestrain
+    destrainTo: RMCXenoBoiler
+  - type: XenoHidden
   - type: CMArmor
     xenoArmor: 0
     explosionArmor: 20
@@ -244,6 +263,8 @@
     tailDamage:
       groups:
         Brute: 30
+  - type: PointLight
+    color: "#ffc357"
   - type: XenoAcidMine
   - type: XenoAcidShotgun
   - type: XenoDeployTraps

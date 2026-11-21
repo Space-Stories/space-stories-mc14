@@ -17,3 +17,9 @@
   - WeYa
   - CLF
   - TSE
+
+- type: npcFaction
+  id: STLandingZoneTurret
+  hostile:
+  - RMCXeno
+  - HEFA

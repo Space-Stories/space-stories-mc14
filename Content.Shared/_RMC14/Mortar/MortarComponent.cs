@@ -124,4 +124,7 @@ public sealed partial class MortarComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool NeedAnnouncement = false;
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? LoadingShell; // Stories-MortarFix
 }

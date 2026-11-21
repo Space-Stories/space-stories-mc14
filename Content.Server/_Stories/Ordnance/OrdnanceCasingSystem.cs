@@ -101,7 +101,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
             }
 
             _transform.SetCoordinates(ent.Comp.WarheadUid, _transform.GetMoverCoordinates(ent));
-            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), args.User);
+            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), CompOrNull<ProjectileComponent>(ent)?.Shooter);
         }
         args.Handled = true;
         QueueDel(ent);
@@ -109,7 +109,8 @@ public sealed class OrdnanceCasingSystem : EntitySystem
 
     private void OnTrigger(Entity<OrdnanceCasingComponent> ent, ref TriggerEvent args)
     {
-        _ordnanceExplosion.Detonate(ent, args.User);
+        var user = TryComp<ProjectileComponent>(ent, out var projectile) ? projectile.Shooter : args.User;
+        _ordnanceExplosion.Detonate(ent, user);
         args.Handled = true;
     }
 

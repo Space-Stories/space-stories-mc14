@@ -1,8 +1,8 @@
-ent-RMCBodyScanner = body scanner
-    .desc = An advanced full-body scanner capable of providing a detailed health readout of the occupant.
-    .suffix = Spawns with Console
+ent-RMCBodyScanner = сканер тела
+    .desc = Продвинутый сканер всего тела, выдающий подробные сведения о здоровье того, кто внутри.
+    .suffix = С консолью
 ent-RMCBodyScannerNoConsole = { ent-RMCBodyScanner }
     .desc = { ent-RMCBodyScanner.desc }
-    .suffix = No Console
-ent-RMCBodyScannerConsole = body scanner console
-    .desc = A console used to view the detailed health scan results of the occupant in the connected body scanner.
+    .suffix = Без консоли
+ent-RMCBodyScannerConsole = консоль сканера тела
+    .desc = Консоль для просмотра подробных результатов сканирования того, кто находится в подключённом сканере тела.

@@ -1,9 +1,9 @@
-ent-RMCPlayingCardBase = Playing card
+ent-RMCPlayingCardBase = игральная карта
     .desc = { ent-BaseItem.desc }
 ent-RMCPlayingCard = { ent-RMCPlayingCardBase }
     .desc = { ent-RMCPlayingCardBase.desc }
-ent-RMCPlayingCardHand = Hand of cards
+ent-RMCPlayingCardHand = карты в руке
     .desc = { ent-BaseItem.desc }
-ent-RMCPlayingCardDeck = Deck of cards
-    .desc = I swear the game was called Goldfish!
+ent-RMCPlayingCardDeck = колода карт
+    .desc = Клянусь, игра называлась «Золотая рыбка»!
     .suffix = RMC

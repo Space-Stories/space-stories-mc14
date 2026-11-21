@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.IdentityManagement;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Damage;
@@ -22,6 +23,7 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedSentryTargetingSystem _sentryTargeting = default!;
@@ -42,6 +44,7 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
         SubscribeLocalEvent<SentryLaptopComponent, AfterInteractEvent>(OnLaptopAfterInteract);
         SubscribeLocalEvent<SentryLaptopComponent, ComponentShutdown>(OnLaptopShutdown);
         SubscribeLocalEvent<SentryLaptopComponent, ActivatableUIOpenAttemptEvent>(OnLaptopUIOpenAttempt);
+        SubscribeLocalEvent<SentryLaptopComponent, BoundUserInterfaceMessageAttempt>(OnLaptopUIMessageAttempt);
         SubscribeLocalEvent<SentryLaptopComponent, EntParentChangedMessage>(OnLaptopParentChanged);
 
         SubscribeLocalEvent<PlaceableSurfaceComponent, AnchorStateChangedEvent>(OnSurfaceAnchorChanged);
@@ -49,12 +52,15 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
 
         SubscribeLocalEvent<SentryLaptopLinkedComponent, ComponentShutdown>(OnSentryLinkedShutdown);
 
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopUnlinkBuiMsg>(OnUnlinkMessage);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopUnlinkAllBuiMsg>(OnUnlinkAllMessage);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopSetFactionsBuiMsg>(OnSetFactionsMessage);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopToggleFactionBuiMsg>(OnToggleFactionMessage);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopResetTargetingBuiMsg>(OnResetTargetingMessage);
-        SubscribeLocalEvent<SentryLaptopComponent, SentryLaptopTogglePowerBuiMsg>(OnTogglePowerMessage);
+        Subs.BuiEvents<SentryLaptopComponent>(SentryLaptopUiKey.Key, subs =>
+        {
+            subs.Event<SentryLaptopUnlinkBuiMsg>(OnUnlinkMessage);
+            subs.Event<SentryLaptopUnlinkAllBuiMsg>(OnUnlinkAllMessage);
+            subs.Event<SentryLaptopSetFactionsBuiMsg>(OnSetFactionsMessage);
+            subs.Event<SentryLaptopToggleFactionBuiMsg>(OnToggleFactionMessage);
+            subs.Event<SentryLaptopResetTargetingBuiMsg>(OnResetTargetingMessage);
+            subs.Event<SentryLaptopTogglePowerBuiMsg>(OnTogglePowerMessage);
+        });
 
         SubscribeLocalEvent<SentryComponent, DamageChangedEvent>(OnSentryDamageChanged);
         SubscribeLocalEvent<SentryComponent, GunShotEvent>(OnSentryShot);
@@ -251,6 +257,12 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
 
         if (_net.IsServer)
             PlaceLaptopOnSurface(laptop, args.Target.Value, args.User);
+    }
+
+    private void OnLaptopUIMessageAttempt(Entity<SentryLaptopComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is SentryLaptopUiKey.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnLaptopUIOpenAttempt(Entity<SentryLaptopComponent> laptop, ref ActivatableUIOpenAttemptEvent args)
@@ -683,16 +695,24 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
 
     private NetEntity? GetSentryTarget(EntityUid sentry)
     {
-        if (TryComp<GunComponent>(sentry, out var gun) && gun.Target != null)
-            return GetNetEntity(gun.Target.Value);
+        if (TryComp<GunComponent>(sentry, out var gun) &&
+            gun.Target is { } target &&
+            !TerminatingOrDeleted(target))
+        {
+            return GetNetEntity(target);
+        }
 
         return null;
     }
 
     private string? GetSentryTargetName(EntityUid sentry)
     {
-        if (TryComp<GunComponent>(sentry, out var gun) && gun.Target is { } target)
+        if (TryComp<GunComponent>(sentry, out var gun) &&
+            gun.Target is { } target &&
+            !TerminatingOrDeleted(target))
+        {
             return GetTargetDisplayName(target);
+        }
 
         return null;
     }
@@ -713,7 +733,7 @@ public abstract class SharedSentryLaptopSystem : EntitySystem
             return Loc.GetString("cm-xeno-name");
         }
 
-        return Name(target);
+        return TryName(target, out var targetName) ? targetName : "Unknown";
     }
 
     private HashSet<string> GetSentryFriendlyFactions(EntityUid sentry)

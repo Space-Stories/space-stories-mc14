@@ -24,6 +24,9 @@ public sealed class SponsorInfo
     [DataField("allowedTTSVoices")]
     public string[] AllowedTTSVoices { get; set; } = Array.Empty<string>();
 
+    [DataField("allowedLoadouts")]
+    public string[] AllowedLoadouts { get; set; } = Array.Empty<string>();
+
     [DataField("roleTimeBypass")]
     public bool RoleTimeBypass { get; set; }
 

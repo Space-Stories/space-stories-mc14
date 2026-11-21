@@ -1,8 +1,8 @@
-ent-RMCArcadeBroken = broken arcade cabinet
-    .desc = A broken arcade cabinet. You won't be playing much computer with this thing.
+ent-RMCArcadeBroken = сломанный игровой автомат
+    .desc = Сломанный игровой автомат. Поиграть на нём особо не получится.
     .suffix = RMC
-ent-RMCArcade = arcade cabinet
-    .desc = An arcade cabinet.
+ent-RMCArcade = игровой автомат
+    .desc = Игровой автомат.
     .suffix = RMC
 ent-RMCArcadeBlockGame = { ent-RMCArcade }
     .desc = { ent-RMCArcade.desc }

@@ -1,6 +1,9 @@
 ent-CMWindoorKitchen = { ent-CMWindoor }
     .desc = { ent-CMWindoor.desc }
     .suffix = Кухня, Закрытый
+ent-CMWindoorERT = { ent-CMWindoor }
+    .desc = { ent-CMWindoor.desc }
+    .suffix = ERT, Locked
 ent-CMWindoorSecureBrig = { ent-CMWindoorSecure }
     .desc = { ent-CMWindoorSecure.desc }
     .suffix = Бриг, Закрытый
@@ -21,4 +24,4 @@ ent-RMCWindoorSecureTSEPABrig = { ent-CMWindoorSecure }
     .suffix = ИТСПД, Бриг, Закрытый
 ent-CMWindoorSecureBrigPowered = { ent-CMWindoorSecure }
     .desc = { ent-CMWindoorSecure.desc }
-    .suffix = Brig, Locked, Powered
+    .suffix = Бриг, Закрытый, Запитанный

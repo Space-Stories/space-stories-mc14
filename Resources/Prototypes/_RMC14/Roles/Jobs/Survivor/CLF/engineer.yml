@@ -1,0 +1,80 @@
+- type: job
+  parent: RMCSurvivorCLFBase
+  id: RMCSurvivorCLFEngineer
+  name: rmc-job-name-clf-survivor-engineer
+  icon: RMCJobIconCLFEngineer
+  startingGear: RMCGearSurvivorCLFEngineer
+  spawnMenuRoleName: CLF Engineer (Survivor)
+  antagRole: RMCHostileSurvivor
+  special:
+  - !type:AddComponentSpecial
+    components:
+    - type: NpcFactionMember
+      factions:
+      - CLF
+    # Stories-CLFSurvivor-Start
+    - type: Skills
+      skills:
+        RMCSkillFireman: 1
+        RMCSkillConstruction: 2
+        RMCSkillEngineer: 3
+        RMCSkillMedical: 1
+        RMCSkillPowerLoader: 1
+        RMCSkillVehicles: 1
+        RMCSkillEndurance: 2
+        RMCSkillJtac: 1
+        RMCSkillFirearms: 1
+    # Stories-CLFSurvivor-End
+    - type: JobPrefix
+      prefix: rmc-job-prefix-clf-survivor-engineer
+    - type: RMCSurvivor
+    - type: MotionDetectorTracked
+    # Stories-CLFSurvivor-Start
+    - type: StoriesSurvivorDebuffImmune
+    - type: IntelRescueSurvivorObjective
+    - type: RMCAllowSuitStorage
+    - type: STSurvivorScenarioStory
+      locPrefix: st-clf-survivor-story
+      noDamageScenarios: [ clfsmugglers ]
+    # Stories-CLFSurvivor-End
+    - type: EquipSurvivorPreset
+      preset: STSurvivorPresetCLFEngineer # Stories-CLFSurvivor
+  hidden: true
+
+- type: startingGear
+  id: RMCGearSurvivorCLFEngineer
+  equipment:
+    head: RMCHelmetWelding
+    mask: RMCM5Bayonet # TODO RMC14
+    ears: RMCHeadsetDistressCLF
+  #  eyes: RMCMesonGoggles TODO RMC14
+    jumpsuit: STJumpsuitCLFWebbing # Stories-CLFSurvivor
+    # Stories-CLFSurvivor
+    gloves: CMHandsInsulated
+    id: RMCIDCardCLFEngineer
+    belt: CMBeltUtilityFilled
+    back: RMCSatchelLightpackWelder
+    pocket1: RMCPouchSurvivalFill
+    pocket2: RMCPouchFirstAidInjectors
+  storage:
+    back:
+    - RMCExplosiveBreachingCharge
+    - RMCExplosiveBreachingCharge
+    - RMCExplosiveBreachingCharge
+    - CMSheetMetal50
+    - CMSheetPlasteel30
+    - RMCExplosivePlastic
+    - RMCGrenadeMolotov
+    - RMCMRECLF # Stories: CLF MRE as in CM13
+    - CMFirstAidKitFilled # Stories-CLFSurvivor
+    - RMCFlashlight
+
+- type: entity
+  parent: CMSpawnPointJobBase
+  id: CMSpawnPointSurvivorCLFEngineer
+  name: survivor clf engineer spawn point
+  components:
+  - type: SpawnPoint
+    job_id: RMCSurvivorCLFEngineer
+  - type: Sprite
+    state: clf_spawn

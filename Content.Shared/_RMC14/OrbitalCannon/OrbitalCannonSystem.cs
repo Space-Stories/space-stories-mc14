@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics; // Stories-ZLevels
 using Content.Shared._RMC14.Animations;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.ARES;
@@ -13,14 +14,19 @@ using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Mortar;
+using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.PowerLoader;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.UserInterface;
+using Content.Shared._RMC14.Vehicle;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chat;
 using Content.Shared.Damage;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
 using Content.Shared.Maps;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
 using Content.Shared.UserInterface;
@@ -45,8 +51,11 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly AreaSystem _area = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly IntelSystem _intel = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!; // Stories-ZLevels
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly SharedMortarSystem _mortar = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -54,15 +63,16 @@ public sealed class OrbitalCannonSystem : EntitySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly RMCCameraShakeSystem _rmcCameraShake = default!;
     [Dependency] private readonly SharedCMChatSystem _rmcChat = default!;
-    [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
     [Dependency] private readonly SharedRMCExplosionSystem _rmcExplosion = default!;
+    [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
     [Dependency] private readonly RMCMapSystem _rmcMap = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
     [Dependency] private readonly SharedRMCPvsSystem _rmcPvs = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly TagSystem _tags = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly ARESCoreSystem _core = default!;
+    [Dependency] private readonly VehicleSystem _vehicle = default!;
 
     private static readonly EntProtoId OrbitalTargetMarker = "RMCLaserDropshipTarget";
 
@@ -82,6 +92,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         SubscribeLocalEvent<OrbitalCannonFuelComponent, PowerLoaderInteractEvent>(OnFuelPowerLoaderInteract);
 
+        SubscribeLocalEvent<OrbitalCannonComputerComponent, BoundUserInterfaceMessageAttempt>(OnComputerUIMessageAttempt);
         SubscribeLocalEvent<OrbitalCannonComputerComponent, BeforeActivatableUIOpenEvent>(OnComputerBeforeActivatableUIOpen);
 
         Subs.BuiEvents<OrbitalCannonComputerComponent>(OrbitalCannonComputerUI.Key,
@@ -125,6 +136,8 @@ public sealed class OrbitalCannonSystem : EntitySystem
         }
 
         Dirty(ent);
+        if (_net.IsServer)
+            CannonStatusChanged(ent);
     }
 
     private void OnOrbitalCannonShutdown(Entity<OrbitalCannonComponent> ent, ref ComponentShutdown args)
@@ -172,7 +185,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
             return;
 
         if (_net.IsServer)
-            UpdateTrayVisuals(ent);
+            TrayStatusChanged(ent);
     }
 
     private void OnTrayContainerRemoved(Entity<OrbitalCannonTrayComponent> ent, ref EntRemovedFromContainerMessage args)
@@ -181,7 +194,17 @@ public sealed class OrbitalCannonSystem : EntitySystem
             return;
 
         if (_net.IsServer)
-            UpdateTrayVisuals(ent);
+            TrayStatusChanged(ent);
+    }
+
+    private void TrayStatusChanged(Entity<OrbitalCannonTrayComponent> tray)
+    {
+        UpdateTrayVisuals(tray);
+        if (tray.Comp.LinkedCannon is { } cannonId &&
+            TryComp(cannonId, out OrbitalCannonComponent? cannon))
+        {
+            RaiseCannonChanged((cannonId, cannon));
+        }
     }
 
     private void UpdateTrayVisuals(Entity<OrbitalCannonTrayComponent> tray)
@@ -380,29 +403,28 @@ public sealed class OrbitalCannonSystem : EntitySystem
         }
     }
 
+    private void OnComputerUIMessageAttempt(Entity<OrbitalCannonComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || args.UiKey is not OrbitalCannonComputerUI)
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+        }
+    }
+
     private void OnComputerBeforeActivatableUIOpen(Entity<OrbitalCannonComputerComponent> ent, ref BeforeActivatableUIOpenEvent args)
     {
         if (!TryGetClosestCannon(ent, out var cannon))
             return;
 
+        var status = GetStatus(cannon);
         ent.Comp.FuelRequirements = cannon.Comp.FuelRequirements;
-        ent.Comp.Status = cannon.Comp.Status;
-
-        if (cannon.Comp.LinkedTray is { } trayId && TryComp(trayId, out OrbitalCannonTrayComponent? tray))
-        {
-            ent.Comp.Warhead = _container.TryGetContainer(trayId, tray.WarheadContainer, out var warheadContainer) &&
-                               warheadContainer.ContainedEntities.Count > 0
-                ? Name(warheadContainer.ContainedEntities[0])
-                : null;
-            ent.Comp.Fuel = _container.TryGetContainer(trayId, tray.FuelContainer, out var fuelContainer)
-                ? fuelContainer.ContainedEntities.Count
-                : 0;
-        }
-        else
-        {
-            ent.Comp.Warhead = null;
-            ent.Comp.Fuel = 0;
-        }
+        ent.Comp.Status = status.Status;
+        ent.Comp.Warhead = status.Warhead;
+        ent.Comp.Fuel = status.Fuel;
 
         Dirty(ent);
     }
@@ -522,6 +544,14 @@ public sealed class OrbitalCannonSystem : EntitySystem
         if (!TryComp(to, out TransformComponent? transform))
             return false;
 
+        var coordinates = transform.Coordinates;
+        if (_vehicle.TryGetVehicleFromInterior(to, out var vehicle) &&
+            vehicle is { } vehicleUid &&
+            TryComp(vehicleUid, out TransformComponent? vehicleTransform))
+        {
+            coordinates = vehicleTransform.Coordinates;
+        }
+
         var last = float.MaxValue;
         var query = EntityQueryEnumerator<OrbitalCannonComponent, TransformComponent>();
         while (query.MoveNext(out var cannonId, out var cannonComp, out var cannonTransform))
@@ -538,6 +568,76 @@ public sealed class OrbitalCannonSystem : EntitySystem
         }
 
         return cannon != default;
+    }
+
+    public OrbitalCannonStatusSummary GetStatus(Entity<OrbitalCannonComponent> cannon)
+    {
+        string? warheadName = null;
+        int? requiredFuel = null;
+        if (CannonHasWarhead(cannon, out var warhead))
+        {
+            warheadName = Name(warhead);
+            var warheadPrototype = Prototype(warhead)?.ID;
+            if (cannon.Comp.FuelRequirements.TryFirstOrNull(
+                    requirement => requirement.Warhead.Id == warheadPrototype,
+                    out var requirement))
+            {
+                requiredFuel = requirement.Value.Fuel;
+            }
+        }
+
+        var nextFire = cannon.Comp.LastFireAt is { } lastFire
+            ? lastFire + cannon.Comp.FireCooldown
+            : default;
+        return new OrbitalCannonStatusSummary(
+            cannon.Comp.Status,
+            warheadName,
+            CannonGetFuel(cannon),
+            requiredFuel,
+            nextFire);
+    }
+
+    public bool IsSafetyEngaged()
+    {
+        var query = EntityQueryEnumerator<OrbitalCannonSafetyComponent>();
+        return query.MoveNext(out _, out var safety) && safety.Engaged;
+    }
+
+    public bool ToggleSafety(EntityUid initiator, EntityUid confirmer)
+    {
+        if (_net.IsClient)
+            return false;
+
+        var safety = EnsureSafety();
+        safety.Comp.Engaged = !safety.Comp.Engaged;
+        Dirty(safety);
+
+        var state = safety.Comp.Engaged ? "engaged" : "disengaged";
+        _adminLog.Add(
+            LogType.RMCOrbitalBombardment,
+            $"{ToPrettyString(initiator):player} initiated and {ToPrettyString(confirmer):player} confirmed OB safety {state}");
+
+        if (TryGetClosestCannon(confirmer, out var cannon))
+        {
+            _core.CreateARESLog(
+                cannon,
+                LogCat,
+                (string)$"{Name(initiator)} initiated and {Name(confirmer)} confirmed OB safety {state}");
+        }
+
+        var ev = new OrbitalCannonSafetyChangedEvent(safety.Comp.Engaged);
+        RaiseLocalEvent(ref ev);
+        return safety.Comp.Engaged;
+    }
+
+    private Entity<OrbitalCannonSafetyComponent> EnsureSafety()
+    {
+        var query = EntityQueryEnumerator<OrbitalCannonSafetyComponent>();
+        if (query.MoveNext(out var uid, out var safety))
+            return (uid, safety);
+
+        var entity = Spawn();
+        return (entity, EnsureComp<OrbitalCannonSafetyComponent>(entity));
     }
 
     private bool CannonHasWarhead(Entity<OrbitalCannonComponent> cannon, out EntityUid warhead)
@@ -604,6 +704,12 @@ public sealed class OrbitalCannonSystem : EntitySystem
     {
         if (cannon.Comp.LinkedTray is { } trayId && TryComp(trayId, out OrbitalCannonTrayComponent? tray))
             UpdateTrayVisuals((trayId, tray));
+
+        RaiseCannonChanged(cannon);
+    }
+
+    private void RaiseCannonChanged(Entity<OrbitalCannonComponent> cannon)
+    {
         var ev = new OrbitalCannonChangedEvent(cannon, CannonHasWarhead(cannon), CannonGetFuel(cannon));
         RaiseLocalEvent(cannon, ref ev, true);
     }
@@ -626,10 +732,27 @@ public sealed class OrbitalCannonSystem : EntitySystem
         return false;
     }
 
-    public bool Fire(Entity<OrbitalCannonComponent> cannon, Vector2i fireCoordinates, EntityUid user, EntityUid squad)
+    // Stories-ZLevels-Start
+    public bool Fire(Entity<OrbitalCannonComponent> cannon, Vector2i fireCoordinates, EntityUid user,
+        EntityUid squad, int zLevel = 0)
+    // Stories-ZLevels-End
     {
         if (_net.IsClient)
             return false;
+
+        // Stories-InterfaceSecurity-Start
+        if (HasComp<XenoComponent>(user) || !_mobState.IsAlive(user))
+            return false;
+        // Stories-InterfaceSecurity-End
+
+        if (IsSafetyEngaged())
+        {
+            _popup.PopupCursor(Loc.GetString("rmc-ob-safety-engaged"), user, PopupType.LargeCaution);
+            _adminLog.Add(
+                LogType.RMCOrbitalBombardment,
+                $"{ToPrettyString(user):player} attempted to fire {ToPrettyString(cannon):cannon} while OB safety was engaged");
+            return false;
+        }
 
         if (cannon.Comp.Status != OrbitalCannonStatus.Chambered)
             return false;
@@ -654,7 +777,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
             return false;
         }
 
-        if (!_rmcPlanet.TryPlanetToCoordinates(fireCoordinates, out var planetCoordinates))
+        if (!_rmcPlanet.TryPlanetToCoordinates(fireCoordinates, zLevel, out var planetCoordinates)) // Stories-ZLevels
         {
             _popup.PopupCursor(
                 Loc.GetString("rmc-ob-target-out-of-bounds"),
@@ -727,6 +850,7 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         var firing = EnsureComp<OrbitalCannonFiringComponent>(cannon);
         firing.Coordinates = adjustedCoords;
+        firing.TargetCoordinates = planetCoordinates.Offset(new Vector2(offsetX, offsetY)); // Stories-ZLevels
         firing.WarheadName = Name(warhead);
         firing.Squad = squad;
         firing.StartedAt = time;
@@ -748,10 +872,16 @@ public sealed class OrbitalCannonSystem : EntitySystem
 
         _popup.PopupCursor(Loc.GetString("rmc-ob-launched"), user);
 
-        var logMessage = $"{ToPrettyString(user)} launched orbital bombardment at {fireCoordinates} for squad {ToPrettyString(squad)}, misfuel: {misfuel}, final coords: {adjustedCoords}";
+        // Stories-ZLevels-Start
+        var logMessage = $"{ToPrettyString(user)} launched orbital bombardment at {fireCoordinates}, Z {zLevel} " +
+                         $"for squad {ToPrettyString(squad)}, misfuel: {misfuel}, final coords: {adjustedCoords}";
+        // Stories-ZLevels-End
         _adminLog.Add(LogType.RMCOrbitalBombardment, $"{logMessage}");
 
-        _core.CreateARESLog(cannon, LogCat, (string)$"{Name(user)} fired the orbital cannon at {adjustedCoords.X}, {adjustedCoords.Y}");
+        // Stories-ZLevels-Start
+        _core.CreateARESLog(cannon, LogCat,
+            (string)$"{Name(user)} fired the orbital cannon at {adjustedCoords.X}, {adjustedCoords.Y}, Z {zLevel}");
+        // Stories-ZLevels-End
 
         var ev = new OrbitalCannonLaunchEvent(cannon.Comp.FireCooldown + firing.ImpactDelay);
         RaiseLocalEvent(ref ev);
@@ -794,7 +924,17 @@ public sealed class OrbitalCannonSystem : EntitySystem
         var firingQuery = EntityQueryEnumerator<OrbitalCannonFiringComponent, OrbitalCannonComponent>();
         while (firingQuery.MoveNext(out var uid, out var firing, out var cannon))
         {
-            if (!_rmcPlanet.TryPlanetToCoordinates(firing.Coordinates, out var planetCoordinates))
+            // Stories-ZLevels-Start
+            if (firing.TargetCoordinates == null &&
+                _rmcPlanet.TryPlanetToCoordinates(firing.Coordinates, out var legacyCoordinates))
+            {
+                firing.TargetCoordinates = legacyCoordinates;
+                Dirty(uid, firing);
+            }
+
+            if (firing.TargetCoordinates is not { } planetCoordinates ||
+                !_map.MapExists(planetCoordinates.MapId) || !_rmcPlanet.IsOnPlanet(planetCoordinates))
+            // Stories-ZLevels-End
             {
                 RemCompDeferred<OrbitalCannonFiringComponent>(uid);
                 continue;

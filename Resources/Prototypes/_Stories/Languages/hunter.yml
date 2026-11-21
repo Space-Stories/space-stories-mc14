@@ -1,0 +1,21 @@
+- type: language
+  id: STHunter
+  name: "Hunter"
+  description: "The clicking, growling language of the Hunter."
+  isVisibleLanguage: true
+  typefaceId: null
+  textSize: null
+  canUseRadio: true
+  needsSpeech: true
+  showLanguageIcon: true
+  showLanguageName: true
+  languageIcon:
+    sprite: /Textures/_Stories/Actions/hunter_actions.rsi
+    state: translator
+  randomizeObfuscation: true
+  expectedVocabularySize: 100
+  obfuscationMethod:
+    !type:SyllableObfuscation
+    replacement: ["chk", "tkk", "click", "growl", "hiss", "clck", "grrr"]
+    minSyllables: 1
+    maxSyllables: 3

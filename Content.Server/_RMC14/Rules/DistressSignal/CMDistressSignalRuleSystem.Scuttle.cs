@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.AlertLevel;
+using Content.Shared._RMC14.Evacuation;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Rules;
@@ -69,6 +70,23 @@ public sealed partial class CMDistressSignalRuleSystem
         return false;
     }
 
+    private void OnEvacuationProgress(ref EvacuationProgressEvent ev)
+    {
+        if (ev.Percentage < 100)
+            return;
+
+        var rule = TryGetActiveRule();
+        if (rule == null ||
+            rule.ScuttleUnlocked ||
+            rule.ScuttleUnlockAt != null ||
+            rule.ScuttleDetonated)
+        {
+            return;
+        }
+
+        rule.ScuttleUnlockAt = Timing.CurTime + rule.ScuttleUnlockDelay;
+    }
+
     private void UnlockScuttle(CMDistressSignalRuleComponent rule)
     {
         rule.ScuttleUnlocked = true;
@@ -80,6 +98,7 @@ public sealed partial class CMDistressSignalRuleSystem
             default,
             Loc.GetString("rmc-distress-signal-scuttle-unlocked"),
             announcement: "rmc-announcement-ares-command");
+        _marineAnnounce.AnnounceAlertLevel(_alertLevelSystem.EnsureAlertAnnouncementPreset(RMCAlertLevels.Delta), Loc.GetString("rmc-announcement-delta"));
     }
 
     private void StartScuttleFinalSequence(CMDistressSignalRuleComponent rule)
@@ -237,7 +256,7 @@ public sealed partial class CMDistressSignalRuleSystem
 
         foreach (var map in GetAlmayerMapIds())
         {
-            _rmcNuke.NukeMap(map);
+            _rmcNuke.NukeMap(map, true);
         }
     }
 

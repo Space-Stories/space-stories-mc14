@@ -1,26 +1,33 @@
 using Content.Shared._RMC14.Armor;
+using System.Numerics;
 using Content.Shared._RMC14.BlurredVision;
 using Content.Shared._RMC14.Deafness;
 using Content.Shared._RMC14.Slow;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids.Acid;
 using Content.Shared._RMC14.Xenonids.Construction.Nest;
+using Content.Shared._RMC14.Xenonids.Rest;
 using Content.Shared.Body.Systems;
 using Content.Shared.Coordinates;
+using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Explosion;
+using Content.Shared.Explosion.Components;
 using Content.Shared.FixedPoint;
 using Content.Shared.Flash.Components;
 using Content.Shared.Inventory;
+using Content.Shared.Projectiles;
 using Content.Shared.Standing;
 using Content.Shared.StatusEffect;
 using Content.Shared.Sticky.Components;
 using Content.Shared.Stunnable;
 using Content.Shared.Throwing;
+using Content.Shared.Weapons.Melee.Events;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
@@ -44,6 +51,7 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
     [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
     [Dependency] private readonly SharedDeafnessSystem _deafness = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly DamageableSystem _damage = default!;
 
     private static readonly ProtoId<DamageTypePrototype> StructuralDamage = "Structural";
     private static readonly ProtoId<StatusEffectPrototype> FlashedKey = "Flashed";
@@ -59,6 +67,8 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
 
         SubscribeLocalEvent<ExplosionRandomResistanceComponent, GetExplosionResistanceEvent>(OnExplosionRandomResistanceGet);
 
+        SubscribeLocalEvent<RMCExplosionResistanceWhenNotCollidableComponent, GetExplosionResistanceEvent>(OnExplosionResistanceWhenNotCollidableGet);
+
         SubscribeLocalEvent<StunOnExplosionReceivedComponent, ExplosionReceivedEvent>(OnStunOnExplosionReceivedBeforeExplode);
 
         SubscribeLocalEvent<DestroyedByExplosionTypeComponent, ExplosionReceivedEvent>(OnDestroyedByExplosionReceived);
@@ -66,6 +76,11 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         SubscribeLocalEvent<DestroyedByExplosionComponent, ExplosionReceivedEvent>(OnDestroyedByExplosionReceived);
 
         SubscribeLocalEvent<MobGibbedByExplosionTypeComponent, ExplosionReceivedEvent>(OnMobGibbedByExplosionReceived);
+
+        SubscribeLocalEvent<RMCExplosiveDamageOnHitComponent, ProjectileHitEvent>(OnExplosiveDamageOnHitProjectileHit);
+        SubscribeLocalEvent<RMCExplosiveDamageOnHitComponent, MeleeHitEvent>(OnExplosiveDamageOnMeleeHit);
+
+        SubscribeLocalEvent<RMCProneExplosionMultComponent, BeforeExplosionRecievedEvent>(OnProneMultBeforeExplosionReceived);
     }
 
     private void OnExplosionEffectTriggered(Entity<CMExplosionEffectComponent> ent, ref CMExplosiveTriggeredEvent args)
@@ -99,6 +114,20 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         args.DamageCoefficient *= resistance;
     }
 
+    private void OnExplosionResistanceWhenNotCollidableGet(
+        Entity<RMCExplosionResistanceWhenNotCollidableComponent> ent,
+        ref GetExplosionResistanceEvent args)
+    {
+        if (!TryComp(ent, out PhysicsComponent? physics) ||
+            physics.CanCollide ||
+            !ent.Comp.Modifiers.TryGetValue(args.ExplosionPrototype, out var modifier))
+        {
+            return;
+        }
+
+        args.DamageCoefficient *= modifier;
+    }
+
     public void ChangeExplosionStunResistance(EntityUid ent, StunOnExplosionReceivedComponent? comp, bool isStunnable)
     {
         if (!Resolve(ent, ref comp, false))
@@ -113,15 +142,17 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         var factor = Math.Round(damage.Double() * 0.05) / 2;
         factor = Math.Min(20, factor);
 
-        // TODO RMC14 don't reduce if explosion is on same tile
-        if (_standing.IsDown(ent))
-            factor *= 0.5;
-
         _sizeStun.TryGetSize(ent, out var size);
 
         // TODO RMC14 size-based throw ranges and speeds
         var pos = _transform.GetWorldPosition(ent);
-        var dir = pos - args.Epicenter.Position;
+        var dir = args.ThrowDirection ?? pos - args.Epicenter.Position;
+        if (dir.IsLengthZero())
+            dir = _random.NextVector2().Normalized();
+
+        var knockBackOrigin = args.ThrowDirection == null
+            ? args.Epicenter
+            : new MapCoordinates(pos - dir.Normalized(), args.Epicenter.MapId);
 
         // Humanoid calcuations
         if (size == RMCSizes.Humanoid)
@@ -135,10 +166,10 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
             _statusEffects.TryAddStatusEffect<FlashedComponent>(ent, FlashedKey, ent.Comp.BlindTime * bombArmorMult, true);
             _deafness.TryDeafen(ent, TimeSpan.FromSeconds(severity * 0.5), true);
 
-            var knockBackDistance = (float) Math.Clamp(severity / 5 / dir.Length(), 0.5, Math.Max(severity / 10, 0.5));
+            var knockBackDistance = (float)Math.Clamp(severity / 5 / dir.Length(), 0.5, Math.Max(severity / 10, 0.5));
 
             if (!HasComp<XenoNestedComponent>(ent))
-                _sizeStun.KnockBack(ent, args.Epicenter, knockBackDistance, knockBackDistance, knockBackSpeed: (float) severity);
+                _sizeStun.KnockBack(ent, knockBackOrigin, knockBackDistance, knockBackDistance, knockBackSpeed: (float)severity);
 
             var knockdownValue = severity * 0.1;
             var knockoutValue = damage.Double() * 0.1;
@@ -170,7 +201,7 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
             else
                 _slow.TrySlowdown(ent, TimeSpan.FromSeconds(factor / 3));
 
-            _sizeStun.KnockBack(ent, args.Epicenter, knockBackSpeed: 5, ignoreSize: true);
+            _sizeStun.KnockBack(ent, knockBackOrigin, knockBackSpeed: 5, ignoreSize: true);
         }
         else if (factor > 10)
         {
@@ -212,7 +243,7 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         var damage = args.Damage.GetTotal();
         var destroyChance =
             damage > ent.Comp.HighIntensityDamageThreshold ? ent.Comp.HighIntensityDestroyChance :
-            damage > ent.Comp.LowIntensityDamageThreshold  ? ent.Comp.MediumIntensityDestroyChance :
+            damage > ent.Comp.LowIntensityDamageThreshold ? ent.Comp.MediumIntensityDestroyChance :
             ent.Comp.LowIntensityDestroyChance;
 
         if (_random.NextFloat() < destroyChance)
@@ -250,6 +281,77 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
 
         if (!TerminatingOrDeleted(ent))
             _body.GibBody(ent, true);
+    }
+
+    private void OnExplosiveDamageOnHitProjectileHit(Entity<RMCExplosiveDamageOnHitComponent> projectile, ref ProjectileHitEvent args)
+    {
+        DoExplosiveHit(projectile, args.Target, args.Shooter);
+    }
+
+    private void OnExplosiveDamageOnMeleeHit(Entity<RMCExplosiveDamageOnHitComponent> projectile, ref MeleeHitEvent args)
+    {
+        foreach (var hit in args.HitEntities)
+        {
+            DoExplosiveHit(projectile, hit, args.User);
+        }
+    }
+
+    private void DoExplosiveHit(Entity<RMCExplosiveDamageOnHitComponent> ent, EntityUid target, EntityUid? user)
+    {
+        foreach (var explosion in ent.Comp.Explosions)
+        {
+            if (_entityWhitelist.IsWhitelistFail(explosion.Whitelist, target))
+                continue;
+
+            DoDirectExplosionDamage(ent, target, user, explosion.ExplosionType, explosion.Damage, explosion.ArmorPiercing, explosion.IsAtEpicenter);
+        }
+    }
+
+    public void DoDirectExplosionDamage(EntityUid origin, EntityUid target, EntityUid? user,
+        ProtoId<ExplosionPrototype> explosionType, DamageSpecifier damage, int armorPiercing = 0, bool? isAtEpicenter = null)
+    {
+        var ev = new GetExplosionResistanceEvent(explosionType);
+        RaiseLocalEvent(target, ref ev);
+
+        // Effectively subtracts armor like normal armor piercing
+        // We must get explosion armor so we don't make the ent more vunerable
+        if (armorPiercing > 0)
+        {
+            var arev = new CMGetArmorEvent(SlotFlags.OUTERCLOTHING | SlotFlags.INNERCLOTHING);
+            RaiseLocalEvent(target, ref arev);
+            arev.ExplosionArmor = Math.Max(arev.ExplosionArmor, 0);
+
+            var resist = (float)Math.Pow(1.1, -Math.Min(arev.ExplosionArmor, armorPiercing) / 10.0);
+            ev.DamageCoefficient /= resist;
+        }
+
+        ev.DamageCoefficient = Math.Max(0, ev.DamageCoefficient);
+
+        var bev = new BeforeExplosionRecievedEvent(explosionType, _transform.GetMapCoordinates(origin), damage, isAtEpicenter);
+        RaiseLocalEvent(target, ref bev);
+        var finalDamage = bev.Damage;
+
+        var dam = _damage.TryChangeDamage(target, finalDamage * ev.DamageCoefficient, true, origin: user, tool: origin);
+
+        if (dam == null)
+            return;
+
+        var exv = new ExplosionReceivedEvent(explosionType, _transform.ToMapCoordinates(origin.ToCoordinates()), dam);
+        RaiseLocalEvent(target, ref exv);
+    }
+
+    private void OnProneMultBeforeExplosionReceived(Entity<RMCProneExplosionMultComponent> ent, ref BeforeExplosionRecievedEvent args)
+    {
+        if (args.IsAtEpicenter == null)
+        {
+            var distance = (_transform.ToMapCoordinates(ent.Owner.ToCoordinates()).Position - args.Epicenter.Position).Length();
+            if (distance <= ent.Comp.NoMultCenterRadius || (!_standing.IsDown(ent) && !HasComp<XenoRestingComponent>(ent)))
+                return;
+        }
+        else if (args.IsAtEpicenter.Value)
+            return;
+
+        args.Damage *= ent.Comp.ProneMultiplier;
     }
 
     public void DoEffect(Entity<CMExplosionEffectComponent> ent)
@@ -294,7 +396,8 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         float tileBreakScale = 1f,
         int maxTileBreak = int.MaxValue,
         bool canCreateVacuum = true,
-        bool addLog = true)
+        bool addLog = true,
+        Vector2? throwDirection = null)
     {
     }
 
@@ -303,7 +406,8 @@ public abstract class SharedRMCExplosionSystem : EntitySystem
         bool delete = true,
         float? totalIntensity = null,
         float? radius = null,
-        EntityUid? user = null)
+        EntityUid? user = null,
+        Vector2? throwDirection = null)
     {
     }
 }

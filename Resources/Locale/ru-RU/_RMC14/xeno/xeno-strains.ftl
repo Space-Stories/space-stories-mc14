@@ -4,7 +4,7 @@ rmc-xeno-trapper-name = Сапёр
 rmc-xeno-trapper-description = Вы обмениваете свою бомбардировку, нейротоксин, кислотную пелену, кислотные брызги, часть скорости и немного здоровья на способность создавать кислотные взрывы и удерживать в них врагов.
    Вы получаете возможность:
    - Стрелять на близком расстоянии кислотным «дробовиком», который наносит высокий урон, еще больше увеличивающийся по пойманным в ловушку целям.
-   - - Накапливать стаки Проницательности (Insight) при поражении врагов из своего дробовика. На 10 стаках вы усиливаете следующее размещение ловушек.
+   - - Накапливать стаки Проницательности при поражении врагов из своего дробовика. На 10 стаках вы усиливаете следующее размещение ловушек.
    - - - Попадание по пойманному в ловушку врагу мгновенно дает максимальное количество стаков Проницательности.
    - Размещать на расстоянии полосу удерживающих ловушек для устройства засад или дезориентации врагов.
    - - При усилении ловушки удерживают цели дольше и усиливают ваш следующий взрыв Кислотной мины.
@@ -65,7 +65,7 @@ rmc-xeno-gardener-description = Вы обмениваете свой выбор 
   Вы получаете способность:
   - Посадите до шести мощных смоляных плодов для своих сестер, потратив при этом немного здоровья за каждый сформированный плод.
   - Сажайте более выносливые сорняки.
-  Ваш Resin Surge позволяет вам:
+  Ваш "Смоляной всплеск" позволяет вам:
   - Создайте налеты из липкой смолы.
   - Временно укрепляйте конструкции с помощью плазмы.
   - Стройте недолговечные стены
@@ -111,7 +111,7 @@ rmc-xeno-vampire-name = Вампир
 rmc-xeno-vampire-description = Вы теряете все свои способности и лишаетесь части здоровья и урона в обмен на большое количество брони, небольшую скорость передвижения, увеличенную скорость атаки и совершенно новые способности, которые делают вас ассасином.
   Вы получаете возможность:
   - Броситься на противника, чтобы дезориентировать его.
-  - Flurry, чтобы выпустить вперед рассекающий удар, который может поразить и замедлить трех таллов и исцелить вас за каждого пораженного талла.
+  - "Шквал", чтобы выпустить вперед рассекающий удар, который может поразить и замедлить трех таллов и исцелить вас за каждого пораженного талла.
   - Специальный АоЕ-удар хвостом, отбрасывающий таллов, наносящий больше урона при прямых попаданиях и еще больше урона и оглушение, если они врезаются в стены.
   - Казните бессознательных таллов укусом головы, чтобы залечить свои раны.
 rmc-xeno-vampire-popup = Не проявляйте милосердия! Уничтожьте их всех!
@@ -192,6 +192,31 @@ rmc-xeno-designer-description = Вы теряете:
     - Немного более мощная атака
 rmc-xeno-designer-popup = Вы — дизайнер улья, так что идите и расширьте улей за его нынешние пределы.
 
-rmc-xeno-magicalgirl-name = Magical Girl
-rmc-xeno-magicalgirl-description = Receive your Plasma Wand from The Queen Mother and transform into your Magical Girl form to combat the forces of evil!
-rmc-xeno-magicalgirl-popup = With the power of Plasma and Resin! Transform!
+rmc-xeno-magicalgirl-name = Девочка-волшебница
+rmc-xeno-magicalgirl-description = Получите свой плазменный жезл от Королевы-Матери и превратитесь в форму Девочки-волшебницы, чтобы сражаться со силами зла!
+rmc-xeno-magicalgirl-popup = Силой Плазмы и Смолы! Перевоплощение!
+
+rmc-xeno-destrain-choice = Destrain: { $caste }
+rmc-xeno-destrain-success = We shed our specialization and return to our original form.
+rmc-xeno-destrain-cooldown = We lack the strength to reset our strain. We will be able to reset it in { $minutes } {$minutes ->
+    [one] minute
+   *[other] minutes
+}.
+
+rmc-xeno-witch-name = Witch
+rmc-xeno-witch-description = You shall make a stew so wicked and shrew! Command your army of cursed children to turn talls into your greatest brew!
+rmc-xeno-witch-popup = Muwahahahah!
+rmc-xeno-bloodqueen-name = Blood Queen
+rmc-xeno-bloodqueen-description = You lose:
+  - Your queen level pheromones are replaced with strong pheromones.
+  - The ability to attach an ovipositor.
+  - Your screech, order construction, secrete resin, plant weeds and spit-based abilities.
+  - Your normal acid is replaced with weak acid.
+  You gain:
+  - Increased speed, damage, health, and armor.
+  - Your slashes now do a slight AOE to enemies surrounding the target.
+  - Brace: Gives you a temporary shield for 5 seconds that reduces damage taken slightly.
+  - Doom: A terrifying roar that removes helpful chemicals and darkens lights.
+  - Massacre: Guts multiple dead bodies in an area. Gives a burrowed larva for each body gibbed.
+  - Blood Drain: Drain a pulled, downed, living target of blood, doing damage and giving your hive evolution points.
+rmc-xeno-bloodqueen-popup = This is no time to sit idle; The hive hungers for blood.

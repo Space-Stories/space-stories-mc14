@@ -1,6 +1,5 @@
 using Content.Shared._RMC14.Xenonids.Projectile;
 using Robust.Shared.GameStates;
-using Robust.Shared.Map;
 
 namespace Content.Shared._RMC14.Weapons.Ranged;
 
@@ -21,10 +20,4 @@ public sealed partial class ProjectileFixedDistanceComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool ArcProj = false;
-
-    /// <summary>
-    /// Target map coordinates where the projectile should end up when FlyEndTime is reached.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public MapCoordinates? TargetCoordinates;
 }

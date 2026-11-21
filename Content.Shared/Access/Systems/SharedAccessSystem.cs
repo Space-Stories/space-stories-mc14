@@ -1,4 +1,5 @@
 using Content.Shared.Access.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
 using Content.Shared.Roles;
 using Robust.Shared.Containers;
@@ -11,8 +12,8 @@ namespace Content.Shared.Access.Systems
     public abstract class SharedAccessSystem : EntitySystem
     {
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-        [Dependency] private readonly InventorySystem _inventorySystem = default!; // Stories-Hunter
         [Dependency] private readonly SharedContainerSystem _containerSystem = default!; // Stories-Hunter
+        [Dependency] private readonly SharedHandsSystem _handsSystem = default!; // Stories-Hunter
 
         public override void Initialize()
         {
@@ -44,12 +45,12 @@ namespace Content.Shared.Access.Systems
             if (component.Slot != null &&
                 _containerSystem.TryGetContainingContainer(uid, out var container) &&
                 container is ContainerSlot slotContainer &&
-                HasComp<InventoryComponent>(container.Owner))
+                HasComp<InventoryComponent>(container.Owner) &&
+                slotContainer.ID != component.Slot)
             {
-                if (slotContainer.ID != component.Slot)
-                {
+                var isHeld = _handsSystem.TryGetHand(container.Owner, slotContainer.ID, out _);
+                if (!component.AllowInHands || !isHeld)
                     return;
-                }
             }
             // Stories-Hunter-End
 

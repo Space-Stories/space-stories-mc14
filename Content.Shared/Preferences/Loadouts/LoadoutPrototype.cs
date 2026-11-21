@@ -37,6 +37,11 @@ public sealed partial class LoadoutPrototype : IPrototype, IEquipmentLoadout
     [DataField]
     public int? Cost;
 
+    // Stories-SponsorsLoadout-Start
+    [DataField]
+    public bool SponsorOnly;
+    // Stories-SponsorsLoadout-End
+
     /// <summary>
     /// Effects to be applied when the loadout is applied.
     /// These can also return true or false for validation purposes.

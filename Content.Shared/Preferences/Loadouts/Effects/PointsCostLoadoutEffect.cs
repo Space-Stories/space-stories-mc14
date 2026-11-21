@@ -25,7 +25,7 @@ public sealed partial class PointsCostLoadoutEffect : LoadoutEffect
             return true;
         }
 
-        if (loadout.Points <= Cost)
+        if (loadout.Points < Cost) // Stories-SponsorsLoadout
         {
             reason = FormattedMessage.FromUnformatted("loadout-group-points-insufficient");
             return false;

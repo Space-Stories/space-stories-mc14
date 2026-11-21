@@ -16,4 +16,4 @@ rmc-adjustable-armor-examine-bullet = - [color=lightblue]{ $armor }[/color] [col
 rmc-adjustable-armor-examine-melee = - [color=lightblue]{ $armor }[/color] [color=yellow]защиты ближнего боя[/color]
 rmc-adjustable-armor-examine-explosion = - [color=lightblue]{ $armor }[/color] [color=yellow]защиты от взрывов[/color]
 rmc-adjustable-armor-examine-bio = - [color=lightblue]{ $armor }[/color] [color=yellow]биозащиты[/color]
-rmc-adjustable-armor-examine-xeno = - [color=lightblue]{ $armor }[/color] [color=yellow]защиты/color]
+rmc-adjustable-armor-examine-xeno = - [color=lightblue]{ $armor }[/color] [color=yellow]защиты[/color]

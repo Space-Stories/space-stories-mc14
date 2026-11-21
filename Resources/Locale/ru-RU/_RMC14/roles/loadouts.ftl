@@ -18,12 +18,15 @@ rmc-loadout-group-foods-packaged = Еда (в упаковке)
 rmc-loadout-group-foods-healthy = Еда (здоровая)
 rmc-loadout-group-role-specific = Для определённых ролей
 rmc-loadout-group-pins = Значки
-rmc-loadout-group-watches = Watches
+rmc-loadout-group-synth = Поколения синтетиков
+rmc-loadout-group-watches = Часы
 rmc-loadout-group-civilian = Только для гражданских (ограничено)
 
 rmc-loadout-group-role-specific-ID = Удостоверение командного состава
 rmc-loadout-group-role-specific-weapon = Командир (Личное оружие)
 rmc-loadout-group-provost-role-specific-outerwear = Провост-инспектор (Снаряженная верхняя одежда)
+rmc-loadout-group-provost-weapon = Provost Inspector (Sidearm)
+rmc-loadout-group-provost-role-specific-headwear = Provost Inspector (Headwear)
 rmc-loadout-group-synthetic-uniform = Униформа синтетиков
 rmc-loadout-group-synthetic-accessories = Аксессуары для униформы синтетиков
 rmc-loadout-group-synthetic-glasses = Очки синтетиков

@@ -411,6 +411,9 @@ cmd-spawn-help = spawn <прототип> ИЛИ spawn <прототип> <от�
 cmd-cspawn-desc = Спавнит на стороне клиента сущность определённого типа у ваших ног.
 cmd-cspawn-help = cspawn <entity type>
 
+cmd-scale-desc = Increases or decreases an entity's size naively.
+cmd-scale-help = scale <entityUid> <float>
+
 cmd-dumpentities-desc = Дамп списка объектов.
 cmd-dumpentities-help = Выводит список объектов с UID и прототипом.
 
@@ -577,5 +580,3 @@ cmd-localization_set_culture-desc = Set DefaultCulture for the client Localizati
 cmd-localization_set_culture-help = Usage: localization_set_culture <cultureName>
 cmd-localization_set_culture-culture-name = <cultureName>
 cmd-localization_set_culture-changed = Localization changed to { $code } ({ $nativeName } / { $englishName })
-
-cmd-addmap-hint-2 = runMapInit [true / false]

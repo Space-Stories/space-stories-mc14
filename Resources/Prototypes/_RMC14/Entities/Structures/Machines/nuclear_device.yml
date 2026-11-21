@@ -43,6 +43,12 @@
           False: { visible: false }
   - type: STNuke
     defuseSkill: RMCSkillEngineer
+  - type: AccessReader # Stories-InterfaceSecurity
+    access: [ [ "RMCAccessCommand" ], [ "RMCAccessSeniorCommand" ] ]
+  - type: ActivatableUIBlacklist # Stories-InterfaceSecurity
+    blacklist:
+      components:
+      - Xeno
   - type: InteractionOutline
   - type: ActivatableUI
     singleUser: true

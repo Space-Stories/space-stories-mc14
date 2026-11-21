@@ -1,3 +1,3 @@
-ent-RMCFreelancerSurplusPVE = Freelancer Clothing Rack
-    .desc = A mass-produced clothing rack containing a large amount of equipment for any .
-    .suffix = PVE, Freelancer
+ent-RMCFreelancerSurplusPVE = стойка одежды фрилансера
+    .desc = Серийная стойка одежды с большим количеством снаряжения на любой случай.
+    .suffix = PVE, Фрилансер

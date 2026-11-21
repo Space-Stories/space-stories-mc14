@@ -4,7 +4,7 @@ meta:
   engineVersion: 264.0.2
   forkId: ""
   forkVersion: ""
-  time: 06/16/2026 10:32:24
+  time: 07/27/2026 07:41:05
   entityCount: 296
 maps: []
 grids:
@@ -1582,31 +1582,32 @@ entities:
     - type: Transform
       pos: 23.5,-14.5
       parent: 1
-  - uid: 107
-    components:
-    - type: Transform
-      pos: 23.5,-15.5
-      parent: 1
-  - uid: 108
-    components:
-    - type: Transform
-      pos: 23.5,-16.5
-      parent: 1
-  - uid: 109
-    components:
-    - type: Transform
-      pos: 22.5,-15.5
-      parent: 1
-  - uid: 110
-    components:
-    - type: Transform
-      pos: 22.5,-16.5
-      parent: 1
-  - uid: 111
-    components:
-    - type: Transform
-      pos: 23.5,-17.5
-      parent: 1
+  # Fix Stories Insert
+  # - uid: 107
+  #   components:
+  #   - type: Transform
+  #     pos: 23.5,-15.5
+  #     parent: 1
+  # - uid: 108
+  #   components:
+  #   - type: Transform
+  #     pos: 23.5,-16.5
+  #     parent: 1
+  # - uid: 109
+  #   components:
+  #   - type: Transform
+  #     pos: 22.5,-15.5
+  #     parent: 1
+  # - uid: 110
+  #   components:
+  #   - type: Transform
+  #     pos: 22.5,-16.5
+  #     parent: 1
+  # - uid: 111
+  #   components:
+  #   - type: Transform
+  #     pos: 23.5,-17.5
+  #     parent: 1
 - proto: CMWardrobeYellow
   entities:
   - uid: 173

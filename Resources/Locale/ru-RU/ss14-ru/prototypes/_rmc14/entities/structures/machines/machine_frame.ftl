@@ -1,6 +1,6 @@
 ent-CMMachineFrameUnfinished = { ent-UnfinishedMachineFrame }
     .desc = { ent-UnfinishedMachineFrame.desc }
-    .suffix = RMC14, Незаконченный
+    .suffix = RMC14, Незавершенный
 ent-CMMachineFrame = { ent-MachineFrame }
     .desc = { ent-MachineFrame.desc }
     .suffix = RMC14, Готовый
@@ -9,4 +9,4 @@ ent-CMMachineFrameDestroyed = { ent-MachineFrameDestroyed }
     .suffix = RMC14
 ent-RMCComputerFrameUnfinished = компьютерная рама
     .desc = { ent-CMMachineFrameUnfinished.desc }
-    .suffix = RMC14, Незавершенная
+    .suffix = RMC14, Незавершенный

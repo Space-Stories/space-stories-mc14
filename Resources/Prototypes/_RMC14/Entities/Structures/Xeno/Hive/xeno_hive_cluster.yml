@@ -20,6 +20,8 @@
     xenoDamage:
       types:
         Slash: 300
+  - type: DamageMultiplierFlags
+    flags: Pylon
   - type: XenoWeeds
     range: 5
     spawns: XenoHiveWeedsCluster

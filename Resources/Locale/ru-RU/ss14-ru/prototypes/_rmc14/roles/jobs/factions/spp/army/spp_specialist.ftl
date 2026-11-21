@@ -1,0 +1,12 @@
+ent-RMCRandomHumanoidSPPSpecialistHostile = роль призрака специалист СПН
+    .desc = { "" }
+    .suffix = Спавнер, Игрок, Враждебный
+ent-RMCRandomHumanoidSPPSpecialistFriendly = роль призрака специалист СПН
+    .desc = { "" }
+    .suffix = Спавнер, Игрок, Дружелюбный
+ent-RMCRandomHumanoidSPPSpecialistShotgunHostile = spp ghost role specialist
+    .desc = { "" }
+    .suffix = Spawner, Player, Hostile, Shotgun
+ent-RMCRandomHumanoidSPPSpecialistShotgunFriendly = spp ghost role specialist
+    .desc = { "" }
+    .suffix = Spawner, Player, Friendly, Shotgun

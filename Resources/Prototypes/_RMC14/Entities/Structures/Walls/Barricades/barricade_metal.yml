@@ -5,6 +5,9 @@
   name: metal barricade
   description: A sturdy and easily assembled barricade made of metal plates, often used for quick fortifications. Use a blowtorch to repair.
   components:
+  - type: VehicleSmashable
+    minDestroyWeightClass: Light
+    minContinueWeightClass: Medium
   - type: Climbable
   - type: Anchorable
   - type: MeleeSound
@@ -172,7 +175,6 @@
         types:
           Heat: 1
 
-# Turnstile (not sure how to make a one-way door so for now it is a glorified fence)
 - type: entity
   parent: CMBarricadeBase
   id: CMBarricadeTurnstile
@@ -201,6 +203,43 @@
     - type: Construction
       graph: BarricadeTurnstileGraph
       node: nodeTurnstile
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.49,-0.49,0.49,-0.38" # Thicker than a barricade so turnstile comp works
+          density: 500
+          mask:
+          - FullTileMask
+          layer:
+          - TableLayer
+          - BarricadeImpassable
+          # - BulletImpassable TODO
+        # Stories-Turnstile-Start
+        fix2:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.49,-0.49,0.49,-0.38"
+          hard: false
+          mask:
+          - FullTileMask
+          layer:
+          - TableLayer
+          - BarricadeImpassable
+        # Stories-Turnstile-End
+    - type: Turnstile # All mobs and pullable objects blocked
+    # Stories-Turnstile-Start
+      localCenter: 0,-0.365
+      maxApproachAngle: 1.5
+    # Stories-Turnstile-End
+      processWhitelist:
+        components:
+        - MobState
+        - Pullable
+    # Stories-Turnstile-Start
+    - type: TurnstilePush
+    # Stories-Turnstile-End
 
 - type: entity
   parent: CMBarricadeTurnstile
@@ -488,7 +527,7 @@
       enum.DoorVisuals.State:
         enum.RMCDamageOverlayVisuals.DamageOverlay:
           Open: { sprite: _RMC14/Structures/Walls/Barricades/folding_metal_closed_cracks.rsi }
-          Closed: { sprite: _RMC14/Structures/Walls/Barricades/folding_metal_cracks.rsi }       
+          Closed: { sprite: _RMC14/Structures/Walls/Barricades/folding_metal_cracks.rsi }
 
   - type: InteractionOutline
   - type: Door

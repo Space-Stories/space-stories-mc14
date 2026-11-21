@@ -1,0 +1,91 @@
+ent-CMAPCFrame = каркас ЛКП
+    .desc = Используется для ремонта или постройки ЛКП.
+
+ent-CMApcBase = зональный контроллер питания
+    .desc = Терминал управления электрическими системами данного участка.
+ent-CMApcFrame = { ent-APCFrame }
+ent-CMApcFrameWired = каркас ЛКП с проводкой
+ent-CMApcFrameElectronics = каркас ЛКП с электроникой
+ent-CMApcConstructed = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApc = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApcNoPower = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApcAlmayer = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApcLowCapacity = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApcMediumCapacity = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+ent-CMApcHighCapacity = { ent-CMApcBase }
+    .desc = { ent-CMApcBase.desc }
+
+ent-RMCCableCoil = катушка кабеля
+    .desc = Катушка силового кабеля.
+ent-RMCCableCoil30 = { ent-RMCCableCoil }
+ent-RMCCableCoil20 = { ent-RMCCableCoil }
+ent-RMCCableCoil10 = { ent-RMCCableCoil }
+ent-RMCCableCoil1 = { ent-RMCCableCoil }
+
+ent-RMCCableHeavy = силовой кабель большого сечения
+    .desc = Этот кабель очень прочный. Его нельзя перерезать обычными ручными инструментами.
+ent-RMCCableBlue = кабель питания
+    .desc = Этот кабель очень прочный. Его нельзя перерезать обычными ручными инструментами.
+ent-RMCCableRed = кабель питания
+ent-RMCCableYellow = кабель питания
+
+ent-RMCRecharger = зарядное устройство
+ent-RMCRechargerLocked = { ent-RMCRecharger }
+
+ent-CMSMESBase = СМЭС
+    .desc = Сверхпроводящий магнитный накопитель энергии (СМЭС) большой мощности.
+ent-CMSMESBasic = { ent-CMSMESBase }
+ent-CMSMESEmpty = { ent-CMSMESBasic }
+
+ent-RMCGeneratorFusionFake = окончательно разрушенный термоядерный реактор S-52
+ent-RMCGeneratorFusion = термоядерный реактор S-52
+ent-RMCGeneratorFusionColony = геотермальный генератор G-11
+    .desc = Термоэлектрический генератор, расположенный в скважине, заполненной плазмой.
+ent-RMCGeneratorFusionColonyNoMapIcon = { ent-RMCGeneratorFusionColony }
+    .desc = { ent-RMCGeneratorFusionColony.desc }
+ent-RMCGeneratorFusionCell = универсальный топливный элемент WL-6
+    .desc = Перезаряжаемый топливный элемент.
+ent-RMCPortableGenerator = Портативный генератор типа P.A.C.M.A.N.
+    .desc = Портативный генератор для резервного аварийного питания.
+ent-RMCPortableGenerator2 = Портативный генератор типа S.U.P.E.R.P.A.C.M.A.N.
+    .desc = Портативный генератор для резервного аварийного питания.
+
+ent-RMCPowerCell = батарейка
+    .desc = Перезаряжаемый электрохимический элемент питания.
+ent-RMCPowerCellCrap = перезаряжаемая мини-батарейка Ве-Я
+    .desc = Дешевые, бросовые батарейки, поставляемые корпорацией "Вестон-Ямада". Функция "подзарядки" была добавлена для того, чтобы стать более популярной среди независимых колонистов, желающих "использовать его, пока он не распадется" — обычное настроение на фронтире.
+ent-RMCPowerCellCrapEmpty = { ent-RMCPowerCellCrap }
+ent-RMCPowerCellAPC = сверхмощная батарейка
+ent-RMCPowerCellAPCNoPower = { ent-RMCPowerCellAPC }
+ent-RMCPowerCellAPCEmpty = { ent-RMCPowerCellAPC }
+ent-RMCPowerCellHigh = высокомощная батарейка
+ent-RMCPowerCellHighEmpty = { ent-RMCPowerCellHigh }
+ent-RMCPowerCellSuper = сверхмощная батарейка
+ent-RMCPowerCellSuperEmpty = { ent-RMCPowerCellSuper }
+ent-RMCPowerCellHyper = сверхмощная батарейка
+ent-RMCPowerCellHyperEmpty = { ent-RMCPowerCellHyper }
+ent-RMCPowerCellInfinite = бесконечная батарейка
+ent-RMCPowerCellPotato = картофельная батарея
+    .desc = Перезаряжаемый элемент питания на основе крахмала.
+ent-RMCPowerCellSmartgun = аккумулятор для умного оружия M56
+    .desc = Стандартная 9-вольтовая литиевая батарея с сухими элементами, которую КМП использует для питания смартганов. Полного заряда хватает примерно на 750 выстрелов из стандартного M56 с включённой помощью при прицеливании. Подключается непосредственно к гнезду питания смартгана и заряжается в обычных зарядных устройствах. Операторы смартганов часто ревностно охраняют свои батареи.
+
+ent-RMCLightBulb = лампочка
+    .desc = Сколько нужно техников, чтобы заменить лампочку?
+ent-RMCLightBulbBlue = { ent-RMCLightBulb }
+ent-RMCLightBulbRed = { ent-RMCLightBulb }
+ent-RMCLightBulbBroken = лампочка
+    .desc = Сколько нужно техников, чтобы заменить лампочку?
+ent-RMCLightTube = световая трубка
+    .desc = Сменная световая трубка.
+ent-RMCLightTubeBlue = { ent-RMCLightTube }
+ent-RMCLightTubeWarm = { ent-RMCLightTube }
+ent-RMCLightTubeRed = { ent-RMCLightTube }
+ent-RMCLightTubeBroken = световая трубка
+    .desc = Сменная световая трубка.

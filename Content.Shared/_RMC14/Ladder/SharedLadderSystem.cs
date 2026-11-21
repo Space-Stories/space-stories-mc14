@@ -212,6 +212,17 @@ public abstract class SharedLadderSystem : EntitySystem
 
         _transform.SetMapCoordinates(user, coordinates);
 
+        if (TryComp<Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent>(user, out var userZPhys))
+        {
+            userZPhys.LocalPosition = 0f;
+            userZPhys.Velocity = 0f;
+            userZPhys.CachedGroundHeight = 0f;
+            userZPhys.CachedStickyGround = false;
+            userZPhys.VisualZApplied = false;
+            DirtyField(user, userZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.LocalPosition));
+            DirtyField(user, userZPhys, nameof(Content.Shared._Stories.ZLevels.Core.Components.ZPhysicsComponent.Velocity));
+        }
+
         var selfMessage = Loc.GetString("rmc-ladder-finish-climbing-self");
         var othersMessage = Loc.GetString("rmc-ladder-finish-climbing-others", ("user", user));
         _popup.PopupPredicted(selfMessage, othersMessage, user, user);

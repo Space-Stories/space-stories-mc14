@@ -1,0 +1,56 @@
+- type: entity
+  id: STZLevelLadderBase
+  abstract: true
+  parent: BaseStructure
+  name: stairs
+  description: Be careful, the higher you ascend, the more painful the fall.
+  placement:
+      mode: SnapgridCenter
+      snap:
+      - Wall
+  components:
+  - type: Sprite
+    state: straight
+    drawdepth: Mobs
+  - type: Transform
+    anchored: True
+  - type: Clickable
+  - type: Physics
+    bodyType: Static
+  - type: ZLevelHighGround
+    stick: true
+    heightCurve:
+    - 1.05
+    - 1.05
+    - 0.1
+
+- type: entity
+  parent: STZLevelLadderBase
+  id: STZLevelLadderCornerBase
+  abstract: true
+  placement:
+      mode: SnapgridCenter
+      snap:
+      - Wall
+  components:
+  - type: Sprite
+    state: corner
+  - type: ZLevelHighGround
+    corner: true
+    heightCurve:
+    - 1.05
+    - 1.05
+    - 0.5
+    - 0.1
+
+- type: entity
+  parent: STZLevelLadderCornerBase
+  id: STZLevelLadderCornerInnerBase
+  abstract: true
+  placement:
+      mode: SnapgridCenter
+      snap:
+      - Wall
+  components:
+  - type: Sprite
+    state: internal_corner

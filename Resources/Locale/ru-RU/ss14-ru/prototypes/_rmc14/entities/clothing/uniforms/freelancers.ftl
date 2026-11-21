@@ -6,3 +6,6 @@ ent-RMCJumpsuitFreelancerGreenPants = костюм наёмника
     .desc = Пара брюк лесного камуфляжа в сочетании с белой футболкой. Часто встречается у наёмников, которые не служат никакой стране, а только своим контрактам.
 ent-RMCJumpsuitFreelancerBlackPants = костюм наёмника
     .desc = Пара чёрных тактических брюк в сочетании с оливковой футболкой. Часто встречается у наёмников, которые не служат никакой стране, а только своим контрактам.
+ent-RMCJumpsuitFreelancerSurgicalWebbing = { ent-RMCJumpsuitFreelancer }
+    .desc = { ent-RMCJumpsuitFreelancer.desc }
+    .suffix = Surgical Webbing

@@ -11,6 +11,7 @@ public abstract class SharedXenoWatchSystem : EntitySystem
     [Dependency] private readonly SharedEyeSystem _eye = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     public override void Initialize()
     {
@@ -41,6 +42,14 @@ public abstract class SharedXenoWatchSystem : EntitySystem
 
     private void OnXenoWatchBui(Entity<XenoComponent> xeno, ref XenoWatchBuiMsg args)
     {
+        // Stories-UIValidation-Start
+        if (args.Actor != xeno.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(xeno.Owner, XenoWatchUIKey.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         if (!TryGetEntity(args.Target, out var target))
             return;
 

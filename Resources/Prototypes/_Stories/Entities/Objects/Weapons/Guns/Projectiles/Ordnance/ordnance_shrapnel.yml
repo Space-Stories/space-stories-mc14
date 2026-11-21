@@ -1,0 +1,8 @@
+- type: entity
+  parent: CMProjectileShrapnel
+  id: STProjectileOrdnanceShrapnel
+  name: shrapnel
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ProjectileMaxRange
+    max: 8

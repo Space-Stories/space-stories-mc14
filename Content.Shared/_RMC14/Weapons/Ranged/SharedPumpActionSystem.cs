@@ -1,9 +1,9 @@
-﻿using Content.Shared._RMC14.Weapons.Common;
+using Content.Shared._RMC14.Weapons.Common;
 using Content.Shared.Examine;
 using Content.Shared.Popups;
+using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
-using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 
@@ -12,6 +12,7 @@ namespace Content.Shared._RMC14.Weapons.Ranged;
 public abstract class SharedPumpActionSystem : EntitySystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedGunSystem _gun = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
@@ -70,8 +71,22 @@ public abstract class SharedPumpActionSystem : EntitySystem
         ent.Comp.Pumped = false;
     }
 
+    public void SetPumped(Entity<PumpActionComponent> ent, bool pumped)
+    {
+        if (ent.Comp.Pumped == pumped)
+            return;
+
+        ent.Comp.Pumped = pumped;
+        Dirty(ent);
+    }
+
     public bool Pump(Entity<PumpActionComponent> ent, EntityUid user)
     {
+        // Stories-GunBalance-Start
+        if (!_gun.HasOtherHandFree(user, ent.Owner))
+            return false;
+        // Stories-GunBalance-End
+
         if (TryComp<GunComponent>(ent.Owner, out var gun) && gun.BurstActivated)
         {
             return true;

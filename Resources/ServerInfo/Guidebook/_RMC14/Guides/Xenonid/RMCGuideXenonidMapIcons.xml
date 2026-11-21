@@ -17,14 +17,14 @@
     </Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoParasite" Caption=""/>
-      <GuideEntityEmbed Entity="RMCParasiteMapIcon" Caption="Child / Parasite"/>
+      <GuideEntityEmbed Entity="RMCParasiteMapIcon"/>
     </Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoLarva" Caption=""/>
       <GuideEntityEmbed Entity="RMCLarvaMapIcon"/>
     </Box>
   </Box>
-  - Касты Трутней
+  - Касты Дронов
   <Box>
     <Box Orientation="Vertical">
       <GuideEntityEmbed Entity="CMXenoDrone" Caption="" Margin="0 40 0 0"/>

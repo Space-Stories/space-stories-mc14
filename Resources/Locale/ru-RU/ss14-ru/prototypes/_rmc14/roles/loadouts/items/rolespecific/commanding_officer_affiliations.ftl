@@ -1,0 +1,16 @@
+ent-RMCCOAffiliationUnalignedData = { "" }
+    .desc = { "" }
+ent-RMCCOAffiliationHawksData = { "" }
+    .desc = { "" }
+ent-RMCCOAffiliationDovesData = { "" }
+    .desc = { "" }
+ent-RMCCOAffiliationMagpiesData = { "" }
+    .desc = { "" }
+ent-RMCCOAffiliationUnalignedPreview = Вне фракций
+    .desc = Уравновешенная философия командования без привязки к политическому блоку. Брифинги подчёркивают стандартные приоритеты операции.
+ent-RMCCOAffiliationHawksPreview = Ястребы
+    .desc = Агрессивная философия командования, сосредоточенная на сдерживании противника, решительных действиях и защите личного состава.
+ent-RMCCOAffiliationDovesPreview = Голуби
+    .desc = Гуманистическая философия командования, сосредоточенная на спасении людей, сдержанности и минимизации сопутствующего ущерба.
+ent-RMCCOAffiliationMagpiesPreview = Сороки
+    .desc = Техническая философия командования, сосредоточенная на эвакуации исследований, данных, образцов и стратегически важного оборудования.

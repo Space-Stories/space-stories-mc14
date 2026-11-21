@@ -1,5 +1,5 @@
 ent-XenoFruitBase = смоляное плод
-    .desc = a fruit that shouldn't exist
+    .desc = Плод, которого не должно существовать
 ent-XenoFruitLesser = Плод смолы (меньший)
     .desc = Плод, съев который, можно моментально восстановить здоровье.
 ent-XenoFruitGreater = Плод смолы (больший)

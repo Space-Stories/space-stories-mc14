@@ -4,6 +4,7 @@
   parent: ColMarTechBase
   id: ColMarTechCargo
   components:
+  - type: RequisitionsStockSource
   - type: AccessReader
     access:
     - [ "CMAccessRequisitions" ]
@@ -24,11 +25,6 @@
   components:
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/guns.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     baseSprite:
@@ -39,6 +35,7 @@
       state: vend
     sections:
     - name: Основное оружие
+      requisitionCategory: rmc-requisitions-category-weapons
       entries:
       - id: WeaponShotgunM42A2
         amount: 30
@@ -49,6 +46,7 @@
       - id: WeaponRifleM4SPR
         amount: 20
     - name: Вторичное оружие
+      requisitionCategory: rmc-requisitions-category-weapons
       entries:
       - id: RMCWeaponPistolM77Empty
         amount: 50
@@ -61,6 +59,7 @@
       - id: RMCWeaponPistolM82FEmpty
         amount: 20
     - name: Ограниченное оружие
+      requisitionCategory: rmc-requisitions-category-weapons
       entries:
       - id: RMCGunCasePistolMK80
         amount: 4
@@ -85,6 +84,7 @@
       - id: RMCGunCasePistolM13
         amount: 3
     - name: Взрывчатка
+      requisitionCategory: rmc-requisitions-category-explosives
       entries:
       - id: CMGrenadeFragOld
         amount: 2
@@ -262,6 +262,8 @@
         amount: 1
       - id: RMCSentryLaptop
         amount: 4
+      - id: RMCOverwatchCameraTripod
+        amount: 4
       - id: CMSparePDTLBattleBuddyKit
         amount: 4
     - name: Освещение
@@ -301,6 +303,7 @@
       - id: CMPamphletPowerloader
         amount: 1
     - name: Коробки со взрывчаткой
+      requisitionCategory: rmc-requisitions-category-explosives
       hasBoxes: true
       entries:
       - id: CMPacketGrenadeFragOldFilled
@@ -359,16 +362,13 @@
 - type: entity
   parent: ColMarTechCargo
   id: ColMarTechCargoAmmo
-  name: ASRS automated munition vendor
+  name: ASRS surplus munitions vendor
   description: An automated supply rack hooked up to a big storage of various ammunition types. Can be accessed by the Logistics Officer and Requisitions Technicians.
   components:
+  - type: RequisitionsStockSource
+    category: rmc-requisitions-category-ammo
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/ammo.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     ignoreBulkRestockById:
@@ -428,14 +428,12 @@
         amount: 5
     - name: Специальные боеприпасы
       entries:
-      - id: RMCPowerCellSmartgun
-        amount: 4
       - id: RMCMagazineSmartGun
         amount: 4
-      #- id: M44 Heavy Speed Loader (.44)
-      #  amount: 10
+      - id: RMCSpeedLoader44Heavy
+        amount: 10
       - id: RMCSpeedLoader44Marksman
-        amount: 16 # TODO RMC14 6 once heavy is in
+        amount: 6
       - id: RMCMagazinePistolM1984HP
         amount: 2
       - id: CMMagazineRifleM54CE2HT
@@ -576,8 +574,9 @@
         name: Коробка магазинов (Марксман M44 x 16)
         box: RMCSpeedLoader44Marksman
 
-#      - name: Magazine Box (Heavy M44 x 16)
-#        box: CMMagazineSMGM63
+      - id: RMCBoxMagazineRevolverM44Heavy
+        name: Magazine Box (Heavy M44 x 16)
+        box: RMCSpeedLoader44Heavy
 #      - name: Magazine Box (UT-Napthal Fuel x 8)
 #        box: CMMagazineSMGM63
 
@@ -616,16 +615,13 @@
 - type: entity
   parent: ColMarTechCargo
   id: ColMarTechCargoAttachments
-  name: AEGIS Armaments attachments vendor
+  name: ASRS surplus attachments vendor
   description: An automated supply rack hooked up to a big storage of weapons attachments. Can be accessed by the Logistics Officer and Requisitions Technicians.
   components:
+  - type: RequisitionsStockSource
+    category: rmc-requisitions-category-attachments
   - type: Sprite
     sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/requisitions_wall/attachments.rsi
-    layers:
-    - map: ["base"]
-      state: "off"
-    - map: ["enum.PowerDeviceVisualLayers.Powered"]
-      state: "base"
   - type: RMCRequisitionsVendor
   - type: CMAutomatedVendor
     baseSprite:
@@ -685,8 +681,8 @@
         amount: 4
       - id: RMCAttachmentMiniFlamethrower
         amount: 5
-      #- id: RMCAttachmentXMVESG1FlamerNozzle
-      #  amount: 5
+      - id: RMCAttachmentXMVESG1FlamerNozzle
+        amount: 5
       - id: RMCAttachmentU7UnderbarrelShotgun
         amount: 5
       - id: RMCAttachmentUnderbarrelExtinguisher
@@ -729,11 +725,13 @@
   description: An automated supply rack hooked up to a big storage of standard marine uniforms. Can be accessed by the Logistics Officer and Requisitions Technicians.
   suffix: Requisitions
   components:
+  - type: RequisitionsStockSource
+    category: rmc-requisitions-category-clothing
   - type: AccessReader
     access:
     - [ "CMAccessRequisitions" ]
   - type: Sprite
-    sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/clothing.rsi
+    sprite: _RMC14/Structures/Machines/VendingMachines/ColMarTech/clothing_surplus.rsi
   - type: CMAutomatedVendor
     canManualRestock: true
     sections:
@@ -793,7 +791,7 @@
         amount: 10
     - name: Перчатки
       entries:
-      - id: CMHandsBrown
+      - id: RMCHandsBrownMarine
         amount: 40
       - id: RMCHandsGreyMarine
         amount: 40

@@ -12,6 +12,7 @@
   name: Drone
   description: An alien drone.
   components:
+  - type: XenoBuilderCaste
   - type: MobState
     allowedStates:
     - Alive
@@ -26,6 +27,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  # Stories-SynthHeavyGrab-End
   - type: MeleeWeapon
     damage:
       groups:
@@ -36,7 +44,9 @@
         Brute: 30
   - type: Xeno
     role: CMXenoDrone
-    hudOffset: 0,0.15
+    hudOffset: -0.1,0.15
+    hudRankIconScale: 0.9
+    hudRankIconOffset: 0,0.15
     tier: 1
     bypassTierCount: true
     unlockAt: 60 # 1 minute
@@ -113,6 +123,13 @@
   parent: CMXenoDroneBase
   id: CMXenoDrone
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoChooseStructure ]
+      XenoPrimaryThree: [ ActionXenoSecreteStructure ]
+      XenoPrimaryFour: [ ActionXenoTransferPlasma ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: XenoBaseCaste
   - type: GuideHelp
     guides:
@@ -202,6 +219,8 @@
     name: rmc-xeno-gardener-name
     description: rmc-xeno-gardener-description
     popup: rmc-xeno-gardener-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoDrone
   - type: XenoFruitPlanter
     canPlant:
     - XenoFruitGreater
@@ -277,6 +296,8 @@
     name: rmc-xeno-healer-name
     description: rmc-xeno-healer-description
     popup: rmc-xeno-healer-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoDrone
   - type: XenoFruitPlanter
     fruitChoice: XenoFruitLesser
     canPlant:
@@ -298,5 +319,9 @@
   - type: XenoHidden
   - type: VentCrawler
     ventCrawlIcon: healer
+  - type: AcidTrap
+    trapLevel: 1
+    cost: 70
+    spray: XenoAcidSprayTrapWeak
   - type: RMCActionOrder
     id: CMXenoDroneHealer

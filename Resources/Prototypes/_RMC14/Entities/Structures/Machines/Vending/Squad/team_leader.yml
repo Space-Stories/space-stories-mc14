@@ -3,7 +3,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechFLGear
-  name: ColMarTech fireteam leader gear rack
+  name: ASRS fireteam leader gear rack
   description: An automated gear rack for fireteam leaders.
   components:
   - type: AccessReader
@@ -57,8 +57,8 @@
       entries:
       - id: RMCMagazinePistolM13Ext
         points: 6
-      # - id: RMCSpeedLoader44Heavy
-      #  points: 10
+      - id: RMCSpeedLoader44Heavy
+        points: 10
       - id: RMCSpeedLoader44Marksman
         points: 10
       - id: RMCMagazinePistolM1984HP
@@ -110,8 +110,8 @@
         points: 5
       - id: RMCExplosiveBreachingCharge
         points: 10
-#      - id: ES-11 Mobile Fuel Canister
-#        points: 10
+      - id: RMCES11MobileFuelCanister
+        points: 5
       - id: CMWelderSmall
         points: 5
     - name: Utilities
@@ -160,7 +160,7 @@
 - type: entity
   parent: ColMarTechBase
   id: ColMarTechFLEquipment
-  name: ColMarTech fireteam leader equipment rack
+  name: ASRS fireteam leader equipment rack
   description: An automated rack hooked up to a colossal storage of fireteam leader standard-issue equipment.
   components:
   - type: AccessReader
@@ -179,8 +179,8 @@
       - id: RMCBackpackRTO
         replaceSlot: back
       - id: CMMRE
-      #- id: CMMap # TODO: Make a map
       - id: RMCVendorBundleCrewFireteamLeader
+      #- id: CMMap # TODO: Make a map
     - name: Gloves
       choices: { CMHands: 1 }
       entries:
@@ -257,6 +257,7 @@
   parent: CMVendorBundleRiflemanApparel
   id: RMCVendorBundleCrewFireteamLeader
   name: essential fireteam leader utilities
+  categories: [ HideSpawnMenu ]
   description: Contains a laser designator, and two packs of signal flares.
   components:
   - type: Sprite
@@ -266,6 +267,12 @@
     - state: laser_cas
   - type: CMVendorBundle
     bundle:
+    #Stories-BundleCrewLeaderRework-Start
+    - RMCWhistle
+    - RMCMegaphone
+    - RMCExplosivePlastic
     - RMCPackFlareCAS
     - RMCPackFlareCAS
     - RMCLaserDesignator
+    - CMFireExtinguisherPortable
+    #Stories-BundleCrewLeaderRework-End

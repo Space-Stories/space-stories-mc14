@@ -1,3 +1,23 @@
+## Vehicle wreck demolition
+
+- type: entity
+  parent: MarkerBase
+  id: RMCVehicleWreckExplosion
+  name: vehicle wreck explosion
+  suffix: Explodes when triggered
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Explosive
+    explosionType: RMC
+    totalIntensity: 1500
+    intensitySlope: 6
+    maxIntensity: 45
+    canCreateVacuum: false
+  - type: CMExplosionEffect
+  - type: TileFireOnTrigger
+    range: 3
+
 ## Mortar Shells
 
 - type: entity
@@ -36,6 +56,41 @@
   - type: TileFireOnTrigger
     spawn: RMCTileFireGreen
     range: 5
+  - type: RMCScorchEffect
+  - type: MortarShell
+  - type: ActivateMortarShellOnSpawn
+
+- type: entity
+  parent: MarkerBase
+  id: RMCMortarExplosionFrag
+  name: fragmentation mortar explosion
+  suffix: Fires a mortar shell!
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Explosive
+    explosionType: RMCMortarFrag
+    maxIntensity: 4.8 # max 30 brute, 30 burn
+    intensitySlope: 1.6
+    totalIntensity: 96
+    maxTileBreak: 1
+    canCreateVacuum: false
+  - type: ProjectileGrenade
+    fillPrototype: RMCMortarShellFragShrapnel
+    capacity: 60
+    spreadAngle: 360
+    minVelocity: 0
+    maxVelocity: 0
+    projectileSpeed: 20
+    directHit: true
+    directHitChance: 0.4
+    triggerUserIsShooter: true
+    minProjectileDamageMultiplier: 1.06
+    maxProjectileDamageMultiplier: 1.13
+  - type: ContainerContainer
+    containers:
+      cluster-payload: !type:Container
+  - type: CMExplosionEffect
   - type: RMCScorchEffect
   - type: MortarShell
   - type: ActivateMortarShellOnSpawn
@@ -143,7 +198,8 @@
     travelTime: 6
     weapon: RMCDropshipAttachmentGuidedMissileLauncher
     soundCockpit: /Audio/_RMC14/Effects/rocketpod_fire.ogg
-    soundMarker: /Audio/_RMC14/Effects/rocketpod_fire.ogg
+    soundMarker:
+      collection: RocketIncoming
 
 - type: entity
   parent: RMCDropshipMissileExplosionBase

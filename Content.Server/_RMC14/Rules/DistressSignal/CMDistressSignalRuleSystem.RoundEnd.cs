@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Content.Server.GameTicking;
 using Content.Server.Ghost.Roles.Components;
 using Content.Shared._RMC14.Armor.Ghillie;
@@ -8,14 +8,17 @@ using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Light;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Synth;
 using Content.Shared._RMC14.Thunderdome;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Evolution;
+using Content.Shared._RMC14.Xenonids.LastStand;
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared._Stories.SCCVars;
 using Content.Shared._Stories.TTS;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
+using Content.Shared.GameTicking.Components;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Preferences;
@@ -29,23 +32,7 @@ public sealed partial class CMDistressSignalRuleSystem
 {
     private const int LastMarineEquipmentCooldownHours = 2;
 
-    private void InitializeRoundEnd()
-    {
-        SubscribeLocalEvent<RoundEndMessageEvent>(OnRoundEndMessage);
-        SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
-
-        SubscribeLocalEvent<MarineComponent, MobStateChangedEvent>(OnMobStateChanged);
-        SubscribeLocalEvent<MarineComponent, ComponentRemove>(OnCompRemove);
-        SubscribeLocalEvent<VictimInfectedComponent, ComponentRemove>(OnCompRemove);
-        SubscribeLocalEvent<VictimBurstComponent, ComponentRemove>(OnCompRemove);
-        SubscribeLocalEvent<XenoComponent, MobStateChangedEvent>(OnMobStateChanged);
-        SubscribeLocalEvent<XenoComponent, ComponentRemove>(OnCompRemove);
-
-        SubscribeLocalEvent<XenoEvolutionGranterComponent, MapInitEvent>(OnMapInit);
-
-        SubscribeLocalEvent<CMDistressSignalRuleComponent, RoundEndTextAppendEvent>(AppendRoundEndText);
-        SubscribeLocalEvent<CMDistressSignalRuleComponent, RoundStartAttemptEvent>(OnStartAttempt);
-    }
+    private const int XenoLastStandMinNumber = 1;
 
     /// <summary>
     /// Performs all round end condition checks including hijack status, faction live counts,
@@ -88,10 +75,12 @@ public sealed partial class CMDistressSignalRuleSystem
 
         ApplyLastMarineEffects(time);
         CheckQueenDeath(distress);
+        CheckLastXenoAlive();
     }
 
     private void UpdateHijackState(CMDistressSignalRuleComponent distress)
     {
+        var wasEndgame = IsDistressEndgameActive();
         var hijack = false;
         var dropshipQuery = EntityQueryEnumerator<DropshipComponent>();
         while (dropshipQuery.MoveNext(out var dropship))
@@ -105,6 +94,7 @@ public sealed partial class CMDistressSignalRuleSystem
         {
             distress.Hijack = true;
             distress.AbandonedAt ??= time + distress.AbandonedDelay;
+            RaiseEndgameChanged(wasEndgame);
         }
     }
 
@@ -154,6 +144,9 @@ public sealed partial class CMDistressSignalRuleSystem
             {
                 continue;
             }
+
+            if (HasComp<SynthComponent>(marineId))
+                continue;
 
             if (_containers.IsEntityInContainer(marineId))
                 continue;
@@ -282,8 +275,8 @@ public sealed partial class CMDistressSignalRuleSystem
         StartPlanetVote();
         ResetSelectedPlanet();
         _spawnedDropships = false;
+        _commandingOfficerBriefingScheduled = false;
         OperationName = null;
-        _usingCustomOperationName = false;
         ActiveNightmareScenario = null;
         _config.SetCVar(CCVars.GameDisallowLateJoins, false);
 
@@ -306,8 +299,16 @@ public sealed partial class CMDistressSignalRuleSystem
                 _ => throw new ArgumentOutOfRangeException(),
             };
 
+            if (adjust != _autoBalanceLastAdjustment)
+            {
+                _config.SetCVar(RMCCVars.RMCAutoBalanceLastAdjustment, adjust);
+                // If streak only is enabled, don't make an adjustment because this adjustment was different from the previous attempt.
+                if (_autoBalanceStreakOnly)
+                    break;
+            }
+
             if (adjust == 0)
-                continue;
+                break;
 
             var value = _marinesPerXeno;
             value += adjust * _autoBalanceStep;
@@ -393,14 +394,20 @@ public sealed partial class CMDistressSignalRuleSystem
         CheckRoundShouldEnd();
     }
 
+    private void OnXenoComponentRemoved(Entity<XenoComponent> ent, ref ComponentRemove args)
+    {
+        var ev = new XenoComponentChangedEvent(ent);
+        RaiseLocalEvent(ref ev);
+        CheckRoundShouldEnd();
+    }
+
     private void OnMapInit(Entity<XenoEvolutionGranterComponent> ent, ref MapInitEvent args)
     {
         CheckRoundShouldEnd();
     }
 
-    private void AppendRoundEndText(Entity<CMDistressSignalRuleComponent> rule, ref RoundEndTextAppendEvent args)
+    protected override void AppendRoundEndText(EntityUid uid, CMDistressSignalRuleComponent component, GameRuleComponent gameRule, ref RoundEndTextAppendEvent args)
     {
-        var component = rule.Comp;
         var result = component.Result ??= DistressSignalRuleResult.None;
         args.AddLine(component.CustomRoundEndMessage != null
             ? $"{Loc.GetString(component.CustomRoundEndMessage)}"
@@ -417,12 +424,12 @@ public sealed partial class CMDistressSignalRuleSystem
         _gameRulesExtras.XenoAwards(ref args);
     }
 
-    private void OnStartAttempt(Entity<CMDistressSignalRuleComponent> gameRule, ref RoundStartAttemptEvent ev)
+    protected override void OnStartAttempt(Entity<CMDistressSignalRuleComponent, GameRuleComponent> gameRule, RoundStartAttemptEvent ev)
     {
         if (ev.Forced || ev.Cancelled)
             return;
 
-        if (!gameRule.Comp.RequireXenoPlayers)
+        if (!gameRule.Comp1.RequireXenoPlayers)
             return;
 
         var query = QueryAllRules();
@@ -456,6 +463,27 @@ public sealed partial class CMDistressSignalRuleSystem
             _chatManager.SendAdminAnnouncement(msg);
             _chatManager.DispatchServerAnnouncement(msg);
             ev.Cancel();
+        }
+    }
+
+    private void CheckLastXenoAlive()
+    {
+        //TODO RMC14 check main hive only
+        var xenoCount = _xenoEvolution.GetLiving<XenoComponent>(x => x.Comp.CountedInSlots);
+
+        if (xenoCount > XenoLastStandMinNumber)
+            return;
+
+        var xenos = EntityQueryEnumerator<ActorComponent, XenoLastStandableComponent, MobStateComponent, TransformComponent>();
+        while (xenos.MoveNext(out var xenoId, out _, out var xeno, out var mobState, out var xform))
+        {
+            if (HasComp<ThunderdomeMapComponent>(xform.MapUid))
+                continue;
+
+            if (_mobState.IsDead(xenoId))
+                continue;
+
+            EnsureComp<XenoLastStandComponent>(xenoId);
         }
     }
 }

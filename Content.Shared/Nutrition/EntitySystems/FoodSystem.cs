@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Shared._Stories.Interaction;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Organ;
@@ -102,6 +103,15 @@ public sealed class FoodSystem : EntitySystem
         //Suppresses eating yourself and alive mobs
         if (food == user || (_mobState.IsAlive(food) && foodComp.RequireDead))
             return (false, false);
+
+        // Stories-BlockContainedInteraction-Start
+        if (HasComp<BlockContainedInteractionComponent>(food) &&
+            !_hands.IsHolding(user, food) &&
+            !HasUtensil(user))
+        {
+            return (false, false);
+        }
+        // Stories-BlockContainedInteraction-End
 
         // Target can't be fed or they're already eating
         if (!TryComp<BodyComponent>(target, out var body))
@@ -389,6 +399,15 @@ public sealed class FoodSystem : EntitySystem
             !_body.TryGetBodyOrganEntityComps<StomachComponent>((ev.User, body), out var stomachs))
             return;
 
+        // Stories-BlockContainedInteraction-Start
+        if (HasComp<BlockContainedInteractionComponent>(entity) &&
+            !_hands.IsHolding(ev.User, entity) &&
+            !HasUtensil(ev.User))
+        {
+            return;
+        }
+        // Stories-BlockContainedInteraction-End
+
         // have to kill mouse before eating it
         if (_mobState.IsAlive(entity) && entity.Comp.RequireDead)
             return;
@@ -411,6 +430,19 @@ public sealed class FoodSystem : EntitySystem
 
         ev.Verbs.Add(verb);
     }
+
+    // Stories-BlockContainedInteraction-Start
+    public bool HasUtensil(EntityUid user)
+    {
+        foreach (var item in _hands.EnumerateHeld(user))
+        {
+            if (HasComp<UtensilComponent>(item))
+                return true;
+        }
+
+        return false;
+    }
+    // Stories-BlockContainedInteraction-End
 
     /// <summary>
     ///     Returns true if the food item can be digested by the user.

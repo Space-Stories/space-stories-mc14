@@ -5,7 +5,7 @@
 
 - type: rank
   id: RMCRankFLMedic
-  name: Medic
+  name: Медик
   prefix: Мед.
 
 - type: rank

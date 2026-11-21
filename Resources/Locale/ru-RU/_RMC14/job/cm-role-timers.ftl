@@ -5,6 +5,7 @@ role-timer-dropship-roles = любые роли пилотов
 role-timer-dropship-pilot-roles = любые роли пилотов десантных кораблей
 role-timer-corporate-roles = любые корпоративные роли
 role-timer-survivor-roles = любые роли выживших
+role-time-whitelist-roles = any whitelisted role
 
 role-timer-total-department-insufficient = Вам требуется на [color=yellow]{ TOSTRING($time, "0") }[/color] минут больше, чтобы [color={ $rolesColor }]{ $roles }[/color] отыгрывать эту роль.
 role-timer-total-department-too-high = Вам требуется на [color=yellow]{ TOSTRING($time, "0") }[/color] минут меньше, чем [color={ $departmentColor }]{ $rolesColor }[/color] для отыгрывания этой роли. (Вы пытаетесь играть роль стажера?)

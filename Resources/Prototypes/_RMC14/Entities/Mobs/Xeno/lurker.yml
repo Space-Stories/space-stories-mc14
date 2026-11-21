@@ -22,6 +22,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  # Stories-SynthHeavyGrab-End
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -40,6 +47,8 @@
     - ActionXenoDevolve
     tier: 2
     hudOffset: -0.15,0.05
+    hudRankIconScale: 0.9
+    hudRankIconOffset: 0,0.15
     unlockAt: 540 # 9 minutes
   - type: XenoRegen
     restHealMultiplier:  1.5
@@ -68,7 +77,9 @@
     damage:
       groups:
         Brute: 35
-  - type: Tackle
+  - type: Tackle # Stories-Balance
+    chance: 0.4
+    max: 4
   - type: MovementSpeedModifier
     baseWalkSpeed: 2.7
     baseSprintSpeed: 5
@@ -106,6 +117,11 @@
   id: CMXenoLurker
   suffix: Base
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPounce ]
+      XenoPrimaryTwo: [ ActionXenoTurnInvisible ]
+      XenoPrimaryThree: [ ActionXenoCripplingStrike ]
   - type: XenoBaseCaste
   - type: GuideHelp
     guides:
@@ -140,6 +156,12 @@
   id: RMCXenoLurkerVampire
   suffix: Vampire
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoRush ]
+      XenoPrimaryTwo: [ ActionXenoFlurry ]
+      XenoPrimaryThree: [ ActionXenoTailJab ]
+      XenoPrimaryFour: [ ActionXenoHeadbite ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleVampire
@@ -198,6 +220,8 @@
     name: rmc-xeno-vampire-name
     description: rmc-xeno-vampire-description
     popup: rmc-xeno-vampire-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoLurker
   - type: CMArmor
     xenoArmor: 20
     explosionArmor: 20

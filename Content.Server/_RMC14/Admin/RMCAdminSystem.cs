@@ -130,11 +130,12 @@ public sealed class RMCAdminSystem : SharedRMCAdminSystem
         var player = actor.PlayerSession;
         var stationUid = _station.GetOwningStation(target);
         var profile = _gameTicker.GetPlayerProfile(actor.PlayerSession);
+        profile = _stationSpawning.GetJobProfile(profile, job); // Stories-SynthAppearance
 
         var newMind = _mind.CreateMind(player.UserId, profile.Name);
         _mind.SetUserId(newMind, player.UserId);
         _playTimeTracking.PlayerRolesChanged(player);
-        var mobUid = _stationSpawning.SpawnPlayerCharacterOnStation(stationUid, job, profile);
+        var mobUid = _stationSpawning.SpawnPlayerCharacterOnStation(stationUid, job, profile, null, true);
 
         _mind.TransferTo(newMind, mobUid);
         _role.MindAddJobRole(newMind, jobPrototype: job);

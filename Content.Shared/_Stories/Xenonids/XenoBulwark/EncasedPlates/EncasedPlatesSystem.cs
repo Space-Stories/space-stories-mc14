@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Shared._RMC14.Actions;
 using Content.Shared._RMC14.Armor;
+using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Stun;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Rest;
@@ -20,6 +21,7 @@ public sealed class EncasedPlatesSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly CMArmorSystem _armor = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SharedRMCExplosionSystem _explosion = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedRMCActionsSystem _rmcActions = default!;
@@ -60,6 +62,9 @@ public sealed class EncasedPlatesSystem : EntitySystem
         _armor.UpdateArmorValue((xeno, null));
         _movementSpeed.RefreshMovementSpeedModifiers(xeno);
 
+        if (TryComp<StunOnExplosionReceivedComponent>(xeno, out var stunExplosion))
+            _explosion.ChangeExplosionStunResistance(xeno, stunExplosion, true);
+
         foreach (var action in _rmcActions.GetActionsWithEvent<EncasedPlatesActionEvent>(xeno))
         {
             _actions.SetToggled(action.AsNullable(), false);
@@ -82,6 +87,9 @@ public sealed class EncasedPlatesSystem : EntitySystem
         _appearance.SetData(xeno, XenoVisualLayers.EncasedPlates, false);
         _armor.UpdateArmorValue((xeno, null));
         _movementSpeed.RefreshMovementSpeedModifiers(xeno);
+
+        if (TryComp<StunOnExplosionReceivedComponent>(xeno, out var stunExplosion))
+            _explosion.ChangeExplosionStunResistance(xeno, stunExplosion, true);
     }
 
     private void OnEncasedPlatesAction(Entity<EncasedPlatesComponent> xeno, ref EncasedPlatesActionEvent args)
@@ -125,6 +133,9 @@ public sealed class EncasedPlatesSystem : EntitySystem
         _armor.UpdateArmorValue((xeno, null));
         _movementSpeed.RefreshMovementSpeedModifiers(xeno);
 
+        if (TryComp<StunOnExplosionReceivedComponent>(xeno, out var stunExplosion))
+            _explosion.ChangeExplosionStunResistance(xeno, stunExplosion, !xeno.Comp.Active);
+
         foreach (var action in _rmcActions.GetActionsWithEvent<EncasedPlatesActionEvent>(xeno))
         {
             _actions.SetToggled(action.AsNullable(), xeno.Comp.Active);
@@ -151,9 +162,14 @@ public sealed class EncasedPlatesSystem : EntitySystem
         if (!xeno.Comp.Active)
             return;
 
+        var count = args.Damage.DamageDict.Count;
+        if (count == 0)
+            return;
+
+        var modifierPerType = xeno.Comp.DamageModifier / count;
         foreach (var (type, _) in args.Damage.DamageDict)
         {
-            args.Damage.DamageDict[type] += xeno.Comp.DamageModifier;
+            args.Damage.DamageDict[type] += modifierPerType;
         }
     }
 

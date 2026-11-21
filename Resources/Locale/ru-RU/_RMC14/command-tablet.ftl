@@ -1,0 +1,13 @@
+rmc-command-tablet-title = Командный планшет
+rmc-command-tablet-command = Командование
+rmc-command-tablet-make-announcement = Сделать объявление
+rmc-command-tablet-announcement-cooldown = Сделать объявление ({ $seconds } с)
+rmc-command-tablet-give-medal = Вручить медаль
+rmc-command-tablet-view-tactical-map = Открыть тактическую карту
+rmc-command-tablet-evacuation = Эвакуация
+rmc-command-tablet-evacuation-warning-line-one = Для запуска процедуры эвакуации на корабле
+rmc-command-tablet-evacuation-warning-line-two = должен быть установлен красный уровень тревоги.
+rmc-command-tablet-initiate-evacuation = Начать эвакуацию
+rmc-command-tablet-cancel-evacuation = Отменить эвакуацию
+rmc-command-tablet-confirm-evacuation = Подтвердить эвакуацию?
+rmc-command-tablet-confirm-cancel-evacuation = Подтвердить отмену?

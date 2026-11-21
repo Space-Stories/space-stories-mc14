@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Content.Server.GameTicking;
 using Content.Server.Spawners.Components;
 using Content.Shared._RMC14.Rules;
@@ -58,6 +59,15 @@ public sealed partial class CMDistressSignalRuleSystem
             jobs.AddRange(comp.SurvivorJobVariants.Values.SelectMany(x => x).Select(x => x.Variant));
         if (comp.SurvivorJobVariantScenarios != null)
             jobs.AddRange(comp.SurvivorJobVariantScenarios.Values.SelectMany(x => x).Select(x => x.Special));
+
+        // Stories-SurvivorSpawnerFallback-Start
+        foreach (var job in jobs.ToList())
+        {
+            if (_prototypes.TryIndex(job, out var jobProto))
+                jobs.AddRange(jobProto.SurvivorSpawnerFallback);
+        }
+        // Stories-SurvivorSpawnerFallback-End
+
         return jobs;
     }
 
@@ -118,6 +128,15 @@ public sealed partial class CMDistressSignalRuleSystem
         if (!ev.Profiles.TryGetValue(id, out var profile))
             return;
 
+        // Stories-CLFSurvivor-Start
+        if (comp.SurvivorJobVariantScenarios != null &&
+            comp.SurvivorJobVariantScenarios.TryGetValue(job, out var scenarioJobs) &&
+            !scenarioJobs.Any(entry => IsJobAllowed(id, entry.Special)))
+        {
+            return;
+        }
+        // Stories-CLFSurvivor-End
+
         if (comp.SurvivorJobOverrides != null)
         {
             foreach (var (originalJob, overrideJob) in comp.SurvivorJobOverrides)
@@ -146,7 +165,7 @@ public sealed partial class CMDistressSignalRuleSystem
         int initialPlayerCount)
     {
         var priorities = Enum.GetValues<JobPriority>().Length;
-        var totalSurvivors = (int)Math.Clamp((int)Math.Round(initialPlayerCount / _marinesPerSurvivor), _minimumSurvivors, _maximumSurvivors);
+        var totalSurvivors = GetRoundstartSurvLimit(initialPlayerCount);
         var selected = 0;
 
         for (var i = priorities - 1; i >= 0; i--)
@@ -232,6 +251,7 @@ public sealed partial class CMDistressSignalRuleSystem
         GameTicker.PlayerJoinGame(player);
 
         var profile = GameTicker.GetPlayerProfile(player);
+        profile = _stationSpawning.GetJobProfile(profile, spawnAsJob); // Stories-SynthAppearance
         var coordinates = _transform.GetMoverCoordinates(spawner);
         var survivorMob = _stationSpawning.SpawnPlayerMob(coordinates, spawnAsJob, profile, null);
 
@@ -283,6 +303,30 @@ public sealed partial class CMDistressSignalRuleSystem
         {
             return false;
         }
+
+        // Stories-RandomScenarioVariant-Start
+        if (SelectedPlanetMap?.Comp.RandomScenarioVariantJobs?.Contains(job) == true)
+        {
+            var options = new List<int>();
+            for (var i = 0; i < scenarioJobsList.Count; i++)
+            {
+                var (optionJob, optionAmount) = scenarioJobsList[i];
+                if ((optionAmount == -1 || optionAmount > 0) && IsJobAllowed(playerId, optionJob))
+                    options.Add(i);
+            }
+
+            if (options.Count > 0)
+            {
+                var index = _random.Pick(options);
+                var (pickedJob, pickedAmount) = scenarioJobsList[index];
+                if (pickedAmount > 0)
+                    scenarioJobsList[index] = (pickedJob, pickedAmount - 1);
+
+                spawnAsJob = pickedJob;
+                return true;
+            }
+        }
+        // Stories-RandomScenarioVariant-End
 
         for (var i = 0; i < scenarioJobsList.Count; i++)
         {
@@ -394,6 +438,7 @@ public sealed partial class CMDistressSignalRuleSystem
         stop = false;
 
         if (!spawnersLeft.TryGetValue(spawnAsJob, out var jobSpawners) &&
+            !TryGetFallbackSpawners(spawnAsJob, spawnersLeft, out jobSpawners) && // Stories-SurvivorSpawnerFallback
             !spawnersLeft.TryGetValue(comp.CivilianSurvivorJob, out jobSpawners))
         {
             stop = true;
@@ -417,4 +462,25 @@ public sealed partial class CMDistressSignalRuleSystem
 
         return _random.PickAndTake(jobSpawners);
     }
+
+    // Stories-SurvivorSpawnerFallback-Start
+    private bool TryGetFallbackSpawners(
+        ProtoId<JobPrototype> job,
+        Dictionary<ProtoId<JobPrototype>, List<EntityUid>> spawnersLeft,
+        [NotNullWhen(true)] out List<EntityUid>? fallbackSpawners)
+    {
+        fallbackSpawners = null;
+        if (!_prototypes.TryIndex(job, out var jobProto))
+            return false;
+
+        foreach (var fallback in jobProto.SurvivorSpawnerFallback)
+        {
+            if (spawnersLeft.TryGetValue(fallback, out fallbackSpawners) && fallbackSpawners.Count > 0)
+                return true;
+        }
+
+        fallbackSpawners = null;
+        return false;
+    }
+    // Stories-SurvivorSpawnerFallback-End
 }

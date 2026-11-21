@@ -4,13 +4,13 @@ emplacement-mount-anchored-examine = Прикрепите [color={ $color }]ор
 emplacement-mount-weapon-secured-examine = Используйте [color={ $color }]отвертку[/color], чтобы отсоединить оружие для транспортировки.
 emplacement-mount-too-close = Это слишком близко к расположенному рядом { $mount }.
 emplacement-mount-deploy-broken = Вы не можете установить { $mount }, он полностью сломан!
-emplacement-mount-deploy-invisible = You can't set this up while cloaked!
-emplacement-mount-deploy-vehicle = You can't set this up inside a vehicle!
+emplacement-mount-deploy-invisible = Нельзя установить это, будучи невидимым!
+emplacement-mount-deploy-vehicle = Нельзя установить это внутри техники!
 emplacement-mounted-weapon-overheated = { $weapon } поврежден из-за перегрева!
 emplacement-mount-broken-examine = [color=red]Оружие нельзя использовать в его текущем сломанном состоянии, используйте [/color] [color=cyan]сварочный аппарат[/color][color=red], чтобы начать его ремонт.[/color]
-emplacement-mount-need-hands-free = You need both hands free to grab the handles!
-emplacement-mount-too-far = You are too far from the handles to man the { $mount }!
-emplacement-mount-rotate-fail = You can't rotate it that way!
+emplacement-mount-need-hands-free = Чтобы взяться за рукояти, обе руки должны быть свободны!
+emplacement-mount-too-far = Вы слишком далеко от рукоятей, чтобы управлять { $mount }!
+emplacement-mount-rotate-fail = Так повернуть не получится!
 
 mountable-weapon-no-free-hands = Вам нужны обе руки свободными для работы с оружием.
 

@@ -1,4 +1,5 @@
-# Last match in file takes precedence.
-
-# Ping for all PRs
-* @metalsage
+# Требуется ревью MetalSage для конфигов, изменений базы данных, и правил сервера.
+/Resources/ConfigPresets/Stories/ @MetalSage
+/Content.Server.Database/ @MetalSage
+/Content.Shared.Database/ @MetalSage
+/Resources/ServerInfo/Guidebook/_Stories/ @MetalSage

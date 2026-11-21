@@ -198,6 +198,9 @@
     blacklist:
       components:
       - Xeno
+  - type: AccessReader
+    access: [ [ "RMCAccessCommand" ] ]
+  - type: ActivatableUIRequiresAccess
 
 - type: entity
   parent: RMCCommunicationsConsoleBase
@@ -230,8 +233,8 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 300
+    activeLoad: 300
     channel: Equipment
   - type: UserInterface
     interfaces:
@@ -259,14 +262,36 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 5
-    activeLoad: 10
+    idleLoad: 300
+    activeLoad: 300
     channel: Equipment
   - type: UserInterface
     interfaces:
       enum.DialogUiKey.Key:
         type: DialogBui
   - type: IntelDataTerminalCandidate
+
+- type: entity
+  parent: RMCCommunicationsConsoleBase
+  id: RMCComputerIntelDatabase
+  name: intel database computer
+  description: A UNMC intel computer used for consulting the current intel database.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Machines/computer.rsi
+    state: terminal1_old
+    layers: []
+  - type: ActivatableUI
+    key: enum.ViewIntelObjectivesUI.Key
+  - type: UserInterface
+    interfaces:
+      enum.ViewIntelObjectivesUI.Key:
+        type: ViewIntelObjectivesBui
+  - type: ViewIntelObjectives
+  - type: ActivatableUIBlacklist
+    blacklist:
+      components:
+      - Xeno
 
 - type: entity
   id: RMCIntelTechTree

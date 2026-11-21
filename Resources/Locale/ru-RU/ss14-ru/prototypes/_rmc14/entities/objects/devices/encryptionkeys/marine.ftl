@@ -18,3 +18,6 @@ ent-RMCEncryptionKeyFORECON = ключ шифрования ФОРКОН
     .desc = { ent-CMEncryptionKey.desc }
 ent-RMCEncryptionKeySunRiders = ключ шифрования солнечных рейдеров
     .desc = { ent-CMEncryptionKey.desc }
+ent-RMCEncryptionKeyFORECONPVE = forecon encryption key
+    .desc = { ent-CMEncryptionKey.desc }
+    .suffix = PVE

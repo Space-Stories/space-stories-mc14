@@ -212,8 +212,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         ICommonSession? player = null,
         string? nameOverride = null,
         bool checkRadioPrefix = true,
-        bool ignoreActionBlocker = false,
-        bool ignoreXenos = false
+        bool ignoreActionBlocker = false
         )
     {
         if (HasComp<GhostComponent>(source) && !HasComp<ImaginaryFriendComponent>(source)) //RMC14
@@ -307,9 +306,10 @@ public sealed partial class ChatSystem : SharedChatSystem
                         nameOverride,
                         hideLog,
                         ignoreActionBlocker,
-                        currentLanguage,
-                        ignoreXenos);
-                    channelsSent.Add(modChannel.ID);
+                        currentLanguage);
+
+                    if (modChannel != null)
+                        channelsSent.Add(modChannel.ID);
                     // Stories-Hunter-End
                 }
 
@@ -326,8 +326,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                     nameOverride,
                     hideLog,
                     ignoreActionBlocker,
-                    currentLanguage,
-                    ignoreXenos);
+                    currentLanguage);
                 return;
             }
         }
@@ -341,7 +340,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 SendEntitySpeakWithLanguage(source, message, range, nameOverride, hideLog, ignoreActionBlocker, currentLanguage);
                 break;
             case InGameICChatType.Whisper:
-                SendEntityWhisperWithLanguage(source, message, range, null, nameOverride, hideLog, ignoreActionBlocker, currentLanguage, ignoreXenos);
+                SendEntityWhisperWithLanguage(source, message, range, null, nameOverride, hideLog, ignoreActionBlocker, currentLanguage);
                 break;
             case InGameICChatType.Emote:
                 SendEntityEmote(source, message, range, nameOverride, hideLog: hideLog, ignoreActionBlocker: ignoreActionBlocker);
@@ -674,7 +673,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// </summary>
     private void SendInVoiceRange(ChatChannel channel, string message, string wrappedMessage, EntityUid source, ChatTransmitRange range, NetUserId? author = null)
     {
-        foreach (var (session, data) in GetRecipients(source, VoiceRange))
+        foreach (var (session, data) in GetRecipients(source, channel, VoiceRange)) // RMC14
         {
             var entRange = MessageRangeCheck(session, data, range);
             if (entRange == MessageRangeCheckResult.Disallowed)
@@ -807,7 +806,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Returns list of players and ranges for all players withing some range. Also returns observers with a range of -1.
     /// </summary>
-    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, float voiceGetRange, bool ignoreXenos = false)
+    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, ChatChannel channel, float voiceGetRange) // RMC14 channel param
     {
         // TODO proper speech occlusion
 
@@ -857,17 +856,10 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         RaiseLocalEvent(new ExpandICChatRecipientsEvent(source, voiceGetRange, recipients));
 
-        var ev = new ChatMessageAfterGetRecipients(recipients); // Stories-Hunter
+        // RMC14
+        var ev = new ChatMessageAfterGetRecipientsEvent(recipients, channel);
         RaiseLocalEvent(source, ref ev);
-
-        if (ignoreXenos)
-        {
-            foreach (var session in recipients.Keys.ToArray())
-            {
-                if (HasComp<XenoComponent>(session.AttachedEntity))
-                    recipients.Remove(session);
-            }
-        }
+        // RMC14
 
         return recipients;
     }

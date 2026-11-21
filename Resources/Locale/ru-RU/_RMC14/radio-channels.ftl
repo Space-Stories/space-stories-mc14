@@ -17,6 +17,7 @@ chat-radio-marine-echo = Эхо
 chat-radio-marine-foxtrot = Фокстрот
 
 chat-radio-marine-sof = ССО
+chat-radio-marine-survivor = КМП США
 
 chat-radio-colony = Колония
 chat-radio-WY = Вестон-Ямада
@@ -34,5 +35,8 @@ chat-radio-royal-marine = Королевские морпехи
 chat-radio-tse = Империя трех солнц
 
 chat-radio-hivemind = Улей
+chat-radio-intercom = Интерком
+
+rmc-intercom-no-device = Поблизости нет работающего интеркома.
 
 chat-radio-marine-sun-riders = Солнечные Всадники

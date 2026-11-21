@@ -20,10 +20,10 @@ public sealed class VehicleOverlayCommands : EntitySystem
 
     public override void Shutdown()
     {
-        _console.UnregisterCommand("rmc_vehicle_debug");
-        _console.UnregisterCommand("rmc_vehicle_hardpoint");
-        _console.UnregisterCommand("rmc_vehicle_collision");
-        _console.UnregisterCommand("rmc_vehicle_movement");
+        try { _console.UnregisterCommand("rmc_vehicle_debug"); } catch (Exception) {}
+        try { _console.UnregisterCommand("rmc_vehicle_hardpoint"); } catch (Exception) {}
+        try { _console.UnregisterCommand("rmc_vehicle_collision"); } catch (Exception) {}
+        try { _console.UnregisterCommand("rmc_vehicle_movement"); } catch (Exception) {}
     }
 
     private void ToggleDebug(IConsoleShell shell, string argStr, string[] args)

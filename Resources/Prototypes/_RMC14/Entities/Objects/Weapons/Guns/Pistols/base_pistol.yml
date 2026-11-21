@@ -20,6 +20,8 @@
     - suitStorage
     - belt
   - type: Wieldable
+  - type: Akimbo # Stories-Balance
+  - type: GunClickToFire
   - type: WieldDelay
     baseDelay: 0.2
   - type: MeleeWeapon
@@ -64,6 +66,8 @@
   - type: GunPointBlank
   - type: GunDualWielding
     weaponGroup: Handgun
+    accuracyAddMult: -0.5 # Stories-Akimbo-Balance
+    scatterModifier: 10 # Stories-Akimbo-Balance
   - type: AttachableHolder
     slots:
       rmc-aslot-barrel:
@@ -84,6 +88,12 @@
           tags:
           - RMCAttachmentBurstFireAssembly
           - RMCAttachmentLaserSight
+  - type: RMCFireGroup # Stories-GunBalance
+    group: Sidearm
+    delay: 0
+  - type: RMCGunChamber
+    sound:
+      path: /Audio/_RMC14/Weapons/Guns/Cock/gun_pistol_cocked.ogg
 
 - type: entity
   abstract: true
@@ -129,6 +139,7 @@
   components:
   - type: CartridgeAmmo
     deleteOnSpawn: true
+    muzzleFlash: MuzzleFlashEffectPistol
 
 - type: entity
   abstract: true

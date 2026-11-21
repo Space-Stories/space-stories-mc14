@@ -10,4 +10,5 @@ public enum HolocardStatus : byte
     Emergency,
     Xeno,
     Permadead,
+    Ssd,
 }

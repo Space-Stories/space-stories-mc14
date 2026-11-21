@@ -20,6 +20,7 @@ rmc-ob-target-protected = Целевая зона имеет сильную би
 rmc-ob-target-underground = Целевая зона находится глубоко под землей. Орбитальный удар не может достичь этого места.
 rmc-ob-request-accepted = Запрос на орбитальную бомбардировку принят. Производится калибровка орбитальных пушек.
 rmc-ob-launched = Орбитальная бомбардировка запущена!
+rmc-ob-safety-engaged = На орбитальной пушке удалённо включена блокировка.
 
 ### Orbital Cannon Announcements
 rmc-ob-launch-detected = [font size=16][color=red]Обнаружена команда запуска орбитальной бомбардировки![/color][/font]

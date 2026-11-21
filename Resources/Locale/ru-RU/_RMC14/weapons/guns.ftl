@@ -74,3 +74,5 @@ rmc-flare-gun-examine = Последняя выпущенная сигнальн
 
 expendable-light-starshell-ash-empty-name = Пепел погасшей звёздной шашки
 expendable-light-starshell-ash-empty-desc = Сгоревшие остатки звёздной шашки
+rmc-heavy-revolver-buildup = Нам с трудом удаётся устоять на ногах!
+rmc-heavy-revolver-knockdown = Мощный удар выбивает нас из равновесия!

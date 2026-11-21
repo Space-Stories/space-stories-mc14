@@ -1,0 +1,75 @@
+
+- type: entity
+  parent: RMCPouchSling
+  id: STPouchSlingWorkingJoePDA
+  suffix: Working Joe PDA
+  components:
+  - type: Storage
+    maxItemSize: Normal
+    whitelist: null
+  - type: StorageFill
+    contents:
+    - id: STWorkingJoePDA
+
+- type: entity
+  parent: RMCPouchConstruction
+  id: STPouchConstructionWorkingJoe
+  suffix: Working Joe Full
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMSheetMetal30
+    - id: CMSheetGlassReinforced30
+
+- type: entity
+  parent: RMCWebbingDropPouch
+  id: STWebbingDropPouchWorkingJoe
+  suffix: Working Joe Full
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMAPCElectronics
+    - id: DoorElectronics
+    - id: RMCPowerCellHigh
+    - id: WetFloorSign
+
+- type: entity
+  parent: CMJumpsuitAverageJoe
+  id: STJumpsuitAverageJoeDropPouch
+  suffix: Working Joe, Filled Drop Pouch
+  components:
+  - type: WebbingClothing
+    startingWebbing: STWebbingDropPouchWorkingJoe
+
+- type: entity
+  parent: CMBeltUtility
+  id: STBeltUtilityWorkingJoe
+  suffix: Working Joe Filled
+  components:
+  - type: StorageFill
+    contents:
+    - id: CMScrewdriver
+    - id: CMWrench
+    - id: CMWelder
+    - id: CMCrowbar
+    - id: CMWirecutter
+    - id: RMCCableCoil30
+    - id: CMMultitool
+    - id: RMCLightReplacer
+    - id: STSynthResetKeySeegson
+
+- type: entity
+  parent: RMCOuterClothingExternalWebbing
+  id: STOuterClothingExternalWebbingWorkingJoe
+  suffix: Working Joe
+  components:
+  - type: AllowSuitStorage
+    whitelist:
+      tags:
+      - STMaintenanceJack
+
+- type: emote
+  id: STWorkingJoeDeathGasp
+  name: chat-emote-name-deathgasp
+  icon: Interface/Emotes/deathgasp.png
+  chatMessages: ["st-species-synth-joe-death-emote"]

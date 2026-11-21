@@ -18,6 +18,9 @@ jobs:
         run: git submodule update --init
       - name: Pull engine updates
         uses: space-wizards/submodule-dependency@v0.1.5
+      - name: Patch RSI Schema # Stories-License
+        run: |
+          jq '.properties.license.enum += ["All rights reserved"]' RobustToolbox/Schemas/rsi.json > temp.json && mv temp.json RobustToolbox/Schemas/rsi.json
       - name: Install Python dependencies
         run: |
           pip3 install --ignore-installed --user pillow jsonschema

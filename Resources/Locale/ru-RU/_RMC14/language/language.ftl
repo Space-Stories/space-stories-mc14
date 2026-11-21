@@ -1,41 +1,45 @@
 # Language menu ui
-language-menu-title = Language Menu
-language-menu-known-tab = Known Languages
-language-menu-learning-tab = Learning Languages
+language-menu-title = Меню языков
+language-menu-known-tab = Известные языки
+language-menu-learning-tab = Изучаемые языки
 
 # Language names
-language-English-name = English
-language-Xeno-name = Xenonid
-language-Spanish-name = Spanish
-language-French-name = French
-language-Japanese-name = Japanese
-language-Chinese-name = Chinese
-language-Russian-name = Russian
-language-German-name = German
-language-SignLanguage-name = Sign Language
-language-Primitive-name = Primitive
+language-English-name = Английский
+language-Xeno-name = Ксеноморфский
+language-Spanish-name = Испанский
+language-French-name = Французский
+language-Japanese-name = Японский
+language-Chinese-name = Китайский
+language-Russian-name = Русский
+language-German-name = Немецкий
+language-Scandinavian-name = Скандинавский
+language-Hindi-name = Hindi
+language-SignLanguage-name = Язык жестов
+language-Primitive-name = Примитивный
 
 # Language descr
-language-English-description = Earth language.
-language-Xeno-description = The alien language of the Xenonids.
-language-Xeno-first-contact = The sounds follow an alien hive pattern.
-language-Spanish-description = Earth language.
-language-French-description = Earth language.
-language-Japanese-description = Earth language.
-language-Chinese-description = Earth language.
-language-Russian-description = Earth language.
-language-German-description = Earth language.
-language-SignLanguage-description = A visual language using hand gestures and body movements.
-language-Primitive-description = A primitive language of screeches, hoots, and gestures.
+language-English-description = Земной язык.
+language-Xeno-description = Инопланетный язык ксеноморфов.
+language-Xeno-first-contact = Звуки следуют узорам инопланетного улья.
+language-Spanish-description = Земной язык.
+language-French-description = Земной язык.
+language-Japanese-description = Земной язык.
+language-Chinese-description = Земной язык.
+language-Russian-description = Земной язык.
+language-German-description = Земной язык.
+language-Scandinavian-description = Земной язык.
+language-Hindi-description = Earth language.
+language-SignLanguage-description = Визуальный язык, использующий жесты рук и движения тела.
+language-Primitive-description = Примитивный язык, состоящий из визгов, уханий и жестов.
 
 # Game hud
-game-hud-open-language-menu-button-tooltip = Open Language Menu (Change Speaking Language)
+game-hud-open-language-menu-button-tooltip = Открыть меню языков (Сменить разговорный язык)
 
 # Language progress
-language-learning-overall-progress = Overall: { $progress }
-language-learning-word-count = Words: { $count }
-language-learning-average-comprehension = Avg: { $average }
-language-learning-search-placeholder = Search words...
-language-learning-show-words = Show words
-language-learning-hide-words = Hide words
-language-learning-no-results = No words found matching your search.
+language-learning-overall-progress = Всего: { $progress }
+language-learning-word-count = Слов: { $count }
+language-learning-average-comprehension = Средн.: { $average }
+language-learning-search-placeholder = Поиск слов...
+language-learning-show-words = Показать слова
+language-learning-hide-words = Скрыть слова
+language-learning-no-results = По вашему запросу слов не найдено.

@@ -15,9 +15,9 @@
     explosionArmor: 25 # CLOTHING_ARMOR_MEDIUMHIGH
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier # SLOWDOWN_ARMOR_LIGHT
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.75
+    sprintModifier: 0.75
   - type: Storage
     grid:
     - 0,0,5,1 # 3 slots
@@ -26,16 +26,17 @@
 
 - type: entity
   parent: RMCArmorProvost
-  id: RMCArmorProvostSenior
-  name: M3 pattern senior provost armor
+  id: RMCArmorProvostPauldron
+  name: M3 pattern provost armor
   description: A more refined Provost M3 Pattern Chestplate for senior officers. Protects the chest from ballistic rounds, bladed objects and accidents. It has a small leather pouch strapped to it for limited storage.
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/OuterClothing/Provost/senior.rsi
 
 - type: entity
-  parent: RMCArmorProvostSenior
-  id: RMCArmorProvostSeniorFilled
+  parent: RMCArmorProvostPauldron
+  id: RMCArmorProvostPauldronFilled
+  suffix: Filled, TL
   components:
   - type: StorageFill
     contents:

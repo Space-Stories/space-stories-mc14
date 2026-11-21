@@ -1,8 +1,8 @@
 <Document>
-  #Boiler, Tier 3
+  #Бойлер, Тир 3
   <GuideEntityEmbed Entity="RMCXenoBoiler"/>
-  ##Playing as a Boiler
-  Become the ultimate ranged warrior of the Hive with your signature bombard capable of stalling any hosts. It is now slow, large and returns to being a supportive role on the frontline, attaining an upgraded acid spray, corrosive acid and tail stab toxin.
+  ##Игра за Бойлера
+  Станьте самым грозным дальнобойным воином улья: ваша фирменная бомбардировка способна остановить любых носителей. Бойлер теперь медленный и крупный и возвращается к роли поддержки на передовой, получая улучшенные распыление кислоты, едкую кислоту и токсин на ударе хвостом.
 
   Всегда держитесь позади других сестёр, так как в одиночку вы слабы. Всегда плавьте зелёные сигнальные ракеты, чтобы вас мгновенно не убило огнём небесного плевка (ближней воздушной поддержки).
 
@@ -33,7 +33,7 @@
   <GuideEntityEmbed Entity="RMCGuidebookActionXenoToggleGasType"/>
   - [bold]Распылить Кислоту[/bold]: Распыляет кислоту по земле линией, покрывая любые баррикады и оглушая носителей, попавших на её пути.
   - Также потушит любых сестёр, если они горят.
-  - При использовании на носителе, поражённом Заряженным Плевком от плевуна, улучшит плевок и оглушит их.
+  - При использовании на носителе, поражённом Заряженным Плевком от Плевателя, улучшит плевок и оглушит их.
   <GuideEntityEmbed Entity="RMCGuidebookActionXenoSprayAcid"/>
   - [bold]Кислотный Покров[/bold]: Создаёт облако кислоты вокруг вас, отключая другие ваши способности. Используется в крайнем случае.
   <GuideEntityEmbed Entity="RMCGuidebookActionXenoAcidShroud"/>

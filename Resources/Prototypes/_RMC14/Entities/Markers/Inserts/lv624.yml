@@ -107,6 +107,10 @@
     variations:
     - spawn: "/Maps/_RMC14/Inserts/LV624/cargospecial_weapons.yml"
       probability: 0.1
+    #Stories Grid
+    - spawn: "/Maps/_Stories/Inserts/LV624/Water_Pumping_Station.yml"
+      probability: 0.55
+      offset: -20,27
     clearEntities: true
     clearDecals: true
 
@@ -259,7 +263,9 @@
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_powerplant.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_nexus.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
       offset: 23,27

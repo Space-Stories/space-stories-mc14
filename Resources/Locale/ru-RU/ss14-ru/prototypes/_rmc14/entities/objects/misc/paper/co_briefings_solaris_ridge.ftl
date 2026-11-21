@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingSolarisUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Солярис Ридж, Вне фракций
+ent-RMCPaperCOBriefingSolarisHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Солярис Ридж, Ястребы
+ent-RMCPaperCOBriefingSolarisDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Солярис Ридж, Голуби
+ent-RMCPaperCOBriefingSolarisMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Солярис Ридж, Сороки

@@ -1,11 +1,11 @@
 ﻿<Document>
   # Процедуры
   Ниже перечислены все процедуры, связанные с военным законом.
-  - [textlink="Арест" link="RMCMarineLawArresting"]
-  - [textlink="Предъявление обвинений" link="RMCMarineLawCharging"]
-  - [textlink="Дисциплинарные Взыскания без Суда (ДВС)" link="RMCMarineLawNJP"]
-  - [textlink="Смертоносная Сила" link="RMCMarineLawLethal"]
-  - [textlink="Обыски" link="RMCMarineLawSearches"]
-  - [textlink="Понижения в Звании" link="RMCMarineLawDemotions"]
-  - [textlink="Казни" link="RMCMarineLawExecutions"]
+  - [textlink="Арест" link="STMarineLawArresting"]
+  - [textlink="Предъявление обвинений" link="STMarineLawCharging"]
+  - [textlink="Дисциплинарные Взыскания без Суда (ДВС)" link="STMarineLawNJP"]
+  - [textlink="Смертоносная Сила" link="STMarineLawLethal"]
+  - [textlink="Обыски" link="STMarineLawSearches"]
+  - [textlink="Понижения в Звании" link="STMarineLawDemotions"]
+  - [textlink="Казни" link="STMarineLawExecutions"]
 </Document>

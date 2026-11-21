@@ -1,10 +1,16 @@
 - type: entity
   id: RMCSynthGenOne
   name: Generation One
+  categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
   - type: SynthGeneration
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
+    priority: 1
+    description: stories-synth-generation-one-desc # Stories-SynthGenerationLoc
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -30,14 +36,12 @@
   - type: MobThresholds
     thresholds:
       0: Alive
-      399: Critical
       400: Dead
-  - type: MovementSpeedModifier
-    baseSprintSpeed: 3.625
-    baseWalkSpeed: 1.9575
+  - type: MovementSpeedModifier # Stories-Synth
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
   - type: ShowHealthIcons
   - type: ShowHealthBars
-  - type: RMCAllowSuitStorage
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
@@ -45,10 +49,15 @@
 - type: entity
   id: RMCSynthGenTwo
   name: Generation Two
+  categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.3
   - type: SynthGeneration
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
+    priority: 2
+    description: stories-synth-generation-two-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -68,9 +77,18 @@
       RMCSkillJtac: 1
       RMCSkillIntel: 1
       RMCSkillDomestics: 2
+  - type: RMCLeapProtection
+    inherentStunDuration: 3
+    fullProtection: true
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      400: Dead
+  - type: MovementSpeedModifier # Stories-Synth
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
   - type: ShowHealthIcons
   - type: ShowHealthBars
-  - type: RMCAllowSuitStorage
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
@@ -78,13 +96,17 @@
 - type: entity
   id: RMCSynthGenThree
   name: Generation Three
+  categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1
   - type: SynthGeneration
     generation: RMCSynthGenThree
+    priority: 3
+    description: stories-synth-generation-three-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 5
-      RMCSkillEndurance: 1
       RMCSkillEngineer: 4
       RMCSkillConstruction: 3
       RMCSkillFirearms: 2
@@ -102,29 +124,119 @@
       RMCSkillIntel: 2
       RMCSkillDomestics: 2
       RMCSkillNavigations: 1
+  # Stories-Synth-Start
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 5
+    baseWalkSpeed: 2.7
+  # Stories-Synth-End
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      300: Dead
+  - type: ShowHealthIcons
+  - type: ShowHealthBars
+  - type: RemoveComponents
+    components:
+    - type: HiddenAppearance
+
+- type: entity
+  id: RMCSynthWhiteout
+  name: Classified Programme
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: SynthGeneration
+    generation: RMCSynthWhiteout
+    damageModifier: STSynthWhiteout # Stories-SynthWhiteout
+    priority: 4
+    description: stories-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
+  - type: Skills
+    skills:
+        RMCSkillCqc: 5
+        RMCSkillLeadership: 4
+        RMCSkillEndurance: 5
+        RMCSkillEngineer: 4
+        RMCSkillConstruction: 3
+        RMCSkillFirearms: 3
+        RMCSkillOverwatch: 1
+        RMCSkillMedical: 4
+        RMCSkillSurgery: 3
+        RMCSkillResearch: 1
+        RMCSkillMeleeWeapons: 2
+        RMCSkillPilot: 2
+        RMCSkillPolice: 2
+        RMCSkillFireman: 5
+        RMCSkillPowerLoader: 2
+        RMCSkillVehicles: 3
+        RMCSkillJtac: 4
+        RMCSkillIntel: 2
+        RMCSkillDomestics: 2
+        RMCSkillNavigations: 1
+        RMCSkillExecution: 1
+        RMCSkillSmartGun: 1
+  - type: RMCLeapProtection
+    inherentStunDuration: 3
+    fullProtection: true
+  # Stories-SynthWhiteout-Start
+  - type: STSynthHeavyGrab
+  - type: TackleResist
+    multiplier: 1.5
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
+  # Stories-SynthWhiteout-End
+  - type: MarineOrders
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      500: Dead
+  - type: ShowHealthIcons
+  - type: ShowHealthBars
+  - type: RemoveComponents
+    components:
+    - type: HiddenAppearance
+    - type: AffectableByWeeds # Stories-SynthWhiteout
+
+# Stories-Synth-Start
+- type: entity
+  id: RMCARESWorker
+  name: ARES Worker
+  components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
+  - type: SynthGeneration
+    generation: RMCARESWorker
+    damageModifier: STJoeSynth
+    selectable: false
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
+  - type: Skills
+    skills:
+      RMCSkillCqc: 5
+      RMCSkillEngineer: 4
+      RMCSkillConstruction: 3
+      RMCSkillFirearms: 2
+      RMCSkillMeleeWeapons: 2
+      RMCSkillPolice: 2
+      RMCSkillFireman: 2
+      RMCSkillPowerLoader: 2
+      RMCSkillVehicles: 2
+      RMCSkillDomestics: 2
+      RMCSkillEndurance: 1
+  # Stories-WorkingJoeLeapProtection-Start
+  - type: RMCLeapProtection
+    inherentStunDuration: 3
+    fullProtection: true
+  # Stories-WorkingJoeLeapProtection-End
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      400: Dead
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 3.8
+    baseWalkSpeed: 2.7
   - type: ShowHealthIcons
   - type: ShowHealthBars
   - type: RMCAllowSuitStorage
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
-
-#- type: entity
-#  id: RMCARESWorker
-#  name: ARES Worker
-#  components:
-#  - type: SynthGeneration
-#    generation: RMCARESWorker
-#  - type: Skills
-#    skills:
-#      RMCSkillCqc: 5
-#      RMCSkillEngineer: 4
-#      RMCSkillConstruction: 3
-#      RMCSkillFirearms: 2
-#      RMCSkillMeleeWeapons: 2
-#      RMCSkillPolice: 2
-#      RMCSkillFireman: 2
-#      RMCSkillPowerLoader: 2
-#      RMCSkillVehicles: 2
-#      RMCSkillDomestics: 2
-#      RMCSkillEndurance: 1
+# Stories-Synth-End

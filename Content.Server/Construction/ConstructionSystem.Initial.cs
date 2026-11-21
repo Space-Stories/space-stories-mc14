@@ -268,6 +268,7 @@ namespace Content.Server.Construction
                 // allow simultaneously starting several construction jobs using the same stack of materials.
                 CancelDuplicate = false,
                 BlockDuplicate = false,
+                RootEntity = true, // RMC14
             };
 
             if (await _doAfterSystem.WaitDoAfter(doAfterArgs) == DoAfterStatus.Cancelled)
@@ -539,8 +540,9 @@ namespace Content.Server.Construction
 
             var mapPos = _transformSystem.ToMapCoordinates(location);
             var predicate = GetPredicate(constructionPrototype.CanBuildInImpassable, mapPos);
+            var range = constructionPrototype.InteractionRange;
 
-            if (!_interactionSystem.InRangeUnobstructed(user, mapPos, predicate: predicate))
+            if (!_interactionSystem.InRangeUnobstructed(user, mapPos, range, predicate: predicate))
             {
                 Cleanup();
                 return;

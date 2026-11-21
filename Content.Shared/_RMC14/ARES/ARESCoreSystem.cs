@@ -194,10 +194,14 @@ public sealed class ARESCoreSystem : EntitySystem
                         + worldTime;
         var time = worldDate.ToString("dd - HH:mm");
 
-        var ev = new ARESLogUpdateEvent((aiCore, core));
-        RaiseLocalEvent(ev);
-
+        // Stories-Ares-Start
+        var entries = core.Logs.GetOrNew(logType);
+        while (entries.Count >= Math.Max(1, core.MaxLogs))
+            entries.RemoveAt(0);
+        // Stories-Ares-End
         core.Logs.GetOrNew(logType).Add($"{time} | {message}");
+        var ev = new ARESLogUpdateEvent((aiCore, core)); // Stories-Ares
+        RaiseLocalEvent(ev); // Stories-Ares
     }
 
     public void CreateARESLog(EntityUid entity, EntProtoId<ARESLogTypeComponent> logType, string message)
@@ -235,4 +239,16 @@ public sealed class ARESCoreSystem : EntitySystem
         logs = null;
         return false;
     }
+
+    // Stories-Ares-Start
+    public bool DeleteLog(EntityUid aiCore, EntProtoId<ARESLogTypeComponent> type, int index, string expected)
+    {
+        if (!TryComp(aiCore, out ARESCoreComponent? core) || !core.Logs.TryGetValue(type, out var entries) ||
+            index < 0 || index >= entries.Count || entries[index] != expected)
+            return false;
+        entries.RemoveAt(index);
+        RaiseLocalEvent(new ARESLogUpdateEvent((aiCore, core)));
+        return true;
+    }
+    // Stories-Ares-End
 }

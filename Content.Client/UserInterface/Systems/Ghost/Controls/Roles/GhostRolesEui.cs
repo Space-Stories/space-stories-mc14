@@ -3,6 +3,7 @@ using Content.Client.Eui;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Shared.Eui;
 using Content.Shared.Ghost.Roles;
+using Robust.Shared.Prototypes; // Stories-GhostRoleWhitelist
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 
@@ -89,6 +90,7 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
             var sysManager = entityManager.EntitySysManager;
             var spriteSystem = sysManager.GetEntitySystem<SpriteSystem>();
             var requirementsManager = IoCManager.Resolve<JobRequirementsManager>();
+            var prototypes = IoCManager.Resolve<IPrototypeManager>(); // Stories-GhostRoleWhitelist
 
             // TODO: role.Requirements value doesn't work at all as an equality key, this must be fixed
             // Grouping roles
@@ -104,6 +106,17 @@ namespace Content.Client.UserInterface.Systems.Ghost.Controls.Roles
                     group.Key.Requirements,
                     null,
                     out var reason);
+
+                // Stories-GhostRoleWhitelist-Start
+                if (hasAccess &&
+                    group.First().Job is { } jobId &&
+                    prototypes.TryIndex(jobId, out var job) &&
+                    !requirementsManager.CheckWhitelist(job, out var whitelistReason))
+                {
+                    hasAccess = false;
+                    reason = whitelistReason;
+                }
+                // Stories-GhostRoleWhitelist-End
 
                 // Adding a new role
                 _window.AddEntry(name, description, hasAccess, reason, group, spriteSystem);

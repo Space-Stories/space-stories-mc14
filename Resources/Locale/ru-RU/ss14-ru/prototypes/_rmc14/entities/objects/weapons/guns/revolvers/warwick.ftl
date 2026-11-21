@@ -1,9 +1,9 @@
-ent-RMCWeaponRevolverWarwickMkVII = Warwick MkVII service revolver
-    .desc = The L187 Warwick MkVII top-break revolver is the standard-issue service revolver of the RCM’s Paramarine regiments. Despite the Warwick's archaic design, the MkVII's vacuum-sealed internals, bakelite grips, and .44 magnum chambering keep the weapon relevant and brutally effective.
-    .suffix = Paramarine
-ent-RMCWeaponRevolverWarwickMkVIIAlt = Warwick MkVII service revolver
+ent-RMCWeaponRevolverWarwickMkVII = служебный револьвер Уорвик MkVII
+    .desc = Переломный револьвер L187 Уорвик MkVII — стандартный служебный револьвер полков парамаринов Королевской морской пехоты. Несмотря на архаичную конструкцию Уорвика, герметичный механизм MkVII, бакелитовые накладки и патронник под .44 магнум сохраняют актуальность и жестокую эффективность оружия.
+    .suffix = Парамарин
+ent-RMCWeaponRevolverWarwickMkVIIAlt = служебный револьвер Уорвик MkVII
     .desc = { ent-RMCWeaponRevolverWarwickMkVII.desc }
-    .suffix = Paramarine, Alt
-ent-RMCWeaponRevolverWarwickMkVIISnub = Warwick MkVII snubnose revolver
-    .desc = The L187 Warwick MkVII top-break revolver is the standard-issue service revolver of the RCM’s Paramarine regiments. This particular variant features a snubnose barrel and reduced profile grip, keeping the weapon compact and light.
-    .suffix = RCM, Loadout
+    .suffix = Парамарин, Альт.
+ent-RMCWeaponRevolverWarwickMkVIISnub = короткоствольный револьвер Уорвик MkVII
+    .desc = Переломный револьвер L187 Уорвик MkVII — стандартный служебный револьвер полков парамаринов Королевской морской пехоты. Этот вариант оснащён укороченным стволом и рукоятью уменьшенного профиля, что делает оружие компактным и лёгким.
+    .suffix = Королевский, Снаряжение

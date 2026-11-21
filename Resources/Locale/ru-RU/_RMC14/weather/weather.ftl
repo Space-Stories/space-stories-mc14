@@ -19,7 +19,7 @@ rmc-weather-siren-message = { $siren } ревёт. ВНИМАНИЕ. ОБНАР�
 rmc-storm-siren-message = { $siren } ревёт. ВНИМАНИЕ. ВНИМАНИЕ. ОБНАРУЖЕН ПРИБЛИЖАЮЩИЙСЯ ТРОПИЧЕСКИЙ ШТОРМ. НЕМЕДЛЕННО НАЙДИТЕ УКРЫТИЕ.
 
 rmc-weather-command-description = Управляет погодным циклом RMC.
-rmc-weather-command-help = rmcweather status <mapId> | start <mapId> <eventIndex> [now] | end <mapId>
+rmc-weather-command-help = Использование: rmcweather status <ID_карты> | start <ID_карты> <индекс_события> [now] | end <ID_карты>
 rmc-weather-command-not-enough-arguments = Недостаточно аргументов. Использование: rmcweather status <mapId> | start <mapId> <eventIndex> [now] | end <mapId>
 rmc-weather-command-unknown-action = Неизвестное действие погоды RMC '{ $action }'.
 rmc-weather-command-missing-event = Не указан индекс события.

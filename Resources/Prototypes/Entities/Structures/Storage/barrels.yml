@@ -9,6 +9,7 @@
     sprite: Structures/Storage/barrels.rsi
     state: metalbarrel
     noRot: true
+  - type: ZPhysics # Stories-ZLevels
   - type: Fixtures
     fixtures:
       fix1:

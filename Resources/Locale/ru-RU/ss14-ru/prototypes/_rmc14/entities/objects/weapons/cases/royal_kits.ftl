@@ -1,14 +1,14 @@
-ent-RMCScoutSniperSniperEquipmentCase = scout-sniper equipment case
-    .desc = A large case containing an M96S-B suppressed scoped rifle, its corresponding head-mounted sight, six spare magazines of standard ammo, and a bipod. 
+ent-RMCScoutSniperSniperEquipmentCase = кейс снаряжения снайпера-разведчика
+    .desc = Большой кейс со снайперской винтовкой M96S-B с глушителем и прицелом, налобным прицелом к ней, шестью запасными магазинами стандартных патронов и сошками.
 
-        NOTE: You cannot put items back inside this case.
-    .suffix = Sniper
-ent-RMCScoutSniperMarksmanEquipmentCase = scout-sniper equipment case
-    .desc = A large case containing an L112A1 designated marksman rifle, its corresponding head-mounted sight, ten spare magazines of squash-head rounds, and a bipod.
-    .suffix = Marksman
-ent-RMCL49Case = L49 assault shotgun case
-    .desc = A gun case containing the L49 assault shotgun. Contains the L49 weapon, two boxes of L49B breaching ammunition, and an L28-pattern shotgun shell rig.
-    .suffix = PVE, RCM
+        ПРИМЕЧАНИЕ: положить предметы обратно в этот кейс нельзя.
+    .suffix = Снайпер
+ent-RMCScoutSniperMarksmanEquipmentCase = кейс снаряжения снайпера-разведчика
+    .desc = Большой кейс с марксманской винтовкой L112A1, налобным прицелом к ней, десятью запасными магазинами патронов Squash-Head и сошками.
+    .suffix = Марксман
+ent-RMCL49Case = кейс штурмового дробовика L49
+    .desc = Оружейный кейс со штурмовым дробовиком L49. Внутри сам L49, две коробки пробивных патронов L49B и патронташ для дробовика образца L28.
+    .suffix = PVE, Королевский
 ent-RMCScoutSniperEquipmentCase = кейс снайпера
     .desc =
         Большой кейс, содержащий винтовку M96S-B с глушителем и оптическим прицелом, соответствующий ей налобный прицел, шесть запасных магазинов со стандартными патронами и сошки.

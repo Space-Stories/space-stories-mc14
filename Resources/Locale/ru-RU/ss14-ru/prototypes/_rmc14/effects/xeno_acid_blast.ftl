@@ -1,4 +1,4 @@
-ent-XenoAcidBlast = acid blast
+ent-XenoAcidBlast = кислотный взрыв
     .desc = { "" }
-ent-XenoAcidBlastEmpowered = acid blast
+ent-XenoAcidBlastEmpowered = кислотный взрыв
     .desc = { ent-XenoAcidBlast.desc }

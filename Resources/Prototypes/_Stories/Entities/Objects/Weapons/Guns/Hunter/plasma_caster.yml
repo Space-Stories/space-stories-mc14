@@ -12,6 +12,7 @@
     size: Large
   - type: Gun
     fireRate: 1.67
+    resetOnHandSelected: false
     soundGunshot: /Audio/_Stories/Weapons/pred_plasmacaster_fire.ogg
   - type: BasicEntityAmmoProvider
     proto: STPlasmaBoltStunProjectile

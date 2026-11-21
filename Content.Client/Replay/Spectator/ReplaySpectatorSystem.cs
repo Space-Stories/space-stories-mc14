@@ -84,6 +84,13 @@ public sealed partial class ReplaySpectatorSystem : EntitySystem
     private void OnPlaybackStopped()
     {
         ShutdownMovement();
-        _conHost.UnregisterCommand(SpectateCmd);
+        try
+        {
+            _conHost.UnregisterCommand(SpectateCmd);
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 }

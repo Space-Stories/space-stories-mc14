@@ -1,7 +1,7 @@
 ent-RMCSimpleMob = { ent-BaseSimpleMob }
     .desc = { ent-BaseSimpleMob.desc }
     .suffix = CM
-ent-RMCRodent = Abstract rodent
+ent-RMCRodent = абстрактный грызун
     .desc = { ent-RMCSimpleMob.desc }
     .suffix = CM
 ent-RMCSmallHost = абстрактный маленький носитель

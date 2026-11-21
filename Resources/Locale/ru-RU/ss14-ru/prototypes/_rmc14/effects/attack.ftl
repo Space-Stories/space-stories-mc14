@@ -4,5 +4,7 @@ ent-CMEffectGrab = { ent-RMCBaseEffect }
     .desc = { ent-RMCBaseEffect.desc }
 ent-RMCEffectHeadbite = { ent-RMCBaseEffect }
     .desc = { ent-RMCBaseEffect.desc }
+ent-RMCEffectBite = { ent-RMCBaseEffect }
+    .desc = { ent-RMCBaseEffect.desc }
 ent-CMEffectSlash = { "" }
     .desc = { "" }

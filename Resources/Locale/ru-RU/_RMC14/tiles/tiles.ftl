@@ -20,7 +20,7 @@ tiles-cm-cargo = грузовая плитка
 tiles-cm-plating = плитка
 tiles-cm-striped = полосатая плитка
 tiles-cm-test = тестовая плитка
-tiles-cm-wy = плитка WY
+tiles-cm-wy = плитка Ве-Я
 tiles-cm-cult = плитка культова
 tiles-cm-engine = моторная плитка
 
@@ -28,6 +28,7 @@ tiles-cm-dirt = грязь
 tiles-cm-desert = песок
 tiles-cm-sand = песок
 tiles-cm-grass = трава
+tiles-cm-grass-weedable = трава (для сорняков)
 tiles-cm-dirt-grass = трава
 tiles-cm-rock = каменная плитка
 tiles-rmc-red-desert = красный песок

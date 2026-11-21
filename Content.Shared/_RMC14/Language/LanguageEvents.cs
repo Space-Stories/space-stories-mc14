@@ -50,3 +50,15 @@ public readonly record struct LanguageChangeAttemptedEvent(
     ProtoId<LanguagePrototype> OldLanguage,
     ProtoId<LanguagePrototype> NewLanguage,
     bool Success);
+
+public sealed class HunterTranslatorToggledEvent : EntityEventArgs
+{
+    public EntityUid Mob;
+    public bool Active;
+
+    public HunterTranslatorToggledEvent(EntityUid mob, bool active)
+    {
+        Mob = mob;
+        Active = active;
+    }
+}

@@ -6,9 +6,12 @@
   - CMAccessCE
   - CMAccessEngineering
   - RMCAccessCommand
+  - RMCMarineDefaultAccess
+  - CMAccessMarinePrep
   - CMAccessColonyEngineering
   - CMAccessMaint
   - CMAccessOT
+  - RMCAccessSynth
   - CMAccessDropship
   - RMCAccessDatabase
   - RMCAccessSeniorCommand

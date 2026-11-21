@@ -1,0 +1,524 @@
+# Based on /ServerInfo/Guidebook/_Stories/Law/STMarineLaw*.xml.
+# Separate severity variants preserve the circumstances and sanctions specified in the guide.
+- type: entity
+  id: STMarineLaw
+  name: USMC Marine Law
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLawCatalogue
+    guide: STMarineLaw
+    maxBrigTime: 30
+    sentencingNotes: stories-law-catalogue-sentencing
+    sectionNotes:
+      Minor: stories-law-catalogue-minor
+      Capital: stories-law-catalogue-capital
+      Precautionary: stories-law-catalogue-precautionary
+      Civil: stories-law-catalogue-civil
+    laws:
+    - st-law-variable-property-damage-minor
+    - st-law-variable-property-damage-major
+    - st-law-variable-insubordination-minor
+    - st-law-variable-insubordination-major
+    - st-law-variable-interference-minor
+    - st-law-variable-interference-major
+    - st-law-variable-listening-devices-minor
+    - st-law-variable-listening-devices-major
+    - st-law-minor-procedure
+    - st-law-minor-smoking
+    - st-law-minor-hooliganism
+    - st-law-minor-trespass
+    - st-law-minor-intoxication
+    - st-law-minor-theft
+    - st-law-minor-disrespect
+    - st-law-minor-false-testimony
+    - st-law-major-disorderly-conduct
+    - st-law-major-subterfuge
+    - st-law-major-neglect
+    - st-law-major-assault
+    - st-law-major-prevarication
+    - st-law-major-manslaughter
+    - st-law-major-armed-assault
+    - st-law-major-illegal-confinement
+    - st-law-major-animal-cruelty
+    - st-law-major-abuse
+    - st-law-major-unauthorized-deployment
+    - st-law-capital-jailbreak
+    - st-law-capital-attempted-murder
+    - st-law-capital-murder
+    - st-law-capital-sedition
+    - st-law-capital-desertion
+    - st-law-capital-crimes-against-life
+    - st-law-optional-resisting-arrest-minor
+    - st-law-optional-resisting-arrest-major
+    - st-law-optional-aiding
+    - st-law-optional-confinement-misconduct-minor
+    - st-law-optional-confinement-misconduct-major
+    - st-law-precautionary-insanity
+    - st-law-precautionary-prisoner-of-war
+    - st-law-precautionary-discretionary-detainment
+    - st-law-civil-terror-association
+    - st-law-civil-terrorism
+    - st-law-civil-insubordination-minor
+    - st-law-civil-insubordination-major
+    - st-law-civil-black-marketeering
+    - st-law-civil-arms-dealing
+
+- type: entity
+  id: st-law-variable-property-damage-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 7.5
+    conditions: stories-law-variable-property-damage-minor-conditions
+
+- type: entity
+  id: st-law-variable-property-damage-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 10
+    bypassBrigLimit: true
+    conditions: stories-law-variable-property-damage-major-conditions
+
+- type: entity
+  id: st-law-variable-insubordination-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 7.5
+    conditions: stories-law-variable-insubordination-minor-conditions
+
+- type: entity
+  id: st-law-variable-insubordination-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+    conditions: stories-law-variable-insubordination-major-conditions
+
+- type: entity
+  id: st-law-variable-interference-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 7.5
+    conditions: stories-law-variable-interference-minor-conditions
+
+- type: entity
+  id: st-law-variable-interference-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+    conditions: stories-law-variable-interference-major-conditions
+
+- type: entity
+  id: st-law-variable-listening-devices-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 7.5
+    conditions: stories-law-variable-listening-devices-minor-conditions
+
+- type: entity
+  id: st-law-variable-listening-devices-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Variable
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+    conditions: stories-law-variable-listening-devices-major-conditions
+
+- type: entity
+  id: st-law-minor-procedure
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 10
+    specialPunishment: stories-law-minor-procedure-punishment
+
+- type: entity
+  id: st-law-minor-smoking
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 10
+
+- type: entity
+  id: st-law-minor-hooliganism
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: NJP
+
+- type: entity
+  id: st-law-minor-trespass
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 7.5
+    specialPunishment: stories-law-minor-trespass-punishment
+
+- type: entity
+  id: st-law-minor-intoxication
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 10
+    specialPunishment: stories-law-minor-intoxication-punishment
+
+- type: entity
+  id: st-law-minor-theft
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 10
+    specialPunishment: stories-law-minor-theft-punishment
+
+- type: entity
+  id: st-law-minor-disrespect
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 10
+
+- type: entity
+  id: st-law-minor-false-testimony
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Minor
+    punishment: Brig
+    brigTime: 5
+
+- type: entity
+  id: st-law-major-disorderly-conduct
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 10
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-subterfuge
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+    specialPunishment: stories-law-major-subterfuge-punishment
+
+- type: entity
+  id: st-law-major-neglect
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-assault
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 15
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-prevarication
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 20
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-manslaughter
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 20
+    bypassBrigLimit: true
+    specialPunishment: stories-law-major-manslaughter-punishment
+
+- type: entity
+  id: st-law-major-armed-assault
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 20
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-illegal-confinement
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 20
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-animal-cruelty
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 30
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-abuse
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 20
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-major-unauthorized-deployment
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Major
+    punishment: Brig
+    brigTime: 10
+    bypassBrigLimit: true
+
+- type: entity
+  id: st-law-capital-jailbreak
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-capital-attempted-murder
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-capital-murder
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-capital-sedition
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-capital-desertion
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-capital-crimes-against-life
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Capital
+    punishment: Capital
+    specialPunishment: stories-law-catalogue-capital
+
+- type: entity
+  id: st-law-optional-resisting-arrest-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Optional
+    punishment: Brig
+    brigTime: 5
+    conditions: stories-law-optional-resisting-arrest-minor-conditions
+
+- type: entity
+  id: st-law-optional-resisting-arrest-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Optional
+    punishment: Brig
+    brigTime: 10
+    conditions: stories-law-optional-resisting-arrest-major-conditions
+
+- type: entity
+  id: st-law-optional-aiding
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Optional
+    punishment: SameAsCrime
+
+- type: entity
+  id: st-law-optional-confinement-misconduct-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Optional
+    punishment: Brig
+    brigTime: 7.5
+    extendsSentence: true
+    conditions: stories-law-optional-confinement-misconduct-minor-conditions
+
+- type: entity
+  id: st-law-optional-confinement-misconduct-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Optional
+    punishment: Brig
+    brigTime: 15
+    extendsSentence: true
+    conditions: stories-law-optional-confinement-misconduct-major-conditions
+
+- type: entity
+  id: st-law-precautionary-insanity
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Precautionary
+    punishment: Permanent
+
+- type: entity
+  id: st-law-precautionary-prisoner-of-war
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Precautionary
+    punishment: Permanent
+
+- type: entity
+  id: st-law-precautionary-discretionary-detainment
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Precautionary
+    punishment: Permanent
+- type: entity
+  id: st-law-civil-terror-association
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Permanent
+    specialPunishment: stories-law-civil-permabrig
+    conditions: stories-law-civil-terror-association-conditions
+
+- type: entity
+  id: st-law-civil-terrorism
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Permanent
+    specialPunishment: stories-law-civil-permabrig
+    conditions: stories-law-civil-terrorism-conditions
+
+- type: entity
+  id: st-law-civil-insubordination-minor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Brig
+    brigTime: 5
+    conditions: stories-law-civil-non-uscm-conditions
+
+- type: entity
+  id: st-law-civil-insubordination-major
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Brig
+    brigTime: 10
+    conditions: stories-law-civil-non-uscm-conditions
+
+- type: entity
+  id: st-law-civil-black-marketeering
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Brig
+    brigTime: 7.5
+    specialPunishment: stories-law-civil-contraband-punishment
+    conditions: stories-law-civil-cmb-conditions
+
+- type: entity
+  id: st-law-civil-arms-dealing
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: RMCMarineLaw
+    category: Civil
+    punishment: Brig
+    brigTime: 15
+    specialPunishment: stories-law-civil-contraband-punishment
+    conditions: stories-law-civil-cmb-conditions

@@ -9,8 +9,10 @@ using Content.Shared._RMC14.Mentor.ImaginaryFriend;
 using Content.Shared._RMC14.NightVision;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Tackle;
+using Content.Shared._RMC14.Telephone;
 using Content.Shared._RMC14.Vendors;
 using Content.Shared._RMC14.Weapons.Melee;
+using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Construction.Nest;
 using Content.Shared._RMC14.Xenonids.Devour;
 using Content.Shared._RMC14.Xenonids.Egg;
@@ -38,14 +40,19 @@ using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
 using Content.Shared.DragDrop;
 using Content.Shared.FixedPoint;
+using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Item;
+using Content.Shared.Popups;
 using Content.Shared.Lathe;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Popups;
 using Content.Shared.Radio;
 using Content.Shared.Standing;
 using Content.Shared.StatusEffect;
@@ -78,7 +85,9 @@ public sealed partial class XenoSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _mobThresholds = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
+    [Dependency] private readonly INetConfigurationManager _netConfig = default!;
     [Dependency] private readonly SharedNightVisionSystem _nightVision = default!;
+    [Dependency] private readonly XenoRestSystem _rest = default!;
     [Dependency] private readonly SharedRMCDamageableSystem _rmcDamageable = default!;
     [Dependency] private readonly SharedRMCFlammableSystem _rmcFlammable = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
@@ -90,6 +99,7 @@ public sealed partial class XenoSystem : EntitySystem
     [Dependency] private readonly WeldableSystem _weldable = default!;
     [Dependency] private readonly XenoPlasmaSystem _xenoPlasma = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _weeds = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     private static readonly ProtoId<DamageTypePrototype> HeatDamage = "Heat";
 
@@ -102,6 +112,8 @@ public sealed partial class XenoSystem : EntitySystem
     private EntityQuery<XenoPlasmaComponent> _xenoPlasmaQuery;
     private EntityQuery<XenoRecoveryPheromonesComponent> _xenoRecoveryQuery;
     private EntityQuery<VictimInfectedComponent> _victimInfectedQuery;
+    private EntityQuery<ItemComponent> _itemQuery;
+    private EntityQuery<RotaryPhoneComponent> _rotaryPhoneQuery;
 
     private float _xenoDamageDealtMultiplier;
     private float _xenoDamageReceivedMultiplier;
@@ -121,6 +133,8 @@ public sealed partial class XenoSystem : EntitySystem
         _xenoPlasmaQuery = GetEntityQuery<XenoPlasmaComponent>();
         _xenoRecoveryQuery = GetEntityQuery<XenoRecoveryPheromonesComponent>();
         _victimInfectedQuery = GetEntityQuery<VictimInfectedComponent>();
+        _itemQuery = GetEntityQuery<ItemComponent>();
+        _rotaryPhoneQuery = GetEntityQuery<RotaryPhoneComponent>();
 
         SubscribeLocalEvent<XenoComponent, MapInitEvent>(OnXenoMapInit, before: [typeof(SharedXenoPheromonesSystem)]);
         SubscribeLocalEvent<XenoComponent, GetAccessTagsEvent>(OnXenoGetAdditionalAccess);
@@ -128,6 +142,7 @@ public sealed partial class XenoSystem : EntitySystem
         SubscribeLocalEvent<XenoComponent, XenoDevolvedEvent>(OnXenoDevolved);
         SubscribeLocalEvent<XenoComponent, HealthScannerAttemptTargetEvent>(OnXenoHealthScannerAttemptTarget);
         SubscribeLocalEvent<XenoComponent, GetDefaultRadioChannelEvent>(OnXenoGetDefaultRadioChannel);
+        SubscribeLocalEvent<XenoComponent, CheckMeleeTargetEvent>(OnXenoCheckMeleeTarget);
         SubscribeLocalEvent<XenoComponent, AttackAttemptEvent>(OnXenoAttackAttempt);
         SubscribeLocalEvent<XenoComponent, MeleeAttackAttemptEvent>(OnXenoMeleeAttackAttempt);
         SubscribeLocalEvent<XenoComponent, XenoHealAttemptEvent>(OnHealAttempt);
@@ -146,6 +161,8 @@ public sealed partial class XenoSystem : EntitySystem
             after: [typeof(TackleSystem)]);
         SubscribeLocalEvent<XenoComponent, DisarmedEvent>(OnDisarmed, before: new[] { typeof(SharedHandsSystem) });
         SubscribeLocalEvent<XenoComponent, BeingGibbedEvent>(OnBeingGibbed);
+        SubscribeLocalEvent<XenoComponent, PlayerDetachedEvent>(OnXenoPlayerDetached);
+        SubscribeLocalEvent<XenoComponent, DropAttemptEvent>(OnXenoDropAttempt);
 
         SubscribeLocalEvent<XenoRegenComponent, MapInitEvent>(OnXenoRegenMapInit, before: [typeof(SharedXenoPheromonesSystem)]);
         SubscribeLocalEvent<XenoRegenComponent, DamageStateCritBeforeDamageEvent>(OnXenoRegenBeforeCritDamage, before: [typeof(SharedXenoPheromonesSystem)]);
@@ -185,6 +202,9 @@ public sealed partial class XenoSystem : EntitySystem
 
         _eye.RefreshVisibilityMask(xeno.Owner);
         Dirty(xeno);
+
+        var ev = new XenoComponentChangedEvent(xeno);
+        RaiseLocalEvent(ref ev);
     }
 
     private void OnXenoGetAdditionalAccess(Entity<XenoComponent> xeno, ref GetAccessTagsEvent args)
@@ -219,10 +239,62 @@ public sealed partial class XenoSystem : EntitySystem
         args.Channel = SharedChatSystem.HivemindChannel;
     }
 
+    private void OnXenoCheckMeleeTarget(Entity<XenoComponent> xeno, ref CheckMeleeTargetEvent args)
+    {
+        if (args.Skip)
+            return;
+
+        // Xenos can never attack or tackle themselves
+        if (xeno.Owner == args.Target)
+        {
+            args.Skip = true;
+            return;
+        }
+
+        // Xenos can only attack damageable things,
+        // unless they're rotary phones they want to silence.
+        if (!args.Disarm
+            && !_damageableQuery.HasComp(args.Target)
+            && !_rotaryPhoneQuery.HasComp(args.Target))
+        {
+            args.Skip = true;
+            return;
+        }
+
+        // Xenos can only tackle mobs
+        if (args.Disarm && !_mobStateQuery.HasComp(args.Target))
+        {
+            args.Skip = true;
+            return;
+        }
+
+        if (args.Defer)
+            return;
+
+        // Xenos prefer to attack or tackle non-allies.
+        if (_hive.FromSameHiveOrAlly(xeno.Owner, args.Target))
+        {
+            args.Defer = true;
+        }
+    }
+
     private void OnXenoAttackAttempt(Entity<XenoComponent> xeno, ref AttackAttemptEvent args)
     {
         if (args.Target is not { } target)
             return;
+
+        // Stories-XenoInteract-Start
+        if (_itemQuery.HasComp(target))
+        {
+            var combatEv = new CombatModeShouldHandInteractEvent(xeno);
+            RaiseLocalEvent(target, ref combatEv);
+            if (!combatEv.Cancelled)
+            {
+                args.Cancel();
+                return;
+            }
+        }
+        // Stories-XenoInteract-End
 
         // TODO RMC14 this still falsely plays the hit red flash effect on xenos if others are hit in a wide swing
         if ((_xenoFriendlyQuery.HasComp(target) && _hive.FromSameHive(xeno.Owner, target)) ||
@@ -238,6 +310,20 @@ public sealed partial class XenoSystem : EntitySystem
             _victimInfectedQuery.HasComp(target) && !args.Disarm)
         {
             args.Cancel();
+            return;
+        }
+
+        if (!args.Disarm && _victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno.Owner))
+        {
+            args.Cancel();
+            _popup.PopupClient(Loc.GetString("rmc-xeno-harm-permission-denied"), target, xeno, PopupType.MediumCaution);
+            return;
+        }
+
+        if (!args.Disarm && HasComp<HiveConstructionLimitedComponent>(target) && !_hive.CanXenoDeconstruct(xeno.Owner))
+        {
+            args.Cancel();
+            _popup.PopupClient(Loc.GetString("rmc-xeno-construction-permission-denied-deconstruct"), target, xeno, PopupType.MediumCaution);
         }
     }
 
@@ -382,6 +468,14 @@ public sealed partial class XenoSystem : EntitySystem
         args.Handled = true;
     }
 
+    private void OnXenoPlayerDetached(Entity<XenoComponent> ent, ref PlayerDetachedEvent args)
+    {
+        if (TerminatingOrDeleted(ent) || _rest.IsResting(ent.Owner))
+            return;
+
+        _rest.TryRestAction(ent.AsNullable(), true, true);
+    }
+
     private void OnXenoRegenMapInit(Entity<XenoRegenComponent> ent, ref MapInitEvent args)
     {
         ent.Comp.NextRegenTime = _timing.CurTime + ent.Comp.RegenCooldown;
@@ -450,6 +544,20 @@ public sealed partial class XenoSystem : EntitySystem
         _hive.RecordGib(hive.Value, gibbed);
     }
 
+    private void OnXenoDropAttempt(Entity<XenoComponent> xeno, ref DropAttemptEvent args)
+    {
+        if (!_hands.TryGetActiveItem(xeno.Owner, out var held))
+            return;
+
+        if (!HasComp<XenoParasiteComponent>(held) ||
+            !TryComp<ParasiteDropCooldownComponent>(xeno, out var cooldown) ||
+            cooldown.NextDropTime < _timing.CurTime)
+            return;
+
+        _popup.PopupClient(Loc.GetString("rmc-xeno-parasite-drop-cooldown"), xeno, PopupType.SmallCaution);
+        args.Cancel();
+    }
+
     private FixedPoint2 GetWeedsHealAmount(Entity<XenoRegenComponent> xeno)
     {
         if (!_mobThresholdsQuery.TryComp(xeno, out var thresholds) ||
@@ -477,7 +585,7 @@ public sealed partial class XenoSystem : EntitySystem
 
     public void HealDamage(Entity<DamageableComponent?> xeno, FixedPoint2 amount)
     {
-        if (_rmcFlammable.IsOnFire(xeno.Owner))
+        if (!CanHeal(xeno))
             return;
 
         if (!_damageableQuery.Resolve(xeno, ref xeno.Comp, false) ||
@@ -521,6 +629,9 @@ public sealed partial class XenoSystem : EntitySystem
         if (_xenoNestedQuery.HasComp(target))
             return false;
 
+        if (_victimInfectedQuery.HasComp(target) && !_hive.CanXenoHarm(xeno))
+            return false;
+
         if (canAttackBarricades && HasComp<BarricadeComponent>(target))
             return true;
 
@@ -558,6 +669,13 @@ public sealed partial class XenoSystem : EntitySystem
     public bool CanTackleOtherXeno(EntityUid sourceXeno, EntityUid targetXeno, out TimeSpan time)
     {
         time = TimeSpan.Zero;
+
+        if (CompOrNull<ActorComponent>(sourceXeno)?.PlayerSession is not { } session ||
+            !_netConfig.GetClientCVar(session.Channel, RMCCVars.RMCHiveLeaderTackleXenos))
+        {
+            return false;
+        }
+
         if (!_hive.FromSameHive(targetXeno, sourceXeno))
             return false;
 

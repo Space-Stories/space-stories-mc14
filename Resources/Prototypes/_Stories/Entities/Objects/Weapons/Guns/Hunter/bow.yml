@@ -16,6 +16,8 @@
       map: [ explosive ]
       visible: false
   - type: Appearance
+  - type: Gun
+    resetOnHandSelected: false
   - type: ItemMapper
     spriteLayers:
     - arrow

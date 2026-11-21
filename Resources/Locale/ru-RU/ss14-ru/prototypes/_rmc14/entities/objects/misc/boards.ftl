@@ -1,0 +1,11 @@
+ent-RMCBaseBoards = доски
+    .desc = Подобранные деревянные доски.
+ent-RMCBoards1 = { ent-RMCBaseBoards }
+    .desc = { ent-RMCBaseBoards.desc }
+    .suffix = 1
+ent-RMCBoards2 = { ent-RMCBaseBoards }
+    .desc = { ent-RMCBaseBoards.desc }
+    .suffix = 2
+ent-RMCBoards3 = { ent-RMCBaseBoards }
+    .desc = { ent-RMCBaseBoards.desc }
+    .suffix = 3

@@ -1,4 +1,4 @@
-ent-RMCRemains = remains
+ent-RMCRemains = останки
     .desc = { ent-BaseItem.desc }
 ent-RMCRemainsRobot = { ent-RMCRemains }
     .desc = { ent-RMCRemains.desc }

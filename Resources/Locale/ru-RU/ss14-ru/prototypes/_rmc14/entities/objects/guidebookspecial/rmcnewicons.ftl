@@ -1,12 +1,12 @@
-ent-RMCNewIconGuidebookPurple = purple new
+ent-RMCNewIconGuidebookPurple = фиолетовое «новое»
     .desc = { ent-BaseItem.desc }
     .suffix = (GuideBookEntity)
-ent-RMCNewIconGuidebookRed = red new
+ent-RMCNewIconGuidebookRed = красное «новое»
     .desc = { ent-BaseItem.desc }
     .suffix = (GuideBookEntity)
-ent-RMCNewIconGuidebookYellow = yellow new
+ent-RMCNewIconGuidebookYellow = жёлтое «новое»
     .desc = { ent-BaseItem.desc }
     .suffix = (GuideBookEntity)
-ent-RMCNewIconGuidebookGreen = green new
+ent-RMCNewIconGuidebookGreen = зелёное «новое»
     .desc = { ent-BaseItem.desc }
     .suffix = (GuideBookEntity)

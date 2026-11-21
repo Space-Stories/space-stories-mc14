@@ -1,0 +1,336 @@
+# Synth specialization starting gear
+
+- type: startingGear
+  id: STGearSynthSpecializationGeneral
+  equipment:
+    jumpsuit: RMCJumpsuitSynthetic
+    gloves: CMHandsInsulated
+    shoes: RMCShoesWhite
+    belt: CMBeltUtilityFilled
+    back: CMSatchelMarine
+
+- type: startingGear
+  id: STGearSynthSpecializationCommand
+  equipment:
+    jumpsuit: CMJumpsuitSyntheticPristine
+    outerClothing: RMCCoatService
+    gloves: RMCHandsBlack
+    shoes: CMBootsBlackFilled
+    belt: CMBeltUtilityFilled
+    back: CMSatchel
+
+- type: startingGear
+  id: STGearSynthSpecializationEngineering
+  equipment:
+    jumpsuit: CMJumpsuitMaintTech
+    outerClothing: RMCHazardVestYellow
+    head: CMHeadBeretEngineer
+    gloves: CMHandsInsulated
+    shoes: RMCShoesBrown
+    belt: RMCBeltConstruction
+    back: CMBackpackEngineer
+
+- type: startingGear
+  id: STGearSynthSpecializationMedical
+  equipment:
+    jumpsuit: CMJumpsuitMarineMedic
+    outerClothing: RMCLabcoat
+    gloves: CMHandsWhite
+    shoes: RMCShoesWhite
+    belt: CMBeltMedicalFilled
+    back: CMBackpackMarineMedic
+
+- type: startingGear
+  id: STGearSynthSpecializationRequisitions
+  equipment:
+    jumpsuit: CMJumpsuitOperations
+    outerClothing: RMCOuterClothingExternalWebbing
+    gloves: CMHandsInsulated
+    shoes: CMBootsBlackFilled
+    belt: CMBeltUtilityFilled
+    back: CMSatchelMarine
+
+- type: startingGear
+  id: STGearSynthSpecializationMilitaryPolice
+  equipment:
+    jumpsuit: CMJumpsuitMP
+    outerClothing: CMArmorM3VLSynth
+    head: CMHeadCapMP
+    gloves: RMCHandsBlack
+    shoes: CMBootsBlackFilled
+    belt: CMBeltUtilityCombat
+    back: CMSatchelMarine
+
+- type: startingGear
+  id: STGearSynthSpecializationAviation
+  equipment:
+    jumpsuit: CMJumpsuitDCC
+    outerClothing: RMCCoatBomber
+    eyes: RMCGlassesAviators
+    gloves: RMCHandsBlack
+    shoes: CMBootsBlackFilled
+    belt: CMBeltUtilityFilled
+    back: CMSatchelMarine
+
+- type: startingGear
+  id: STGearSynthSpecializationIntel
+  equipment:
+    jumpsuit: CMJumpsuitDCC
+    outerClothing: RMCJacketCorporateBlack
+    mask: RMCMaskScarfBlack
+    gloves: RMCHandsBlack
+    shoes: CMBootsBlackFilled
+    belt: CMBeltUtilityFilled
+    back: CMSatchel
+
+# Synth specialization data, previews, and loadouts
+
+- type: entity
+  id: STSynthSpecializationGeneralData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: General
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationGeneral
+    managedSlots: &stSynthSpecializationManagedSlots
+    - jumpsuit
+    - head
+    - shoes
+    - gloves
+    - outerClothing
+    - mask
+    - eyes
+    - belt
+    - back
+    preserveSlots: &stSynthSpecializationPreserveSlots
+    - id
+    - ears
+    - pocket1
+    - pocket2
+    - suitstorage
+
+- type: entity
+  id: STSynthSpecializationCommandData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Command
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationCommand
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationEngineeringData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Engineering
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationEngineering
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationMedicalData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Medical
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationMedical
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationRequisitionsData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Requisitions
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationRequisitions
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationMilitaryPoliceData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: MilitaryPolice
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationMilitaryPolice
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationAviationData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Aviation
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationAviation
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+- type: entity
+  id: STSynthSpecializationIntelData
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: STSynthSpecialization
+    specialization: Intel
+  - type: LoadoutGearProfile
+    startingGear: STGearSynthSpecializationIntel
+    managedSlots: *stSynthSpecializationManagedSlots
+    preserveSlots: *stSynthSpecializationPreserveSlots
+
+# Specialization loadout preview entities
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationGeneralPreview
+  name: General
+  description: No formal cross-training beyond baseline synthetic programming. Equally prepared to assist any department as needed.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationGeneral ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationCommandPreview
+  name: Command
+  description: Cross-trained in administrative and logistics support for the command staff.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationCommand ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationEngineeringPreview
+  name: Engineering
+  description: Cross-trained in technical maintenance and structural repair support.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationEngineering ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationMedicalPreview
+  name: Medical
+  description: Cross-trained in medical support and patient care procedures.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationMedical ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationRequisitionsPreview
+  name: Requisitions
+  description: Cross-trained in supply chain management and cargo logistics.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationRequisitions ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationMilitaryPolicePreview
+  name: Military Police
+  description: Cross-trained in security procedures and law enforcement support.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationMilitaryPolice ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationAviationPreview
+  name: Aviation
+  description: Cross-trained in dropship and vehicle maintenance support.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationAviation ]
+
+- type: entity
+  parent: MobHumanDummy
+  id: STSynthSpecializationIntelPreview
+  name: Intel
+  description: Cross-trained in intelligence gathering and data analysis support.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Loadout
+    prototypes: [ STGearSynthSpecializationIntel ]
+
+# Specialization loadouts
+
+- type: loadout
+  id: STSynthSpecializationGeneral
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationGeneralPreview
+  equipment:
+    none: STSynthSpecializationGeneralData
+
+- type: loadout
+  id: STSynthSpecializationCommand
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationCommandPreview
+  equipment:
+    none: STSynthSpecializationCommandData
+
+- type: loadout
+  id: STSynthSpecializationEngineering
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationEngineeringPreview
+  equipment:
+    none: STSynthSpecializationEngineeringData
+
+- type: loadout
+  id: STSynthSpecializationMedical
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationMedicalPreview
+  equipment:
+    none: STSynthSpecializationMedicalData
+
+- type: loadout
+  id: STSynthSpecializationRequisitions
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationRequisitionsPreview
+  equipment:
+    none: STSynthSpecializationRequisitionsData
+
+- type: loadout
+  id: STSynthSpecializationMilitaryPolice
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationMilitaryPolicePreview
+  equipment:
+    none: STSynthSpecializationMilitaryPoliceData
+
+- type: loadout
+  id: STSynthSpecializationAviation
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationAviationPreview
+  equipment:
+    none: STSynthSpecializationAviationData
+
+- type: loadout
+  id: STSynthSpecializationIntel
+  cost: 0
+  componentsAdd: true
+  dummyEntity: STSynthSpecializationIntelPreview
+  equipment:
+    none: STSynthSpecializationIntelData

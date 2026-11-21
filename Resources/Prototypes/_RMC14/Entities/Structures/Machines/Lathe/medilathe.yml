@@ -6,8 +6,12 @@
   description: A specialized autolathe made for printing medical items.
   components:
   - type: ApcPowerReceiver
-    powerLoad: 0
-    needsPower: false
+    powerLoad: 1000
+    needsPower: true
+  - type: RMCPowerReceiver
+    idleLoad: 10
+    activeLoad: 1000
+    channel: Equipment
   - type: RequiresSkill
     skills:
       RMCSkillMedical: 3
@@ -38,6 +42,7 @@
         layer:
         - MachineLayer
   - type: Lathe
+    printEnergy: 2000
     idleState: medilathe
     runningState: medilathe_n
     unlitIdleState: medilathe_u
@@ -137,12 +142,16 @@
   - RMCMedicAutoInjectorEZ30
   - RMCMedicAutoInjectorEZ45
   - RMCMedicAutoInjectorEZ60
+  # - RMCMedicAutoInjector1 TODO RMC14 when added in parity
+  # - RMCMedicAutoInjector5 TODO RMC14 when added in parity
+  # - RMCMedicAutoInjector10 TODO RMC14 when added in parity
   - RMCMedicAutoInjector15
+  # - RMCMedicAutoInjector20 TODO RMC14 when added in parity
   - RMCMedicAutoInjector30
   - CMHypospray
   - CMBloodPack
-  # - RMCBeakerHighCapacity replaced in RMC by RMCReagentJug
-  - RMCReagentJug
+  - RMCBeakerHighCapacity
+  # - RMCReagentJug
   - CMBonesetter
   #    - FixOVein (5000 Plastic)->(6250)
   - CMStasisBag

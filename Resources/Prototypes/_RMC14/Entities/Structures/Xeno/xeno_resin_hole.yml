@@ -70,6 +70,10 @@
     structureName: empty
   - type: Damageable
     damageContainer: StructuralXeno
+  - type: ExplosionResistance
+    worn: false
+    damageCoefficientOverrides:
+      RMCMortarFrag: 0.85
   - type: Destructible
     thresholds:
     - trigger:
@@ -87,6 +91,7 @@
   - type: StepTrigger
     requiredTriggeredSpeed: 0
     intersectRatio: 0.1
+    ignoreWeightless: true
   - type: RMCNightVisionVisible
     priority: -1
   - type: Corrodible

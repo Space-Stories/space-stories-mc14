@@ -5,7 +5,9 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
+using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 
 namespace Content.Shared._RMC14.Weapons.Ranged.Ammo.BulletBox;
@@ -141,7 +143,25 @@ public sealed class BulletBoxSystem : EntitySystem
                 return;
 
             transfer = Math.Min(transfer, used.Comp2.Count);
-            _gun.SetBallisticUnspawned((used, used.Comp2), used.Comp2.UnspawnedCount - transfer);
+
+            var fromUnspawned = Math.Min(transfer, used.Comp2.UnspawnedCount);
+            if (fromUnspawned > 0)
+                _gun.SetBallisticUnspawned((used, used.Comp2), used.Comp2.UnspawnedCount - fromUnspawned);
+
+            var remaining = transfer - fromUnspawned;
+            if (remaining > 0)
+            {
+                var taken = new List<(EntityUid? Entity, IShootable Shootable)>();
+                var takeEv = new TakeAmmoEvent(remaining, taken, Transform(usedId).Coordinates, user);
+                RaiseLocalEvent(usedId, takeEv);
+
+                foreach (var (round, _) in taken)
+                {
+                    if (round is { } roundId)
+                        PredictedDel(roundId);
+                }
+            }
+
             ent.Comp.Amount += transfer;
         }
         _popup.PopupClient(Loc.GetString("rmc-bullet-box-transfer-done", ("amount", transfer), ("used", ent)), ent, user);
@@ -192,7 +212,12 @@ public sealed class BulletBoxSystem : EntitySystem
 
     private void UpdateAppearance(Entity<BulletBoxComponent> ent)
     {
-        var visual = ((double) ent.Comp.Amount / ent.Comp.Max) switch
+        _appearance.SetData(ent, BulletBoxLayers.Fill, GetFillVisuals(ent.Comp.Amount, ent.Comp.Max));
+    }
+
+    public static BulletBoxVisuals GetFillVisuals(int amount, int max)
+    {
+        return ((double) amount / max) switch
         {
             >= 1 => BulletBoxVisuals.Full,
             >= 0.66 => BulletBoxVisuals.High,
@@ -200,8 +225,6 @@ public sealed class BulletBoxSystem : EntitySystem
             > 0 => BulletBoxVisuals.Low,
             _ => BulletBoxVisuals.Empty,
         };
-
-        _appearance.SetData(ent, BulletBoxLayers.Fill, visual);
     }
 
     public bool TryConsume(Entity<BulletBoxComponent> ent, int amount)

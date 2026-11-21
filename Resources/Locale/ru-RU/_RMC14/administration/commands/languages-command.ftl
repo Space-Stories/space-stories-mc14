@@ -1,3 +1,3 @@
-command-description-language-add = Adds a language to a given entity(ies).
-command-description-language-remove = Removes a language from a given entity(ies).
-command-description-language-reset = Resets an entity(ies) to only knowing and speaking the specified language.
+command-description-language-add = Добавляет язык указанной сущности (сущностям).
+command-description-language-remove = Удаляет язык у указанной сущности (сущностей).
+command-description-language-reset = Сбрасывает языки сущности (сущностей), оставляя знание и владение только указанным языком.

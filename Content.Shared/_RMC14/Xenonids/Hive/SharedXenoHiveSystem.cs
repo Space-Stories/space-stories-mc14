@@ -1,10 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
+using Content.Shared._RMC14.Damage;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.NightVision;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Construction;
 using Content.Shared._RMC14.Xenonids.Evolution;
+using Content.Shared._RMC14.Xenonids.HiveLeader;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
@@ -43,6 +45,7 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     [Dependency] private readonly PullingSystem _pulling = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly RMCTemporaryInvincibilitySystem _invincibility = default!;
     [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
     [Dependency] private readonly XenoSystem _xeno = default!;
 
@@ -168,6 +171,22 @@ public abstract class SharedXenoHiveSystem : EntitySystem
             return null;
 
         return (uid, comp);
+    }
+
+    /// <summary>
+    /// Gets the hive component either of the hive entity itself, or the hive of a hive member.
+    /// </summary>
+    /// <param name="uid">uid of the hive itself, or a member of a hive.</param>
+    public Entity<HiveComponent>? GetHiveOrSelf(EntityUid uid)
+    {
+        if (_query.TryComp(uid, out var comp))
+        {
+            return TerminatingOrDeleted(uid) ? null : (uid, comp);
+        }
+        else
+        {
+            return GetHive(uid);
+        }
     }
 
     public Entity<HiveComponent>? GetHiveByName(string hiveName)
@@ -472,12 +491,17 @@ public abstract class SharedXenoHiveSystem : EntitySystem
             return false;
         }
 
-        if (!TrySpawnAt<HiveCoreComponent>() &&
-            !TrySpawnAt<XenoEvolutionGranterComponent>() &&
-            !TrySpawnAt<XenoComponent>())
-        {
+        // Spawning grants temporary invincibility, the same mechanic a freshly burst larva gets.
+        // The duration depends on where the larva spawns, in priority order: hive core, then the queen, then a fallback hive member.
+        TimeSpan invincibilityTime;
+        if (TrySpawnAt<HiveCoreComponent>())
+            invincibilityTime = hive.Comp.BurrowedLarvaHiveCoreInvincibilityTime;
+        else if (TrySpawnAt<XenoEvolutionGranterComponent>())
+            invincibilityTime = hive.Comp.BurrowedLarvaQueenInvincibilityTime;
+        else if (TrySpawnAt<XenoComponent>())
+            invincibilityTime = hive.Comp.BurrowedLarvaFallbackInvincibilityTime;
+        else
             return false;
-        }
 
         if (larva == null)
             return false;
@@ -486,6 +510,8 @@ public abstract class SharedXenoHiveSystem : EntitySystem
 
         _xeno.MakeXeno(larva.Value);
         SetHive(larva.Value, hive);
+
+        _invincibility.GiveInvincibility(larva.Value, invincibilityTime);
 
         var newMind = _mind.CreateMind(session.UserId,
             EntityManager.GetComponent<MetaDataComponent>(larva.Value).EntityName);
@@ -542,6 +568,125 @@ public abstract class SharedXenoHiveSystem : EntitySystem
     {
         // TODO RMC14
         return FromSameHive(a, b);
+    }
+
+    /// <summary>
+    /// Returns true if the queen has permitted harming infected hosts, per the hive's harming permission.
+    /// The queen and hive leaders always ignore the hive's permission.
+    /// </summary>
+    public bool CanXenoHarm(EntityUid xeno)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (xeno == hive.Comp.CurrentQueen || HasComp<HiveLeaderComponent>(xeno))
+            return true;
+
+        return hive.Comp.HarmPermission switch
+        {
+            XenoHarmPermission.Allowed => true,
+            XenoHarmPermission.Forbidden => false,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to place special hive structures (hive core, egg morpher, cluster,
+    /// recovery node, plasma tree), per the hive's construction permission.
+    /// </summary>
+    public bool CanXenoConstruct(EntityUid xeno)
+    {
+        return CanXenoBuildOrDestroy(xeno, hive => hive.Comp.ConstructionPermission);
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to destroy special hive structures, per the hive's deconstruction
+    /// permission. Ordinary structures (walls, doors, membranes) are not covered by this.
+    /// </summary>
+    public bool CanXenoDeconstruct(EntityUid xeno)
+    {
+        return CanXenoBuildOrDestroy(xeno, hive => hive.Comp.DeconstructionPermission);
+    }
+
+    private bool CanXenoBuildOrDestroy(EntityUid xeno, Func<Entity<HiveComponent>, XenoConstructionPermission> getPermission)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (xeno == hive.Comp.CurrentQueen)
+            return true;
+
+        return getPermission(hive) switch
+        {
+            XenoConstructionPermission.Anyone => true,
+            XenoConstructionPermission.Leaders => HasComp<HiveLeaderComponent>(xeno),
+            XenoConstructionPermission.Queen => false,
+            _ => true,
+        };
+    }
+
+    /// <summary>
+    /// Returns true if the xeno is permitted to unnest a host, per the hive's unnesting permission.
+    /// </summary>
+    public bool CanXenoUnnest(EntityUid xeno)
+    {
+        if (HasComp<XenoActionsRestrictedComponent>(xeno))
+            return false;
+
+        if (GetHive(xeno) is not { } hive)
+            return true;
+
+        if (hive.Comp.UnnestPermission == XenoUnnestPermission.Anyone)
+            return true;
+
+        return HasComp<XenoBuilderCasteComponent>(xeno);
+    }
+
+    /// <summary>
+    /// Returns true (and the remaining time) if a permission toggle on this hive is still on cooldown.
+    /// </summary>
+    public bool IsPermissionChangeOnCooldown(TimeSpan? changeAt, out TimeSpan remaining)
+    {
+        remaining = TimeSpan.Zero;
+        if (changeAt is not { } at || _timing.CurTime >= at)
+            return false;
+
+        remaining = at - _timing.CurTime;
+        return true;
+    }
+
+    public void SetHarmPermission(Entity<HiveComponent> hive, XenoHarmPermission value)
+    {
+        hive.Comp.HarmPermission = value;
+        hive.Comp.HarmPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetConstructionPermission(Entity<HiveComponent> hive, XenoConstructionPermission value)
+    {
+        hive.Comp.ConstructionPermission = value;
+        hive.Comp.ConstructionPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetDeconstructionPermission(Entity<HiveComponent> hive, XenoConstructionPermission value)
+    {
+        hive.Comp.DeconstructionPermission = value;
+        hive.Comp.DeconstructionPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
+    }
+
+    public void SetUnnestPermission(Entity<HiveComponent> hive, XenoUnnestPermission value)
+    {
+        hive.Comp.UnnestPermission = value;
+        hive.Comp.UnnestPermissionChangeAt = _timing.CurTime + hive.Comp.PermissionChangeCooldown;
+        Dirty(hive);
     }
 }
 

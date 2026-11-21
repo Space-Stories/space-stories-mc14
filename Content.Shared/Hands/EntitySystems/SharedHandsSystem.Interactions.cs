@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Shared._RMC14.Hands;
+using Content.Shared._Stories.Weapons.Guns;
 using Content.Shared.Examine;
 using Content.Shared.Hands.Components;
 using Content.Shared.IdentityManagement;
@@ -7,6 +8,7 @@ using Content.Shared.Input;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory.VirtualItem;
 using Content.Shared.Localizations;
+using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Map;
 using Robust.Shared.Network;

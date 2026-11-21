@@ -42,8 +42,8 @@ public sealed partial class XenoWeedsComponent : Component
     [DataField]
     public EntProtoId Spawns = "XenoWeeds";
 
-    [DataField, AutoNetworkedField]
-    public List<EntityUid> Spread = new();
+    [DataField] // Stories-Optimization (Spread was removed from AutoNetworkedField to reduce bandwidth)
+    public HashSet<EntityUid> Spread = new();
 
     /// <summary>
     /// All anchored entities with Weedable component adjacent to this entity

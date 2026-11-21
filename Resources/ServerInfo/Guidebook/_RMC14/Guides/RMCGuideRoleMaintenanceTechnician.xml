@@ -1,47 +1,46 @@
-﻿<Document>
-  Guide by Kynthos on Discord
+<Document>
+  Гайд от Kynthos в Discord
 
-  [color=#5f698a]█    █ █▄ █[/color] [head=2][bold]UNITED NATIONS MARINE CORPS[/bold][/head]\n
-  [color=#5f698a]▀ ▄▀ █ ▀█ [/color]
+  ##Техник по обслуживанию
 
-  ##Maintenance Technician
+  Техник по обслуживанию — сотрудник инженерного отдела военного корабля. Его главная работа — поддерживать корабль в целости: от сложных инженерных задач вроде поддержания энергоснабжения до черновой работы вроде чистоты в коридорах. С надлежащего разрешения технику по обслуживанию могут доверить и строительные проекты — на корабле или в зоне операции. Вот что от вас ждут:
 
-  The Maintenance Technician is a member of the warship's Engineering department. Their primary job is to maintain the integrity of the warship, both the complex engineering tasks of maintaining power, and the menial tasks of keeping the hallways clean. With proper authorization, the Maintenance Technician may be entrusted with various construction projects, on the warship or within the AO. The following tasks are expected from you:
+  #Поддержание энергоснабжения
 
-  #Maintaining Power
-
-  Power on the Almayer requires generators.
+  Энергия на Алмайере требует генераторов.
 
   <Box>
     <GuideEntityEmbed Entity="RMCGeneratorFusion"/>
     <GuideEntityEmbed Entity="RMCGeneratorFusionColony"/>
   </Box>
 
-  Aboard the Almayer, power is supplied by the [bold]S-52 Fusion Reactors[/bold]. These start fully operational and powered at the beginning of each operation, and will be completely fine if left unattended in most cases.
+  На борту Алмайера энергию дают [bold]термоядерные реакторы S-52[/bold]. В начале каждой операции они полностью исправны и запущены и в большинстве случаев прекрасно работают без присмотра.
 
-    #Reloading the Orbital Cannon
+  Инструкции по аварийной диагностике, работе ЛКП и СМЭС, ремонту реакторов, обслуживанию топливных ячеек и переносным генераторам приведены в разделе [textlink="Энергоснабжение и ЛКП" link="RMCGuidePower"].
 
-    The bow of the Almayer houses the devastating Orbital Cannon, used to rain hellfire upon the enemies of the UNMC. Maintenance Technicians are directly responsible for maintaining this on behalf of the CIC, which is accessible via the nearby Maintenance tunnels. This should be only conducted under direct orders from the Commander of the operation to ensure the correct bomb is chambered.
+    #Перезарядка орбитальной пушки
 
-    The Almayer will start with random warheads found nearby the Cannon, as well as plenty of solid fuel tanks to power the machine. Command will have the means to obtain more warheads should they be required.
+    В носу Алмайера расположена разрушительная орбитальная пушка, обрушивающая адское пламя на врагов КМП США. Техники по обслуживанию напрямую отвечают за неё по поручению ЦИК; добраться до пушки можно через ближайшие технические туннели. Заниматься этим следует только по прямому приказу командующего операцией — чтобы в стволе оказалась именно та бомба, которая нужна.
 
-    There are several bombs you may be asked to load, and you can confirm the payload type by inspecting it.
+    В начале операции возле пушки лежат случайные боеголовки и достаточно блоков твёрдого топлива для машины. При необходимости командование сможет добыть больше боеголовок.
 
-    Once the payload type is confirmed with the Commander, use the Orbital Cannon Console to determine how much fuel launching the payload will take. This will be different between operations.
+    Заряжать вас могут попросить разные бомбы; тип боеголовки можно уточнить, осмотрев её.
 
-    Using a Power Loader, carry the Warhead and the correct number of Solid fuel tanks and insert them into the Orbital Cannon itself. The Cannon Console will display what has been loaded in case you forget. Once the Cannon is loaded, use the Console to load the payload, and then chamber the payload.
+    Согласовав тип боеголовки с командующим, узнайте на консоли орбитальной пушки, сколько топлива уйдёт на запуск. От операции к операции это число меняется.
 
-    [bold]While a loaded payload can be unloaded, once a payload is chambered it can only be unloaded by firing the cannon![/bold]
+    С помощью погрузчика доставьте боеприпасы к лотку пушки: сначала вставьте в него боеголовку, затем — нужное число блоков твёрдого топлива (лишнее лоток не примет). Если забыли, что уже внутри, — консоль показывает загруженное. Когда всё на месте, нажмите на консоли «Загрузить лоток», а затем «Зарядный лоток», чтобы дослать его в пушку.
 
-    Upon completion, notify your superiors, as only they are authorized to fire such a brutal weapon. Until the Cannon needs to be reloaded, your job here is complete.
+    [bold]Пока лоток лишь загружен, его можно вернуть кнопкой «Выгрузить лоток», но заряженный лоток уже не разрядить — только выстрелом![/bold]
 
-  #Constructing the FOB
+    Закончив, доложите начальству: только оно вправе стрелять из столь жестокого оружия. Пока пушку не понадобится перезаряжать снова, ваша работа здесь окончена.
 
-  It may be necessary to temporarily send down shipside staff to construct and maintain the Forward Operating Base in the AO. If this happens stay in constant contact with the Chief Engineer who will direct tasks and keep you safe. Dangerous work should be left to the Combat Technicians.
+  #Строительство ЗП
 
-  #Hacking
+  Иногда корабельный персонал временно отправляют вниз — строить и обслуживать ЗП в зоне операции. В этом случае держите постоянную связь с главным инженером: он будет раздавать задачи и заботиться о вашей безопасности. Опасную работу оставьте боевым техникам.
 
-  In emergencies or when authorized, hacking your way through obstacles to access an inaccessible area may be required. For any hacking job, you will want to be wearing some [bold]insulated gloves[/bold] as well as be equipped with a screwdriver, wire cutters, and security access tuner. To begin hacking:
+  #Взлом
+
+  В чрезвычайной ситуации или с разрешения может понадобиться взломом пробиваться в недоступные места. Для любого взлома вам нужны [bold]изолированные перчатки[/bold], а также отвёртка, кусачки и тюнер доступа к системе безопасности. Порядок взлома:
 
   <Box>
     <GuideEntityEmbed Entity="CMHandsInsulated"/>
@@ -49,28 +48,28 @@
     <GuideEntityEmbed Entity="CMMultitool"/>
   </Box>
 
-  - Use a screwdriver to open the maintenance panel.
-  - Access the machine to open the wire panel.
-  - [bold]While wearing insulated gloves[/bold] use a security access tuner or wire cutter to pulse or cut/repair the wires respectively. Each wire will correspond to a function of the machine you are hacking and interacting with each will disable or alter the way that function works. The wires that control each function will vary between operations.
-  - Once finished, use a screwdriver to close the maintenance panel.
+  - Откройте техническую панель отвёрткой.
+  - Откройте панель проводов через интерфейс машины.
+  - [bold]В изолированных перчатках[/bold] пульсируйте провода тюнером либо режьте и чините их кусачками. Каждый провод отвечает за свою функцию машины, и взаимодействие с ним отключит или изменит работу этой функции. Какие провода за что отвечают — меняется от операции к операции.
+  - Закончив, закройте техническую панель отвёрткой.
 
-  Most hacking exercises will occur on doors and vending machines. The most common applications are:
+  Чаще всего взламывать придётся двери и вендоматы. Самые ходовые случаи:
 
-  - [Bold]Bolting or Unbolting a Door[/bolt]: Bolting a door is as simple as pulsing or cutting the wire that powers the bolt function. To unbolt a door, you will need to repair the power wires, and then pulse the wire that controls the bolt function. Repairing the wire will not unbolt the door.
-  - [bold]Hacking a door open[/bold]: To open a door you do not have access to, cut the two wires that controls the door power. Then use a crowbar to pry the unpowered door open. Pulsing one of the power wires will temporarily disable power to the door.
-  - [bold]Accessing a locked vending machine[/bold]: To access a vending machine you do not have access to, cut the wire that controls the ID access check, which will allow anyone to dispense items. Pulsing this wire instead will only temporarily disable the ID access check.
+  - [bold]Заболтировать или разболтировать дверь[/bold]: чтобы заболтировать, достаточно пульснуть или перерезать провод питания болтов. Чтобы разболтировать — почините провода питания, затем пульсните провод, отвечающий за болты. Сама по себе починка провода дверь не разболтирует.
+  - [bold]Взломать дверь[/bold]: чтобы открыть дверь, к которой нет доступа, перережьте два провода питания двери, затем подденьте обесточенную дверь ломом. Пульс по одному из проводов питания отключит питание двери временно.
+  - [bold]Доступ к закрытому вендомату[/bold]: перережьте провод проверки ID-доступа — и брать предметы сможет кто угодно. Пульс по этому проводу отключит проверку лишь на время.
 
 
 
-  For additional hacking secrets, try asking your fellow Maintenance Technicians or your direct supervisor, the Chief Engineer.
+  Дополнительные секреты взлома узнавайте у коллег — техников по обслуживанию — или у прямого начальника, главного инженера.
 
-  #Jobs no one else wants to do
+  #Работа, которую больше никто не хочет делать
 
-  Replacing lights, cleaning up trash, and repairing vandalism are among the many menial tasks you will be entrusted with. It all falls under maintenance. If you've had enough of this, you can always seek authorization for something more creative or explore the halls of the Almayer until an opportunity arises.
+  Замена ламп, уборка мусора, ремонт после вандализма — вот лишь часть черновых задач, которые вам доверят. Всё это входит в обслуживание. Если надоело — всегда можно запросить разрешение на что-то более творческое или бродить по коридорам Алмайера, пока не подвернётся случай.
 
-  Once you are comfortable with your Engineering skills, try enlisting as a [textlink="Combat Technician" link="RMCGuideRoleCombatTechnician"].
+  Освоившись с инженерными навыками, попробуйте записаться в [textlink="боевые техники" link="RMCGuideRoleCombatTechnician"].
 
-  If you are ever unsure of what to do or where to go, seek out the Senior Enlisted Advisor for additional assistance.
+  Если не знаете, что делать или куда идти, обратитесь за помощью к старшему сержантскому советнику.
 
   <Box>
     <GuideEntityEmbed Entity="CMGuidebookRoleSEA"/>

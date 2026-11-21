@@ -28,21 +28,22 @@
 
 - type: rank
   id: RMCRankProvostChiefInspector
-  name: Chief Inspector
-  prefix: PvCI.
+  name: Главный Инспектор
+  prefix: Глав. Инсп.
   paygrade: O5
 
+# Whitelisted
 - type: rank
   id: RMCRankProvostInspector
-  name: Provost Inspector
-  prefix: PvI.
+  name: Инспектор военной полиции
+  prefix: Инсп. ВП
   paygrade: O4
 
 # Fax responder
 - type: rank
   id: RMCRankProvostCommunicationsOfficer
-  name: Communications Officer
-  prefix: ComOff.
+  name: Офицер связи
+  prefix: Офиц. связи
   paygrade: O2
 
 # Любой игрок с низким пониманием закона, с доп. помощью

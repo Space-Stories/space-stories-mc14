@@ -1,0 +1,19 @@
+<local:AresAdminAccessRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.ARES.Administration"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt">
+    <crt:RMCCrtPanel Variant="Inset" HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="5">
+            <crt:RMCCrtLabel Name="Header" Access="Public" Heading="True" />
+            <crt:RMCCrtLabel Name="Source" Access="Public" Tone="Muted" />
+            <crt:RMCCrtLabel Name="Details" Access="Public" />
+            <GridContainer Columns="3" HorizontalExpand="True">
+                <crt:RMCCrtActionButton Name="Grant" Access="Public" Variant="Filled"
+                    Text="{Loc stories-ares-admin-grant}" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Reject" Access="Public" Variant="DangerOutline"
+                    Text="{Loc stories-hermes-reject}" HorizontalExpand="True" />
+                <crt:RMCCrtActionButton Name="Revoke" Access="Public" Variant="DangerOutline"
+                    Text="{Loc stories-hermes-revoke}" HorizontalExpand="True" />
+            </GridContainer>
+        </BoxContainer>
+    </crt:RMCCrtPanel>
+</local:AresAdminAccessRow>

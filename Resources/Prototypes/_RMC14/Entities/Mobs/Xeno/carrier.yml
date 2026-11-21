@@ -11,9 +11,8 @@
   description: A strange-looking alien creature. It carries a number of scuttling jointed crablike creatures.
   abstract: true
   components:
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
-  - type: GhostRole
-    name: cm-job-name-xeno-carrier
   - type: MobState
     allowedStates:
     - Alive
@@ -24,10 +23,23 @@
       0: Alive
       650: Critical
       750: Dead
+  # Stories-SynthHeavyGrab-Start
+  - type: Tag
+    tags:
+    - DoorBumpOpener
+    - RMCSynthGrabbable
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     role: CMXenoCarrier
     tier: 2
     hudOffset: 0,0.19
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 300 # 5 minutes
   - type: XenoHeavy
   - type: XenoDevolve
@@ -111,6 +123,13 @@
   parent: RMCXenoCarrierBase
   id: CMXenoCarrier
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoResinHole ]
+      XenoPrimaryThree: [ ActionXenoThrowParasite ]
+      XenoPrimaryFour: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: XenoBaseCaste
   - type: GuideHelp
     guides:
@@ -163,6 +182,12 @@
   id: RMCXenoCarrierEggsac
   suffix: Eggsac
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGenerateEggs ]
+      XenoPrimaryThree: [ ActionXenoRetrieveEgg ]
+      XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
@@ -199,6 +224,8 @@
     name: rmc-xeno-eggsac-name
     description: rmc-xeno-eggsac-description
     popup: rmc-xeno-eggsac-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoCarrier
   - type: XenoPheromones
     pheromonesMultiplier: 3
     pheroSuffix: strong
@@ -212,4 +239,3 @@
   - type: XenoHidden
   - type: RMCActionOrder
     id: RMCXenoCarrierEggsac
-

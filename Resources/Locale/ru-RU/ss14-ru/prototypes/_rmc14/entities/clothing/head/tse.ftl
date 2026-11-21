@@ -1,5 +1,5 @@
 ent-RMCHeadCapTSEPA = фуражка ИТСПД
-    .desc = A cap for TSEPA constables. Wots all this then?
+    .desc = Фуражка констеблей ИТСПД. Что тут у нас происходит?
 ent-RMCHeadBeretTSE = берет ИТС
     .desc = { ent-CMHeadBeret.desc }
 ent-RMCHeadBeretTSEPA = берет ИТСПД

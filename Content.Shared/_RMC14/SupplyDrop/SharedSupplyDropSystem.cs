@@ -9,18 +9,24 @@ using Content.Shared._RMC14.CrashLand;
 using Content.Shared._RMC14.Extensions;
 using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.ParaDrop;
+using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.UserInterface;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Body.Components;
 using Content.Shared.Coordinates;
 using Content.Shared.Damage;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost;
 using Content.Shared.Maps;
 using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
 using Content.Shared.Storage.EntitySystems;
+using Content.Shared.UserInterface;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -32,13 +38,13 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._RMC14.SupplyDrop;
 
-public abstract class SharedSupplyDropSystem : EntitySystem
+public abstract partial class SharedSupplyDropSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly AreaSystem _area = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IComponentFactory _compFactory = default!;
-    [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly SharedCrashLandSystem _crashLand = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
@@ -52,9 +58,10 @@ public abstract class SharedSupplyDropSystem : EntitySystem
     [Dependency] private readonly RMCCameraShakeSystem _rmcCameraShake = default!;
     [Dependency] private readonly RMCMapSystem _rmcMap = default!;
     [Dependency] private readonly RMCPlanetSystem _rmcPlanet = default!;
+    [Dependency] private readonly RMCPullingSystem _rmcpulling = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly RMCPullingSystem _rmcpulling = default!;
 
     private int _supplyDropCount;
     private MapId? _supplyDropMap;
@@ -66,7 +73,9 @@ public abstract class SharedSupplyDropSystem : EntitySystem
 
     public override void Initialize()
     {
+        InitializeZLevelInput(); // Stories-ZLevels
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestartCleanup);
+        SubscribeLocalEvent<SupplyDropComputerComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         SubscribeLocalEvent<BeingSupplyDroppedComponent, StorageOpenAttemptEvent>(OnBeingSupplyDroppedOpenAttempt);
         SubscribeLocalEvent<BeingSupplyDroppedComponent, ParaDropFinishedEvent>(OnBeingSupplyDroppedLanded);
@@ -81,6 +90,18 @@ public abstract class SharedSupplyDropSystem : EntitySystem
                 subs.Event<SupplyDropComputerUpdateBuiMsg>(OnSupplyDropComputerUpdateMsg);
                 subs.Event<SupplyDropComputerLaunchBuiMsg>(OnSupplyDropComputerLaunchMsg);
             });
+    }
+
+    private void OnUIMessageAttempt(Entity<SupplyDropComputerComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || args.UiKey is not SupplyDropComputerUi)
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
@@ -232,7 +253,10 @@ public abstract class SharedSupplyDropSystem : EntitySystem
             return false;
 
         if (computer.Comp.Squad is not { } squad ||
-            !_rmcPlanet.TryPlanetToCoordinates(computer.Comp.Coordinates, out var mapCoordinates) ||
+            // Stories-ZLevels-Start
+            !_rmcPlanet.TryPlanetToCoordinates(computer.Comp.Coordinates, computer.Comp.TargetZ,
+                out var mapCoordinates) ||
+            // Stories-ZLevels-End
             !CanSupplyDropSquad(squad))
         {
             _popup.PopupCursor(Loc.GetString("rmc-supply-drop-not-operational"), user, PopupType.MediumCaution);
@@ -260,7 +284,9 @@ public abstract class SharedSupplyDropSystem : EntitySystem
         }
 
         if (_rmcMap.IsTileBlocked(mapCoordinates) ||
-            _rmcMap.TryGetTileDef(mapCoordinates, out var tile) && tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-Start
+            !_rmcMap.TryGetTileDef(mapCoordinates, out var tile) || tile.ID == ContentTileDefinition.SpaceID)
+            // Stories-ZLevels-End
         {
             _popup.PopupCursor(Loc.GetString("rmc-supply-drop-blocked"), user, PopupType.MediumCaution);
             return false;
@@ -288,7 +314,11 @@ public abstract class SharedSupplyDropSystem : EntitySystem
         computer.Comp.LastLaunchAt = time;
         computer.Comp.NextLaunchAt = time + computer.Comp.Cooldown;
         Dirty(computer);
-        _core.CreateARESLog(computer.Owner, LogCat, (string)$"{Name(user)} Launched a crate {Name(crate)} to {mapCoordinates.X}, {mapCoordinates.Y}.");
+        // Stories-ZLevels-Start
+        _core.CreateARESLog(computer.Owner, LogCat,
+            (string)$"{Name(user)} Launched a crate {Name(crate)} " +
+            $"to {mapCoordinates.X}, {mapCoordinates.Y}, Z {computer.Comp.TargetZ}.");
+        // Stories-ZLevels-End
         return true;
     }
 

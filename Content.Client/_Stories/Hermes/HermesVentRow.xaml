@@ -1,0 +1,19 @@
+<local:HermesVentRow xmlns="https://spacestation14.io"
+    xmlns:local="clr-namespace:Content.Client._Stories.Hermes"
+    xmlns:crt="clr-namespace:Content.Client._RMC14.UserInterface.Crt"
+    Orientation="Vertical" HorizontalExpand="True">
+    <crt:RMCCrtPanel Variant="Inset" HorizontalExpand="True">
+        <crt:RMCCrtTwoColumnContainer Margin="8 6" ColumnSeparation="6">
+            <BoxContainer Orientation="Vertical" HorizontalExpand="True"
+                VerticalAlignment="Center" SeparationOverride="2">
+                <crt:RMCCrtLabel Name="Location" Access="Public" Heading="True" />
+                <crt:RMCCrtLabel Name="Status" Access="Public" Tone="Muted" />
+            </BoxContainer>
+            <Control MinWidth="0" MaxWidth="0" />
+            <crt:RMCCrtActionButton Name="Release" Access="Public" Variant="DangerOutline"
+                IconState="warning" IconSize="14" ContentMargin="8 5"
+                Text="{Loc stories-hermes-release-gas}" MinWidth="170" MaxWidth="170"
+                VerticalAlignment="Center" HorizontalAlignment="Right" />
+        </crt:RMCCrtTwoColumnContainer>
+    </crt:RMCCrtPanel>
+</local:HermesVentRow>

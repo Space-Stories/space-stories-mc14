@@ -1,0 +1,38 @@
+- type: entity
+  parent: RMCMarineUniformBase
+  id: STJumpsuitHazmatJoe
+  name: hazmat joe uniform
+  description: A reinforced uniform used for synthetic labor in hazardous areas.
+  components:
+  - type: Sprite
+    sprite: _Stories/Synth/WorkingJoe/working_joe_uniform.rsi
+    state: icon-working_joe_engi
+  - type: Clothing
+    equippedPrefix: working_joe_engi
+  - type: WebbingClothing
+    startingWebbing: STWebbingDropPouchWorkingJoe
+  - type: CMArmor
+    melee: 10
+    bullet: 15
+    bio: 20
+    explosionArmor: 15
+  - type: STWorkingJoeUniform
+  - type: STCorpLabel
+    manufacturer: st-corp-label-manufacturer-seegson
+
+- type: entity
+  parent: STJumpsuitHazmatJoe
+  id: STJumpsuitHazmatJoeOveralls
+  name: hazmat joe uniform
+  description: A reinforced uniform used for synthetic labor in hazardous areas. Comes with an additional layer for liquid hazards.
+  components:
+  - type: Sprite
+    sprite: _Stories/Synth/WorkingJoe/working_joe_uniform.rsi
+    state: icon-working_joe_overalls
+  - type: Clothing
+    equippedPrefix: working_joe_overalls
+  - type: CMArmor
+    melee: 10
+    bullet: 15
+    bio: 25
+    explosionArmor: 15

@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingChancesUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Ченсес Клейм, Вне фракций
+ent-RMCPaperCOBriefingChancesHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Ченсес Клейм, Ястребы
+ent-RMCPaperCOBriefingChancesDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Ченсес Клейм, Голуби
+ent-RMCPaperCOBriefingChancesMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Ченсес Клейм, Сороки

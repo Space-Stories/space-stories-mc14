@@ -3,9 +3,9 @@ meta:
   category: Grid
   engineVersion: 264.0.2-fix-physics
   forkId: marines
-  forkVersion: e2b5b0e2b3decac4b9e3f2e6fdb76715d20bd9a7
-  time: 06/16/2026 09:46:21
-  entityCount: 292
+  forkVersion: 82ba4970e6a9ca9507bb8f92500f913369d09bc6
+  time: 07/19/2026 07:37:19
+  entityCount: 298
 maps: []
 grids:
 - 1
@@ -1453,6 +1453,40 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -1.5,-5.5
       parent: 1
+  - uid: 293
+    components:
+    - type: Transform
+      pos: 0.5,3.5
+      parent: 1
+  - uid: 294
+    components:
+    - type: Transform
+      pos: 2.5,3.5
+      parent: 1
+  - uid: 295
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -1.5,3.5
+      parent: 1
+  - uid: 296
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 0.5,3.5
+      parent: 1
+  - uid: 297
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 4.5,-5.5
+      parent: 1
+  - uid: 298
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -3.5,-5.5
+      parent: 1
 - proto: RMCPlatformSandstoneStairLeft
   entities:
   - uid: 84
@@ -1935,7 +1969,7 @@ entities:
     - type: Transform
       pos: 1.5,-1.5
       parent: 1
-- proto: STAirlockHunterLockedAncient
+- proto: STAirlockHunter
   entities:
   - uid: 21
     components:

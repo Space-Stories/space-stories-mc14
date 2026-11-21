@@ -55,8 +55,6 @@ public sealed partial class ReflectiveShieldComponent : Component
         "RMCProjectileRocket84mm",
         "RMCProjectileRocket84mmAntiArmor",
         "RMCProjectileRocket84mmWhitePhosphorus",
-        "RMCBulletSentry",
-        "CMBulletSentry10x50mm",
         "RMCBaseBulletSentryFireProjectile",
         "RMCBulletSentryFireProjectile",
         "RMCBulletSentryFireProjectileBlue",

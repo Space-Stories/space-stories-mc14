@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: [ BaseMachinePowered, RMCConstructibleMachine ]
   id: RMCTelevision
   name: television set
@@ -20,6 +20,8 @@
         enum.PowerDeviceVisualLayers.Powered:
           True: { visible: true }
           False: { visible: false }
+  - type: Physics
+    canCollide: false
   - type: Fixtures
     fixtures:
       fix1:
@@ -50,6 +52,7 @@
     protoIds:
     - RMCTelevision
     title: rmc-television-title
+    stayConnected: true
   - type: Machine
     board: RMCCircuitboardTelevision
 
@@ -88,8 +91,8 @@
         layer:
         - MachineLayer
   - type: ApcPowerReceiver
-    powerLoad: 0
-    needsPower: false
+    powerLoad: 300
+    needsPower: true
   - type: RMCPowerReceiver
     idleLoad: 300
     activeLoad: 300

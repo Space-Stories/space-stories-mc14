@@ -2,7 +2,6 @@ input-key-Escape = Escape
 input-key-Control = Control
 input-key-Shift = Shift
 input-key-Alt = Alt
-input-key-Alt-mac = ⌥
 input-key-Menu = Menu
 input-key-F1 = F1
 input-key-F2 = F2

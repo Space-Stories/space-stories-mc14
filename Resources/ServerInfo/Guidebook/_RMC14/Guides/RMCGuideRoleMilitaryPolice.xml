@@ -1,21 +1,21 @@
 <Document>
   <Box>
-    [color=goldenrod][head=2]MILITARY POLICE GUIDEBOOK[/head][/color]
+    [color=goldenrod][head=2]РУКОВОДСТВО ВОЕННОЙ ПОЛИЦИИ[/head][/color]
   </Box>
   <Box>
     [color=white]✧✧✦✧✧[/color]
   </Box>
   <Box>
-    [bolditalic][head=2]As Written by The Provost Marshall Office Police Academy  [/bolditalic]
+    [bolditalic][head=2]Составлено полицейской академией Офиса Провост Маршалов  [/head][/bolditalic]
   </Box>
   <Box>
     [color=#134975]‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾[/color]
   </Box>
 
-  ## What do Military Police do?
+  ## Чем занимается военная полиция?
 
 
-  Military police are the role that is entrusted in-game to enforce [textlink="Marine Law" link="RMCMarineLaw"] and [textlink="SOP (Standard Operating Procedure)" link="RMCMarineSOP"]. [bold]The goal of being a MP is not to brig as many marines as you can.[/bold] That is frowned upon. The goal of [color=#ff000d][bold]MP[/bold][/color] is to make the server a more immersive and enjoyable place for everyone. Do your best to uphold that goal, by mediating conflicts and assisting the crew and marines with their needs with the minimal force required.
+  Военная полиция — роль, которой в игре доверено следить за соблюдением [textlink="Морского Устава" link="STMarineLaw"] и [textlink="СОП (Стандартные Оперативные Процедуры)" link="STMarineSOP"]. [bold]Цель ВП — не упечь в бриг как можно больше морпехов.[/bold] Такое не приветствуется. Цель [color=#ff000d][bold]ВП[/bold][/color] — делать сервер более атмосферным и приятным местом для всех. Стремитесь к этому: разрешайте конфликты и помогайте экипажу и морпехам в их нуждах, применяя минимально необходимую силу.
 
 
   <Box>
@@ -23,146 +23,300 @@
     <GuideEntityEmbed Entity="RMCGuidebookSOP"/>
   </Box>
 
-  ## The various members of the Military Police on the Almayer
+  ## Состав военной полиции на Алмайере
 
 
   <Box Orientation="Vertical">
-    [bold]Chief of Military Police[/bold]
+    [bold]Начальник военной полиции[/bold]
     <GuideEntityEmbed Entity="RMCGuidebookRoleCMP" Caption=""/>
   </Box>
   <Box>
-    [color=#8B0000][bold]The Chief of Military Police[/bold][/color], referred to as the [color=#8B0000][bold]Chief MP[/bold][/color] is the head of the Military police aboard the UNS Almayer. They are the second-highest authority on the warship regarding [textlink="Marine Law" link="RMCMarineLaw"], second only to a whitelisted [color=#00CBFE][bold]Commanding Officer[/bold][/color]. They are tasked with ensuring that Marine Law and [textlink="SOP" link="RMCMarineSOP"] are enforced correctly, and that [color=#ff000d][bold]MP[/bold][/color]s are doing their jobs well. The [color=#8B0000][bold]Chief MP[/bold][/color] is typically a more experienced [color=#ff000d][bold]MP[/bold][/color] so they can help answer questions and concerns. [color=#8B0000][bold]The Chief of Military Police[/bold][/color] can rank from Second Lieutenant (O1), up to First Lieutenant (O2)
+    [color=#8B0000][bold]Начальник военной полиции[/bold][/color], или просто [color=#8B0000][bold]начальник ВП[/bold][/color], возглавляет военную полицию на борту ВКСШ Алмайер. Это второй по старшинству авторитет на корабле в вопросах [textlink="Морского Устава" link="STMarineLaw"] — выше него только [color=#00CBFE][bold]Командующий Офицер[/bold][/color] (вайтлист-роль). Его задача — следить, чтобы Морской Устав и [textlink="СОП" link="STMarineSOP"] исполнялись верно, а [color=#ff000d][bold]офицеры ВП[/bold][/color] хорошо делали свою работу. [color=#8B0000][bold]Начальник ВП[/bold][/color] обычно опытнее прочих [color=#ff000d][bold]ВП[/bold][/color], поэтому поможет с вопросами и сомнениями. Звание [color=#8B0000][bold]начальника военной полиции[/bold][/color] — от второго лейтенанта (O1) до первого лейтенанта (O2)
   </Box>
 
 
   <Box Orientation="Vertical">
-    [bold]Military Warden[/bold]
+    [bold]Военный надзиратель[/bold]
     <GuideEntityEmbed Entity="RMCGuidebookRoleMW" Caption=""/>
   </Box>
   <Box>
-    [bold]The Military Warden,[/bold] referred to as the [bold]Warden[/bold] is the person responsible for managing the brig, sentencing prisoners, and doing most of the paperwork. They do the bookkeeping and desk work that keeps the brig functioning smoothly. Military [bold]Warden[/bold]'s can rank from Sergeant (E5), up to Gunnery Sergeant (E7)
+    [bold]Военный надзиратель,[/bold] или просто [bold]надзиратель[/bold], отвечает за управление бригом, назначение сроков заключённым и большую часть бумажной работы. Именно его учёт и канцелярия позволяют бригу работать без сбоев. Звание [bold]военного надзирателя[/bold] — от сержанта (E5) до комендор-сержанта (E7)
   </Box>
 
 
   <Box Orientation="Vertical">
-    [bold]Military Police[/bold]
+    [bold]Военная полиция[/bold]
     <GuideEntityEmbed Entity="RMCGuidebookRoleMP" Caption=""/>
   </Box>
   <Box>
-    [bold]The Military Police[/bold], or [color=#ff000d][bold]MP[/bold][/color]s, are the majority of the department and do all the legal work. This includes arrests, searches, patrols, and anything else you are required to do. [bold]Listen to the [bold]Warden[/bold] and [color=#8B0000][bold]Chief MP[/bold][/color].[/bold] Standard members of the military police can rank from Corporal (E4), up to Staff Sergeant (E6)
+    [bold]Офицеры военной полиции[/bold], они же [color=#ff000d][bold]ВП[/bold][/color], — основная часть отдела, выполняющая всю правовую работу: аресты, обыски, патрули и всё прочее, что потребуется. [bold]Слушайтесь [bold]надзирателя[/bold] и [color=#8B0000][bold]начальника ВП[/bold][/color].[/bold] Звание рядовых сотрудников военной полиции — от капрала (E4) до штаб-сержанта (E6)
   </Box>
 
 
-  ## Who do MPs answer to? It's Provost!
+  ## Кому подчиняется ВП? Провосту!
   <Box Orientation="Vertical">
-    [bold]Provost Marshal[/bold]
+    [bold]Провост Маршал[/bold]
     <GuideEntityEmbed Entity="RMCGuidebookRolePvM" Caption=""/>
   </Box>
-  [color=#ffa500][bold]Provost Marshal Office,[/bold][/color] often shortened to just "Provost", is the organization that ensures the law is interpreted correctly and writes the law itself. [bold]If you see a member of the Provost aboard the Almayer, give them the utmost respect.[/bold]
+  [color=#ffa500][bold]Офис Провост Маршалов,[/bold][/color] или просто «Провост», — организация, которая пишет закон и следит за его верным толкованием. [bold]Если встретите члена Провоста на борту Алмайера — окажите ему высочайшее уважение.[/bold]
 
-  ## Security Alert Levels
-  The warship has multiple alert levels, which can be changed in the CIC They are as follows.
+  ## Уровни тревоги
+  Уровень тревоги меняется в ЦИК и определяет, какое снаряжение можно носить и когда его разрешено применять. Сверяйтесь с СОП: наличие оружия в шкафу ещё не означает, что его можно использовать при любой тревоге.
 
-  ## M.P Equipment
-  Military police have a large assortment of specialized equipment provided to perform their duties. They are listed below, color coded to their alert restrictions for [color=#ff000d][bold]MP[/bold][/color]s.
+  ## Записи, дела и бриг
+
+  Для работы с документами в бриге есть два компьютера. [bold]Консоль криминальных записей[/bold] хранит личные дела, статусы и историю происшествий. [bold]Автоматизированная судебная система[/bold] нужна для оформления обвинений и расчёта приговора. Отсчёт срока запускается отдельно, на [bold]контроллере камеры[/bold]. Компьютерам нужны питание и доступ к бригу.
+
+  ### Консоль криминальных записей
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCPoliceRecordsConsole"/>
+  </Box>
+
+  Найдите нужного человека по имени, должности, отряду или номеру записи. Можно также искать по отпечатку пальца, фильтровать список по криминальному статусу и сортировать его по имени, должности или номеру. Выберите запись слева, чтобы открыть личное дело справа.
+
+  - [bold]Криминальные сведения.[/bold] Здесь меняются криминальный статус, физическое и психическое состояние. Здесь же оставляются комментарии: например, обстоятельства задержания, показания или сведения, которые пригодятся следующей смене ВП.
+  - [bold]Личные данные.[/bold] Имя, возраст, пол, должность, отряд и изображения человека. Кнопки «Изменить» и выбор пола исправляют сведения в базе; они не меняют самого персонажа, его доступы или членство в отряде. Униформа на изображениях соответствует должности в записи, а не обязательно одежде, которую человек носит сейчас.
+  - [bold]История происшествий.[/bold] Здесь находятся оформленные судебной системой отчёты. Раскройте нужный отчёт, чтобы прочитать описание, обвинения, сведения о свидетелях и уликах, приговор и ход его исполнения.
+
+  Комментарий может содержать до 500 символов. Вместе с ним сохраняются автор и время добавления. Удаление требует подтверждения и оставляет отметку о том, кто и когда удалил комментарий.
+
+  [bold]Менять должность в записи и удалять личное дело могут только обладатели доступа высшего командования.[/bold] Удаление дела требует подтверждения. Обычному сотруднику ВП доступны работа со статусами, комментариями, личными данными и создание записей. Если у человека ещё нет криминальных сведений, сначала нажмите «Создать криминальную запись».
+
+  ### Как зарегистрировать прибывшего человека
+
+  Сначала проверьте, нет ли человека в базе. У корабельного персонала записи обычно создаются при появлении в роли; выжившему или другому прибывшему человеку может понадобиться отдельная регистрация.
+
+  1. Нажмите [bold]«Новая запись личного состава»[/bold]. Откроется пустая запись.
+
+  2. Подведите человека к консоли, ведя его за собой. И вы, и он должны находиться рядом с компьютером.
+
+  3. Во вкладке [bold]«Личные данные»[/bold] нажмите [bold]«Привязать человека к записи»[/bold] и подтвердите выбор. База заполнит личные сведения, внешний вид и биометрические данные человека. Статусы, комментарии и история подготовленной записи сохранятся.
+
+  4. Проверьте получившееся дело. Если человек носит собственную ID-карту, она тоже будет связана с записью. Отсутствие карты регистрации не мешает; чужая карта может помешать привязке.
+
+  Если консоль сообщает, что человек уже зарегистрирован, найдите его существующую запись. Не создавайте второе дело на того же человека. [bold]Пустая запись без привязки сама по себе не позволяет отметить конкретного человека на визоре ВП.[/bold]
+
+  Регистрация не выдаёт ID-карту, доступы и принадлежность к отряду. Для этого используются соответствующие процедуры и оборудование.
+
+  ### Розыск и статусы на визоре
+
+  <Box>
+    <GuideEntityEmbed Entity="CMGlassesSecurity"/>
+  </Box>
+
+  Криминальный статус из личного дела отображается на визоре ВП. Он размещается под значками должности и огневой группы, если они есть.
+
+  - [bold]«Нет отметок»[/bold] означает отсутствие криминальной отметки.
+  - [bold]«Подозреваемый»[/bold] отмечает человека, которого нужно проверить.
+  - [bold]«Арестовать»[/bold] объявляет человека в розыск.
+  - [bold]«В заключении»[/bold] отмечает заключённого.
+  - [bold]«Освобождён»[/bold] отмечает освобождённого человека.
+  - [bold]«Внесудебное наказание»[/bold] используется для соответствующей отметки в деле.
+
+  У зарегистрированного человека связь с делом сохраняется и без надетой ID-карты. Выдача или завершение приговора сами по себе не выставляют нужный статус: меняйте его в записи при задержании, заключении и освобождении.
+
+  Офицер наблюдения может сообщить о неподчинении морпеха через консоль наблюдения своего отряда. В записи появляется отметка о неподчинении и статус «Арестовать». Это сообщение для ВП; обстоятельства и обвинения всё равно нужно оформить в отчёте о происшествии.
+
+  ### Оформление отчёта о происшествии
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCSentencingConsole"/>
+  </Box>
+
+  На судебном компьютере нажмите [bold]«Новый отчёт о происшествии»[/bold]. Один компьютер хранит один текущий черновик, поэтому сначала закончите уже начатое дело или удалите ненужный черновик с подтверждением.
+
+  Зарегистрируйте фигуранта кнопкой [bold]«Зарегистрировать по ID или тому, кого тянете»[/bold]. Можно вести зарегистрированного человека рядом с консолью или держать его ID-карту в активной руке. Если вы ведёте человека без записи, консоль также может прочитать его надетую карту. [bold]Чтобы отчёт появился в истории личного дела, фигурант должен быть связан с записью в корабельной базе.[/bold] При необходимости сначала зарегистрируйте его на консоли криминальных записей.
+
+  Опишите, что произошло: место, обстоятельства, действия участников и основания для обвинений. Кнопка «Изменить» рядом с описанием открывает поле для текста.
+
+  Справа выберите категорию преступлений или найдите статью поиском. Нажмите на название статьи, чтобы раскрыть описание и условия, затем нажмите [bold]«Добавить обвинение»[/bold]. В отчёте можно убрать ошибочно добавленную статью. Для обвинения, наказание за которое зависит от другого преступления, выберите это преступление в появившемся списке.
+
+  [bold]Приговор рассчитывается автоматически.[/bold] Сроки складываются с учётом предела обычного заключения и предусмотренных законом исключений. Продления за нарушения в заключении, внесудебные наказания, бессрочное заключение и особо тяжкие наказания учитываются по своим правилам. Читайте условия статьи и подсказки над каталогом; окончательный результат показан в поле «Приговор». Вручную складывать минуты в описании происшествия не нужно.
+
+  В разделе [bold]«Свидетели»[/bold] нажмите «Зарегистрировать», держа ID-карту свидетеля в активной руке. В разделе [bold]«Улики»[/bold] та же кнопка добавляет название предмета из активной руки. К каждой записи можно дописать показания или пояснения и удалить ошибочную запись. Предмет при регистрации остаётся у вас: храните саму улику отдельно.
+
+  Когда фигурант указан и все обвинения заполнены, нажмите [bold]«Экспортировать и распечатать»[/bold]. Компьютер выдаст оригинальный отчёт и освободит место для следующего дела. Если фигурант связан с базой, отчёт появится в его истории происшествий.
+
+  Для исправления выданного отчёта используйте оригинал на судебном компьютере, где нет текущего черновика. Его содержимое загрузится в новый черновик, а прежний оригинал будет забран. После правок выдайте новый отчёт. [bold]Данные об уже отбытом сроке в новый отчёт не переносятся.[/bold]
+
+  Кнопка [bold]«Руководство по законам»[/bold] открывает закон, используемый судебной системой. Компьютер помогает оформить дело и рассчитать наказание; основания для задержания и соблюдение процедуры остаются ответственностью сотрудника ВП.
+
+  ### Отпечатки и криминалистический сканер
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCPoliceForensicScanner"/>
+    <GuideEntityEmbed Entity="RMCForensicSpray"/>
+  </Box>
+
+  Криминалистический сканер собирает следы для последующего анализа. Для работы с ним нужен навык полицейской подготовки. Возьмите сканер в руку и примените его к предмету или следу. Активация в руке ([keybind="ActivateItemInHand"]) собирает следы поблизости. Пока идёт сканирование, стойте на месте: движение и полученный урон прерывают работу.
+
+  Следы могут оставаться после повреждения имущества, взлома оборудования и вмешательства в проводку. Криминалистический спрей временно проявляет скрытые следы. Сканер также снимает отпечатки с предметов, на которых они сохранились. Отсутствие найденных отпечатков само по себе не доказывает, что предмета никто не касался.
+
+  Используйте сканер на консоли криминальных записей, чтобы вставить его в слот, затем откройте [bold]«Анализ отпечатков»[/bold]. Здесь видны собранные следы, их описание и отпечатки. Для обычных отпечатков с предметов консоль ищет совпадение в базе; если записи нет, имя остаётся неизвестным.
+
+  - [bold]«Распечатать отчёт об отпечатках»[/bold] выдаёт отчёт об анализе.
+  - [bold]«Очистить сканер»[/bold] с подтверждением очищает память вставленного сканера. Сначала сохраните нужные результаты.
+  - [bold]«Извлечь сканер»[/bold] возвращает сканер для следующего осмотра.
+
+  Распечатка анализа не становится уликой в деле автоматически. При необходимости зарегистрируйте её как предмет в судебной системе и поясните, с чем связаны найденные следы.
+
+  При осмотре сканера видно, сколько наборов отпечатков он хранит. Если память заполнена, проанализируйте результаты на консоли и очистите сканер. Некоторые следы со временем исчезают и из памяти, поэтому не откладывайте распечатку важных результатов.
+
+  ### Пакеты для улик
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCEvidenceBag"/>
+    <GuideEntityEmbed Entity="RMCBoxEvidence"/>
+  </Box>
+
+  В СекТехе можно взять коробку с шестью пакетами для улик. Каждый пакет вмещает один предмет размером не больше среднего. Содержимое видно через пакет, а при осмотре можно прочитать сведения о предмете внутри.
+
+  [bold]Возьмите пустой пакет в активную руку и кликните им по улике.[/bold] Так можно собрать предмет с пола, не оставляя на нём своих отпечатков. Можно также упаковать предмет из другой руки или из открытого собственного хранилища. Пакет не очищает уже имеющиеся следы, поэтому брать улику голыми руками перед упаковкой не стоит.
+
+  Подпишите пакет ручным маркировщиком: укажите номер дела и что находится внутри. Чтобы добавить улику в отчёт, держите заполненный пакет в активной руке и зарегистрируйте его в судебной системе. Само по себе помещение предмета в пакет не добавляет его в дело.
+
+  Для извлечения нажмите [keybind="ActivateItemInHand"], держа пакет в руке. Предмет окажется в свободной руке или на полу, если обе руки заняты. После этого пустой пакет можно использовать снова. Если нужно снять отпечатки сканером, исследуйте предмет до упаковки или извлеките его; сканирование пакета снимает следы с упаковки.
+
+  ### Контроллер камеры и отсчёт срока
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCBrigCellController"/>
+  </Box>
+
+  Используйте оригинальный отчёт на контроллере нужной камеры. Для отсчёта подходят отчёты с заключением; копия документа или отчёт только о внесудебном наказании не подходят. Контроллер может хранить несколько отчётов, но ведёт отсчёт только одного приговора за раз. Выберите нужный отчёт в списке слева.
+
+  Сначала ознакомьтесь с обстоятельствами дела и обвинениями, затем запускайте отсчёт. В панели исполнения показаны общий приговор, оставшееся время и отбытый срок. Время начала, окончания и помилования соответствует корабельным часам. Отбытый срок учитывает только время, когда отсчёт был запущен; паузы в него не входят.
+
+  - [bold]«Начать отсчёт» / «Продолжить отсчёт»[/bold] запускает новый срок или продолжает приостановленный.
+  - [bold]«Приостановить»[/bold] сохраняет отбытое время и останавливает отсчёт.
+  - [bold]«Досрочно завершить»[/bold] завершает текущий приговор до окончания таймера. Используйте это только при наличии оснований.
+  - [bold]«Сбросить приговор»[/bold] обнуляет исполнение, включая отбытое время, после подтверждения. Это не удаляет обвинения из отчёта.
+  - [bold]«Извлечь отчёт»[/bold] возвращает оригинал. Если отсчёт шёл, он приостанавливается. При переносе оригинала в другую камеру отбытое время сохраняется, и отсчёт можно продолжить.
+
+  Для бессрочного заключения нет обратного отсчёта до автоматического освобождения. Срок и наказание берутся из выданного отчёта; контроллер не заменяет судебный компьютер.
+
+  Кнопка [bold]«Открыть двери» / «Закрыть двери»[/bold] управляет связанными дверями камеры и меняется в зависимости от их состояния. Если у контроллера нет подходящих подключённых дверей, управление ими недоступно.
+
+  По окончании срока контроллер сообщает об этом в канал ВП и обновляет отчёт и историю дела. [bold]Организуйте освобождение сами: откройте двери, верните положенные вещи и смените статус в записи.[/bold] Завершение таймера не открывает двери и не меняет криминальный статус на визоре.
+
+  ### Помилование
+
+  Помилование оформляется в интерфейсе контроллера камеры. Выберите отчёт и нажмите [bold]«Помиловать»[/bold], затем подтвердите действие. Для этого требуется доступ командующего офицера или высшего командования. [bold]Помиловать самого себя нельзя.[/bold]
+
+  В отчёте сохраняются имя оформившего помилование, корабельное время и уже отбытый срок. Сообщение поступает в канал ВП. После помилования освобождение и смена статуса в базе также выполняются сотрудниками ВП.
+
+  ### Распечатки
+
+  <Box>
+    <GuideEntityEmbed Entity="RMCPoliceRecordPaper"/>
+    <GuideEntityEmbed Entity="RMCIncidentReportPaper"/>
+  </Box>
+
+  Консоль записей выдаёт выписку из личного дела и результаты анализа отпечатков. Судебная система выдаёт оригинальный отчёт о происшествии с описанием, обвинениями, свидетелями, уликами и общим приговором. В выписке также есть комментарии и история происшествий.
+
+  [bold]Эти документы нельзя переписать ручкой.[/bold] Штампы ставить можно. Дополнения к делу вносите через консоли. Для камеры нужен именно оригинальный отчёт судебной системы: переписанная вручную бумага или копия его не заменяют. Пока оригинал используется в камере, сведения об исполнении приговора обновляются в нём и в связанном личном деле.
+
+  ## Снаряжение ВП
+  Военной полиции выдаётся широкий ассортимент специализированного снаряжения для выполнения обязанностей. Ниже оно перечислено с цветовой пометкой, на каких уровнях тревоги оно доступно [color=#ff000d][bold]ВП[/bold][/color].
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCHandcuffs"/>
   </Box>
-  [bold]Handcuffs are a core tool for [color=#ff000d][bold]MP[/bold][/color]s which allow you to retrain somebody by clicking on them with the cuffs in your hand.[/bold] The do-after is canceled if they move, so make sure to stun non compliant marines first. While they are handcuffed, they cannot move when you are holding on to them.
+  [bold]Наручники — базовый инструмент [color=#ff000d][bold]ВП[/bold][/color]: кликните по человеку с наручниками в руке, чтобы задержать его.[/bold] Действие срывается, если цель двигается, так что несговорчивых морпехов сначала оглушите. Пока человек в наручниках, он не может двигаться, если вы его держите.
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCZipties"/>
   </Box>
-  Zip-Ties work identically to handcuffs, [bold]except when you remove them from somebody, they break and become unusable.[/bold] This is useful if you do not want to worry about leaving handcuffs laying around. [bold]One time use, so zip and forget![/bold]
+  Стяжки работают в точности как наручники, [bold]но при снятии рвутся и становятся бесполезными.[/bold] Удобно, если не хочется думать о валяющихся где-то наручниках. [bold]Одноразовые — затянул и забыл![/bold]
 
 
   <Box>
     <GuideEntityEmbed Entity="CMStunbaton"/>
   </Box>
-  [bold]The Stun baton is a short range Melee stun implement which will stun a marine with a single hit.[/bold] It must be activated (by pressing [keybind="ActivateItemInHand"]) to stun someone. You can tell when its on by inspecting it, or looking for the sprite to be lit up. Can be charged by inserting it into a recharger.
+  [bold]Электрошоковая дубинка — оглушающее оружие ближнего боя, вырубающее морпеха с одного удара.[/bold] Чтобы она оглушала, её нужно активировать (нажав [keybind="ActivateItemInHand"]). Понять, что она включена, можно осмотром или по светящемуся спрайту. Заряжается в зарядном устройстве.
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCWeaponTaser"/>
   </Box>
-  The Disabler is a Sidearm style stun tool that fires electric bolts. With consecutive hits it will stun a target from range and allow you to close the distance. Be aware the stun is slightly shorter than the baton, so you may need to stun them again once you reach them depending on the distance. Can be charged at a recharger. [bold]The Disabler can also be used as a stun buton by meleeing the suspect.[/bold]
+  Тазер — оглушающее оружие в формате пистолета, стреляющее электрическими зарядами. Несколько попаданий подряд оглушат цель на расстоянии и позволят вам сократить дистанцию. Учтите: оглушение чуть короче, чем у дубинки, так что на подходе может понадобиться оглушить цель ещё раз — зависит от дистанции. Заряжается в зарядном устройстве. [bold]Тазером можно работать и как электрошоковой дубинкой, ударив подозреваемого в ближнем бою.[/bold]
 
 
   <Box>
     <GuideEntityEmbed Entity="CMFlash"/>
   </Box>
-  The Flash Is a handheld device which can be used in two ways.
-  - With harm mode active, you can click directly on somebody with it to flash them directly. This will apply a stun and knock them down
-  - You can also press [keybind="ActivateItemInHand"] while holding it to produce a small radius flash that will disorient and slow down, but not stun. Cannot be recharged at a recharger, but it will slowly recharge uses over time.
+  Вспышка — ручное устройство с двумя способами применения.
+  - В харм-моде кликните ею прямо по человеку, чтобы ослепить его в упор. Это оглушит его и собьёт с ног
+  - Либо нажмите [keybind="ActivateItemInHand"], держа её в руке, — вспышка малого радиуса дезориентирует и замедлит окружающих, но не оглушит. В зарядном устройстве не заряжается, но медленно восстанавливает заряды со временем.
 
 
   <Box>
     <GuideEntityEmbed Entity="CMArmorM2MP"/>
   </Box>
-  The standard Armor for the Military Police. It is adequately armored and lighter than its standard marine counterpart. [bold]It has very well rounded protection, and does decent in all categories though it is not the best in any of them.[/bold]
+  Стандартная броня военной полиции. Достаточно защищённая и при этом легче стандартной брони морпеха. [bold]Очень сбалансированная защита: достойно держит удар по всем категориям, хотя и не лучшая ни в одной из них.[/bold]
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCArmorVestMP"/>
   </Box>
-  A lightweight armor that [color=#ff000d][bold]MP[/bold][/color]s can elect to take from their equipment vendor. [bold]It Provides no slowdown effect and is very fast to run in, however it also provides very minimal protection and will not protect you at all against acid or biological threats in any way.[/bold]
+  Лёгкий бронежилет, который [color=#ff000d][bold]ВП[/bold][/color] может взять в своём вендоре снаряжения. [bold]Совсем не замедляет, в нём можно очень быстро бегать, но защита минимальная, а от кислоты и биологических угроз он не спасает вовсе.[/bold]
 
 
   <Box>
     <GuideEntityEmbed Entity="CMArmorRiot"/>
   </Box>
-  [bold]This heavy and bulky armor will take some heavy punishment from conventional threats like knives, bullets, and the like. In exchange you will be slowed down quite a lot while wearing it.[/bold] Do note that It is not helpful against acid or biological threats in any way whatsoever. (A total of 6 sets can be found in the brig armory)
+  [bold]Эта тяжёлая и громоздкая броня выдержит серьёзную трёпку от обычных угроз — ножей, пуль и им подобного. Взамен вы будете заметно замедлены, пока носите её.[/bold] Учтите, что против кислоты и биологических угроз она не помогает совершенно никак. (Всего в оружейной брига можно найти 6 комплектов)
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCGrenadeFlashBang"/>
   </Box>
-  Flashbangs are a very effective tool for large areas or crowds. Once thrown they will detonate, stunning targets within a large radius for a very long time. [bold][color=#ff000d][bold]MP[/bold][/color]s are also stunned by this, so make sure you either throw it around cover or move away from it once thrown.[/bold] They may be carried on green alert. But only for self defense or defense of others. Do not throw them needlessly!
+  Светошумовые гранаты — очень эффективный инструмент против больших площадей и толп. После броска они детонируют, надолго оглушая цели в большом радиусе. [bold][color=#ff000d][bold]ВП[/bold][/color] они оглушают тоже, так что бросайте из-за укрытия или отходите после броска.[/bold] Их можно носить при зелёном уровне тревоги — но только для самозащиты или защиты других. Не бросайте их без необходимости!
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCVendorSecArmory"/>
   </Box>
-  Rubber Rounds are [bold]Less-Lethal bullets[/bold] which can be fired from most standard issue weapons. After a certain number of shots on target, they will be stunned for a short duration. Be very careful to keep track of your ammo types! Useful for Prisoners of War, and other non marines who might be resistant to the disabler.
+  Резиновые пули — [bold]менее летальные боеприпасы[/bold], которыми может стрелять большинство стандартного оружия. После определённого числа попаданий цель ненадолго оглушается. Внимательно следите, какой тип боеприпасов у вас заряжен! Полезны против военнопленных и прочих не-морпехов, которых может не брать тазер.
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCBoxShotgunBeanbag"/>
   </Box>
-  Bean Bag shells are an effective riot control tool that can stun targets in a few shots. They are fired specifically out of the Riot Shotgun found in the armory. Useful for Prisoners of War, and other non marines who might be resistant to the disabler.
+  Бобовые пули — эффективное средство подавления беспорядков, оглушающее цель за несколько выстрелов. Ими стреляет только противобунтовый дробовик из оружейной. Полезны против военнопленных и прочих не-морпехов, которых может не брать тазер.
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCWeaponShotgunM890Riot"/>
   </Box>
-  The tactical riot shotgun is an eight (8) shot semi automatic shotgun found in the brig armory. It is capable of firing the bean bag shells found in armory, but cannot load standard shells like buckshot or slugs.
+  Тактический дробовик M890 (противобунтовая версия) — восьмизарядный (8) полуавтоматический дробовик из оружейной брига. Он стреляет бобовыми пулями из оружейной, но не заряжается стандартными боеприпасами вроде картечи или пуль.
 
 
   <Box>
     <GuideEntityEmbed Entity="RMCWeaponLauncherM81"/>
   </Box>
-  The riot grenade launcher is a single shot launcher capable of loading Non lethal grenades (like the flashbang) into its breach, though is not capable of loading other grenades like HEDP or HIDP. [bold]Use [keybind="CMUniqueAction"] to open the breach while holding it then insert the grenade and close the breach. Note it has to be wielded to fire.[/bold] A total of 2 can be found in the brig armory
+  Гранатомет M81 Riot — однозарядный гранатомет, который заряжается через затвор нелетальными гранатами (например, светошумовой); гранаты вроде ОКГ или ЗКГ он не принимает. [bold]Нажмите [keybind="CMUniqueAction"], держа его, чтобы открыть затвор, затем вставьте гранату и закройте затвор. Учтите: для выстрела его нужно держать в обеих руках.[/bold] Всего в оружейной брига их 2
 
 
   <Box>
     <GuideEntityEmbed Entity="WeaponShotgunM890"/>
   </Box>
-  The tactical shotgun is a semi automatic lethal firearm found in the brig armory. It cannot load bean bag rounds, but CAN load buckshot, flechette, and slugs. The underslung grenade launcher can load standard HEDP, HIDP, and HEFA (a total of 9 can be found in the brig armory)
+  Тактический дробовик M890 — полуавтоматическое летальное оружие из оружейной брига. Бобовые пули он не принимает, зато МОЖЕТ заряжаться картечью, флешеттами и пулями. Подствольный гранатомет принимает стандартные ОКГ, ЗКГ и ОППГ (всего в оружейной брига их 9)
 
 
   <Box>
     <GuideEntityEmbed Entity="WeaponRifleM4SPR"/>
   </Box>
-  Two M4SPR lockers can be found in the brig armory, containing lethal ammunition and M4SPRs. These are identical to the standard issue rifles that the marines can obtain. Lethal ammo is found in the locker, as well as Rubber ammunition in the Riot-Tech. A total of 8 rifles can be found in the brig armory.
+  В оружейной брига стоят два шкафа M4RA с летальными боеприпасами и винтовками M4RA. Это те же стандартные винтовки, что получают морпехи. Летальные боеприпасы лежат в шкафу, а резиновые — в БунтТехе. Всего в оружейной брига 8 винтовок.
 
 
   <Box>
     <GuideEntityEmbed Entity="WeaponSMGM63"/>
   </Box>
-  Two M63 lockers can be found in the brig armory, containing lethal ammunition and 4x  M63s. These are identical to the standard issue SMGs that the marines can obtain. Lethal ammo is found in the locker, as well as Rubber ammunition in the Riot-Tech. A total of 8 SMGs can be found in the brig armory.
+  В оружейной брига стоят два шкафа M39, содержащие в себе летальные боеприпасы и 4 M39. Это те же стандартные пистолеты-пулемёты, что получают морпехи. Летальные боеприпасы лежат в шкафу, а резиновые — в БунтТехе. Всего в оружейной брига 8 пистолетов-пулемётов.
 
-  ### Guide made by WithinElysium
+  ### Гайд сделан WithinElysium
 </Document>

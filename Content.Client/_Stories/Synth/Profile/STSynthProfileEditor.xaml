@@ -1,0 +1,115 @@
+<Control
+    xmlns="https://spacestation14.io"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+    xmlns:humanoid="clr-namespace:Content.Client.Humanoid"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    VerticalExpand="True"
+    HorizontalExpand="True">
+    <BoxContainer
+        Orientation="Horizontal"
+        Margin="5"
+        SeparationOverride="10"
+        HorizontalExpand="True"
+        VerticalExpand="True">
+        <BoxContainer
+            Orientation="Vertical"
+            HorizontalExpand="True"
+            VerticalExpand="True"
+            SizeFlagsStretchRatio="0.35"
+            SeparationOverride="8">
+            <PanelContainer StyleClasses="AngleRect" VerticalAlignment="Top" MinHeight="280">
+                <BoxContainer Orientation="Vertical" Margin="10">
+                    <Label
+                        Text="{Loc 'lobby-character-preview-panel-header'}"
+                        HorizontalAlignment="Center"
+                        StyleClasses="LabelHeading"
+                        Margin="0 0 0 5" />
+                    <SpriteView
+                        Name="SpriteView"
+                        Scale="6 6"
+                        VerticalExpand="True"
+                        SizeFlagsStretchRatio="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center" />
+                    <BoxContainer
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0 5"
+                        SeparationOverride="10">
+                        <Button Name="RotateLeftButton" Text="◀" StyleClasses="OpenRight" MinWidth="30" />
+                        <Button Name="RotateRightButton" Text="▶" StyleClasses="OpenLeft" MinWidth="30" />
+                    </BoxContainer>
+                </BoxContainer>
+            </PanelContainer>
+            <PanelContainer StyleClasses="AngleRect" VerticalExpand="True">
+                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8">
+                    <Label
+                        Text="{Loc 'st-synth-profile-editor-name-label'}"
+                        StyleClasses="LabelHeading" />
+                    <LineEdit Name="SynthNameEdit" HorizontalExpand="True" />
+                    <Label
+                        Text="{Loc 'st-synth-profile-editor-generation-label'}"
+                        StyleClasses="LabelHeading" />
+                    <OptionButton Name="GenerationButton" HorizontalExpand="True" />
+                </BoxContainer>
+            </PanelContainer>
+        </BoxContainer>
+        <BoxContainer
+            Orientation="Vertical"
+            HorizontalExpand="True"
+            VerticalExpand="True"
+            SizeFlagsStretchRatio="0.65"
+            SeparationOverride="8">
+            <PanelContainer StyleClasses="AngleRect" VerticalExpand="True">
+                <ScrollContainer HorizontalExpand="True" VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="12" HorizontalExpand="True">
+                        <Label
+                            Text="{Loc 'humanoid-profile-editor-skin-color-label'}"
+                            StyleClasses="LabelHeading"
+                            FontColorOverride="Gray" />
+                        <Slider HorizontalExpand="True" Name="Skin" MinValue="0" MaxValue="100" Value="20" />
+                        <BoxContainer Name="RgbSkinColorContainer" Visible="False" Orientation="Vertical" HorizontalExpand="True" />
+
+                        <PanelContainer MinHeight="2" Margin="0 5">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#3E3E42" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+
+                        <Label
+                            Text="{Loc 'st-synth-profile-editor-hair-label'}"
+                            StyleClasses="LabelHeading"
+                            FontColorOverride="Gray" />
+                        <humanoid:SingleMarkingPicker Name="HairStylePicker" Category="Hair" />
+                        <humanoid:SingleMarkingPicker Name="FacialHairPicker" Category="FacialHair" />
+
+                        <PanelContainer MinHeight="2" Margin="0 5">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#3E3E42" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+
+                        <Label
+                            Text="{Loc 'humanoid-profile-editor-eyes-label'}"
+                            StyleClasses="LabelHeading"
+                            FontColorOverride="Gray" />
+                        <humanoid:EyeColorPicker Name="EyeColorPicker" />
+
+                        <PanelContainer MinHeight="2" Margin="0 5">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#3E3E42" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+
+                        <Label
+                            Text="{Loc 'humanoid-profile-editor-markings-tab'}"
+                            StyleClasses="LabelHeading"
+                            FontColorOverride="Gray" />
+                        <humanoid:MarkingPicker Name="Markings" IgnoreCategories="Hair,FacialHair" />
+                    </BoxContainer>
+                </ScrollContainer>
+            </PanelContainer>
+        </BoxContainer>
+    </BoxContainer>
+</Control>

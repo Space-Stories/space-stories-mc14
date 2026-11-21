@@ -9,10 +9,10 @@ rmc-playing-card-rank-ace = Туз
 rmc-playing-card-rank-jack = Валет
 rmc-playing-card-rank-queen = Дама
 rmc-playing-card-rank-king = Король
-rmc-playing-card-rank-ace-short = [color=GoldenRod]A[/color]
-rmc-playing-card-rank-jack-short = [color=GoldenRod]J[/color]
-rmc-playing-card-rank-queen-short = [color=GoldenRod]Q[/color]
-rmc-playing-card-rank-king-short = [color=GoldenRod]K[/color]
+rmc-playing-card-rank-ace-short = [color=GoldenRod]Т[/color]
+rmc-playing-card-rank-jack-short = [color=GoldenRod]В[/color]
+rmc-playing-card-rank-queen-short = [color=GoldenRod]Д[/color]
+rmc-playing-card-rank-king-short = [color=GoldenRod]К[/color]
 
 # Card examination
 rmc-playing-card-examine = Это { $rank } { $suit }.
@@ -40,14 +40,14 @@ rmc-playing-card-deck-shuffle = Вы перетасовываете { $deck }.
 rmc-playing-card-added-to-deck = Вы кладете карту в колоду.
 rmc-playing-card-added-cards-to-deck = Вы кладете { $count } карт в колоду.
 rmc-playing-card-deck-pickup = Вы собираете { $count } карт в колоду.
-rmc-playing-card-draw-multiple = You draw { $count } cards.
+rmc-playing-card-draw-multiple = Вы тянете { $count } карт.
 
 # Hand of cards
 rmc-playing-card-hand-name = веер карт
 rmc-playing-card-stack-name = стопка карт
 rmc-playing-card-hand-examine = Карты в руке ({ $count } шт.).
 rmc-playing-card-hand-examine-hidden = Карты в руке ({ $count } шт., рубашкой вверх).
-rmc-playing-card-hand-suit-group = - [bold][italic][color=SandyBrown]{ $ranks }[/color] of { $suit }[/italic][/bold]
+rmc-playing-card-hand-suit-group = - [bold][italic][color=SandyBrown]{ $ranks }[/color] { $suit }[/italic][/bold]
 
 # Hand examination
 rmc-playing-card-hand-examine-verb = Управление
@@ -63,11 +63,11 @@ rmc-playing-card-hand-empty = В руке нет карт!
 rmc-playing-card-merge-hands = Вы объединяете карты вместе. (Всего карт: { $count })
 
 # Verbs
-rmc-playing-card-verb-category-draw = Draw
+rmc-playing-card-verb-category-draw = Взять
 rmc-playing-card-verb-flip = Перевернуть
 rmc-playing-card-verb-draw = Взять карту
-rmc-playing-card-verb-draw-5 = Draw 5
-rmc-playing-card-verb-draw-half = Draw Half
-rmc-playing-card-verb-draw-all = Draw All
+rmc-playing-card-verb-draw-5 = Взять 5
+rmc-playing-card-verb-draw-half = Взять половину
+rmc-playing-card-verb-draw-all = Взять все
 rmc-playing-card-verb-pick = Выбрать карту
 rmc-playing-card-verb-shuffle = Перемешать

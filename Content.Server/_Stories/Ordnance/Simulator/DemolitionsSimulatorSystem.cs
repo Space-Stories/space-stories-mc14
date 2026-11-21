@@ -1,9 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Content.Server._RMC14.Xenonids.AcidBloodSplash;
 using Content.Server._Stories.Ordnance.Explosion;
 using Content.Server.Ghost.Roles.Components;
 using Content.Shared._RMC14.Marines.Skills;
+using Content.Shared._RMC14.Xenonids;
+using Content.Shared._RMC14.Xenonids.Announce;
+using Content.Shared._RMC14.Xenonids.Deathcloud;
+using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._Stories.Ordnance;
 using Content.Shared._Stories.Ordnance.Simulator;
 using Content.Shared.Chemistry.Reagent;
@@ -15,14 +20,11 @@ using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
+using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Content.Shared._RMC14.Xenonids;
-using Content.Shared._RMC14.Xenonids.Announce;
-using Content.Server._RMC14.Xenonids.AcidBloodSplash;
-using Content.Shared._RMC14.Xenonids.Deathcloud;
-using Content.Shared._RMC14.Xenonids.Hive;
 
 namespace Content.Server._Stories.Ordnance.Simulator;
 
@@ -34,12 +36,16 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
     [Dependency] private readonly SharedMapSystem _maps = default!;
     [Dependency] private readonly OrdnanceExplosionSystem _ordnanceExplosion = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly ViewSubscriberSystem _viewSubscriber = default!;
     [Dependency] private readonly XenoSystem _xeno = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
 
+    private ISawmill _sawmill = default!;
     private readonly HashSet<EntityUid> _arenaMaps = new();
     private readonly HashSet<EntityUid> _cleanupCache = new();
     private readonly List<ReagentQuantity> _reagentCache = new();
@@ -47,6 +53,8 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+
+        _sawmill = _logManager.GetSawmill("demolitions.simulator");
 
         SubscribeLocalEvent<DemolitionsSimulatorComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<DemolitionsSimulatorComponent, ComponentRemove>(OnRemove);
@@ -85,7 +93,7 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
     private void OnMapInit(Entity<DemolitionsSimulatorComponent> ent, ref MapInitEvent args)
     {
-        if (string.IsNullOrEmpty(ent.Comp.SelectedPrototype) &&
+        if (string.IsNullOrEmpty(ent.Comp.SelectedPrototype.Id) &&
             ent.Comp.SpawnCategories.TryGetValue(ent.Comp.SelectedCategory, out var protos) &&
             protos.Count > 0)
         {
@@ -127,7 +135,7 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
         Dirty(ent);
 
-        if (!string.IsNullOrEmpty(ent.Comp.SelectedPrototype))
+        if (!string.IsNullOrEmpty(ent.Comp.SelectedPrototype.Id))
         {
             ResetAndSpawn(ent);
         }
@@ -173,8 +181,31 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
         Dirty(ent);
     }
 
+    private bool CanInteractWithSimulator(Entity<DemolitionsSimulatorComponent> ent, EntityUid user)
+    {
+        if (!user.IsValid() || Deleted(user))
+            return false;
+
+        if (!_ui.IsUiOpen(ent.Owner, DemolitionsSimulatorUiKey.Key, user))
+            return false;
+
+        if (ent.Comp.RequiredSkills != null && !_skills.HasSkills(user, ent.Comp.RequiredSkills))
+        {
+            _popup.PopupEntity(Loc.GetString("stories-demo-sim-no-skill"), ent.Owner, user);
+            return false;
+        }
+
+        return true;
+    }
+
     private void OnEject(Entity<DemolitionsSimulatorComponent> ent, ref DemolitionsSimulatorEjectMessage args)
     {
+        if (!CanInteractWithSimulator(ent, args.Actor))
+            return;
+
+        if (ent.Comp.IsSimulating)
+            return;
+
         if (_itemSlots.TryGetSlot(ent.Owner, ent.Comp.ItemSlotId, out var slot))
         {
             _itemSlots.TryEjectToHands(ent.Owner, slot, args.Actor);
@@ -183,19 +214,59 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
     private void OnSwitchCategory(Entity<DemolitionsSimulatorComponent> ent, ref DemolitionsSimulatorSwitchCategoryMessage args)
     {
-        ent.Comp.SelectedCategory = args.Category;
+        if (!CanInteractWithSimulator(ent, args.Actor))
+            return;
 
-        if (ent.Comp.SpawnCategories.TryGetValue(args.Category, out var protos) && protos.Count > 0)
+        if (ent.Comp.IsSimulating)
+            return;
+
+        if (string.IsNullOrEmpty(args.Category))
+            return;
+
+        if (!ent.Comp.SpawnCategories.TryGetValue(args.Category, out var protos) || protos.Count == 0)
         {
-            ent.Comp.SelectedPrototype = protos[0];
-            ResetAndSpawn(ent);
+            _sawmill.Warning($"User {args.Actor} sent invalid category '{args.Category}' to DemolitionsSimulator {ent.Owner}.");
+            return;
         }
 
+        if (_timing.CurTime < ent.Comp.NextResetTime)
+            return;
+
+        ent.Comp.NextResetTime = _timing.CurTime + ent.Comp.ResetCooldown;
+        ent.Comp.SelectedCategory = args.Category;
+        ent.Comp.SelectedPrototype = protos[0];
+        ResetAndSpawn(ent);
         Dirty(ent);
     }
 
     private void OnSwitchProto(Entity<DemolitionsSimulatorComponent> ent, ref DemolitionsSimulatorSwitchProtoMessage args)
     {
+        if (!CanInteractWithSimulator(ent, args.Actor))
+            return;
+
+        if (ent.Comp.IsSimulating)
+            return;
+
+        if (string.IsNullOrEmpty(args.Prototype.Id))
+            return;
+
+        if (!ent.Comp.SpawnCategories.TryGetValue(ent.Comp.SelectedCategory, out var allowedProtos) ||
+            !allowedProtos.Contains(args.Prototype))
+        {
+            _sawmill.Warning($"User {args.Actor} sent unauthorized prototype '{args.Prototype}' to DemolitionsSimulator {ent.Owner}.");
+            return;
+        }
+
+        if (!_prototypeManager.HasIndex<EntityPrototype>(args.Prototype))
+        {
+            _sawmill.Warning($"User {args.Actor} sent non-existent prototype '{args.Prototype}' to DemolitionsSimulator {ent.Owner}.");
+            return;
+        }
+
+        if (_timing.CurTime < ent.Comp.NextResetTime)
+            return;
+
+        ent.Comp.NextResetTime = _timing.CurTime + ent.Comp.ResetCooldown;
         ent.Comp.SelectedPrototype = args.Prototype;
         ResetAndSpawn(ent);
         Dirty(ent);
@@ -203,7 +274,11 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
     private void OnDetonate(Entity<DemolitionsSimulatorComponent> ent, ref DemolitionsSimulatorDetonateMessage args)
     {
-        if (ent.Comp.IsSimulating) return;
+        if (!CanInteractWithSimulator(ent, args.Actor))
+            return;
+
+        if (ent.Comp.IsSimulating)
+            return;
 
         if (_timing.CurTime < ent.Comp.NextDetonationTime)
         {
@@ -227,7 +302,18 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
         }
 
         var mapUid = GetEntity(ent.Comp.ArenaMap.Value);
+        if (Deleted(mapUid))
+        {
+            _popup.PopupEntity(Loc.GetString("stories-demo-sim-no-arena"), ent.Owner, args.Actor);
+            return;
+        }
+
         var gridUid = ent.Comp.ArenaGrid != null ? GetEntity(ent.Comp.ArenaGrid.Value) : mapUid;
+        if (Deleted(gridUid))
+        {
+            _popup.PopupEntity(Loc.GetString("stories-demo-sim-no-arena"), ent.Owner, args.Actor);
+            return;
+        }
 
         var effectiveCasing = _ordnanceExplosion.GetEffectiveCasing(item, casing);
         _reagentCache.Clear();
@@ -243,13 +329,21 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
         _popup.PopupEntity(Loc.GetString("stories-demo-sim-success"), ent.Owner, args.Actor);
 
         var actor = args.Actor;
+        var entUid = ent.Owner;
 
         Timer.Spawn(ent.Comp.SimulationDelay, () =>
         {
-            ent.Comp.IsSimulating = false;
-            Dirty(ent);
+            if (TerminatingOrDeleted(entUid))
+                return;
 
-            if (Deleted(gridUid)) return;
+            if (TryComp<DemolitionsSimulatorComponent>(entUid, out var simComp))
+            {
+                simComp.IsSimulating = false;
+                Dirty(entUid, simComp);
+            }
+
+            if (Deleted(gridUid))
+                return;
 
             _ordnanceExplosion.ExecuteExplosion(arenaCoords, stats, effectiveCasing, gridUid, actor);
         });
@@ -257,18 +351,42 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
     private void OnResetArena(Entity<DemolitionsSimulatorComponent> ent, ref DemolitionsSimulatorResetMessage args)
     {
-        if (ent.Comp.IsSimulating) return;
+        if (!CanInteractWithSimulator(ent, args.Actor))
+            return;
+
+        if (ent.Comp.IsSimulating)
+            return;
+
+        if (_timing.CurTime < ent.Comp.NextResetTime)
+            return;
+
+        ent.Comp.NextResetTime = _timing.CurTime + ent.Comp.ResetCooldown;
         ResetAndSpawn(ent);
         _popup.PopupEntity(Loc.GetString("stories-demo-sim-reset-done"), ent.Owner, args.Actor);
     }
 
     private void ResetAndSpawn(Entity<DemolitionsSimulatorComponent> ent)
     {
-        if (ent.Comp.ArenaMap == null || string.IsNullOrEmpty(ent.Comp.SelectedPrototype))
+        if (ent.Comp.ArenaMap == null || string.IsNullOrEmpty(ent.Comp.SelectedPrototype.Id))
+            return;
+
+        if (!ent.Comp.SpawnCategories.TryGetValue(ent.Comp.SelectedCategory, out var allowedProtos) ||
+            !allowedProtos.Contains(ent.Comp.SelectedPrototype))
+        {
+            return;
+        }
+
+        if (!_prototypeManager.HasIndex<EntityPrototype>(ent.Comp.SelectedPrototype))
             return;
 
         var mapUid = GetEntity(ent.Comp.ArenaMap.Value);
+        if (Deleted(mapUid))
+            return;
+
         var gridUid = ent.Comp.ArenaGrid != null ? GetEntity(ent.Comp.ArenaGrid.Value) : mapUid;
+        if (Deleted(gridUid))
+            return;
+
         var cameraUid = ent.Comp.Camera != null ? GetEntity(ent.Comp.Camera.Value) : EntityUid.Invalid;
 
         var markersQuery = EntityQueryEnumerator<DemolitionsArenaComponent, TransformComponent>();
@@ -301,16 +419,23 @@ public sealed class DemolitionsSimulatorSystem : EntitySystem
 
         foreach (var point in spawnPoints)
         {
-            var dummy = Spawn(ent.Comp.SelectedPrototype, point);
-            EnsureComp<DemolitionsSimulatorDummyComponent>(dummy);
-            RemCompDeferred<GhostRoleComponent>(dummy);
-            RemCompDeferred<GhostTakeoverAvailableComponent>(dummy);
-            _xeno.MakeDummyXeno(dummy);
-            RemCompDeferred<XenoAnnounceDeathComponent>(dummy);
-            RemCompDeferred<AcidBloodSplashComponent>(dummy);
-            RemCompDeferred<XenoDeathcloudComponent>(dummy);
-            RemCompDeferred<AutoAssignHiveComponent>(dummy);
-            RemCompDeferred<HiveMemberComponent>(dummy);
+            try
+            {
+                var dummy = Spawn(ent.Comp.SelectedPrototype, point);
+                EnsureComp<DemolitionsSimulatorDummyComponent>(dummy);
+                RemCompDeferred<GhostRoleComponent>(dummy);
+                RemCompDeferred<GhostTakeoverAvailableComponent>(dummy);
+                _xeno.MakeDummyXeno(dummy);
+                RemCompDeferred<XenoAnnounceDeathComponent>(dummy);
+                RemCompDeferred<AcidBloodSplashComponent>(dummy);
+                RemCompDeferred<XenoDeathcloudComponent>(dummy);
+                RemCompDeferred<AutoAssignHiveComponent>(dummy);
+                RemCompDeferred<HiveMemberComponent>(dummy);
+            }
+            catch (Exception ex)
+            {
+                _sawmill.Error($"Exception spawning dummy '{ent.Comp.SelectedPrototype}' in DemolitionsSimulator: {ex}");
+            }
         }
     }
 

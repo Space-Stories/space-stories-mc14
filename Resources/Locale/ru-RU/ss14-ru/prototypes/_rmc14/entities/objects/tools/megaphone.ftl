@@ -1,2 +1,2 @@
-ent-RMCMegaphone = Мегафон
+ent-RMCMegaphone = мегафон
     .desc = Устройство для усиления вашего голоса. Громко.

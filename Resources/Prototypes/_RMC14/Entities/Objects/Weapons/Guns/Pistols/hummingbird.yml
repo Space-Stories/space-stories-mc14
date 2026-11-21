@@ -11,7 +11,7 @@
   - type: RMCSelectiveFire
     scatterWielded: 6
     scatterUnwielded: 6
-    baseFireRate: 10
+    baseFireRate: 8
     burstScatterMult: 3
   - type: MagazineAmmoProvider
     autoEject: false

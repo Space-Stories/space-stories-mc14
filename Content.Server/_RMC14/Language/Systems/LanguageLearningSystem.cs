@@ -384,9 +384,7 @@ public sealed class LanguageLearningSystem : SharedLanguageLearningSystem
         if (languageData.LearnedWords.Count == 0)
             return false;
 
-        var clearThreshold = GetComprehensionThresholds(language).Clear;
-        var requiredThreshold = Math.Max(comp.ComprehensionThreshold, clearThreshold);
-        return languageData.Progress >= requiredThreshold;
+        return languageData.Progress >= comp.ComprehensionThreshold; // Stories-SynthLanguageThreshold
     }
 
     private bool HasUnlockedSpeech(

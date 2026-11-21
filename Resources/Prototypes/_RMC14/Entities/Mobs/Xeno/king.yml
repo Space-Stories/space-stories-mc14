@@ -9,6 +9,12 @@
   name: King
   description: The end of the line.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoRend ]
+      XenoPrimaryTwo: [ ActionXenoDoom ]
+      XenoPrimaryThree: [ ActionXenoDestroy ]
+      XenoPrimaryFour: [ ActionXenoBulwarkOfTheHive ]
   - type: HiveBoonKing
   - type: GhostRole
     name: rmc-job-name-xeno-king
@@ -45,11 +51,15 @@
     countedInSlots: false
     unlockAt: 0
     hudOffset: -0.1,0
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
   - type: XenoHeavy
   - type: XenoDevour
   - type: XenoPheromones
     pheromonesMultiplier: 6
     pheroSuffix: king
+  - type: TTS # Stories-TTS 
+    voice: pudge_dota_2
   - type: XenoPlasma
     plasma: 1000
     maxPlasma: 1000
@@ -118,18 +128,18 @@
       path: /Audio/_RMC14/Xeno/alien_queen_died.ogg
       params:
         volume: -6
+  - type: SoundOnDrag
+    sound:
+      collection: XenoFootstepLarge
+      params:
+        volume: 0
+    downedSound:
+      path: /Audio/Effects/stonedoor_openclose.ogg
   - type: XenoAnnounceDeath
     message: rmc-xeno-death-king
     color: "#921992"
   - type: RMCSize
     size: Immobile
-  - type: PreventPulledWhileAlive
-    whitelist:
-      components:
-      - Xeno
-    exceptEffects:
-    - Stun
-    - KnockedDown
   - type: RMCXenoDamageVisuals
     prefix: king
   - type: FixedIdentity
@@ -180,10 +190,12 @@
   - type: XenoDestroy
     structureDamage:
       types:
-        Blunt: 1000
+        Blunt: 500
+        Heat: 500
     mobDamage:
       types:
-        Blunt: 1000
+        Blunt: 500
+        Heat: 500
     structures:
       tags:
       - Structure

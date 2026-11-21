@@ -6,7 +6,11 @@ rmc-autoinjector-ez-30 = Автоинъектор (e-m) (30x1)
 rmc-autoinjector-ez-45 = Автоинъектор (e-l) (45x1)
 rmc-autoinjector-ez-60 = Автоинъектор (e-xl) (60x1)
 
+rmc-autoinjector-medic-1 = Reagent canister pouch medic autoinjector (6x1u)
+rmc-autoinjector-medic-5 = Reagent canister pouch medic autoinjector (6x5u)
+rmc-autoinjector-medic-10 = Reagent canister pouch medic autoinjector (6x10u)
 rmc-autoinjector-medic-15 = Автоинъектор (m-m) (15x6)
+rmc-autoinjector-medic-20 = Reagent canister pouch medic autoinjector (6x20u)
 rmc-autoinjector-medic-30 = Автоинъектор (m-l) (30x6)
 
 rmc-autoinjector-custom-5 = Автоинъектор (c-xs) (5x3)

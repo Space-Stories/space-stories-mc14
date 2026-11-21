@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: CMBaseStructure
   id: RMCPropComputerBase
@@ -29,8 +29,9 @@
     powerLoad: 250
     needsPower: true
   - type: RMCPowerReceiver
-    idleLoad: 300
-    activeLoad: 300
+    # CM13 /obj/structure/machinery/prop/almayer/computer.
+    idleLoad: 20
+    activeLoad: 0
     channel: Equipment
   - type: Clickable
   - type: Corrodible
@@ -119,26 +120,50 @@
     mask: /Textures/_RMC14/Effects/LightMasks/quad_cone.png
 
 - type: entity
-  parent: RMCPropComputerBase
+  parent: RMCPoliceConsoleBase
   id: RMCSecurityRecordsConsole
-  name: security records
+  name: Jurisdictional Automated System
+  description: A Weyland-Yutani terminal for preparing incident reports and calculating criminal sentences.
   components:
+  - type: RMCPoliceConsole
+    sentencing: true
+  - type: AccessReader
+    access: [["CMAccessBrig"], ["RMCAccessCommand"]]
   - type: Sprite
     layers:
     - state: "jas0"
+      map: ["enum.RMCPoliceConsoleVisualLayers.Unpowered"]
     - map: ["enum.PowerDeviceVisualLayers.Powered"]
       state: "jas"
+    - map: ["enum.RMCPoliceConsoleVisualLayers.Broken"]
+      state: "jasb"
+      visible: false
 
 - type: entity
-  parent: RMCPropComputerBase
+  parent: RMCPoliceConsoleBase
   id: RMCSecurityRecordsConsoleAlt
   name: security records
+  description: Used to view and edit personnel security records.
   components:
+  - type: ContainerContainer
+    containers:
+      PoliceScanner: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      PoliceScanner:
+        name: rmc-police-scanner-slot
+        whitelist:
+          components:
+          - RMCClueScanner
   - type: Sprite
     layers:
     - state: "security0"
+      map: ["enum.RMCPoliceConsoleVisualLayers.Unpowered"]
     - map: ["enum.PowerDeviceVisualLayers.Powered"]
       state: "security"
+    - map: ["enum.RMCPoliceConsoleVisualLayers.Broken"]
+      state: "securityb"
+      visible: false
 
 - type: entity
   parent: RMCPropComputerBase

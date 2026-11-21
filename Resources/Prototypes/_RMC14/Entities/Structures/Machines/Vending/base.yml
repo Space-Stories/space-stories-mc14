@@ -3,7 +3,7 @@
 - type: entity
   abstract: true
   id: ColMarTechBase
-  name: ColMarTech vendor
+  name: ASRS vendor
   placement:
     mode: SnapgridCenter
   components:
@@ -51,6 +51,7 @@
   - type: RMCPowerReceiver
     idleLoad: 0
     activeLoad: 0
+    # CM13 ColMarTech vendors require power but have no configured load.
     channel: Equipment
   - type: ActivatableUIRequiresPower
   - type: UserInterface

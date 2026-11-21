@@ -88,6 +88,18 @@ public sealed class SCCVars
         CVarDef.Create("tts.max_cache", 250, CVar.SERVERONLY | CVar.ARCHIVE);
 
     /// <summary>
+    /// Rate limit period for TTS voice preview requests in seconds.
+    /// </summary>
+    public static readonly CVarDef<float> TTSPreviewRateLimitPeriod =
+        CVarDef.Create("tts.preview_rate_limit_period", 2.0f, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Maximum number of TTS voice preview requests allowed per rate limit period per player.
+    /// </summary>
+    public static readonly CVarDef<int> TTSPreviewRateLimitCount =
+        CVarDef.Create("tts.preview_rate_limit_count", 2, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
     /// Enable a radio effect for TTS messages sent over radio channels.
     /// </summary>
     public static readonly CVarDef<bool> TTSRadioEffect =
@@ -100,35 +112,43 @@ public sealed class SCCVars
         CVarDef.Create("scc.tts.ffmpeg_path", "", CVar.SERVERONLY);
 
     /// <summary>
-    /// FFmpeg arguments for general TTS
+    /// FFmpeg audio filter for standard radio TTS
     /// </summary>
-    public static readonly CVarDef<string> TTSFfmpegArguments =
-        CVarDef.Create("scc.tts.ffmpeg_arguments",
-            "-i pipe:0 -f ogg -v quiet -filter_complex \"[0:a]highpass=f=1000,lowpass=f=500[filtered];[filtered]acrusher=level_in=1:level_out=1:bits=4:mix=0.5:mode=log[crushed];[crushed]loudnorm=I=-12:LRA=7\" pipe:1",
+    public static readonly CVarDef<string> TTSStandardRadioFfmpegFilter =
+        CVarDef.Create("scc.tts.standard_radio_ffmpeg_filter",
+            "highpass=f=1000,lowpass=f=500,acrusher=level_in=1:level_out=1:bits=4:mix=0.5:mode=log,loudnorm=I=-12:LRA=7",
             CVar.SERVERONLY);
 
     /// <summary>
-    /// FFmpeg arguments for Xenos
+    /// FFmpeg audio filter for Xenos
     /// </summary>
-    public static readonly CVarDef<string> TTSXenoFfmpegArguments =
-        CVarDef.Create("scc.tts.xeno_ffmpeg_arguments",
-            "-i pipe:0 -f ogg -v quiet -filter_complex \"[0:a]highpass=f=250,lowpass=f=4000,vibrato=f=0.8:d=0.3[v];[v]aecho=0.9:0.5:100|180:0.2|0.1,loudnorm=I=-20\" pipe:1",
+    public static readonly CVarDef<string> TTSXenoFfmpegFilter =
+        CVarDef.Create("scc.tts.xeno_ffmpeg_filter",
+            "highpass=f=250,lowpass=f=4000,vibrato=f=0.8:d=0.3,aecho=0.9:0.5:100|180:0.2|0.1,loudnorm=I=-20",
             CVar.SERVERONLY);
 
     /// <summary>
-    /// FFmpeg arguments for Hunters
+    /// FFmpeg audio filter for Hunters
     /// </summary>
-    public static readonly CVarDef<string> TTSHunterFfmpegArguments =
-        CVarDef.Create("scc.tts.hunter_ffmpeg_arguments",
-            "-i pipe:0 -f ogg -v quiet -filter_complex \"[0:a]asetrate=44100*0.75,aresample=44100,lowpass=f=2500,equalizer=f=200:t=h:w=200:g=5[p];[p]aecho=0.8:0.88:20:0.3,loudnorm=I=-15\" pipe:1",
+    public static readonly CVarDef<string> TTSHunterFfmpegFilter =
+        CVarDef.Create("scc.tts.hunter_ffmpeg_filter",
+            "asetrate=44100*0.75,aresample=44100,lowpass=f=2500,equalizer=f=200:t=h:w=200:g=5,aecho=0.8:0.88:20:0.3,loudnorm=I=-15",
             CVar.SERVERONLY);
 
     /// <summary>
-    /// FFmpeg arguments for ARES
+    /// FFmpeg audio filter for megaphones
     /// </summary>
-    public static readonly CVarDef<string> TTSAresFfmpegArguments =
-        CVarDef.Create("scc.tts.ares_ffmpeg_arguments",
-            "-i pipe:0 -f ogg -v quiet -filter_complex \"[0:a]asetrate=44100*0.95,aresample=44100,highpass=f=150,lowpass=f=4000,acrusher=level_in=1:level_out=1:bits=5:mix=0.7:mode=log,tremolo=f=30:d=0.2,aecho=0.8:0.7:40:0.2,loudnorm=I=-12\" pipe:1",
+    public static readonly CVarDef<string> TTSMegaphoneFfmpegFilter =
+        CVarDef.Create("scc.tts.megaphone_ffmpeg_filter",
+            "highpass=f=420,lowpass=f=4200,equalizer=f=900:t=q:w=1.1:g=4,equalizer=f=1800:t=q:w=1.0:g=6,equalizer=f=3200:t=q:w=1.2:g=4,acompressor=threshold=0.03:ratio=20:attack=0.1:release=150:makeup=16:knee=1:link=maximum:detection=peak,acrusher=level_in=1.4:level_out=0.9:bits=5:mix=0.45:mode=log,volume=30,alimiter=limit=0.98:attack=1:release=20:level=false",
+            CVar.SERVERONLY);
+
+    /// <summary>
+    /// FFmpeg audio filter for ARES
+    /// </summary>
+    public static readonly CVarDef<string> TTSAresFfmpegFilter =
+        CVarDef.Create("scc.tts.ares_ffmpeg_filter",
+            "asetrate=44100*0.95,aresample=44100,highpass=f=150,lowpass=f=4000,acrusher=level_in=1:level_out=1:bits=5:mix=0.7:mode=log,tremolo=f=30:d=0.2,aecho=0.8:0.7:40:0.2,loudnorm=I=-12",
             CVar.SERVERONLY);
 
     /// <summary>
@@ -279,4 +299,7 @@ public sealed class SCCVars
     /// </summary>
     public static readonly CVarDef<string> BanwordsFile =
         CVarDef.Create("stories.banwords_file", "", CVar.SERVERONLY);
+
+    public static readonly CVarDef<int> FunFactsMaxPerSide =
+        CVarDef.Create("stories.fun_facts_max_per_side", 5, CVar.SERVERONLY);
 }

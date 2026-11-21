@@ -11,6 +11,11 @@
   name: Spitter
   description: A gross, oozing alien of some kind.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoSpit ]
+      XenoPrimaryTwo: [ ActionXenoChargeSpit ]
+      XenoPrimaryThree: [ ActionXenoSprayAcid ]
   - type: XenoBaseCaste
   - type: GuideHelp
     guides:
@@ -47,6 +52,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: Xeno
     role: CMXenoSpitter
     actionIds:
@@ -60,7 +72,9 @@
     - ActionXenoSprayAcid
     - ActionXenoDevolve
     tier: 2
-    hudOffset: 0,0.16
+    hudOffset: -0.15,0.025
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 540 # 9 minutes
   - type: XenoHeavy
   - type: XenoDevolve
@@ -77,6 +91,7 @@
     evolvesTo:
     - RMCXenoBoiler
     - CMXenoPraetorian
+    - STXenoDespoiler # Stories-Despoiler
   - type: XenoSpit
   - type: XenoChargeSpit
   - type: XenoScatteredSpit

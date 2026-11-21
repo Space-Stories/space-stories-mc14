@@ -1,13 +1,13 @@
-﻿using Content.Client._RMC14.UserInterface;
-using Content.Client.Message;
+﻿using System.Linq;
 using Content.Shared._RMC14.Construction;
 using Content.Shared._RMC14.Construction.Prototypes;
-using Content.Shared.FixedPoint;
 using Content.Shared.Stacks;
 using JetBrains.Annotations;
 using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
+using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Prototypes;
 
 namespace Content.Client._RMC14.Construction;
@@ -15,137 +15,146 @@ namespace Content.Client._RMC14.Construction;
 [UsedImplicitly]
 public sealed class RMCConstructionBui : BoundUserInterface
 {
-    [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
 
-    [ViewVariables]
+    private readonly SpriteSystem _sprite;
+
     private RMCConstructionWindow? _window;
+    private ProtoId<RMCConstructionPrototype>[]? _currentList;
+    private string _searchQuery = string.Empty;
 
     public RMCConstructionBui(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
+        _sprite = EntMan.System<SpriteSystem>();
     }
 
     protected override void Open()
     {
         base.Open();
-
         _window = this.CreateWindow<RMCConstructionWindow>();
-        _window.Title = $"Construction using the {EntMan.GetComponent<MetaDataComponent>(Owner).EntityName}";
+        _window.BackButton.OnPressed += _ =>
+        {
+            _currentList = null;
+            Populate();
+        };
+        _window.SearchEdit.OnTextChanged += args =>
+        {
+            _searchQuery = args.Text;
+            Populate();
+        };
 
-        if (!EntMan.TryGetComponent(Owner, out RMCConstructionItemComponent? constructionItem))
-            return;
-
-        if (constructionItem.Buildable is not { } entries)
-            return;
-
-        Refresh(entries);
+        Populate();
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)
     {
         base.UpdateState(state);
-
-        if (State is RMCConstructionBuiState s)
-            RefreshStackAmount();
+        Populate();
     }
 
-    private void AddEntry(ProtoId<RMCConstructionPrototype> prototypeId)
+    private void Populate()
     {
-        if (!_prototype.TryIndex(prototypeId, out var build))
+        if (_window == null)
             return;
 
-        if (build.IsDivider)
-        {
-            var divider = new BlueHorizontalSeparator();
-            divider.Margin = new Thickness(5);
-
-            _window?.ConstructionContainer.AddChild(divider);
+        if (!EntMan.TryGetComponent(Owner, out RMCConstructionItemComponent? construction))
             return;
-        }
 
-        if (build.Listed != null)
-        {
-            AddListButton(build);
+        var stackCount = EntMan.TryGetComponent(Owner, out StackComponent? stack) ? stack.Count : 0;
+        var materialName = EntMan.TryGetComponent(Owner, out MetaDataComponent? meta) ? meta.EntityName : string.Empty;
+        _window.MaterialLabel.Text = $"{materialName}: {stackCount}";
+
+        Texture? materialIcon = null;
+        if (meta?.EntityPrototype != null)
+            materialIcon = _sprite.GetPrototypeIcon(meta.EntityPrototype).GetFrame(RsiDirection.South, 0);
+
+        _window.MaterialIcon.Texture = materialIcon;
+        _window.MaterialIcon.Visible = materialIcon != null;
+        _window.BackButton.Visible = _currentList != null;
+
+        _window.ConstructionContainer.DisposeAllChildren();
+
+        var items = _currentList ?? construction.Buildable;
+        if (items == null)
             return;
-        }
 
-        var nameString = Loc.GetString("rmc-construction-list", ("name", build.Name));
+        var filtering = !string.IsNullOrWhiteSpace(_searchQuery);
 
-        if (build.MaterialCost != null)
-            nameString = Loc.GetString("rmc-construction-entry", ("name", build.Name), ("amount", build.MaterialCost), ("material", Owner));
-
-        var control = new RMCBuildChoiceControl();
-        control.Set(nameString);
-
-        if (build.StackAmounts is { } stackAmounts)
+        foreach (var buildId in items)
         {
-            foreach (var stack in stackAmounts)
+            if (!_prototype.TryIndex(buildId, out var build))
+                continue;
+
+            if (build.IsDivider)
             {
-                var button = new Button()
+                if (filtering)
+                    continue;
+
+                var divider = new PanelContainer
                 {
-                    Text = "x" + stack,
-                    StyleClasses = { "OpenBoth" },
-                    SetWidth = 45,
-                    Margin = new Thickness(0, 0, 0, 3),
-                    HorizontalAlignment = Control.HAlignment.Right
+                    MinHeight = 2,
+                    Margin = new Thickness(4, 6, 4, 6),
+                    PanelOverride = new StyleBoxFlat
+                    {
+                        BackgroundColor = Color.FromHex("#3A3A3A"),
+                    },
                 };
-
-                control.StackAmountContainer.AddChild(button);
-
-                button.OnPressed += _ =>
-                {
-                    SendPredictedMessage(new RMCConstructionBuiMsg(build, stack));
-                };
-
-                control.Button.SetWidth = 250;
-                control.Button.HorizontalAlignment = Control.HAlignment.Left;
+                _window.ConstructionContainer.AddChild(divider);
+                continue;
             }
+
+            if (filtering && !build.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            Texture? icon = null;
+            if (_prototype.TryIndex<EntityPrototype>(build.Prototype, out var entProto))
+                icon = _sprite.GetPrototypeIcon(entProto).GetFrame(RsiDirection.South, 0);
+
+            var isSubmenu = build.Listed is { Length: > 0 };
+            var canAfford = isSubmenu || stackCount >= build.MaterialCost;
+            var costText = isSubmenu
+                ? "▸"
+                : build.Amount > 1
+                    ? $"{build.Amount}x ({build.MaterialCost})"
+                    : $"{build.MaterialCost}";
+
+            var control = new RMCBuildChoiceControl();
+            control.Set(build.Name, icon, costText, canAfford);
+
+            if (isSubmenu)
+            {
+                var subList = build.Listed!;
+                control.Button.OnPressed += _ =>
+                {
+                    _currentList = subList;
+                    Populate();
+                };
+            }
+            else
+            {
+                var capturedId = build.ID;
+                var capturedAmount = build.Amount;
+                control.Button.OnPressed += _ => SendPredictedMessage(new RMCConstructionBuiMsg(capturedId, capturedAmount));
+
+                if (build.StackAmounts is { Count: > 0 })
+                {
+                    control.StackAmountContainer.Visible = true;
+                    foreach (var amount in build.StackAmounts)
+                    {
+                        var capturedStackAmount = amount;
+                        var stackBtn = new Button
+                        {
+                            Text = $"x{amount}",
+                            Margin = new Thickness(0, 0, 4, 0),
+                            Disabled = stackCount < build.MaterialCost * amount,
+                        };
+                        stackBtn.OnPressed += _ => SendPredictedMessage(new RMCConstructionBuiMsg(capturedId, capturedStackAmount));
+                        control.StackAmountContainer.AddChild(stackBtn);
+                    }
+                }
+            }
+
+            _window.ConstructionContainer.AddChild(control);
         }
-
-        control.Button.OnPressed += _ =>
-        {
-            SendPredictedMessage(new RMCConstructionBuiMsg(build, build.Amount));
-        };
-
-        _window?.ConstructionContainer.AddChild(control);
-    }
-
-    private void AddListButton(RMCConstructionPrototype build)
-    {
-        if (build.Listed is not { } listed)
-            return;
-
-        var control = new RMCBuildChoiceControl();
-        control.Set(build.Name);
-
-        control.Button.OnPressed += _ =>
-        {
-            _window?.ConstructionContainer.Children.Clear();
-            Refresh(listed);
-        };
-
-        _window?.ConstructionContainer.AddChild(control);
-    }
-
-    public void Refresh(ProtoId<RMCConstructionPrototype>[] entries)
-    {
-        if (_window == null)
-            return;
-
-        RefreshStackAmount();
-
-        foreach (var entry in entries)
-        {
-            AddEntry(entry);
-        }
-    }
-
-    public void RefreshStackAmount()
-    {
-        if (_window == null)
-            return;
-
-        if (EntMan.TryGetComponent(Owner, out StackComponent? stack))
-            _window.MaterialLabel.Text = $"Amount Left: {stack.Count}";
     }
 }

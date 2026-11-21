@@ -89,9 +89,6 @@ public sealed partial class HiveComponent : Component
     public int BurrowedLarva;
 
     [DataField, AutoNetworkedField]
-    public int BurrowedLarvaSlotFactor = 4;
-
-    [DataField, AutoNetworkedField]
     public bool LateJoinGainLarva;
 
     [DataField, AutoNetworkedField]
@@ -102,4 +99,54 @@ public sealed partial class HiveComponent : Component
 
     [DataField, AutoNetworkedField]
     public HashSet<GibbedXenoInfo> GibbedXenos = new();
+
+    [DataField, AutoNetworkedField]
+    public XenoHarmPermission HarmPermission = XenoHarmPermission.Allowed;
+
+    [DataField, AutoNetworkedField]
+    public XenoConstructionPermission ConstructionPermission = XenoConstructionPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public XenoConstructionPermission DeconstructionPermission = XenoConstructionPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public XenoUnnestPermission UnnestPermission = XenoUnnestPermission.Anyone;
+
+    [DataField, AutoNetworkedField]
+    public TimeSpan PermissionChangeCooldown = TimeSpan.FromSeconds(30);
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? HarmPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? ConstructionPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? DeconstructionPermissionChangeAt;
+
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan? UnnestPermissionChangeAt;
+
+    /// <summary>
+    ///     How long a burrowed larva is invincible for after spawning on the hive core.
+    ///     Mirrors the invincibility a larva gets after bursting out of a host.
+    ///     Set to zero or less to disable.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan BurrowedLarvaHiveCoreInvincibilityTime = TimeSpan.FromSeconds(1);
+
+    /// <summary>
+    ///     How long a burrowed larva is invincible for after spawning on the queen.
+    ///     Set to zero or less to disable.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan BurrowedLarvaQueenInvincibilityTime = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    ///     How long a burrowed larva is invincible for after spawning on a fallback hive member
+    ///     (when no hive core or queen is available).
+    ///     Set to zero or less to disable.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan BurrowedLarvaFallbackInvincibilityTime = TimeSpan.FromSeconds(5);
 }

@@ -1,0 +1,12 @@
+ent-RMCPaperCOBriefingSorokyneUnaligned = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Сорокина Страта, Вне фракций
+ent-RMCPaperCOBriefingSorokyneHawks = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Сорокина Страта, Ястребы
+ent-RMCPaperCOBriefingSorokyneDoves = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Сорокина Страта, Голуби
+ent-RMCPaperCOBriefingSorokyneMagpies = { ent-RMCPaperCOBriefingBase }
+    .desc = { ent-RMCPaperCOBriefingBase.desc }
+    .suffix = Сорокина Страта, Сороки

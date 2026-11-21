@@ -1,14 +1,14 @@
-﻿<Document>
+<Document>
 
-  #Combat Technician
+  #Боевой техник
 
 
-  The Combat Technician is the frontline Engineer for the Marine squads. Their primary responsibilities include fixing power, breaching into buildings, and setting up forward fortifications. Your work will provide your fellow Marines with cover to fight from, allowing them to engage the enemy in areas they would not be able to safely do otherwise.
+  Боевой техник — фронтовой инженер отрядов морпехов. Его основные обязанности: чинить электроснабжение, вскрывать здания и возводить передовые укрепления. Ваша работа даёт товарищам укрытия, из-за которых можно вести бой, позволяя сражаться там, где иначе было бы слишком опасно.
 
-  ##Pre-Deployment Equipment
+  ##Снаряжение перед высадкой
 
-  The Combat Technician is expected to carry the following items on them at all times:
-  - [bold]A full suite of tools[/bold]. Among them are the blowtorch, crowbar, entrenching tool, light replacer, screwdriver, security access tuner, wire cutters, and wrench.
+  Боевой техник обязан всегда иметь при себе:
+  - [bold]Полный набор инструментов[/bold]. В него входят: сварочный аппарат, лом, складная лопата, устройство для замены лампочек, отвёртка, тюнер доступа к системе безопасности, кусачки и гаечный ключ.
 
   <Box>
     <GuideEntityEmbed Entity="CMWelder"/>
@@ -26,7 +26,7 @@
     <GuideEntityEmbed Entity="RMCBeltConstruction" Caption="toolbelt"/>
   </Box>
 
-  - [bold]Welding Protection[/bold]. The standard Combat Technician Helmet provides Welding protection, but Welding Goggles can be found elsewhere should you lose your helmet.
+  - [bold]Сварочная защита[/bold]. Стандартный шлем боевого техника уже защищает при сварке, но на случай потери шлема сварочные очки можно найти отдельно.
 
   <Box>
     <GuideEntityEmbed Entity="RMCWeldingGoggles"/>
@@ -34,7 +34,7 @@
     <GuideEntityEmbed Entity="RMCVisorWelding"/>
   </Box>
 
-  - [bold]Common building materials[/bold] for constructing fortifications: Sandbags, Metal, and Plasteel. It is highly recommended that you use a [bold]Construction Pouch[/bold] to efficiently carry these bulky items.
+  - [bold]Базовые стройматериалы[/bold] для возведения укреплений: мешки с песком, металл и пласталь. Настоятельно рекомендуем [bold]строительный подсумок[/bold] — громоздкие материалы удобнее носить в нём.
 
   <Box>
     <GuideEntityEmbed Entity="CMSandbagFull50"/>
@@ -43,14 +43,14 @@
     <GuideEntityEmbed Entity="RMCPouchConstruction"/>
   </Box>
 
-  - [bold]Breaching explosives[/bold], for accessing inaccessible areas through a newly crafted doorway and stripping cover from the enemy.
+  - [bold]Взрывчатка для вскрытия[/bold] — чтобы попадать в недоступные места через свежепроделанный дверной проём и лишать врага укрытий.
 
   <Box>
     <GuideEntityEmbed Entity="RMCExplosivePlastic"/>
     <GuideEntityEmbed Entity="RMCExplosiveBreachingCharge"/>
   </Box>
 
-  - [bold]Your faithful Sentry Gun[/bold], which you can deploy to provide covering fire in hostile environments. If it breaks you are not getting a replacement.
+  - [bold]Ваша верная турель[/bold], которую можно развернуть для огневого прикрытия во враждебной среде. Сломаете — новую не дадут.
 
   <Box>
     <GuideEntityEmbed Entity="RMCSentry"/>
@@ -58,7 +58,7 @@
     <GuideEntityEmbed Entity="RMCSentryFire"/>
   </Box>
 
-  Majority of these items are provided for free in your specialised Barracks. The Essential Engineer set, Sentry Gun, and a toolbelt full of tools can all be dispensed free of charge. Use your limited points to purchase an upgrade to the Sentry Gun, additional breaching explosives, or additional building materials. If you need more of anything, line up at Requisitions to request more.
+  Большая часть этого выдаётся бесплатно в ваших специализированных казармах: базовый набор инженера, турель и полный пояс инструментов — всё без очков. Ограниченные очки тратьте на улучшение турели, дополнительную взрывчатку для вскрытия или стройматериалы. Если чего-то не хватает — вставайте в очередь в Поставки.
 
   <Box>
     <GuideEntityEmbed Entity="RMCSentry"/>
@@ -66,15 +66,17 @@
     <GuideEntityEmbed Entity="RMCEngineeringUpgrade"/>
   </Box>
 
-  Once you are equipped and deployed, you'll be expected to perform the following responsibilities.
+  Снарядились и высадились? Теперь от вас ждут следующего.
 
-  ##Fixing Power and Repairing Lights
+  ##Починка электричества и ламп
 
-  In the AO, power is supplied by [bold]G-11 Geothermal Generators[/bold]. These will be unpowered and broken when marines land in the AO, and it will usually be the job of the Combat Technicians to get these repaired. The amount of work required will depend on the extent of the damage. To repair a generator:
+  Подробные инструкции по управлению ЛКП, работе реакторов и СМЭС, переработке топлива и диагностике неисправностей приведены в разделе [textlink="Энергоснабжение и ЛКП" link="RMCGuidePower"].
 
-  - First use a [bold]blowtorch[/bold] to weld the panels back together
-  - Then use [bold]wire cutters[/bold] to mend the wires.
-  - Finally use a [bold]wrench[/bold] to secure the machine in place.
+  В зоне операции электричество дают [bold]геотермальные генераторы G-11[/bold]. К моменту высадки морпехов они обесточены и сломаны, и чинить их — обычно работа боевых техников. Объём работ зависит от степени повреждений. Чтобы починить генератор:
+
+  - Сначала заварите панели [bold]сварочным аппаратом[/bold]
+  - Затем почините провода [bold]кусачками[/bold].
+  - В конце закрепите машину [bold]гаечным ключом[/bold].
 
   <Box>
     <GuideEntityEmbed Entity="CMWelder"/>
@@ -82,43 +84,47 @@
     <GuideEntityEmbed Entity="CMWrench"/>
   </Box>
 
-  When the blue screen turns on the generator is working and supplying power.
+  Закончив ремонт, осмотрите топливную ячейку и запустите генератор пустой рукой. Сначала генератор выдаёт небольшую мощность, а затем постепенно выходит на полную, поэтому загоревшийся экран ещё не означает, что энергосеть сразу получила максимальную мощность.
 
-  Power generated will be automatically distributed to APCs, which will store a small amount of power within its installed power cell in case the generators fail. Power is then distributed to nearby electronics in the area, such as doors, lights, and vendors. The total power draw will be listed on the APC's interface. If the local APC is destroyed, or its power cell depleted, the immediate area will become unpowered.
+  Выработанная энергия автоматически распределяется по ЛКП, каждый из которых запасает немного энергии в установленной батарее на случай отказа генераторов. Дальше энергия расходится по электронике в зоне: дверям, лампам, вендоматам. Суммарное потребление видно в интерфейсе ЛКП. Сломанный ЛКП обесточит свою зону даже при работающих генераторах. Если ЛКП исправен, но внешнее питание пропало, зона продержится до разряда его батареи.
 
-  To replace the power cell of an APC, first swipe your Engineering ID card or Dogtags to unlock the interface and disengage the cover lock. Then use a crowbar to force the cover open, allowing access to the power cell, which can be removed with an empty hand and replaced with a charged power cell. Once swapped, use a crowbar to close the panel, engage the cover lock, and swipe your ID to lock the APC interface again. This can be used to temporarily keep a small area powered in case despite the lack of power generation.
+  Чтобы заменить батарею ЛКП, сначала проведите инженерной ID-картой или жетонами — это разблокирует интерфейс. Отключите блокировку крышки в интерфейсе и подденьте крышку ломом. Вытащите батарею пустой рукой и вставьте заряженную. После замены закройте крышку ломом, включите её блокировку и снова проведите ID-картой, чтобы заблокировать интерфейс. Так можно временно держать небольшой участок под напряжением даже без работающих генераторов.
 
-  If the APC is destroyed, it can be reassembled by using a screwdriver.
+  После нападения ксеноморфа осмотрите ЛКП. Если порваны только провода, нажмите по нему кусачками, восстановите провода в открывшемся окне и закройте техническую панель отвёрткой. Новые кабели, плата и батарея для этого не нужны.
+
+  Крупные ксеноморфы могут добить электронику после того, как порвали провода. Это умеют не только касты третьего уровня: носитель и повелитель улья тоже достаточно крупные. Взрыв также может сразу разбить ЛКП.
+
+  Для ремонта разбитого ЛКП сбейте крышку ломом или гаечным ключом, достаньте батарею, открутите сгоревшую плату отвёрткой, отрежьте терминал кусачками и удалите электронику ломом. Замените повреждённый корпус новым каркасом ЛКП (крафтится из 2 листов металла; также позволяет построить новый ЛКП на стене), подключите 10 отрезков кабеля, установите новую плату и закрепите её отвёрткой. Верните батарею и при необходимости закройте крышку ломом и соедините перерезанные провода через панель проводов. Осматривайте ЛКП между этапами — описание подскажет следующий шаг.
 
   <Box>
     <GuideEntityEmbed Entity="RMCGeneratorFusionColony"/>
   </Box>
 
-  Once power is generating, you'll need to repair any broken APCs to distribute power to nearby electronics and use the light replacer to replace broken lightbulbs. Broken floodlights will take slightly more effort, as the internal wiring will also need replacing. Carry some [bold]cable coil[/bold] if you’re expecting to repair these.
+  Когда генераторы запущены, почините сломанные ЛКП, чтобы раздать энергию электронике, и замените перегоревшие лампы устройством для замены лампочек. Со сломанными прожекторами возни чуть больше: внутреннюю проводку тоже придётся менять. Носите [bold]моток кабеля[/bold], если собираетесь их чинить.
 
-  ##Repairing Sensitive Equipment
+  ##Ремонт чувствительного оборудования
 
-  The Combat Technician is among the few Marines specially trained in repairing vital equipment on the Colony. The two you will be entrusted with are the Telecommunications and Sensor tower, which you can learn more about [textlink="here" link="RMCGuideCommunicationsTowers"].
+  Боевой техник — один из немногих морпехов, специально обученных чинить жизненно важное оборудование колонии. Вам доверят два объекта: вышку связи и сенсорную вышку, о которых можно узнать больше [textlink="здесь" link="RMCGuideCommunicationsTowers"].
 
   <Box>
     <GuideEntityEmbed Entity="RMCCommunicationsTower"/>
     <GuideEntityEmbed Entity="RMCSensorTower"/>
   </Box>
 
-  ##Building Fortifications
+  ##Строительство укреплений
 
-  The enemy that you are fighting excels in melee range. In many situations, the only thing that stops a fighting Marine from getting mauled is the simple metal barricade, which blocks movement but still allows you to shoot over.
+  Ваш враг силён в ближнем бою. Часто единственное, что спасает морпеха от растерзания, — простая металлическая баррикада: она не пропускает врага, но позволяет стрелять поверх неё.
 
   <Box>
     <GuideEntityEmbed Entity="CMBarricadeMetal"/>
-    [color=#C68610]Everything the Combat Technician will need can be found in the crafting menu, default hotkey G. Type "Bar" in the search field.[/color]
+    [color=#C68610]Всё, что нужно боевому технику, есть в меню крафта (клавиша Z по умолчанию с необходимыми материалами в руке).[/color]
   </Box>
 
-  - [bold]Metal Barricade[/bold]: Standard issue tried and true combat fortification. Requires 4 metal.
-  - [bold]Metal Folding Barricade[/bold]: A metal barricade that can be folded down to allow passage. Is extremely fragile, so do not rely on it to provide much safety. Requires 6 metal.
-  - [bold]Plasteel Barricade[/bold]: Much more durable but expensive version of the metal barricade. Requires 6 Plasteel.
-  - [bold]Plasteel Folding Barricade[/bold]: This folding barricade is more durable than its metal counterparts, and as such is recommended for making doorways in sturdy fortifications. Requires 8 plasteel.
-  - [bold]MB-6 Folding Barricade[/bold]: A portable composite barricade issued in stacks of three from squad utilities or Requisitions. Use it in-hand to deploy it in the direction you are facing. Drag the deployed barricade onto yourself to fold it back up, or use a crowbar if you are trained in engineering. It can be carried on your back or suit storage, but it cannot be wired or upgraded.
+  - [bold]Металлическая баррикада[/bold]: стандартное, проверенное временем боевое укрепление. Нужно 4 металла.
+  - [bold]Складная металлическая баррикада[/bold]: баррикада, которую можно сложить для прохода. Крайне хрупкая — не рассчитывайте, что она вас всерьёз защитит. Нужно 6 металла.
+  - [bold]Пласталевая баррикада[/bold]: намного прочнее, но и дороже металлической. Нужно 6 пластали.
+  - [bold]Складная пласталевая баррикада[/bold]: прочнее металлических складных, поэтому рекомендуется для проходов в серьёзных укреплениях. Нужно 8 пластали.
+  - [bold]Складная баррикада MB-6[/bold]: переносная композитная баррикада, выдаётся стопками по три из отрядных автоматов или Поставок. Используйте в руке, чтобы развернуть по направлению взгляда. Перетащите развёрнутую баррикаду на себя, чтобы сложить обратно, или используйте лом, если обучены инженерии. Можно носить на спине или в слоте костюма, но нельзя обмотать проволокой или улучшить.
 
   <Box>
     <GuideEntityEmbed Entity="CMBarricadeMetalDoor"/>
@@ -127,24 +133,24 @@
     <GuideEntityEmbed Entity="CMFoldingBarricadesMB6x3"/>
   </Box>
 
-  The cheap alternative to metal barricades are [bold]sandbag barricades[/bold]. These can be deployed faster than a barricade and do not need specialised training to construct, but the bags need to be filled using an entrenching tool beforehand. Sandbags also have limited repair options, so they are only reliable for so long.
+  Дешёвая альтернатива металлическим — [bold]баррикады из мешков с песком[/bold]. Ставятся быстрее и не требуют специальной подготовки, но мешки нужно заранее наполнить складной лопатой. Чинить их почти нечем, так что надолго их не хватит.
 
   <Box>
     <GuideEntityEmbed Entity="CMBarricadeSandbag"/>
   </Box>
 
-  Once a Barricade is built, it isn't finished until you lace it with barbed wire, which you can craft for 1 metal per barricade. A Barbed barricade will harm anything that strikes it, as well as completely prevent anything from vaulting over it. [bold]Every Barricade that can be wired should have some barbed wire[/bold]. Portable MB-6 barricades are the exception: they are meant to be folded and moved, so they cannot take wire or permanent upgrades.
+  Баррикада не закончена, пока вы не обмотали её колючей проволокой — она крафтится по 1 металлу на баррикаду. Колючка ранит любого, кто бьёт по баррикаде, и не даёт через неё перелезать. [bold]На каждой баррикаде, которую можно обмотать, должна быть колючка[/bold]. Исключение — переносные MB-6: их складывают и переносят, поэтому ни проволока, ни постоянные улучшения на них не ставятся.
 
   <Box>
     <GuideEntityEmbed Entity="BarbedWire1"/>
   </Box>
 
-  Non-foldable Barricades have three upgrades which require 2 metal:
-  - [bold]Anti-Biohazard[/bold]: Provides resistance to being melted down by various acid attacks.
-  - [bold]Blast-Resistant[/bold]: Provides explosive resistance.
-  - [bold]Reinforced[/bold]: Provides resistance to being mauled.
+  У нескладных баррикад есть три улучшения по 2 металла:
+  - [bold]Биоустойчивое[/bold]: устойчивость к кислоте.
+  - [bold]Взрывоустойчивое[/bold]: устойчивость к взрывам.
+  - [bold]Усиленное[/bold]: устойчивость к ударам.
 
-  To upgrade a barricade, click one with metal sheets in your active hand.
+  Чтобы улучшить баррикаду, кликните по ней с листами металла в активной руке.
 
   <Box>
     <GuideEntityEmbed Entity="CMBarricadeBurn"/>
@@ -152,9 +158,9 @@
     <GuideEntityEmbed Entity="CMBarricadeBrute"/>
   </Box>
 
-  Should a barricade be damaged, it can be repaired with a blowtorch. This is a lengthy process that does not completely repair the Barricade, so extreme punishment will eventually wear down your defences. When placing Barricades, make sure it allows your Marines to safely shoot at the enemy, and avoid placing them right next to corners where they can be endlessly attacked from behind cover. If you have the extra time, deconstruct or blast this cover to open new firing lines.
+  Повреждённую баррикаду можно чинить сварочным аппаратом. Процесс долгий и не восстанавливает её полностью, так что под серьёзным напором оборона со временем просядет. Ставя баррикады, следите, чтобы морпехи могли безопасно стрелять по врагу, и не ставьте их вплотную к углам, из-за которых баррикаду можно бесконечно бить из укрытия. Есть свободное время — разберите или подорвите такое укрытие, открыв новые линии огня.
 
-  ##Scavenging Materials
+  ##Добыча материалов
 
-  You will [bold]always[/bold] need additional building materials, and the lives of your fellow Marines are worth more than the surrounding buildings. Chairs, metal railings, and window frames can be quickly deconstructed for more metal, while walls and doors can be slowly deconstructed for the same purpose. Some AOs will have preinstalled fortifications that you can use yourself or deconstruct to obtain the building materials. Instructions for deconstruction are provided upon inspection.
+  Стройматериалов вам [bold]всегда[/bold] будет не хватать, а жизни товарищей дороже окружающих построек. Стулья, металлические перила и оконные рамы быстро разбираются на металл; стены и двери разбираются медленнее, но с той же целью. В некоторых зонах операции есть готовые укрепления — используйте их сами или разберите на материалы. Инструкция по разборке видна при осмотре.
 </Document>

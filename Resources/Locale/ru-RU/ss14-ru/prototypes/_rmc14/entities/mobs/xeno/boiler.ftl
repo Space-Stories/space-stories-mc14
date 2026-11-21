@@ -4,6 +4,6 @@ ent-RMCXenoBoiler = { ent-CMXenoBoiler }
     .desc = { ent-CMXenoBoiler.desc }
 ent-RMCXenoBoilerSapper = { ent-CMXenoBoiler }
     .desc = { ent-CMXenoBoiler.desc }
-    .suffix = Sapper
+    .suffix = Сапер
 ent-RMCXenoBoilerBase = Бойлер
     .desc = Огромный, гротескный ксеноморф, покрытый светящейся, сочащейся кислотой слизью.

@@ -28,8 +28,9 @@ public sealed class MarineCommunicationsComputerBui(EntityUid owner, Enum uiKey)
 
         _window = this.CreateWindow<MarineCommunicationsComputerWindow>();
 
-        if (EntMan.TryGetComponent(Owner, out MarineCommunicationsComputerComponent? communications) &&
-            communications.CanGiveMedals)
+        EntMan.TryGetComponent(Owner, out MarineCommunicationsComputerComponent? comp);
+
+        if (comp is { CanGiveMedals: true })
         {
             _window.MedalButton.OnPressed += _ => SendPredictedMessage(new MarineControlComputerOpenMedalsPanelMsg());
             _window.MedalButton.Visible = true;
@@ -44,14 +45,20 @@ public sealed class MarineCommunicationsComputerBui(EntityUid owner, Enum uiKey)
         else
             _window.TacticalMapButton.Visible = false;
 
-        if (EntMan.TryGetComponent<MarineCommunicationsComputerComponent>(Owner, out var computer) &&
-            computer.CanCreateEcho)
-        {
+        if (comp is { CanCreateEcho: true })
             _window.EchoButton.OnPressed += _ => SendPredictedMessage(new MarineCommunicationsEchoSquadMsg());
+
+        if (comp is { CanTransmitDistress: true })
+        {
+            _window.DistressButton.OnPressed += _ => SendPredictedMessage(new MarineCommunicationsDistressBeaconMsg());
+        }
+        else
+        {
+            _window.DistressButton.Visible = false;
+            _window.DistressSeparator.Visible = false;
         }
 
-        if (EntMan.TryGetComponent(Owner, out MarineCommunicationsComputerComponent? communicationsEvac) &&
-            communicationsEvac.CanInitiateEvac)
+        if (comp is { CanInitiateEvac: true })
         {
             _window.EvacuationButton.OnPressed += _ =>
             {
@@ -104,41 +111,45 @@ public sealed class MarineCommunicationsComputerBui(EntityUid owner, Enum uiKey)
 
     public void OnStateUpdate()
     {
-        if (_window == null)
-            return;
-
-        if (State is MarineCommunicationsComputerBuiState s)
+        if (_window == null ||
+            !EntMan.TryGetComponent(Owner, out MarineCommunicationsComputerComponent? computer))
         {
-            _window.LandingZonesContainer.DisposeAllChildren();
-            _window.PlanetName.Text = s.Planet;
-            _window.OperationName.Text = s.Operation;
-
-            foreach (var zone in s.LandingZones)
-            {
-                var button = new ConfirmButton
-                {
-                    Text = zone.Name,
-                    StyleClasses = { "OpenBoth" },
-                };
-                button.OnPressed += _ => SendPredictedMessage(new MarineCommunicationsDesignatePrimaryLZMsg(zone.Id));
-                _window.LandingZonesContainer.AddChild(button);
-            }
-
-            _window.LandingZonesSection.Visible = s.LandingZones.Count > 0;
+            return;
         }
 
+        _window.LandingZonesContainer.DisposeAllChildren();
+        _window.PlanetName.Text = computer.Planet;
+        _window.OperationName.Text = computer.Operation;
+
+        foreach (var zone in computer.LandingZones)
+        {
+            var button = new ConfirmButton
+            {
+                Text = zone.Name,
+                StyleClasses = { "OpenBoth" },
+            };
+            button.OnPressed += _ => SendPredictedMessage(new MarineCommunicationsDesignatePrimaryLZMsg(zone.Id));
+            _window.LandingZonesContainer.AddChild(button);
+        }
+
+        _window.LandingZonesSection.Visible = computer.LandingZones.Count > 0;
+
         _window.EchoButton.Visible =
-            EntMan.TryGetComponent<MarineCommunicationsComputerComponent>(Owner, out var computer) &&
             computer.CanCreateEcho;
         _window.EchoSeparator.Visible = _window.EchoButton.Visible;
+        _window.DistressButton.Visible = computer.CanTransmitDistress;
+        _window.DistressButton.Disabled = State is not MarineCommunicationsComputerBuiState { DistressBeaconEnabled: true };
+        _window.DistressSeparator.Visible = _window.DistressButton.Visible;
 
         if (EntMan.TryGetComponent(Owner, out MarineControlComputerComponent? evaccomputer))
         {
             // TODO RMC14 estimated time until escape pod launch
             if (_confirmingEvacuation)
-                _window.EvacuationButton.Text = "Confirm?";
+                _window.EvacuationButton.Text = Loc.GetString("rmc-announcement-evacuation-confirm");
             else
-                _window.EvacuationButton.Text = evaccomputer.Evacuating ? "Cancel Evacuation" : "Initiate Evacuation";
+                _window.EvacuationButton.Text = evaccomputer.Evacuating
+                    ? Loc.GetString("rmc-announcement-evacuation-cancel")
+                    : Loc.GetString("rmc-announcement-evacuation-initiate");
 
             _window.EvacuationButton.Disabled = !evaccomputer.CanEvacuate;
         }
