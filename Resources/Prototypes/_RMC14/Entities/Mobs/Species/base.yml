@@ -309,9 +309,6 @@
   - type: UserBlockShootingInsideContainers
   - type: TacticalMapTracked
     trackDead: true
-  - type: TacticalMapUser
-    actionId: RMCActionOpenTacticalMapMarine
-    marines: true
   - type: EmoteCooldown
   - type: FiremanCarriable
     # Stories-SynthHeavyGrab-Start
@@ -332,7 +329,6 @@
       components:
       - CanBeSupplyDropped
   - type: NewPlayerLabel
-  - type: MarineMapTracked
   - type: RMCSetPose
   - type: Evasion
   - type: CanBeFirePatted

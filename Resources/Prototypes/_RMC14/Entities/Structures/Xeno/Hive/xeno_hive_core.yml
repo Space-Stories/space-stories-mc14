@@ -72,7 +72,8 @@
   - type: EvolutionBonus
   - type: WarpPoint
     location: hive core
-  - type: XenoStructureMapTracked
+  - type: TacticalMapLayerTracked
+    layers: [RMCTacticalMapLayerXenos]
   - type: TacticalMapTracked
   - type: TacticalMapIcon
     icon:
@@ -171,7 +172,8 @@
     id: HivePylonXeno
   - type: WarpPoint
     location: hive pylon
-  - type: XenoStructureMapTracked
+  - type: TacticalMapLayerTracked
+    layers: [RMCTacticalMapLayerXenos]
   - type: TacticalMapTracked
   - type: TacticalMapIcon
     icon:

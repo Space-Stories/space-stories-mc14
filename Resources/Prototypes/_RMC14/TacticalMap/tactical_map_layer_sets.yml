@@ -1,0 +1,34 @@
+- type: entity
+  id: RMCTacticalMapSetMarine
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TacticalMapLayerSet
+    layers: [RMCTacticalMapLayerMarines]
+
+- type: entity
+  id: RMCTacticalMapSetXeno
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TacticalMapLayerSet
+    layers: [RMCTacticalMapLayerXenos]
+
+- type: entity
+  id: RMCTacticalMapSetSurvivor
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TacticalMapLayerSet
+    layers: [RMCTacticalMapLayerFactionSurvivor]
+
+- type: entity
+  id: RMCTacticalMapSetForecon
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TacticalMapLayerSet
+    layers: [RMCTacticalMapLayerSquadFORECON]
+
+- type: entity
+  id: RMCTacticalMapSetGhost
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TacticalMapLayerSet
+    layers: [RMCTacticalMapLayerMarines, RMCTacticalMapLayerXenos]
