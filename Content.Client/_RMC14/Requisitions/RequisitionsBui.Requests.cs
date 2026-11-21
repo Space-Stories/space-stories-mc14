@@ -146,6 +146,7 @@ public sealed partial class RequisitionsBui
                 var number = request.Number;
                 card.Approve.OnPressed += _ => RespondToRequest(number, true);
                 card.Deny.OnPressed += _ => RespondToRequest(number, false);
+                card.DeliverToCounter.OnToggled += _ => card.Approve.ResetConfirmation();
                 card.Eject.OnPressed += _ => SendMessage(new RequisitionsEjectRequestMsg(number));
                 _requestCards[number] = card;
                 _window.RequestsContainer.AddChild(card);

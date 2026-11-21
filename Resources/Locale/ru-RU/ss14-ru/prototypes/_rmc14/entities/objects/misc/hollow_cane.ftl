@@ -1,3 +1,5 @@
 ent-RMCHollowCane = изысканная трость
     .desc = Трость из чёрного дерева с изысканным, на вид золотым, набалдашником. На ощупь полая.
     .suffix = Полый
+ent-STHollowCaneWithBayonet = { ent-RMCHollowCane }
+    .desc = { ent-RMCHollowCane.desc }

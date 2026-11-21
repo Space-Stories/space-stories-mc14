@@ -24,6 +24,8 @@ rmc-requisitions-request-submit = Print request
 rmc-requisitions-request-submit-confirm = Print the form?
 rmc-requisitions-request-approve = Approve
 rmc-requisitions-request-approve-confirm = Process selected items?
+rmc-requisitions-request-deliver-to-counter = Deliver to counter
+rmc-requisitions-request-deliver-to-counter-tooltip = Vendors with counter delivery send their stock to the counter. Collect the rest at their vendors.
 rmc-requisitions-request-deny = Close request
 rmc-requisitions-request-deny-confirm = Close the outstanding request?
 rmc-requisitions-request-title = Requisition #{ $number }
@@ -46,6 +48,8 @@ rmc-requisitions-request-paper =
     { "" }[color=#b18644]________________________________[/color]
     { "" }[head=2]Supply requisition[/head]
     { "" }[mono size=10]REQ-103 / #{ $number }[/mono]{ $completion }
+
+    { "" }Insert this form into the ASRS console in Requisitions.
 
     { "" }[bold]Requested by:[/bold] { $requester }
     { "" }[bold]Position:[/bold] { $rank }

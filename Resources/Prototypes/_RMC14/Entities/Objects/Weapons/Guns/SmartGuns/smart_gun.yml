@@ -374,6 +374,7 @@
   - type: Tag
     tags:
     - RMCMagazineSmartGun
+    - RMCMagazineSmartGunStandard
   - type: BallisticAmmoProvider
     whitelist:
       tags:
@@ -401,6 +402,10 @@
   id: RMCMagazineSmartGunirradiated
   name: "ML79A drum magazine irradiated (10x30mm)"
   components:
+  - type: Tag
+    tags:
+    - RMCMagazineSmartGun
+    - RMCMagazineSmartGunirradiated
   - type: BallisticAmmoProvider
     whitelist:
       tags:
@@ -414,6 +419,9 @@
   id: RMCMagazineSmartGunHT
   name: "holotargeting smart gun drum (10x30mm)"
   components:
+  - type: Tag
+    tags:
+    - RMCMagazineSmartGun
   - type: BallisticAmmoProvider
     whitelist:
       tags:
@@ -515,6 +523,9 @@
 
 - type: Tag
   id: RMCMagazineSmartGun
+
+- type: Tag
+  id: RMCMagazineSmartGunStandard
 
 - type: Tag
   id: RMCMagazineSmartGunirradiated

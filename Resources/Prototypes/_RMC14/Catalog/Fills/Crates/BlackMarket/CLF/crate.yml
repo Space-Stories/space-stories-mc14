@@ -99,7 +99,7 @@
             weight: 67
     - weight: 5
       popup: rmc-black-market-clf-corpse
-      corpse: RMCCorpseCLF
+      corpse: RMCBlackMarketCLFCorpse
       corpseName: rmc-black-market-clf-corpse-name
       popupType: LargeCaution
     - weight: 15
@@ -146,3 +146,12 @@
       contents: !type:NestedSelector
         tableId: RMCBlackMarketCLFGrenades
         rolls: 6
+
+- type: randomHumanoidSettings
+  parent: RMCCorpseCLF
+  id: RMCBlackMarketCLFCorpse
+  components:
+  - type: Rotting
+  - type: Unrevivable
+    analyzable: false
+    reasonMessage: rmc-defibrillator-unrevivable

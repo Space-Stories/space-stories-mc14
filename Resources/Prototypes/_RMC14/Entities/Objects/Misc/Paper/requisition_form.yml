@@ -2,7 +2,9 @@
   parent: CMPaper
   id: RMCPaperRequisitionForm
   name: supply requisition form
-  description: A request for supplies awaiting approval by Requisitions.
+  description: >-
+    A request for supplies awaiting approval by Requisitions.
+    Insert this form into the ASRS console in Requisitions.
   components:
   - type: Paper
     editingDisabled: true

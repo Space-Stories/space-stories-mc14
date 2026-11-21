@@ -245,7 +245,7 @@
       - id: CMMagazinePistolM1984
       - id: CMMagazinePistolM1984
       - id: CMMagazinePistolM1984
-      # - id: CMMagazinePistolM1984Incendiary TODO RMC14: Incend mag
+      - id: RMCMagazinePistolM1984Incendiary
       - id: CMMagazineSMGM63
       - id: CMMagazineSMGM63
       - id: CMMagazineSMGM63

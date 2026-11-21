@@ -33,6 +33,7 @@
           - RMCMagazinePistolM1984AP
           - RMCMagazinePistolM1984HP
           - RMCMagazinePistolM1984Rubber
+          - RMCMagazinePistolM1984Incendiary
         startingItem: CMMagazinePistolM1984
   - type: AttachableHolder
     slots:
@@ -99,6 +100,7 @@
           - RMCMagazinePistolM1984AP
           - RMCMagazinePistolM1984HP
           - RMCMagazinePistolM1984Rubber
+          - RMCMagazinePistolM1984Incendiary
 
 #9mm
 - type: entity
@@ -240,3 +242,59 @@
 
 - type: Tag
   id: RMCCartridgePistol9mmHP
+
+- type: entity
+  parent: CMMagazinePistolM1984
+  id: RMCMagazinePistolM1984Incendiary
+  name: M1984 incendiary magazine (9mm)
+  description: A 9mm magazine loaded with incendiary rounds for the M1984.
+  components:
+  - type: Tag
+    tags:
+    - CMMagazinePistol
+    - RMCMagazinePistolM1984Incendiary
+  - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - RMCCartridgePistol9mmIncendiary
+    proto: RMCCartridgePistol9mmIncendiary
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: ammo_band
+      color: "#e43b32"
+
+- type: Tag
+  id: RMCMagazinePistolM1984Incendiary
+
+- type: entity
+  parent: CMCartridgePistol9mm
+  id: RMCCartridgePistol9mmIncendiary
+  name: cartridge (9mm incendiary)
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - RMCCartridgePistol9mmIncendiary
+  - type: CartridgeAmmo
+    proto: RMCBulletPistol9mmIncendiary
+
+- type: Tag
+  id: RMCCartridgePistol9mmIncendiary
+
+- type: entity
+  parent: CMBulletBase
+  id: RMCBulletPistol9mmIncendiary
+  name: bullet (9mm incendiary)
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Heat: 20
+  - type: CMArmorPiercing
+    amount: 10
+  - type: IgniteOnProjectileHit

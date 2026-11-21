@@ -5,6 +5,7 @@ using Content.Shared._RMC14.Requisitions.Components;
 using Content.Shared._RMC14.Vendors;
 using Content.Shared.Power;
 using Robust.Shared.Localization;
+using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._RMC14.Requisitions;
@@ -182,7 +183,7 @@ public sealed partial class RequisitionsSystem
     }
 
     private int IssueUnits(EntityUid actor, List<RequisitionsStockAllocation> allocations,
-        List<RequisitionStockSource> sources)
+        List<RequisitionStockSource> sources, EntityCoordinates? deliveryCoordinates)
     {
         var issued = 0;
         foreach (var allocation in allocations)
@@ -190,7 +191,8 @@ public sealed partial class RequisitionsSystem
             var source = sources[allocation.Offer];
             for (var i = 0; i < allocation.Amount; i++)
             {
-                if (!_vendors.TryIssueRequisition(source.Vendor, actor, source.Section, source.Entry))
+                if (!_vendors.TryIssueRequisition(source.Vendor, actor, source.Section, source.Entry,
+                        deliveryCoordinates))
                     break;
                 issued++;
             }

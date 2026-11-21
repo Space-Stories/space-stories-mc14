@@ -12,6 +12,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Players.RateLimiting;
 using Robust.Server.GameObjects;
 using Robust.Server.Player;
+using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._RMC14.Requisitions;
@@ -285,10 +286,13 @@ public sealed partial class RequisitionsSystem
             return;
         }
         var issued = 0;
+        EntityCoordinates? deliveryCoordinates = args.DeliverToCounter && issues.Count > 0
+            ? _vendors.GetRequisitionDeliveryCoordinates(computer)
+            : null;
         foreach (var issue in issues)
         {
             var item = request.Items[issue.Line];
-            var amount = IssueUnits(args.Actor, issue.Allocations, sources);
+            var amount = IssueUnits(args.Actor, issue.Allocations, sources, deliveryCoordinates);
             item.Fulfilled += amount;
             issued += amount;
         }

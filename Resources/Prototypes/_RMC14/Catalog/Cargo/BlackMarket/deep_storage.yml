@@ -17,6 +17,13 @@
       - cost: 0
         unit: true
         blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: -2
+        crate: RMCSmartpackA1
+
+      - cost: 0
+        unit: true
+        blackMarket: true
         blackMarketCost: 10
         blackMarketHeat: -5
         crate: RMCHelmetGarbNightVision

@@ -1,2 +1,2 @@
-ent-RMCPaperRequisitionForm = supply requisition form
-    .desc = A request for supplies awaiting approval by Requisitions.
+ent-RMCPaperRequisitionForm = бланк заявки снабжения
+    .desc = Запрос припасов, ожидающий одобрения отделом снабжения. Вставьте бланк в консоль АСПХ в отделе снабжения.

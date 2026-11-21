@@ -162,6 +162,9 @@ public abstract class SharedRequisitionsSystem : EntitySystem
         computer.Comp.BlackMarketStatus = computer.Comp.RequestOnly
             ? RequisitionsBlackMarketStatus.LockedOut
             : blackMarketStatus;
+        computer.Comp.BlackMarketHeatWarning = !computer.Comp.RequestOnly && computer.Comp.BlackMarketUnlocked &&
+            blackMarketStatus == RequisitionsBlackMarketStatus.Available && account != null &&
+            account.BlackMarketHeat >= account.BlackMarketHeatWarningThreshold;
         computer.Comp.PendingOrders = computer.Comp.RequestOnly ? new List<RequisitionsPendingOrder>() : pendingOrders;
         computer.Comp.Requests = computer.Comp.RequestOnly || account == null
             ? new List<RequisitionsRequest>()
