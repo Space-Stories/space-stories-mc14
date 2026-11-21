@@ -9,7 +9,7 @@ rmc-xeno-ancient = Древний { $baseName }
 rmc-xeno-prime = Первородный { $baseName }
 rmc-xeno-apex = Высший { $baseName }
 rmc-xeno-perfected = Совершенный { $baseName }
-rmc-xeno-progenitor = Прародитель { $baseName }
+rmc-xeno-progenitor = Химера { $baseName }
 rmc-xeno-firstborn = Перворождённый { $baseName }
 
 rmc-xeno-mature-parasite = Неоперившийся { $baseName }
