@@ -4,7 +4,9 @@ using Content.Shared._RMC14.Dropship.Utility.Systems;
 using Content.Shared._RMC14.ParaDrop;
 using Content.Shared._RMC14.Sentry;
 using Content.Shared._RMC14.SupplyDrop;
+using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Robust.Server.GameObjects;
+using Robust.Shared.Spawners;
 
 namespace Content.Server._RMC14.Dropship.Utility;
 
@@ -44,7 +46,7 @@ public sealed class RMCOrbitalDeployerSystem : SharedRMCOrbitalDeployerSystem
                 foreach (var entity in deployedEntities)
                 {
                     // Stories-SentryDeploy-Start
-                    if (HasComp<TurretComponent>(entity))
+                    if (HasComp<TurretComponent>(entity) || HasComp<GunIFFComponent>(entity))
                         _transform.AnchorEntity(entity, Transform(entity));
                     // Stories-SentryDeploy-End
 
@@ -52,7 +54,12 @@ public sealed class RMCOrbitalDeployerSystem : SharedRMCOrbitalDeployerSystem
                     RaiseLocalEvent(entity, ref ev);
                 }
             }
-            QueueDel(uid);
+
+            // Stories-SentryDeploy-Start
+            RemCompDeferred<SupplyDropPodComponent>(uid);
+            var despawn = EnsureComp<TimedDespawnComponent>(uid);
+            despawn.Lifetime = 0.2f;
+            // Stories-SentryDeploy-End
         }
     }
 }

@@ -22,6 +22,9 @@ public sealed partial class XenoSpitSystem : EntitySystem
 
     public void InitializeAcid()
     {
+        // Stories-AcidFix-Start
+        SubscribeLocalEvent<UserAcidedComponent, ComponentStartup>(OnUserAcidedStartup);
+        // Stories-AcidFix-End
         SubscribeLocalEvent<UserAcidedComponent, ComponentRemove>(OnUserAcidedRemove);
         SubscribeLocalEvent<UserAcidedComponent, ShowFireAlertEvent>(OnUserAcidedShowFireAlert);
         SubscribeLocalEvent<UserAcidedComponent, VaporHitEvent>(OnUserAcidedVaporHit);
@@ -47,14 +50,33 @@ public sealed partial class XenoSpitSystem : EntitySystem
 
         _stun.TryParalyze(player.Owner, player.Comp.ResistDuration, true);
         player.Comp.ExpiresAt -= player.Comp.ExtinguishAmount;
-        if (player.Comp.ExpiresAt <= _timing.CurTime)
+        // Stories-AcidFix-Start
+        if (player.Comp.ExpiresAt == null || player.Comp.ExpiresAt <= _timing.CurTime)
         {
             _popup.PopupEntity(Loc.GetString("rmc-acid-resist"), player, player);
             RemCompDeferred<UserAcidedComponent>(player);
         }
         else
+        {
+            Dirty(player.Owner, player.Comp);
             _popup.PopupEntity(Loc.GetString("rmc-acid-resist-partial"), player, player);
+        }
+        // Stories-AcidFix-End
     }
+
+    // Stories-AcidFix-Start
+    private void OnUserAcidedStartup(Entity<UserAcidedComponent> ent, ref ComponentStartup args)
+    {
+        if (ent.Comp.ExpiresAt == null && ent.Comp.MaxDuration > TimeSpan.Zero)
+        {
+            ent.Comp.ExpiresAt = _timing.CurTime + ent.Comp.MaxDuration;
+            Dirty(ent);
+        }
+
+        UpdateAppearance(ent);
+        _alerts.ShowAlert(ent, FireAlert);
+    }
+    // Stories-AcidFix-End
 
     private void OnUserAcidedRemove(Entity<UserAcidedComponent> ent, ref ComponentRemove args)
     {
@@ -92,7 +114,9 @@ public sealed partial class XenoSpitSystem : EntitySystem
 
             ent.Comp.ExpiresAt -= ent.Comp.ExtinguishAmount;
 
-            if (ent.Comp.ExpiresAt <= _timing.CurTime)
+            // Stories-AcidFix-Start
+            if (ent.Comp.ExpiresAt == null || ent.Comp.ExpiresAt <= _timing.CurTime)
+            // Stories-AcidFix-End
             {
                 RemCompDeferred<UserAcidedComponent>(ent);
             }
@@ -151,7 +175,9 @@ public sealed partial class XenoSpitSystem : EntitySystem
         acided.Comp.MultiplierThresholds = newAcid.MultiplierThresholds;
         acided.Comp.Upgrade = newAcid.Upgrade;
 
-        if (acided.Comp.NextMultThreshold == null)
+        // Stories-AcidFix-Start
+        if (acided.Comp.NextMultThreshold == null && acided.Comp.MultiplierThresholds.Length > 0)
+        // Stories-AcidFix-End
             acided.Comp.NextMultThreshold = _timing.CurTime + acided.Comp.MultiplierThresholds[0];
 
         if (acided.Comp.ExpiresAt == null)
@@ -198,7 +224,9 @@ public sealed partial class XenoSpitSystem : EntitySystem
         var acidedQuery = EntityQueryEnumerator<UserAcidedComponent>();
         while (acidedQuery.MoveNext(out var uid, out var acided))
         {
-            if (acided.ExpiresAt != null && time >= acided.ExpiresAt)
+            // Stories-AcidFix-Start
+            if (acided.ExpiresAt == null || time >= acided.ExpiresAt)
+            // Stories-AcidFix-End
             {
                 RemCompDeferred<UserAcidedComponent>(uid);
                 continue;
