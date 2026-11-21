@@ -21,6 +21,8 @@
     thresholds:
     - range: 22
       falloff: 10
+  - type: ProjectileCoverInteraction
+    ignoreCover: true
 
 - type: entity
   parent: RMCBaseBullet
@@ -44,6 +46,8 @@
     thresholds:
     - range: 22
       falloff: 10
+  - type: ProjectileCoverInteraction
+    ignoreCover: true
 
 - type: entity
   parent: RMCBaseBullet

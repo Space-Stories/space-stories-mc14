@@ -1,7 +1,8 @@
-using System.Collections.Generic; // Stories-ZLevels
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Content.Server._RMC14.MapInsert;
+using Content.Server._RMC14.Spawners;
 using Content.Server.Voting;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
@@ -40,6 +41,9 @@ public sealed partial class CMDistressSignalRuleSystem
         var map = mapNullable.Value;
         EnsureComp<RMCPlanetComponent>(map);
         EnsureComp<TacticalMapComponent>(map);
+
+        if (planet.Comp.SmallHostVariants != null)
+            EnsureComp<MapProportionalSpawnsComponent>(map).Prototypes = planet.Comp.SmallHostVariants;
 
         if (grids.Count == 0)
             return false;

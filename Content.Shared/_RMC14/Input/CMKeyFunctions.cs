@@ -10,6 +10,7 @@ public sealed class CMKeyFunctions
     public static readonly BoundKeyFunction RMCActivateAttachableRail = "RMCActivateAttachableRail";
     public static readonly BoundKeyFunction RMCActivateAttachableStock = "RMCActivateAttachableStock";
     public static readonly BoundKeyFunction RMCActivateAttachableUnderbarrel = "RMCActivateAttachableUnderbarrel";
+    public static readonly BoundKeyFunction RMCToggleShotgunTube = "RMCToggleShotgunTube";
     public static readonly BoundKeyFunction CMHolsterPrimary = "CMHolsterPrimary";
     public static readonly BoundKeyFunction CMHolsterQuaternary = "CMHolsterQuaternary";
     public static readonly BoundKeyFunction CMHolsterSecondary = "CMHolsterSecondary";

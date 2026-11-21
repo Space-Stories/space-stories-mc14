@@ -38,23 +38,11 @@ rmc-job-prefix-rcm-captain = МПК КПТ
 rmc-job-name-rcm-major = Майор Королевской морской пехоты
 rmc-job-prefix-rcm-major = МПК Майор
 
-rmc-job-name-rcm-pve-rifleman = Стрелок
-rmc-job-prefix-rcm-pve-rifleman = СТР
-
 rmc-job-name-rcm-pve-troop-sergeant = Сержант подразделения
 rmc-job-prefix-rcm-pve-troop-sergeant = СРЖ
 
 rmc-job-name-rcm-pve-section-leader = Командир отделения
 rmc-job-prefix-rcm-pve-section-leader = КО
-
-rmc-job-name-rcm-pve-team-leader = Лидер группы
-rmc-job-prefix-rcm-pve-team-leader = ЛГ
-
-rmc-job-name-rcm-pve-gpmg-gunner = Пулеметчик (ЕП)
-rmc-job-prefix-rcm-pve-gpmg-gunner = ПУЛ
-
-rmc-job-name-rcm-pve-medical-assistant = Санитар
-rmc-job-prefix-rcm-pve-medical-assistant = САН
 
 rmc-job-name-rcm-pve-assault-engineer = Штурмовой инженер
 rmc-job-prefix-rcm-pve-assault-engineer = ШТИНЖ

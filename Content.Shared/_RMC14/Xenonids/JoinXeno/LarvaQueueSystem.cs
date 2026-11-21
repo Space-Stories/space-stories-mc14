@@ -27,6 +27,7 @@ public sealed class LarvaQueueSystem : EntitySystem
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly INetConfigurationManager _netConfig = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
 
@@ -95,11 +96,11 @@ public sealed class LarvaQueueSystem : EntitySystem
 
             if (larvaEntity.IsValid()
                 && TryComp<BursterComponent>(larvaEntity, out var burster)
-                && _player.TryGetSessionByEntity(burster.BurstFrom, out var victimSession)
-                && victimSession.UserId == victimId)
+                && _player.TryGetSessionById(victimId, out var victimSession)
+                && _netConfig.GetClientCVar(victimSession.Channel, RMCCVars.RMCLarvaQueueVictimPriorityEnabled))
             {
                 _reservedBurstLarva.Add(larvaEntity);
-                SendOffer(victimSession, larvaEntity, hive, "Burst Victim", 1, burster.BurstFrom); // Stories-LarvaQueue
+                SendOffer(victimSession, larvaEntity, hive, "Burst Victim", 1, _offerTimeoutSeconds, burster.BurstFrom); // Stories-LarvaQueue
             }
         }
 
@@ -452,6 +453,7 @@ public sealed class LarvaQueueSystem : EntitySystem
         Entity<HiveComponent> hive,
         string tier,
         int position,
+        int? timeoutSecondsOverride = null,
         EntityUid? burstVictim = null)
     // Stories-LarvaQueue-End
     {
@@ -463,7 +465,7 @@ public sealed class LarvaQueueSystem : EntitySystem
                 DecrementPendingBurrowed(existing.Hive);
         }
 
-        var expiresAt = _gameTiming.CurTime.TotalSeconds + _offerTimeoutSeconds;
+        var expiresAt = _gameTiming.CurTime.TotalSeconds + (timeoutSecondsOverride ?? _offerTimeoutSeconds);
         _pendingOffers[session.UserId] = new PendingOffer
         {
             TargetLarva = targetLarva,

@@ -1,0 +1,14 @@
+ent-RMCPlantedFlagBase = JIMA planted flag
+    .desc = A planted flag with the iconic UNMC flag plastered all over it, you feel a burst of energy by its mere sight
+ent-RMCPlantedFlag = { ent-RMCPlantedFlagBase }
+    .desc = { ent-RMCPlantedFlagBase.desc }
+ent-RMCPlantedFlagExtendedRange = extended JIMA planted flag
+    .desc = { ent-RMCPlantedFlag.desc }
+ent-RMCPlantedFlagWarbanner = JIMA planted warbanner
+    .desc = { ent-RMCPlantedFlag.desc }
+ent-RMCPlantedFlagWeYa = WeYa planted flag
+    .desc = A planted flag with the iconic WeYa flag plastered all over it, you feel a burst of energy by its mere sight.
+ent-RMCPlantedFlagSPP = SPP planted flag
+    .desc = A planted flag with the iconic SPP flag plastered all over it, you feel a burst of energy by its mere sight.
+ent-RMCPlantedFlagCLF = CLF planted flag
+    .desc = A planted flag with the iconic CLF flag plastered all over it, you feel a burst of energy by its mere sight.

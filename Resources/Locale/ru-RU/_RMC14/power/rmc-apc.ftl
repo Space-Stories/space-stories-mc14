@@ -13,6 +13,7 @@ rmc-apc-shock-heavy-self = Вы чувствуете, как через ваше
 rmc-apc-shock-heavy-others = { $target } получает удар током от { $source }!
 rmc-apc-shock-mild-self = Вы чувствуете лёгкий удар током.
 rmc-apc-shock-mild-others = { $target } получает слабый удар током от { $source }.
+
 rmc-apc-frame-invalid-spot = Здесь нельзя установить ЛКП.
 rmc-apc-frame-invalid-area = В этой зоне нельзя установить ЛКП.
 

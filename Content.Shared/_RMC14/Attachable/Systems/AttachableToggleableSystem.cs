@@ -23,6 +23,7 @@ using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.Timing;
 using Content.Shared.Toggleable;
+using Content.Shared.Verbs;
 using Content.Shared.Weapons.Ranged.Systems;
 using Content.Shared.Whitelist;
 using Content.Shared.Wieldable.Components;
@@ -74,6 +75,8 @@ public sealed class AttachableToggleableSystem : EntitySystem
         //SubscribeLocalEvent<AttachableToggleableComponent, UniqueActionEvent>(OnUniqueAction);
         SubscribeLocalEvent<AttachableToggleableComponent, GrantAttachableActionsEvent>(OnGrantAttachableActions);
         SubscribeLocalEvent<AttachableToggleableComponent, RemoveAttachableActionsEvent>(OnRemoveAttachableActions);
+        SubscribeLocalEvent<AttachableToggleableComponent, GetVerbsEvent<ActivationVerb>>(OnGetActivationVerbs,
+            after: new[] { typeof(SharedHandheldLightSystem) });
         SubscribeLocalEvent<AttachableToggleableComponent, AttachableRelayedEvent<HandDeselectedEvent>>(OnHandDeselected);
         SubscribeLocalEvent<AttachableToggleableComponent, AttachableRelayedEvent<GotEquippedHandEvent>>(OnGotEquippedHand);
         SubscribeLocalEvent<AttachableToggleableComponent, AttachableRelayedEvent<GotUnequippedHandEvent>>(OnGotUnequippedHand);
@@ -735,7 +738,7 @@ public sealed class AttachableToggleableSystem : EntitySystem
         _attachableHolderSystem.SetSupercedingAttachable(holder, attachable.Owner);
     }
 
-    private void Toggle(Entity<AttachableToggleableComponent> attachable, EntityUid? user, bool interrupted = false)
+    public void Toggle(Entity<AttachableToggleableComponent> attachable, EntityUid? user, bool interrupted = false)
     {
         // Prevent toggling if attachment is restricted to being attached only
         if (attachable.Comp.AttachedOnly && !attachable.Comp.Attached)
@@ -903,6 +906,14 @@ public sealed class AttachableToggleableSystem : EntitySystem
     {
         if (attachable.Comp.AttachedOnly && !attachable.Comp.Attached)
             args.Handled = true;
+    }
+
+    private void OnGetActivationVerbs(Entity<AttachableToggleableComponent> ent, ref GetVerbsEvent<ActivationVerb> args)
+    {
+        if (!ent.Comp.AttachedOnly || ent.Comp.Attached)
+            return;
+
+        args.Verbs.RemoveWhere(v => v.Text == Loc.GetString("verb-common-toggle-light"));
     }
 #endregion
 }

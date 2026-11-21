@@ -10,10 +10,6 @@ rmc-ghost-name-corp-provost-advisor = Советник Провост (Друж�
 rmc-job-name-corp-provost-advisor = Советник Провост
 rmc-job-prefix-provost-advisor = СВПР
 
-rmc-ghost-name-corp-provost-chief = Главный инспектор Провост (Дружественный)
-rmc-job-name-corp-provost-chief = Главный инспектор Провост
-rmc-job-prefix-provost-chief = ГИПР
-
 rmc-ghost-name-corp-provost-deputy-marshal = Заместитель маршала Провост (Дружественный)
 rmc-job-name-corp-provost-deputy-marshal = Заместитель маршала Провост
 rmc-job-prefix-provost-deputy-marshal = ЗМПР

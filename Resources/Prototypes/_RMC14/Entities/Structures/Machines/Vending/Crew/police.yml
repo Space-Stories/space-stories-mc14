@@ -14,6 +14,7 @@
   - type: CMAutomatedVendor
     jobs:
     - CMMilitaryPolice
+    - CMProvostInspector
     sections:
     - name: Полицейский Набор (обязательно)
       takeAll: RMCMPSet
@@ -58,6 +59,7 @@
       - id: RMCBeltHolsterPistol
       - id: RMCBeltHolsterRevolver
       - id: RMCBeltUtilityGeneral
+      - id: RMCBeltBrowne
     - name: Подсумки
       choices: { RMCPouch: 2 }
       entries:
@@ -98,8 +100,10 @@
       entries:
       - id: RMCGuidebookLawMarine
         amount: 10
+        recommended: true
       - id: RMCGuidebookSOP
         amount: 10
+        recommended: true
 
 # WARDEN
 - type: entity
@@ -158,6 +162,7 @@
       - id: RMCBeltHolsterPistol
       - id: RMCBeltHolsterRevolver
       - id: RMCBeltUtilityGeneral
+      - id: RMCBeltBrowne
     - name: Подсумки
       choices: { RMCPouch: 2 }
       entries:
@@ -198,5 +203,7 @@
       entries:
       - id: RMCGuidebookLawMarine
         amount: 10
+        recommended: true
       - id: RMCGuidebookSOP
         amount: 10
+        recommended: true

@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   save: false
   parent: BaseMobSpecies
   id: RMCBaseMobSpeciesOrganic
@@ -291,11 +291,15 @@
         acided:
           None:
             visible: false
+          Weak:
+            sprite: _RMC14/Effects/xeno_spray_acid.rsi
+            state: human_acid_weak
+            visible: true
           Normal:
             sprite: _RMC14/Effects/xeno_spray_acid.rsi
             state: human_acid
             visible: true
-          Enhanced:
+          Strong:
             sprite: _RMC14/Effects/xeno_spray_acid.rsi
             state: human_acid_enhanced
             visible: true
@@ -382,6 +386,7 @@
   - type: RMCDisarm
   - type: RMCDisarmable
   - type: StunOnExplosionReceived
+  - type: RMCProneExplosionMult
   - type: DeafenWhileCrit
   - type: RMCStopDropRollVisuals
   - type: XenoToggleChargingDamage
@@ -397,6 +402,7 @@
       8: 8
   - type: XenoToggleChargingKnockback
   - type: XenoToggleChargingParalyze
+  - type: ParatoxinVisuals
   - type: RMCMobStateDrawDepth
     drawDepths:
       Dead: BelowMobs
@@ -411,6 +417,7 @@
       components:
       - Xeno
   - type: RMCHealthIcons
+  - type: RMCLightsOutOnDeath
   - type: RMCMesonsNonviewable
     xenoVisible: true
   - type: RMCActionOrder
@@ -419,6 +426,13 @@
     whitelist:
       tags:
       - SurvivalPouch
+  - type: RMCApplyOnDamageThreshold
+    thresholds:
+      - damageType: Airloss
+        threshold: 50
+        statusName: Unconscious
+        statusComponent: RMCUnconscious
+        duration: 6
   - type: HumanoidAppearance
     species: Human
     hideLayersOnEquip:

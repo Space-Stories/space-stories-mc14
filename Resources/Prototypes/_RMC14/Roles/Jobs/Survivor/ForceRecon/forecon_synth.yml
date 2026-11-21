@@ -16,7 +16,6 @@
   - ColonistSynthShipside # All medbay + engineering + synth accesses
   startingGear: RMCGearForeconSynthetic
   spawnMenuRoleName: FORECON Synthetic (Survivor)
-  roleWeight: 0.25
   icon: "RMCJobIconReconSynthetic"
   whitelisted: true
   # Stories-SurvivorSpawnerFallback-Start
@@ -27,7 +26,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon

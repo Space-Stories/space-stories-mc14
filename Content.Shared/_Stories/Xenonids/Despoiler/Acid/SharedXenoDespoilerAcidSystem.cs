@@ -124,8 +124,7 @@ public sealed class SharedXenoDespoilerAcidSystem : EntitySystem
             tier.Tier = tier.MaxTier;
             if (_userAcidedQuery.TryComp(target, out var acid))
             {
-                _xenoSpit.SetAcidCombo((target, acid),
-                    duration: default, damage: null, paralyze: default, resists: default);
+                _xenoSpit.EnhanceAcid((target, acid), tier.MaxTier);
             }
         }
         else if (tier.Tier < tier.MaxTier)

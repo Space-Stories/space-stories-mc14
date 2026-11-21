@@ -4,6 +4,7 @@ using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Ghost;
 using Content.Shared._RMC14.Inventory;
 using Content.Shared._RMC14.Map;
+using Content.Shared._RMC14.Medical.Unrevivable;
 using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Parasite;
@@ -16,11 +17,13 @@ using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
 using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
+using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Item;
 using Content.Shared.Maps;
+using Content.Shared.Mind;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Pulling.Components;
@@ -47,6 +50,7 @@ public sealed class XenoNestSystem : EntitySystem
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedGhostSystem _ghost = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly OccluderSystem _occluder = default!;
@@ -61,6 +65,7 @@ public sealed class XenoNestSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly RMCUnrevivableSystem _unrevivable = default!;
     [Dependency] private readonly SharedXenoWeedsSystem _xenoWeeds = default!;
 
     private EntityQuery<OccluderComponent> _occluderQuery;
@@ -177,7 +182,6 @@ public sealed class XenoNestSystem : EntitySystem
             _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-permission-denied"), nest.Owner, user, PopupType.MediumCaution);
             return false;
         }
-
         var ev = new XenoUnnestDoAfterEvent();
         var doAfter = new DoAfterArgs(EntityManager, user, nest.Comp.UnnestDelay, ev, nest.Owner, nest.Owner)
         {
@@ -186,7 +190,10 @@ public sealed class XenoNestSystem : EntitySystem
         };
 
         if (_doAfter.TryStartDoAfter(doAfter))
-            _popup.PopupClient(Loc.GetString("rmc-xeno-nest-unnest-start", ("target", nested)), user, user);
+        {
+            var message = Loc.GetString("rmc-xeno-nest-unnest-start", ("target", Identity.Name(nested, EntityManager, user)));
+            _popup.PopupClient(message, user, user);
+        }
 
         return true;
     }
@@ -201,7 +208,6 @@ public sealed class XenoNestSystem : EntitySystem
 
         if (!_hive.CanXenoUnnest(args.User))
             return;
-
         args.Handled = true;
 
         if (_net.IsClient)
@@ -289,9 +295,12 @@ public sealed class XenoNestSystem : EntitySystem
             _standing.Down(ent, changeCollision: true);
 
         if (ent.Comp.GhostedId is { } id &&
+            !_unrevivable.IsUnrevivable(ent) &&
             _player.TryGetSessionById(id, out var player) &&
             player.AttachedEntity is { } ghost &&
-            HasComp<GhostComponent>(ghost))
+            HasComp<GhostComponent>(ghost) &&
+            _mind.TryGetMind(player, out _, out var mind) &&
+            mind.OwnedEntity == ghost)
         {
             _rmcChat.ChatMessageToOne("\n[font size=24][color=red]You have been freed from your nest and may go back to your body![/color][/font]\n", ghost);
 
@@ -299,7 +308,7 @@ public sealed class XenoNestSystem : EntitySystem
             returnTo.Target = ent;
             Dirty(ghost, returnTo);
 
-            _ghost.SetCanReturnToBody(ghost, true);
+            _ghost.SetCanReturnToBody((ghost, null), true);
         }
     }
 
@@ -373,20 +382,24 @@ public sealed class XenoNestSystem : EntitySystem
         _standing.Stand(victim, force: true);
 
         // TODO RMC14 make a method to do this
-        _popup.PopupClient(Loc.GetString("cm-xeno-nest-securing-self", ("target", victim)), args.User, args.User);
+        var selfMessage = Loc.GetString("cm-xeno-nest-securing-self", ("target", Identity.Name(victim, EntityManager, args.User)));
+        _popup.PopupEntity(selfMessage, args.User, args.User);
 
-        foreach (var session in Filter.PvsExcept(args.User).Recipients)
+        var others = Filter.PvsExcept(args.User).Recipients;
+        foreach (var other in others)
         {
-            if (session.AttachedEntity is not { } recipient)
+            if (other.AttachedEntity is not { } otherEnt)
                 continue;
 
-            if (recipient == victim)
+            if (otherEnt == victim)
             {
-                _popup.PopupEntity(Loc.GetString("cm-xeno-nest-securing-target", ("user", args.User)), args.User, recipient, PopupType.MediumCaution);
+                var victimMessage = Loc.GetString("cm-xeno-nest-securing-target", ("user", Identity.Name(args.User, EntityManager, victim)));
+                _popup.PopupEntity(victimMessage, args.User, otherEnt, PopupType.MediumCaution);
             }
             else
             {
-                _popup.PopupEntity(Loc.GetString("cm-xeno-nest-securing-observer", ("user", args.User), ("target", victim)), args.User, recipient);
+                var otherMessage = Loc.GetString("cm-xeno-nest-securing-observer", ("user", Identity.Name(args.User, EntityManager, otherEnt)), ("target", Identity.Name(victim, EntityManager, otherEnt)));
+                _popup.PopupEntity(otherMessage, args.User, otherEnt);
             }
         }
 
@@ -487,20 +500,24 @@ public sealed class XenoNestSystem : EntitySystem
             return true;
 
         // TODO RMC14 make a method to do this
-        _popup.PopupClient(Loc.GetString("cm-xeno-nest-pin-self", ("target", victim)), user, user);
+        var selfMessage = Loc.GetString("cm-xeno-nest-pin-self", ("target", Identity.Name(victim, EntityManager, user)));
+        _popup.PopupClient(selfMessage, user, user);
 
-        foreach (var session in Filter.PvsExcept(user).Recipients)
+        var others = Filter.PvsExcept(user).Recipients;
+        foreach (var other in others)
         {
-            if (session.AttachedEntity is not { } recipient)
+            if (other.AttachedEntity is not { } otherEnt)
                 continue;
 
-            if (recipient == victim)
+            if (otherEnt == victim)
             {
-                _popup.PopupEntity(Loc.GetString("cm-xeno-nest-pin-target", ("user", user)), user, recipient, PopupType.MediumCaution);
+                var victimMessage = Loc.GetString("cm-xeno-nest-pin-target", ("user", Identity.Name(user, EntityManager, victim)));
+                _popup.PopupEntity(victimMessage, user, otherEnt, PopupType.MediumCaution);
             }
             else
             {
-                _popup.PopupEntity(Loc.GetString("cm-xeno-nest-pin-observer", ("user", user), ("target", victim)), user, recipient);
+                var otherMessage = Loc.GetString("cm-xeno-nest-pin-observer", ("user", Identity.Name(user, EntityManager, otherEnt)), ("target", Identity.Name(victim, EntityManager, otherEnt)));
+                _popup.PopupEntity(otherMessage, user, otherEnt);
             }
         }
 
@@ -525,16 +542,19 @@ public sealed class XenoNestSystem : EntitySystem
         {
             if (!HasComp<XenoNestableComponent>(victim))
             {
+
+                var selfMessage = Loc.GetString("cm-xeno-nest-failed", ("target", Identity.Name(victim.Value, EntityManager, user)));
                 if (!silent)
-                    _popup.PopupClient(Loc.GetString("cm-xeno-nest-failed", ("target", victim)), surface, user);
+                    _popup.PopupClient(selfMessage, surface, user);
 
                 return false;
             }
 
             if (_mobState.IsDead(victim.Value))
             {
+                var selfMessage = Loc.GetString("rmc-xeno-nest-failed-dead", ("target", Identity.Name(victim.Value, EntityManager, user)));
                 if (!silent)
-                    _popup.PopupClient(Loc.GetString("rmc-xeno-nest-failed-dead", ("target", victim)), surface, user);
+                    _popup.PopupClient(selfMessage, surface, user);
 
                 return false;
             }
@@ -590,8 +610,9 @@ public sealed class XenoNestSystem : EntitySystem
 
         if (victim != null && !_standing.IsDown(victim.Value))
         {
+            var selfMessage = Loc.GetString("cm-xeno-nest-failed-target-resisting", ("target", Identity.Name(victim.Value, EntityManager, user)));
             if (!silent)
-                _popup.PopupClient(Loc.GetString("cm-xeno-nest-failed-target-resisting", ("target", victim)), victim.Value, user, PopupType.MediumCaution);
+                _popup.PopupClient(selfMessage, victim.Value, user, PopupType.MediumCaution);
 
             return false;
         }
@@ -708,7 +729,7 @@ public sealed class XenoNestSystem : EntitySystem
         }
 
         var position = xform.LocalPosition;
-        _transform.SetLocalPosition(nested, position + xform.LocalRotation.ToWorldVec() / 2);
+        _transform.SetLocalPosition(nested, position + xform.LocalRotation.ToWorldVec() / 5);
         _transform.AttachToGridOrMap(nested, xform);
 
         RemCompDeferred<XenoNestedComponent>(nested);
