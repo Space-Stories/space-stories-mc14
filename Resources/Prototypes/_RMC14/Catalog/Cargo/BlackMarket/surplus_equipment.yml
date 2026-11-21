@@ -83,3 +83,11 @@
         blackMarketCost: 25
         blackMarketHeat: 5
         crate: RMCM1911SOCOMCase
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 5
+        crate: STCrateBlackMarketM82F
+        icon:
+          entity: RMCWeaponPistolM82F

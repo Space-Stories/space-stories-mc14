@@ -278,3 +278,10 @@
         crate: RMCCrateBlackMarketR4T
         icon:
           entity: RMCWeaponRifleR4T
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 55
+        blackMarketHeat: 10
+        crate: RMCGunCaseRevolverWarwickMkVIISnub

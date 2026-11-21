@@ -74,3 +74,5 @@ ent-RMCCrateBlackMarketZHNK72 = ящик с револьвером ZHNK-72
 ent-RMCCrateBlackMarketR4T = кейс с охотничьей винтовкой R4T
     .desc = Содержит рычажную винтовку R4T, разведывательный приклад, две коробки патронов .45-70 и одну коробку холостых патронов .45-70.
     .suffix = { ent-RMCCrateWoodenBuildable.suffix }
+ent-STCrateBlackMarketM82F = ящик с ракетницей M82-F
+    .desc = Внутри ракетница M82-F и упаковка обычных сигнальных ракет.

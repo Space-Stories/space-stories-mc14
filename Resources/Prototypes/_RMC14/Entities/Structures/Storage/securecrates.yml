@@ -14,7 +14,7 @@
     offset: 0
     table: !type:EntSelector
       id: RMCBlackMarketHackingDevice
-      prob: 0.0208203
+      prob: 0.0308203
   - type: RandomSpawner
     offset: 0
     chance: 1.0

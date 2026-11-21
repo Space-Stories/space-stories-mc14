@@ -311,3 +311,14 @@
     - id: RMCBox4570
       amount: 2
     - id: RMCBox4570Training
+
+- type: entity
+  parent: RMCCrateWoodenBuildable
+  id: STCrateBlackMarketM82F
+  name: M82-F flare gun crate
+  description: Includes an M82-F flare gun and a pack of standard flares.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCWeaponPistolM82F
+    - id: CMPackFlare

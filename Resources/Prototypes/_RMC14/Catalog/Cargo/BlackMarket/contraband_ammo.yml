@@ -393,6 +393,13 @@
       - cost: 0
         unit: true
         blackMarket: true
+        blackMarketCost: 8
+        blackMarketHeat: 1
+        crate: RMCSpeedLoaderM44
+
+      - cost: 0
+        unit: true
+        blackMarket: true
         blackMarketCost: 15
         blackMarketHeat: 5
         crate: RMCGrenadeType6
