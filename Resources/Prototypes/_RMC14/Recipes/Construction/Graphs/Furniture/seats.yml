@@ -5,7 +5,7 @@
   graph:
     - node: start
       actions:
-        - !type:DestroyEntity {}
+        - !type:DeleteEntity {} # Stories-DeconstructionFix
       edges:
         - to: chair
           steps:
