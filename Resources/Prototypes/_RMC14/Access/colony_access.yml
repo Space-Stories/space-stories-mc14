@@ -34,6 +34,7 @@
 # this is used to allow colony doctors into their chem but not marine chem
 - type: accessLevel
   id: CMAccessColonyChem
+  name: rmc-access-colony-chem
 
 # PVE Hybrisa Exclusive
 - type: accessLevel

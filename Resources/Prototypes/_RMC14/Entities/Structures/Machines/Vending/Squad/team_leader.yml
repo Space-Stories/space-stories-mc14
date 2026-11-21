@@ -110,8 +110,8 @@
         points: 5
       - id: RMCExplosiveBreachingCharge
         points: 10
-#      - id: ES-11 Mobile Fuel Canister
-#        points: 10
+      - id: RMCES11MobileFuelCanister
+        points: 5
       - id: CMWelderSmall
         points: 5
     - name: Utilities

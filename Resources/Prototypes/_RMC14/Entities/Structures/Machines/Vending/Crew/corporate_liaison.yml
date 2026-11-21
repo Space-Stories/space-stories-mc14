@@ -251,3 +251,7 @@
         amount: 1
       - id: RMCTieHorrible
         amount: 1
+    - name: Электроника
+      entries:
+      - id: RMCDoorElectronicsWeYa
+        amount: 2

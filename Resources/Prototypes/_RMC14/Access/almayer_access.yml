@@ -4,7 +4,7 @@
 - type: accessLevel
   id: CMAccessRequisitions
   parent: RMCBaseCommandAccess
-  name: Requisitions
+  name: rmc-access-requisitions
 
 
 - type: accessLevel
@@ -17,7 +17,7 @@
 - type: accessLevel
   id: RMCAccessVehicleCrew
   parent: RMCBaseMarineAccess
-  name: Vehicle Bay
+  name: rmc-access-vehicle-bay
 
 
 #engineering
@@ -48,7 +48,7 @@
 - type: accessLevel
   id: RMCAccessMorgue
   parent: RMCBaseMedicalAccess
-  name: id-card-access-level-morgue
+  name: rmc-access-morgue
 
 - type: accessLevel
   id: CMAccessChemistry

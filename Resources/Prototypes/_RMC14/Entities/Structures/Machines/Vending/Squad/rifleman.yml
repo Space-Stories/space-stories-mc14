@@ -93,8 +93,8 @@
       - id: CMSandbagEmpty25
         name: мешки с песком x25
         points: 20
-#      - id: ES-11 Mobile Fuel Canister
-#        points: 5
+      - id: RMCES11MobileFuelCanister
+        points: 5
       - id: CMWelderSmall
         points: 5
     - name: Вторичное Огнестрельное Оружие

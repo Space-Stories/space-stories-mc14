@@ -42,6 +42,13 @@
     job: RMCSPPRifleman
 
 - type: entity
+  parent: RMCIDSPP
+  id: RMCIDSPPEngineer
+  components:
+  - type: PresetIdCard
+    job: RMCSPPEngineer
+
+- type: entity
   parent: [ RMCIDCardStandardDogtagHidden, RMCIDSPPRifleman ]
   id: RMCIDSPPRiflemanHidden
   categories: [ HideSpawnMenu ]

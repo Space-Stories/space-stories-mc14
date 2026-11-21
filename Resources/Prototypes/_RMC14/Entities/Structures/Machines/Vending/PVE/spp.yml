@@ -195,6 +195,10 @@
         amount: 5
       - id: RMCWelderPVE
         amount: 1
+      - id: RMCES11MobileFuelCanister
+        amount: 3
+      - id: RMCDoorElectronicsSPP
+        amount: 3
     - name: Explosives
       entries:
       - id: RMCGrenadeType6

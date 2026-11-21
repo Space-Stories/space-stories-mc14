@@ -33931,6 +33931,30 @@ entities:
     - type: Transform
       pos: -30.5,-39.5
       parent: 1
+  - uid: 229
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -112.5,2.5
+      parent: 1
+  - uid: 230
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -107.5,5.5
+      parent: 1
+  - uid: 231
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -112.5,-3.5
+      parent: 1
+  - uid: 232
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -107.5,-6.5
+      parent: 1
 - proto: CMAirlockGlassMedicalLocked
   entities:
   - uid: 225
@@ -33959,48 +33983,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 68.5,-10.5
       parent: 1
-- proto: CMAirlockGlassSecurityLocked
-  entities:
-  - uid: 229
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -112.5,2.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 230
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -107.5,5.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 231
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -112.5,-3.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 232
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -107.5,-6.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
 - proto: CMAirlockKitchenLocked
   entities:
   - uid: 233
@@ -34655,16 +34637,6 @@ entities:
       parent: 1
 - proto: CMAirlockMaintBrigLocked
   entities:
-  - uid: 346
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -103.5,-9.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
   - uid: 347
     components:
     - type: Transform
@@ -34677,25 +34649,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -85.5,117.5
       parent: 1
-  - uid: 349
-    components:
-    - type: Transform
-      rot: 3.141592653589793 rad
-      pos: -114.5,10.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
-  - uid: 350
-    components:
-    - type: Transform
-      pos: -114.5,-11.5
-      parent: 1
-    - type: AccessReader
-      access:
-      - - CMAccessEngineering
-      - - RMCAccessCommand
   - uid: 351
     components:
     - type: Transform
@@ -34878,6 +34831,23 @@ entities:
       access:
       - - CMAccessOT
       - - RMCAccessCommand
+  - uid: 346
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -103.5,-9.5
+      parent: 1
+  - uid: 349
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: -114.5,10.5
+      parent: 1
+  - uid: 350
+    components:
+    - type: Transform
+      pos: -114.5,-11.5
+      parent: 1
 - proto: CMAirlockMaintKitchenLocked
   entities:
   - uid: 381
@@ -35472,30 +35442,6 @@ entities:
       parent: 1
 - proto: CMAirlockSecurityLocked
   entities:
-  - uid: 458
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -100.5,0.5
-      parent: 1
-  - uid: 459
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -103.5,-1.5
-      parent: 1
-  - uid: 460
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -103.5,0.5
-      parent: 1
-  - uid: 461
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -100.5,-1.5
-      parent: 1
   - uid: 462
     components:
     - type: Transform
@@ -211833,5 +211779,31 @@ entities:
     components:
     - type: Transform
       pos: -115.5,87.5
+      parent: 1
+- proto: RMCAirlockWeaponsNavigationLocked
+  entities:
+  - uid: 458
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -100.5,0.5
+      parent: 1
+  - uid: 459
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -103.5,-1.5
+      parent: 1
+  - uid: 460
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -103.5,0.5
+      parent: 1
+  - uid: 461
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: -100.5,-1.5
       parent: 1
 ...
