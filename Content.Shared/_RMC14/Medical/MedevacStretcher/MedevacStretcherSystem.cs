@@ -59,10 +59,12 @@ public sealed class MedevacStretcherSystem : EntitySystem
             return false;
         }
 
-        foreach (var buckled in strap.BuckledEntities)
+        // Stories-MedevacFix-Start
+        foreach (var buckled in strap.BuckledEntities.ToArray())
         {
             _transform.PlaceNextTo(buckled, medevacEntity);
         }
+        // Stories-MedevacFix-End
 
         _appearance.SetData(ent, MedevacStretcherVisuals.MedevacingState, false);
         return true;
