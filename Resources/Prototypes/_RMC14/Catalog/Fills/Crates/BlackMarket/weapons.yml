@@ -125,8 +125,8 @@
   components:
   - type: StorageFill
     contents:
-    - id: WeaponSMGMP5
-    - id: CMMagazineSMGMP5
+    - id: RMCWeaponSMGPCAC5A4
+    - id: RMCMagazineSMGPCAC5
       amount: 5
 
 - type: entity

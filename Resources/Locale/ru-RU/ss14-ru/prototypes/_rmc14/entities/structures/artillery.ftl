@@ -6,6 +6,7 @@ ent-RMCAntiAirPropFlipped = { ent-RMCAntiAirProp }
     .suffix = Декорация, Перевернутый
 ent-RMCRailgunProp = Планетарная батарея MAC "ВЗРЫВ"
     .desc = Планетарная батарея MAC "ВЗРЫВ" — это усовершенствованная пушка с магнитным ускорителем массы, которая использует длинную линейную систему магнитных катушек для разгона металлических снарядов с невероятной скоростью.
+    .suffix = { ent-RMCAntiAirProp.suffix }
 ent-RMCRailgunPropFlipped = { ent-RMCRailgunProp }
     .desc = { ent-RMCRailgunProp.desc }
     .suffix = Декорация, Перевернутый

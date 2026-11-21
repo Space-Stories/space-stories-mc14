@@ -406,7 +406,8 @@ namespace Content.Server.Explosion.EntitySystems
 
         private void UpdateTimer(float frameTime)
         {
-            HashSet<EntityUid> toRemove = new();
+            // Stories-TriggerFix-Start
+            List<(EntityUid Uid, EntityUid? User)> toRemove = new();
             var query = EntityQueryEnumerator<ActiveTimerTriggerComponent>();
             while (query.MoveNext(out var uid, out var timer))
             {
@@ -415,8 +416,7 @@ namespace Content.Server.Explosion.EntitySystems
 
                 if (timer.TimeRemaining <= 0)
                 {
-                    Trigger(uid, timer.User);
-                    toRemove.Add(uid);
+                    toRemove.Add((uid, timer.User));
                     continue;
                 }
 
@@ -427,14 +427,20 @@ namespace Content.Server.Explosion.EntitySystems
                 _audio.PlayPvs(timer.BeepSound, uid, timer.BeepSound.Params);
             }
 
-            foreach (var uid in toRemove)
+            foreach (var (uid, user) in toRemove)
             {
+                Trigger(uid, user);
+
+                if (TerminatingOrDeleted(uid))
+                    continue;
+
                 RemComp<ActiveTimerTriggerComponent>(uid);
 
                 // In case this is a re-usable grenade, un-prime it.
                 if (TryComp<AppearanceComponent>(uid, out var appearance))
                     _appearance.SetData(uid, TriggerVisuals.VisualState, TriggerVisualState.Unprimed, appearance);
             }
+            // Stories-TriggerFix-End
         }
 
         private void UpdateRepeat()

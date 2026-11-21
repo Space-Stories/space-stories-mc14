@@ -116,7 +116,7 @@
         blackMarketHeat: 5
         crate: RMCCrateBlackMarketMP5
         icon:
-          entity: WeaponSMGMP5
+          entity: RMCWeaponSMGPCAC5A4
 
       - cost: 0
         blackMarket: true
@@ -163,7 +163,7 @@
       - cost: 0
         unit: true
         blackMarket: true
-        blackMarketCost: 80
+        blackMarketCost: 160
         blackMarketHeat: 10
         crate: RMCWeaponLauncherDisposableFolded
 

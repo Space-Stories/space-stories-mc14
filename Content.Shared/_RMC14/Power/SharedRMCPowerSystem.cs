@@ -57,8 +57,9 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -81,6 +82,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     private readonly Dictionary<MapId, HashSet<EntityUid>> _reactorsByMap = new();
     private readonly HashSet<MapId> _reactorsUpdated = new();
     private readonly Dictionary<(EntityUid net, string protoId), EntityUid> _canonicalAreaCache = new(); // Stories-Optimization
+    private readonly HashSet<EntityUid> _wallLookup = new();
     private bool _recalculate;
 
     private EntityQuery<RMCApcComponent> _apcQuery;
@@ -131,6 +133,10 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         SubscribeLocalEvent<RMCApcComponent, RMCApcSecureElectronicsDoAfterEvent>(OnApcSecureElectronicsDoAfter);
         SubscribeLocalEvent<RMCApcComponent, RMCApcUnsecureElectronicsDoAfterEvent>(OnApcUnsecureElectronicsDoAfter);
         SubscribeLocalEvent<RMCApcComponent, RMCApcRepairFrameDoAfterEvent>(OnApcRepairFrameDoAfter);
+        SubscribeLocalEvent<RMCApcComponent, RMCApcDeconstructDoAfterEvent>(OnApcDeconstructDoAfter);
+
+        SubscribeLocalEvent<RMCApcFrameComponent, InteractUsingEvent>(OnApcFrameInteractUsing);
+        SubscribeLocalEvent<RMCApcFrameComponent, AfterInteractEvent>(OnApcFrameAfterInteract);
 
         SubscribeLocalEvent<RMCApcConstructionFrameComponent, ComponentStartup>(OnApcConstructionFrameStartup);
         SubscribeLocalEvent<RMCApcConstructionFrameComponent, MapInitEvent>(OnApcConstructionFrameUpdate);
@@ -409,13 +415,16 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     private void BreakApc(Entity<RMCApcComponent> ent)
     {
         ent.Comp.Broken = true;
+        ent.Comp.MainBreakerButton = false;
         CloseApcWiresPanel(ent);
-        ent.Comp.WiresExposed = true;
+        ent.Comp.WiresExposed = false;
         ent.Comp.MainPowerWirePulsed = false;
         SetAllApcChannels(ent, false);
+        SpawnApcSparks(ent);
         Dirty(ent);
 
         UpdateApcAppearance(ent);
+        ToUpdate.Add(ent);
     }
 
     private void OnApcInteractUsing(Entity<RMCApcComponent> ent, ref InteractUsingEvent args)
@@ -429,13 +438,21 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             return;
         }
 
+        if (ent.Comp.Cover == RMCApcCover.Closed &&
+            (_tool.HasQuality(used, ent.Comp.RepairTool) ||
+             ent.Comp.WiresExposed && (_tool.HasQuality(used, ent.Comp.CuttingTool) || _tool.HasQuality(used, "Pulsing"))))
+        {
+            return;
+        }
+
         if (!_skills.HasSkill(user, ent.Comp.Skill, ent.Comp.SkillLevel))
         {
             PopupApcSkillFail(ent, user);
             return;
         }
 
-        if (TryUseApcCrowbar(ent, user, used) ||
+        if (TryUseApcFrame(ent, user, used) ||
+            TryUseApcCrowbar(ent, user, used) ||
             TryUseApcCell(ent, user, used) ||
             TryUseApcAccess(ent, user, used) ||
             TryUseApcCable(ent, user, used) ||
@@ -450,6 +467,9 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
     private void OnApcInteractHand(Entity<RMCApcComponent> ent, ref InteractHandEvent args)
     {
+        if (HasComp<XenoComponent>(args.User))
+            return;
+
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             !HasApcCell(ent))
             return;
@@ -505,26 +525,118 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         using (args.PushGroup(nameof(RMCApcComponent)))
         {
-            var markup = ent.Comp.State switch
+            var hasCell = HasApcCell(ent);
+            if (ent.Comp.Broken)
             {
-                RMCApcState.Working => Loc.GetString("rmc-apc-examine-working"),
-                RMCApcState.WiresExposed when ent.Comp.MainPowerWireCut =>
-                    Loc.GetString("rmc-apc-examine-wires-damaged"),
-                RMCApcState.WiresExposed => Loc.GetString("rmc-apc-examine-wires-exposed"),
-                RMCApcState.CoverOpenBattery => Loc.GetString("rmc-apc-examine-cover-open-battery"),
-                RMCApcState.CoverOpenNoBattery => GetApcOpenNoBatteryExamine(ent),
-                RMCApcState.CoverRemovedBattery => Loc.GetString("rmc-apc-examine-cover-removed-battery"),
-                RMCApcState.CoverRemovedNoBattery => GetApcOpenNoBatteryExamine(ent),
-                RMCApcState.Broken => Loc.GetString("rmc-apc-examine-broken"),
-                RMCApcState.BrokenCoverRemovedBattery => Loc.GetString("rmc-apc-examine-broken-cover-removed-battery"),
-                RMCApcState.BrokenCoverRemovedNoBattery => Loc.GetString("rmc-apc-examine-broken-cover-removed-no-battery"),
-                RMCApcState.TerminalMissing => GetApcOpenNoBatteryExamine(ent),
-                RMCApcState.Maintenance => Loc.GetString("rmc-apc-examine-maintenance"),
+                args.PushMarkup(Loc.GetString("rmc-apc-examine-broken-header"));
+                if (ent.Comp.Cover == RMCApcCover.Closed)
+                {
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-broken"));
+                    return;
+                }
+
+                if (hasCell)
+                {
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-broken-remove-cell"));
+                    return;
+                }
+
+                var brokenNext = ent.Comp.Electronics switch
+                {
+                    RMCApcElectronics.Secured => Loc.GetString("rmc-apc-examine-broken-unsecure"),
+                    RMCApcElectronics.Inserted => ent.Comp.TerminalInstalled
+                        ? Loc.GetString("rmc-apc-examine-broken-cut-terminal")
+                        : Loc.GetString("rmc-apc-examine-broken-remove-board"),
+                    _ => ent.Comp.TerminalInstalled
+                        ? Loc.GetString("rmc-apc-examine-broken-replace-or-cut")
+                        : Loc.GetString("rmc-apc-examine-broken-replace-or-weld"),
+                };
+                args.PushMarkup(brokenNext);
+                return;
+            }
+
+            if (ent.Comp.Cover != RMCApcCover.Closed)
+            {
+                if (ent.Comp.Electronics != RMCApcElectronics.Missing && ent.Comp.TerminalInstalled)
+                {
+                    var coverKey = ent.Comp.Cover == RMCApcCover.Removed
+                        ? "rmc-apc-examine-cover-status-removed"
+                        : "rmc-apc-examine-cover-status-open";
+                    var cellKey = hasCell
+                        ? "rmc-apc-examine-cell-status-installed"
+                        : "rmc-apc-examine-cell-status-missing";
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-open-status",
+                        ("cover", Loc.GetString(coverKey)),
+                        ("cell", Loc.GetString(cellKey))));
+                }
+                else if (ent.Comp.Electronics == RMCApcElectronics.Missing && ent.Comp.TerminalInstalled)
+                {
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-wires-no-electronics"));
+                }
+                else if (ent.Comp.Electronics != RMCApcElectronics.Missing && !ent.Comp.TerminalInstalled)
+                {
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-electronics-no-wires"));
+                }
+                else
+                {
+                    args.PushMarkup(Loc.GetString("rmc-apc-examine-no-electronics-no-wires"));
+                }
+            }
+            else
+            {
+                args.PushMarkup(Loc.GetString(IsApcMaintenance(ent)
+                    ? "rmc-apc-examine-closed-maint"
+                    : "rmc-apc-examine-closed"));
+            }
+
+            if ((ent.Comp.MainPowerWireCut || ent.Comp.MainPowerWirePulsed) && !IsApcMaintenance(ent))
+            {
+                var wireFix = Loc.GetString(ent.Comp.MainPowerWireCut
+                    ? "rmc-apc-examine-wire-fix-mend"
+                    : "rmc-apc-examine-wire-fix-cut-mend");
+                var faultKey = ent.Comp.Cover != RMCApcCover.Closed
+                    ? "rmc-apc-examine-fault-cover-open"
+                    : !ent.Comp.WiresExposed
+                        ? "rmc-apc-examine-fault-panel-closed"
+                        : "rmc-apc-examine-fault-wires-exposed";
+                args.PushMarkup(Loc.GetString(faultKey, ("fix", wireFix)));
+            }
+
+            if (ent.Comp.Cover == RMCApcCover.Closed)
+            {
+                var closedNext = IsApcMaintenance(ent)
+                    ? Loc.GetString("rmc-apc-examine-closed-next-maint")
+                    : !ent.Comp.CoverLockedButton
+                        ? Loc.GetString("rmc-apc-examine-closed-next-unlocked-cover")
+                        : ent.Comp.WiresExposed
+                            ? Loc.GetString("rmc-apc-examine-wires-exposed")
+                            : ent.Comp.Locked
+                                ? Loc.GetString("rmc-apc-examine-closed-next-locked")
+                                : Loc.GetString("rmc-apc-examine-closed-next-disengage");
+                args.PushMarkup(closedNext);
+                return;
+            }
+
+            var openNext = ent.Comp.Electronics switch
+            {
+                RMCApcElectronics.Missing => ent.Comp.TerminalInstalled
+                    ? Loc.GetString("rmc-apc-examine-open-none-terminal")
+                    : Loc.GetString("rmc-apc-examine-open-none-noterminal", ("amount", ent.Comp.CableAmount)),
+                RMCApcElectronics.Inserted => !ent.Comp.TerminalInstalled
+                    ? Loc.GetString("rmc-apc-examine-open-installed-noterminal", ("amount", ent.Comp.CableAmount))
+                    : hasCell
+                        ? Loc.GetString("rmc-apc-examine-open-remove-cell")
+                        : Loc.GetString("rmc-apc-examine-open-installed-terminal"),
+                RMCApcElectronics.Secured => !hasCell
+                    ? Loc.GetString("rmc-apc-examine-open-secured-nocell")
+                    : ent.Comp.Cover == RMCApcCover.Open
+                        ? Loc.GetString("rmc-apc-examine-cover-open-battery")
+                        : Loc.GetString("rmc-apc-examine-cover-removed-battery"),
                 _ => null,
             };
 
-            if (markup != null)
-                args.PushMarkup(markup);
+            if (openNext != null)
+                args.PushMarkup(openNext);
         }
     }
 
@@ -532,13 +644,6 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     {
         if (args.Cancelled)
             return;
-
-        if (args.User != null &&
-            !_skills.HasSkill(args.User.Value, ent.Comp.Skill, ent.Comp.SkillLevel))
-        {
-            args.Cancelled = true;
-            return;
-        }
 
         if (args.Open || args.User == null)
             return;
@@ -556,6 +661,8 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         ent.Comp.WiresExposed = args.Open;
         if (!args.Open)
             ResetApcXenoDamage(ent);
+        else if (ent.Comp.XenoHits < ent.Comp.XenoExposeWiresMinHits)
+            ent.Comp.XenoHits = ent.Comp.XenoExposeWiresMinHits;
         Dirty(ent);
         UpdateApcAppearance(ent);
     }
@@ -569,13 +676,18 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             ent.Comp.TerminalInstalled ||
-            ent.Comp.Electronics != RMCApcElectronics.Missing ||
+            ent.Comp.Electronics == RMCApcElectronics.Secured ||
             !TryComp(args.Used, out StackComponent? stack) ||
-            stack.StackTypeId != ent.Comp.CableStack ||
-            !_stack.Use(args.Used.Value, ent.Comp.CableAmount, stack))
+            stack.StackTypeId != ent.Comp.CableStack)
         {
             return;
         }
+
+        if (TryApcElectrocute(ent, args.User, siemensCoeff: 1f))
+            return;
+
+        if (!_stack.Use(args.Used.Value, ent.Comp.CableAmount, stack))
+            return;
 
         ent.Comp.TerminalInstalled = true;
         Dirty(ent);
@@ -591,10 +703,13 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             !ent.Comp.TerminalInstalled ||
-            ent.Comp.Electronics != RMCApcElectronics.Missing)
+            ent.Comp.Electronics == RMCApcElectronics.Secured)
         {
             return;
         }
+
+        if (TryApcElectrocute(ent, args.User, siemensCoeff: 1f))
+            return;
 
         ent.Comp.TerminalInstalled = false;
         if (_net.IsServer)
@@ -613,7 +728,6 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             ent.Comp.Broken ||
-            !ent.Comp.TerminalInstalled ||
             ent.Comp.Electronics != RMCApcElectronics.Missing ||
             Prototype(args.Used.Value)?.ID != ent.Comp.ElectronicsPrototype.Id)
         {
@@ -636,7 +750,8 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         args.Handled = true;
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
-            ent.Comp.Electronics == RMCApcElectronics.Missing ||
+            ent.Comp.Electronics != RMCApcElectronics.Inserted ||
+            ent.Comp.TerminalInstalled ||
             HasApcCell(ent))
         {
             return;
@@ -705,23 +820,19 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             ent.Comp.Cover == RMCApcCover.Closed ||
             ent.Comp.Electronics != RMCApcElectronics.Missing ||
             HasApcCell(ent) ||
-            !_tool.HasQuality(args.Used.Value, ent.Comp.WeldingTool) ||
-            !_skills.HasSkill(args.User, ent.Comp.Skill, ent.Comp.SkillLevel))
+            !HasComp<RMCApcFrameComponent>(args.Used.Value))
         {
             return;
         }
 
         args.Handled = true;
+        if (_net.IsServer)
+            QueueDel(args.Used.Value);
+
         ent.Comp.Broken = false;
-        ent.Comp.Cover = RMCApcCover.Open;
-        ent.Comp.TerminalInstalled = false;
-        ent.Comp.Electronics = RMCApcElectronics.Missing;
-        CloseApcWiresPanel(ent);
-        ent.Comp.WiresExposed = false;
-        ent.Comp.MainPowerWireCut = false;
-        ent.Comp.MainPowerWirePulsed = false;
-        ent.Comp.IdScannerWireCut = false;
-        SetApcWiresCut(ent, args.User, false);
+        if (ent.Comp.Cover == RMCApcCover.Removed)
+            ent.Comp.Cover = RMCApcCover.Open;
+
         ResetApcXenoDamage(ent);
 
         if (TryComp(ent, out DamageableComponent? damageable))
@@ -730,6 +841,30 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         Dirty(ent);
         UpdateApcAppearance(ent);
         ToUpdate.Add(ent);
+    }
+
+    private void OnApcDeconstructDoAfter(Entity<RMCApcComponent> ent, ref RMCApcDeconstructDoAfterEvent args)
+    {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        if (ent.Comp.Cover == RMCApcCover.Closed ||
+            ent.Comp.TerminalInstalled ||
+            ent.Comp.Electronics != RMCApcElectronics.Missing ||
+            HasApcCell(ent))
+        {
+            return;
+        }
+
+        args.Handled = true;
+        if (_net.IsServer)
+        {
+            var proto = ent.Comp.Broken || ent.Comp.Cover == RMCApcCover.Removed
+                ? "CMSheetMetal1"
+                : ent.Comp.FramePrototype.Id;
+            SpawnNextToOrDrop(proto, ent);
+            QueueDel(ent);
+        }
     }
 
     private bool TryForceOpenBrokenApc(Entity<RMCApcComponent> ent, EntityUid user, EntityUid used)
@@ -748,6 +883,38 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         UpdateApcAppearance(ent);
         _popup.PopupClient(Loc.GetString("rmc-apc-knock-cover-off", ("apc", ent)), ent, user);
         return true;
+    }
+
+    private bool TryUseApcFrame(Entity<RMCApcComponent> ent, EntityUid user, EntityUid used)
+    {
+        if (!HasComp<RMCApcFrameComponent>(used))
+            return false;
+
+        if (!ent.Comp.Broken)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-repair-frame-not-needed", ("apc", ent)), ent, user, SmallCaution);
+            return true;
+        }
+
+        if (ent.Comp.Cover == RMCApcCover.Closed)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-damaged-cover-in-way", ("apc", ent)), ent, user, SmallCaution);
+            return true;
+        }
+
+        if (ent.Comp.Electronics != RMCApcElectronics.Missing)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-remove-damaged-electronics-first", ("apc", ent)), ent, user, SmallCaution);
+            return true;
+        }
+
+        if (HasApcCell(ent))
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-remove-battery-first", ("apc", ent)), ent, user, SmallCaution);
+            return true;
+        }
+
+        return TryStartApcDoAfter(ent, user, used, ent.Comp.RepairFrameDelay, new RMCApcRepairFrameDoAfterEvent());
     }
 
     private bool TryUseApcCrowbar(Entity<RMCApcComponent> ent, EntityUid user, EntityUid used)
@@ -780,12 +947,17 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             return true;
         }
 
-        if (ent.Comp.Electronics == RMCApcElectronics.Inserted ||
-            (ent.Comp.Broken && ent.Comp.Electronics != RMCApcElectronics.Missing))
+        if (ent.Comp.Electronics == RMCApcElectronics.Inserted)
         {
-            if (ent.Comp.Broken && HasApcCell(ent))
+            if (HasApcCell(ent))
             {
                 _popup.PopupClient(Loc.GetString("rmc-apc-remove-battery-first", ("apc", ent)), ent, user, SmallCaution);
+                return true;
+            }
+
+            if (ent.Comp.TerminalInstalled)
+            {
+                _popup.PopupClient(Loc.GetString("rmc-apc-disconnect-terminal-first", ("apc", ent)), ent, user, SmallCaution);
                 return true;
             }
 
@@ -871,12 +1043,6 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             return true;
         }
 
-        if (ent.Comp.IdScannerWireCut)
-        {
-            _popup.PopupClient(Loc.GetString("rmc-apc-id-scanner-wire-cut", ("apc", ent)), ent, user, SmallCaution);
-            return true;
-        }
-
         if (!_accessReader.IsAllowed(used, ent, reader))
         {
             _popup.PopupClient(Loc.GetString("rmc-apc-access-denied", ("apc", ent)), ent, user, SmallCaution);
@@ -899,7 +1065,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             ent.Comp.TerminalInstalled ||
-            ent.Comp.Electronics != RMCApcElectronics.Missing)
+            ent.Comp.Electronics == RMCApcElectronics.Secured)
         {
             return false;
         }
@@ -926,7 +1092,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         if (ent.Comp.Cover == RMCApcCover.Closed ||
             !ent.Comp.TerminalInstalled ||
-            ent.Comp.Electronics != RMCApcElectronics.Missing)
+            ent.Comp.Electronics == RMCApcElectronics.Secured)
         {
             return false;
         }
@@ -957,12 +1123,6 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             return true;
         }
 
-        if (!ent.Comp.TerminalInstalled)
-        {
-            _popup.PopupClient(Loc.GetString("rmc-apc-terminal-not-connected", ("apc", ent)), ent, user, SmallCaution);
-            return true;
-        }
-
         if (ent.Comp.Electronics != RMCApcElectronics.Missing)
         {
             _popup.PopupClient(Loc.GetString("rmc-apc-already-has-module", ("apc", ent)), ent, user, SmallCaution);
@@ -986,12 +1146,6 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         if (ent.Comp.Cover == RMCApcCover.Closed)
             return false;
 
-        if (ent.Comp.Broken)
-        {
-            _popup.PopupClient(Loc.GetString("rmc-apc-damaged-electronics-cannot-secure", ("apc", ent)), ent, user, SmallCaution);
-            return true;
-        }
-
         if (HasApcCell(ent))
         {
             _popup.PopupClient(Loc.GetString("rmc-apc-remove-battery-first", ("apc", ent)), ent, user, SmallCaution);
@@ -1001,24 +1155,22 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         switch (ent.Comp.Electronics)
         {
             case RMCApcElectronics.Secured:
-                if (TryStartApcDoAfter(ent, user, used, ent.Comp.SecureElectronicsDelay, new RMCApcUnsecureElectronicsDoAfterEvent()))
-                {
-                    PlayApcSound(ent, ent.Comp.ScrewdriverSound, user);
-                    return true;
-                }
-
-                return false;
+                ent.Comp.Electronics = RMCApcElectronics.Inserted;
+                PlayApcSound(ent, ent.Comp.ScrewdriverSound, user);
+                Dirty(ent);
+                UpdateApcAppearance(ent);
+                ToUpdate.Add(ent);
+                return true;
             case RMCApcElectronics.Inserted when !ent.Comp.TerminalInstalled:
                 _popup.PopupClient(Loc.GetString("rmc-apc-terminal-not-connected", ("apc", ent)), ent, user, SmallCaution);
                 return true;
             case RMCApcElectronics.Inserted:
-                if (TryStartApcDoAfter(ent, user, used, ent.Comp.SecureElectronicsDelay, new RMCApcSecureElectronicsDoAfterEvent()))
-                {
-                    PlayApcSound(ent, ent.Comp.ScrewdriverSound, user);
-                    return true;
-                }
-
-                return false;
+                ent.Comp.Electronics = RMCApcElectronics.Secured;
+                PlayApcSound(ent, ent.Comp.ScrewdriverSound, user);
+                Dirty(ent);
+                UpdateApcAppearance(ent);
+                ToUpdate.Add(ent);
+                return true;
             default:
                 _popup.PopupClient(Loc.GetString("rmc-apc-nothing-to-secure", ("apc", ent)), ent, user, SmallCaution);
                 return true;
@@ -1030,8 +1182,8 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
         if (!_tool.HasQuality(used, ent.Comp.WeldingTool))
             return false;
 
-        if (!ent.Comp.Broken ||
-            ent.Comp.Cover == RMCApcCover.Closed ||
+        if (ent.Comp.Cover == RMCApcCover.Closed ||
+            ent.Comp.TerminalInstalled ||
             ent.Comp.Electronics != RMCApcElectronics.Missing ||
             HasApcCell(ent))
         {
@@ -1042,9 +1194,9 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
                 used,
                 user,
                 ent,
-                ent.Comp.RepairFrameDelay,
+                ent.Comp.DeconstructDelay,
                 new[] { ent.Comp.WeldingTool.Id },
-                new RMCApcRepairFrameDoAfterEvent(),
+                new RMCApcDeconstructDoAfterEvent(),
                 out _,
                 duplicateCondition: DuplicateConditions.SameTool))
         {
@@ -1108,31 +1260,19 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
                ent.Comp.Electronics != RMCApcElectronics.Secured;
     }
 
-    private string GetApcOpenNoBatteryExamine(Entity<RMCApcComponent> ent)
-    {
-        if (!ent.Comp.TerminalInstalled)
-            return Loc.GetString("rmc-apc-examine-connect-terminal", ("amount", ent.Comp.CableAmount));
-
-        return ent.Comp.Electronics switch
-        {
-            RMCApcElectronics.Missing => Loc.GetString("rmc-apc-examine-install-electronics"),
-            RMCApcElectronics.Inserted => Loc.GetString("rmc-apc-examine-secure-electronics"),
-            _ => Loc.GetString("rmc-apc-examine-insert-battery"),
-        };
-    }
-
     private void PopupApcSkillFail(Entity<RMCApcComponent> ent, EntityUid user)
     {
         _popup.PopupClient(Loc.GetString("rmc-apc-skill-fail", ("apc", ent)), ent, user, SmallCaution);
     }
 
-    private void UpdateApcAppearance(Entity<RMCApcComponent> ent)
+    protected void UpdateApcAppearance(Entity<RMCApcComponent> ent)
     {
         var state = GetApcVisualState(ent);
         ent.Comp.State = state;
 
         _appearance.SetData(ent, RMCApcVisualsLayers.Layer, state);
         _appearance.SetData(ent, RMCApcVisualsLayers.Lock, ent.Comp.Locked);
+        Pointlight.SetEnabled(ent, state is RMCApcState.Working or RMCApcState.WorkingBreakerOff);
         UpdateApcChannelVisuals(ent);
         Dirty(ent);
     }
@@ -1146,28 +1286,31 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
     private RMCApcState GetApcVisualState(Entity<RMCApcComponent> ent)
     {
         var hasCell = HasApcCell(ent);
-        if (ent.Comp.Broken)
+        var maint = IsApcMaintenance(ent);
+
+        if (ent.Comp.Cover == RMCApcCover.Open)
         {
-            return ent.Comp.Cover == RMCApcCover.Removed
-                ? hasCell ? RMCApcState.BrokenCoverRemovedBattery : RMCApcState.BrokenCoverRemovedNoBattery
-                : RMCApcState.Broken;
+            if (maint || ent.Comp.Broken)
+                return RMCApcState.OpenMaintenance;
+
+            return hasCell ? RMCApcState.CoverOpenBattery : RMCApcState.CoverOpenNoBattery;
         }
-
-        if (ent.Comp.WiresExposed)
-            return RMCApcState.WiresExposed;
-
-        if (!ent.Comp.TerminalInstalled)
-            return RMCApcState.TerminalMissing;
 
         if (ent.Comp.Cover == RMCApcCover.Removed)
             return hasCell ? RMCApcState.CoverRemovedBattery : RMCApcState.CoverRemovedNoBattery;
 
-        if (ent.Comp.Cover == RMCApcCover.Open)
-            return hasCell ? RMCApcState.CoverOpenBattery : RMCApcState.CoverOpenNoBattery;
+        if (ent.Comp.Broken)
+            return RMCApcState.Broken;
 
-        return IsApcMaintenance(ent)
-            ? RMCApcState.Maintenance
-            : RMCApcState.Working;
+        if (ent.Comp.WiresExposed)
+            return RMCApcState.WiresExposed;
+
+        if (maint)
+            return RMCApcState.ClosedMaintenance;
+
+        return ent.Comp.MainBreakerButton
+            ? RMCApcState.Working
+            : RMCApcState.WorkingBreakerOff;
     }
 
     private void UpdateApcChannelVisuals(Entity<RMCApcComponent> apc)
@@ -1909,6 +2052,7 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
         ent.Comp.MainBreakerButton = !ent.Comp.MainBreakerButton;
         Dirty(ent);
+        UpdateApcAppearance(ent);
         ToUpdate.Add(ent);
     }
 
@@ -2475,13 +2619,90 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
 
     private bool HasWallAtCoordinates(EntityCoordinates coordinates)
     {
-        foreach (var wall in _lookup.GetEntitiesInRange(coordinates, 0.2f, LookupFlags.Static))
+        _wallLookup.Clear();
+        _lookup.GetEntitiesInRange(coordinates, 0.2f, _wallLookup, LookupFlags.Static);
+        foreach (var wall in _wallLookup)
         {
             if (_tags.HasTag(wall, WallTag))
                 return true;
         }
 
         return false;
+    }
+
+    private void OnApcFrameInteractUsing(Entity<RMCApcFrameComponent> ent, ref InteractUsingEvent args)
+    {
+        if (args.Handled || !_tool.HasQuality(args.Used, ent.Comp.WrenchTool))
+            return;
+
+        args.Handled = true;
+        if (_net.IsServer)
+        {
+            SpawnNextToOrDrop(ent.Comp.MetalPrototype, ent);
+            QueueDel(ent);
+        }
+    }
+
+    private void OnApcFrameAfterInteract(Entity<RMCApcFrameComponent> ent, ref AfterInteractEvent args)
+    {
+        if (args.Handled ||
+            !args.CanReach ||
+            args.Target is not { } target ||
+            !_tags.HasTag(target, WallTag))
+        {
+            return;
+        }
+
+        var wallCoords = _transform.GetMoverCoordinates(target);
+        if (_transform.GetGrid(wallCoords) is not { } gridId ||
+            !TryComp(gridId, out MapGridComponent? grid))
+        {
+            return;
+        }
+
+        var wallIndices = _map.TileIndicesFor(gridId, grid, wallCoords);
+        var userIndices = _map.WorldToTile(gridId, grid, _transform.GetWorldPosition(args.User));
+        var delta = wallIndices - userIndices;
+        if (Math.Abs(delta.X) + Math.Abs(delta.Y) != 1)
+            return;
+
+        var placeCoords = _map.GridTileToLocal(gridId, grid, userIndices);
+        if (HasWallAtCoordinates(placeCoords) ||
+            !_map.TryGetTileRef(gridId, grid, userIndices, out var tile) ||
+            tile.Tile.IsEmpty)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-frame-invalid-spot"), args.User, args.User, SmallCaution);
+            args.Handled = true;
+            return;
+        }
+
+        if (!_area.TryGetArea(placeCoords, out var area, out _) ||
+            area.Value.Comp.AlwaysPowered)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-apc-frame-invalid-area"), args.User, args.User, SmallCaution);
+            args.Handled = true;
+            return;
+        }
+
+        if (HasApcInArea(area.Value))
+        {
+            if (_net.IsServer)
+                _popup.PopupEntity(Loc.GetString("rmc-apc-construction-area-occupied"), args.User, args.User, SmallCaution);
+            args.Handled = true;
+            return;
+        }
+
+        args.Handled = true;
+        if (_net.IsClient)
+            return;
+
+        var apcDir = Angle.FromWorldVec(delta).GetCardinalDir();
+        var apc = Spawn(ent.Comp.BuildingPrototype, placeCoords);
+        var xform = Transform(apc);
+        _transform.SetLocalRotation(apc, apcDir.ToAngle(), xform);
+        _transform.AnchorEntity((apc, xform));
+        OffsetApcVisual(apc);
+        QueueDel(ent);
     }
 
     public override void Update(float frameTime)

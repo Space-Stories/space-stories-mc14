@@ -29,8 +29,10 @@ public sealed partial class RMCApcMainPowerWireAction : BaseWireAction
     {
         base.Cut(user, wire);
         WiresSystem.TryCancelWireAction(wire.Owner, RMCApcMainPowerWireActionKey.PulseCancel);
-        EntityManager.System<RMCPowerSystem>().SetApcMainPowerWireCut((wire.Owner, null), true);
-        EntityManager.System<RMCPowerSystem>().SetApcMainPowerWirePulsed((wire.Owner, null), false);
+        var power = EntityManager.System<RMCPowerSystem>();
+        power.TryElectrocuteApcUser((wire.Owner, null), user, siemensCoeff: 0.7f);
+        power.SetApcMainPowerWireCut((wire.Owner, null), true);
+        power.SetApcMainPowerWirePulsed((wire.Owner, null), false);
         var cut = new RMCApcMainPowerWireCutEvent(user);
         EntityManager.EventBus.RaiseLocalEvent(wire.Owner, ref cut);
         return true;
@@ -39,7 +41,9 @@ public sealed partial class RMCApcMainPowerWireAction : BaseWireAction
     public override bool Mend(EntityUid user, Wire wire)
     {
         base.Mend(user, wire);
-        EntityManager.System<RMCPowerSystem>().SetApcMainPowerWireCut((wire.Owner, null), false);
+        var power = EntityManager.System<RMCPowerSystem>();
+        power.SetApcMainPowerWireCut((wire.Owner, null), false);
+        power.TryElectrocuteApcUser((wire.Owner, null), user, siemensCoeff: 0.7f);
         return true;
     }
 

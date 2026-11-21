@@ -27,6 +27,7 @@ rmc-squad-info-ChiefMedicalOfficer = Главный врач
 rmc-squad-info-SeniorEnlistedAdvisor = Старший сержантский советник
 rmc-squad-info-Quartermaster = Квартирмейстер
 rmc-squad-info-MilitaryWarden = Военный надзиратель
+rmc-squad-info-PlatoonCommander = Platoon Commander
 rmc-squad-info-SectionSergeant = Командир отделения
 rmc-squad-info-PVESquadLeader = Командир отряда
 rmc-squad-info-SquadLeader = Командир отряда
@@ -34,6 +35,7 @@ rmc-squad-info-FireteamLeader = Командир огневой группы
 rmc-squad-info-Rifleman = Стрелок
 
 rmc-squad-info-DirectorPmc = Директор
+rmc-squad-info-CommandPmcPVE = Force Command
 rmc-squad-info-LeaderPmcPVE = Командир отряда
 rmc-squad-info-TeamLeaderPmcPVE = Командир группы
 rmc-squad-info-LeaderPmc = Командир группы
@@ -48,15 +50,20 @@ rmc-squad-info-SupervisorWeYaSpecialist = Руководитель-специа�
 
 rmc-squad-info-ProvostMarshal = Начальник военной полиции
 rmc-squad-info-ProvostDeputyMarshal = Заместитель начальника военной полиции
-rmc-squad-info-ProvostChiefInspector = Главный инспектор военной полиции
 rmc-squad-info-ProvostInspector = Инспектор военной полиции
 rmc-squad-info-ProvostTeamLeader = Командир группы военной полиции
 rmc-squad-info-ProvostAdvisor = Советник военной полиции
 
 rmc-squad-info-LeaderSpp = Лидер
+rmc-squad-info-PlatoonCommanderSPP = Platoon Commander
+rmc-squad-info-SectionSergeantSPP = Section Sergeant
+rmc-squad-info-SquadLeaderSPP = Squad Leader
+
 rmc-squad-info-LeaderFreelancer = Лидер
 
 rmc-squad-info-FORECONCommandingOfficer = Командующий офицер
+rmc-squad-info-FORECONSquadLeaderPVE = Squad Leader
+rmc-squad-info-FORECONAssistantSquadLeader = Assistant Squad Leader
 
 rmc-squad-info-InspectorTSEPA = Инспектор ИТСПД
 rmc-squad-info-SeniorConstableTSEPA = Старший констебль ИТСПД

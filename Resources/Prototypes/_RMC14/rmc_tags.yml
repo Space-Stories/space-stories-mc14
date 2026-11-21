@@ -65,6 +65,9 @@
   id: SurvivalPouch
 
 - type: Tag
+  id: RMCPouchMedical
+
+- type: Tag
   id: LauncherCompatibleGrenade
 
 - type: Tag

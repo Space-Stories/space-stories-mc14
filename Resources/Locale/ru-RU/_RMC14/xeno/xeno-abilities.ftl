@@ -21,7 +21,6 @@ rmc-xeno-psychic-radiance-message = Излучить психическое со
 rmc-xeno-psychic-radiance-no-targets = Рядом нет разумов, которым можно передать излучение.
 rmc-xeno-psychic-radiance-sent = Мы излучаем свои мысли ближайшим разумам: { $count }.
 rmc-xeno-psychic-give-order-message = Отдать приказ { $target }.
-rmc-xeno-psychic-give-order-must-watch = Мы должны наблюдать за сестрой, чтобы отдать приказ.
 rmc-xeno-psychic-give-order-sent = Мы отдаём приказ { $target }.
 rmc-xeno-psychic-target-invalid = Этот разум больше не в пределах нашей досягаемости.
 rmc-xeno-psychic-message-xeno = [color=#921992][font size=14][bold]Голос { $queen } звучит в нашей голове:[/bold] "{ $message }"[/font][/color]
@@ -84,9 +83,15 @@ rmc-xeno-evolution-raffle-grace-health = Место открылось для н
 rmc-xeno-evolution-raffle-grace-location = Место открылось для нас, но мы не можем развиваться здесь! У нас есть { $seconds } секунд.
 rmc-xeno-evolution-raffle-grace-weeds = Место открылось для нас, но мы должны быть на сорняках! У нас есть { $seconds } секунд.
 rmc-xeno-evolution-raffle-missed = Мы не успели подготовиться вовремя и потеряли свое место в лотерее.
-rmc-xeno-evolution-raffle-blocked-lower = Место открылось для нас, но в улье уже слишком много сестёр ранга { $tier } и выше — одна должна пасть или должно открыться место для ранга { $tier }, прежде чем мы сможем подняться напрямую.
+rmc-xeno-evolution-raffle-out-of-line = That caste is no longer within our evolution line. We lose our place in the raffle.
+rmc-xeno-evolution-raffle-left-changed = Our new form cannot become that caste. We lose our place in the raffle.
+rmc-xeno-evolution-raffle-left-closed = The hive has made its choice without us. We must evolve the usual way.
+rmc-xeno-evolution-raffle-left-crit = We are too wounded to be chosen. We lose our place in the raffle.
+rmc-xeno-evolution-raffle-progress = { $name } — { $progress }/{ $cost }
 rmc-xeno-evolution-tab-evolve = Эволюция
 rmc-xeno-evolution-tab-raffle = Лотерея
+rmc-xeno-evolution-path-title = Выберите путь эволюции
+rmc-xeno-evolution-raffle-queued = В очереди: { $target } ({ $path })
 
 # Insight
 rmc-xeno-insight-empower = Мы получили достаточно проницательности относительно нашей добычи, чтобы усилить наше следующее размещение ловушек!
@@ -193,6 +198,8 @@ rmc-xeno-rest-cant = Вы не можете делать это во время 
 cm-xeno-toggle-crest-cant-fortify = Вы не можете укрепиться, пока ваш гребень понижен!
 cm-xeno-toggle-crest-cant-rest = Вы не можете отдыхать, пока ваш гребень опущен!
 cm-xeno-toggle-crest-cant-tail-sweep = Вы не можете сделать удар хвостом, пока ваш гребень опущен!
+rmc-alert-xeno-crest-lowered = Crest Lowered
+rmc-alert-xeno-crest-lowered-desc = Your armor is [color=green]increased[/color], but movement speed is [color=red]reduced[/color].
 
 # Transfer Plasma
 cm-xeno-plasma-transferred-to-other = Вы передали { $plasma } плазмы в { $target }. Теперь у вас есть { $total }
@@ -223,6 +230,8 @@ cm-xeno-retrieve-egg-too-many-eggs = Мы не можем нести больш�
 cm-xeno-retrieve-egg-stash-egg = Мы складываем яйцо в надежном месте. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 cm-xeno-retrieve-egg-unstash-egg = Мы берем яйцо из нашего хранилища. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 rmc-xeno-retrieve-egg-current = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-BE($xeno) } хранит: { $cur_eggs }/{ $max_eggs } яйца.
+rmc-xeno-retrieve-egg-fill = We start filling { THE($morpher) } with our children.
+rmc-xeno-retrieve-egg-fill-finish = We slide our children out of eggs into { THE($morpher) }. Now holding: { $cur_eggs }/{ $max_eggs }.
 
 # Throw Parasite
 cm-xeno-throw-parasite-no-parasites = У нас нет никаких лицехватов!
@@ -234,6 +243,12 @@ rmc-xeno-throw-parasite-reserves = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-HA
     [one] роль
     *[other] роли
 } доступно.
+rmc-xeno-throw-parasite-empty = We take children from { THE($morpher) } and carry them for safekeeping. Now sheltering: { $cur_parasites }/{ $max_parasites }.
+rmc-xeno-throw-parasite-empty-on-fire = Touching { THE($morpher) } while you're on fire would burn the children in it!
+rmc-xeno-throw-parasite-throw-cooldown = We must wait before throwing another child.
+rmc-xeno-throw-parasite-retrieve-cooldown = We must wait before retrieving another child.
+
+rmc-xeno-parasite-drop-cooldown = We must wait before dropping another child.
 
 # Defensive Shield
 rmc-xeno-defensive-shield-end = Мы чувствуем, как кончается наш усиленный щит!
@@ -252,10 +267,9 @@ rmc-xeno-retrieve-anchored = Эта сестра не может двигать�
 rmc-xeno-retrieve-too-big = { $target } слишком велик, чтобы достать его стоя!
 rmc-xeno-retrieve-dead = { $target } уже мертв!
 rmc-xeno-retrieve-blocked = Мы не можем достичь { $target } с помощью нашего крюка!
-rmc-xeno-retrieve-start-self = Мы готовимся запустить наш крюк в { $target }!
-rmc-xeno-retrieve-start-others = { $user } готовится запустить свой крюк в { $target }!
-rmc-xeno-retrieve-finish-user = Мы бросаем { $target } через голову с помощью нашего крюка!
+rmc-xeno-retrieve-finish-self = We fling { $target } over our head with our resin hook!
 rmc-xeno-retrieve-finish-target = Нас тянет к { $user }!
+rmc-xeno-retrieve-finish-others = { $target } is pulled over { $user }'s head!
 
 # Aid
 rmc-xeno-aid-self = Мы не можем исцелить себя сами!
@@ -485,3 +499,29 @@ rmc-xeno-swift-steps-others = { CAPITALIZE(THE($user)) } отскакивает 
 rmc-xeno-marked-critical-apply = Ты чувствуешь, как страх пробегает по твоей спине... ты можешь быть следующим!
 rmc-xeno-marked-critical-disappear = Ты успокаиваешься и приходишь в себя.
 rmc-xeno-marked-critical-consumed = Ты пришёл в себя!
+
+# Massacre
+rmc-xeno-massacre-no-targets = There's no dead to tear apart!
+rmc-xeno-massacre-start-self = We start ripping apart the dead!
+rmc-xeno-massacre-start-others = { CAPITALIZE(THE($user)) } starts tearing apart the nearby bodies!
+rmc-xeno-massacre-end-self = We tear the dead apart!
+rmc-xeno-massacre-end-others = { CAPITALIZE(THE($user)) } tears the nearby bodies apart!
+
+# Blood Drain
+rmc-xeno-blood-drain-target = { CAPITALIZE(THE($user)) } is biting into you!
+rmc-xeno-blood-drain-no-blood = { CAPITALIZE(THE($target)) } has no blood left!
+rmc-xeno-blood-drain-bad-blood = { CAPITALIZE(THE($target)) } has terrible tasting blood!
+rmc-xeno-blood-drain-infected-blood = { CAPITALIZE(THE($target)) } has sister blood flowing through them!
+rmc-xeno-blood-drain-pull = We need to pull { CAPITALIZE(THE($target)) } to drain blood!
+rmc-xeno-blood-drain-down = We need to keep { CAPITALIZE(THE($target)) } down to drain blood!
+
+# Paratoxin Slashes
+rmc-xeno-paratoxin-slashes-apply = Our next {$number ->
+    [1] slash
+    *[other] { $number } slashes
+} will apply paratoxin!
+rmc-xeno-paratoxin-slashes-expire = We have waited too long, our slashes will no longer apply paratoxin!
+
+# Catalytic Tail Stab
+rmc-xeno-catalytic-tail-stab-buff = We are faster and more armored for a short time!
+rmc-xeno-catalytic-tail-stab-buff-expire = We feel our speed and armor dissipate!

@@ -5,6 +5,7 @@
   description: cm-job-description-section-sergeant
   playTimeTracker: CMJobPVESectionSergeant
   ranks:
+    RMCRankGunnerySergeant: []
     RMCRankStaffSergeant: []
   spawnMenuRoleName: Sun Rider Section Sergeant (PVE)
   startingGear: RMCGearPVESectionSergeant
@@ -53,6 +54,7 @@
   id: RMCGearPVESectionSergeant
   equipment:
     id: RMCDogtagPVESectionSergeant
+    ears: RMCHeadsetSunRidersLeader
 
 - type: entity
   parent: CMSpawnPointJobBase

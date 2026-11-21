@@ -570,10 +570,11 @@ public abstract partial class SharedDoorSystem : EntitySystem
         // GetCollidingEntities that returns Entity<PhysicsComponent>
         if (!TryComp<MapGridComponent>(xform.GridUid, out var mapGridComp))
             yield break;
-        var tileRef = _mapSystem.GetTileRef(xform.GridUid.Value, mapGridComp, xform.Coordinates);
-
+        // Stories-MultiTileDoorCheck-Start
         _doorIntersecting.Clear();
-        _entityLookup.GetLocalEntitiesIntersecting(xform.GridUid.Value, tileRef.GridIndices, _doorIntersecting, gridComp: mapGridComp, flags: (LookupFlags.All & ~LookupFlags.Sensors));
+        var doorBounds = _entityLookup.GetWorldAABB(uid, xform).Enlarged(-0.05f);
+        _entityLookup.GetEntitiesIntersecting(xform.MapID, doorBounds, _doorIntersecting, flags: (LookupFlags.All & ~LookupFlags.Sensors));
+        // Stories-MultiTileDoorCheck-End
 
         // TODO SLOTH fix electro's code.
         // ReSharper disable once InconsistentNaming

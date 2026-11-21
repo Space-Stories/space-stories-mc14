@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Doors.Systems;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
@@ -68,6 +69,14 @@ public sealed partial class TurnstileComponent : Component
             Volume = -7,
         },
     };
+
+    // Stories-Turnstile-Start
+    [DataField]
+    public Vector2 LocalCenter;
+
+    [DataField]
+    public float MaxApproachAngle = MathF.PI / 4f;
+    // Stories-Turnstile-End
 }
 
 [Serializable, NetSerializable]

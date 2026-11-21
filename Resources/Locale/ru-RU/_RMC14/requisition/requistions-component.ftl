@@ -1,7 +1,6 @@
 # Requisition Computer
 requisition-paperwork-receiver-name = Отдел логистики
 requisition-paperwork-reward-message = Подтверждение получено! Переведено ${ $amount } из излишков бюджета.
-
 rmc-requisitions-window-title = Автоматизированная система хранения и выдачи
 rmc-requisitions-tab-products = Товары
 rmc-requisitions-tab-cart = Корзина

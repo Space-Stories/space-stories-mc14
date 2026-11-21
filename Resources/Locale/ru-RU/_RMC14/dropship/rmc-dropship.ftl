@@ -164,10 +164,10 @@ rmc-dropship-destination-occupied = Эта точка назначения уж�
 rmc-dropship-destination-obstructed = Посадочная зона перекрыта сооружением.
 rmc-dropship-invalid-docking-footprint = У шаттла отсутствует допустимый стыковочный контур.
 rmc-dropship-no-compatible-docking-port = Для этого шаттла нет совместимого стыковочного порта.
-rmc-dropship-clearance-port = Шаттл выходит за левую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
-rmc-dropship-clearance-starboard = Шаттл выходит за правую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
-rmc-dropship-clearance-aft = Шаттл выходит за кормовую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
-rmc-dropship-clearance-forward = Шаттл выходит за носовую границу посадочной зоны (требуется {$shuttleSize}, доступно {$destinationSize}).
+rmc-dropship-clearance-port = Шаттл выходит за левую границу посадочной зоны (требуется { $shuttleSize }, доступно { $destinationSize }).
+rmc-dropship-clearance-starboard = Шаттл выходит за правую границу посадочной зоны (требуется { $shuttleSize }, доступно { $destinationSize }).
+rmc-dropship-clearance-aft = Шаттл выходит за кормовую границу посадочной зоны (требуется { $shuttleSize }, доступно { $destinationSize }).
+rmc-dropship-clearance-forward = Шаттл выходит за носовую границу посадочной зоны (требуется { $shuttleSize }, доступно { $destinationSize }).
 
 rmc-dropship-equipment-deployer-text = { $deployName }
 rmc-dropship-equipment-deployer-health = Статус: { $status }

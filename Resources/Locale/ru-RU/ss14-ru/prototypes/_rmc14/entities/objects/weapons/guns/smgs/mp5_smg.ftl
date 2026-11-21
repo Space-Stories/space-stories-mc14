@@ -3,7 +3,3 @@ ent-WeaponSMGMP5 = пистолет-пулемёт MP5
     .suffix = Заполненный
 ent-CMMagazineSMGMP5 = магазин MP5 (9 мм)
     .desc = 9-мм магазин для MP5.
-ent-CMCartridge9mmSMG = патрон (9mm SMG)
-    .desc = Патрон калибра 9 мм для пистолета-пулемета mp5.
-ent-CMBullet9mmSMG = { ent-Bullet10x20mm }
-    .desc = { ent-Bullet10x20mm.desc }

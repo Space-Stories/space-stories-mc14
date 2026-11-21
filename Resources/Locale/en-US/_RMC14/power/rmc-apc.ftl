@@ -1,32 +1,62 @@
 rmc-apc-area-name = {$area} APC
 rmc-apc-construction-area-available = The area must not already have an APC.
-rmc-apc-construction-area-occupied = [color=red]This area already has an APC. Construction cannot be completed.[/color]
 
 rmc-apc-skill-fail = You don't know how to use {$apc}'s interface.
 
-rmc-apc-xeno-already-broken = The APC's electronics are already destroyed.
-rmc-apc-xeno-too-small = You are not big enough to destroy the APC's electronics.
-rmc-apc-xeno-wires-exposed = You tear the APC's panel off, exposing the wires.
-rmc-apc-xeno-wires-cut = You tear the APC's wires apart.
-rmc-apc-xeno-electronics-destroyed = You smash the APC's electronics.
-rmc-apc-examine-wires-damaged = The APC's wires are damaged. Mend them with [color=cyan]wirecutters[/color] through the wiring panel, then close the panel with a [color=cyan]screwdriver[/color]. The electronics and battery are intact.
+rmc-apc-xeno-already-broken = {$apc} is already broken!
+rmc-apc-xeno-too-small = We aren't big enough to further damage {$apc}.
+rmc-apc-xeno-wires-exposed = {$apc}'s cover swings open, exposing the wires!
+rmc-apc-xeno-wires-cut = {$apc}'s wires snap apart in a rain of sparks!
+rmc-apc-xeno-electronics-destroyed = {$apc}'s electronics are destroyed!
 
-rmc-apc-examine-working =
-    Use:
-    - An [color=cyan]engineering ID[/color] to lock or unlock the interface.
-    - A [color=cyan]crowbar[/color] to open the cover.
-    - A [color=cyan]screwdriver[/color] to expose the wires.
-rmc-apc-examine-wires-exposed = Use a [color=cyan]screwdriver[/color] to unexpose the wires. If the cover lock is engaged, pulse the ID scanner wire, close the panel, and disengage the cover lock before using a [color=cyan]crowbar[/color].
-rmc-apc-examine-cover-open-battery = Use an [color=cyan]empty hand[/color] to remove the battery or a [color=cyan]crowbar[/color] to close the cover.
-rmc-apc-examine-cover-removed-battery = Use an [color=cyan]empty hand[/color] to remove the battery.
-rmc-apc-examine-broken = The APC is broken. Hit it with a sturdy tool to knock the cover loose.
-rmc-apc-examine-broken-cover-removed-battery = The APC is broken. Remove the [color=cyan]battery[/color], then strip the damaged electronics.
-rmc-apc-examine-broken-cover-removed-no-battery = The APC is broken. Strip the damaged electronics, then repair the front assembly with a [color=cyan]lit welder[/color] (base time: 4 seconds). Reconnect the cable and reinstall the electronics and battery afterwards.
-rmc-apc-examine-maintenance = The APC is incomplete. It needs [color=cyan]cable[/color], a [color=cyan]power control module[/color], and a [color=cyan]screwdriver[/color].
-rmc-apc-examine-connect-terminal = Use [color=cyan]{$amount} cable[/color] to connect the terminal.
-rmc-apc-examine-install-electronics = Use a [color=cyan]power control module[/color] to install the electronics.
-rmc-apc-examine-secure-electronics = Use a [color=cyan]screwdriver[/color] to secure the electronics.
-rmc-apc-examine-insert-battery = Use a [color=cyan]battery[/color] to put in a battery.
+rmc-apc-shock-heavy-self = You feel a powerful shock course through your body!
+rmc-apc-shock-heavy-others = {$target} was shocked by {$source}!
+rmc-apc-shock-mild-self = You feel a mild shock course through your body.
+rmc-apc-shock-mild-others = {$target} was mildly shocked by {$source}.
+
+rmc-apc-frame-invalid-spot = APC cannot be placed on this spot.
+rmc-apc-frame-invalid-area = APC cannot be placed in this area.
+
+rmc-apc-examine-broken-header = It appears to be completely broken.
+rmc-apc-examine-broken = Bash the damaged cover off with a [color=cyan]crowbar[/color] or [color=cyan]wrench[/color].
+rmc-apc-examine-broken-remove-cell = Remove the [color=cyan]power cell[/color] with an empty hand.
+rmc-apc-examine-broken-unsecure = Use a [color=cyan]screwdriver[/color] to unfasten the charred power control board.
+rmc-apc-examine-broken-cut-terminal = Use [color=cyan]wirecutters[/color] to cut the damaged power terminal.
+rmc-apc-examine-broken-remove-board = Use a [color=cyan]crowbar[/color] to remove the charred power control board.
+rmc-apc-examine-broken-replace-or-cut = Replace the damaged frame with a new [color=cyan]APC frame[/color] to repair, or [color=cyan]wirecutters[/color] to cut the power terminal to dismantle.
+rmc-apc-examine-broken-replace-or-weld = Replace the damaged frame with a new [color=cyan]APC frame[/color] to repair, or [color=cyan]blowtorch[/color] the frame apart to dismantle.
+
+rmc-apc-examine-cover-status-open = open
+rmc-apc-examine-cover-status-removed = removed
+rmc-apc-examine-cell-status-installed = installed
+rmc-apc-examine-cell-status-missing = missing
+rmc-apc-examine-open-status = The cover is {$cover} and the power cell is {$cell}.
+rmc-apc-examine-wires-no-electronics = There are some wires but no electronics.
+rmc-apc-examine-electronics-no-wires = Electronics installed but not wired.
+rmc-apc-examine-no-electronics-no-wires = There is no electronics nor connected wires.
+rmc-apc-examine-closed-maint = The cover is closed. Something is wrong with it, it doesn't work.
+rmc-apc-examine-closed = The cover is closed.
+
+rmc-apc-examine-wire-fix-mend = mend
+rmc-apc-examine-wire-fix-cut-mend = cut and mend
+rmc-apc-examine-fault-cover-open = It has an electrical fault. [color=cyan]Crowbar[/color] to close the cover, [color=cyan]screwdriver[/color] to expose the wiring, then use [color=cyan]wirecutters[/color] to {$fix} the main power wire.
+rmc-apc-examine-fault-panel-closed = It has an electrical fault. [color=cyan]Screwdriver[/color] to expose the wiring, then use [color=cyan]wirecutters[/color] to {$fix} the main power wire.
+rmc-apc-examine-fault-wires-exposed = It has an electrical fault. Use [color=cyan]wirecutters[/color] to {$fix} the main power wire.
+
+rmc-apc-examine-closed-next-maint = [color=cyan]Crowbar[/color] to open the cover and check the electronics.
+rmc-apc-examine-closed-next-unlocked-cover = [color=cyan]Crowbar[/color] to open the cover.
+rmc-apc-examine-wires-exposed = [color=cyan]Screwdriver[/color] to close the wiring panel.
+rmc-apc-examine-closed-next-locked = Use an [color=cyan]ID card[/color] to unlock the interface and disengage the cover lock.
+rmc-apc-examine-closed-next-disengage = Disengage the cover lock in the interface, then [color=cyan]crowbar[/color] to open.
+
+rmc-apc-examine-open-none-terminal = Insert a [color=cyan]power control module[/color] to build, or [color=cyan]wirecutters[/color] to cut the power terminal to dismantle.
+rmc-apc-examine-open-none-noterminal = Wire it with [color=cyan]{$amount} cable coil[/color] to build, or [color=cyan]blowtorch[/color] the frame apart to dismantle.
+rmc-apc-examine-open-installed-noterminal = Wire it with [color=cyan]{$amount} cable coil[/color] to build, or [color=cyan]crowbar[/color] to remove the power control module.
+rmc-apc-examine-open-remove-cell = Remove the [color=cyan]power cell[/color] with an empty hand.
+rmc-apc-examine-open-installed-terminal = [color=cyan]Screwdriver[/color] to secure the power control module, or [color=cyan]wirecutters[/color] to cut the power terminal to dismantle.
+rmc-apc-examine-open-secured-nocell = Insert a [color=cyan]power cell[/color] to finish, or [color=cyan]screwdriver[/color] to unfasten the power control module.
+rmc-apc-examine-cover-open-battery = [color=cyan]Crowbar[/color] to close the cover, or remove the [color=cyan]power cell[/color] with an empty hand to dismantle.
+rmc-apc-examine-cover-removed-battery = Remove the [color=cyan]power cell[/color] with an empty hand to dismantle.
 
 rmc-apc-knock-cover-off = You knock the damaged cover off {$apc}.
 rmc-apc-repair-frame-not-needed = {$apc} does not need a new frame.
@@ -79,3 +109,4 @@ rmc-apc-ui-cover-disengaged = Disengaged
 rmc-apc-ui-channel-equipment = Equipment:
 rmc-apc-ui-channel-lighting = Lighting:
 rmc-apc-ui-channel-environment = Environment:
+rmc-apc-construction-area-occupied = There is already an APC in this area.

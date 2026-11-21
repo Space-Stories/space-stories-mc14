@@ -39,7 +39,7 @@
         RMCSkillDomestics: 1
         RMCSkillConstruction: 3
         RMCSkillEndurance: 1
-        RMCSkillEngineer: 3
+        RMCSkillEngineer: 4
         RMCSkillFirearms: 1
         RMCSkillFireman: 1
         RMCSkillPowerLoader: 2
@@ -62,7 +62,9 @@
   equipment:
     jumpsuit: CMJumpsuitMaintTech
     shoes: CMBootsBlack
+    back: CMSatchelMarineTech
     id: CMIDCardMaintTech
+    ears: CMHeadsetEngineer
 
 - type: entity
   parent: CMSpawnPointJobBase

@@ -1,17 +1,14 @@
-﻿<ui:RMCBuildChoiceControl
+﻿<controls:RMCBuildChoiceControl
     xmlns="https://spacestation14.io"
-    xmlns:ui="clr-namespace:Content.Client._RMC14.Construction">
-    <BoxContainer Orientation="Horizontal">
-        <Button Name="Button" Access="Public"
-                HorizontalExpand="True" VerticalExpand="False"
-                StyleClasses="ButtonSquare" Margin="2">
-            <BoxContainer Orientation="Horizontal" Margin="0">
-                <Control MinWidth="2"/>
-                <RichTextLabel Name="NameLabel" Access="Public" VerticalAlignment="Center"/>
-            </BoxContainer>
-        </Button>
-    </BoxContainer>
-    <BoxContainer Name="StackAmountContainer" Access="Public" Orientation="Horizontal" Margin="0 0 5 0">
-        <Control HorizontalExpand="True" MinWidth="2"/>
-    </BoxContainer>
-</ui:RMCBuildChoiceControl>
+    xmlns:controls="clr-namespace:Content.Client._RMC14.Construction"
+    Orientation="Vertical"
+    HorizontalExpand="True">
+    <Button Name="Button" Access="Public" HorizontalExpand="True">
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" Margin="2 2">
+            <TextureRect Name="Icon" Access="Public" SetSize="32 32" Stretch="KeepAspectCentered" VerticalAlignment="Center" Margin="0 0 8 0" />
+            <Label Name="NameLabel" Access="Public" HorizontalExpand="True" VerticalAlignment="Center" ClipText="True" />
+            <Label Name="CostLabel" Access="Public" VerticalAlignment="Center" Margin="8 0 0 0" StyleClasses="LabelSubText" />
+        </BoxContainer>
+    </Button>
+    <BoxContainer Name="StackAmountContainer" Access="Public" Orientation="Horizontal" Margin="40 2 0 4" Visible="False" />
+</controls:RMCBuildChoiceControl>

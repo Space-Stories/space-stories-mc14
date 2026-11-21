@@ -66,6 +66,14 @@ public sealed class CMMobStateSystem : EntitySystem
 
     private void OnGhostActionBuiMsg(Entity<MobStateActionsComponent> ent, ref CMGhostActionBuiMsg args)
     {
+        // Stories-UIValidation-Start
+        if (args.Actor != ent.Owner)
+            return;
+
+        if (!_ui.IsUiOpen(ent.Owner, CMMobStateActionsUI.Key, args.Actor))
+            return;
+        // Stories-UIValidation-End
+
         if (!_mobState.IsIncapacitated(ent))
             return;
 

@@ -6,3 +6,6 @@ ent-RMCBoonieTan = { ent-RMCBoonie }
 ent-RMCBoonieFisherman = рыбацкая панама
     .desc = Мягкая панама с крючками, лесками и грузилами, заткнутыми за ленту, — явный выбор бывалого рыболова. Защищает от солнца и немного от дождя.
     .suffix = Рыбак
+ent-RMCBoonieNV = UNMC patrol boonie
+    .desc = A floppy bush hat. Protects only from the sun and rain, but very comfortable. It comes with a protective neck flap to protect from sunburn.
+    .suffix = Varadero

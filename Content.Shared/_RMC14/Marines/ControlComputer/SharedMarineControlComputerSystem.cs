@@ -17,7 +17,10 @@ using Content.Shared._RMC14.Xenonids;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.Ghost;
+using Content.Shared.Interaction;
+using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
+using Content.Shared.Power.EntitySystems;
 using Content.Shared.UserInterface;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
@@ -40,12 +43,12 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
     [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
     [Dependency] private readonly WarshipSystem _warship = default!;
-    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
 
     private static readonly EntProtoId<ARESLogTypeComponent> LogCat = "ARESTabAnnouncementLogs";
     private int _characterLimit = 1000;
@@ -66,6 +69,7 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerMedalMessageEvent>(OnComputerMedalMessage);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerAlertEvent>(OnComputerAlert);
         SubscribeLocalEvent<MarineControlComputerComponent, MarineControlComputerShipAnnouncementDialogEvent>(OnShipAnnouncementDialog);
+        SubscribeLocalEvent<MarineControlComputerComponent, MapInitEvent>(OnComputerMapInit);
 
         Subs.BuiEvents<MarineControlComputerComponent>(MarineControlComputerUi.Key,
             subs =>
@@ -381,6 +385,12 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
         _core.CreateARESLog(ent, LogCat, (string)$"{Name(user)} sent a Warship Announcement: {args.Message}");
     }
 
+    private void OnComputerMapInit(Entity<MarineControlComputerComponent> ent, ref MapInitEvent args)
+    {
+        ent.Comp.EvacuationMap = _transform.GetMap(ent.Owner);
+        Dirty(ent);
+    }
+
     private void OnMedal(Entity<MarineControlComputerComponent> ent, ref MarineControlComputerMedalMsg args)
     {
         // Handle messages from both Key and MedalsPanel UI keys
@@ -590,8 +600,9 @@ public abstract class SharedMarineControlComputerSystem : EntitySystem
 
         ent.Comp.LastToggle = time;
 
+        var evacuationMap = ent.Comp.EvacuationMap ?? _transform.GetMap(ent.Owner);
         // TODO RMC14 evacuation start sound
-        _evacuation.ToggleEvacuation(null, ent.Comp.EvacuationCancelledSound, _transform.GetMap(ent.Owner));
+        _evacuation.ToggleEvacuation(null, ent.Comp.EvacuationCancelledSound, evacuationMap);
         RefreshComputers();
     }
 

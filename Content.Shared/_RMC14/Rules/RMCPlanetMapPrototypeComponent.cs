@@ -111,6 +111,12 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public Dictionary<CommandingOfficerAffiliation, EntProtoId<PaperComponent>>? CommandingOfficerBriefings;
+
+    /// <summary>
+    /// Which small hosts types should spawn on the planet
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId>? SmallHostVariants;
 }
 
 [DataDefinition]

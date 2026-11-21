@@ -6,7 +6,7 @@ rmc-suicide-cancel-others = { $user } { GENDER($user) ->
     [male] решил
     [female] решила
     [epicene] решили
-   *[other] решил
+    *[other] решил
 }, что жизнь стоит того, чтобы жить.
 rmc-suicide-finish-self = Вы нажимаете на курок!
 rmc-suicide-finish-others = { $user } нажимает на курок!

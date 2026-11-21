@@ -1,32 +1,62 @@
 rmc-apc-area-name = ЛКП — { $area }
 rmc-apc-construction-area-available = В зоне ещё не должно быть ЛКП.
-rmc-apc-construction-area-occupied = [color=red]В этой зоне уже есть ЛКП. Завершить строительство невозможно.[/color]
 
 rmc-apc-skill-fail = Вы не знаете, как пользоваться интерфейсом { $apc }.
 
-rmc-apc-xeno-already-broken = Электроника ЛКП уже разбита.
-rmc-apc-xeno-too-small = Вы недостаточно крупный, чтобы разбить электронику ЛКП.
-rmc-apc-xeno-wires-exposed = Вы срываете панель ЛКП, обнажая провода.
-rmc-apc-xeno-wires-cut = Вы разрываете провода ЛКП.
-rmc-apc-xeno-electronics-destroyed = Вы разбиваете электронику ЛКП.
-rmc-apc-examine-wires-damaged = Провода ЛКП повреждены. Восстановите их [color=cyan]кусачками[/color] через панель проводов, затем закройте панель [color=cyan]отвёрткой[/color]. Плата и батарея целы.
+rmc-apc-xeno-already-broken = { $apc } уже сломан!
+rmc-apc-xeno-too-small = Мы недостаточно крупны, чтобы ещё сильнее повредить { $apc }.
+rmc-apc-xeno-wires-exposed = Панель { $apc } распахивается, обнажая провода!
+rmc-apc-xeno-wires-cut = Провода { $apc } разрываются в снопе искр!
+rmc-apc-xeno-electronics-destroyed = Электроника { $apc } уничтожена!
 
-rmc-apc-examine-working =
-    Используйте:
-    - [color=cyan]Инженерную ID-карту[/color], чтобы заблокировать или разблокировать интерфейс.
-    - [color=cyan]Лом[/color], чтобы открыть крышку.
-    - [color=cyan]Отвёртку[/color], чтобы получить доступ к проводам.
-rmc-apc-examine-wires-exposed = Используйте [color=cyan]отвёртку[/color], чтобы закрыть провода. Если крышка заблокирована, подайте импульс на провод сканера ID-карт, закройте панель и отключите блокировку крышки, прежде чем использовать [color=cyan]лом[/color].
-rmc-apc-examine-cover-open-battery = Используйте [color=cyan]пустую руку[/color], чтобы извлечь батарею, или [color=cyan]лом[/color], чтобы закрыть крышку.
-rmc-apc-examine-cover-removed-battery = Используйте [color=cyan]пустую руку[/color], чтобы извлечь батарею.
-rmc-apc-examine-broken = ЛКП сломан. Ударьте по нему прочным инструментом, чтобы сбить крышку.
-rmc-apc-examine-broken-cover-removed-battery = ЛКП сломан. Извлеките [color=cyan]батарею[/color], затем удалите повреждённую электронику.
-rmc-apc-examine-broken-cover-removed-no-battery = ЛКП сломан. Удалите повреждённую электронику, затем восстановите корпус [color=cyan]включённой сваркой[/color] (базовое время — 4 секунды). После этого подключите кабель и установите плату и батарею.
-rmc-apc-examine-maintenance = ЛКП не собран до конца. Нужны [color=cyan]кабель[/color], [color=cyan]модуль управления питанием[/color] и [color=cyan]отвёртка[/color].
-rmc-apc-examine-connect-terminal = Используйте [color=cyan]кабель ({ $amount })[/color], чтобы подключить терминал.
-rmc-apc-examine-install-electronics = Используйте [color=cyan]модуль управления питанием[/color], чтобы установить электронику.
-rmc-apc-examine-secure-electronics = Используйте [color=cyan]отвёртку[/color], чтобы закрепить электронику.
-rmc-apc-examine-insert-battery = Используйте [color=cyan]батарею[/color], чтобы установить её.
+rmc-apc-shock-heavy-self = Вы чувствуете, как через ваше тело проходит мощный разряд тока!
+rmc-apc-shock-heavy-others = { $target } получает удар током от { $source }!
+rmc-apc-shock-mild-self = Вы чувствуете лёгкий удар током.
+rmc-apc-shock-mild-others = { $target } получает слабый удар током от { $source }.
+
+rmc-apc-frame-invalid-spot = Здесь нельзя установить ЛКП.
+rmc-apc-frame-invalid-area = В этой зоне нельзя установить ЛКП.
+
+rmc-apc-examine-broken-header = Похоже, он полностью сломан.
+rmc-apc-examine-broken = Сбейте повреждённую крышку [color=cyan]ломом[/color] или [color=cyan]гаечным ключом[/color].
+rmc-apc-examine-broken-remove-cell = Извлеките [color=cyan]батарею[/color] пустой рукой.
+rmc-apc-examine-broken-unsecure = Используйте [color=cyan]отвёртку[/color], чтобы открутить сгоревший модуль управления питанием.
+rmc-apc-examine-broken-cut-terminal = Используйте [color=cyan]кусачки[/color], чтобы перерезать повреждённый силовой терминал.
+rmc-apc-examine-broken-remove-board = Используйте [color=cyan]лом[/color], чтобы вытащить сгоревший модуль управления питанием.
+rmc-apc-examine-broken-replace-or-cut = Замените повреждённый корпус новым [color=cyan]каркасом ЛКП[/color] для ремонта или используйте [color=cyan]кусачки[/color], чтобы обрезать силовой терминал и разобрать ЛКП.
+rmc-apc-examine-broken-replace-or-weld = Замените повреждённый корпус новым [color=cyan]каркасом ЛКП[/color] для ремонта или разрежьте каркас [color=cyan]сваркой[/color] для разборки.
+
+rmc-apc-examine-cover-status-open = открыта
+rmc-apc-examine-cover-status-removed = снята
+rmc-apc-examine-cell-status-installed = установлена
+rmc-apc-examine-cell-status-missing = отсутствует
+rmc-apc-examine-open-status = Крышка { $cover }, а батарея { $cell }.
+rmc-apc-examine-wires-no-electronics = Провода подключены, но электроника отсутствует.
+rmc-apc-examine-electronics-no-wires = Электроника установлена, но провода не подключены.
+rmc-apc-examine-no-electronics-no-wires = Нет ни электроники, ни подключённых проводов.
+rmc-apc-examine-closed-maint = Крышка закрыта. Что-то не так — он не работает.
+rmc-apc-examine-closed = Крышка закрыта.
+
+rmc-apc-examine-wire-fix-mend = соединить
+rmc-apc-examine-wire-fix-cut-mend = перерезать и соединить
+rmc-apc-examine-fault-cover-open = Обнаружена электрическая неисправность. Закройте крышку [color=cyan]ломом[/color], откройте панель проводов [color=cyan]отвёрткой[/color], затем используйте [color=cyan]кусачки[/color], чтобы { $fix } основной провод питания.
+rmc-apc-examine-fault-panel-closed = Обнаружена электрическая неисправность. Откройте панель проводов [color=cyan]отвёрткой[/color], затем используйте [color=cyan]кусачки[/color], чтобы { $fix } основной провод питания.
+rmc-apc-examine-fault-wires-exposed = Обнаружена электрическая неисправность. Используйте [color=cyan]кусачки[/color], чтобы { $fix } основной провод питания.
+
+rmc-apc-examine-closed-next-maint = Используйте [color=cyan]лом[/color], чтобы открыть крышку и проверить электронику.
+rmc-apc-examine-closed-next-unlocked-cover = Используйте [color=cyan]лом[/color], чтобы открыть крышку.
+rmc-apc-examine-wires-exposed = Используйте [color=cyan]отвёртку[/color], чтобы закрыть панель проводов.
+rmc-apc-examine-closed-next-locked = Используйте [color=cyan]ID-карту[/color], чтобы разблокировать интерфейс и снять блокировку крышки.
+rmc-apc-examine-closed-next-disengage = Отключите блокировку крышки в интерфейсе, затем откройте её [color=cyan]ломом[/color].
+
+rmc-apc-examine-open-none-terminal = Вставьте [color=cyan]модуль управления питанием[/color] для сборки или используйте [color=cyan]кусачки[/color], чтобы обрезать терминал и разобрать ЛКП.
+rmc-apc-examine-open-none-noterminal = Проложите [color=cyan]{ $amount } отрезков кабеля[/color] для сборки или разрежьте каркас [color=cyan]сваркой[/color] для разборки.
+rmc-apc-examine-open-installed-noterminal = Проложите [color=cyan]{ $amount } отрезков кабеля[/color] для сборки или используйте [color=cyan]лом[/color], чтобы вытащить модуль управления питанием.
+rmc-apc-examine-open-remove-cell = Извлеките [color=cyan]батарею[/color] пустой рукой.
+rmc-apc-examine-open-installed-terminal = Закрепите модуль управления питанием [color=cyan]отвёрткой[/color] или используйте [color=cyan]кусачки[/color], чтобы обрезать терминал и разобрать ЛКП.
+rmc-apc-examine-open-secured-nocell = Вставьте [color=cyan]батарею[/color] для завершения или открутите модуль управления питанием [color=cyan]отвёрткой[/color].
+rmc-apc-examine-cover-open-battery = Закройте крышку [color=cyan]ломом[/color] или извлеките [color=cyan]батарею[/color] пустой рукой для разборки.
+rmc-apc-examine-cover-removed-battery = Извлеките [color=cyan]батарею[/color] пустой рукой для разборки.
 
 rmc-apc-knock-cover-off = Вы сбиваете повреждённую крышку с { $apc }.
 rmc-apc-repair-frame-not-needed = { $apc } не нуждается в новом каркасе.
@@ -79,3 +109,4 @@ rmc-apc-ui-cover-disengaged = Отключена
 rmc-apc-ui-channel-equipment = Оборудование:
 rmc-apc-ui-channel-lighting = Освещение:
 rmc-apc-ui-channel-environment = Жизнеобеспечение:
+rmc-apc-construction-area-occupied = В этой зоне уже есть ЛКП.

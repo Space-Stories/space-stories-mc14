@@ -59,6 +59,7 @@
   equipment:
     jumpsuit: CMJumpsuitOrdnanceTech
     shoes: CMBootsBlack
+    back: CMSatchelMarineTech
     gloves: CMHandsInsulated
     id: CMIDCardOrdnanceTech
     ears: CMHeadsetEngineer

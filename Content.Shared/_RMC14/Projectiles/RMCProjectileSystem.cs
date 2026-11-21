@@ -256,6 +256,37 @@ public sealed class RMCProjectileSystem : EntitySystem
             args.Cancelled = true;
     }
 
+    private FixedPoint2 ApplyAccuracyFalloff(RMCProjectileAccuracyComponent comp, float distance)
+    {
+        var accuracy = comp.Accuracy;
+        foreach (var threshold in comp.Thresholds)
+        {
+            var pastRange = distance - threshold.Range;
+
+            if (threshold.Buildup)
+            {
+                if (pastRange >= 0)
+                    continue;
+
+                accuracy += threshold.Falloff * pastRange;
+                continue;
+            }
+
+            if (pastRange <= 0)
+                continue;
+
+            accuracy -= threshold.Falloff * pastRange;
+        }
+
+        return accuracy;
+    }
+
+    public FixedPoint2 GetEffectiveAccuracy(Entity<RMCProjectileAccuracyComponent> projectile, float distance)
+    {
+        var accuracy = ApplyAccuracyFalloff(projectile.Comp, distance);
+        return accuracy > projectile.Comp.MinAccuracy ? accuracy : projectile.Comp.MinAccuracy;
+    }
+
     private bool IsProjectileTargetFriendly(EntityUid projectile, EntityUid target)
     {
         if (!TryComp(projectile, out ProjectileComponent? projectileComp) || projectileComp.Shooter == null)

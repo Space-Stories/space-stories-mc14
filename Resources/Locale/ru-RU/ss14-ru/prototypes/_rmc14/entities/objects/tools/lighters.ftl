@@ -10,3 +10,5 @@ ent-RMCZippoGold = золотая зажигалка zippo
     .desc = Зажигалка Zippo с золотым анодированием. Демонстративно, но, безусловно, выделяется.
 ent-RMCLighter = дешёвая зажигалка
     .desc = Дешевая и бесплатная зажигалка.
+ent-RMCLighterSPP = spp lighter
+    .desc = A dirty steel industrial lighter in an industrial style, akin to a zippo lighter.

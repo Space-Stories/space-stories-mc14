@@ -47,12 +47,12 @@ public abstract class SharedMarineAnnounceSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedRankSystem _rankSystem = default!;
+    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
     [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SquadSystem _squad = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
-    [Dependency] private readonly SharedCMChatSystem _rmcChat = default!; // Stories-Chat
 
     public static readonly SoundSpecifier DefaultAnnouncementSound =
         new SoundPathSpecifier("/Audio/_RMC14/Announcements/Marine/notice2.ogg", AudioParams.Default.WithVolume(-2f));

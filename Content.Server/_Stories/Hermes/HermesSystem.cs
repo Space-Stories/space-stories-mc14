@@ -5,6 +5,7 @@ using Content.Server.Radio.EntitySystems;
 using Content.Shared._RMC14.ARES;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Synth;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.Hermes;
@@ -28,10 +29,8 @@ namespace Content.Server._Stories.Hermes;
 
 public sealed partial class HermesSystem : SharedHermesSystem
 {
-    [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-
     [Dependency] private readonly SharedAccessSystem _access = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly ARESCoreSystem _ares = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ActionBlockerSystem _blocker = default!;
@@ -40,7 +39,9 @@ public sealed partial class HermesSystem : SharedHermesSystem
     [Dependency] private readonly GunIFFSystem _iff = default!;
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly RadioSystem _radio = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
     [Dependency] private readonly SharedGameTicker _ticker = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
 
     private static readonly ProtoId<RadioChannelPrototype> HermesChannel = "STHermesLink";
@@ -71,17 +72,12 @@ public sealed partial class HermesSystem : SharedHermesSystem
 
     private void OnUiMessageAttempt(Entity<HermesTerminalComponent> ent, ref BoundUserInterfaceMessageAttempt args)
     {
-        if (HasComp<XenoComponent>(args.Actor))
+        if (!_rmcUi.CanUseUI(args))
             args.Cancel();
     }
 
     private void OnOpened(Entity<HermesTerminalComponent> ent, ref BoundUIOpenedEvent args)
     {
-        if (HasComp<XenoComponent>(args.Actor))
-        {
-            _ui.CloseUi(ent.Owner, args.UiKey, args.Actor);
-            return;
-        }
         if (TryCore(ent, out var core))
             Refresh(core);
         else

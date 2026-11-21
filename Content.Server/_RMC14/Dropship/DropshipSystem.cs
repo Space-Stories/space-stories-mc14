@@ -21,6 +21,7 @@ using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared.Administration.Logs;
@@ -35,12 +36,14 @@ using Content.Shared.Popups;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Timing;
+using Content.Shared.Vehicle.Components;
 using Robust.Server.Audio;
 using Robust.Server.Containers;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -91,6 +94,9 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     private readonly HashSet<EntityUid> _restrictedDockingObstacles = new();
     private readonly Dictionary<EntityUid, DockingConfig> _restrictedDockingTargets = new();
+    // Stories-ShuttleDoorLock-Start
+    private readonly HashSet<EntityUid> _doorPushEntities = new();
+    // Stories-ShuttleDoorLock-End
 
     private TimeSpan _lzPrimaryAutoDelay;
     private TimeSpan _flyByTime;
@@ -190,31 +196,12 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
         RelayToMountedEntities(ent, args);
         RelayToDropshipDepartureLocation(ent, args);
 
-        if (!_hijack) // TODO RMC14: Check for locked dropship by queen and friendliness of xenos onboard
+        if (ent.Comp.Crashed)
         {
-            int xenoCount = 0;
-            string dropshipName = string.Empty;
-            var dropship = EnsureComp<DropshipComponent>(_dropshipId);
-            var xenoQuery = EntityQueryEnumerator<XenoComponent, MobStateComponent, TransformComponent>();
-            while (xenoQuery.MoveNext(out var uid, out _, out var mobState, out var xform))
-            {
-                if (xform.GridUid == _dropshipId && mobState.CurrentState != MobState.Dead)
-                {
-                    xenoCount++;
-                    if (string.IsNullOrEmpty(dropshipName) && _area.TryGetArea(uid, out _, out var areaProto))
-                        dropshipName = areaProto.Name;
-                }
-            }
-
-            if (xenoCount > 0)
-            {
-                _alertLevel.Set(RMCAlertLevels.Red, _dropshipId, false, false);
-                _marineAnnounce.AnnounceToMarines(Loc.GetString("rmc-announcement-unidentified-lifesigns",
-                    ("name", dropshipName),
-                    ("count", xenoCount)),
-                    dropship.UnidentifledlifesignsSound);
-            }
+            var ev = new DropshipHijackLaunchedEvent(ent);
+            RaiseLocalEvent(ref ev);
         }
+
     }
 
     private void OnFTLCompleted(Entity<DropshipComponent> ent, ref FTLCompletedEvent args)
@@ -246,6 +233,27 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
         var arrived = new DropshipArrivedAtDestinationEvent(ent, ent.Comp.Destination);
         RaiseLocalEvent(ref arrived);
+
+        if (!ent.Comp.Crashed) // TODO RMC14: Check for locked dropship by queen and friendliness of xenos onboard
+        {
+            int xenoCount = 0;
+            string dropshipName = Name(ent);
+            var xenoQuery = EntityQueryEnumerator<XenoComponent, MobStateComponent, TransformComponent>();
+            while (xenoQuery.MoveNext(out var uid, out _, out var mobState, out var xform))
+            {
+                if (xform.GridUid == ent && mobState.CurrentState != MobState.Dead)
+                    xenoCount++;
+            }
+
+            if (xenoCount > 0)
+            {
+                _alertLevel.Set(RMCAlertLevels.Red, ent, false, false);
+                _marineAnnounce.AnnounceToMarines(Loc.GetString("rmc-announcement-unidentified-lifesigns",
+                    ("name", dropshipName),
+                    ("count", xenoCount)),
+                    ent.Comp.UnidentifledlifesignsSound);
+            }
+        }
 
         ent.Comp.DepartureLocation = ent.Comp.Destination;
         Dirty(ent);
@@ -390,6 +398,14 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
         _ui.CloseUis(ent.Owner);
         UnlockAllDoors(ent);
+
+        // Stories-DropshipLockout-Start
+        if (TryGetGridDropship(ent, out var dropship) &&
+            TryComp(dropship, out DropshipAutopilotComponent? autopilot))
+        {
+            SetAutopilotDisabled(dropship, autopilot, args.User, Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+        }
+        // Stories-DropshipLockout-End
 
         _popup.PopupEntity(Loc.GetString("rmc-dropship-locked", ("minutes", (int)ent.Comp.LockoutDuration.TotalMinutes)), ent, args.User, PopupType.Medium);
     }
@@ -609,6 +625,17 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
 
     public override bool FlyTo(Entity<DropshipNavigationComputerComponent> computer, EntityUid destination, EntityUid? user, bool hijack = false, float? startupTime = null, float? hyperspaceTime = null, bool offset = false, DropshipLaunchSource source = DropshipLaunchSource.ManualNavigation)
     {
+        // Stories-DropshipLockout-Start
+        if (!hijack && _timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            if (user != null)
+                _popup.PopupEntity(Loc.GetString("rmc-dropship-locked-out", ("minutes", Math.Max(1, (int)(computer.Comp.LockedOutUntil - _timing.CurTime).TotalMinutes))), computer, user.Value, PopupType.MediumCaution);
+
+            Log.Warning($"Tried to launch locked out dropship {ToPrettyString(computer)}");
+            return false;
+        }
+        // Stories-DropshipLockout-End
+
         if (user != null &&
             !CanPlayerLaunchToDestination(computer, destination, out var playerRouteReason))
         {
@@ -1566,8 +1593,17 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
         if (_doorQuery.TryComp(door, out var doorComp) &&
             doorComp.State != DoorState.Closed)
         {
+            // Stories-ShuttleDoorLock-Start
+            PushEntitiesOutOfDoor(door.Owner);
+            // Stories-ShuttleDoorLock-End
+
             var oldCheck = doorComp.PerformCollisionCheck;
             doorComp.PerformCollisionCheck = false;
+
+            // Stories-ShuttleDoorLock-Start
+            if (doorComp.State == DoorState.Opening)
+                _door.SetState(door, DoorState.Open, doorComp);
+            // Stories-ShuttleDoorLock-End
 
             _door.StartClosing(door);
             _door.OnPartialClose(door);
@@ -1578,6 +1614,68 @@ public sealed partial class DropshipSystem : SharedDropshipSystem
         if (_doorBoltQuery.Resolve(door, ref door.Comp, false))
             _door.SetBoltsDown((door.Owner, door.Comp), true);
     }
+
+    // Stories-ShuttleDoorLock-Start
+    private void PushEntitiesOutOfDoor(EntityUid doorUid)
+    {
+        if (!_xformQuery.TryComp(doorUid, out var doorXform))
+            return;
+
+        var doorWorldPos = _transform.GetWorldPosition(doorXform);
+        var pushDir = Vector2.Zero;
+
+        if (doorXform.GridUid is { } gridUid && TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            var doorTile = _mapSystem.TileIndicesFor(gridUid, grid, doorXform.Coordinates);
+            var gridRot = _transform.GetWorldRotation(gridUid);
+            Span<Vector2i> dirs =
+            [
+                new(0, 1),
+                new(0, -1),
+                new(1, 0),
+                new(-1, 0),
+            ];
+
+            foreach (var dir in dirs)
+            {
+                if (_mapSystem.TryGetTileRef(gridUid, grid, doorTile + dir, out var tileRef) && !tileRef.Tile.IsEmpty)
+                    continue;
+
+                pushDir = gridRot.RotateVec(new Vector2(dir.X, dir.Y));
+                break;
+            }
+        }
+
+        _doorPushEntities.Clear();
+        _entityLookup.GetEntitiesIntersecting(doorUid, _doorPushEntities);
+
+        foreach (var target in _doorPushEntities)
+        {
+            if (target == doorUid || TerminatingOrDeleted(target) || _doorQuery.HasComp(target))
+                continue;
+
+            if (!_xformQuery.TryComp(target, out var targetXform) || targetXform.Anchored)
+                continue;
+
+            if (!_physicsQuery.TryComp(target, out var physics) || physics.BodyType == BodyType.Static)
+                continue;
+
+            var targetPos = _transform.GetWorldPosition(targetXform);
+            var dir = pushDir;
+            if (dir == Vector2.Zero)
+            {
+                var away = targetPos - doorWorldPos;
+                dir = away.LengthSquared() > 0.001f ? away.Normalized() : Vector2.UnitY;
+            }
+
+            var rel = targetPos - doorWorldPos;
+            var lateral = rel - dir * Vector2.Dot(rel, dir);
+            var offset = HasComp<VehicleComponent>(target) ? 2.2f : 1.15f;
+            _transform.SetWorldPosition(target, doorWorldPos + lateral + dir * offset);
+            _physics.SetLinearVelocity(target, dir * 2f, body: physics);
+        }
+    }
+    // Stories-ShuttleDoorLock-End
 
     public void UnlockDoor(Entity<DoorBoltComponent?> door, bool forceSafetyUnlock = false)
     {

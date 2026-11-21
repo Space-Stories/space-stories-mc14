@@ -1,5 +1,8 @@
 ent-RMCMagazineSentry = барабан M30 (10x28мм Безгильзовые)
     .desc = Бочка с 500 безгильзовыми патронами 10x28 мм для часовой пушки US 571-C. Просто вставьте его в патронный порт часовой пушки, когда ее боеприпасы закончатся.
+ent-RMCMagazineSentryEmpty = { ent-RMCMagazineSentry }
+    .desc = { ent-RMCMagazineSentry.desc }
+    .suffix = empty
 ent-RMCMagazineSentryShotgun = барабан с 12-граммовой картечью
     .desc = Бочка с 50 патронами для 12-граммовой картечи для US 12-G Shotgun Sentry. Просто вставьте его в патронный порт часового, когда патроны закончатся.
 ent-RMCMagazineSentryFire = топливный бак турели

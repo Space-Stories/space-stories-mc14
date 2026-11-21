@@ -1,6 +1,3 @@
-ent-RMCPortableCrewMonitor = портативный монитор экипажа
-    .desc = Компактное устройство для поиска персонала по датчикам униформы.
-
 rmc-portable-crew-monitor-title = Монитор экипажа
 rmc-portable-crew-monitor-search = Поиск по имени или должности…
 rmc-portable-crew-monitor-scan = Сканировать

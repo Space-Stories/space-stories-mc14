@@ -20,6 +20,7 @@
     - name: Standard Equipment
       takeAll: CMStandard
       entries:
+      - id: RMCOuterClothingExternalWebbing
       - id: CMHeadsetEngineer
       - id: CMMRE
         name: MRE
@@ -48,6 +49,8 @@
       choices: { CMBackpack: 1 }
       entries:
       - id: CMBackpackMarineTech
+        replaceSlot: back
+      - id: CMSatchelMarineTech
         replaceSlot: back
       - id: CMBackpackWelder
         replaceSlot: back
@@ -120,7 +123,7 @@
   - type: CMVendorBundle
     bundle:
     - RMCLightReplacer
-    # demo scanner
+    - STDemolitionsScanner # Stories-EngineeringScanner (include the existing scanner)
     - TrashBag
     - RMCToolboxMechanicalFilled
     - RMCFlashlight

@@ -50,7 +50,7 @@ rmc-hivemanagement-cant-deevolve-larva = Вы не можете дезэволю
 rmc-hivemanagement-cant-deevolve-other-hive = Вы не можете дезэволюционировать ксеноморфа из другого улья!
 rmc-hivemanagement-manage-teams = Управлять группами улья
 
-# Права улья
+# Hive Permissions UI
 rmc-hivemanagement-permissions = Права доступа
 rmc-hivemanagement-permissions-title = Права улья
 rmc-hivemanagement-permissions-harming = Причинение вреда

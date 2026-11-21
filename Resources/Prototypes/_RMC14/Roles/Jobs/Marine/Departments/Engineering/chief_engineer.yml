@@ -36,7 +36,7 @@
       skills:
         RMCSkillConstruction: 3
         RMCSkillEndurance: 1
-        RMCSkillEngineer: 3
+        RMCSkillEngineer: 4
         RMCSkillFirearms: 1
         RMCSkillFireman: 1
         RMCSkillIntel: 1
@@ -44,9 +44,10 @@
         RMCSkillLeadership: 3
         RMCSkillNavigations: 1
         RMCSkillOverwatch: 1
+        RMCSkillPilot: 2
         RMCSkillPolice: 1
         RMCSkillPowerLoader: 2
-        RMCSkillVehicles: 1
+        RMCSkillVehicles: 2
     - type: CMVendorUser
       id: CMChiefEngineer
       points: 45
@@ -72,7 +73,8 @@
   id: CMGearChiefEngineer
   equipment:
     jumpsuit: CMJumpsuitChiefEngineer
-    shoes: CMBootsBlack
+    shoes: CMBootsBlackFilled
+    back: CMSatchelMarineTech
     gloves: CMHandsInsulated
     id: CMIDCardChiefEngineer
     ears: CMHeadsetCE
