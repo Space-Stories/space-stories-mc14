@@ -331,6 +331,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
 
     private void OnTerminalBUIOpened(Entity<DropshipTerminalWeaponsComponent> ent, ref BoundUIOpenedEvent args)
     {
+        // Stories-CasTargetsFix-Start
+        PruneInvalidTargets(ent);
+        // Stories-CasTargetsFix-End
         AddPvs(ent, args.Actor);
     }
 
@@ -342,6 +345,10 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
     private void OnDropshipTargetMapInit(Entity<DropshipTargetComponent> ent, ref MapInitEvent args)
     {
         InitializeTargetMap(ent); // Stories-ZLevels
+        // Stories-CasTargetsFix-Start
+        if (HasComp<DropshipLingeringTargetComponent>(ent))
+            return;
+        // Stories-CasTargetsFix-End
         var netEnt = GetNetEntity(ent);
         var terminals = EntityQueryEnumerator<DropshipTerminalWeaponsComponent>();
         while (terminals.MoveNext(out var uid, out var terminal))
@@ -352,7 +359,20 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
             else if (HasComp<RMCActiveFultonComponent>(ent))
                 targets = terminal.Fultons;
 
-            targets.Add(new TargetEnt(netEnt, ent.Comp.Abbreviation));
+            // Stories-CasTargetsFix-Start
+            var exists = false;
+            for (var i = 0; i < targets.Count; i++)
+            {
+                if (targets[i].Id == netEnt)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists)
+                targets.Add(new TargetEnt(netEnt, ent.Comp.Abbreviation));
+            // Stories-CasTargetsFix-End
             Dirty(uid, terminal);
         }
 
@@ -397,12 +417,13 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
                 {
                     var proxy = Spawn(null, Transform(dropshipTarget).Coordinates);
 
+                    // Stories-CasTargetsFix-Start
+                    EnsureComp<DropshipLingeringTargetComponent>(proxy);
+                    // Stories-CasTargetsFix-End
                     var proxyTarget = EnsureComp<DropshipTargetComponent>(proxy);
                     proxyTarget.Abbreviation = targetComponent.Abbreviation;
                     proxyTarget.IsTargetableByWeapons = false;
                     proxyTarget.Eyes[uid] = oldEye;
-
-                    EnsureComp<DropshipLingeringTargetComponent>(proxy);
 
                     var proxyDespawn = EnsureComp<TimedDespawnComponent>(proxy);
                     proxyDespawn.Lifetime = (float) terminal.LingeringCameraDuration.TotalSeconds;
@@ -577,6 +598,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
         if (args.Screen == StrikeWeapon)
             screen.Weapon = null;
 
+        // Stories-CasTargetsFix-Start
+        PruneInvalidTargets(ent);
+        // Stories-CasTargetsFix-End
         Dirty(ent);
         RefreshWeaponsUI(ent);
     }
@@ -590,6 +614,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
         screen.QuickMode = args.Enabled;
         screen.State = Target;
 
+        // Stories-CasTargetsFix-Start
+        PruneInvalidTargets(ent);
+        // Stories-CasTargetsFix-End
         Dirty(ent);
         RefreshWeaponsUI(ent);
     }
@@ -940,15 +967,87 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
 
     private void OnWeaponsTargetsSelect(Entity<DropshipTerminalWeaponsComponent> ent, ref DropshipTerminalWeaponsTargetsSelectMsg args)
     {
+        // Stories-CasTargetsFix-Start
         if (!TryGetEntity(args.Target, out var target) ||
-            !HasComp<DropshipTargetComponent>(target))
+            TerminatingOrDeleted(target.Value) ||
+            !TryComp(target, out DropshipTargetComponent? targetComp) ||
+            !targetComp.IsTargetableByWeapons)
         {
+            PruneInvalidTargets(ent);
             RefreshWeaponsUI(ent);
             return;
         }
+        // Stories-CasTargetsFix-End
 
         UpdateTarget(ent, target.Value);
     }
+
+    // Stories-CasTargetsFix-Start
+    private void PruneInvalidTargets(Entity<DropshipTerminalWeaponsComponent> ent)
+    {
+        if (_net.IsClient)
+            return;
+
+        var changed = false;
+
+        for (var i = ent.Comp.Targets.Count - 1; i >= 0; i--)
+        {
+            var entry = ent.Comp.Targets[i];
+            if (TryGetEntity(entry.Id, out var targetUid) &&
+                !TerminatingOrDeleted(targetUid.Value) &&
+                TryComp(targetUid, out DropshipTargetComponent? targetComp) &&
+                targetComp.IsTargetableByWeapons &&
+                !HasComp<DropshipLingeringTargetComponent>(targetUid) &&
+                !HasComp<MedevacStretcherComponent>(targetUid) &&
+                !HasComp<RMCActiveFultonComponent>(targetUid))
+            {
+                continue;
+            }
+
+            ent.Comp.Targets.RemoveAt(i);
+            changed = true;
+        }
+
+        for (var i = ent.Comp.Medevacs.Count - 1; i >= 0; i--)
+        {
+            var entry = ent.Comp.Medevacs[i];
+            if (TryGetEntity(entry.Id, out var targetUid) &&
+                !TerminatingOrDeleted(targetUid.Value) &&
+                HasComp<DropshipTargetComponent>(targetUid) &&
+                HasComp<MedevacStretcherComponent>(targetUid))
+            {
+                continue;
+            }
+
+            ent.Comp.Medevacs.RemoveAt(i);
+            changed = true;
+        }
+
+        for (var i = ent.Comp.Fultons.Count - 1; i >= 0; i--)
+        {
+            var entry = ent.Comp.Fultons[i];
+            if (TryGetEntity(entry.Id, out var targetUid) &&
+                !TerminatingOrDeleted(targetUid.Value) &&
+                HasComp<DropshipTargetComponent>(targetUid) &&
+                HasComp<RMCActiveFultonComponent>(targetUid))
+            {
+                continue;
+            }
+
+            ent.Comp.Fultons.RemoveAt(i);
+            changed = true;
+        }
+
+        if (!changed)
+            return;
+
+        var maxTargetsPage = Math.Max(0, (ent.Comp.Targets.Count - 1) / 5);
+        if (ent.Comp.TargetsPage > maxTargetsPage)
+            ent.Comp.TargetsPage = maxTargetsPage;
+
+        Dirty(ent);
+    }
+    // Stories-CasTargetsFix-End
 
     private void OnWeaponsMedevacPrevious(Entity<DropshipTerminalWeaponsComponent> ent, ref DropshipTerminalWeaponsMedevacPreviousMsg args)
     {
@@ -959,7 +1058,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
 
     private void OnWeaponsMedevacNext(Entity<DropshipTerminalWeaponsComponent> ent, ref DropshipTerminalWeaponsMedevacNextMsg args)
     {
-        ent.Comp.MedevacsPage = Math.Min(ent.Comp.Medevacs.Count % 5, ent.Comp.MedevacsPage + 1);
+        // Stories-MedevacFix-Start
+        ent.Comp.MedevacsPage = Math.Min(ent.Comp.Medevacs.Count / 5, ent.Comp.MedevacsPage + 1);
+        // Stories-MedevacFix-End
         Dirty(ent);
         RefreshWeaponsUI(ent);
     }
@@ -969,6 +1070,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
         if (!TryGetEntity(args.Target, out var target) ||
             !HasComp<MedevacStretcherComponent>(target))
         {
+            // Stories-MedevacFix-Start
+            PruneInvalidTargets(ent);
+            // Stories-MedevacFix-End
             RefreshWeaponsUI(ent);
             return;
         }
@@ -986,7 +1090,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
 
     private void OnWeaponsFultonNext(Entity<DropshipTerminalWeaponsComponent> ent, ref DropshipTerminalWeaponsFultonNextMsg args)
     {
-        ent.Comp.FultonsPage = Math.Min(ent.Comp.Fultons.Count % 5, ent.Comp.FultonsPage + 1);
+        // Stories-FultonFix-Start
+        ent.Comp.FultonsPage = Math.Min(ent.Comp.Fultons.Count / 5, ent.Comp.FultonsPage + 1);
+        // Stories-FultonFix-End
         Dirty(ent);
         RefreshWeaponsUI(ent);
     }
@@ -999,6 +1105,9 @@ public abstract partial class SharedDropshipWeaponSystem : EntitySystem // Stori
         if (!TryGetEntity(args.Target, out var target) ||
             !HasComp<RMCActiveFultonComponent>(target))
         {
+            // Stories-FultonFix-Start
+            PruneInvalidTargets(ent);
+            // Stories-FultonFix-End
             RefreshWeaponsUI(ent);
             return;
         }

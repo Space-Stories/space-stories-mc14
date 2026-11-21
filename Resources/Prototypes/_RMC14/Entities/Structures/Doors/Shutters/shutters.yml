@@ -205,7 +205,10 @@
   - type: RemoveComponents
     components:
     - type: RMCWallExplosionDeletable
-    - type: DestroyedByExplosionType # Stories-Fixes end
+    - type: DestroyedByExplosionType
+    - type: DoorSignalControl
+    - type: DeviceLinkSink
+    - type: DeviceLinkSource  # Stories-Fixes end
 
 - type: entity
   parent: RMCShutterAlmayer
