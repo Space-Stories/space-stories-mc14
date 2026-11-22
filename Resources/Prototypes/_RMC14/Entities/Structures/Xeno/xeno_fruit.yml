@@ -173,7 +173,7 @@
     color: "#5B248C"
     outlineColor: "#9061BA80"
   - type: XenoFruitSpeed
-    speedModifier: 0.7
+    speedModifier: 0.7 #Stories-XenoFruitSpeedBuff
 
 - type: entity
   parent: XenoFruitBase
