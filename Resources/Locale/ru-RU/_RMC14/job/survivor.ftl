@@ -288,39 +288,39 @@ rmc-job-name-survivor-halcyon-dynamics-liaison = Халькон Дайнемик
 
 # Sorokyne SPP special forces insert survs
 
-rmc-job-greeting-soro-spetsnaz = You are a member of the SPP Spetsnaz Reconnaissance Unit!
+rmc-job-greeting-soro-spetsnaz = Вы — боец разведывательного подразделения спецназа СПН!
 
-  Your primary objective is to survive. You believe a second dropship crashed somewhere to the south west, which was carrying additional weapons.
+    Ваша главная задача — выжить. Вы полагаете, что где-то на юго-западе разбился второй десантный корабль, перевозивший дополнительное вооружение.
 
-  You are part of the Group 'B' Spetsnaz Reconnaissance Unit of the SPP, deployed alongside the Ministry of Space Colonization to perform forward reconnaissance on distant worlds. On the return trip from the frontier, you receive a distress signal from the Peoples' colony of 'Sorokyne Strata' on the planet 'Thermae I' (LV-976). Your team is sent to investigate. Intel suggests CLF separatists or a UN/TSE incursion, but as you touch down in the hangar, something feels wrong. No welcome party. No usual hustle of a working colony. Nothing to suggest an incursion of any kind. Your mission is clear—find out what happened to your supply ship and comrades, retrieve your equipment, and uncover the truth of what really happened to the colony.
+  Вы — боец группы 'Б' разведывательного подразделения спецназа СПН, развёрнутого вместе с Министерством космической колонизации для передовой разведки далёких миров. На обратном пути с фронтира вы получаете сигнал бедствия от Народной колонии 'Сорокине Стрэта' на планете 'Терма I' (LV-976). Ваш отряд отправляют на разведку. Разведданные указывают на сепаратистов КОФ или вторжение США/ИТС, но когда вы приземляетесь в ангаре, что-то кажется не так. Никакой встречающей группы. Никакой обычной суеты работающей колонии. Ничего, что указывало бы на вторжение любого рода. Ваша задача ясна — выяснить, что случилось с вашим кораблём снабжения и товарищами, вернуть своё снаряжение и раскрыть правду о том, что на самом деле произошло с колонией.
 
-  You are fully aware of the xenonid threat and are able to use this knowledge as you see fit.
+  Вы полностью осведомлены об угрозе ксеноморфов и можете использовать это знание по своему усмотрению.
 
-  You are NOT aware of the marines or their intentions.
+  Вы НЕ осведомлены о морпехах и их намерениях.
 
   You are [bold][color=#51A16C][font size=16]NON-HOSTILE to the UNMC![/font][/color][/bold]
 
-rmc-job-name-spetsnaz = SPP SRU Survivor
+rmc-job-name-spetsnaz = Выживший РПС СПН
 
-rmc-job-description-soro-spetsnaz = You are a stranded SPP Group 'B' SRU marine. Your team was sent to investigate a distress signal. Find out what happened to the colony.
+rmc-job-description-soro-spetsnaz = Вы — морпех группы 'Б' разведывательного подразделения спецназа СПН. Ваш отряд отправили расследовать сигнал бедствия. Выясните, что случилось с колонией.
 
-rmc-job-name-spetsnaz-sapper = Spetsnaz Sapper
-rmc-job-prefix-soro-spetsnaz-sapper = B/SRU SAP
+rmc-job-name-spetsnaz-sapper = Сапёр спецназа
+rmc-job-prefix-soro-spetsnaz-sapper = Б/РПС САП
 
-rmc-job-name-spetsnaz-medic = Spetsnaz Medic
-rmc-job-prefix-soro-spetsnaz-medic = B/SRU MED
+rmc-job-name-spetsnaz-medic = Медик спецназа
+rmc-job-prefix-soro-spetsnaz-medic = Б/РПС МЕД
 
-rmc-job-name-spetsnaz-sl = Spetsnaz Squad Leader
-rmc-job-prefix-soro-spetsnaz-sl = B/SRU SL
+rmc-job-name-spetsnaz-sl = Командир отделения спецназа
+rmc-job-prefix-soro-spetsnaz-sl = Б/РПС КО
 
-rmc-job-name-spetsnaz-spec = Spetsnaz Specialist
-rmc-job-prefix-soro-spetsnaz-spec = B/SRU SPEC
+rmc-job-name-spetsnaz-spec = Специалист спецназа
+rmc-job-prefix-soro-spetsnaz-spec = Б/РПС СПЕЦ
 
-rmc-job-name-spetsnaz-operator = Spetsnaz Operator
-rmc-job-prefix-soro-spetsnaz-operator = B/SRU OPR
+rmc-job-name-spetsnaz-operator = Оператор спецназа
+rmc-job-prefix-soro-spetsnaz-operator = Б/РПС ОПР
 
-rmc-job-name-spetsnaz-synth = Spetsnaz SRU Synthetic
-rmc-job-prefix-soro-spetsnaz-synth = B/SRU SYN
+rmc-job-name-spetsnaz-synth = Синтетик РПС спецназа
+rmc-job-prefix-soro-spetsnaz-synth = Б/РПС СИН
 
 # Trijent survs
 
@@ -343,31 +343,31 @@ CMSurvivorTrijentCorporate = Представитель Корпорации Т�
 
 # Trijent SPP special forces insert survs
 
-rmc-job-greeting-trijent-spetsnaz = You are a member of the SPP Spetsnaz Reconnaissance Unit!
+rmc-job-greeting-trijent-spetsnaz = Вы — боец разведывательного подразделения спецназа СПН!
 
-  Your primary objective is to survive. You believe a second dropship crashed somewhere to the south east, which was carrying additional weapons.
+  Ваша главная задача — выжить. Вы полагаете, что где-то на юго-востоке разбился второй десантный корабль, перевозивший дополнительное вооружение.
 
-  You are part of the Group 'D' Spetsnaz Reconnaissance Unit of the SPP. Your orders were simple, recon the site, ascertain if there is a biological weapons program in the area, and if so to secure the colony and retrieve a sample. However your team failed to account for an active anti-air battery near the area. Both your craft and your sister ship crashed. Barely having a chance to catch your breath, you found yourself being assailed by vile xenonids! You and your team have barely held your ground, at the cost of four of your own, but more are coming and ammo is low. You believe a United Nations rescue force is en route.
+  Вы — боец разведывательного подразделения спецназа группы 'Д' СПН. Ваши приказы были просты: провести разведку объекта, установить, есть ли в этом районе программа разработки биологического оружия, и, если да, захватить колонию и добыть образец. Однако ваша команда не учла активную зенитную батарею неподалёку. И ваш корабль, и второй корабль разбились. Едва успев перевести дух, вы оказались атакованы мерзкими ксеноморфами! Вы и ваша команда едва удержали позиции ценой четверых своих, но враги всё прибывают, а патроны на исходе. Вы полагаете, что спасательные силы США уже в пути.
 
-  You are fully aware of the xenonid threat and are able to use this knowledge as you see fit.
+  Вы полностью осведомлены об угрозе ксеноморфов и можете использовать это знание по своему усмотрению.
 
-  You are NOT aware of the marines or their intentions.
+  Вы НЕ осведомлены о морпехах и их намерениях.
 
-  You are [bold][color=#51A16C][font size=16]NON-HOSTILE to the UNMC![/font][/color][/bold]
+  Вы [bold][color=#51A16C][font size=16]НЕ ВРАЖДЕБНЫ КМП![/font][/color][/bold]
 
-rmc-job-description-trijent-spetsnaz = You are a stranded SPP Group 'D' SRU marine. Your Mi-220 assault gunship crashed and you are stranded on the planet. Do what it takes to survive!
+rmc-job-description-trijent-spetsnaz = Вы — морпех группы 'Д' разведывательного подразделения спецназа СПН. Ваш штурмовой Ми-220 разбился, и вы застряли на планете. Сделайте всё, чтобы выжить!
 
-rmc-job-prefix-trijent-spetsnaz-sapper = D/SRU SAP
+rmc-job-prefix-trijent-spetsnaz-sapper = Д/РПС САП
 
-rmc-job-prefix-trijent-spetsnaz-medic = D/SRU MED
+rmc-job-prefix-trijent-spetsnaz-medic = Д/РПС МЕД
 
-rmc-job-prefix-trijent-spetsnaz-sl = D/SRU SL
+rmc-job-prefix-trijent-spetsnaz-sl = Д/РПС КО
 
-rmc-job-prefix-trijent-spetsnaz-spec = D/SRU SPEC
+rmc-job-prefix-trijent-spetsnaz-spec = Д/РПС СПЕЦ
 
-rmc-job-prefix-trijent-spetsnaz-operator = D/SRU OPR
+rmc-job-prefix-trijent-spetsnaz-operator = Д/РПС ОПР
 
-rmc-job-prefix-trijent-spetsnaz-synth = D/SRU SYN
+rmc-job-prefix-trijent-spetsnaz-synth = Д/РПС СИН
 
 # Fiorina Science Annex Survs
 
