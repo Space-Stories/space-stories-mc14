@@ -18,8 +18,8 @@ ent-ActionXenoTailStabCorrosive = Кислотный удар хвостом
     .desc = Совершает атаку в выбранном направлении. В случае промаха перезарядка ускоряется. [color=red]Также впрыскивает в цель разбавленную молекулярную кислоту, наносящую периодический урон.[/color]
 ent-ActionXenoTailStabBoiler = Разъедающий удар хвостом
     .desc = Совершает атаку в выбранном направлении. В случае промаха перезарядка ускоряется. [color=red]Также впрыскивает в цель разбавленную молекулярную кислоту или нейротоксин, нанося урон или оглушая на некоторое время. Эффект зависит от текущего типа газа.[/color]
-ent-ActionXenoTailStabSentinel = Catalytic Tail Stab
-    .desc = Strikes the targeted enemy or barricade. The cooldown is faster if you miss. Does additional burn damage if the target has paratoxin stacks, and if they have at least 10, gain a large speed and armor boost. Reduces paratoxin stacks by half.
+ent-RMCActionCatalyticTailStab = Каталитический удар хвостом
+    .desc = Бьёт по выбранному врагу или баррикаде. При промахе перезарядка быстрее. Наносит дополнительный урон ожогом, если у цели есть стаки паратоксина, а если их не меньше 10, вы получаете большой прирост скорости и брони. Уменьшает стаки паратоксина вдвое.
 ent-RMCGuidebookActionXenoTailStabSentinel = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoTailStabLance = Удар копьем по хвосту
@@ -52,8 +52,8 @@ ent-RMCGuidebookActionXenoTailSweep = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoSlowingSpit = Замедляющий плевок (20)
     .desc = Выпускает снаряд, который замедляет первого поражённого врага и парализует его, если на нём нет брони.
-ent-ActionXenoParatoxinSpit = Paratoxin Spit (30)
-    .desc = Launches a damageless projectile that goes over allies and will slow the first enemy that it hits, then paralyze them if they have no armor. It'll also drain helpful substances from their body and apply 5 paratoxin stacks. [color=yellow]Paratoxin stacks do oxygen damage over time, and max out at 30 stacks.[/color]
+ent-ActionXenoParatoxinSpit = Плевок паратоксином (30)
+    .desc = Запускает безвредный снаряд, который пролетает над союзниками и замедляет первого поражённого врага, а затем парализует его, если на нём нет брони. Он также вытягивает полезные вещества из его тела и накладывает 5 стаков паратоксина. [color=yellow]Стаки паратоксина наносят со временем урон дыхательной системе, максимум 30 стаков.[/color]
 ent-RMCGuidebookActionXenoParatoxinSpit = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoScatteredSpit = Рассеянный плевок (20)
@@ -62,10 +62,10 @@ ent-RMCGuidebookActionXenoScatteredSpit = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoSpit = Плевок (25)
     .desc = Выпускает снаряд, наносящий урон первому поражённому противнику.
-ent-ActionXenoQueenSpitAcid = Acid Spit (25)
-    .desc = Launches a projectile that will deal damage to the first enemy that it hits and coat them in acid.
-ent-ActionXenoQueenSpitNeuro = Neurotoxin Spit (50)
-    .desc = Launches a projectile that goes over allies and stuns the first enemy that it hits.
+ent-ActionXenoQueenSpitAcid = Плевок кислотой (25)
+    .desc = Запускает снаряд, который нанесёт урон первому поражённому врагу и покроет его кислотой.
+ent-ActionXenoQueenSpitNeuro = Плевок нейротоксином (50)
+    .desc = Запускает снаряд, который пролетает над союзниками и оглушает первого поражённого врага.
 ent-ActionXenoSpitPraetorian = { ent-ActionXenoSpit }
     .desc = { ent-ActionXenoSpit.desc }
 ent-RMCGuidebookActionXenoSpit = { ent-CMGuidebookActionXenoBase }
@@ -90,8 +90,8 @@ ent-RMCGuidebookActionXenoAcidBall = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoParalyzingSlash = Парализующий удар (50)
     .desc = На короткое время заряжает атаку ближнего боя, которая после небольшой задержки сбивает с ног первого поражённого врага.
-ent-ActionXenoParatoxinSlash = Paratoxin Slashes (100)
-    .desc = Coat your claws and tail with paratoxin, applying 10 paratoxin stacks for your next 3 slashes. Lasts 5 seconds. [color=yellow]Paratoxin stacks do oxygen damage over time, and max out at 30 stacks.[/color]
+ent-ActionXenoParatoxinSlash = ent-ActionXenoParatoxinSlashes = Паратоксинные удары (100)
+    .desc = Покрывает ваши когти и хвост паратоксином, накладывая 10 стаков паратоксина следующие 3 удара. Длится 5 секунд. [color=yellow]Стаки паратоксина наносят со временем урон дыхательной системе, максимум 30 стаков.[/color]
 ent-ActionXenoCripplingStrike = Калечащий удар (20)
     .desc = На короткое время заряжает атаку ближнего боя, замедляющую первого поражённого врага.
 ent-RMCGuidebookActionXenoCripplingStrike = { ent-CMGuidebookActionXenoBase }
@@ -230,10 +230,10 @@ ent-ActionXenoDeployTraps = Развертывание ловушек (60)
     .desc = Устанавливает линию временных смоляных ловушек, которые ненадолго обездвиживают наступивших на них врагов.
 ent-RMCGuidebookActionXenoDeployTraps = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
-ent-ActionXenoMassacre = Massacre (300)
-    .desc = Gibs dead enemies in an area. Gives a burrowed larva for each enemy gibbed.
-ent-ActionXenoDrainingBite = Draining Bite
-    .desc = Drain an enemy, stunning them and removing helpful chemicals from their system, scaling with paratoxin stacks. Reduces paratoxin stacks by 1/3.
+ent-ActionXenoMassacre = Бойня (300)
+    .desc = Потрошит мёртвых врагов в области. Даёт по одной зарывшейся личинке за каждого потрошённого врага.
+ent-ActionXenoDrainingBite = Истощающий укус
+    .desc = Истощает врага, оглушая его и удаляя полезные химикаты из его организма, сильнее с каждым стаком паратоксина. Уменьшает стаки паратоксина на 1/3.
 ent-ActionXenoDeployAcidMine = Установка кислотной мины (40)
     .desc = Выбирает плитку, на которой активируется кислотная мина в области 3x3. Любое существо, оказавшееся в этой зоне, будет поражено кислотой.
 ent-ActionXenoCleave = Раскол

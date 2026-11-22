@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazSpec = special survivor spp spetsnaz specialist spawn point
+ent-RMCSpawnPointSPPSpetsnazSpec = спавн специальный выживший специалист спецназа СПН
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = Sorokyne
+    .suffix = Сорокино

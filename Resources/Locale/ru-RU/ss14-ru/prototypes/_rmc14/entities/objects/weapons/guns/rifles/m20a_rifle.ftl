@@ -1,6 +1,6 @@
-ent-RMCWeaponRifleM20 = M20A 'Haimatsu' assault rifle
-    .desc = A cheaper alternative to the M54C assault rifle. Uses 10x24mm caseless ammunition.
-ent-CMMagazineRifleM20 = M20A magazine (10x24mm)
-    .desc = A 20-round M20 assault rifle magazine.
-ent-CMMagazineRifleM20AP = M20A AP magazine (10x24mm)
-    .desc = A 20-round armor-piercing M20 assault rifle magazine.
+ent-RMCWeaponRifleM20 = автомат M20A "Haimatsu"
+    .desc = Более дешёвая альтернатива автомату M41A. Использует безгильзовые патроны 10x24 мм.
+ent-CMMagazineRifleM20 = магазин M20A (10x24 мм)
+    .desc = Магазин на 20 патронов для автомата M20.
+ent-CMMagazineRifleM20AP = бронебойный магазин M20A (10x24 мм)
+    .desc = Бронебойный магазин на 20 патронов для автомата M20.

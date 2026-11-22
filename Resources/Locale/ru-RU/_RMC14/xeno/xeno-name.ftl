@@ -19,6 +19,6 @@ rmc-xeno-mature-king = Беспощадный { $baseName }
 
 rmc-xeno-young-larva = Маленькая { $baseName }
 rmc-xeno-mature-larva = Зрелая { $baseName }
-rmc-xeno-elder-larva = Большая { $baseName }
-rmc-xeno-ancient-larva = Big { $baseName }
-rmc-xeno-prime-larva = Fat { $baseName }
+rmc-xeno-elder-larva = Длинная { $baseName }
+rmc-xeno-ancient-larva = Большая { $baseName }
+rmc-xeno-prime-larva = Жирная { $baseName }

@@ -196,27 +196,28 @@ rmc-xeno-magicalgirl-name = Девочка-волшебница
 rmc-xeno-magicalgirl-description = Получите свой плазменный жезл от Королевы-Матери и превратитесь в форму Девочки-волшебницы, чтобы сражаться со силами зла!
 rmc-xeno-magicalgirl-popup = Силой Плазмы и Смолы! Перевоплощение!
 
-rmc-xeno-destrain-choice = Destrain: { $caste }
-rmc-xeno-destrain-success = We shed our specialization and return to our original form.
-rmc-xeno-destrain-cooldown = We lack the strength to reset our strain. We will be able to reset it in { $minutes } {$minutes ->
-    [one] minute
-   *[other] minutes
+rmc-xeno-destrain-choice = Сбросить специализацию: { $caste }
+rmc-xeno-destrain-success = Мы сбрасываем специализацию и возвращаемся к исходной форме.
+rmc-xeno-destrain-cooldown = Нам не хватает сил сбросить специализацию. Мы сможем сбросить её через { $minutes } { $minutes ->
+    [one] минуту
+    [few] минуты
+   *[other] минут
 }.
 
-rmc-xeno-witch-name = Witch
-rmc-xeno-witch-description = You shall make a stew so wicked and shrew! Command your army of cursed children to turn talls into your greatest brew!
-rmc-xeno-witch-popup = Muwahahahah!
-rmc-xeno-bloodqueen-name = Blood Queen
-rmc-xeno-bloodqueen-description = You lose:
-  - Your queen level pheromones are replaced with strong pheromones.
-  - The ability to attach an ovipositor.
-  - Your screech, order construction, secrete resin, plant weeds and spit-based abilities.
-  - Your normal acid is replaced with weak acid.
-  You gain:
-  - Increased speed, damage, health, and armor.
-  - Your slashes now do a slight AOE to enemies surrounding the target.
-  - Brace: Gives you a temporary shield for 5 seconds that reduces damage taken slightly.
-  - Doom: A terrifying roar that removes helpful chemicals and darkens lights.
-  - Massacre: Guts multiple dead bodies in an area. Gives a burrowed larva for each body gibbed.
-  - Blood Drain: Drain a pulled, downed, living target of blood, doing damage and giving your hive evolution points.
-rmc-xeno-bloodqueen-popup = This is no time to sit idle; The hive hungers for blood.
+rmc-xeno-witch-name = Ведьма
+rmc-xeno-witch-description = Вы сварите самое злобное и жуткое зелье! Командуйте армией проклятых детей, чтобы сварить из носителей ваш лучший напиток!
+rmc-xeno-witch-popup = Муахахахаха!
+rmc-xeno-bloodqueen-name = Кровавая королева
+rmc-xeno-bloodqueen-description = Вы теряете:
+  - Ваши королевские феромоны заменяются сильными феромонами.
+  - Способность прикреплять яйцеклад.
+  - Ваш крик, возможность строить, выделять смолу, сажать узлы, и способности, основанные на плевках.
+  - Ваша обычная кислота заменяется слабой кислотой.
+  Вы получаете:
+  - Повышенную скорость, урон, здоровье и броню.
+  - Ваши удары когтями теперь наносят небольшой урон по площади врагам вокруг цели.
+  - Изготовка: даёт вам временный щит на 5 секунд, слегка снижающий получаемый урон.
+  - Рок: ужасающий рёв, удаляющий полезные химикаты и гасящий свет.
+  - Бойня: потрошит несколько мёртвых тел в области. Даёт по одной зарывшейся личинке за каждое тело.
+  - Кровопускание: высасывает кровь из схваченной, раненой, живой цели, нанося урон и давая вашему улью очки эволюции.
+rmc-xeno-bloodqueen-popup = Не время сидеть сложа руки; улей жаждет крови.

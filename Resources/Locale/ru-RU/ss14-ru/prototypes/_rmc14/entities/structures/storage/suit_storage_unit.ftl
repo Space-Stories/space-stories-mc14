@@ -1,3 +1,3 @@
-ent-CMLockerSuitStorageUnit = Suit Storage Unit
-    .desc = An industrial storage unit designed to accommodate all kinds of space suits. Its on-board equipment also allows the user to decontaminate the contents through a UV-ray purging cycle. There's a warning label dangling from the control pad, reading "STRICTLY NO BIOLOGICALS IN THE CONFINES OF THE UNIT". It appears somebody destroyed this unit's control pad, and the UV purging cycle is no longer functional.
+ent-CMLockerSuitStorageUnit = шкаф для хранения скафандров
+    .desc = Промышленный шкаф, предназначенный для размещения всевозможных скафандров. Его встроенное оборудование также позволяет пользователю дезинфицировать содержимое с помощью цикла УФ-очистки. С панели управления свисает предупреждающая табличка с надписью "ВНУТРЬ ШКАФА БИОЛОГИЧЕСКИЕ ОБЪЕКТЫ НЕ КЛАСТЬ". Похоже, кто-то уничтожил панель управления этого шкафа, и цикл УФ-очистки больше не работает.
     .suffix = { ent-CMLockerBase.suffix }

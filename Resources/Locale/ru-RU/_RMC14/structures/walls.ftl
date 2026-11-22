@@ -9,7 +9,7 @@ rmc-structure-damaged-girder-examine-tip = Используйте [color=lightgr
 
 rmc-structure-displaced-examine-tip = Похоже, оно сместилось. Используйте [color=lightgreen]Лом[/color], чтобы закрепить его.
 
-rmc-xeno-structure-damaged-1 = [color=lightgreen]It looks fully intact.[/color]
-rmc-xeno-structure-damaged-2 = [color=yellow]It looks slightly damaged.[/color]
-rmc-xeno-structure-damaged-3 = [color=orange]It looks severely damaged.[/color]
-rmc-xeno-structure-damaged-4 = [color=red]It's about to fall apart![/color]
+rmc-xeno-structure-damaged-1 = [color=lightgreen]Повреждений нет.[/color]
+rmc-xeno-structure-damaged-2 = [color=yellow]Есть лёгкие повреждения.[/color]
+rmc-xeno-structure-damaged-3 = [color=orange]Сильные повреждения![/color]
+rmc-xeno-structure-damaged-4 = [color=red]Вот-вот развалится![/color]

@@ -1,7 +1,7 @@
-ent-RMCBusinessCard = business card
-    .desc = A small card for sharing contact information.
-ent-RMCBusinessCardHolder = business card holder
-    .desc = A slim case for keeping business cards neat and ready to hand out.
+ent-RMCBusinessCard = визитная карточка
+    .desc = Небольшая карточка для обмена контактной информацией.
+ent-RMCBusinessCardHolder = визитница
+    .desc = Тонкий футляр для аккуратного хранения визитных карточек, перед их последующей выдачей.
 ent-RMCBusinessCardHolderFilled = { ent-RMCBusinessCardHolder }
     .desc = { ent-RMCBusinessCardHolder.desc }
-    .suffix = Filled
+    .suffix = Заполненный

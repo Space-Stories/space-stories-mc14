@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazTrijentSpec = special survivor spp spetsnaz specialist spawn point
+ent-RMCSpawnPointSPPSpetsnazTrijentSpec = спавн специальный выживший специалист спецназа СПН
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = Trjient
+    .suffix = Триджент

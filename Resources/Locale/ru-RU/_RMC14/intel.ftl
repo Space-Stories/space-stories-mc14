@@ -164,8 +164,8 @@ rmc-intel-tech-announcement-wake-specialist = Дополнительный сп�
 rmc-intel-tech-announcement-tier-4 = УРОВЕНЬ ОЦЕНКИ УГРОЗЫ ПОВЫШЕН ДО 4. Средства УРОВНЯ 4 разрешены для реагирования на ситуацию.
 rmc-intel-tech-announcement-nuclear-device = Развертывание ядерного боеприпаса разрешено. Он будет доставлен в отдел снабжения через ASRS.
 
-rmc-intel-detector-not-on = Turn the data detector on first.
-rmc-intel-detector-has-intel = The data detector has detected intelligence on your person.
-rmc-intel-detector-no-intel = The data detector does not react.
-rmc-intel-detector-cooldown = The data detector needs to cool down before another self-scan can be performed.
-rmc-intel-detector-self-check-examine = Use the data detector on yourself to perform a self-scan for intelligence.
+rmc-intel-detector-not-on = Сначала включите детектор данных.
+rmc-intel-detector-has-intel = Детектор данных обнаружил у вас разведданные.
+rmc-intel-detector-no-intel = Детектор данных не реагирует.
+rmc-intel-detector-cooldown = Детектору данных нужно остыть, прежде чем можно будет выполнить ещё одно самосканирование.
+rmc-intel-detector-self-check-examine = Используйте детектор данных на себе, чтобы выполнить самосканирование разведданных.

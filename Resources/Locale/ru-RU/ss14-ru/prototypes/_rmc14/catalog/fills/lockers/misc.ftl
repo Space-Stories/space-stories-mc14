@@ -24,4 +24,4 @@ ent-RMCLockerMinerFilled = { ent-RMCLockerMiner }
     .suffix = Заполненный, Безопасный
 ent-RMCLockerSuitStorageUnitFilled = { ent-CMLockerSuitStorageUnit }
     .desc = { ent-CMLockerSuitStorageUnit.desc }
-    .suffix = Filled
+    .suffix = Заполненный

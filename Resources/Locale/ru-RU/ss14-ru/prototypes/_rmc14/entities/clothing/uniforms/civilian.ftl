@@ -16,5 +16,5 @@ ent-RMCJumpsuitWaiter = униформа официанта
     .desc = Очень элегантная униформа с особым карманом для чаевых.
 ent-RMCJumpsuitCheckeredSuit = клетчатый костюм
     .desc = Очень красивый у вас костюм. Было бы жаль, если бы с ним что-нибудь случилось, да?
-ent-RMCJumpsuitChef = chef uniform
-    .desc = Can't cook without this.
+ent-RMCJumpsuitChef = поварская форма
+    .desc = Без неё ничего не приготовить.

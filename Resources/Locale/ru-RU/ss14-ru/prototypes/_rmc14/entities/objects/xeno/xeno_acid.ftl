@@ -1,6 +1,6 @@
-ent-RMCWeakLingeringAcid = weak acid
+ent-RMCWeakLingeringAcid = слабая кислота
     .desc = { "" }
-ent-RMCNormalLingeringAcid = acid
+ent-RMCNormalLingeringAcid = средняя кислота
     .desc = { ent-RMCWeakLingeringAcid.desc }
-ent-RMCStrongLingeringAcid = strong acid
+ent-RMCStrongLingeringAcid = сильная кислота
     .desc = { ent-RMCNormalLingeringAcid.desc }

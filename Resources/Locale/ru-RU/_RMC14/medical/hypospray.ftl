@@ -6,6 +6,6 @@ rmc-hypospray-label = Объем: [color=white]{ $currentVolume }/{ $totalVolume
     Инъекция ([color=white]{ $transferVolume }u[/color])
 
 rmc-hypospray-no-vial = Пробирка не загружена.
-rmc-hypospray-examine-unskilled = You're not sure what's in it.
-rmc-hypospray-examine-contains = { CAPITALIZE(THE($target)) } contains: { $reagents }
-rmc-hypospray-examine-empty = { CAPITALIZE(THE($target)) } is empty!
+rmc-hypospray-examine-unskilled = Вы не знаете что в ней.
+rmc-hypospray-examine-contains = { CAPITALIZE($target) } содержит: { $reagents }
+rmc-hypospray-examine-empty = { CAPITALIZE($target) } пуста!

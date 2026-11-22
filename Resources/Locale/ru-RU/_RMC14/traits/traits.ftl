@@ -34,10 +34,10 @@ rmc-trait-german-language-name = Немецкий язык
 rmc-trait-german-language-desc = Вы можете говорить и понимать по-немецки.
 
 rmc-trait-scandinavian-language-name = Скандинавский язык
-rmc-trait-scandinavian-language-desc = Вы можете говорить и понимать по-скандинавски.
+rmc-trait-hindi-language-desc = Вы можете говорить и понимать на хинди.
 
-rmc-trait-hindi-language-name = Hindi language
-rmc-trait-hindi-language-desc = You can speak and understand Hindi.
+rmc-trait-hindi-language-name = Хинди
+rmc-trait-hindi-language-desc = Вы говорите и понимаете на хинди.
 
 rmc-trait-group-languages = Языки
 rmc-trait-group-other-speech = Другие особенности речи

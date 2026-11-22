@@ -1,3 +1,3 @@
-ent-CMSpawnPointRCMPVESmartGunner = RCM smart gun operator spawn point
+ent-CMSpawnPointRCMPVESmartGunner = спавн RCM смартганнер
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

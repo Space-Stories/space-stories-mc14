@@ -1,6 +1,6 @@
-ent-RMCGuidebookParatoxin = Low
-    .desc = A host with minimal paratoxin stacks.
-ent-RMCGuidebookParatoxinMedium = Some
-    .desc = A host with just enough paratoxin stacks to catalytic tail stab for a boost!
-ent-RMCGuidebookParatoxinMax = Max
-    .desc = A host with maxed out paratoxin stacks! Using draining bite has the best results at max stacks.
+ent-RMCGuidebookParatoxin = Мало
+    .desc = Носитель с минимальным количеством стаков паратоксина.
+ent-RMCGuidebookParatoxinMedium = Немного
+    .desc = Носитель, у которого как раз достаточно стаков паратоксина, чтобы получить усиление от каталитического удара хвостом!
+ent-RMCGuidebookParatoxinMax = Максимум
+    .desc = Носитель с максимальным количеством стаков паратоксина! Применение истощающего укуса даёт лучший результат при максимуме стаков.

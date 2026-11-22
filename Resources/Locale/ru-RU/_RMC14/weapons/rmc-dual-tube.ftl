@@ -1,17 +1,17 @@
-rmc-dual-tube-must-hold = You must be holding { THE($gun) } in your active hand to switch the active internal magazine!
-rmc-dual-tube-overloaded = The current tube is overloaded! { CAPITALIZE(THE($gun)) } spits out the chambered shell!
-rmc-dual-tube-chamber-swap-on = You will start swapping the chambered shell with the other tube. Your current tube must be underloaded or it will forcefully eject the shell out of the chamber.
-rmc-dual-tube-chamber-swap-off = You will stop swapping the chambered shell with the other tube.
-rmc-dual-tube-verb = Toggle shotgun tube
+rmc-dual-tube-must-hold = Чтобы переключить активный внутренний магазин, вы должны держать { $gun } в активной руке!
+rmc-dual-tube-overloaded = Текущий трубчатый магазин переполнен! { CAPITALIZE($gun) } выплёвывает патрон из патронника!
+rmc-dual-tube-chamber-swap-on = Вы будете менять патрон в патроннике на патрон из другого магазина. Текущий магазин должен быть недозаряжен, иначе патрон будет принудительно выброшен.
+rmc-dual-tube-chamber-swap-off = Вы больше не будете менять патрон в патроннике на патрон из другого магазина.
+rmc-dual-tube-verb = Переключить трубчатый магазин
 
-rmc-dual-tube-examine-tube = The [bold]{ $second ->
-    [true] second
-   *[false] first
-}[/bold] tube is active. The other tube holds [color=cyan]{ $count }[/color] { $count ->
-    [one] shell
-   *[other] shells
+rmc-dual-tube-examine-tube = Активен [bold]{ $second ->
+    [true] второй
+   *[false] первый
+}[/bold] магазин. В другом магазине [color=cyan]{ $count }[/color] { $count ->
+    [one] патрон
+   *[other] патронов
 }.
-rmc-dual-tube-examine-chamber-swap = Use your [color=cyan]cycle firemode[/color] keybind to toggle chamber-swapping. Chamber-swapping is [bold]{ $active ->
-    [true] on
-   *[false] off
+rmc-dual-tube-examine-chamber-swap = Используйте клавишу [color=cyan]смены режима огня[/color], чтобы переключить смену патронов в патроннике. Смена патрона [bold]{ $active ->
+    [true] включена
+   *[false] выключена
 }[/bold].

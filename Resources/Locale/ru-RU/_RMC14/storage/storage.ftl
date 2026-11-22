@@ -31,12 +31,12 @@ rmc-storage-hand-eject-open = Щелчок по { $storage } теперь отк
 
 rmc-hijack-cabinet-locked = Этот шкаф автоматически разблокируется и откроется во время эвакуации.
 
-rmc-storage-shake = Shake
-rmc-storage-shake-fail-self = You shake { THE($target) } but nothing falls out.
-rmc-storage-shake-fail-self-empty = You shake { THE($target) } but nothing falls out. { CAPITALIZE(SUBJECT($target)) } { CONJUGATE-BASIC($target, "feel", "feels") } empty...
-rmc-storage-shake-fail-others = { CAPITALIZE(THE($user)) } shakes { THE($target) } but nothing falls out.
-rmc-storage-shake-success-self = You shake { THE($target) } and { INDEFINITE($item) } { $item } falls out.
-rmc-storage-shake-success-others = { CAPITALIZE(THE($user)) } shakes { THE($target) } and { INDEFINITE($item) } { $item } falls out.
+rmc-storage-shake = Потрясти
+rmc-storage-shake-fail-self = Вы трясёте { $target }, но ничего не выпадает.
+rmc-storage-shake-fail-self-empty = Вы трясёте { $target }, но ничего не выпадает. { CAPITALIZE($target) } словно бы пуст...
+rmc-storage-shake-fail-others = { CAPITALIZE($user) } трясёт { $target }, но ничего не выпадает.
+rmc-storage-shake-success-self = Вы трясёте { $target }, и из него выпадает { $item }.
+rmc-storage-shake-success-others = { CAPITALIZE($user) } трясёт { $target }, и из него выпадает { $item }.
 
-rmc-storage-equipped-otheraccessible-self-opening = You start opening the { $item } on { THE($target) }.
-rmc-storage-equipped-otheraccessible-other-opening = { CAPITALIZE(THE($user)) } is trying to open your equipped { $item }.
+rmc-storage-equipped-otheraccessible-self-opening = Вы начинаете открывать { $item } на { $target }.
+rmc-storage-equipped-otheraccessible-other-opening = { CAPITALIZE($user) } пытается открыть ваш { $item }.

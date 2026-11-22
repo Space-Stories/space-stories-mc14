@@ -1,7 +1,7 @@
 ent-RMCArmorProvost = броня надзирателя M3
     .desc = Стандартная нагрудная пластина надзирателя образца M3. Защищает грудь от баллистических пуль, колюще-режущих предметов и несчастных случаев. К ней прикреплён небольшой кожаный подсумок для ограниченного хранения.
-ent-RMCArmorProvostPauldron = M3 pattern provost armor
-    .desc = A more refined Provost M3 Pattern Chestplate for senior officers. Protects the chest from ballistic rounds, bladed objects and accidents. It has a small leather pouch strapped to it for limited storage.
+ent-RMCArmorProvostPauldron = броня провост M3
+    .desc = Усовершенствованная броня M3 провост для старших офицеров. Защищает грудь от пуль, холодного оружия и несчастных случаев. К ней прикреплён небольшой кожаный подсумок для ограниченного хранения.
 ent-RMCArmorProvostPauldronFilled = { ent-RMCArmorProvostPauldron }
     .desc = { ent-RMCArmorProvostPauldron.desc }
     .suffix = Filled, TL

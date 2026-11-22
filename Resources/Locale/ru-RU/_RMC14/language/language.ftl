@@ -13,7 +13,7 @@ language-Chinese-name = Китайский
 language-Russian-name = Русский
 language-German-name = Немецкий
 language-Scandinavian-name = Скандинавский
-language-Hindi-name = Hindi
+language-Hindi-name = Хинди
 language-SignLanguage-name = Язык жестов
 language-Primitive-name = Примитивный
 
@@ -28,7 +28,7 @@ language-Chinese-description = Земной язык.
 language-Russian-description = Земной язык.
 language-German-description = Земной язык.
 language-Scandinavian-description = Земной язык.
-language-Hindi-description = Earth language.
+language-Hindi-description = Земной язык.
 language-SignLanguage-description = Визуальный язык, использующий жесты рук и движения тела.
 language-Primitive-description = Примитивный язык, состоящий из визгов, уханий и жестов.
 
