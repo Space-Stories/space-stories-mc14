@@ -132,3 +132,9 @@
         amount: 10
       - id: d20Dice
         amount: 10
+      # Stories-Coin-Start
+      - id: d6Dice
+        amount: 10
+      - id: TreasureCoinIron
+        amount: 10
+      # Stories-Coin-End

@@ -152,6 +152,15 @@
     size: Tiny
   - type: StaticPrice
     price: 75
+  # Stories-Coin-Start
+  - type: Dice
+    sides: 2
+    currentValue: 1
+    updateSpriteOnRoll: false
+    sideNames:
+      1: coin-side-heads
+      2: coin-side-tails
+  # Stories-Coin-End
 
 - type: entity
   parent: TreasureCoinIron

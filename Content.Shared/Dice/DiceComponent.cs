@@ -32,5 +32,11 @@ public sealed partial class DiceComponent : Component
     [DataField]
     [AutoNetworkedField]
     public int CurrentValue { get; set; } = 20;
+    //Stories-Coin-Start
+    [DataField]
+    public Dictionary<int, string>? SideNames { get; private set; }
 
+    [DataField]
+    public bool UpdateSpriteOnRoll { get; private set; } = true;
+    //Stories-Coin-End
 }
