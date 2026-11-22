@@ -71,8 +71,8 @@
 
       - cost: 0
         blackMarket: true
-        blackMarketCost: 100
-        blackMarketHeat: 5
+        blackMarketCost: 120
+        blackMarketHeat: 8
         crate: RMCCrateBlackMarketMAR50
         icon:
           entity: RMCWeaponMar50LMG
