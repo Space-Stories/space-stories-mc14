@@ -68,9 +68,6 @@ public sealed partial class RequisitionsAccountComponent : Component
     public bool BlackMarketMendozaDead;
 
     [DataField]
-    public double BlackMarketSaleReductionPercent = 20;
-
-    [DataField]
     [Access(typeof(SharedRequisitionsSystem), typeof(ScalingSystem))]
     public Dictionary<string, int> BlackMarketSoldItems = new();
 

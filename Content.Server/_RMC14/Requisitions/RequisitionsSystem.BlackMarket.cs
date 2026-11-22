@@ -752,8 +752,8 @@ public sealed partial class RequisitionsSystem
         var metadata = MetaData(uid);
         var key = metadata.EntityPrototype?.ID ?? metadata.EntityName;
         var sold = account.BlackMarketSoldItems.GetValueOrDefault(key);
-        var remainingPercent = Math.Clamp(100 - sold * account.BlackMarketSaleReductionPercent, 0, 100);
-        var adjusted = (int) Math.Round(value * (remainingPercent / 100));
+        var modifier = Math.Max(0, 1 - sold * 0.5f);
+        var adjusted = (int) MathF.Round(value * modifier);
 
         if (recordSale)
             account.BlackMarketSoldItems[key] = sold + 1;
