@@ -1,0 +1,1 @@
+st-storage-limit-not-smartgun-battery = Этот слот зарезервирован для батареи смартгана!

@@ -234,6 +234,9 @@
   - type: GuideHelp
     guides:
     - RMCGuideRoleSGO
+  - type: Tag
+    tags:
+    - RMCPowerCellSmartgun
 
 - type: entity
   id: RMCPowerCellSlot
@@ -273,3 +276,6 @@
           name: power-cell-slot-component-slot-name-default
           startingItem: RMCPowerCellSuper
           locked: true
+
+- type: Tag # Stories-Smartgun
+  id: RMCPowerCellSmartgun

@@ -569,22 +569,35 @@
   - type: Storage
     maxItemSize: Normal
     grid:
-    - 0,0,11,1 # 6 slots
+    - 0,0,13,1 # 7 slots # Stoties-Smartgun
     whitelist:
       tags:
-      - CMMagazinePistol
-      - CMMagazineRifle
-      - RMCMagazineShotgun
-      - CMMagazineSmg
-      - CMMagazineSniper
+      # Stoties-Smartgun-Start
+      #- CMMagazinePistol
+      #- CMMagazineRifle
+      #- RMCMagazineShotgun
+      #- CMMagazineSmg
+      #- CMMagazineSniper
       - RMCMagazineSmartGun
-      - RMCShellShotgun
-      - Flare
+      #- RMCShellShotgun
+      #- Flare
+      - RMCPowerCellSmartgun
+      # Stoties-Smartgun-End
   - type: FixedItemSizeStorage
   - type: IgnoreContentsSize
     items:
       tags:
       - RMCMagazineSmartGun
+    # Stoties-Smartgun-Start
+  - type: LimitedStorage
+    limits:
+    - popup: st-storage-limit-not-smartgun-battery
+      whitelist:
+        tags:
+        - RMCPowerCellSmartgun
+      whitelist: null
+      count: 6
+    # Stoties-Smartgun-End
   - type: ItemCamouflage
     camouflageVariations:
       Jungle: _RMC14/Objects/Clothing/Belt/smart_gun_operator/jungle-classic.rsi
@@ -619,17 +632,17 @@
       map: [ "closedLayer" ]
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/Belt/smart_gun_operator_pistol.rsi
-  - type: Storage   # Holds up to 4 drums/magazines and 1 sidearm
+  - type: Storage   # Holds up to 5 drums, 1 sidearm magazines and 1 sidearm
     maxItemSize: Normal
     grid:
-    - 0,0,9,1 # 5 slots
+    - 0,0,13,1 # 7 slots # Stories-Smartgun
     whitelist:
       tags:
       - Sidearm
       - CMMagazinePistol
       - RMCMagazineRevolver
       - RMCMagazineSmartGun
-      - Flare
+      # - Flare # Stories-Smartgun
   - type: FixedItemSizeStorage
   - type: IgnoreContentsSize
     items:
@@ -642,12 +655,14 @@
         tags:
         - Sidearm
     - popup: rmc-storage-limit-max-ammo
-      count: 4
+      count: 1
       whitelist:
         tags:
         - CMMagazinePistol
         - RMCMagazineRevolver
-        - RMCMagazineSmartGun
+        # - RMCMagazineSmartGun # Stories-Smartgun
+      whitelist: null
+      count: 5
   - type: CMHolster
     whitelist:
       tags:
