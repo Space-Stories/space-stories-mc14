@@ -14,7 +14,7 @@ public sealed partial class XenoFruitSpeedComponent : Component
 
     // Duration of effect
     [DataField]
-    public TimeSpan Duration = TimeSpan.FromSeconds(10);
+    public TimeSpan Duration = TimeSpan.FromSeconds(10); //Stories-XenoFruitSpeedBuff
 }
 
 // Component applied to xenos under the effects of this fruit
