@@ -38,6 +38,15 @@ public sealed class SharedXenoDespoilerAcidSystem : EntitySystem
         SubscribeLocalEvent<XenoDespoilerSlashOnHitComponent, GetMeleeDamageEvent>(OnGetMeleeDamage);
         SubscribeLocalEvent<XenoDespoilerSlashOnHitComponent, RMCGetTailStabBonusDamageEvent>(OnGetTailStabBonusDamage);
         SubscribeLocalEvent<XenoDespoilerHypertensionComponent, DamageChangedEvent>(OnDamageTaken);
+        SubscribeLocalEvent<UserAcidedComponent, ComponentShutdown>(OnUserAcidedShutdown);
+    }
+
+    private void OnUserAcidedShutdown(Entity<UserAcidedComponent> ent, ref ComponentShutdown args)
+    {
+        if (_net.IsClient)
+            return;
+
+        RemCompDeferred<XenoDespoilerAcidTierComponent>(ent);
     }
 
     private void OnGetMeleeDamage(EntityUid uid, XenoDespoilerSlashOnHitComponent comp, ref GetMeleeDamageEvent args)
