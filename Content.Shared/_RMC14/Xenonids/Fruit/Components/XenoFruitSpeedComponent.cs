@@ -9,14 +9,12 @@ namespace Content.Shared._RMC14.Xenonids.Fruit.Components;
 [Access(typeof(SharedXenoFruitSystem))]
 public sealed partial class XenoFruitSpeedComponent : Component
 {
-    // TODO: find appropriate value for this
-    // TODO: this should (?) be a flat value, not a multiplier
     [DataField, AutoNetworkedField]
     public FixedPoint2 SpeedModifier = 0.4f;
 
     // Duration of effect
     [DataField]
-    public TimeSpan Duration = TimeSpan.FromSeconds(15);
+    public TimeSpan Duration = TimeSpan.FromSeconds(10);
 }
 
 // Component applied to xenos under the effects of this fruit

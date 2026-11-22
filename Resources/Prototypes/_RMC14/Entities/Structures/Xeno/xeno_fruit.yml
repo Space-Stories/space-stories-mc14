@@ -173,7 +173,7 @@
     color: "#5B248C"
     outlineColor: "#9061BA80"
   - type: XenoFruitSpeed
-    speedModifier: 0.2
+    speedModifier: 0.7
 
 - type: entity
   parent: XenoFruitBase
