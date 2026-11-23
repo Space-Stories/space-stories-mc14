@@ -372,7 +372,10 @@ public sealed class SentrySystem : EntitySystem
         coordinates = default;
         rotation = default;
 
-        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        // Stories-VehicleDeployBlock-Start
+        if (HasComp<VehicleInteriorOccupantComponent>(user) ||
+            (Transform(user).MapUid is { } userMapUid && HasComp<VehicleInteriorLinkComponent>(userMapUid)))
+        // Stories-VehicleDeployBlock-End
         {
             _popup.PopupClient(Loc.GetString("emplacement-mount-deploy-vehicle"), user, user, PopupType.SmallCaution);
             return false;

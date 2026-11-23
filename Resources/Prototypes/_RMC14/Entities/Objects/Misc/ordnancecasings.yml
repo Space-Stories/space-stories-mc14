@@ -194,6 +194,17 @@
     useDirection: false
     coneAngle: 90
   - type: RMCLandmine
+  # Stories-OTMineDamage-Start
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 20
+      behaviors:
+      - !type:TriggerBehavior
+  # Stories-OTMineDamage-End
   - type: StepTrigger
     requiredTriggeredSpeed: 0
   - type: Fixtures

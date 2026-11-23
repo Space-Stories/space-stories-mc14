@@ -358,6 +358,17 @@ public sealed class XenoEvolutionSystem : EntitySystem
                 // Stories-XenoEvolutionQueue-Start
                 interrupted.EvolutionDoAfter = null;
                 interrupted.EvolutionEvent = null;
+                if (GetUnmetGraceRequirement(xeno) is { } reason)
+                {
+                    interrupted.GraceUntil = _timing.CurTime + _raffleGracePeriod;
+                    interrupted.GraceDamage = CompOrNull<DamageableComponent>(xeno)?.TotalDamage ?? FixedPoint2.Zero;
+                    interrupted.GraceHealedAt = null;
+                    _popup.PopupEntity(
+                        Loc.GetString(reason, ("seconds", (int) _raffleGracePeriod.TotalSeconds)),
+                        xeno,
+                        xeno,
+                        PopupType.LargeCaution);
+                }
                 // Stories-XenoEvolutionQueue-End
                 Dirty(xeno, interrupted);
                 if (_xenoHive.GetHive(xeno.Owner) is { } candHive)

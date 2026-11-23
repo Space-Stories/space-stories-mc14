@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Map;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Projectile;
@@ -221,6 +222,15 @@ public abstract partial class SharedRMCLandmineSystem : EntitySystem
             _popup.PopupClient(msg, user, user, PopupType.SmallCaution);
             return false;
         }
+
+        // Stories-VehicleDeployBlock-Start
+        if (HasComp<VehicleInteriorOccupantComponent>(user) ||
+            (Transform(user).MapUid is { } mapUid && HasComp<VehicleInteriorLinkComponent>(mapUid)))
+        {
+            _popup.PopupClient(Loc.GetString("emplacement-mount-deploy-vehicle"), user, user, PopupType.SmallCaution);
+            return false;
+        }
+        // Stories-VehicleDeployBlock-End
 
         // Can't deploy a mine on a tile that already has a mine on it
         var query = _rmcMap.GetAnchoredEntitiesEnumerator(moverCoordinates); // Stories-Ordnance

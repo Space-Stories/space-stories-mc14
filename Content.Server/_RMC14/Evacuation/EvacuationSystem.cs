@@ -73,6 +73,7 @@ public sealed class EvacuationSystem : SharedEvacuationSystem
                 {
                     door.Locked = false;
                     Dirty(child, door);
+                    _dropship.UnlockDoor(child, forceSafetyUnlock: true); // Stories-ShuttleDoorLock
                 }
             }
 

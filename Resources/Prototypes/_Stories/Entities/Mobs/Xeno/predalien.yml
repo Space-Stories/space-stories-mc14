@@ -9,6 +9,13 @@
   name: abomination
   description: A monstrous fusion of hunter and hive. It hates hunters more than anything else alive.
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionSTFeralRush ]
+      XenoPrimaryTwo: [ ActionSTPredalienRoar ]
+      XenoPrimaryThree: [ ActionSTFeralSmash ]
+      XenoPrimaryFour: [ ActionSTFeralFrenzy ]
+      XenoPrimaryFive: [ ActionSTToggleGutTargeting ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Predalien/predalien.rsi
   - type: MobState

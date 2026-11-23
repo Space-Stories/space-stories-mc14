@@ -10,6 +10,15 @@
   name: Queen
   description: A huge, looming alien creature. The biggest and the baddest.
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoGut ]
+      XenoPrimaryThree: [ ActionXenoQueenSpitNeuro, ActionXenoQueenSpitAcid ]
+      XenoPrimaryFour: [ ActionXenoChooseStructure ]
+      XenoPrimaryFive: [ ActionXenoSecreteStructure ]
+  # Stories-KeybindActions-End
   - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
@@ -325,7 +334,7 @@
     actions:
       XenoPrimaryOne: [ ActionXenoPlantWeeds ]
       XenoPrimaryTwo: [ ActionXenoGut ]
-      XenoPrimaryThree: [ ActionXenoSpitQueen ]
+      XenoPrimaryThree: [ ActionXenoQueenSpitNeuro, ActionXenoQueenSpitAcid ] # Stories-KeybindActions
       XenoPrimaryFour: [ ActionXenoChooseStructure ]
       XenoPrimaryFive: [ ActionXenoSecreteStructure ]
   # XenoMaturing moves this ordering onto CMXenoQueen once they mature
@@ -334,7 +343,8 @@
   - type: XenoAcidAnimation
     actionIds:
     - ActionXenoAcidNormal
-    - ActionXenoSpitQueen
+    - ActionXenoQueenSpitNeuro # Stories-AcidAnimation
+    - ActionXenoQueenSpitAcid # Stories-AcidAnimation
     #  - type: XenoEvolution #can be enabled for events like april fools.
     #    strains:
     #    - RMCXenoQueenMaid
@@ -432,6 +442,14 @@
   id: RMCXenoQueenBlood
   suffix: Blood Queen
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoMassacre ]
+      XenoPrimaryTwo: [ ActionXenoBloodDrain ]
+      XenoPrimaryThree: [ ActionXenoDoomBloodQueen ]
+      XenoPrimaryFour: [ ActionXenoDefensiveShieldBloodQueen ]
+  # Stories-KeybindActions-End
   - type: Sprite
     sprite: _RMC14/Mobs/Xenonids/Extras/blood_queen.rsi
   - type: XenoStrain

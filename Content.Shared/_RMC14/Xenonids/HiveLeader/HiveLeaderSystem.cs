@@ -274,6 +274,7 @@ public sealed class HiveLeaderSystem : EntitySystem
             var relayActive = EnsureComp<XenoActivePheromonesComponent>(relayEnt);
             if (active != null)
                 relayActive.Pheromones = active.Pheromones;
+            Dirty(relayEnt, relayActive); // Stories-PheromoneRelayDirty
         }
     }
 

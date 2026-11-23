@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Content.Server._RMC14.Trigger;
 using Content.Server._Stories.Ordnance.Explosion;
 using Content.Server.Explosion.Components;
 using Content.Server.Explosion.EntitySystems;
@@ -237,6 +238,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                     RemComp<ExplosiveComponent>(proj);
                     RemComp<CMExplosionEffectComponent>(proj);
                     RemComp<TriggerOnCollideComponent>(proj);
+                    RemComp<TriggerOnFixedDistanceStopComponent>(proj);
                 }
                 else
                 {
@@ -252,6 +254,8 @@ public sealed class OrdnanceCasingSystem : EntitySystem
 
                         var projComp = EnsureComp<ProjectileComponent>(proj);
                         projComp.MaxFixedRange = gunCasing.WarheadMaxRange;
+
+                        EnsureComp<TriggerOnFixedDistanceStopComponent>(proj);
 
                         if (TryComp<FixturesComponent>(proj, out var fixtures))
                         {
@@ -283,6 +287,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                         var projComp = EnsureComp<ProjectileComponent>(proj);
                         projComp.MaxFixedRange = casing.WarheadMaxRange;
 
+                        EnsureComp<TriggerOnFixedDistanceStopComponent>(proj);
                         EnsureComp<ExplodeOnTriggerComponent>(proj);
 
                         if (TryComp<FixturesComponent>(proj, out var fixtures))
@@ -302,6 +307,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                     {
                         RemComp<OrdnanceNoFuelDetonateComponent>(proj);
                         RemComp<TriggerOnCollideComponent>(proj);
+                        RemComp<TriggerOnFixedDistanceStopComponent>(proj);
                     }
                 }
             }

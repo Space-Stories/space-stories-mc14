@@ -47,6 +47,7 @@ public sealed class HiveTeamSystem : EntitySystem
         SubscribeLocalEvent<HiveMemberComponent, XenoDevolvedEvent>(OnXenoDevolved);
         SubscribeLocalEvent<XenoComponent, HiveLeaderRemovedEvent>(OnLeaderRemoved);
         SubscribeLocalEvent<HiveTeamMemberComponent, MobStateChangedEvent>(OnMemberMobStateChanged);
+        SubscribeLocalEvent<HiveMemberComponent, MobStateChangedEvent>(OnHiveMemberMobStateChanged); // Stories-HiveTeamDeadCheck
         SubscribeLocalEvent<HiveTeamMemberComponent, BeingGibbedEvent>(OnMemberGibbed);
 
         Subs.BuiEvents<XenoComponent>(HiveTeamUIKey.Key, subs =>
@@ -300,6 +301,22 @@ public sealed class HiveTeamSystem : EntitySystem
         RemoveMemberFromTeams(ent.Owner, hive, teams);
     }
 
+    // Stories-HiveTeamDeadCheck-Start
+    private void OnHiveMemberMobStateChanged(Entity<HiveMemberComponent> ent, ref MobStateChangedEvent args)
+    {
+        if (args.NewMobState != MobState.Dead)
+            return;
+
+        if (_hive.GetHive(ent.Owner) is not { } hive)
+            return;
+
+        if (!TryComp(hive.Owner, out HiveTeamsComponent? teams))
+            return;
+
+        SendHiveTeamUIUpdates(hive, teams);
+    }
+    // Stories-HiveTeamDeadCheck-End
+
     private void OnMemberGibbed(Entity<HiveTeamMemberComponent> ent, ref BeingGibbedEvent args)
     {
         if (_hive.GetHive(ent.Owner) is not { } hive)
@@ -502,7 +519,7 @@ public sealed class HiveTeamSystem : EntitySystem
             return;
 
         // Stories-UIValidation-Start
-        if (!_hive.FromSameHive(leaderUid, xeno.Value))
+        if (!_hive.FromSameHive(leaderUid, xeno.Value) || _mobState.IsDead(xeno.Value))
             return;
         // Stories-UIValidation-End
 
@@ -596,7 +613,7 @@ public sealed class HiveTeamSystem : EntitySystem
             return;
 
         // Stories-UIValidation-Start
-        if (!_hive.FromSameHive(queen.Owner, xeno.Value))
+        if (!_hive.FromSameHive(queen.Owner, xeno.Value) || _mobState.IsDead(xeno.Value))
             return;
         // Stories-UIValidation-End
 
@@ -675,7 +692,7 @@ public sealed class HiveTeamSystem : EntitySystem
             return;
 
         // Stories-UIValidation-Start
-        if (!_hive.FromSameHive(queen.Owner, xeno.Value))
+        if (!_hive.FromSameHive(queen.Owner, xeno.Value) || _mobState.IsDead(xeno.Value))
             return;
         // Stories-UIValidation-End
 
