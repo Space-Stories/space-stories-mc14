@@ -155,7 +155,10 @@ public sealed partial class DeployableEquipmentSystem : EntitySystem
             return false;
         }
 
-        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        // Stories-VehicleDeployBlock-Start
+        if (HasComp<VehicleInteriorOccupantComponent>(user) ||
+            (Transform(user).MapUid is { } mapUid && HasComp<VehicleInteriorLinkComponent>(mapUid)))
+        // Stories-VehicleDeployBlock-End
         {
             _popup.PopupClient(Loc.GetString("emplacement-mount-deploy-vehicle"), user, user, PopupType.SmallCaution);
             return false;

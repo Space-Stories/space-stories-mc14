@@ -332,12 +332,18 @@ public sealed class RadioSystem : EntitySystem
                 RaiseLocalEvent(receiver, ref ev);
 
                 var target = receiver;
+                // Stories-RadioTtsHeadsetCheck-Start
                 if (!HasComp<ActorComponent>(target))
                 {
                     var parent = Transform(receiver).ParentUid;
-                    if (HasComp<ActorComponent>(parent))
+                    if (TryComp<WearingHeadsetComponent>(parent, out var wearing) &&
+                        wearing.Headset == receiver &&
+                        HasComp<ActorComponent>(parent))
+                    {
                         target = parent;
+                    }
                 }
+                // Stories-RadioTtsHeadsetCheck-End
 
                 if (TryComp<ActorComponent>(target, out var actor) && actor.PlayerSession.Status == SessionStatus.InGame)
                 {

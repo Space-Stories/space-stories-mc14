@@ -57,6 +57,7 @@ namespace Content.Client.Paper.UI
             typeof(FormTagHandler),
             typeof(SignatureTagHandler),
             typeof(CheckTagHandler),
+            typeof(Content.Client._Stories.UserInterface.RichText.CheckSymbolTagHandler), // Stories-PaperCheckFont
             typeof(DateTimeTagHandler),
             typeof(TimeTagHandler),
             typeof(OperationTagHandler),
@@ -313,8 +314,14 @@ namespace Content.Client.Paper.UI
 
             // Display text with markup processing (forms, signatures, colors, etc.)
             // The markup system converts [form] and [signature] tags into interactive buttons
+            // Stories-PaperCheckFont-Start
+            var displayText = state.Text
+                .Replace("☐", "[checksym=\"☐\"]")
+                .Replace("✔", "[checksym=\"✔\"]")
+                .Replace("✖", "[checksym=\"✖\"]");
             var fm = new FormattedMessage();
-            fm.AddMarkupPermissive(state.Text);
+            fm.AddMarkupPermissive(displayText);
+            // Stories-PaperCheckFont-End
             WrittenTextLabel.SetMessage(fm, _allowedTags, DefaultTextColor);
             PaperContent.Margin = _originalContentMargin;
 

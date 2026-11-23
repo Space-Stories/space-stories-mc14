@@ -181,6 +181,15 @@
   id: CMXenoHivelordResinWhisperer
   suffix: Resin Whisperer
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoCoerceResin ]
+      XenoPrimaryTwo: [ ActionXenoChooseStructure ]
+      XenoPrimaryThree: [ ActionXenoTransferPlasmaHivelord ]
+      XenoPrimaryFour: [ ActionXenoResinWalker ]
+      XenoPrimaryFive: [ ActionXenoZoom ]
+  # Stories-KeybindActions-End
   - type: CanBuildThickFromConstructNode
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Hivelord/resin_whisperer_hivelord.rsi
@@ -239,6 +248,15 @@
   id: CMXenoHivelordDesigner
   suffix: Designer
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoChooseStructure ]
+      XenoPrimaryThree: [ ActionXenoSecreteStructure ]
+      XenoPrimaryFour: [ ActionXenoDesignerSelectedDesign ]
+      XenoPrimaryFive: [ ActionXenoDesignerGreaterResinSurge ]
+  # Stories-KeybindActions-End
   - type: GuideHelp
     guides:
     - RMCGuideRoleDesigner

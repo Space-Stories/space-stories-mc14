@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Shared._RMC14.Armor.ThermalCloak;
 using Content.Shared._RMC14.Weapons.Ranged;
 using Content.Shared.Buckle;
+using Content.Shared.Inventory.Events;
+using Content.Shared.Item;
 using Content.Shared.Mobs;
 using Content.Shared.Stunnable;
 using Content.Shared.Weapons.Ranged.Components;
@@ -23,7 +25,19 @@ public abstract partial class RMCSharedWeaponControllerSystem : EntitySystem
         SubscribeLocalEvent<WeaponControllerComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<WeaponControllerComponent, KnockedDownEvent>(OnKnockedDown);
         SubscribeLocalEvent<WeaponControllerComponent, ToggleInvisibilityAttemptEvent>(OnToggleInvisibilityAttempt);
+        // Stories-WeaponControllerHands-Start
+        SubscribeLocalEvent<WeaponControllerComponent, PickupAttemptEvent>(OnCancelAttempt);
+        SubscribeLocalEvent<WeaponControllerComponent, IsEquippingAttemptEvent>(OnCancelAttempt);
+        SubscribeLocalEvent<WeaponControllerComponent, IsUnequippingAttemptEvent>(OnCancelAttempt);
+        // Stories-WeaponControllerHands-End
     }
+
+    // Stories-WeaponControllerHands-Start
+    private void OnCancelAttempt<T>(Entity<WeaponControllerComponent> ent, ref T args) where T : CancellableEntityEventArgs
+    {
+        args.Cancel();
+    }
+    // Stories-WeaponControllerHands-End
 
     private void OnAdjustShotOrigin(Entity<WeaponControllerComponent> ent, ref BeforeAttemptShootEvent args)
     {

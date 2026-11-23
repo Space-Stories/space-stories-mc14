@@ -65,6 +65,7 @@ public sealed class RMCSlowSystem : EntitySystem
             slowdown.ExpiresAt = baseline + duration;
         }
 
+        Dirty(ent, slowdown); // Stories-SlowDirty
         return true;
     }
 
@@ -85,6 +86,7 @@ public sealed class RMCSlowSystem : EntitySystem
         else if (!refresh) // Stacks
             slowdown.ExpiresAt += duration;
 
+        Dirty(ent, slowdown); // Stories-SlowDirty
         return true;
     }
 
@@ -99,6 +101,7 @@ public sealed class RMCSlowSystem : EntitySystem
         else if (!refresh) // Stacks
             slowdown.ExpiresAt += duration;
 
+        Dirty(ent, slowdown); // Stories-SlowDirty
         return true;
     }
 

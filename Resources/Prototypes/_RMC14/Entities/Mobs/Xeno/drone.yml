@@ -177,6 +177,15 @@
   id: CMXenoDroneGardener
   suffix: Gardener
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoPlantWeedsHardy ]
+      XenoPrimaryThree: [ ActionXenoFruitPlant ]
+      XenoPrimaryFour: [ ActionXenoFruitChoose ]
+      XenoPrimaryFive: [ ActionXenoResinSurge ]
+  # Stories-KeybindActions-End
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Drone/gardener_drone.rsi
     layers:
@@ -243,6 +252,15 @@
   id: CMXenoDroneHealer
   suffix: Healer
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoFruitPlantLesser ]
+      XenoPrimaryThree: [ ActionXenoApplySalve ]
+      XenoPrimaryFour: [ ActionXenoHealerDroneTransferPlasma ]
+      XenoPrimaryFive: [ ActionXenoSacrifice ]
+  # Stories-KeybindActions-End
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Drone/healer_drone.rsi
     layers:

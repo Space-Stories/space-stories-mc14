@@ -585,6 +585,11 @@ public sealed class LarvaQueueSystem : EntitySystem
             {
                 if (TryComp<MindTakeoverBehaviorComponent>(s.AttachedEntity.Value, out var takeover) && !takeover.EjectFromLarvaQueues)
                 {
+                    // Stories-LarvaQueue-Start
+                    if (HasComp<XenoParasiteComponent>(s.AttachedEntity.Value) || _mobState.IsDead(s.AttachedEntity.Value))
+                        continue;
+                    // Stories-LarvaQueue-End
+
                     session = s;
                     break;
                 }
@@ -639,6 +644,14 @@ public sealed class LarvaQueueSystem : EntitySystem
             {
                 if (TryComp<MindTakeoverBehaviorComponent>(s.AttachedEntity.Value, out var takeover) && !takeover.EjectFromLarvaQueues)
                 {
+                    // Stories-LarvaQueue-Start
+                    if (HasComp<XenoParasiteComponent>(s.AttachedEntity.Value) || _mobState.IsDead(s.AttachedEntity.Value))
+                    {
+                        node = next;
+                        continue;
+                    }
+                    // Stories-LarvaQueue-End
+
                     absolutePosition = offset + indexInList;
                     session = s;
                     return true;
