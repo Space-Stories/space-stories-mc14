@@ -47,7 +47,7 @@
       offset: 0,1
       # Stories-insert-Start
     - spawn: "/Maps/_Stories/Inserts/Hybrisa/AIAPOLLO.yml"
-      probability: 0,5
+      probability: 0.5
       nightmareScenario: none
       offset: -20.5,-159.5
       # Stories-insert-End
@@ -75,4 +75,3 @@
       nightmareScenario: none
       additionalNightmareScenarios: [ clfspaceport ] # Stories-CLFSurvivor
       offset: 16,36
-
