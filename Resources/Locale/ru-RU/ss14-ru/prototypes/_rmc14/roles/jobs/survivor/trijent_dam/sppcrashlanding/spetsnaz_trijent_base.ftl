@@ -1,6 +1,6 @@
-ent-RMCSurvivorPresetSPPSpetsnazWeaponOnly = СПН Триджент спецназ выживший единственный пресет
+ent-RMCSurvivorPresetSPPSpetsnazWeaponOnly = пресет выжившего спецназа СПН (Триджент) — только оружие
     .desc = { "" }
-ent-RMCSurvivorPresetSPPSpetsnazNoBelt = СПН Триджент спецназ выживший без пояса пресет
+ent-RMCSurvivorPresetSPPSpetsnazNoBelt = пресет выжившего спецназа СПН (Триджент) — без пояса
     .desc = { "" }
-ent-RMCSurvivorPresetSPPSpetsnaz = СПН Триджент спецназ выживший всё случайное пресет
+ent-RMCSurvivorPresetSPPSpetsnaz = пресет выжившего спецназа СПН (Триджент) — случайный набор
     .desc = { "" }

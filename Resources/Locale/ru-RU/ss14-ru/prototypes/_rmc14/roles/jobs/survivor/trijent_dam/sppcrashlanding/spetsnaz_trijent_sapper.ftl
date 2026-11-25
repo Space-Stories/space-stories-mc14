@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazTrijentSapper = спавн специальный выживший сапёр спецназа СПН
+ent-RMCSpawnPointSPPSpetsnazTrijentSapper = точка появления сапёра спецназа СПН (Триджент)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Триджент

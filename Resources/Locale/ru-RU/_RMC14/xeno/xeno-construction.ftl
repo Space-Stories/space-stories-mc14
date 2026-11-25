@@ -98,7 +98,11 @@ rmc-xeno-construction-egg-morpher-already-full = Этот морфер для я
 
 rmc-xeno-egg-morpher-return-self = { CAPITALIZE($parasite) } заползает в морфер яйца.
 
-rmc-xeno-construction-egg-morpher-examine-count = Укрывается: { $cur_paras }/{ $max_paras } лицехватов.
+rmc-xeno-construction-egg-morpher-examine-count = Внутри { $cur_paras }/{ $max_paras } { $cur_paras ->
+    [one] лицехват
+    [few] лицехвата
+   *[other] лицехватов
+}.
 rmc-xeno-construction-egg-morpher-examine-next-spawn = Новый лицехват вырастет через [bold]{ $time_left }[/bold] { $time_left ->
     [one] секунду
     [few] секунды

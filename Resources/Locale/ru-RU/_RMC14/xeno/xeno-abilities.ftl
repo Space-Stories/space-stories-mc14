@@ -83,10 +83,10 @@ rmc-xeno-evolution-raffle-grace-health = Место открылось для н
 rmc-xeno-evolution-raffle-grace-location = Место открылось для нас, но мы не можем развиваться здесь! У нас есть { $seconds } секунд.
 rmc-xeno-evolution-raffle-grace-weeds = Место открылось для нас, но мы должны быть на сорняках! У нас есть { $seconds } секунд.
 rmc-xeno-evolution-raffle-missed = Мы не успели подготовиться вовремя и потеряли свое место в лотерее.
-rmc-xeno-evolution-raffle-out-of-line = Эта каста больше не в нашей линии эволюции. Мы теряем своё место в лотерее.
-rmc-xeno-evolution-raffle-left-changed = Наша новая форма не может стать этой кастой. Мы теряем своё место в лотерее.
-rmc-xeno-evolution-raffle-left-closed = Улей сделал свой выбор без нас. Мы должны эволюционировать обычным путём.
-rmc-xeno-evolution-raffle-left-crit = Мы слишком ранены, чтобы быть выбранными. Мы теряем своё место в лотерее.
+rmc-xeno-evolution-raffle-out-of-line = That caste is no longer within our evolution line. We lose our place in the raffle.
+rmc-xeno-evolution-raffle-left-changed = Our new form cannot become that caste. We lose our place in the raffle.
+rmc-xeno-evolution-raffle-left-closed = The hive has made its choice without us. We must evolve the usual way.
+rmc-xeno-evolution-raffle-left-crit = We are too wounded to be chosen. We lose our place in the raffle.
 rmc-xeno-evolution-raffle-progress = { $name } — { $progress }/{ $cost }
 rmc-xeno-evolution-tab-evolve = Эволюция
 rmc-xeno-evolution-tab-raffle = Лотерея
@@ -269,7 +269,7 @@ rmc-xeno-retrieve-dead = { $target } уже мертв!
 rmc-xeno-retrieve-blocked = Мы не можем достичь { $target } с помощью нашего крюка!
 rmc-xeno-retrieve-finish-self = Мы перебрасываем { $target } через голову нашим смоляным крюком!
 rmc-xeno-retrieve-finish-target = Нас тянет к { $user }!
-rmc-xeno-retrieve-finish-others = { $target } перебрасывает через голову { $user }!
+rmc-xeno-retrieve-finish-others = { $user } перебрасывает { $target } через голову!
 
 # Aid
 rmc-xeno-aid-self = Мы не можем исцелить себя сами!

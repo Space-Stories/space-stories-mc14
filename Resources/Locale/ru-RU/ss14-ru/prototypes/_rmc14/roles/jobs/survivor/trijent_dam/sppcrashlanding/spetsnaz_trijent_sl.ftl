@@ -1,3 +1,3 @@
-ent-RMCSurvivorSPPSpetsnazTrijentSL = спавн специальный выживший командир отряда спецназа СПН
+ent-RMCSurvivorSPPSpetsnazTrijentSL = точка появления командира отряда спецназа СПН (Триджент)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Триджент

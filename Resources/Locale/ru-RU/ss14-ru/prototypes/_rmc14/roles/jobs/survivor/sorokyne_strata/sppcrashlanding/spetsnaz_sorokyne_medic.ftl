@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazMedic = спавн специальный выживший санитар спецназа СПН
+ent-RMCSpawnPointSPPSpetsnazMedic = точка появления медика спецназа СПН (Сорокина Страта)
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = Сорокино
+    .suffix = Сорокина
