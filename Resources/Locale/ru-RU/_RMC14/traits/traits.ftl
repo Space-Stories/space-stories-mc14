@@ -16,25 +16,25 @@ rmc-trait-scottish-accent-name = Шотландский акцент
 rmc-trait-scottish-accent-desc = Для тех, кто принадлежит к клану Хиелан.
 
 rmc-trait-spanish-language-name = Испанский язык
-rmc-trait-spanish-language-desc = Вы можете говорить и понимать по-испански.
+rmc-trait-spanish-language-desc = Вы говорите и понимаете по-испански.
 
 rmc-trait-french-language-name = Французский язык
-rmc-trait-french-language-desc = Вы можете говорить и понимать по-французски.
+rmc-trait-french-language-desc = Вы говорите и понимаете по-французски.
 
 rmc-trait-japanese-language-name = Японский язык
-rmc-trait-japanese-language-desc = Вы можете говорить и понимать по-японски.
+rmc-trait-japanese-language-desc = Вы говорите и понимаете по-японски.
 
 rmc-trait-chinese-language-name = Китайский язык
-rmc-trait-chinese-language-desc = Вы можете говорить и понимать по-китайски.
+rmc-trait-chinese-language-desc = Вы говорите и понимаете по-китайски.
 
 rmc-trait-russian-language-name = Русский язык
-rmc-trait-russian-language-desc = Вы можете говорить и понимать по-русски.
+rmc-trait-russian-language-desc = Вы говорите и понимаете по-русски.
 
 rmc-trait-german-language-name = Немецкий язык
-rmc-trait-german-language-desc = Вы можете говорить и понимать по-немецки.
+rmc-trait-german-language-desc = Вы говорите и понимаете по-немецки.
 
 rmc-trait-scandinavian-language-name = Скандинавский язык
-rmc-trait-scandinavian-language-desc = Вы можете говорить и понимать по-скандинавски.
+rmc-trait-scandinavian-language-desc = Вы говорите и понимаете по-скандинавски.
 
 rmc-trait-hindi-language-name = Хинди
 rmc-trait-hindi-language-desc = Вы говорите и понимаете на хинди.

@@ -1,5 +1,5 @@
 ent-RMCPlantedFlagBase = устанавливаемый флаг JIMA
-    .desc = Устанавливаемый флагшток, на котором развевается культовый флаг КМП; от одного его вида вы чувствуете прилив энергии.
+    .desc = Устанавливаемый флагшток, на котором развевается культовый флаг КМП США; от одного его вида вы чувствуете прилив энергии.
 ent-RMCPlantedFlag = { ent-RMCPlantedFlagBase }
     .desc = { ent-RMCPlantedFlagBase.desc }
 ent-RMCPlantedFlagExtendedRange = устанавливаемый флаг JIMA повышенной дальности
