@@ -1,4 +1,4 @@
-ent-RMCWeaponRifleM20 = автомат M20A "Haimatsu"
+ent-RMCWeaponRifleM20 = автомат M20A "Хаймацу"
     .desc = Более дешёвая альтернатива автомату M41A. Использует безгильзовые патроны 10x24 мм.
 ent-CMMagazineRifleM20 = магазин M20A (10x24 мм)
     .desc = Магазин на 20 патронов для автомата M20.

@@ -11,9 +11,9 @@ rmc-health-analyzer-permadead = Безвозвратно погиб
 
 rmc-health-analyzer-healthy = { $percent } здоров
 
-rmc-health-analyzer-reagent-listing = [color={ $reagentColor }]█[/color] { $amount }ед. { $reagentName }
-    .overdose = [color={ $reagentColor }]█[/color] [bold][color=orange]{ $amount }ед. { $reagentName } ПЕРЕДОЗ[/color][/bold]
-    .critical-overdose = [color={ $reagentColor }]█[/color] [bold][color=red]{ $amount }ед. { $reagentName } ПЕРЕДОЗ[/color][/bold]
+rmc-health-analyzer-reagent-listing = [color={ $reagentColor }]█[/color] { $reagentName } { $amount } ед.
+    .overdose = [color={ $reagentColor }]█[/color] [bold][color=orange]{ $reagentName } { $amount } ед. ПЕРЕДОЗ[/color][/bold]
+    .critical-overdose = [color={ $reagentColor }]█[/color] [bold][color=red]{ $reagentName } { $amount } ед. ПЕРЕДОЗ[/color][/bold]
 rmc-health-analyzer-unknown-reagents = [color=white][italic]Обнаружены неизвестные реагенты.[/italic][/color]
 
 rmc-health-analyzer-advice-epinephrine = [color=#6bd43c][font="Emoji"]💉[/font][/color] Ввести одну дозу эпинефрина.

@@ -33,7 +33,7 @@ rmc-hijack-cabinet-locked = Этот шкаф автоматически раз�
 
 rmc-storage-shake = Потрясти
 rmc-storage-shake-fail-self = Вы трясёте { $target }, но ничего не выпадает.
-rmc-storage-shake-fail-self-empty = Вы трясёте { $target }, но ничего не выпадает. { CAPITALIZE($target) } словно бы пуст...
+rmc-storage-shake-fail-self-empty = Вы трясёте { $target }, но ничего не выпадает. В { $target } словно бы пусто...
 rmc-storage-shake-fail-others = { CAPITALIZE($user) } трясёт { $target }, но ничего не выпадает.
 rmc-storage-shake-success-self = Вы трясёте { $target }, и из него выпадает { $item }.
 rmc-storage-shake-success-others = { CAPITALIZE($user) } трясёт { $target }, и из него выпадает { $item }.

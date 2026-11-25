@@ -2,10 +2,10 @@ rmc-hypospray-fail-tacreload = Вы недостаточно опытны, чт�
 rmc-hypospray-swap-tacreload = Вы начинаете менять пробирки местами.
 rmc-hypospray-load-tacreload = Вы начинаете загружать пробирку в { $hypo }.
 
-rmc-hypospray-label = Объем: [color=white]{ $currentVolume }/{ $totalVolume }[/color]
-    Инъекция ([color=white]{ $transferVolume }u[/color])
+rmc-hypospray-label = Объём: [color=white]{ $currentVolume }/{ $totalVolume }[/color]
+    Вводится ([color=white]{ $transferVolume } ед.[/color])
 
-rmc-hypospray-no-vial = Пробирка не загружена.
-rmc-hypospray-examine-unskilled = Вы не знаете что в ней.
-rmc-hypospray-examine-contains = { CAPITALIZE($target) } содержит: { $reagents }
-rmc-hypospray-examine-empty = { CAPITALIZE($target) } пуста!
+rmc-hypospray-no-vial = Пробирка отсутствует.
+rmc-hypospray-examine-unskilled = Вы не знаете что в нём.
+rmc-hypospray-examine-contains = { CAPITALIZE($target) } содержит { $reagents }
+rmc-hypospray-examine-empty = { CAPITALIZE($target) } пуст!
