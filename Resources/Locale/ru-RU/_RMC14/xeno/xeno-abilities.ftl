@@ -230,8 +230,8 @@ cm-xeno-retrieve-egg-too-many-eggs = Мы не можем нести больш�
 cm-xeno-retrieve-egg-stash-egg = Мы складываем яйцо в надежном месте. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 cm-xeno-retrieve-egg-unstash-egg = Мы берем яйцо из нашего хранилища. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 rmc-xeno-retrieve-egg-current = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-BE($xeno) } хранит: { $cur_eggs }/{ $max_eggs } яйца.
-rmc-xeno-retrieve-egg-fill = Мы начинаем заполнять { $morpher } нашими детьми.
-rmc-xeno-retrieve-egg-fill-finish = Мы переносим наших детей из яиц в { $morpher }. Сейчас внутри: { $cur_eggs }/{ $max_eggs }.
+rmc-xeno-retrieve-egg-fill = Мы начинаем заполнять { $morpher } нашими лицехватами.
+rmc-xeno-retrieve-egg-fill-finish = Мы переносим наших лицехватов из яиц в { $morpher }. Сейчас внутри: { $cur_eggs }/{ $max_eggs }.
 
 # Throw Parasite
 cm-xeno-throw-parasite-no-parasites = У нас нет никаких лицехватов!
@@ -243,12 +243,12 @@ rmc-xeno-throw-parasite-reserves = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-HA
     [one] роль
     *[other] роли
 } доступно.
-rmc-xeno-throw-parasite-empty = Мы берём детей из { $morpher } на опеку. Сейчас хранится: { $cur_parasites }/{ $max_parasites }.
-rmc-xeno-throw-parasite-empty-on-fire = Нельзя касаться { $morpher }, пока мы горим, это сожжёт детей!
-rmc-xeno-throw-parasite-throw-cooldown = Мы должны подождать, прежде чем бросить ещё одного ребёнка.
-rmc-xeno-throw-parasite-retrieve-cooldown = Мы должны подождать, прежде чем достать ещё одного ребёнка.
+rmc-xeno-throw-parasite-empty = Мы берём лицехватов из { $morpher }. Сейчас хранится: { $cur_parasites }/{ $max_parasites }.
+rmc-xeno-throw-parasite-empty-on-fire = Нельзя касаться { $morpher }, пока мы горим, это сожжёт лицехватов!
+rmc-xeno-throw-parasite-throw-cooldown = Мы должны подождать, прежде чем бросить ещё одного лицехвата.
+rmc-xeno-throw-parasite-retrieve-cooldown = Мы должны подождать, прежде чем достать ещё одного лицехвата.
 
-rmc-xeno-parasite-drop-cooldown = Мы должны подождать, прежде чем положить ещё одного ребёнка.
+rmc-xeno-parasite-drop-cooldown = Мы должны подождать, прежде чем положить ещё одного лицехвата.
 
 # Defensive Shield
 rmc-xeno-defensive-shield-end = Мы чувствуем, как кончается наш усиленный щит!

@@ -9,6 +9,7 @@ rmc-dual-tube-examine-tube = Активен [bold]{ $second ->
    *[false] первый
 }[/bold] магазин. В другом магазине [color=cyan]{ $count }[/color] { $count ->
     [one] патрон
+    [few] патрона
    *[other] патронов
 }.
 rmc-dual-tube-examine-chamber-swap = Используйте клавишу [color=cyan]смены режима огня[/color], чтобы переключить смену патронов в патроннике. Смена патрона [bold]{ $active ->

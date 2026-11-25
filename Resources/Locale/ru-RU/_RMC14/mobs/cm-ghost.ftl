@@ -4,7 +4,7 @@ cm-ghost-window-text = Вы уверены, что хотите стать пр�
   Вы не сможете изменить свое решение, поэтому выбирайте с умом!
 cm-ghost-window-stay = Остаться в теле
 cm-ghost-ghost = Покинуть тело
-rmc-ghost-gui-toggle-lighting-manager-popup-halfbright = Режим половинной яркости.
+rmc-ghost-gui-toggle-lighting-manager-popup-halfbright = Режим 50% яркости.
 rmc-ghost-gui-toggle-lighting-manager-popup-threequarters = Режим 75% яркости.
 rmc-ghost-dead-chat-muted = Сообщения и речевые пузыри чата мёртвых теперь заглушены.
 rmc-ghost-dead-chat-unmuted = Сообщения и речевые пузыри чата мёртвых больше не заглушены.
