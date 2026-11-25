@@ -90,7 +90,7 @@ ent-RMCGuidebookActionXenoAcidBall = { ent-CMGuidebookActionXenoBase }
     .desc = { ent-CMGuidebookActionXenoBase.desc }
 ent-ActionXenoParalyzingSlash = Парализующий удар (50)
     .desc = На короткое время заряжает атаку ближнего боя, которая после небольшой задержки сбивает с ног первого поражённого врага.
-ent-ActionXenoParatoxinSlash = ent-ActionXenoParatoxinSlashes = Паратоксинные удары (100)
+ent-ActionXenoParatoxinSlash = Паратоксинные удары (100)
     .desc = Покрывает ваши когти и хвост паратоксином, накладывая 10 стаков паратоксина следующие 3 удара. Длится 5 секунд. [color=yellow]Стаки паратоксина наносят со временем урон дыхательной системе, максимум 30 стаков.[/color]
 ent-ActionXenoCripplingStrike = Калечащий удар (20)
     .desc = На короткое время заряжает атаку ближнего боя, замедляющую первого поражённого врага.
