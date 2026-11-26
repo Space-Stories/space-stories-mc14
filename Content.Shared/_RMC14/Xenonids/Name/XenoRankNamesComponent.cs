@@ -15,9 +15,9 @@ public sealed partial class XenoRankNamesComponent : Component
         {5, "rmc-xeno-prime"},
         {6, "rmc-xeno-apex"},
         // Stories-XenoRanks-Start
-        {7, "rmc-xeno-perfected"},
-        {8, "rmc-xeno-progenitor"},
-        {9, "rmc-xeno-firstborn"},
+        {7, "stories-xeno-perfected"},
+        {8, "stories-xeno-progenitor"},
+        {9, "stories-xeno-firstborn"},
         // Stories-XenoRanks-End
     };
 }
