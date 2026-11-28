@@ -1550,6 +1550,8 @@
     zLevel: 2
     avoidBioscan: true
     noTunnel: true
+    excludeFromTacMapBounds: true
+    excludeFromTacMapRender: true
 
 - type: entity
   parent: RMCAreaAlmayer

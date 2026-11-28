@@ -128,11 +128,20 @@
   - type: ParalyzeOnPullAttemptImmune
   - type: BypassSkillChecks
   - type: SeeNewPlayers
+  # RMC14
   - type: TacticalMapUser
-    marines: true
-    xenos: true
+    visibleLayers:
+    - RMCTacticalMapLayerMarines
+    - RMCTacticalMapLayerXenos
+    - RMCTacticalMapLayerFactionSurvivor
+    - RMCTacticalMapLayerFactionWeYa
+    - RMCTacticalMapLayerFactionTSE
+    - RMCTacticalMapLayerFactionRoyalMarines
+    - RMCTacticalMapLayerFactionSPP
+    - RMCTacticalMapLayerFactionHalcyon
     liveUpdate: true
-  
+  # RMC14
+
 
 - type: entity
   abstract: true

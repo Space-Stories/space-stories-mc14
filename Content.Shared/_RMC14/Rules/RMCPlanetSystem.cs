@@ -236,13 +236,9 @@ public sealed partial class RMCPlanetSystem : EntitySystem // Stories-ZLevels
         if (!_mapLoader.TryLoadMap(path, out var map, out _, options))
             return null;
 
-        foreach (var entity in EntityManager.AllEntities<RMCPlanetComponent>())
+        foreach (var entity in EntityManager.AllEntities<RMCPlanetComponent>().ToArray())
         {
             RemComp<RMCPlanetComponent>(entity);
-        }
-
-        foreach (var entity in EntityManager.AllEntities<TacticalMapComponent>())
-        {
             RemComp<TacticalMapComponent>(entity);
         }
 

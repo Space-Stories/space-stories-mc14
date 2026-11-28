@@ -198,6 +198,12 @@
   id: RMCShutterAlmayerUniformVendors
   name: uniform vendor shutters
   components:
+  # Stories-UniformVendorShutterLinks-Start
+  - type: DeviceLinkSink
+    ports: []
+  - type: DeviceLinkSource
+    ports: []
+  # Stories-UniformVendorShutterLinks-End
   - type: ApcPowerReceiver # Stories-Fixes start
     needsPower: false
   - type: Corrodible

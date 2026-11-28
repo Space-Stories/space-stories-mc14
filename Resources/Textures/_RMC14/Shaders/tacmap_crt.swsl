@@ -1,0 +1,14 @@
+light_mode unshaded;
+
+void fragment() {
+    highp vec2 pixel = FRAGCOORD.xy;
+    highp vec2 minorPosition = mod(pixel, 4.0);
+    highp vec2 majorPosition = mod(pixel, 16.0);
+    highp float minorLine = max(1.0 - step(1.0, minorPosition.x), 1.0 - step(1.0, minorPosition.y));
+    highp float majorLine = max(1.0 - step(1.0, majorPosition.x), 1.0 - step(1.0, majorPosition.y));
+    lowp vec3 tint = vec3(0.043, 0.106, 0.180);
+    lowp vec3 grid = mix(vec3(0.173, 0.310, 0.482), vec3(0.373, 0.549, 0.780), majorLine);
+    lowp float gridAlpha = max(minorLine * 0.07, majorLine * 0.12);
+    lowp float alpha = gridAlpha + 0.08 * (1.0 - gridAlpha);
+    COLOR = vec4((grid * gridAlpha + tint * 0.08 * (1.0 - gridAlpha)) / alpha, alpha);
+}

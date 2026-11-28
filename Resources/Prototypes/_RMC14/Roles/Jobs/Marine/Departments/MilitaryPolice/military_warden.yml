@@ -1,5 +1,5 @@
 - type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMMilitaryWarden
   name: cm-job-name-militarywarden
   description: cm-job-description-militarywarden
@@ -31,6 +31,11 @@
   - !type:AddComponentSpecial
     components:
     - type: MutinyLoyalistOrNeutral
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       skills:
         RMCSkillConstruction: 2

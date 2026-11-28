@@ -1,5 +1,5 @@
 - type: job
-  parent: CMJobBase
+  parent: RMCJobMarineBase
   id: CMQuartermaster
   name: cm-job-name-quartermaster
   description: cm-job-description-quartermaster
@@ -31,6 +31,11 @@
   special:
   - !type:AddComponentSpecial
     components:
+    - type: TacticalMapUser
+      actionId: RMCActionOpenTacticalMapMarine
+      layerSets: [RMCTacticalMapSetMarine]
+    - type: TacticalMapLayerTracked
+      layers: [RMCTacticalMapLayerMarines]
     - type: Skills
       skills:
         RMCSkillConstruction: 2
