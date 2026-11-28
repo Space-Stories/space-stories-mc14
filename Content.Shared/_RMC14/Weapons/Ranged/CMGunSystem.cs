@@ -160,6 +160,7 @@ public sealed class CMGunSystem : EntitySystem
         SubscribeLocalEvent<UserBlockShootingInsideContainersComponent, ShotAttemptedEvent>(OnUserBlockShootingInsideContainersAttemptShoot);
 
         // Stories-RMCAmmoEject-Start
+        SubscribeLocalEvent<RMCAmmoEjectComponent, ActivateInWorldEvent>(OnAmmoEjectActivateInWorld);
         SubscribeLocalEvent<RMCAmmoEjectComponent, GetVerbsEvent<AlternativeVerb>>(OnAmmoEjectAltVerb);
         SubscribeLocalEvent<HandsComponent, RMCUnloadWeaponEvent>(OnUnloadWeapon);
         // Stories-RMCAmmoEject-End
@@ -693,6 +694,14 @@ public sealed class CMGunSystem : EntitySystem
     }
 
     // Stories-RMCAmmoEject-Start
+    private void OnAmmoEjectActivateInWorld(Entity<RMCAmmoEjectComponent> gun, ref ActivateInWorldEvent args)
+    {
+        if (!args.Complex || args.Handled || !HasComp<AttachableToggleableComponent>(gun))
+            return;
+
+        args.Handled = TryEjectAmmo(gun, args.User);
+    }
+
     private void OnAmmoEjectAltVerb(Entity<RMCAmmoEjectComponent> gun, ref GetVerbsEvent<AlternativeVerb> args)
     {
         if (!args.CanAccess || !args.CanInteract || args.Hands == null)

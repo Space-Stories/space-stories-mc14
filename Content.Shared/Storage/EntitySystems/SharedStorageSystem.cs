@@ -1024,13 +1024,35 @@ public abstract class SharedStorageSystem : EntitySystem
             {
                 return;
             }
+
+            // Stories-TransferSkillCheck-Start
+            if (!RMCStorage.CanEject(source, user.Value, out var ejectPopup))
+            {
+                _popupSystem.PopupClient(Loc.GetString(ejectPopup), source, user.Value);
+                return;
+            }
+            // Stories-TransferSkillCheck-End
         }
         // RMC end
 
+        // Stories-TransferSkillCheck-Start
+        string? lastReason = null;
+        var anyInserted = false;
         foreach (var entity in entities.ToArray())
         {
-            Insert(target, entity, out _, user: user, targetComp, playSound: false);
+            if (!CanInsert(target, entity, user, out var reason, targetComp))
+            {
+                lastReason ??= reason;
+                continue;
+            }
+
+            if (Insert(target, entity, out _, user: user, targetComp, playSound: false))
+                anyInserted = true;
         }
+
+        if (!anyInserted && lastReason != null && user != null)
+            _popupSystem.PopupClient(Loc.GetString(lastReason), target, user.Value);
+        // Stories-TransferSkillCheck-End
         if (user != null
             && (!_tag.HasTag(user.Value, sourceComp.SilentStorageUserTag)
                 || !_tag.HasTag(user.Value, targetComp.SilentStorageUserTag)))

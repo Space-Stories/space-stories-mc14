@@ -13,9 +13,9 @@
   components:
   - type: RMCKeybindActions
     actions:
-      XenoPrimaryOne: [ ActionXenoSlowingSpit ]
-      XenoPrimaryTwo: [ ActionXenoScatteredSpit ]
-      XenoPrimaryThree: [ ActionXenoParalyzingSlash ]
+      XenoPrimaryOne: [ ActionXenoParatoxinSpit ] # Stories-KeybindActions
+      XenoPrimaryTwo: [ ActionXenoParatoxinSlash ] # Stories-KeybindActions
+      XenoPrimaryThree: [ ActionXenoDrainingBite ] # Stories-KeybindActions
   - type: XenoBaseCaste
   - type: GuideHelp
     guides:
@@ -160,5 +160,4 @@
   - type: XenoAcidAnimation
     actionIds:
     - ActionXenoAcidWeak
-    - ActionXenoSlowingSpit
-    - ActionXenoScatteredSpit
+    - ActionXenoParatoxinSpit # Stories-AcidAnimation

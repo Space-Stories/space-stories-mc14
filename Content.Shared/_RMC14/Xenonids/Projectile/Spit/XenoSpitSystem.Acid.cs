@@ -279,7 +279,7 @@ public sealed partial class XenoSpitSystem : EntitySystem
         if (!_entityWhitelist.IsWhitelistPassOrNull(ent.Comp.Whitelist, args.Target))
             return;
 
-        if (!HasComp<UserAcidedComponent>(ent))
+        if (!HasComp<UserAcidedComponent>(args.Target)) // Stories-AcidFix
             ApplyOrExtendAcid(args.Target, ent.Comp.Acid, ent.Comp.ProlongDuration);
         else if (ent.Comp.Enhance)
             EnhanceAcid(args.Target, ent.Comp.MaxTier);

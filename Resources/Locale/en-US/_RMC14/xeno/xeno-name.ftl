@@ -8,6 +8,9 @@ rmc-xeno-elder = Elder {$baseName}
 rmc-xeno-ancient = Ancient {$baseName}
 rmc-xeno-prime = Prime {$baseName}
 rmc-xeno-apex = Apex {$baseName}
+rmc-xeno-perfected = Apex {$baseName}
+rmc-xeno-progenitor = Apex {$baseName}
+rmc-xeno-firstborn = Apex {$baseName}
 
 rmc-xeno-mature-parasite = Fledgling {$baseName}
 rmc-xeno-elder-parasite = Veteran {$baseName}

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Numerics;
+using Content.Server._RMC14.Ghost;
 using Content.Server._RMC14.Vehicle;
 using Content.Server.GameTicking;
 using Content.Server.RandomMetadata;
@@ -14,6 +15,7 @@ using Content.Shared._RMC14.Humanoid;
 using Content.Shared._RMC14.Intel.Tech;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Squads;
+using Content.Shared._RMC14.Roles;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Spawners;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
@@ -338,6 +340,10 @@ public sealed partial class CMDistressSignalRuleSystem
             _parasite.SetBurstDelay((corpseMob, victimInfected), comp.XenoSurvivorCorpseBurstDelay);
 
             RemCompDeferred<HiddenAppearanceComponent>(corpseMob);
+            // Stories-GhostTeleportBurstCorpse-Start
+            RemCompDeferred<OriginalRoleComponent>(corpseMob);
+            RemCompDeferred<RMCGhostTargetTrackedComponent>(corpseMob);
+            // Stories-GhostTeleportBurstCorpse-End
             _xeno.MakeXeno(newXeno);
 
             _adminLog.Add(LogType.RMCXenoSpawn, $"Player {player} with mob {ToPrettyString(newXeno):xeno} spawned as a xeno from their corpse {ToPrettyString(corpseMob):corpse}");

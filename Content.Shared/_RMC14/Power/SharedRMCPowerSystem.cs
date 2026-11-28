@@ -2553,6 +2553,32 @@ public abstract partial class SharedRMCPowerSystem : EntitySystem
             _appearance.SetData(receiver, PowerDeviceVisuals.Powered, ev.Powered, appearance);
     }
 
+    // Stories-VehiclePower-Start
+    public void PowerVehicleMappedDevices(MapId mapId)
+    {
+        var query = EntityQueryEnumerator<TransformComponent>();
+        while (query.MoveNext(out var uid, out var xform))
+        {
+            if (xform.MapID != mapId)
+                continue;
+
+            SharedApcPowerReceiverComponent? receiver = null;
+            if (!_powerReceiver.ResolveApc(uid, ref receiver))
+                continue;
+
+            _powerReceiver.SetNeedsPower(uid, false, receiver);
+            receiver.Powered = true;
+            Dirty(uid, receiver);
+
+            var ev = new PowerChangedEvent(true, 0);
+            RaiseLocalEvent(uid, ref ev);
+
+            if (_appearanceQuery.TryComp(uid, out var appearance))
+                _appearance.SetData(uid, PowerDeviceVisuals.Powered, true, appearance);
+        }
+    }
+    // Stories-VehiclePower-End
+
     public virtual void RecalculatePower()
     {
         _recalculate = true;

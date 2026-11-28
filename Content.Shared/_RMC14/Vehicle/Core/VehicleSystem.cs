@@ -383,6 +383,7 @@ public sealed partial class VehicleSystem : EntitySystem
 
         var mapId = map.Comp.MapId;
         var mapUid = map.Owner;
+        _rmcPower.PowerVehicleMappedDevices(mapId); // Stories-VehiclePower
 
         EntityUid entryParent = map.Owner;
         EntityUid interiorGrid = EntityUid.Invalid;

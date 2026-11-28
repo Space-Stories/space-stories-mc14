@@ -85,6 +85,8 @@
       name: stories-xeno-boxer-name
       description: stories-xeno-boxer-description
       popup: stories-xeno-boxer-popup
+    - type: XenoDestrain
+      destrainTo: CMXenoWarrior
     - type: SlowOnPull
       slowdowns:
         - multiplier: 0.4525
@@ -204,6 +206,8 @@
       name: stories-xeno-bulwark-name
       description: stories-xeno-bulwark-description
       popup: stories-xeno-bulwark-popup
+    - type: XenoDestrain
+      destrainTo: CMXenoWarrior
     - type: EncasedPlates
     - type: PlateBash
     - type: BulwarkTailSweep

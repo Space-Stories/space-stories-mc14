@@ -403,6 +403,10 @@ public sealed class QueenEyeSystem : EntitySystem
 
         _job.Grid = (grid.Owner, grid.Comp2);
         _job.VisibleTiles = visibleTiles;
+        // Stories-QueenEyePerf-Start
+        _job.InvMatrix = invMatrix;
+        _job.LocalViewportBounds = invMatrix.TransformBox(worldBounds);
+        // Stories-QueenEyePerf-End
         _parallel.ProcessNow(_job, _job.Data.Count);
     }
 
@@ -532,7 +536,7 @@ public sealed class QueenEyeSystem : EntitySystem
 
     private record struct ViewJob() : IParallelRobustJob
     {
-        public int BatchSize => 1;
+        public int BatchSize => 16; // Stories-QueenEyePerf
 
         public required IEntityManager EntManager;
         public required SharedMapSystem Maps;
@@ -542,23 +546,37 @@ public sealed class QueenEyeSystem : EntitySystem
         public List<Entity<QueenEyeVisionComponent>> Data = new();
 
         public required HashSet<Vector2i> VisibleTiles;
+        // Stories-QueenEyePerf-Start
+        public Matrix3x2 InvMatrix;
+        public Box2 LocalViewportBounds;
 
         public void Execute(int index)
         {
             var seed = Data[index];
             var seedXform = EntManager.GetComponent<TransformComponent>(seed);
-            var squircles = Maps.GetLocalTilesIntersecting(Grid.Owner,
-                Grid.Comp,
-                Box2.CenteredAround(System._transform.GetWorldPosition(seedXform), new Vector2(seed.Comp.Range)),
-                ignoreEmpty: false);
+            var localPos = Vector2.Transform(System._transform.GetWorldPosition(seedXform), InvMatrix);
+            var seedBox = Box2.CenteredAround(localPos, new Vector2(seed.Comp.Range));
+            var clamped = seedBox.Intersect(LocalViewportBounds);
+            if (clamped.IsEmpty())
+                return;
+
+            var tileSize = Grid.Comp.TileSize;
+            var minX = (int) MathF.Floor(clamped.Left / tileSize);
+            var maxX = (int) MathF.Floor(clamped.Right / tileSize);
+            var minY = (int) MathF.Floor(clamped.Bottom / tileSize);
+            var maxY = (int) MathF.Floor(clamped.Top / tileSize);
 
             lock (VisibleTiles)
             {
-                foreach (var tile in squircles)
+                for (var x = minX; x <= maxX; x++)
                 {
-                    VisibleTiles.Add(tile.GridIndices);
+                    for (var y = minY; y <= maxY; y++)
+                    {
+                        VisibleTiles.Add(new Vector2i(x, y));
+                    }
                 }
             }
         }
+        // Stories-QueenEyePerf-End
     }
 }

@@ -430,7 +430,10 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
             return false;
         }
 
-        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        // Stories-VehicleDeployBlock-Start
+        if (HasComp<VehicleInteriorOccupantComponent>(user) ||
+            (Transform(user).MapUid is { } mapUid && HasComp<VehicleInteriorLinkComponent>(mapUid)))
+        // Stories-VehicleDeployBlock-End
         {
             var msg = Loc.GetString("rmc-xeno-construction-failed-cant-build-resin-hole");
             _popup.PopupEntity(msg, user, user, PopupType.SmallCaution);

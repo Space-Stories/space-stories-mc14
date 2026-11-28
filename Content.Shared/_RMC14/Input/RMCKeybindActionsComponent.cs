@@ -31,6 +31,7 @@ public sealed partial class RMCKeybindActionsComponent : Component
         [RMCKeybindActionSlot.XenoTailStab] = new()
         {
             "ActionXenoTailStab",
+            "ActionXenoTailStabSentinel",
             "ActionXenoTailStabCorrosive",
             "ActionXenoTailStabBoiler",
             "ActionXenoTailSlam",
