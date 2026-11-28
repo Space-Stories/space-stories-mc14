@@ -115382,6 +115382,13 @@ entities:
       rot: 3.141592653589793 rad
       pos: 81.5,27.5
       parent: 1
+- proto: RMCMapChancesClaimWesternReactor
+  entities:
+  - uid: 33663
+    components:
+    - type: Transform
+      pos: -55.5,80.5
+      parent: 1
 - proto: RMCLightFixtureOffset
   entities:
   - uid: 9245
