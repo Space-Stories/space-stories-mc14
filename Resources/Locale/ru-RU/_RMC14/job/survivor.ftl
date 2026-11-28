@@ -157,7 +157,7 @@ rmc-job-greeting-varadero = В соленом вечернем бризе раз
 
    Вы [bold][color=#51A16C][font size=16]НЕ ВРАЖДЕБНЫ к КМП США![/font][/color][/bold]
 
-rmc-job-prefix-survivor-varadero-rifleman = UNMC RFN
+rmc-job-prefix-survivor-varadero-rifleman = КМП США СТР
 
 rmc-job-name-survivor-commander-new-varadero = Командир
 rmc-job-prefix-survivor-varadero-commander = КМП США КОМ
@@ -197,7 +197,7 @@ rmc-job-prefix-survivor-new-varadero-xenobiologist = Ве-Я КСБИО
 rmc-job-name-survivor-new-varadero-rd = Научный руководитель Нового Варадеро
 rmc-job-prefix-survivor-new-varadero-rd = Ве-Я НР
 
-rmc-job-name-survivor-new-varadero-contractor = UN Civilian Contractor
+rmc-job-name-survivor-new-varadero-contractor = Гражданский подрядчик США
 
 # Hybrisa Prospera Survs
 
@@ -288,39 +288,39 @@ rmc-job-name-survivor-halcyon-dynamics-liaison = Халькон Дайнемик
 
 # Sorokyne SPP special forces insert survs
 
-rmc-job-greeting-soro-spetsnaz = You are a member of the SPP Spetsnaz Reconnaissance Unit!
+rmc-job-greeting-soro-spetsnaz = Вы в составе разведывательного подразделения спецназа СПН!
 
-  Your primary objective is to survive. You believe a second dropship crashed somewhere to the south west, which was carrying additional weapons.
+  Ваша основная задача — выжить. Вы полагаете, что второй десантный корабль с дополнительным вооружением разбился где-то на юго-западе.
 
-  You are part of the Group 'B' Spetsnaz Reconnaissance Unit of the SPP, deployed alongside the Ministry of Space Colonization to perform forward reconnaissance on distant worlds. On the return trip from the frontier, you receive a distress signal from the Peoples' colony of 'Sorokyne Strata' on the planet 'Thermae I' (LV-976). Your team is sent to investigate. Intel suggests CLF separatists or a UN/TSE incursion, but as you touch down in the hangar, something feels wrong. No welcome party. No usual hustle of a working colony. Nothing to suggest an incursion of any kind. Your mission is clear—find out what happened to your supply ship and comrades, retrieve your equipment, and uncover the truth of what really happened to the colony.
+  Вы входите в группу «Б» разведывательного подразделения спецназа СПН. Вместе с Министерством космической колонизации ваше подразделение ведёт передовую разведку на дальних мирах. На обратном пути с фронтира вы получаете сигнал бедствия из народной колонии «Сорокина Страта» на планете «Терма I» (LV-976). Вашу группу отправляют выяснить, что случилось. Разведка предполагает нападение сепаратистов КОФ или вторжение США или ИТС. Но при посадке в ангаре всё выглядит странно. Никто не встречает вас. Нет привычной суеты рабочей колонии и следов вторжения. Ваша задача ясна — выяснить, что случилось с кораблём снабжения и товарищами, забрать снаряжение и узнать, что произошло в колонии.
 
-  You are fully aware of the xenonid threat and are able to use this knowledge as you see fit.
+  Вы знаете об угрозе ксеноморфов и можете использовать эти знания по своему усмотрению.
 
-  You are NOT aware of the marines or their intentions.
+  Вы НЕ знаете о морпехах и их намерениях.
 
-  You are [bold][color=#51A16C][font size=16]NON-HOSTILE to the UNMC![/font][/color][/bold]
+  Вы [bold][color=#51A16C][font size=16]НЕ ВРАЖДЕБНЫ к КМП США![/font][/color][/bold]
 
-rmc-job-name-spetsnaz = SPP SRU Survivor
+rmc-job-name-spetsnaz = Выживший разведчик спецназа СПН
 
-rmc-job-description-soro-spetsnaz = You are a stranded SPP Group 'B' SRU marine. Your team was sent to investigate a distress signal. Find out what happened to the colony.
+rmc-job-description-soro-spetsnaz = Вы — боец группы «Б» разведподразделения спецназа СПН. Ваша группа оказалась отрезана от своих после того, как её отправили проверить сигнал бедствия. Выясните, что случилось с колонией.
 
-rmc-job-name-spetsnaz-sapper = Spetsnaz Sapper
-rmc-job-prefix-soro-spetsnaz-sapper = B/SRU SAP
+rmc-job-name-spetsnaz-sapper = Сапёр спецназа
+rmc-job-prefix-soro-spetsnaz-sapper = Б/РАЗВЕД САП
 
-rmc-job-name-spetsnaz-medic = Spetsnaz Medic
-rmc-job-prefix-soro-spetsnaz-medic = B/SRU MED
+rmc-job-name-spetsnaz-medic = Медик спецназа
+rmc-job-prefix-soro-spetsnaz-medic = Б/РАЗВЕД МЕД
 
-rmc-job-name-spetsnaz-sl = Spetsnaz Squad Leader
-rmc-job-prefix-soro-spetsnaz-sl = B/SRU SL
+rmc-job-name-spetsnaz-sl = Командир отряда спецназа
+rmc-job-prefix-soro-spetsnaz-sl = Б/РАЗВЕД КО
 
-rmc-job-name-spetsnaz-spec = Spetsnaz Specialist
-rmc-job-prefix-soro-spetsnaz-spec = B/SRU SPEC
+rmc-job-name-spetsnaz-spec = Специалист спецназа
+rmc-job-prefix-soro-spetsnaz-spec = Б/РАЗВЕД СПЦ
 
-rmc-job-name-spetsnaz-operator = Spetsnaz Operator
-rmc-job-prefix-soro-spetsnaz-operator = B/SRU OPR
+rmc-job-name-spetsnaz-operator = Боец спецназа
+rmc-job-prefix-soro-spetsnaz-operator = Б/РАЗВЕД БЦ
 
-rmc-job-name-spetsnaz-synth = Spetsnaz SRU Synthetic
-rmc-job-prefix-soro-spetsnaz-synth = B/SRU SYN
+rmc-job-name-spetsnaz-synth = Синтетик разведподразделения спецназа
+rmc-job-prefix-soro-spetsnaz-synth = Б/РАЗВЕД СИН
 
 # Trijent survs
 
@@ -343,31 +343,31 @@ CMSurvivorTrijentCorporate = Представитель Корпорации Т�
 
 # Trijent SPP special forces insert survs
 
-rmc-job-greeting-trijent-spetsnaz = You are a member of the SPP Spetsnaz Reconnaissance Unit!
+rmc-job-greeting-trijent-spetsnaz = Вы в составе разведывательного подразделения спецназа СПН!
 
-  Your primary objective is to survive. You believe a second dropship crashed somewhere to the south east, which was carrying additional weapons.
+  Ваша основная задача — выжить. Вы полагаете, что второй десантный корабль с дополнительным вооружением разбился где-то на юго-востоке.
 
-  You are part of the Group 'D' Spetsnaz Reconnaissance Unit of the SPP. Your orders were simple, recon the site, ascertain if there is a biological weapons program in the area, and if so to secure the colony and retrieve a sample. However your team failed to account for an active anti-air battery near the area. Both your craft and your sister ship crashed. Barely having a chance to catch your breath, you found yourself being assailed by vile xenonids! You and your team have barely held your ground, at the cost of four of your own, but more are coming and ammo is low. You believe a United Nations rescue force is en route.
+  Вы входите в группу «Д» разведывательного подразделения спецназа СПН. Ваши приказы были просты: провести разведку, установить, ведётся ли в колонии разработка биологического оружия, и, если да, взять колонию под контроль и добыть образец. Вы не учли, что поблизости действует зенитная батарея. Оба ваших корабля потерпели крушение. Едва успев перевести дух после падения, вы попали под атаку ксеноморфов. Вы удержали позиции ценой жизни четверых бойцов, но противников становится всё больше, а патроны на исходе. Вы полагаете, что спасательный отряд США уже в пути.
 
-  You are fully aware of the xenonid threat and are able to use this knowledge as you see fit.
+  Вы знаете об угрозе ксеноморфов и можете использовать эти знания по своему усмотрению.
 
-  You are NOT aware of the marines or their intentions.
+  Вы НЕ знаете о морпехах и их намерениях.
 
-  You are [bold][color=#51A16C][font size=16]NON-HOSTILE to the UNMC![/font][/color][/bold]
+  Вы [bold][color=#51A16C][font size=16]НЕ ВРАЖДЕБНЫ к КМП США![/font][/color][/bold]
 
-rmc-job-description-trijent-spetsnaz = You are a stranded SPP Group 'D' SRU marine. Your Mi-220 assault gunship crashed and you are stranded on the planet. Do what it takes to survive!
+rmc-job-description-trijent-spetsnaz = Вы — боец группы «Д» разведподразделения спецназа СПН. Ваш штурмовой корабль Ми-220 разбился, и вы остались на планете. Сделайте всё возможное, чтобы выжить!
 
-rmc-job-prefix-trijent-spetsnaz-sapper = D/SRU SAP
+rmc-job-prefix-trijent-spetsnaz-sapper = Д/РАЗВЕД САП
 
-rmc-job-prefix-trijent-spetsnaz-medic = D/SRU MED
+rmc-job-prefix-trijent-spetsnaz-medic = Д/РАЗВЕД МЕД
 
-rmc-job-prefix-trijent-spetsnaz-sl = D/SRU SL
+rmc-job-prefix-trijent-spetsnaz-sl = Д/РАЗВЕД КО
 
-rmc-job-prefix-trijent-spetsnaz-spec = D/SRU SPEC
+rmc-job-prefix-trijent-spetsnaz-spec = Д/РАЗВЕД СПЦ
 
-rmc-job-prefix-trijent-spetsnaz-operator = D/SRU OPR
+rmc-job-prefix-trijent-spetsnaz-operator = Д/РАЗВЕД БЦ
 
-rmc-job-prefix-trijent-spetsnaz-synth = D/SRU SYN
+rmc-job-prefix-trijent-spetsnaz-synth = Д/РАЗВЕД СИН
 
 # Fiorina Science Annex Survs
 

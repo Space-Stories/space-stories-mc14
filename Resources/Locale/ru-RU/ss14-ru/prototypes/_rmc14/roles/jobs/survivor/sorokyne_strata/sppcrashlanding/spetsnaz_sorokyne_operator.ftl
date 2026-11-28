@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSPPSpetsnazOperator = special survivor spp spetsnaz operator spawn point
+ent-RMCSpawnPointSPPSpetsnazOperator = точка появления бойца спецназа СПН (Сорокина Страта)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = Sorokyne

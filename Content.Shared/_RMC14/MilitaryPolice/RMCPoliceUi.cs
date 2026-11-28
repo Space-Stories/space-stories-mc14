@@ -67,13 +67,15 @@ public sealed class RMCPoliceRecordMsg(
     uint id = 0,
     string text = "",
     string field = "",
-    int index = 0) : BoundUserInterfaceMessage
+    int index = 0,
+    RMCPoliceStatus? expectedStatus = null) : BoundUserInterfaceMessage
 {
     public readonly RMCPoliceRecordAction Action = action;
     public readonly uint Id = id;
     public readonly string Text = text;
     public readonly string Field = field;
     public readonly int Index = index;
+    public readonly RMCPoliceStatus? ExpectedStatus = expectedStatus;
 }
 
 [Serializable, NetSerializable]

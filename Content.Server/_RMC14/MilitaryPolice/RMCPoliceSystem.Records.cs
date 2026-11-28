@@ -2,17 +2,21 @@ using System.Linq;
 using Content.Shared._RMC14.MilitaryPolice;
 using Content.Shared.CriminalRecords;
 using Content.Shared.Movement.Pulling.Components;
+using Content.Shared.Radio;
 using Content.Shared.Security;
 using Content.Shared.StationRecords;
 using Robust.Shared.Enums;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server._RMC14.MilitaryPolice;
 
 public sealed partial class RMCPoliceSystem
 {
+    private static readonly ProtoId<RadioChannelPrototype> PoliceChannel = "MarineMilitaryPolice";
+
     private void OnRecordMessage(Entity<RMCPoliceConsoleComponent> ent, ref RMCPoliceRecordMsg args)
     {
-        if (ent.Comp.Sentencing || !CanUse(ent, args.Actor) || args.Text.Length > MaxTextLength)
+        if (ent.Comp.Sentencing || !CanUse(ent, args.Actor) || args.Text is not { Length: <= MaxTextLength })
             return;
 
         var station = GetStation(ent);
@@ -111,11 +115,31 @@ public sealed partial class RMCPoliceSystem
         switch (args.Action)
         {
             case RMCPoliceRecordAction.Status:
-                if (!Enum.IsDefined(typeof(RMCPoliceStatus), (byte) args.Index) || args.Index is < 0 or > 255)
+                if (args.Index is < byte.MinValue or > byte.MaxValue)
                     return;
-                security.Status = (RMCPoliceStatus) args.Index;
-                UpdateStatus(recordKey, security, args.Actor);
-                break;
+
+                var status = (RMCPoliceStatus) args.Index;
+                if (!Enum.IsDefined(status) || status == security.Status)
+                    return;
+
+                if (args.ExpectedStatus != security.Status)
+                {
+                    Error(args.Actor, "rmc-police-status-changed");
+                    Refresh(ent);
+                    return;
+                }
+
+                var reason = args.Text.Trim();
+                if (reason.Length is < 1 or > RMCPoliceRecord.MaxStatusReasonLength ||
+                    reason.Any(character => char.IsControl(character) || character is '\u2028' or '\u2029'))
+                {
+                    Error(args.Actor, "rmc-police-status-invalid-reason");
+                    return;
+                }
+
+                ChangeStatus(ent, args.Actor, recordKey, security, status, reason);
+                LogChange(args.Actor, ent, $"changed criminal status of {general.Name} ({args.Id}) to {status}: {reason}");
+                return;
             case RMCPoliceRecordAction.PhysicalStatus:
                 if (args.Index is < 0 or > 2)
                     return;
@@ -154,6 +178,22 @@ public sealed partial class RMCPoliceSystem
         _records.Synchronize(recordKey);
     }
 
+    private void ChangeStatus(EntityUid console, EntityUid actor, StationRecordKey key, RMCPoliceRecord record,
+        RMCPoliceStatus status, string reason)
+    {
+        var previousStatus = record.Status;
+        var officer = Officer(actor);
+        record.Status = status;
+        UpdateStatus(key, record, officer, reason);
+
+        _radio.SendRadioMessage(console, Loc.GetString("rmc-police-radio-status",
+            ("name", _records.RecordName(key)),
+            ("officer", officer),
+            ("previous", Loc.GetString($"rmc-police-status-{previousStatus}")),
+            ("status", Loc.GetString($"rmc-police-status-{status}")),
+            ("reason", reason)), PoliceChannel, console);
+    }
+
     private void EditGeneral(Entity<RMCPoliceConsoleComponent> ent, RMCPoliceRecordMsg args,
         StationRecordKey key, GeneralStationRecord general)
     {
@@ -170,7 +210,7 @@ public sealed partial class RMCPoliceSystem
                 _criminal.UpdateCriminalIdentity(general.Name, SecurityStatus.None);
                 general.Name = value;
                 if (_records.TryGetRecord<RMCPoliceRecord>(key, out var security))
-                    UpdateStatus(key, security, args.Actor);
+                    UpdateStatus(key, security);
                 break;
             case "age":
                 _records.TryGetRecord<RMCPoliceRecord>(key, out var personal);

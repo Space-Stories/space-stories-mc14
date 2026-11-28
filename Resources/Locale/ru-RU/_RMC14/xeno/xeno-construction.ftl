@@ -98,8 +98,8 @@ rmc-xeno-construction-egg-morpher-already-full = Этот морфер для я
 
 rmc-xeno-egg-morpher-return-self = { CAPITALIZE($parasite) } заползает в морфер яйца.
 
-rmc-xeno-construction-egg-morpher-examine-count = Sheltering: { $cur_paras }/{ $max_paras } children.
-rmc-xeno-construction-egg-morpher-examine-next-spawn = A new child will grow in [bold]{ $time_left }[/bold] seconds.
+rmc-xeno-construction-egg-morpher-examine-count = Внутри лицехватов: { $cur_paras }/{ $max_paras }.
+rmc-xeno-construction-egg-morpher-examine-next-spawn = До появления нового лицехвата: [bold]{ $time_left }[/bold] с.
 
 rmc-xeno-construction-recovery-node-heal-target = Вы чувствуете, как вас окутывает теплая аура.
 rmc-xeno-construction-recovery-node-heal-other = { CAPITALIZE($target) } светится, когда его окутывает теплая аура.
