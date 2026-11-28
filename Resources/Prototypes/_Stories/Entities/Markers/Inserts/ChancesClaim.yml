@@ -21,3 +21,25 @@
       probability: 0.3
     clearEntities: true
     clearDecals: true
+
+- type: entity
+  parent: RMCMapInsertChancesClaimBase
+  id: RMCMapChancesClaimWesternShuttle
+  name: Firecon Shuttle
+  components:
+  - type: MapInsert
+    variations:
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON.yml"
+      probability: 0.5
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON_Fura.yml"
+      probability: 0.35
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON_Fura+.yml"
+      probability: 0.3
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON_Tak.yml"
+      probability: 0.15
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON_Tak+.yml"
+      probability: 0.1
+    - spawn: "/Maps/_Stories/Inserts/Chances/FORKON_Boom.yml"
+      probability: 0.05
+    clearEntities: true
+    clearDecals: true
