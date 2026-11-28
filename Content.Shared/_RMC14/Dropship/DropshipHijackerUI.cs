@@ -15,6 +15,9 @@ public sealed class DropshipHijackerDestinationChosenBuiMsg(NetEntity destinatio
 }
 
 [Serializable, NetSerializable]
+public sealed class DropshipHijackerRefuse() : BoundUserInterfaceMessage; // Stories-Refuse-Hijack
+
+[Serializable, NetSerializable]
 public enum DropshipHijackerUiKey
 {
     Key,
