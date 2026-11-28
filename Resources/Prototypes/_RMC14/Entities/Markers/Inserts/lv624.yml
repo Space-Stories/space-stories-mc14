@@ -263,7 +263,9 @@
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_powerplant.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/LV624/surv_spawn_nexus.yml"
       probability: 0.5
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_ship ] # Stories-CLFSurvivor
       offset: 23,27

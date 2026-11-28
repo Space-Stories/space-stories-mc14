@@ -149,7 +149,6 @@
   - MarineSecureBackpack
   - CommandingOfficerCareerRMC
   - CommandingOfficerAffiliationRMC
-  - MarineLeatherBackpack
   - CommandingOfficerIDRMC
   - CommandingOfficerWeaponRMC
   - CommandingOfficerRoleSpecificRMC
@@ -588,12 +587,14 @@
   groups:
   - ProvostSecurityBackpack
   - ProvostRoleSpecificOuterwearRMC
+  - ProvostWeaponRMC
+  - ProvostRoleSpecificHeadRMC
   - HeadwearRMC
   - EyewearRMC
   - MasksRMC
   - HelmetGarbsRMC
   - AccessoriesRMC
-  - WatchesBasicRMC
+  - WatchesCommandingOfficerRMC
   - PaperworkRMC
   - RecreationalRMC
   - PlushiesRMC
@@ -832,7 +833,7 @@
   id: JobRMCJobSynthetic
   points: 7
   groups:
-  - SynthGenRMC
+  - STSynthSpecializationRMC # Stories-SynthSpecialization
   - SynthBackpackRMC
   - SynthHeadwearRMC
   - SynthGlassesRMC

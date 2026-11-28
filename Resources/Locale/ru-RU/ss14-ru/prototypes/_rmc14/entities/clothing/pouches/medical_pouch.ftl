@@ -11,4 +11,4 @@ ent-RMCPouchMedicalERT = { ent-RMCPouchMedical }
     .suffix = ОБР
 ent-RMCPouchMedicalSPPSynth = { ent-RMCPouchMedical }
     .desc = { ent-RMCPouchMedical.desc }
-    .suffix = ERT
+    .suffix = ОБР

@@ -154,7 +154,7 @@ public sealed class XenoEggRoleSystem : EntitySystem
         if (HasComp<InfectionSuccessComponent>(user))
             return true;
 
-        var timeSinceDeath = _gameTiming.CurTime.Subtract(ghostComp.TimeOfDeath);
+        var timeSinceDeath = _gameTiming.RealTime.Subtract(ghostComp.TimeOfDeath); // Stories-XenoRespawnCooldown
 
         // Must have been dead for 3 minutes
         if (timeSinceDeath < TimeSpan.FromMinutes(3))
@@ -168,6 +168,11 @@ public sealed class XenoEggRoleSystem : EntitySystem
     private bool SharedChecks(EntityUid ent, EntityUid user)
     {
         //TODO RMC14 parasite bans should be checked here
+        // Stories-UIValidation-Start
+        if (!_ui.IsUiOpen(ent, XenoParasiteGhostUI.Key, user))
+            return false;
+        // Stories-UIValidation-End
+
         _ui.CloseUi(ent, XenoParasiteGhostUI.Key);
 
         return UserCheck(user);

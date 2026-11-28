@@ -33,16 +33,25 @@ public static class RMCWeatherOverlayHelpers
     {
         context = default;
         var overlay = RMCWeatherScreenOverlay.None;
-        // Use the strongest active cycle so drawing, examine range, and click checks agree.
+        var zLevels = entity.System<Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem>();
+        var mapEnt = entity.System<SharedMapSystem>().GetMapOrInvalid(mapId);
+
         var query = entity.EntityQueryEnumerator<RMCWeatherCycleComponent, TransformComponent>();
         while (query.MoveNext(out _, out var cycle, out var xform))
         {
-            if (xform.MapID != mapId ||
-                cycle.State != RMCWeatherCycleState.Running ||
-                cycle.CurrentScreenOverlay == RMCWeatherScreenOverlay.None)
+            // Stories-ZLevels-Start
+            if (cycle.State != RMCWeatherCycleState.Running ||
+                cycle.CurrentScreenOverlay == RMCWeatherScreenOverlay.None ||
+                xform.MapUid is not { } cycleMapUid)
+            // Stories-ZLevels-End
             {
                 continue;
             }
+            // Stories-ZLevels-Start
+
+            if (xform.MapID != mapId && !IsSameMapOrZNetwork(zLevels, mapEnt, cycleMapUid))
+                continue;
+            // Stories-ZLevels-End
 
             if ((byte) cycle.CurrentScreenOverlay <= (byte) overlay)
                 continue;
@@ -55,6 +64,20 @@ public static class RMCWeatherOverlayHelpers
 
         context = new RMCWeatherOverlayContext(overlay);
         return true;
+    }
+
+    private static bool IsSameMapOrZNetwork(Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem zLevels, EntityUid map1, EntityUid map2)
+    {
+        if (map1 == map2)
+            return true;
+
+        if (zLevels.TryGetMapNetwork(map1, out var net1) &&
+            zLevels.TryGetMapNetwork(map2, out var net2))
+        {
+            return net1.Owner == net2.Owner;
+        }
+
+        return false;
     }
 
     public static RMCWeatherScreenOverlay GetCurrentMapOverlay(IEntityManager entity, MapId mapId)

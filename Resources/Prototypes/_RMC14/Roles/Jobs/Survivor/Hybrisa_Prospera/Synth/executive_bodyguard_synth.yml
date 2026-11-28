@@ -7,7 +7,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon
@@ -22,6 +22,11 @@
     - type: MotionDetectorTracked
     - type: EquipSurvivorPreset
       preset: RMCSurvivorPresetHybrisaSynthExecBodyguard
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   useLoadoutOfJob: RMCSyntheticColony # for inheritance
 
@@ -30,8 +35,10 @@
   id: RMCGearSyntheticColonistHybrisaExecBodyguard
   equipment:
     outerClothing: RMCHazardVestBlack
+    ears: RMCHeadsetDistressWeYa # Stories-SynthSurvivorGear
   inhand:
     - RMCScabbardMacheteFilled
+    - RMCTelescopicBaton # Stories-SynthSurvivorGear
 
 - type: entity
   id: RMCSurvivorPresetHybrisaSynthExecBodyguard

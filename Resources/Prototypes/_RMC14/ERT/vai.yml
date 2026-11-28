@@ -3,6 +3,7 @@
   name: rmc-ert-call-contractors-name
   organization: rmc-ert-organization-vai
   npcFactions: [ VAI ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionVAI
   category: rmc-ert-category-corporate
   enabled: true
@@ -89,7 +90,7 @@
       message: rmc-ert-announcement-contractors-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 7
@@ -99,6 +100,7 @@
   name: rmc-ert-call-contractors-covert-name
   organization: rmc-ert-organization-vai
   npcFactions: [ VAI ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionVAI
   category: rmc-ert-category-corporate
   enabled: true
@@ -185,7 +187,7 @@
       message: rmc-ert-announcement-contractors-covert-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 7

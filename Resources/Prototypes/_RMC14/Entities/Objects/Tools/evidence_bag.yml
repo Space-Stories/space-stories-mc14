@@ -1,0 +1,57 @@
+- type: entity
+  parent: BaseItem
+  id: RMCEvidenceBag
+  name: evidence bag
+  description: A transparent bag for storing evidence.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Misc/evidence_bag.rsi
+    state: evidenceobj
+  - type: Item
+    size: Small
+  - type: RMCEvidenceBag
+  - type: RMCEvidenceBagVisuals
+    emptySprite:
+      sprite: _RMC14/Objects/Misc/evidence_bag.rsi
+      state: evidenceobj
+    fullSprite:
+      sprite: _RMC14/Objects/Misc/evidence_bag.rsi
+      state: evidence
+    fullSpriteScale: 1.25, 1.25
+    fullSpriteOffset: 0.0390625, 0.17578125
+    overlayColor: "#FFFFFF60"
+    contentsBounds: "-0.1953125,-0.13671875,0.1953125,0.13671875"
+  - type: ContainerContainer
+    containers:
+      rmc-evidence-bag: !type:ContainerSlot {}
+  - type: Damageable
+    damageContainer: Inorganic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 10
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: InteractedBlacklist
+    blacklist:
+      components:
+      - Xeno
+  - type: GuideHelp
+    guides:
+    - RMCGuideRoleMilitaryPolice
+
+- type: entity
+  parent: RMCBoxCardboard
+  id: RMCBoxEvidence
+  name: evidence bag box
+  description: A box containing six evidence bags.
+  components:
+  - type: StorageFill
+    contents:
+    - id: RMCEvidenceBag
+      amount: 6
+  - type: GuideHelp
+    guides:
+    - RMCGuideRoleMilitaryPolice

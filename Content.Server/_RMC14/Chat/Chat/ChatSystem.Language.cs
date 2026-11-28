@@ -4,6 +4,7 @@ using Content.Shared._RMC14.IdentityManagement;
 using Content.Shared._RMC14.Language;
 using Content.Shared._RMC14.Language.Prototypes;
 using Content.Shared._RMC14.Language.Systems;
+using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.IdentityManagement;
@@ -307,7 +308,8 @@ public sealed partial class ChatSystem
         string message,
         ProtoId<LanguagePrototype> language,
         string? nameOverride = null,
-        EntityUid? originalSpeaker = null)
+        EntityUid? originalSpeaker = null,
+        IReadOnlyDictionary<ICommonSession, ICChatRecipientData>? recipients = null)
     {
         LanguagePrototype? languagePrototype = null;
         if (!_prototypeManager.TryIndex(language, out languagePrototype))
@@ -322,12 +324,15 @@ public sealed partial class ChatSystem
         var visibleLanguage = !(languagePrototype?.NeedsSpeech ?? true);
         var transformedName = nameOverride ?? Identity.Name(source, EntityManager).Name;
 
-        foreach (var (session, data) in GetRecipients(source, ChatChannel.Whisper, WhisperMuffledRange))
+        recipients ??= GetRecipients(source, ChatChannel.Whisper, WhisperMuffledRange);
+        foreach (var (session, data) in recipients)
         {
             if (session.AttachedEntity is not { Valid: true } listener)
                 continue;
 
-            if (MessageRangeCheck(session, data, ChatTransmitRange.GhostRangeLimit) != MessageRangeCheckResult.Full)
+            // Global ghost hearing must not relay every radio speaker on the map to admins.
+            if (data.Range < 0 ||
+                MessageRangeCheck(session, data, ChatTransmitRange.GhostRangeLimit) != MessageRangeCheckResult.Full)
                 continue;
 
             if (needsLos && !data.Observer && listener != source && !data.HasLOS)
@@ -464,6 +469,9 @@ public sealed partial class ChatSystem
             var entHideChat = entRange == MessageRangeCheckResult.HideChat;
 
             if (session.AttachedEntity is not { Valid: true } listener)
+                continue;
+
+            if (ignoreXenos && HasComp<XenoComponent>(listener))
                 continue;
 
             if (needsLos && !data.Observer && listener != source && !data.HasLOS)

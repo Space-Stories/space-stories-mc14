@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Content.Shared._RMC14.Actions;
+using Content.Shared._RMC14.Emplacements;
 using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
@@ -80,7 +81,7 @@ public sealed class XenoDespoilerCausticEmbraceSystem : EntitySystem
 
             args.Handled = true;
 
-            _xform.SetCoordinates(uid, Transform(victim.Value).Coordinates);
+            _xform.SetCoordinates(uid, _xform.GetMoverCoordinates(victim.Value));
 
             if (action.PounceSound is { } empoweredSound)
                 _audio.PlayPredicted(empoweredSound, uid, uid);
@@ -223,17 +224,25 @@ public sealed class XenoDespoilerCausticEmbraceSystem : EntitySystem
 
     private EntityUid? FindEmpoweredVictim(EntityUid caster, XenoDespoilerCausticEmbraceActionEvent args)
     {
-        if (args.Entity is { } target && _xeno.CanAbilityAttackTarget(caster, target))
+        if (args.Entity is { } target && IsValidVictim(caster, target))
             return target;
 
         var landingMap = _xform.ToMapCoordinates(args.Target);
         foreach (var ent in _lookup.GetEntitiesIntersecting(landingMap.MapId,
                      Box2.CenteredAround(landingMap.Position, new Vector2(1f, 1f))))
         {
-            if (_xeno.CanAbilityAttackTarget(caster, ent))
+            if (IsValidVictim(caster, ent))
                 return ent;
         }
 
         return null;
+    }
+
+    private bool IsValidVictim(EntityUid caster, EntityUid target)
+    {
+        if (HasComp<WeaponMountComponent>(target))
+            return false;
+
+        return _xeno.CanAbilityAttackTarget(caster, target);
     }
 }

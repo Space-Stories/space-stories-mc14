@@ -12,6 +12,7 @@
   name: Drone
   description: An alien drone.
   components:
+  - type: XenoBuilderCaste
   - type: MobState
     allowedStates:
     - Alive
@@ -26,6 +27,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - Synth
+  # Stories-SynthHeavyGrab-End
   - type: MeleeWeapon
     damage:
       groups:
@@ -36,7 +44,9 @@
         Brute: 30
   - type: Xeno
     role: CMXenoDrone
-    hudOffset: 0,0.15
+    hudOffset: -0.1,0.15
+    hudRankIconScale: 0.9
+    hudRankIconOffset: 0,0.15
     tier: 1
     bypassTierCount: true
     unlockAt: 60 # 1 minute
@@ -167,6 +177,15 @@
   id: CMXenoDroneGardener
   suffix: Gardener
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoPlantWeedsHardy ]
+      XenoPrimaryThree: [ ActionXenoFruitPlant ]
+      XenoPrimaryFour: [ ActionXenoFruitChoose ]
+      XenoPrimaryFive: [ ActionXenoResinSurge ]
+  # Stories-KeybindActions-End
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Drone/gardener_drone.rsi
     layers:
@@ -209,6 +228,8 @@
     name: rmc-xeno-gardener-name
     description: rmc-xeno-gardener-description
     popup: rmc-xeno-gardener-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoDrone
   - type: XenoFruitPlanter
     canPlant:
     - XenoFruitGreater
@@ -231,6 +252,15 @@
   id: CMXenoDroneHealer
   suffix: Healer
   components:
+  # Stories-KeybindActions-Start
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPlantWeeds ]
+      XenoPrimaryTwo: [ ActionXenoFruitPlantLesser ]
+      XenoPrimaryThree: [ ActionXenoApplySalve ]
+      XenoPrimaryFour: [ ActionXenoHealerDroneTransferPlasma ]
+      XenoPrimaryFive: [ ActionXenoSacrifice ]
+  # Stories-KeybindActions-End
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Drone/healer_drone.rsi
     layers:
@@ -284,6 +314,8 @@
     name: rmc-xeno-healer-name
     description: rmc-xeno-healer-description
     popup: rmc-xeno-healer-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoDrone
   - type: XenoFruitPlanter
     fruitChoice: XenoFruitLesser
     canPlant:

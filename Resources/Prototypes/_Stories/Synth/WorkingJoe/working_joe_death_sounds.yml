@@ -1,0 +1,29 @@
+- type: soundCollection
+  id: STWorkingJoeDeath
+  files:
+  - /Audio/_Stories/Synth/WorkingJoe/smert1.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/smert2.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/smert3.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/smert4.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/smert5.ogg
+
+- type: soundCollection
+  id: STWorkingJoeDeathHazmat
+  files:
+  - /Audio/_Stories/Synth/WorkingJoe/Hazmat/smert1.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/Hazmat/smert2.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/Hazmat/smert3.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/Hazmat/smert4.ogg
+  - /Audio/_Stories/Synth/WorkingJoe/Hazmat/smert5.ogg
+
+- type: emoteSounds
+  id: STWorkingJoeSounds
+  sounds:
+    STWorkingJoeDeathGasp:
+      collection: STWorkingJoeDeath
+
+- type: emoteSounds
+  id: STWorkingJoeHazmatSounds
+  sounds:
+    STWorkingJoeDeathGasp:
+      collection: STWorkingJoeDeathHazmat

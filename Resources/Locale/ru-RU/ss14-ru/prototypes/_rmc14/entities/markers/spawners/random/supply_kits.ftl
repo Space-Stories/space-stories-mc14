@@ -1,4 +1,4 @@
-ent-RMCSpawnerRandomSupplyKitBase = random supply kit spawner
-    .desc = This is a random supply kit, for survivors.
+ent-RMCSpawnerRandomSupplyKitBase = случайный спавнер наборов снабжения
+    .desc = Это случайный набор снабжения для выживших.
 ent-RMCSpawnerRandomSupplyKit = { ent-RMCSpawnerRandomSupplyKitBase }
     .desc = { ent-RMCSpawnerRandomSupplyKitBase.desc }

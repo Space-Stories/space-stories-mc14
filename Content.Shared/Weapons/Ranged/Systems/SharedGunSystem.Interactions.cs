@@ -48,6 +48,7 @@ public abstract partial class SharedGunSystem
             Act = () => SelectFire(uid, component, nextMode, args.User),
             Text = Loc.GetString("gun-selector-verb", ("mode", GetLocSelector(nextMode))),
             Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/fold.svg.192dpi.png")),
+            Priority = 1, // Stories-GunCycle
         };
 
         args.Verbs.Add(verb);
@@ -125,7 +126,7 @@ public abstract partial class SharedGunSystem
     private void OnGunSelected(EntityUid uid, GunComponent component, HandSelectedEvent args)
     {
         if (Timing.ApplyingState)
-             return;
+            return;
 
         if (component.FireRateModified <= 0)
             return;

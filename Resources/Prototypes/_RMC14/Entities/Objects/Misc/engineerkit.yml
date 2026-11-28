@@ -21,7 +21,6 @@
       - Flashlight
       - RMCWeldingGoggle
       # - TODO RMC14 RMCAnalyzer
-      # - TODO RMC14 RMCDemoScanner
       # - TODO RMC14 RMCReagentScanner
       - CableCoil
       - PowerCell
@@ -31,6 +30,7 @@
       - RMCSynthResetKey
       components:
       - TrayScanner
+      - DemolitionsScanner # Stories-EngineeringScanner (accept the existing scanner)
   - type: FixedItemSizeStorage
   - type: Item
     size: Normal

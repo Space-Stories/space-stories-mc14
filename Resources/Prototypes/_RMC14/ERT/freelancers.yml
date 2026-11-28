@@ -3,6 +3,7 @@
   name: rmc-ert-call-freelancers-friendly-name
   organization: rmc-ert-organization-freelancers
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   category: rmc-ert-category-corporate
   enabled: true
   adminSelectable: true
@@ -56,7 +57,7 @@
       message: rmc-ert-announcement-freelancers-friendly-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 8
@@ -119,7 +120,7 @@
       message: rmc-ert-announcement-freelancers-hostile-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 8

@@ -1,10 +1,10 @@
-ent-RMCSupplyKitPursuit = M63 Point Man Kit
+ent-RMCSupplyKitPursuit = набор передового бойца M39
     .desc = { ent-RMCKitBase.desc }
-ent-RMCSupplyKitSelfDefense = Personal Self Defense Kit
+ent-RMCSupplyKitSelfDefense = набор личной самообороны
     .desc = { ent-RMCKitBase.desc }
-ent-RMCSupplyKitMiniMedic = First Responder Medical Support Kit
+ent-RMCSupplyKitMiniMedic = медицинский набор первого реагирования
     .desc = { ent-RMCKitBase.desc }
-ent-RMCSupplyKitMOU53 = MOU53 Field Test Kit
+ent-RMCSupplyKitMOU53 = набор полевых испытаний MOU53
     .desc = { ent-RMCKitBase.desc }
-ent-RMCSupplyKitHeavySupport = Forward HAR Shield Kit
+ent-RMCSupplyKitHeavySupport = набор передового щита M41AE2
     .desc = { ent-RMCKitBase.desc }

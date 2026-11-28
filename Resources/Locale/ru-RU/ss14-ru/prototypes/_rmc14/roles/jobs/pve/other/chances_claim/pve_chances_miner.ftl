@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesMiner = chances miner spawn point
+ent-RMCSpawnPointSurvivorChancesMiner = точка появления шахтёра «Претензии Шанса»
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesMiner = chances mining surveyor ghost role
+ent-RMCRandomHumanoidSurvivorChancesMiner = роль призрака горного геодезиста «Претензии Шанса»
     .desc = { ent-MarkerBase.desc }

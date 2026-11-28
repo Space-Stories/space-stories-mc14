@@ -8,9 +8,9 @@
     sprite: _RMC14/Objects/Clothing/OuterClothing/Armor/armored_vest.rsi
   - type: RMCArmorSpeedTier
     speedTier: light
-  - type: ClothingSpeedModifier
-    walkModifier: 0.725
-    sprintModifier: 0.725
+  - type: ClothingSpeedModifier # Stories-Balance
+    walkModifier: 0.70
+    sprintModifier: 0.70
   - type: CMArmor
     melee: 15
     bullet: 20

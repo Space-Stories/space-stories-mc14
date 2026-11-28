@@ -43,6 +43,7 @@
       components:
       - MobState # no mobs
       - Pullable # no dragging things in
+  - type: TurnstilePush # Stories-Turnstile
   - type: Appearance
   - type: Damageable
     damageContainer: Inorganic

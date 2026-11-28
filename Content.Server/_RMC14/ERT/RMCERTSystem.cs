@@ -26,10 +26,11 @@ using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.ERT;
-using Content.Shared._RMC14.Evacuation;
+using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.GroundsideOperations;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Buckle;
 using Content.Shared.Database;
 using Content.Shared.Doors.Components;
@@ -79,12 +80,13 @@ public sealed partial class RMCERTSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly DialogSystem _dialog = default!;
     [Dependency] private readonly DropshipSystem _dropship = default!;
-    [Dependency] private readonly SharedEvacuationSystem _evacuation = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly GhostSystem _ghost = default!;
     [Dependency] private readonly GhostRoleSystem _ghostRoles = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly SharedAccessSystem _idAccess = default!;
+    [Dependency] private readonly SharedIdCardSystem _idCards = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly MapLoaderSystem _mapLoader = default!;
@@ -100,6 +102,8 @@ public sealed partial class RMCERTSystem : EntitySystem
     [Dependency] private readonly SharedBuckleSystem _buckle = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
+    [Dependency] private readonly WarshipSystem _warship = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!;
 
     private readonly Dictionary<Guid, RMCERTRequest> _requests = new();
     private readonly Dictionary<EntityUid, TimeSpan> _sourceCooldowns = new();
@@ -124,6 +128,8 @@ public sealed partial class RMCERTSystem : EntitySystem
     /// <inheritdoc />
     public override void Initialize()
     {
+        InitializeBlackMarketInvestigation();
+
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
         SubscribeLocalEvent<DropshipArrivedAtDestinationEvent>(OnDropshipArrivedAtDestination);

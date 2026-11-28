@@ -1,7 +1,7 @@
 ent-CMClipboard = планшет
     .desc = { ent-BoxFolderClipboard.desc }
-ent-RMCWeYaClipboard = Weston-Yamada clipboard
-    .desc = A branded clipboard, perfect for keeping your forms in order.
-ent-RMCProvostClipboard = clipboard
+ent-RMCWeYaClipboard = планшет для бумаг Вестон-Ямада
+    .desc = Фирменный планшет для бумаг — идеален, чтобы держать документы в порядке.
+ent-RMCProvostClipboard = планшет для бумаг
     .desc = { ent-CMClipboard.desc }
-    .suffix = Provost
+    .suffix = Провост

@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlTeamLeader = cmb riot control team leader spawn point
+ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlTeamLeader = точка появления руководителя группы по борьбе с беспорядками БКМ
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, fiorina riot
-ent-RMCSurvivorPresetRiotInProgressCMBTL = riot in progress team lead preset
+    .suffix = Спец. выживший, Бунт на Фиорине
+ent-RMCSurvivorPresetRiotInProgressCMBTL = пресет «Бунт в разгаре»: руководитель группы
     .desc = { "" }

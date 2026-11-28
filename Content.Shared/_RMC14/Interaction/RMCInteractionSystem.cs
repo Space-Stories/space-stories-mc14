@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Marines.Squads;
+using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
@@ -6,6 +7,7 @@ using Content.Shared.Light.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Storage;
 using Content.Shared.Storage.Components;
+using Content.Shared.UserInterface;
 using Content.Shared.Whitelist;
 using Robust.Shared.Containers;
 
@@ -19,11 +21,42 @@ public sealed class RMCInteractionSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<InteractedBlacklistComponent, GettingInteractedWithAttemptEvent>(OnBlacklistInteractionAttempt);
+        SubscribeLocalEvent<InteractedBlacklistComponent, CombatModeShouldHandInteractEvent>(OnBlacklistCombatInteractionAttempt);
         SubscribeLocalEvent<NoHandsInteractionBlockedComponent, GettingInteractedWithAttemptEvent>(OnNoHandsInteractionAttempt);
         SubscribeLocalEvent<InsertBlacklistComponent, ContainerIsInsertingAttemptEvent>(OnInsertBlacklistContainerIsInsertingAttempt);
         SubscribeLocalEvent<IgnoreInteractionRangeComponent, InRangeOverrideEvent>(OnInRangeOverride);
         SubscribeLocalEvent<InteractedBlacklistComponent, StorageInteractAttemptEvent>(OnBlacklistStorageAttempt);
+        // Stories-InterfaceSecurity-Start
+        SubscribeLocalEvent<InteractedBlacklistComponent, BoundUserInterfaceMessageAttempt>(OnBlacklistBoundUIAttempt);
+        SubscribeLocalEvent<InteractedBlacklistComponent, ActivatableUIOpenAttemptEvent>(OnBlacklistActivatableUIOpenAttempt);
+        // Stories-InterfaceSecurity-End
     }
+
+    // Stories-InterfaceSecurity-Start
+    private void OnBlacklistBoundUIAttempt(Entity<InteractedBlacklistComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled || ent.Comp.Blacklist == null)
+            return;
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        if (_whitelist.IsValid(ent.Comp.Blacklist, args.Actor))
+            args.Cancel();
+    }
+
+    private void OnBlacklistActivatableUIOpenAttempt(Entity<InteractedBlacklistComponent> ent, ref ActivatableUIOpenAttemptEvent args)
+    {
+        if (args.Cancelled || ent.Comp.Blacklist == null)
+            return;
+
+        if (HasComp<GhostComponent>(args.User))
+            return;
+
+        if (_whitelist.IsValid(ent.Comp.Blacklist, args.User))
+            args.Cancel();
+    }
+    // Stories-InterfaceSecurity-End
     private void OnBlacklistStorageAttempt(Entity<InteractedBlacklistComponent> ent, ref StorageInteractAttemptEvent args)
     {
         if (args.Cancelled || ent.Comp.Blacklist == null)
@@ -42,22 +75,41 @@ public sealed class RMCInteractionSystem : EntitySystem
             args.Cancelled = true;
     }
 
-    private void OnBlacklistInteractionAttempt(Entity<InteractedBlacklistComponent> ent, ref GettingInteractedWithAttemptEvent args)
+    private bool BlockInteraction(Entity<InteractedBlacklistComponent> ent, EntityUid user)
     {
-        if (args.Cancelled || ent.Comp.Blacklist == null)
-            return;
+        if (ent.Comp.Blacklist == null)
+            return false;
 
         if (!TryComp(ent, out TransformComponent? xform))
-            return;
+            return false;
 
         if (ent.Comp.AnchoredOnly && !xform.Anchored)
-            return;
+            return false;
 
+        // Allows xenos to disable flashlights, even though they normally can't interact with them.
         if (TryComp(ent, out HandheldLightComponent? handheldLight) && handheldLight.Activated)
+            return false;
+
+        if (_whitelist.IsValid(ent.Comp.Blacklist, user))
+            return true;
+
+        return false;
+    }
+
+    private void OnBlacklistInteractionAttempt(Entity<InteractedBlacklistComponent> ent, ref GettingInteractedWithAttemptEvent args)
+    {
+        if (args.Cancelled)
             return;
 
-        if (_whitelist.IsValid(ent.Comp.Blacklist, args.Uid))
-            args.Cancelled = true;
+        args.Cancelled = BlockInteraction(ent, args.Uid);
+    }
+
+    private void OnBlacklistCombatInteractionAttempt(Entity<InteractedBlacklistComponent> ent, ref CombatModeShouldHandInteractEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        args.Cancelled = BlockInteraction(ent, args.User);
     }
 
     private void OnInsertBlacklistContainerIsInsertingAttempt(Entity<InsertBlacklistComponent> ent, ref ContainerIsInsertingAttemptEvent args)

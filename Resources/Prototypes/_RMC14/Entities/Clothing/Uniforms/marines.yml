@@ -28,14 +28,6 @@
   id: RMCJumpsuitMarinePatch
   suffix: Patch
 
-- type: entity
-  parent: JumpsuitMarine
-  id: RMCJumpsuitSurvivorMarineFirefighter
-  suffix: Varadero Firefighter
-  components:
-  - type: WebbingClothing
-    startingWebbing: RMCWebbingHolsterM77Survivor
-
 # Formal
 - type: entity
   parent: RMCMarineUniformBase
@@ -253,6 +245,8 @@
     sprite: _RMC14/Objects/Clothing/Uniforms/Engineering/ec.rsi
   - type: CMArmor
     bio: 15
+  - type: BlackMarketValue
+    value: 25
 
 # Maintenance Technician / MT
 - type: entity
@@ -265,6 +259,8 @@
     sprite: _RMC14/Objects/Clothing/Uniforms/Engineering/mt.rsi
   - type: CMArmor
     bio: 10
+  - type: BlackMarketValue
+    value: 25
 
 # Ordnance Technician / OT
 - type: entity
@@ -297,6 +293,8 @@
       Snow: _RMC14/Objects/Clothing/Uniforms/Command/CO/standard/snow.rsi
       Classic: _RMC14/Objects/Clothing/Uniforms/Command/CO/standard/classic.rsi
       Urban: _RMC14/Objects/Clothing/Uniforms/Command/CO/standard/urban.rsi
+  - type: BlackMarketValue
+    value: 25
 
 - type: entity
   parent: CMJumpsuitCO
@@ -330,6 +328,8 @@
     sprite: _RMC14/Objects/Clothing/Uniforms/Command/CO/service.rsi
   - type: ItemCamouflage
     camouflageVariations: { }
+  - type: BlackMarketValue
+    value: 25
 
 - type: entity
   parent: CMJumpsuitCOService
@@ -372,6 +372,8 @@
   - type: Foldable
     unfoldVerbText: rmc-sleeves-verb-unfold
     foldVerbText: rmc-sleeves-verb-fold
+  - type: BlackMarketValue
+    value: 15
 
 # ASO
 
@@ -438,6 +440,8 @@
   - type: Foldable
     unfoldVerbText: rmc-sleeves-verb-unfold
     foldVerbText: rmc-sleeves-verb-fold
+  - type: BlackMarketValue
+    value: 25
 
 - type: entity
   parent: CMJumpsuitBO
@@ -483,6 +487,8 @@
     tags:
     - RMCUniformMarine
     - RMCUniformIntel
+  - type: BlackMarketValue
+    value: 25
 
 - type: Tag
   id: RMCUniformIntel
@@ -506,6 +512,8 @@
   - type: Foldable
     unfoldVerbText: rmc-sleeves-verb-unfold
     foldVerbText: rmc-sleeves-verb-fold
+  - type: BlackMarketValue
+    value: 25
 
 - type: entity
   parent: [RMCMarineUniformBase, RMCFoldableUniformBase]
@@ -522,15 +530,8 @@
       Snow: _RMC14/Objects/Clothing/Uniforms/Auxiliary/pilot_alt/snow.rsi
       Classic: _RMC14/Objects/Clothing/Uniforms/Auxiliary/pilot_alt/classic.rsi
       Urban: _RMC14/Objects/Clothing/Uniforms/Auxiliary/pilot_alt/urban.rsi
-
-- type: entity
-  parent: RMCMarineUniformBase
-  id: RMCJumpsuitPilotFighter
-  name: ASU-25F/P g-suit
-  description: The ASU-25F/P Antipressure Suit is an anti-G garment commonly seen in use by Aerofighter pilots across the Marine Corps, meant to sustain a pilot's consciousness during high-speed turns. While considered bulky and uncomfortable to wear, it has been attributed as the source of the unusually high survival rate among Aerofighter pilots during Operation Justice.
-  components:
-  - type: Sprite
-    sprite: _RMC14/Objects/Clothing/Uniforms/Auxiliary/pilot_fighter.rsi
+  - type: BlackMarketValue
+    value: 25
 
 # Dropship Crew Chief
 - type: entity
@@ -541,6 +542,8 @@
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/Uniforms/Auxiliary/crewchief.rsi
+  - type: BlackMarketValue
+    value: 25
 
 # Civilian
 
@@ -661,6 +664,13 @@
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/Uniforms/Synthetic/joe.rsi
+  # Stories-WorkingJoe-Start
+  - type: WebbingClothing
+    startingWebbing: STWebbingDropPouchWorkingJoe
+  - type: STWorkingJoeUniform
+  - type: STCorpLabel
+    manufacturer: st-corp-label-manufacturer-seegson
+  # Stories-WorkingJoe-End
 
 - type: entity
   parent: RMCMarineUniformBase
@@ -679,3 +689,77 @@
   components:
   - type: Sprite
     sprite: _RMC14/Objects/Clothing/Uniforms/Synthetic/synthetic_support.rsi
+
+# NV
+- type: entity
+  parent: RMCMarineUniformBase
+  id: RMCJumpsuitPilotFighter
+  name: ASU-25F/P g-suit
+  description: The ASU-25F/P Antipressure Suit is an anti-G garment commonly seen in use by Aerofighter pilots across the Marine Corps, meant to sustain a pilot's consciousness during high-speed turns. While considered bulky and uncomfortable to wear, it has been attributed as the source of the unusually high survival rate among Aerofighter pilots during Operation Justice.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/pilot_fighter.rsi
+
+- type: entity
+  parent: RMCJumpsuitMarinePatch
+  id: RMCJumpsuitMarineNV
+  suffix: Varadero
+  description: A standard-issue Marine uniform with moisture-wicking properties. It has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/standard.rsi
+  - type: ItemCamouflage
+    camouflageVariations: {}
+
+- type: entity
+  parent: RMCMarineUniformBase
+  id: RMCJumpsuitMarineNVCommander
+  name: UNMC Base Commander jumpsuit
+  description: Standard-issue Commanding Officer uniform . It has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/commander.rsi
+
+- type: entity
+  parent: RMCJumpsuitMarineNVCommander
+  id: RMCJumpsuitMarineNVSynth
+  name: UNMC Support Synthetic jumpsuit
+  description: A standard-issue uniform worn by synthetics of the UNMC. IIt has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/synth.rsi
+
+- type: entity
+  parent: [RMCMarineUniformBase, RMCFoldableUniformBase]
+  id: RMCJumpsuitMarineNVMedic
+  name: UNMC Medical Technician jumpsuit
+  description: Standard-issue UNMC Medical Technician fatigues. It has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/medic.rsi
+
+- type: entity
+  parent: [RMCMarineUniformBase, RMCFoldableUniformBase]
+  id: RMCJumpsuitMarineNVUtility
+  name: UNMC utility jumpsuit
+  description: Standard-issue fatigues for UNMC maintenance personnel. It has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/req.rsi
+
+- type: entity
+  parent: [RMCMarineUniformBase, RMCFoldableUniformBase]
+  id: RMCJumpsuitMarineNVEngi
+  name: UNMC Engineer jumpsuit
+  description: Standard-issue fatigues for UNMC engineering personnel. It has shards of light Kevlar to help protect against stabbing weapons and bullets, as well as additional ripstop weave to prevent tearing.
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Uniforms/Marine/NV/engineer.rsi
+
+- type: entity
+  parent: RMCJumpsuitMarineNV
+  id: RMCJumpsuitSurvivorMarineFirefighter
+  suffix: Varadero Firefighter
+  components:
+  - type: WebbingClothing
+    startingWebbing: RMCWebbingHolsterM77Survivor

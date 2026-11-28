@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Medical.Unrevivable;
 using Content.Shared._RMC14.ShakeStun;
+using Content.Shared._RMC14.Stun;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.DoAfter;
@@ -44,6 +45,7 @@ public sealed class CPRSystem : EntitySystem
     // TODO RMC14 move these to a component
     [ValidatePrototypeId<DamageTypePrototype>]
     private const string HealType = "Asphyxiation";
+    private static readonly ProtoId<DamageGroupPrototype> Airloss = "Airloss";
 
     private static readonly TimeSpan CPRCooldownSeconds = TimeSpan.FromSeconds(7);
     private static readonly FixedPoint2 HealAmount = FixedPoint2.New(10);
@@ -102,19 +104,21 @@ public sealed class CPRSystem : EntitySystem
 
         _unrevivable.AddRevivableTime(target, CPRCooldownSeconds);
 
-        if (!TryComp(target, out DamageableComponent? damageable) ||
-            !damageable.Damage.DamageDict.TryGetValue(HealType, out damage))
+        // Stories-CPRFix-Start
+        if (TryComp(target, out DamageableComponent? damageable) &&
+            damageable.Damage.DamageDict.TryGetValue(HealType, out damage) &&
+            damage > 0)
         {
-            return;
+            var heal = -FixedPoint2.Min(damage, HealAmount);
+            var healSpecifier = new DamageSpecifier();
+            healSpecifier.DamageDict.Add(HealType, heal);
+            _damageable.TryChangeDamage(target, healSpecifier, true);
         }
-
-        var heal = -FixedPoint2.Min(damage, HealAmount);
-        var healSpecifier = new DamageSpecifier();
-        healSpecifier.DamageDict.Add(HealType, heal);
-        _damageable.TryChangeDamage(target, healSpecifier, true);
 
         var received = EnsureComp<CPRReceivedComponent>(target);
         received.Last = _timing.CurTime;
+        Dirty(target, received);
+        // Stories-CPRFix-End
 
         if (_net.IsClient)
             return;
@@ -177,11 +181,17 @@ public sealed class CPRSystem : EntitySystem
         if (args.Cancelled)
             return;
 
-        if (_mobState.IsAlive(ent) ||
-            (_mobState.IsDead(ent) && _unrevivable.IsUnrevivable(ent)))
-        {
+        // Stories-CPRFix-Start
+        var canHealAirloss = (HasComp<RMCUnconsciousComponent>(ent) || _mobState.IsCritical(ent)) &&
+                             TryComp<DamageableComponent>(ent, out var damage) &&
+                             damage.DamagePerGroup.TryGetValue(Airloss, out var oxyDamage) &&
+                             oxyDamage > 0;
+
+        var isRevivableDead = _mobState.IsDead(ent) && !_unrevivable.IsUnrevivable(ent);
+
+        if (!canHealAirloss && !isRevivableDead)
             args.Cancelled = true;
-        }
+        // Stories-CPRFix-End
     }
 
     private bool CanCPRPopup(EntityUid performer, EntityUid target, bool start, out FixedPoint2 damage)

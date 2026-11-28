@@ -13,7 +13,7 @@ public abstract class SharedLanguageLearningSystem : EntitySystem
     [Dependency] protected readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] protected readonly IRobustRandom _random = default!;
 
-    protected static readonly Regex WordRegex = new(@"\b[a-zA-Z']+\b", RegexOptions.Compiled);
+    protected static readonly Regex WordRegex = new(@"\b[\p{L}']+\b", RegexOptions.Compiled); // Stories-CyrillicLanguageLearning
 
     public string ProcessMessageForListener(EntityUid listener, string message, ProtoId<LanguagePrototype> language)
     {
@@ -45,7 +45,6 @@ public abstract class SharedLanguageLearningSystem : EntitySystem
 
     public string ProcessMessageWordByWord(string message, ProtoId<LanguagePrototype> language, LanguageLearningComponent learningComp)
     {
-        var overallComprehension = CalculateOverallComprehension(learningComp, language);
         var defaultComprehension = GetDefaultWordComprehension(language);
         var thresholds = GetComprehensionThresholds(language);
 
@@ -66,40 +65,31 @@ public abstract class SharedLanguageLearningSystem : EntitySystem
             var word = match.Value;
             var wordLower = word.ToLowerInvariant();
 
-            var wordComprehension = 0f;
+            // Stories-XenoObfuscationFade-Start
+            var wordComprehension = defaultComprehension;
             if (learnedWords?.ContainsKey(wordLower) == true)
-                wordComprehension = learnedWords[wordLower];
-            else
             {
-                if (previewBoostedWordsRemaining > 0 && previewBoostedWordComprehension > 0f)
-                {
-                    previewBoostedWords ??= new HashSet<string>();
+                wordComprehension = learnedWords[wordLower];
+            }
+            else if (previewBoostedWordsRemaining > 0 && previewBoostedWordComprehension > 0f)
+            {
+                previewBoostedWords ??= new HashSet<string>();
 
-                    if (previewBoostedWords.Add(wordLower))
-                        previewBoostedWordsRemaining--;
+                if (previewBoostedWords.Add(wordLower))
+                    previewBoostedWordsRemaining--;
 
-                    wordComprehension = Math.Max(previewBoostedWordComprehension, defaultComprehension);
-                }
-                else
-                {
-                    wordComprehension = Math.Max(overallComprehension, defaultComprehension);
-                }
+                wordComprehension = Math.Max(previewBoostedWordComprehension, defaultComprehension);
             }
 
-            var effectiveComprehension = Math.Max(wordComprehension, overallComprehension);
-
-            if (effectiveComprehension >= thresholds.Clear)
+            if (wordComprehension >= thresholds.Clear)
             {
                 result.Append(word);
             }
-            else if (effectiveComprehension >= thresholds.Partial)
-            {
-                result.Append(LightlyGarbleWord(word, language, effectiveComprehension));
-            }
             else
             {
-                result.Append(_language.ObfuscateMessage(word, language));
+                result.Append(_language.ObfuscateMessageForDisplayWithComprehension(word, language, wordComprehension));
             }
+            // Stories-XenoObfuscationFade-End
 
             lastIndex = match.Index + match.Length;
         }
@@ -124,36 +114,6 @@ public abstract class SharedLanguageLearningSystem : EntitySystem
             word,
             language,
             effectiveComprehension);
-    }
-
-    protected string LightlyGarbleWord(string word, ProtoId<LanguagePrototype> language, float comprehension)
-    {
-        var garbleCharacters = LanguagePrototype.DefaultPartialGarbleCharactersValue;
-        var minimumGarbleRate = LanguagePrototype.DefaultMinimumPartialGarbleRateValue;
-        var garbleRateMultiplier = LanguagePrototype.DefaultPartialGarbleRateMultiplierValue;
-
-        if (_prototypeManager.TryIndex(language, out var languageProto))
-        {
-            if (!string.IsNullOrEmpty(languageProto.PartialGarbleCharacters))
-                garbleCharacters = languageProto.PartialGarbleCharacters;
-
-            minimumGarbleRate = languageProto.MinimumPartialGarbleRate;
-            garbleRateMultiplier = languageProto.PartialGarbleRateMultiplier;
-        }
-
-        var garbleRate = Math.Max(minimumGarbleRate, (1.0f - comprehension) * garbleRateMultiplier);
-        var result = new StringBuilder(word);
-
-        for (var i = 1; i < word.Length - 1; i++)
-        {
-            if (!char.IsLetter(word[i]) || !_random.Prob(garbleRate))
-                continue;
-
-            var garbleChar = garbleCharacters[_random.Next(garbleCharacters.Length)];
-            result[i] = char.IsUpper(word[i]) ? char.ToUpperInvariant(garbleChar) : garbleChar;
-        }
-
-        return result.ToString();
     }
 
     public List<string> ExtractWords(string message)
@@ -181,22 +141,28 @@ public abstract class SharedLanguageLearningSystem : EntitySystem
         var minimumRequiredWords = Math.Max(1, languageProto.MinimumRequiredLearnedWords);
         var expectedVocabSize = Math.Max(minimumRequiredWords, languageProto.ExpectedVocabularySize);
 
+        float rawComprehension;
         if (languageData.LearnedWords.Count < minimumRequiredWords)
         {
             var wordCountFactor = (float) languageData.LearnedWords.Count / minimumRequiredWords;
             var baseComprehension = CalculateBaseComprehension(languageData);
-            return Math.Min(languageProto.MaximumOverallComprehension, baseComprehension * wordCountFactor);
+            rawComprehension = baseComprehension * wordCountFactor;
+        }
+        else
+        {
+            var vocabularyCompleteness = Math.Min(1.0f, (float) languageData.LearnedWords.Count / expectedVocabSize);
+            var averageWordComprehension = CalculateBaseComprehension(languageData);
+            var totalWeight = languageProto.LearnedWordComprehensionWeight + languageProto.VocabularyCompletenessWeight;
+            rawComprehension = totalWeight > 0f
+                ? ((averageWordComprehension * languageProto.LearnedWordComprehensionWeight) +
+                   (vocabularyCompleteness * languageProto.VocabularyCompletenessWeight)) / totalWeight
+                : averageWordComprehension;
         }
 
-        var vocabularyCompleteness = Math.Min(1.0f, (float) languageData.LearnedWords.Count / expectedVocabSize);
-        var averageWordComprehension = CalculateBaseComprehension(languageData);
-        var totalWeight = languageProto.LearnedWordComprehensionWeight + languageProto.VocabularyCompletenessWeight;
-        var combinedComprehension = totalWeight > 0f
-            ? ((averageWordComprehension * languageProto.LearnedWordComprehensionWeight) +
-               (vocabularyCompleteness * languageProto.VocabularyCompletenessWeight)) / totalWeight
-            : averageWordComprehension;
+        rawComprehension = Math.Min(languageProto.MaximumOverallComprehension, rawComprehension);
 
-        return Math.Min(languageProto.MaximumOverallComprehension, combinedComprehension);
+        // Stories-LanguageComprehensionMonotonic
+        return Math.Max(languageData.Progress, rawComprehension);
     }
 
     private static float CalculateBaseComprehension(LanguageLearningData languageData)

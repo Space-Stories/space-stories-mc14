@@ -1,3 +1,4 @@
+using Content.Shared._Stories.Armor;
 using Content.Shared._RMC14.Hands;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Pulling;
@@ -9,6 +10,7 @@ using Content.Shared.Database;
 using Content.Shared.Effects;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.IdentityManagement;
+using Content.Shared.Inventory;
 using Content.Shared.Movement.Pulling.Components;
 using Content.Shared.Popups;
 using Content.Shared.Standing;
@@ -40,6 +42,7 @@ public sealed class TackleSystem : EntitySystem
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedGunSystem _gunSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
 
     private readonly List<EntityUid> _trackersToRemove = new();
 
@@ -84,8 +87,32 @@ public sealed class TackleSystem : EntitySystem
 
         var random = _random.NextFloat(0, 1);
 
-        if ((tracker.Count < tackle.Min || tackle.Chance < random) &&
-            tracker.Count < tackle.Max)
+        // Stories-TackleResist-Start
+        var min = tackle.Min;
+        var max = tackle.Max;
+        var chance = tackle.Chance;
+
+        var resist = GetTackleResistMultiplier(target);
+        if (resist <= 0.5f)
+        {
+            max = Math.Max(min, max / 2);
+            chance = Math.Clamp(chance * 2f, 0f, 1f);
+        }
+        else if (resist > 1f)
+        {
+            min = Math.Max(tackle.Min, (int) Math.Round(min * resist));
+            max = Math.Max(min, (int) Math.Round(max * resist));
+            chance = Math.Clamp(chance / resist, 0f, 1f);
+        }
+        else if (resist < 1f)
+        {
+            max = Math.Max(min, (int) Math.Round(max * resist));
+            chance = Math.Clamp(chance / resist, 0f, 1f);
+        }
+        // Stories-TackleResist-End
+
+        if ((tracker.Count < min || chance < random) &&
+            tracker.Count < max)
         {
             _adminLog.Add(LogType.RMCTackle, $"{ToPrettyString(user)} tried to tackle {ToPrettyString(target)}.");
 
@@ -383,4 +410,20 @@ public sealed class TackleSystem : EntitySystem
                 RemCompDeferred<TackledRecentlyComponent>(tackler);
         }
     }
+
+    // Stories-TackleResist-Start
+    private float GetTackleResistMultiplier(EntityUid target)
+    {
+        if (TryComp<TackleResistComponent>(target, out var comp))
+            return comp.Multiplier;
+
+        if (_inventory.TryGetSlotEntity(target, "outerClothing", out var armor) &&
+            TryComp<TackleResistComponent>(armor, out var armorComp))
+        {
+            return armorComp.Multiplier;
+        }
+
+        return 0.5f;
+    }
+    // Stories-TackleResist-End
 }

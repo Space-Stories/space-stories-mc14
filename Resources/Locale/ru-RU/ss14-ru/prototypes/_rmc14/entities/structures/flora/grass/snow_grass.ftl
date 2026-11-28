@@ -1,4 +1,4 @@
-ent-RMCGrassSnow = snowy grass
+ent-RMCGrassSnow = заснеженная трава
     .desc = { ent-RMCBaseGrass.desc }
     .suffix = { ent-RMCBaseGrass.suffix }
 ent-RMCGrassSnow2 = { ent-RMCGrassSnow }

@@ -5,7 +5,7 @@
   - type: AllowSuitStorage
     whitelist:
       components:
-      - Gun
+      # - Gun # Stories-Balance
       - Stunbaton
       - CrewMonitoringConsole
       tags:
@@ -20,6 +20,7 @@
       - RMCGeneralRevolverHolster
       - RMCMatebaHolster
       - RMCBeltHolsterM13
+      - RMCG8Pouch
       - Flashlight
       - DiscreteHealthAnalyzer
       - Pen
@@ -28,7 +29,7 @@
       - RMCDetector
 
 - type: entity
-  parent: [ClothingOuterStorageBase]
+  parent: [ClothingOuterStorageBase, RMCAllowSuitStorageClothingExternalWebbing]
   id: RMCOuterClothingExternalWebbing
   name: external webbing
   description: Designed to be worn over a jumpsuit rather than clipped on.
@@ -48,6 +49,14 @@
       - PillCanister
       - CMSurgicalCase
       - RMCSyringeCase
+
+- type: entity
+  parent: RMCOuterClothingExternalWebbing
+  id: RMCOuterClothingExternalWebbingNV
+  suffix: Varadero
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/OuterClothing/Misc/external_webbing_nv.rsi
 
 - type: entity
   parent: RMCOuterClothingExternalWebbing

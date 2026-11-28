@@ -50,12 +50,12 @@
 - type: entity
   parent: RMCPouchExplosive
   id: RMCPouchExplosiveFilledSPP
-  suffix: SPP, M15
+  suffix: SPP, Type 6
   components:
   - type: StorageFill
     contents:
-    - id: CMGrenadeFragOld
-      amount: 4
+    - id: RMCGrenadeType6
+      amount: 6
 
 - type: entity
   parent: RMCPouchExplosive

@@ -8,14 +8,17 @@ using Content.Shared._RMC14.Chat;
 using Content.Shared._RMC14.Dialog;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Roles.Ranks;
+using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Marines.Skills.Pamphlets;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.OrbitalCannon;
+using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Roles;
 using Content.Shared._RMC14.Rules;
 using Content.Shared._RMC14.Scoping;
 using Content.Shared._RMC14.SupplyDrop;
 using Content.Shared._RMC14.TacticalMap;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared._RMC14.Vendors;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared.Administration.Logs;
@@ -24,13 +27,16 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
+using Content.Shared.Ghost;
 using Content.Shared.IdentityManagement;
+using Content.Shared.Interaction;
 using Content.Shared.Inventory;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Events;
 using Content.Shared.Popups;
+using Content.Shared.UserInterface;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
@@ -41,7 +47,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Overwatch;
 
-public abstract class SharedOverwatchConsoleSystem : EntitySystem
+public abstract partial class SharedOverwatchConsoleSystem : EntitySystem // Stories-ZLevels
 {
     private const string AdministratorGroup = "ADMINISTRATOR";
 
@@ -63,11 +69,13 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly SharedCMChatSystem _rmcChat = default!;
-    [Dependency] private readonly SharedRMCOverwatchTripodCameraSystem _tripod = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUi = default!;
+    [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SquadSystem _squad = default!;
     [Dependency] private readonly SharedSupplyDropSystem _supplyDrop = default!;
     [Dependency] private readonly SharedTacticalMapSystem _tacticalMap = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedRMCOverwatchTripodCameraSystem _tripod = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
 
@@ -94,6 +102,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
 
     public override void Initialize()
     {
+        InitializeZLevelInput(); // Stories-ZLevels
         base.Initialize();
 
         _actor = GetEntityQuery<ActorComponent>();
@@ -107,6 +116,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         SubscribeLocalEvent<OrbitalCannonLaunchEvent>(OnOrbitalCannonLaunch);
         SubscribeLocalEvent<OrbitalCannonSafetyChangedEvent>(OnOrbitalCannonSafetyChanged);
 
+        SubscribeLocalEvent<OverwatchConsoleComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
         SubscribeLocalEvent<OverwatchConsoleComponent, BoundUIOpenedEvent>(OnBUIOpened);
         SubscribeLocalEvent<OverwatchConsoleComponent, BoundUIClosedEvent>(OnBUIClosed);
         SubscribeLocalEvent<OverwatchConsoleComponent, OverwatchTransferMarineSelectedEvent>(OnTransferMarineSelected);
@@ -146,6 +156,35 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         });
         Subs.CVar(_config, RMCCVars.RMCOverwatchMaxProcessTimeMilliseconds, v => _maxProcessTime = TimeSpan.FromMilliseconds(v), true);
         Subs.CVar(_config, RMCCVars.RMCOverwatchConsoleUpdateEverySeconds, v => _updateEvery = TimeSpan.FromSeconds(v), true);
+    }
+
+    private void OnUIMessageAttempt(Entity<OverwatchConsoleComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!_rmcUi.CanUseUI(args) ||
+            HasComp<XenoComponent>(args.Actor) && !HasComp<GhostComponent>(args.Actor))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        var isOverwatch = args.UiKey is OverwatchConsoleUI ||
+            args.Message is DialogOptionBuiMsg option &&
+            TryComp<DialogComponent>(args.Actor, out var dialog) &&
+            dialog.EventTarget == ent.Owner &&
+            dialog.Options.TryGetValue(option.Index, out var choice) &&
+            choice.Event is OverwatchTransferMarineSelectedEvent or OverwatchTransferMarineSquadEvent;
+        if (isOverwatch &&
+            TryComp<MarineCommunicationsComputerComponent>(ent, out var communications) &&
+            !_skills.HasSkill(args.Actor, communications.OverwatchSkill, communications.OverwatchSkillLevel))
+        {
+            args.Cancel();
+        }
     }
 
     private void OnOrbitalCannonChanged(ref OrbitalCannonChangedEvent ev)
@@ -581,7 +620,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        SaveLocation(ent, ent.Comp.SavedSupplyDropLocations, args.Longitude, args.Latitude);
+        SaveLocation(ent, ent.Comp.SavedSupplyDropLocations, args.Longitude, args.Latitude, args.Z); // Stories-ZLevels
     }
 
     private void OnOverwatchSupplyDropCommentBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleSupplyDropCommentBuiMsg args)
@@ -613,7 +652,9 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (TryGetEntity(ent.Comp.Squad, out var squadNullable))
             squad = squadNullable.Value;
 
-        _orbitalCannon.Fire(cannon, ent.Comp.OrbitalCoordinates, args.Actor, squad);
+        // Stories-ZLevels-Start
+        _orbitalCannon.Fire(cannon, ent.Comp.OrbitalCoordinates, args.Actor, squad, ent.Comp.OrbitalZ);
+        // Stories-ZLevels-End
     }
 
     private void OnOverwatchOrbitalSaveBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleOrbitalSaveBuiMsg args)
@@ -621,7 +662,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        SaveLocation(ent, ent.Comp.SavedOrbitalLocations, args.Longitude, args.Latitude);
+        SaveLocation(ent, ent.Comp.SavedOrbitalLocations, args.Longitude, args.Latitude, args.Z); // Stories-ZLevels
     }
 
     private void OnOverwatchOrbitalCommentBui(Entity<OverwatchConsoleComponent> ent, ref OverwatchConsoleOrbitalCommentBuiMsg args)
@@ -633,7 +674,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         Entity<OverwatchConsoleComponent> ent,
         OverwatchSavedLocation?[] locations,
         int longitude,
-        int latitude)
+        int latitude, int z) // Stories-ZLevels
     {
         if (locations.Length == 0)
             return;
@@ -641,7 +682,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
         if (locations.Any(location =>
                 location is { } saved &&
                 saved.Longitude == longitude &&
-                saved.Latitude == latitude))
+                saved.Latitude == latitude && saved.Z == z)) // Stories-ZLevels
         {
             return;
         }
@@ -653,7 +694,7 @@ public abstract class SharedOverwatchConsoleSystem : EntitySystem
             index = locations.Length - 1;
         }
 
-        locations[index] = new OverwatchSavedLocation(longitude, latitude, string.Empty);
+        locations[index] = new OverwatchSavedLocation(longitude, latitude, string.Empty, z); // Stories-ZLevels
         Dirty(ent);
     }
 

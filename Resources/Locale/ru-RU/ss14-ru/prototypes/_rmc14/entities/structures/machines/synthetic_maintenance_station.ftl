@@ -1,2 +1,2 @@
-ent-RMCSyntheticMaintenanceStation = synthetic maintenance station
-    .desc = A wall-mounted maintenance cradle for synthetic units.
+ent-RMCSyntheticMaintenanceStation = станция обслуживания синтетиков
+    .desc = Настенная ремонтная стойка для синтетиков.

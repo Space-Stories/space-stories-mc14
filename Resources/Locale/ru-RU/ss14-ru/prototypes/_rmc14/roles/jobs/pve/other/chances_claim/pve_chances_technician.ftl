@@ -1,7 +1,7 @@
-ent-RMCSpawnPointSurvivorChancesCivilian = chances civilian spawn point
+ent-RMCSpawnPointSurvivorChancesCivilian = точка появления мирного жителя «Претензии Шанса»
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesCivilian = chances catering technician ghost role
+ent-RMCRandomHumanoidSurvivorChancesCivilian = роль призрака техника общепита «Претензии Шанса»
     .desc = { ent-MarkerBase.desc }
-ent-RMCGearSurvivorPresetChancesCivilian = chances catering technician preset
+ent-RMCGearSurvivorPresetChancesCivilian = пресет техника общепита «Претензии Шанса»
     .desc = { "" }

@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidSPPCommandoMedic = DEATHSQUAD spp ghost role commando medic
+ent-RMCRandomHumanoidSPPCommandoMedic = роль призрака медика спецназа СПН (DEATHSQUAD)
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

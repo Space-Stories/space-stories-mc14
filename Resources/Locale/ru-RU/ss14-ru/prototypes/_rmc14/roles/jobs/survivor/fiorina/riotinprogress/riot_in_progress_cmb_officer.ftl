@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBOfficer = cmb officer spawn point
+ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBOfficer = точка появления офицера БКМ
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, fiorina riot
-ent-RMCSurvivorPresetRiotInProgressCMB = riot in progress standard preset
+    .suffix = Спец. выживший, Бунт на Фиорине
+ent-RMCSurvivorPresetRiotInProgressCMB = пресет «Бунт в разгаре»: стандартный
     .desc = { "" }

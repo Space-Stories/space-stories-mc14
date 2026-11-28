@@ -59,6 +59,8 @@ public abstract class SharedRMCFlamerSystem : EntitySystem
     [Dependency] private readonly RMCReagentSystem _reagent = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly RMCProjectileSystem _projectile = default!;
+    [Dependency] private readonly Content.Shared._Stories.ZLevels.Core.EntitySystems.SharedZLevelsSystem _zLevels = default!;
+    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
 
     public override void Initialize()
     {
@@ -423,10 +425,10 @@ public abstract class SharedRMCFlamerSystem : EntitySystem
         if (delta.IsLengthZero())
             return false;
 
-        var normalized = -delta.Normalized();
+        var direction = (-delta).Normalized();
 
         // to prevent hitting yourself
-        fromCoordinates = fromCoordinates.Offset(normalized * 0.23f);
+        fromCoordinates = fromCoordinates.Offset(direction * 0.23f); // Stories-ProjectileDirection
 
         reagent = _reagent.Index(firstReagent.Value.Reagent.Prototype);
 
@@ -434,7 +436,7 @@ public abstract class SharedRMCFlamerSystem : EntitySystem
         var range = Math.Min((fuelVolume / flamer.Comp.CostPer).Int(), maxRange); // Stories-Ordnance
 
         if (delta.Length() > maxRange)
-            toCoordinates = fromCoordinates.Offset(normalized * range);
+            toCoordinates = fromCoordinates.Offset(direction * range);
 
         tiles = _line.DrawLine(fromCoordinates, toCoordinates, flamer.Comp.DelayPer, maxRange, out _, true, reagent.FireSpread);
         if (tiles.Count == 0)
@@ -755,13 +757,49 @@ public abstract class SharedRMCFlamerSystem : EntitySystem
                 if (time >= tile.At)
                 {
                     comp.Tiles.Remove(tile);
-                    var fire = Spawn(comp.Spawn, tile.Coordinates);
+                    // Stories-ZLevels-Start
+                    var mapCoords = tile.Coordinates;
+                    var worldPos = mapCoords.Position;
+                    var mapUid = _mapSystem.GetMapOrInvalid(mapCoords.MapId);
+                    var spawnCoords = _transform.ToCoordinates(mapUid, mapCoords);
+
+                    if (_zLevels.IsTileTransparentOrEmpty(mapUid, worldPos))
+                    {
+                        if (_zLevels.TryMapDown(mapUid, out var mapBelow))
+                        {
+                            var checkMap = mapBelow;
+                            while (_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                            {
+                                if (!_zLevels.TryMapDown(checkMap.Owner, out var nextBelow))
+                                    break;
+                                checkMap = nextBelow;
+                            }
+
+                            if (!_zLevels.IsTileTransparentOrEmpty(checkMap.Owner, worldPos))
+                            {
+                                if (TryComp<Robust.Shared.Map.Components.MapComponent>(checkMap.Owner, out var mapBelowComp))
+                                {
+                                    spawnCoords = _transform.ToCoordinates(checkMap.Owner, new MapCoordinates(worldPos, mapBelowComp.MapId));
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    var fire = Spawn(comp.Spawn, spawnCoords);
+                    // Stories-ZLevels-End
 
                     EnsureComp<DamageOnCollideComponent>(fire, out var collide);
                     _onCollide.SetChain((fire, collide), comp.Chain.Value);
 
-                    // check for any fires on the same tile other than the one we just spawned, and delete them
-                    if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(_transform.ToCoordinates(fire, tile.Coordinates), out var oldTileFire)
+                    if (_rmcMap.HasAnchoredEntityEnumerator<TileFireComponent>(spawnCoords, out var oldTileFire) // Stories-ZLevels
                         && oldTileFire.Owner.Id != fire.Id)
                     {
                         QueueDel(oldTileFire);

@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Medical.Wounds;
+using Content.Shared._RMC14.Medical.Wounds;
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared.Body.Organ;
 using Content.Shared.Coordinates;
@@ -6,6 +6,8 @@ using Content.Shared.Examine;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Storage.EntitySystems;
+using Content.Shared.Standing;
+using Content.Shared.Stunnable;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
 
@@ -19,6 +21,7 @@ public sealed class CMStasisBagSystem : EntitySystem
     [Dependency] private readonly SharedEntityStorageSystem _entStorage = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly StandingStateSystem _standing = default!; // Stories-StasisBagFix
 
     private EntityQuery<OrganComponent> _organQuery;
 
@@ -37,6 +40,7 @@ public sealed class CMStasisBagSystem : EntitySystem
         SubscribeLocalEvent<CMInStasisComponent, ComponentRemove>(OnInStasisRemove);
         SubscribeLocalEvent<CMInStasisComponent, GetInfectedIncubationMultiplierEvent>(OnInStasisGetInfectedIncubationMultiplier);
         SubscribeLocalEvent<CMInStasisComponent, CMBleedAttemptEvent>(OnInStasisBleedAttempt);
+        SubscribeLocalEvent<CMInStasisComponent, StandAttemptEvent>(OnInStasisStandAttempt); // Stories-StasisBagFix
     }
 
     private void OnStasisInsert(Entity<CMStasisBagComponent> ent, ref ContainerIsInsertingAttemptEvent args)
@@ -75,6 +79,12 @@ public sealed class CMStasisBagSystem : EntitySystem
     private void OnInStasisRemove(Entity<CMInStasisComponent> ent, ref ComponentRemove args)
     {
         _parasite.RefreshIncubationMultipliers(ent.Owner);
+        // Stories-StasisBagFix-Start
+        if (!_mobstate.IsIncapacitated(ent.Owner) && !HasComp<KnockedDownComponent>(ent.Owner))
+        {
+            _standing.Stand(ent.Owner, force: true);
+        }
+        // Stories-StasisBagFix-End
     }
 
     private void OnInStasisGetInfectedIncubationMultiplier(Entity<CMInStasisComponent> ent, ref GetInfectedIncubationMultiplierEvent args)
@@ -94,6 +104,14 @@ public sealed class CMStasisBagSystem : EntitySystem
     {
         args.Cancelled = true;
     }
+
+    // Stories-StasisBagFix-Start
+    private void OnInStasisStandAttempt(Entity<CMInStasisComponent> ent, ref StandAttemptEvent args)
+    {
+        if (_container.TryGetContainingContainer(ent.Owner, out var container) && HasComp<CMStasisBagComponent>(container.Owner))
+            args.Cancel();
+    }
+    // Stories-StasisBagFix-End
 
     private void OnInsert(Entity<CMStasisBagComponent> bag, EntityUid target)
     {

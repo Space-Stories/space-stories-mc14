@@ -58,6 +58,9 @@
   name: wall
   description: A huge chunk of metal used to separate rooms.
   components:
+  - type: RMCPoliceClueOnDestruction
+    description: rmc-police-clue-wall
+    mainshipOnly: true
   - type: Sprite
     sprite: _RMC14/Structures/Walls/almayer_black.rsi
   - type: Icon

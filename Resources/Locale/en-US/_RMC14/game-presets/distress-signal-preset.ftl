@@ -10,7 +10,7 @@ cm-distress-signal-minorxenovictory = [color=purple]The xenonids hijacked the me
 rmc-distress-signal-minorxenovictory-timeout = [color=purple]The xenonids hijacked the metal bird and entered the metal hive, igniting a brutal battle in the sky.[/color] [color=yellow]In the chaos, the vessel lost control and crashed into the surface before everyone could evacuate. All hands were lost.[/color] [color=purple]Yet, the surface remains overrun, and the xenonids endure.[/color]
 
 cm-distress-signal-alldied = [color=yellow]Neither marines nor xenonids survived the carnage. The battlefield lies silent, a graveyard for both.[/color]
-cm-distress-signal-selfdestruct = [color=yellow]The ship was scuttled by emergency reactor overload. Marines and xenonids alike were consumed in the blast. No side can claim the vessel.[/color]
+cm-distress-signal-selfdestruct = [color=yellow]The ship was scuttled by emergency reactor overload. Marines and xenonids alike were consumed in the blast. No side can claim the vessel.[/color] [color=purple]Yet, the surface remains overrun, and the xenonids endure.[/color]
 cm-distress-signal-none = [color=yellow]ARES 3.2 Log Error: Operation records are missing or corrupted. Please contact support with error code 404 for further assistance.[/color]
 
 cm-distress-signal-marine = {$player}
@@ -53,3 +53,6 @@ rmc-distress-signal-scuttle-heat-aura = The air around the engine core burns aga
 rmc-distress-signal-scuttle-superheat-aura = The engine-core heat becomes searing!
 
 rmc-xeno-announcement-scuttle-first-overload = The talls are overloading the metal hive's burning hearts. Stop them before the sky-hive tears itself apart.
+
+rmc-roles-antag-hostile-survivor-antagonist-name = Hostile Survivor
+rmc-roles-antag-hostile-survivor-objective = As a member of the CLF, liberate the colony from the UNMC.

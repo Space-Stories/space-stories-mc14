@@ -1,6 +1,6 @@
-ent-RMCImaginaryFriend = Imaginary Friend
-    .desc = A wonderful yet fake friend.
+ent-RMCImaginaryFriend = Воображаемый друг
+    .desc = Замечательный, но ненастоящий друг.
 ent-RMCImaginaryFriendHumanoid = { ent-RMCImaginaryFriend }
     .desc = { ent-RMCImaginaryFriend.desc }
-ent-RMCImaginaryFriendXeno = Xippy
+ent-RMCImaginaryFriendXeno = Ксиппи
     .desc = { ent-RMCImaginaryFriend.desc }

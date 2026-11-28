@@ -2,6 +2,7 @@
 # CO uses this.
 - type: accessGroup
   id: ShipMasterAccess
+  hidden: true # Stories-AccessSecurity
   tags:
   - CMAccessAlpha # Squad prep access
   - CMAccessArmory # MP weapon vault
@@ -51,6 +52,7 @@
   id: CO
   parent: RMCBaseCommandJob
   name: Commanding Officer
+  hidden: true # Stories-AccessSecurity
   tags:
   - CMAccessAlpha # Squad prep access
   - CMAccessArmory # MP weapon vault

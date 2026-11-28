@@ -1,4 +1,4 @@
-ent-RMCTyrargoStick01 = stick
+ent-RMCTyrargoStick01 = палка
     .desc = { ent-RMCBaseBush.desc }
     .suffix = 1
 ent-RMCTyrargoStick02 = { ent-RMCTyrargoStick01 }
@@ -10,7 +10,7 @@ ent-RMCTyrargoStick03 = { ent-RMCTyrargoStick01 }
 ent-RMCTyrargoStick04 = { ent-RMCTyrargoStick01 }
     .desc = { ent-RMCTyrargoStick01.desc }
     .suffix = 4
-ent-RMCTyrargoTrunk01 = trunk
+ent-RMCTyrargoTrunk01 = ствол дерева
     .desc = { ent-RMCTyrargoStick01.desc }
     .suffix = 1
 ent-RMCTyrargoTrunk02 = { ent-RMCTyrargoTrunk01 }

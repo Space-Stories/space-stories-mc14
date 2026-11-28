@@ -1,0 +1,38 @@
+- type: entity
+  parent: RMCWeldingKit
+  id: RMCES11MobileFuelCanister
+  name: ES-11 fuel canister
+  description: A compact, pressurized welding fuel canister for field repairs. Do not puncture.
+  components:
+  - type: Item
+    size: Normal
+  - type: Clothing
+    slots:
+    - Belt
+  - type: Sprite
+    sprite: _RMC14/Objects/Tanks/es11.rsi
+    state: icon
+  - type: SolutionTransfer
+    transferAmount: 120
+    maxTransferAmount: 120
+    canChangeTransferAmount: false
+  - type: RMCSolutionRefillSound
+    sound: /Audio/Effects/refill.ogg
+  - type: SolutionContainerManager
+    solutions:
+      tank:
+        maxVol: 120
+        reagents:
+        - ReagentId: RMCWeldingFuel
+          Quantity: 120
+
+- type: entity
+  parent: RMCToolWebbingSmallFilled
+  id: RMCToolDropPouchSmallFilled
+  name: small tool drop pouch
+  description: A compact drop pouch loaded with essential field repair tools.
+  suffix: Filled
+  components:
+  - type: Sprite
+    sprite: _RMC14/Objects/Clothing/Webbing/tool_drop_pouch.rsi
+    state: webbing

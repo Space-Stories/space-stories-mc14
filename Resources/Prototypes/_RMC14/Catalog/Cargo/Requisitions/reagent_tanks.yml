@@ -1,0 +1,10 @@
+- type: entity
+  abstract: true
+  id: RMCRequisitionsCatalogReagentTanks
+  components:
+  - type: RequisitionsComputer
+    categories:
+    - name: rmc-requisitions-category-reagent-tanks
+      entries:
+      - cost: 2000
+        crate: RMCTankReagentFuel

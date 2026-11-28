@@ -1,3 +1,3 @@
-ent-RMCSpawnPointCMBRiotInProgressCMBSupportSynth = cmb support synthetic spawn point
+ent-RMCSpawnPointCMBRiotInProgressCMBSupportSynth = точка появления синтетика поддержки БКМ
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, fiorina riot
+    .suffix = Спец. выживший, Бунт на Фиорине

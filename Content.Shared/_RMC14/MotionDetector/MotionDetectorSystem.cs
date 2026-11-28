@@ -1,8 +1,10 @@
-﻿using Content.Shared._RMC14.Inventory;
+﻿using Content.Shared._RMC14.Armor.Magnetic;
+using Content.Shared._RMC14.Inventory;
 using Content.Shared._RMC14.Weapons.Ranged.Battery;
 using Content.Shared._RMC14.Xenonids.Devour;
 using Content.Shared._RMC14.Xenonids.Parasite;
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
+using Content.Shared._Stories.Xenonids.Predalien.PredalienRoar;
 using Content.Shared.Actions;
 using Content.Shared.Coordinates;
 using Content.Shared.Examine;
@@ -54,6 +56,7 @@ public sealed class MotionDetectorSystem : EntitySystem
         _storageQuery = GetEntityQuery<StorageComponent>();
 
         SubscribeLocalEvent<XenoParasiteInfectEvent>(OnXenoInfect);
+        SubscribeLocalEvent<STPredalienRevealEvent>(OnPredalienReveal); // Stories-Abomination
         SubscribeLocalEvent<MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<XenoDevouredEvent>(OnMotionDetectorDevoured);
 
@@ -77,6 +80,13 @@ public sealed class MotionDetectorSystem : EntitySystem
     {
         DisableDetectorsOnMob(ev.Target);
     }
+
+    // Stories-Abomination-Start
+    private void OnPredalienReveal(STPredalienRevealEvent ev)
+    {
+        DisableDetectorsOnMob(ev.Target);
+    }
+    // Stories-Abomination-End
 
     private void OnMobStateChanged(MobStateChangedEvent ev)
     {
@@ -152,6 +162,9 @@ public sealed class MotionDetectorSystem : EntitySystem
     private void OnMotionDetectorDropped<T>(Entity<MotionDetectorComponent> ent, ref T args)
     {
         if (!ent.Comp.DeactivateOnDrop)
+            return;
+
+        if (HasComp<RMCSlingPouchItemComponent>(ent))
             return;
 
         ent.Comp.Enabled = false;

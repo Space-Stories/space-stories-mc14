@@ -3,4 +3,4 @@ ent-RMCColMarTechSurplusFORECONPVE = { ent-ColMarTechSurplus }
     .suffix = PVE, ФОРКОН
 ent-RMCColMarTechUtilitiesFORECONPVE = { ent-ColMarTechUtilities }
     .desc = { ent-ColMarTechUtilities.desc }
-    .suffix = PVE, FORECON
+    .suffix = PVE, ФОРКОН

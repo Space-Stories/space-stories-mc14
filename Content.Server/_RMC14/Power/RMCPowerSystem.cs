@@ -7,9 +7,12 @@ using Content.Server.Popups;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
 using Content.Server.PowerCell;
+using Content.Server.Wires;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Power;
+using Content.Shared.Damage;
 using Content.Shared.Examine;
 using Content.Shared.Database;
 using Content.Shared.Interaction;
@@ -17,6 +20,7 @@ using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.PowerCell;
 using Content.Shared.SMES;
+using Content.Shared.Stunnable;
 using Content.Shared.Wires;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -32,7 +36,7 @@ using System.Linq;
 
 namespace Content.Server._RMC14.Power;
 
-public sealed class RMCPowerSystem : SharedRMCPowerSystem
+public sealed partial class RMCPowerSystem : SharedRMCPowerSystem
 {
     // CM13 power runs every two seconds and converts a power tick to cell charge with CELLRATE 0.006.
     // RMC power is delta-time based, so APCs convert their cells' legacy charge units at this boundary.
@@ -53,20 +57,25 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
     private static readonly SoundSpecifier RestoreAnnouncementSound =
         new SoundPathSpecifier("/Audio/_RMC14/Announcements/ARES/ares_online.ogg");
 
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly IAdminLogManager _adminLog = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly AreaSystem _area = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly BatterySystem _battery = default!;
     [Dependency] private readonly PowerCellSystem _cell = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly ElectrocutionSystem _electrocution = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedStunSystem _stun = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
+    [Dependency] private readonly WiresSystem _wires = default!;
 
     private readonly Dictionary<RMCPowerNetworkKey, EntityUid> _networkEntities = new();
     private readonly Dictionary<RMCPowerNetworkKey, RMCPowerNetworkStats> _networkStats = new();
@@ -388,7 +397,7 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
             SetAllApcChannels((uid, apc), false);
             if (TryGetApcCell((uid, apc)) is { } cell)
                 _battery.SetCharge(cell, 0, cell.Comp);
-            Dirty(uid, apc);
+            UpdateApcAppearance((uid, apc));
             changed = true;
         }
 
@@ -442,7 +451,7 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
                 apc.Channels[i].Button = RMCApcButtonState.Auto;
             if (TryGetApcCell((uid, apc)) is { } cell)
                 _battery.SetCharge(cell, cell.Comp.MaxCharge, cell.Comp);
-            Dirty(uid, apc);
+            UpdateApcAppearance((uid, apc));
             changed = true;
         }
 
@@ -663,6 +672,13 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
         _trackedStorages.RemoveWhere(uid => TerminatingOrDeleted(uid) || !_storageQuery.HasComp(uid));
     }
 
+    private bool CanSimulatePower(EntityUid uid)
+    {
+        return TryComp<MetaDataComponent>(uid, out var metadata) &&
+               metadata.EntityLifeStage == EntityLifeStage.MapInitialized &&
+               !metadata.EntityPaused;
+    }
+
     private void UpdateMonitors(Dictionary<RMCPowerNetworkKey, Network> networks)
     {
         foreach (var uid in _trackedMonitors.Order())
@@ -722,7 +738,8 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
     {
         foreach (var uid in _trackedSources.Order())
         {
-            if (!_sourceQuery.TryComp(uid, out var source) || !_fusionReactorQuery.TryComp(uid, out var reactor))
+            if (!CanSimulatePower(uid) ||
+                !_sourceQuery.TryComp(uid, out var source) || !_fusionReactorQuery.TryComp(uid, out var reactor))
                 continue;
 
             var previousOutput = reactor.CurrentOutput;
@@ -863,7 +880,7 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
 
         foreach (var uid in _trackedSources.Order())
         {
-            if (!_sourceQuery.TryComp(uid, out var source))
+            if (!CanSimulatePower(uid) || !_sourceQuery.TryComp(uid, out var source))
                 continue;
 
             source.CurrentPower = 0;
@@ -890,7 +907,8 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
 
         foreach (var uid in _trackedStorages.Order())
         {
-            if (!_storageQuery.TryComp(uid, out var storage) ||
+            if (!CanSimulatePower(uid) ||
+                !_storageQuery.TryComp(uid, out var storage) ||
                 !_batteryQuery.TryComp(uid, out var battery))
             {
                 continue;
@@ -915,7 +933,8 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
 
         foreach (var uid in _trackedApcs.Order())
         {
-            if (!_apcQuery.TryComp(uid, out var apc) ||
+            if (!CanSimulatePower(uid) ||
+                !_apcQuery.TryComp(uid, out var apc) ||
                 !_areaPowerQuery.TryComp(apc.Area, out var area) ||
                 !TryGetPowerNetwork(uid, out var key))
             {
@@ -1266,8 +1285,9 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
 
     private void FinishApcVisuals(Apc apc)
     {
+        UpdateApcAppearance((apc.Uid, apc.Component));
         _appearance.SetData(apc.Uid, RMCApcVisualsLayers.Power, apc.Component.ChargeStatus);
-        _light.SetEnabled(apc.Uid, CanApcOperate(apc.Uid, apc.Component));
+        _light.SetEnabled(apc.Uid, apc.Component.State is RMCApcState.Working or RMCApcState.WorkingBreakerOff);
         _light.SetColor(apc.Uid,
             apc.Component.ChargeStatus switch
             {
@@ -1438,7 +1458,7 @@ public sealed class RMCPowerSystem : SharedRMCPowerSystem
     {
         foreach (var uid in _trackedSources.Order())
         {
-            if (TerminatingOrDeleted(uid) ||
+            if (!CanSimulatePower(uid) ||
                 !_fusionReactorQuery.TryComp(uid, out var reactor) ||
                 !TryComp(uid, out TransformComponent? xform))
             {

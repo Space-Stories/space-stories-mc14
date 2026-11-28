@@ -15,6 +15,7 @@
   - type: SolutionTransfer
     canChangeTransferAmount: true
   - type: Drink
+  - type: BlockContainedInteraction
   - type: Sprite
     state: icon
   - type: MeleeWeapon

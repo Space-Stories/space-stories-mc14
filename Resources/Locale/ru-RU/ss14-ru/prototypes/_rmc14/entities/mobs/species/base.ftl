@@ -1,4 +1,4 @@
-ent-RMCBaseMobSpeciesOrganic = Urist C.M. McHands
+ent-RMCBaseMobSpeciesOrganic = Урист К.М. МакЧеловек
     .desc = { ent-BaseMobSpecies.desc }
     .suffix = RMC14
 ent-CMBaseMobSpeciesOrganic = Урист К.М. МакЧеловек

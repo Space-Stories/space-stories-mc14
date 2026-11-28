@@ -1,3 +1,3 @@
-ent-CMSpawnPointSPPSOFSynth = special survivor spp sof synth spawn point
+ent-CMSpawnPointSPPSOFSynth = точка появления спец. выжившего синтетика ССО СПН
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

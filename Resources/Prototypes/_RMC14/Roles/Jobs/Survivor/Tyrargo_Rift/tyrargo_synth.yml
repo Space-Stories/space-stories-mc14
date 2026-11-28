@@ -18,7 +18,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon
@@ -32,6 +32,11 @@
         - RMCSquadUNMC
     - type: JobPrefix
       prefix: rmc-job-prefix-synth
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   hidden: true
 

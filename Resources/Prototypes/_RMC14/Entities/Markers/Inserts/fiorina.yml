@@ -190,19 +190,24 @@
     - spawn: "/Maps/_RMC14/Inserts/Fiorina/surv_spawn_lowsec.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ rocinante_clf ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Fiorina/surv_spawn_research.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ rocinante_clf ] # Stories-CLFSurvivor
       offset: 18,43
     - spawn: "/Maps/_RMC14/Inserts/Fiorina/surv_spawn_garden.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ rocinante_clf ] # Stories-CLFSurvivor
       offset: 6,23
     - spawn: "/Maps/_RMC14/Inserts/Fiorina/surv_spawn_engi_ring.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ rocinante_clf ] # Stories-CLFSurvivor
       offset: 16,-28
     - spawn: "/Maps/_RMC14/Inserts/Fiorina/surv_spawn_bobda.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ rocinante_clf ] # Stories-CLFSurvivor
       offset: -42,-36

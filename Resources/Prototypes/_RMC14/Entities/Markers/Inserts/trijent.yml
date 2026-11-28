@@ -218,26 +218,26 @@
 - type: entity
   parent: RMCMapInsertTrijentBaseScenario
   id: RMCMapInsertTrijentCrashlandingSPPBar
-  name: Crashlanding SPP Bar
+  name: Crashlanding SPP Spetsnaz Bar
   components:
   - type: MapInsert
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Trijent/crashlanding-spp-bar.yml"
       probability: 1
       offset: 0,-2.0
-      nightmareScenario: spp_bar
+      nightmareScenario: spp_spetsnaz_trijent
 
 - type: entity
   parent: RMCMapInsertTrijentBaseScenario
   id: RMCMapInsertTrijentCrashlandingSPPAlt
-  name: Crashlanding SPP Alt
+  name: Crashlanding SPP Spetsnaz Alt
   components:
   - type: MapInsert
     variations:
     - spawn: "/Maps/_RMC14/Inserts/Trijent/crashlanding-spp-alt.yml"
       probability: 1
       offset: 0,-2
-      nightmareScenario: spp_bar
+      nightmareScenario: spp_spetsnaz_trijent
 
 # CLF Pods
 - type: entity
@@ -264,15 +264,19 @@
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_bar.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_dam.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 61,59
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_hospital.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 69,-3
     - spawn: "/Maps/_RMC14/Inserts/Trijent/surv_spawn_tunneldorm.yml"
       probability: 0.25
       nightmareScenario: none
+      additionalNightmareScenarios: [ clf_pods ] # Stories-CLFSurvivor
       offset: 14,29

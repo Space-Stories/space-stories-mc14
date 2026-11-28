@@ -20,43 +20,26 @@
   - ShipMasterAccess
   - Synth
   roleWeight: 0.25
+  setVariantPreference: true # Stories-SynthGenerationVariant
+  variants: # Stories-SynthGenerationVariant-Start
+    Two: st-job-variant-synth-generation-two
+    Three: st-job-variant-synth-generation-three
+  # Stories-SynthGenerationVariant-End
+  hideVariantPreferenceInJobList: true # Stories-SynthProfileTab
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      spokenLanguages:
-      - English
-      - French
-      - Japanese
-      - Russian
-      - Scandinavian
-      - German
-      - Chinese
-      - Spanish
-      understoodLanguages:
-      - English
-      - French
-      - Japanese
-      - Russian
-      - Scandinavian
-      - German
-      - Chinese
-      - Spanish
-      currentLanguage: English
-      defaultLanguage: English
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
-      learnableLanguages:
-      - Xeno
-      firstContactLanguages:
-      - Xeno
-      comprehensionThreshold: 0.8
-      learningRange: 8.0
-      baseWordLearningRate: 0.05
+      preset: RMCLanguageLearningPresetSynth
     - type: CMVendorUser
       id: RMCJobSynthetic
       points: 45
-      extraPoints:
-        ExperimentalTools: 30
+      # Stories-SynthExperimentalToken-Start
+      # extraPoints:
+      #   ExperimentalTools: 30
+      # Stories-SynthExperimentalToken-End
     - type: JobPrefix
       prefix: rmc-job-prefix-synth
     - type: TacticalMapIcon
@@ -65,6 +48,16 @@
         state: synth
     - type: Synth
     - type: RMCPointing
+    # Stories-SynthGenerationVariant-Start
+    - type: SynthGeneration
+      availableGenerations:
+      - RMCSynthGenTwo
+      - RMCSynthGenThree
+    - type: STJobVariantGeneration
+      variants:
+        Two: RMCSynthGenTwo
+        Three: RMCSynthGenThree
+    # Stories-SynthGenerationVariant-End
 
 - type: startingGear
   id: RMCGearSyntheticEquipped

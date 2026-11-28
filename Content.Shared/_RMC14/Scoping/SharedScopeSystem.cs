@@ -113,6 +113,9 @@ public abstract partial class SharedScopeSystem : EntitySystem
 
     private void OnGetActions(Entity<ScopeComponent> ent, ref GetItemActionsEvent args)
     {
+        if (ent.Comp.Attachment && !TryGetActiveEntity(ent, out _))
+            return;
+
         if (ent.Comp.ScopingToggleAction != null)
             args.AddAction(ref ent.Comp.ScopingToggleActionEntity, ent.Comp.ScopingToggleAction);
 
@@ -256,7 +259,7 @@ public abstract partial class SharedScopeSystem : EntitySystem
         var ent = scope.Owner;
         if (scope.Comp.Attachment && !TryGetActiveEntity(scope, out ent))
         {
-            var msgError = Loc.GetString("cm-action-popup-scoping-must-attach", ("scope", ent));
+            var msgError = Loc.GetString("cm-action-popup-scoping-must-attach", ("scope", scope.Owner));
             _popup.PopupClient(msgError, user, user);
             return false;
         }

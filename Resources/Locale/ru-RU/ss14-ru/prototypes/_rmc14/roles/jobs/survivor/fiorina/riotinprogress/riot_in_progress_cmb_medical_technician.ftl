@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlMedicalTechnician = cmb riot control medical technician spawn point
+ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlMedicalTechnician = точка появления медика группы по борьбе с беспорядками БКМ
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, fiorina riot
+    .suffix = Спец. выживший, Бунт на Фиорине

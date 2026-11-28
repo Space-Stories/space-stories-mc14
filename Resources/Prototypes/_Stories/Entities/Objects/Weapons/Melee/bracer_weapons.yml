@@ -79,3 +79,32 @@
     attackRate: 1
     soundHit:
       collection: STHunterGauntlets
+
+- type: entity
+  parent: STWeaponBracerBase
+  id: STWeaponBracerShield
+  name: bracer shield
+  description: A shield made of concentric metal alloy plates. The plates fold into one another for compact storage while still providing superior protection.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Melee/BracerAttachment/shield.rsi
+    state: active
+  - type: Item
+    size: Huge
+  - type: Blocking
+    passiveBlockModifier:
+      coefficients:
+        Blunt: 0.3
+        Slash: 0.3
+        Piercing: 0.5
+        Heat: 0.9
+    activeBlockModifier:
+      coefficients:
+          Blunt: 0.2
+          Slash: 0.2
+          Piercing: 0.3
+          Heat: 0.9
+    passiveBlockFraction: 0.20
+    activeBlockFraction: 0.30
+  - type: Damageable
+    damageContainer: Shield

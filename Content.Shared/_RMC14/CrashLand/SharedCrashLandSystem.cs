@@ -5,6 +5,7 @@ using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.ParaDrop;
 using Content.Shared._RMC14.Pulling;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids.Neurotoxin;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Damage;
@@ -23,6 +24,7 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
+using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Prototypes;
@@ -71,6 +73,7 @@ public abstract partial class SharedCrashLandSystem : EntitySystem
 
         SubscribeLocalEvent<CrashLandingComponent, UpdateCanMoveEvent>(OnUpdateCanMove);
         SubscribeLocalEvent<CrashLandingComponent, RMCIgniteAttemptEvent>(OnIgniteAttempt);
+        SubscribeLocalEvent<CrashLandingComponent, CheckMeleeAttackerEvent>(OnReceivingMeleeAttackAttempt);
         SubscribeLocalEvent<CrashLandingComponent, GettingAttackedAttemptEvent>(OnGettingAttacked);
         SubscribeLocalEvent<CrashLandingComponent, AttemptMobCollideEvent>(OnAttemptMobCollide);
         SubscribeLocalEvent<CrashLandingComponent, AttemptMobTargetCollideEvent>(OnAttemptMobTargetCollide);
@@ -147,6 +150,11 @@ public abstract partial class SharedCrashLandSystem : EntitySystem
     private void OnAttemptMobTargetCollide(Entity<CrashLandingComponent> ent, ref AttemptMobTargetCollideEvent args)
     {
         args.Cancelled = true;
+    }
+
+    private void OnReceivingMeleeAttackAttempt(Entity<CrashLandingComponent> ent, ref CheckMeleeAttackerEvent args)
+    {
+        args.Skip = true;
     }
 
     private void OnGettingAttacked(Entity<CrashLandingComponent> ent, ref GettingAttackedAttemptEvent args)
@@ -239,7 +247,7 @@ public abstract partial class SharedCrashLandSystem : EntitySystem
     /// <param name="blocking">Is the thing crashing a grid (evacuation pod/shuttle)?</param>
     /// <param name="location"></param>
     /// <returns>True if a valid location has been found.</returns>
-    public bool TryGetCrashLandLocation(bool blocking, out EntityCoordinates location)
+    public bool TryGetCrashLandLocation(bool blocking, out EntityCoordinates location, int tileRadius = 0) // Stories-VehicleCrashLand
     {
         location = default;
         var distressQuery = EntityQueryEnumerator<RMCPlanetComponent>();
@@ -262,6 +270,11 @@ public abstract partial class SharedCrashLandSystem : EntitySystem
                 if (!IsLandableTile((grid, gridComp), tileRef))
                     continue;
 
+                // Stories-VehicleCrashLand-Start
+                if (tileRadius > 0 && !IsAreaLandable((grid, gridComp), tile, tileRadius))
+                    continue;
+                // Stories-VehicleCrashLand-End
+
                 location = _mapSystem.GridTileToLocal(grid, gridComp, tile);
 
                 if (blocking)
@@ -281,13 +294,60 @@ public abstract partial class SharedCrashLandSystem : EntitySystem
         return false;
     }
 
+    // Stories-VehicleCrashLand-Start
+    private bool IsAreaLandable(Entity<MapGridComponent> grid, Vector2i center, int tileRadius)
+    {
+        for (var dx = -tileRadius; dx <= tileRadius; dx++)
+        {
+            for (var dy = -tileRadius; dy <= tileRadius; dy++)
+            {
+                if (dx == 0 && dy == 0)
+                    continue;
+
+                var checkTile = new Vector2i(center.X + dx, center.Y + dy);
+                if (!_mapSystem.TryGetTileRef(grid, grid.Comp, checkTile, out var neighborTileRef))
+                    return false;
+
+                if (!IsLandableTile(grid, neighborTileRef))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int GetCrashLandTileRadius(EntityUid uid)
+    {
+        if (!TryComp<FixturesComponent>(uid, out var fixtures))
+            return 0;
+
+        var maxExtent = 0f;
+        foreach (var fixture in fixtures.Fixtures.Values)
+        {
+            if (!fixture.Hard)
+                continue;
+
+            var bounds = fixture.Shape.ComputeAABB(Robust.Shared.Physics.Transform.Empty, 0);
+            maxExtent = MathF.Max(maxExtent, MathF.Abs(bounds.Left));
+            maxExtent = MathF.Max(maxExtent, MathF.Abs(bounds.Right));
+            maxExtent = MathF.Max(maxExtent, MathF.Abs(bounds.Bottom));
+            maxExtent = MathF.Max(maxExtent, MathF.Abs(bounds.Top));
+        }
+
+        return Math.Max(0, (int) MathF.Ceiling(maxExtent - 0.5f));
+    }
+    // Stories-VehicleCrashLand-End
+
     public void TryCrashLand(Entity<CrashLandableComponent?> crashLandable, bool doDamage)
     {
         if (_net.IsClient)
             return;
 
-        if (!TryGetCrashLandLocation(false, out var location))
+        // Stories-VehicleCrashLand-Start
+        var tileRadius = GetCrashLandTileRadius(crashLandable.Owner);
+        if (!TryGetCrashLandLocation(false, out var location, tileRadius))
             return;
+        // Stories-VehicleCrashLand-End
 
         TryCrashLand(crashLandable.Owner, doDamage, location);
     }

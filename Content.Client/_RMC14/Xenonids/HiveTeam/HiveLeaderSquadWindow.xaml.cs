@@ -47,7 +47,7 @@ public sealed partial class HiveLeaderSquadWindow : DefaultWindow
     }
 
     public void UpdateState(
-        HiveTeamEntry entry,
+        HiveTeamEntryState entry,
         int teamIndex,
         string roleName,
         List<(NetEntity Entity, string Name, EntProtoId? ProtoId)> allXenos,
@@ -65,9 +65,12 @@ public sealed partial class HiveLeaderSquadWindow : DefaultWindow
         AnnounceBox.PlaceHolder = $"Announce to {roleName}...";
 
         LeaderSlot.DisposeAllChildren();
-        if (entry.Leader is { } leaderNet)
+        // Stories-HiveTeamLeaderCheck-Start
+        if (entry.Leader is { } leaderNet &&
+            allXenos.Find(x => x.Entity == leaderNet) is { } leaderXeno &&
+            leaderXeno.Entity != NetEntity.Invalid)
         {
-            var leaderXeno = allXenos.Find(x => x.Entity == leaderNet);
+        // Stories-HiveTeamLeaderCheck-End
             var leaderControl = new XenoChoiceControl();
             leaderControl.Set(leaderXeno.Name, getTexture(leaderXeno.ProtoId));
             leaderControl.HorizontalExpand = true;

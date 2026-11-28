@@ -47,10 +47,17 @@ public sealed class MarinePresenceAnnounceSystem : EntitySystem
         }
 
         var rankName = _rank.GetSpeakerRankName(mob) ?? Name(mob);
-        var message = Loc.GetString("rmc-latejoin-arrival-announcement",
+        var message = Loc.GetString(jobPrototype.LateJoinAnnouncement ?? "rmc-latejoin-arrival-announcement", // Stories-LateJoinAnnounce
             ("character", rankName),
             ("entity", mob),
             ("job", titleJobName));
+
+        // Stories-LateJoinAnnounce-Start
+        foreach (var channel in jobPrototype.LateJoinChannels)
+        {
+            _marineAnnounce.AnnounceRadio(ares, message, channel, playTTS: false);
+        }
+        // Stories-LateJoinAnnounce-End
 
         AnnounceToJobChannels(ares, mob, jobId, message);
     }

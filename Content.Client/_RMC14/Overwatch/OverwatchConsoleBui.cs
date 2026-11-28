@@ -4,8 +4,10 @@ using Content.Client._Stories.Chat;
 using Content.Client.Message;
 using Content.Shared._RMC14.Marines.Squads;
 using Content.Shared._RMC14.Maths;
+using Content.Shared._RMC14.MilitaryPolice;
 using Content.Shared._RMC14.Overwatch;
 using Content.Shared._RMC14.SupplyDrop;
+using Content.Shared._Stories.ZLevels.Planet; // Stories-ZLevels
 using Content.Shared.Mobs;
 using Content.Shared.Roles;
 using JetBrains.Annotations;
@@ -147,7 +149,7 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                         return int.MaxValue;
 
                     if (squad.Leader == marine.Id)
-                        return 1000;
+                        return int.MinValue; // Stories-OverwatchLeaderSorting
 
                     if (marine.Role is not { } role)
                         return 0;
@@ -219,12 +221,17 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                 {
                     monitor.Longitude.Value = supplyDrop.Coordinates.X;
                     monitor.Latitude.Value = supplyDrop.Coordinates.Y;
+                    monitor.ZLevel.OverrideValue(supplyDrop.TargetZ); // Stories-ZLevels
                 }
 
                 monitor.Longitude.OnValueChanged +=
                     args => SendPredictedMessage(new OverwatchConsoleSupplyDropLongitudeBuiMsg((int)args.Value));
                 monitor.Latitude.OnValueChanged +=
                     args => SendPredictedMessage(new OverwatchConsoleSupplyDropLatitudeBuiMsg((int)args.Value));
+                // Stories-ZLevels-Start
+                monitor.ZLevel.ValueChanged +=
+                    args => SendPredictedMessage(new OverwatchSupplyDropZLevelBuiMsg(args.Value));
+                // Stories-ZLevels-End
                 monitor.LaunchButton.OnPressed +=
                     _ => SendPredictedMessage(new OverwatchConsoleSupplyDropLaunchBuiMsg());
                 monitor.SaveButton.OnPressed +=
@@ -232,16 +239,24 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                     {
                         var longitude = (int)monitor.Longitude.Value;
                         var latitude = (int)monitor.Latitude.Value;
-                        var msg = new OverwatchConsoleSupplyDropSaveBuiMsg(longitude, latitude);
+                        // Stories-ZLevels-Start
+                        var msg = new OverwatchConsoleSupplyDropSaveBuiMsg(
+                            longitude, latitude, monitor.ZLevel.Value);
+                        // Stories-ZLevels-End
                         SendMessage(msg);
                     };
 
                 monitor.OrbitalLongitude.Value = console.OrbitalCoordinates.X;
                 monitor.OrbitalLatitude.Value = console.OrbitalCoordinates.Y;
+                monitor.OrbitalZLevel.OverrideValue(console.OrbitalZ); // Stories-ZLevels
                 monitor.OrbitalLongitude.OnValueChanged +=
                     args => SendPredictedMessage(new OverwatchConsoleOrbitalLongitudeBuiMsg((int)args.Value));
                 monitor.OrbitalLatitude.OnValueChanged +=
                     args => SendPredictedMessage(new OverwatchConsoleOrbitalLatitudeBuiMsg((int)args.Value));
+                // Stories-ZLevels-Start
+                monitor.OrbitalZLevel.ValueChanged +=
+                    args => SendPredictedMessage(new OverwatchOrbitalZLevelBuiMsg(args.Value));
+                // Stories-ZLevels-End
                 monitor.OrbitalFireButton.OnPressed +=
                     _ => SendPredictedMessage(new OverwatchConsoleOrbitalLaunchBuiMsg());
                 monitor.OrbitalSaveButton.OnPressed +=
@@ -249,7 +264,10 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                     {
                         var longitude = (int)monitor.OrbitalLongitude.Value;
                         var latitude = (int)monitor.OrbitalLatitude.Value;
-                        var msg = new OverwatchConsoleOrbitalSaveBuiMsg(longitude, latitude);
+                        // Stories-ZLevels-Start
+                        var msg = new OverwatchConsoleOrbitalSaveBuiMsg(
+                            longitude, latitude, monitor.OrbitalZLevel.Value);
+                        // Stories-ZLevels-End
                         SendMessage(msg);
                     };
 
@@ -543,6 +561,25 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                     promote.AddChild(promoteButton);
                     buttonsContainer.AddChild(promote);
 
+                    if (!entry.IsCamera)
+                    {
+                        var insubordination = new Button
+                        {
+                            Text = "!",
+                            MaxWidth = 25,
+                            MaxHeight = 25,
+                            VerticalAlignment = VAlignment.Top,
+                            StyleClasses = { "OpenBoth" },
+                            ToolTip = Loc.GetString("rmc-police-mark-insubordination"),
+                            Margin = margin,
+                        };
+                        insubordination.OnPressed += _ =>
+                            SendMessage(new RMCOverwatchInsubordinationMsg(id));
+                        var insubordinationPanel = CreatePanel(50);
+                        insubordinationPanel.AddChild(insubordination);
+                        buttonsContainer.AddChild(insubordinationPanel);
+                    }
+
                     monitor.Buttons.AddChild(buttonsContainer);
 
                     row = new OverwatchRow(
@@ -568,6 +605,18 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                         row.Buttons.Container.SetPositionInParent(position);
                     }
                 }
+
+                // Stories-OverwatchLeaderSorting-Start
+                if (squad.Leader == id)
+                {
+                    row.Name.Panel.SetPositionFirst();
+                    row.Role.Panel.SetPositionFirst();
+                    row.State.Panel.SetPositionFirst();
+                    row.Location.Panel.SetPositionFirst();
+                    row.Distance.Panel.SetPositionFirst();
+                    row.Buttons.Container.SetPositionFirst();
+                }
+                // Stories-OverwatchLeaderSorting-End
 
                 var hasCamera = entry.IsCamera ||
                                 entry.Marine is { Camera: var cameraId } && cameraId != default;
@@ -902,15 +951,18 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                 margin,
                 squad.Longitudes,
                 squad.Latitudes,
+                squad.ZLevels, // Stories-ZLevels
                 squad.Comments,
                 squad.Loads,
                 location =>
                 {
                     squad.Longitude.Value = location.Longitude;
                     squad.Latitude.Value = location.Latitude;
+                    squad.ZLevel.OverrideValue(location.Z); // Stories-ZLevels
 
                     SendPredictedMessage(new OverwatchConsoleSupplyDropLongitudeBuiMsg(location.Longitude));
                     SendPredictedMessage(new OverwatchConsoleSupplyDropLatitudeBuiMsg(location.Latitude));
+                    SendPredictedMessage(new OverwatchSupplyDropZLevelBuiMsg(location.Z)); // Stories-ZLevels
                 },
                 (index, comment) =>
                     SendPredictedMessage(new OverwatchConsoleSupplyDropCommentBuiMsg(index, comment))
@@ -921,15 +973,18 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                 margin,
                 squad.OrbitalLongitudes,
                 squad.OrbitalLatitudes,
+                squad.OrbitalZLevels, // Stories-ZLevels
                 squad.OrbitalComments,
                 squad.OrbitalLoads,
                 location =>
                 {
                     squad.OrbitalLongitude.Value = location.Longitude;
                     squad.OrbitalLatitude.Value = location.Latitude;
+                    squad.OrbitalZLevel.OverrideValue(location.Z); // Stories-ZLevels
 
                     SendPredictedMessage(new OverwatchConsoleOrbitalLongitudeBuiMsg(location.Longitude));
                     SendPredictedMessage(new OverwatchConsoleOrbitalLatitudeBuiMsg(location.Latitude));
+                    SendPredictedMessage(new OverwatchOrbitalZLevelBuiMsg(location.Z)); // Stories-ZLevels
                 },
                 (index, comment) =>
                     SendPredictedMessage(new OverwatchConsoleOrbitalCommentBuiMsg(index, comment))
@@ -946,6 +1001,7 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
         Thickness margin,
         BoxContainer longitudes,
         BoxContainer latitudes,
+        BoxContainer zLevels, // Stories-ZLevels
         BoxContainer comments,
         BoxContainer loads,
         Action<OverwatchSavedLocation> onSelect,
@@ -954,12 +1010,13 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
         if (!_savedLocationTables.TryGetValue(comments, out var table) ||
             !SavedLocationCoordinatesMatch(table.Locations, locations))
         {
-            ResetSavedLocationColumns(longitudes, latitudes, comments, loads, margin);
+            ResetSavedLocationColumns(longitudes, latitudes, zLevels, comments, loads, margin); // Stories-ZLevels
             var commentEdits = PopulateSavedLocationRows(
                 locations,
                 margin,
                 longitudes,
                 latitudes,
+                zLevels, // Stories-ZLevels
                 comments,
                 loads,
                 onSelect,
@@ -1004,7 +1061,9 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
 
             if (current[i] is not { } currentLocation ||
                 previousLocation.Longitude != currentLocation.Longitude ||
-                previousLocation.Latitude != currentLocation.Latitude)
+                // Stories-ZLevels-Start
+                previousLocation.Latitude != currentLocation.Latitude || previousLocation.Z != currentLocation.Z)
+                // Stories-ZLevels-End
             {
                 return false;
             }
@@ -1016,6 +1075,7 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
     private void ResetSavedLocationColumns(
         BoxContainer longitudes,
         BoxContainer latitudes,
+        BoxContainer zLevels, // Stories-ZLevels
         BoxContainer comments,
         BoxContainer loads,
         Thickness margin)
@@ -1038,6 +1098,17 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
             Margin = margin,
         });
         latitudes.AddChild(panel);
+
+        // Stories-ZLevels-Start
+        zLevels.DisposeAllChildren();
+        panel = CreatePanel(SavedLocationRowHeight);
+        panel.AddChild(new Label
+        {
+            Text = Loc.GetString("stories-targeting-z-short"),
+            Margin = margin,
+        });
+        zLevels.AddChild(panel);
+        // Stories-ZLevels-End
 
         comments.DisposeAllChildren();
         panel = CreatePanel(SavedLocationRowHeight);
@@ -1064,6 +1135,7 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
         Thickness margin,
         BoxContainer longitudes,
         BoxContainer latitudes,
+        BoxContainer zLevels, // Stories-ZLevels
         BoxContainer comments,
         BoxContainer loads,
         Action<OverwatchSavedLocation> onSelect,
@@ -1090,6 +1162,12 @@ public sealed class OverwatchConsoleBui : RMCPopOutBui<OverwatchConsoleWindow>
                 Margin = margin,
             });
             latitudes.AddChild(panel);
+
+            // Stories-ZLevels-Start
+            panel = CreatePanel(SavedLocationRowHeight);
+            panel.AddChild(new Label { Text = $"{location.Z}", Margin = margin });
+            zLevels.AddChild(panel);
+            // Stories-ZLevels-End
 
             var index = i;
             var comment = new LineEdit

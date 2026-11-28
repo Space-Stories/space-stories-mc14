@@ -14,7 +14,7 @@ public sealed partial class VehicleRideSurfaceSystem
         if (args.Cancelled ||
             !HasComp<ProjectileComponent>(args.OtherEntity) ||
             !TryComp(args.OtherEntity, out TargetedProjectileComponent? targeted) ||
-            !TryComp(targeted.Target, out VehicleRideSurfaceRiderComponent? rider) ||
+            !TryComp(GetEntity(targeted.Target), out VehicleRideSurfaceRiderComponent? rider) || // Stories-DeletedEntityReferences
             rider.Vehicle != ent.Owner)
         {
             return;

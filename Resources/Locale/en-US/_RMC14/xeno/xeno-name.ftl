@@ -1,4 +1,4 @@
-﻿rmc-xeno-name-number = {$baseName} ({$prefix}-{$number}{$postfix})
+rmc-xeno-name-number = {$baseName} ({$prefix}-{$number}{$postfix})
 rmc-xeno-name-leader = Leader
 
 rmc-xeno-name = {$baseName} ({$prefix}{$postfix})
@@ -8,6 +8,9 @@ rmc-xeno-elder = Elder {$baseName}
 rmc-xeno-ancient = Ancient {$baseName}
 rmc-xeno-prime = Prime {$baseName}
 rmc-xeno-apex = Apex {$baseName}
+rmc-xeno-perfected = Apex {$baseName}
+rmc-xeno-progenitor = Apex {$baseName}
+rmc-xeno-firstborn = Apex {$baseName}
 
 rmc-xeno-mature-parasite = Fledgling {$baseName}
 rmc-xeno-elder-parasite = Veteran {$baseName}
@@ -17,7 +20,8 @@ rmc-xeno-prime-parasite = Merciless {$baseName}
 # Only 1 because getting king multiple times will be rare
 rmc-xeno-mature-king = Ruthless {$baseName}
 
-# Only 3 because it's a larva
 rmc-xeno-young-larva = Little {$baseName}
 rmc-xeno-mature-larva = Mature {$baseName}
-rmc-xeno-elder-larva = Big {$baseName}
+rmc-xeno-elder-larva = Long {$baseName}
+rmc-xeno-ancient-larva = Big {$baseName}
+rmc-xeno-prime-larva = Fat {$baseName}

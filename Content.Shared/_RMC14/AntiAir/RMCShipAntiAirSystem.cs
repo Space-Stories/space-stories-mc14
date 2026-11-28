@@ -4,6 +4,7 @@ using Content.Shared._RMC14.ARES.Logs;
 using Content.Shared._RMC14.CameraShake;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Marines.Announce;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Popups;
@@ -22,15 +23,16 @@ namespace Content.Shared._RMC14.AntiAir;
 
 public sealed class RMCShipAntiAirSystem : EntitySystem
 {
-    [Dependency] private readonly ARESCoreSystem _core = default!;
-    [Dependency] private readonly RMCCameraShakeSystem _cameraShake = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly RMCCameraShakeSystem _cameraShake = default!;
+    [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
+    [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
@@ -40,6 +42,7 @@ public sealed class RMCShipAntiAirSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<RMCShipAntiAirComponent, BoundUIOpenedEvent>(OnBuiOpened);
+        SubscribeLocalEvent<RMCShipAntiAirComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         SubscribeLocalEvent<RMCGetHijackDestinationEvent>(OnGetHijackDestination);
         SubscribeLocalEvent<RMCDropshipHijackAntiAirResolvedEvent>(OnDropshipHijackAntiAirResolved);
@@ -49,6 +52,12 @@ public sealed class RMCShipAntiAirSystem : EntitySystem
             subs.Event<RMCShipAntiAirSetZoneBuiMsg>(OnSetZoneBui);
             subs.Event<RMCShipAntiAirClearZoneBuiMsg>(OnClearZoneBui);
         });
+    }
+
+    private void OnUIMessageAttempt(Entity<RMCShipAntiAirComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is RMCShipAntiAirUiKey.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnBuiOpened(Entity<RMCShipAntiAirComponent> ent, ref BoundUIOpenedEvent args)

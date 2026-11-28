@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNWS = cbrn ghost role weapons specialist
+ent-RMCRandomHumanoidCBRNWS = роль призрака специалиста по вооружению РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

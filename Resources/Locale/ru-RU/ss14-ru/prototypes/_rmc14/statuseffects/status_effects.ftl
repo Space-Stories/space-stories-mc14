@@ -1,2 +1,2 @@
-ent-Dazed = Dazed
+ent-Dazed = Ошеломлён
     .desc = { ent-MobStatusEffectBase.desc }

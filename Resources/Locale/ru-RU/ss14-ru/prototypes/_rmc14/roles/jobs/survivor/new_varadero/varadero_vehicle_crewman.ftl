@@ -1,2 +1,2 @@
-ent-RMCSurvivorPresetUNMCVehicleCrewman = varadero vehicle crewman preset
+ent-RMCSurvivorPresetUNMCVehicleCrewman = пресет члена экипажа техники Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

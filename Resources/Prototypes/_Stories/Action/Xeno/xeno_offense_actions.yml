@@ -11,8 +11,7 @@
       state: punch
     useDelay: 4
   - type: TargetAction
-    range: 2
-    deselectOnMiss: false
+    range: 1.5
   - type: EntityTargetAction
     event: !type:BoxerPunchActionEvent
   - type: ActionBlockIfResting
@@ -21,7 +20,7 @@
   parent: ActionXenoBase
   id: STActionXenoBoxerJab
   name: Jab
-  description: Jab is a ranged ability that applies a daze and slow to the target you hit, as well as building your KO Counter and has a 3-tile range. Cooldown is reset when landing a Punch. Cooldown 4 seconds.
+  description: Jab is a melee ability that applies a daze and slow to the target you hit, as well as building your KO Counter. Cooldown is reset when landing a Punch. Cooldown 4 seconds.
   components:
   - type: Action
     itemIconStyle: NoItem
@@ -30,8 +29,7 @@
       state: charge
     useDelay: 4
   - type: TargetAction
-    range: 3
-    deselectOnMiss: false
+    range: 1.5
   - type: EntityTargetAction
     event: !type:BoxerJabActionEvent
   - type: ActionBlockIfResting
@@ -49,7 +47,7 @@
       state: rav_clothesline
     useDelay: 15
   - type: TargetAction
-    range: 2
+    range: 1.5
     deselectOnMiss: false
   - type: EntityTargetAction
     event: !type:BoxerUppercutActionEvent

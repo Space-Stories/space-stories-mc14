@@ -67,6 +67,7 @@ public sealed partial class RMCERTSystem
         error = string.Empty;
         // Required slots are guaranteed first, then optional slots fill out the SS13 mob_max equivalent.
         var roles = call.Roles
+            .Where(r => r.AllowedSources == null || r.AllowedSources.Contains(request.Source))
             .OrderByDescending(r => r.Leader)
             .ThenByDescending(r => r.Priority)
             .ToList();
@@ -379,6 +380,8 @@ public sealed partial class RMCERTSystem
                 reregisterOnGhost: false);
         }
 
+        ApplyResponderAccess(spawned, call);
+
         ghostRole.MindRoles.Clear();
 
         var member = EnsureComp<RMCERTMemberComponent>(spawned);
@@ -389,6 +392,14 @@ public sealed partial class RMCERTSystem
         Dirty(spawned, member);
 
         return spawned;
+    }
+
+    private void ApplyResponderAccess(EntityUid responder, RMCERTCallPrototype call)
+    {
+        if (call.AccessGroups.Count == 0 || !_idCards.TryFindIdCard(responder, out var card))
+            return;
+
+        _idAccess.TryAddGroups(card, call.AccessGroups);
     }
 
     private bool TryAssignSeat(EntityUid member, EntityUid? shuttle, RMCERTRosterSlot slot, bool reservedOnly)

@@ -145,13 +145,28 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!_prototypeManager.TryIndex<JobPrototype>(jobId, out var jobPrototype))
             throw new ArgumentException($"Invalid job prototype ID: {jobId}");
 
-        // when adding a record that already exists use the old one
-        // this happens when respawning as the same character
-        if (GetRecordByName(station, name, records) is {} id)
+        // RMC14 start - biometric records identify a person, not everyone with the same name.
+        uint? existingId = null;
+        if (!jobPrototype.IsCM || string.IsNullOrEmpty(mobFingerprint))
+            existingId = GetRecordByName(station, name, records);
+        else
+        {
+            foreach (var (recordId, existing) in GetRecordsOfType<GeneralStationRecord>(station, records))
+            {
+                if (existing.Fingerprint == mobFingerprint &&
+                    (string.IsNullOrEmpty(existing.DNA) || existing.DNA == dna))
+                {
+                    existingId = recordId;
+                    break;
+                }
+            }
+        }
+        if (existingId is { } id)
         {
             SetIdKey(idUid, new StationRecordKey(id, station));
             return;
         }
+        // RMC14 end
 
         var record = new GeneralStationRecord()
         {

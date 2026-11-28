@@ -1,6 +1,8 @@
 using System.Linq;
 using Content.Server._RMC14.Ghost.Roles;
 using Content.Server.Administration.Logs;
+using Content.Server.Chat.Managers; // Stories-GhostRoleWhitelist
+using Content.Server.Players.JobWhitelist; // Stories-GhostRoleWhitelist
 using Content.Server.EUI;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Ghost.Roles.Events;
@@ -41,7 +43,9 @@ namespace Content.Server.Ghost.Roles;
 public sealed class GhostRoleSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IChatManager _chat = default!; // Stories-GhostRoleWhitelist
     [Dependency] private readonly EuiManager _euiManager = default!;
+    [Dependency] private readonly JobWhitelistManager _jobWhitelist = default!; // Stories-GhostRoleWhitelist
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IAdminLogManager _adminLogger = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -489,6 +493,14 @@ public sealed class GhostRoleSystem : EntitySystem
         if (!_ghostRoles.TryGetValue(identifier, out var roleEnt))
             return;
 
+        // Stories-GhostRoleWhitelist-Start
+        if (roleEnt.Comp.JobProto is { } job && !_jobWhitelist.IsAllowed(player, job))
+        {
+            _chat.DispatchServerMessage(player, Loc.GetString("role-not-whitelisted"));
+            return;
+        }
+        // Stories-GhostRoleWhitelist-End
+
         if (roleEnt.Comp.RaffleConfig is not null)
         {
             JoinRaffle(player, identifier);
@@ -507,6 +519,14 @@ public sealed class GhostRoleSystem : EntitySystem
     {
         if (!_ghostRoles.TryGetValue(identifier, out var role))
             return false;
+
+        // Stories-GhostRoleWhitelist-Start
+        if (role.Comp.JobProto is { } job && !_jobWhitelist.IsAllowed(player, job))
+        {
+            _chat.DispatchServerMessage(player, Loc.GetString("role-not-whitelisted"));
+            return false;
+        }
+        // Stories-GhostRoleWhitelist-End
 
         var ev = new TakeGhostRoleEvent(player);
         RaiseLocalEvent(role, ref ev);
@@ -619,7 +639,8 @@ public sealed class GhostRoleSystem : EntitySystem
                 Requirements = role.Requirements,
                 Kind = kind,
                 RafflePlayerCount = rafflePlayerCount,
-                RaffleEndTime = raffleEndTime
+                RaffleEndTime = raffleEndTime,
+                Job = role.JobProto, // Stories-GhostRoleWhitelist
             });
         }
 

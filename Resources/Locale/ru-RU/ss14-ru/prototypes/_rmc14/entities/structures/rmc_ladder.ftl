@@ -13,4 +13,4 @@ ent-RMCLadderRope = веревка
     .desc = Прочная веревка.
 ent-RMCLadderRopeAltDrawdepth = { ent-RMCLadderRope }
     .desc = { ent-RMCLadderRope.desc }
-    .suffix = Слои поверх платформ.
+    .suffix = Слои поверх платформ

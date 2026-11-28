@@ -66,8 +66,13 @@ public sealed class PlanetMapLoadTests
             Assert.Multiple(() =>
             {
                 Assert.That(ticker.RunLevel, Is.Not.EqualTo(GameRunLevel.PreRoundLobby));
-                Assert.That(server.EntMan.Count<TacticalMapComponent>(), Is.EqualTo(1));
-                Assert.That(server.EntMan.Count<RMCPlanetComponent>(), Is.EqualTo(1));
+                // Stories-ZLevels-Start
+                var expectedMapCount = 1 + planet.Comp.MapsAbove.Count + planet.Comp.MapsBelow.Count;
+                Assert.That(server.EntMan.Count<TacticalMapComponent>(), Is.EqualTo(expectedMapCount),
+                    $"Incorrect tactical map count for {planet.Proto.ID}.");
+                Assert.That(server.EntMan.Count<RMCPlanetComponent>(), Is.EqualTo(expectedMapCount),
+                    $"Incorrect planet map count for {planet.Proto.ID}.");
+                // Stories-ZLevels-End
             });
 
             await pair.WaitCommand("golobby");

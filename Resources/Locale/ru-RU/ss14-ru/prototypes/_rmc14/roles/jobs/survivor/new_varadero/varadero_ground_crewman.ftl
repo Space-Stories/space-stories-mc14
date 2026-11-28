@@ -1,2 +1,2 @@
-ent-RMCSurvivorPresetUNMCGroundCrewman = varadero ground crew preset
+ent-RMCSurvivorPresetUNMCGroundCrewman = пресет наземного техника Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

@@ -12,13 +12,22 @@
   greeting: rmc-job-greeting-riot-in-progress-CMB-synth
   ranks:
     RMCRankCMBDetective: []
+  # Stories-SurvivorSpawnerFallback-Start
+  survivorSpawnerFallback:
+  - RMCSurvivorFiorinaRiotInProgressCMBOfficer
+  # Stories-SurvivorSpawnerFallback-End
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
     - type: RMCSurvivor
     - type: MotionDetectorTracked
@@ -41,7 +50,8 @@
 - type: startingGear
   id: RMCGearSurvivorFiorinaRiotInProgressCMBSupportSynth
   equipment:
-    jumpsuit: RMCSwatCMBUniform # TODO RMC14: Webbing fill
+    # jumpsuit: RMCSwatCMBUniform # TODO RMC14: Webbing fill # Stories-SynthSurvivorGear
+    jumpsuit: STSwatCMBUniformSupportSynth # Stories-SynthSurvivorGear
     id: RMCIDCardCMBDeputySurvivor
     back: RMCBackpackTyrargo
     head: RMCHeadCapBureau
@@ -59,8 +69,10 @@
     back: # On CM, they have a revolver and ammo
     - CMDefibrillator # TODO RMC14: Upgraded defib
     - RMCUniversalRecorder
+    - RMCFlashlightPen # Stories-SynthSurvivorGear
     outerClothing:
-    - RMCRangefinder
+    # - RMCRangefinder # Stories-SynthSurvivorGear
+    - RMCLaserDesignator # Stories-SynthSurvivorGear
     - RMCTelescopicBaton
 
 - type: entity

@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorOperationsSupervisor = spawn point
+ent-RMCSpawnPointSurvivorOperationsSupervisor = точка появления
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorOperationsSupervisor = chances operations supervisor ghost role
+ent-RMCRandomHumanoidSurvivorOperationsSupervisor = роль призрака руководителя операций «Претензии Шанса»
     .desc = { ent-MarkerBase.desc }

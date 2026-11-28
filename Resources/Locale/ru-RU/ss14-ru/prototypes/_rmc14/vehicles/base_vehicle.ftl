@@ -1,2 +1,2 @@
-ent-RMCVehicleBase = abstract vehicle
-    .desc = An abstract vehicle. Make sure to replace this!
+ent-RMCVehicleBase = абстрактная техника
+    .desc = Абстрактная техника. Обязательно замените её!

@@ -1,5 +1,5 @@
 - type: entity
-  parent: CMIV
+  parent: RMCIVStand
   id: STIVHunter
   components:
   - type: Sprite

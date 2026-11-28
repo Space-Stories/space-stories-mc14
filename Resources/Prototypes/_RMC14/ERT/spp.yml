@@ -3,6 +3,7 @@
   name: rmc-ert-call-spp-friendly-name
   organization: rmc-ert-organization-spp
   npcFactions: [ SPP ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionSPP
   category: rmc-ert-category-foreign-military
   enabled: true
@@ -79,13 +80,38 @@
     required: false
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
+  - id: synth
+    name: stories-ert-role-spp-synth
+    job: RMCSPPSynthetic
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidSPPSyntheticFriendly
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
+  - id: synthNoWhitelist
+    name: stories-ert-role-spp-synth-no-whitelist
+    job: STSPPSyntheticNoWhitelist
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidSPPSyntheticFriendlyNoWhitelist
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    allowedSources: [ Admin ]
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
       message: rmc-ert-announcement-spp-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 9
@@ -171,13 +197,38 @@
     required: false
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
+  - id: synth
+    name: stories-ert-role-spp-synth
+    job: RMCSPPSynthetic
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidSPPSyntheticHostile
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
+  - id: synthNoWhitelist
+    name: stories-ert-role-spp-synth-no-whitelist
+    job: STSPPSyntheticNoWhitelist
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidSPPSyntheticHostileNoWhitelist
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    allowedSources: [ Admin ]
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
       message: rmc-ert-announcement-spp-hostile-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 9

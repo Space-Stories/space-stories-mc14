@@ -1,5 +1,5 @@
-ent-CMSpawnPointTyrargoCMT = tyrargo marine combat medical technician spawn point
+ent-CMSpawnPointTyrargoCMT = точка появления боевого медицинского техника морпеха Тирарго
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCSurvivorPresetTyrargoCMT = tyrargo marine combat medical technician survivor preset
+ent-RMCSurvivorPresetTyrargoCMT = пресет выжившего боевого медицинского техника морпеха Тирарго
     .desc = { ent-RMCSurvivorPresetTyrargoSurvivorNoPistol.desc }

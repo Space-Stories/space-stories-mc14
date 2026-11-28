@@ -10,8 +10,10 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Pulling.Events;
+using Content.Shared.Rotation;
 using Content.Shared.Standing;
 using Content.Shared.Stunnable;
+using Content.Shared._RMC14.Medical.Stasis;
 using Robust.Shared.Containers;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Timing;
@@ -21,12 +23,16 @@ namespace Content.Shared._RMC14.Standing;
 public sealed class RMCStandingSystem : EntitySystem
 {
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!; // Stories-StasisBagFix
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly StandingStateSystem _standing = default!;
     [Dependency] private readonly MobStateSystem _mob = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+
+    private readonly List<EntityUid> _rotationResync = new();
 
     public override void Initialize()
     {
@@ -41,6 +47,8 @@ public sealed class RMCStandingSystem : EntitySystem
         SubscribeLocalEvent<DownOnEnterComponent, EntRemovedFromContainerMessage>(OnLeaveDown);
 
         SubscribeLocalEvent<StandingStateComponent, EvasionRefreshModifiersEvent>(OnStandingStateEvasionRefresh);
+        SubscribeLocalEvent<StandingStateComponent, StandAttemptEvent>(OnStandingStateStandAttempt); // Stories-StasisBagFix
+        SubscribeLocalEvent<StandingStateComponent, AfterAutoHandleStateEvent>(OnStandingState);
 
         SubscribeLocalEvent<RMCRestComponent, StoodEvent>(OnRestStood);
         SubscribeLocalEvent<RMCRestComponent, StandAttemptEvent>(OnRestStandAttempt);
@@ -55,6 +63,15 @@ public sealed class RMCStandingSystem : EntitySystem
 
                         if (!TryComp(ent, out RMCRestComponent? rest))
                             return;
+
+                        // Stories-StasisBagFix-Start
+                        if (HasComp<CMInStasisComponent>(ent) ||
+                            (_container.TryGetContainingContainer(ent, out var container) &&
+                             (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner))))
+                        {
+                            return;
+                        }
+                        // Stories-StasisBagFix-End
 
                         var time = _timing.CurTime;
                         if (time < rest.LastToggleAt + rest.Cooldown)
@@ -140,7 +157,12 @@ public sealed class RMCStandingSystem : EntitySystem
         if (args.Cancelled)
             return false;
 
-        if (_standing.IsDown(drop))
+        // Stories-StasisBagFix-Start
+        if (_standing.IsDown(drop) ||
+            HasComp<CMInStasisComponent>(drop) ||
+            (_container.TryGetContainingContainer(drop.Owner, out var container) &&
+             (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner))))
+        // Stories-StasisBagFix-End
         {
             args.Cancel();
             return true;
@@ -159,7 +181,7 @@ public sealed class RMCStandingSystem : EntitySystem
         if (HasComp<KnockedDownComponent>(args.Entity) || _mob.IsIncapacitated(args.Entity))
             _standing.Down(args.Entity, false, true, true, true);
         else
-            _standing.Stand(args.Entity);
+            _standing.Stand(args.Entity, force: true); // Stories-StasisBagFix
     }
 
     private void OnStandingStateEvasionRefresh(Entity<StandingStateComponent> entity, ref EvasionRefreshModifiersEvent args)
@@ -167,7 +189,13 @@ public sealed class RMCStandingSystem : EntitySystem
         if (entity.Owner != args.Entity.Owner || !_standing.IsDown(entity.Owner, entity.Comp))
             return;
 
-        args.Evasion += (int) EvasionModifiers.Rest;
+        args.Evasion += (int)EvasionModifiers.Rest;
+    }
+
+    // SetData no-ops during state application, so queue the rotation resync for the next update after a knockdown mispredict.
+    private void OnStandingState(Entity<StandingStateComponent> ent, ref AfterAutoHandleStateEvent args)
+    {
+        _rotationResync.Add(ent);
     }
 
     private void OnRestStood(Entity<RMCRestComponent> ent, ref StoodEvent args)
@@ -182,6 +210,20 @@ public sealed class RMCStandingSystem : EntitySystem
         if (ent.Comp.Resting)
             args.Cancel();
     }
+
+    // Stories-StasisBagFix-Start
+    private void OnStandingStateStandAttempt(Entity<StandingStateComponent> ent, ref StandAttemptEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (_container.TryGetContainingContainer(ent.Owner, out var container) &&
+            (HasComp<DownOnEnterComponent>(container.Owner) || HasComp<CMStasisBagComponent>(container.Owner)))
+        {
+            args.Cancel();
+        }
+    }
+    // Stories-StasisBagFix-End
 
     private void OnRestStartPullAttempt(Entity<RMCRestComponent> ent, ref StartPullAttemptEvent args)
     {
@@ -207,5 +249,25 @@ public sealed class RMCStandingSystem : EntitySystem
 
         if (!resting)
             _standing.Stand(rest);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        for (var i = _rotationResync.Count - 1; i >= 0; i--)
+        {
+            var uid = _rotationResync[i];
+            _rotationResync.RemoveAt(i);
+
+            if (!TryComp(uid, out StandingStateComponent? standing))
+                continue;
+
+            var target = _standing.IsDown(uid, standing) ? RotationState.Horizontal : RotationState.Vertical;
+            if (_appearance.TryGetData<RotationState>(uid, RotationVisuals.RotationState, out var current) && current == target)
+                continue;
+
+            _appearance.SetData(uid, RotationVisuals.RotationState, target);
+        }
     }
 }

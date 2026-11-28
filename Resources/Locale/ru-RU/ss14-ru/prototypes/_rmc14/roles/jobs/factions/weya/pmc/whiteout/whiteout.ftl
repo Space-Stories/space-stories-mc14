@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidPMCWhiteout = DEATHSQUAD pmc ghost role whiteout
+ent-RMCRandomHumanoidPMCWhiteout = роль призрака боевого юнита ЧВК Ве-Я "Белая мгла" (DEATHSQUAD)
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

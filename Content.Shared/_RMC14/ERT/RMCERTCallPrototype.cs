@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Weapons.Ranged.IFF;
+using Content.Shared.Access;
 using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
 using Robust.Shared.Audio;
@@ -54,6 +55,12 @@ public sealed partial class RMCERTCallPrototype : IPrototype
     /// </summary>
     [DataField]
     public EntProtoId<IFFFactionComponent>? IffFaction;
+
+    /// <summary>
+    /// Additional access groups granted to every responder's ID for this call.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<AccessGroupPrototype>> AccessGroups = [];
 
     /// <summary>
     /// Localization id for the admin UI category this call is grouped under.
@@ -270,6 +277,9 @@ public sealed partial class RMCERTRoleEntry
     /// </summary>
     [DataField]
     public int Priority;
+
+    [DataField]
+    public List<RMCERTRequestSource>? AllowedSources;
 }
 
 /// <summary>
@@ -400,13 +410,7 @@ public sealed partial class RMCERTRequirementSet
     /// Time ghost roles remain open before automatic launch or manual dispatch.
     /// </summary>
     [DataField]
-    public TimeSpan RecruitmentDuration = TimeSpan.FromSeconds(30);
-
-    /// <summary>
-    /// Whether this call is blocked while evacuation is active.
-    /// </summary>
-    [DataField]
-    public bool DisallowDuringEvacuation = true;
+    public TimeSpan RecruitmentDuration = TimeSpan.FromMinutes(1);
 
     /// <summary>
     /// Maximum number of non-terminal requests for this call allowed in one round.

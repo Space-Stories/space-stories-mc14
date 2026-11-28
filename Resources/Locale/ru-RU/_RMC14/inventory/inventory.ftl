@@ -1,1 +1,1 @@
-cm-inventory-unable-equip = Вы не можете экиперовать это.
+cm-inventory-unable-equip = Вы не можете экипировать это.

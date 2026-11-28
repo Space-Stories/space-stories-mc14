@@ -16,14 +16,17 @@
   - ColonistSynthShipside # All medbay + engineering + synth accesses
   startingGear: RMCGearForeconSynthetic
   spawnMenuRoleName: FORECON Synthetic (Survivor)
-  roleWeight: 0.25
   icon: "RMCJobIconReconSynthetic"
   whitelisted: true
+  # Stories-SurvivorSpawnerFallback-Start
+  survivorSpawnerFallback:
+  - RMCSurvivorForeconRifleman
+  # Stories-SurvivorSpawnerFallback-End
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon
@@ -37,6 +40,11 @@
         - RMCSquadFORECON
     - type: JobPrefix
       prefix: rmc-job-prefix-synth
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   hidden: true
 
@@ -45,7 +53,8 @@
   equipment:
     id: RMCIDCardSynth
     back: CMSatchelFillColonySynthetic # TODO RMC14 check loadouts for synth survivors to see if there's a backpack category
-    jumpsuit: CMJumpsuitMaintTech
+    # jumpsuit: CMJumpsuitMaintTech # Stories-SynthSurvivorGear
+    jumpsuit: STJumpsuitMaintTechForeconSynth # Stories-SynthSurvivorGear
     shoes: RMCShoesRedKnife
     ears: RMCHeadsetForecon
     pocket1: RMCPouchToolsFill

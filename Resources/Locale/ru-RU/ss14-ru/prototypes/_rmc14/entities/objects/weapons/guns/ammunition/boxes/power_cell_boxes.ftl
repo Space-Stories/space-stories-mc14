@@ -2,4 +2,4 @@ ent-RMCBoxMagazinePowerCellsHigh = коробка с элементами пит
     .desc = Коробка с элементами питания высокой емкости, чтобы ваша электроника работала всю ночь напролет!
 ent-RMCBoxMagazinePowerCellsHighFilled = { ent-RMCBoxMagazinePowerCellsHigh }
     .desc = { ent-RMCBoxMagazinePowerCellsHigh.desc }
-    .suffix = Заполненый
+    .suffix = Заполненный

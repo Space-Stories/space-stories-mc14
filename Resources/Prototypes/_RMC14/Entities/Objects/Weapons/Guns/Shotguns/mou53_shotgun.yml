@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: [ RMCBaseBreechloader, RMCBaseAttachableHolder ]
   name: MOU53 break action shotgun
   id: WeaponShotgunMOU53
@@ -24,7 +24,7 @@
     recoilWielded: 2
     recoilUnwielded: 4
     scatterWielded: 9
-    scatterUnwielded: 18
+    scatterUnwielded: 20 # Stories-Balance
     baseFireRate: 4
     burstScatterMult: 1
   - type: RMCWeaponAccuracy
@@ -43,16 +43,17 @@
     soundInsert:
       path: /Audio/_RMC14/Weapons/Guns/Reload/gun_mou_reload.ogg
   - type: RMCAmmoEject
-    containerID: ballistic-ammo
     ejectSound:
       path: /Audio/_RMC14/Weapons/Guns/Reload/gun_mou_reload.ogg
+
   - type: UseDelay
   - type: BreechLoaded
     openSound:
       path: /Audio/_RMC14/Weapons/Guns/Breech/pkd_open_chamber.ogg
     closeSound:
       path: /Audio/_RMC14/Weapons/Guns/Breech/pkd_close_chamber.ogg
-    toggleDelay: 1.1
+    toggleDelay: 1.5 # Stories-Balance
+  - type: GunClickToFire # Stories-Balance
   - type: AttachableHolder
     slots:
       rmc-aslot-barrel:

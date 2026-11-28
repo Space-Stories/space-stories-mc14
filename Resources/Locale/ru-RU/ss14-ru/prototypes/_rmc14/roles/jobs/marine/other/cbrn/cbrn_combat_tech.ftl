@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNCombatTech = cbrn ghost role combat technician
+ent-RMCRandomHumanoidCBRNCombatTech = роль призрака боевого техника РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

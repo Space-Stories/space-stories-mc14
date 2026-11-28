@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSurvivorLV624CorporateDomeSynth = weya goon synthetic spawn point
+ent-RMCSpawnPointSurvivorLV624CorporateDomeSynth = точка появления синтетика охраны Ве-Я
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, lv624
+    .suffix = Спец. выживший, LV-624

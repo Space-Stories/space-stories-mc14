@@ -52,6 +52,9 @@
     snap:
     - Wall
   components:
+  - type: RMCPoliceClueOnDestruction
+    description: rmc-police-clue-window
+    mainshipOnly: true
   - type: VehicleSmashable
     deleteOnHit: false
     damageOnHit: 100

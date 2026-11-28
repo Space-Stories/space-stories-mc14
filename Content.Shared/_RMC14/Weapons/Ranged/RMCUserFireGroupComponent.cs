@@ -1,4 +1,4 @@
-﻿using Robust.Shared.GameStates;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Weapons.Ranged;
 
@@ -10,5 +10,5 @@ public sealed partial class RMCUserFireGroupComponent : Component
     public Dictionary<string, TimeSpan> LastFired = new();
 
     [DataField, AutoNetworkedField]
-    public Dictionary<string, EntityUid> LastGun = new();
+    public Dictionary<string, NetEntity> LastGun = new(); // Stories-DeletedEntityReferences
 }

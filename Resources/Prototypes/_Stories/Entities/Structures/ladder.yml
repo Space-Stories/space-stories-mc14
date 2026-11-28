@@ -1,5 +1,94 @@
 - type: entity
-  parent: RMCLadder
+  id: STZLadder
+  name: ladder
+  description: A sturdy metal ladder.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: _RMC14/Structures/ladder.rsi
+    drawdepth: WallTops
+    state: ladderdown
+  - type: PlacementReplacement
+    key: ladders
+  - type: ZLevelLadder
+    direction: Down
+  - type: BlockXenoConstruction
+  - type: RMCMesonsNonviewable
+  - type: RMCIgnoreGhostInteractionLimits
+
+- type: entity
+  parent: STZLadder
+  id: STZLadderUp
+  suffix: Up
+  components:
+  - type: Sprite
+    state: ladderup
+  - type: ZLevelLadder
+    direction: Up
+
+- type: entity
+  parent: STZLadder
+  id: STZLadderThrough
+  suffix: Through
+  components:
+  - type: Sprite
+    state: ladder11
+  - type: ZLevelLadder
+    direction: Both
+  - type: UserInterface
+    interfaces:
+      enum.ZLevelLadderUiKey.Key:
+        type: ZLevelLadderBoundUserInterface
+
+- type: entity
+  parent: STZLadder
+  id: STZLadderHatch
+  suffix: Hatch
+  components:
+  - type: Sprite
+    sprite: _RMC14/Structures/Xenos/xeno_tunnel.rsi
+    state: maintenancehatch_alt
+    offset: 0, 0.2
+  - type: ZLevelLadder
+    direction: Both
+  - type: UserInterface
+    interfaces:
+      enum.ZLevelLadderUiKey.Key:
+        type: ZLevelLadderBoundUserInterface
+
+- type: entity
+  parent: STZLadder
+  id: STZLadderRope
+  name: rope
+  description: A sturdy rope.
+  components:
+  - type: Sprite
+    state: rope
+  - type: ZLevelLadder
+    direction: Both
+  - type: UserInterface
+    interfaces:
+      enum.ZLevelLadderUiKey.Key:
+        type: ZLevelLadderBoundUserInterface
+
+- type: entity
+  parent: STZLadderRope
+  id: STZLadderRopeAltDrawdepth
+  suffix: Layers over Platforms
+  components:
+    - type: Sprite
+      drawdepth: SmallObjects
+
+- type: entity
+  parent: STZLadder
   id: STLadderHunter
   components:
   - type: Sprite
@@ -14,6 +103,8 @@
   components:
   - type: Sprite
     state: ladderup
+  - type: ZLevelLadder
+    direction: Up
 
 - type: entity
   parent: STLadderHunter
@@ -22,3 +113,9 @@
   components:
   - type: Sprite
     state: ladder11
+  - type: ZLevelLadder
+    direction: Both
+  - type: UserInterface
+    interfaces:
+      enum.ZLevelLadderUiKey.Key:
+        type: ZLevelLadderBoundUserInterface

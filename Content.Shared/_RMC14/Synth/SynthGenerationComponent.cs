@@ -22,6 +22,9 @@ public sealed partial class SynthGenerationComponent : Component
     [DataField]
     public ProtoId<DamageModifierSetPrototype>? DamageModifier;
 
+    [DataField] // Stories-Synth
+    public bool Selectable = true;
+
     [DataField]
     public int Priority;
 

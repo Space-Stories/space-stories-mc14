@@ -75,19 +75,24 @@
     - spawn: "/Maps/_RMC14/Inserts/Shiva/surv_spawn_church.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfraid_shivas ] # Stories-CLFSurvivor
     - spawn: "/Maps/_RMC14/Inserts/Shiva/surv_spawn_command_centre.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfraid_shivas ] # Stories-CLFSurvivor
       offset: 3,-21
     - spawn: "/Maps/_RMC14/Inserts/Shiva/surv_spawn_botany.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfraid_shivas ] # Stories-CLFSurvivor
       offset: -16,-36
     - spawn: "/Maps/_RMC14/Inserts/Shiva/surv_spawn_crisis_centre.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfraid_shivas ] # Stories-CLFSurvivor
       offset: 0,-62
     - spawn: "/Maps/_RMC14/Inserts/Shiva/surv_spawn_garage.yml"
       probability: 0.2
       nightmareScenario: none
+      additionalNightmareScenarios: [ clfraid_shivas ] # Stories-CLFSurvivor
       offset: 28,-46

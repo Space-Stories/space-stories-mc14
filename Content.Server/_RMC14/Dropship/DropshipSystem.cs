@@ -12,6 +12,7 @@ using Content.Server.Shuttles.Systems;
 using Content.Shared._RMC14.AlertLevel;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Atmos;
+using Content.Shared._RMC14.CameraShake; // Stories-DropshipLaunchEffects
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dropship;
 using Content.Shared._RMC14.Dropship.AttachmentPoint;
@@ -20,9 +21,11 @@ using Content.Shared._RMC14.Explosion;
 using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Vehicle;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared.Administration.Logs;
+using Content.Shared.Buckle.Components; // Stories-DropshipLaunchEffects
 using Content.Shared.CCVar;
 using Content.Shared.Coordinates;
 using Content.Shared.Database;
@@ -33,12 +36,14 @@ using Content.Shared.Popups;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Timing;
+using Content.Shared.Vehicle.Components;
 using Robust.Server.Audio;
 using Robust.Server.Containers;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -47,11 +52,12 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._RMC14.Dropship;
 
-public sealed class DropshipSystem : SharedDropshipSystem
+public sealed partial class DropshipSystem : SharedDropshipSystem
 {
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly RMCAlertLevelSystem _alertLevel = default!;
     [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly RMCCameraShakeSystem _cameraShake = default!; // Stories-DropshipLaunchEffects
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly ContainerSystem _container = default!;
     [Dependency] private readonly DoorSystem _door = default!;
@@ -88,6 +94,9 @@ public sealed class DropshipSystem : SharedDropshipSystem
 
     private readonly HashSet<EntityUid> _restrictedDockingObstacles = new();
     private readonly Dictionary<EntityUid, DockingConfig> _restrictedDockingTargets = new();
+    // Stories-ShuttleDoorLock-Start
+    private readonly HashSet<EntityUid> _doorPushEntities = new();
+    // Stories-ShuttleDoorLock-End
 
     private TimeSpan _lzPrimaryAutoDelay;
     private TimeSpan _flyByTime;
@@ -101,6 +110,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
     public override void Initialize()
     {
         base.Initialize();
+        InitializeAutopilot();
 
         _dockingQuery = GetEntityQuery<DockingComponent>();
         _doorQuery = GetEntityQuery<DoorComponent>();
@@ -132,8 +142,8 @@ public sealed class DropshipSystem : SharedDropshipSystem
             subs =>
             {
                 subs.Event<DropshipLockdownMsg>(OnDropshipNavigationLockdownMsg);
-                subs.Event<DropshipRemoteControlToggleMsg>(OnDropshipRemoteControlToggleMsg);
                 subs.Event<DropshipLaunchAlarmToggleMsg>(OnDropshipLaunchAlarmToggleMsg);
+                subs.Event<DropshipNavigationAutopilotDisableMsg>(OnDropshipNavigationAutopilotDisableMsg);
             });
 
         Subs.CVar(_config, RMCCVars.RMCLandingZonePrimaryAutoMinutes, v => _lzPrimaryAutoDelay = TimeSpan.FromMinutes(v), true);
@@ -174,6 +184,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
 
     private void OnFTLStarted(Entity<DropshipComponent> ent, ref FTLStartedEvent args)
     {
+        ShakePassengers(ent); // Stories-DropshipLaunchEffects
         OnRefreshUI(ent, ref args);
 
         if (args.FromMapUid is { } warship && HasComp<AlmayerComponent>(warship))
@@ -185,36 +196,18 @@ public sealed class DropshipSystem : SharedDropshipSystem
         RelayToMountedEntities(ent, args);
         RelayToDropshipDepartureLocation(ent, args);
 
-        if (!_hijack) // TODO RMC14: Check for locked dropship by queen and friendliness of xenos onboard
+        if (ent.Comp.Crashed)
         {
-            int xenoCount = 0;
-            string dropshipName = string.Empty;
-            var dropship = EnsureComp<DropshipComponent>(_dropshipId);
-            var xenoQuery = EntityQueryEnumerator<XenoComponent, MobStateComponent, TransformComponent>();
-            while (xenoQuery.MoveNext(out var uid, out _, out var mobState, out var xform))
-            {
-                if (xform.GridUid == _dropshipId && mobState.CurrentState != MobState.Dead)
-                {
-                    xenoCount++;
-                    if (string.IsNullOrEmpty(dropshipName) && _area.TryGetArea(uid, out _, out var areaProto))
-                        dropshipName = areaProto.Name;
-                }
-            }
-
-            if (xenoCount > 0)
-            {
-                _alertLevel.Set(RMCAlertLevels.Red, _dropshipId, false, false);
-                _marineAnnounce.AnnounceToMarines(Loc.GetString("rmc-announcement-unidentified-lifesigns",
-                    ("name", dropshipName),
-                    ("count", xenoCount)),
-                    dropship.UnidentifledlifesignsSound);
-            }
+            var ev = new DropshipHijackLaunchedEvent(ent);
+            RaiseLocalEvent(ref ev);
         }
+
     }
 
     private void OnFTLCompleted(Entity<DropshipComponent> ent, ref FTLCompletedEvent args)
     {
         CompleteRestrictedDocking(ent.Owner);
+        ShakePassengers(ent); // Stories-DropshipLaunchEffects
 
         if (ent.Comp.RechargeTime is { } rechargeTime && TryComp(ent, out FTLComponent? ftl))
             ftl.StateTime = StartEndTime.FromCurTime(_timing, rechargeTime);
@@ -241,9 +234,51 @@ public sealed class DropshipSystem : SharedDropshipSystem
         var arrived = new DropshipArrivedAtDestinationEvent(ent, ent.Comp.Destination);
         RaiseLocalEvent(ref arrived);
 
+        if (!ent.Comp.Crashed) // TODO RMC14: Check for locked dropship by queen and friendliness of xenos onboard
+        {
+            int xenoCount = 0;
+            string dropshipName = Name(ent);
+            var xenoQuery = EntityQueryEnumerator<XenoComponent, MobStateComponent, TransformComponent>();
+            while (xenoQuery.MoveNext(out var uid, out _, out var mobState, out var xform))
+            {
+                if (xform.GridUid == ent && mobState.CurrentState != MobState.Dead)
+                    xenoCount++;
+            }
+
+            if (xenoCount > 0)
+            {
+                _alertLevel.Set(RMCAlertLevels.Red, ent, false, false);
+                _marineAnnounce.AnnounceToMarines(Loc.GetString("rmc-announcement-unidentified-lifesigns",
+                    ("name", dropshipName),
+                    ("count", xenoCount)),
+                    ent.Comp.UnidentifledlifesignsSound);
+            }
+        }
+
         ent.Comp.DepartureLocation = ent.Comp.Destination;
         Dirty(ent);
     }
+
+    // Stories-DropshipLaunchEffects-Start
+    private void ShakePassengers(Entity<DropshipComponent> dropship)
+    {
+        foreach (var session in Filter.BroadcastGrid(dropship.Owner).Recipients)
+        {
+            if (session.AttachedEntity is not { } passenger)
+                continue;
+
+            if (TryComp(passenger, out RMCCameraShakingComponent? shaking) && shaking.Shakes > 0)
+                continue;
+
+            var shakes = TryComp(passenger, out BuckleComponent? buckle) && buckle.Buckled
+                ? dropship.Comp.STBuckledPassengerCameraShakes
+                : dropship.Comp.STPassengerCameraShakes;
+
+            if (shakes > 0)
+                _cameraShake.ShakeCamera(passenger, shakes, dropship.Comp.STPassengerCameraShakeStrength);
+        }
+    }
+    // Stories-DropshipLaunchEffects-End
 
     private void OnFTLUpdated(Entity<DropshipComponent> ent, ref FTLUpdatedEvent args)
     {
@@ -257,6 +292,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
         }
 
         RefreshUI();
+        RefreshRemoteControlConsoles();
     }
 
     private void OnBeforeFTLStarted(Entity<DropshipComponent> ent, ref BeforeFTLStartedEvent args)
@@ -267,6 +303,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
     private void OnRefreshUI<T>(Entity<DropshipComponent> ent, ref T args)
     {
         RefreshUI();
+        RefreshRemoteControlConsoles();
     }
 
     private void OnFtlRequested<T>(Entity<DropshipComponent> ent, ref T args)
@@ -319,13 +356,6 @@ public sealed class DropshipSystem : SharedDropshipSystem
         OnRefreshUI((grid, dropship), ref args);
     }
 
-    private void OnDropshipRemoteControlToggleMsg(Entity<DropshipNavigationComputerComponent> ent, ref DropshipRemoteControlToggleMsg args)
-    {
-        ent.Comp.RemoteControl = !ent.Comp.RemoteControl;
-        Dirty(ent, ent.Comp);
-        RefreshUI();
-    }
-
     private void OnDropshipLaunchAlarmToggleMsg(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLaunchAlarmToggleMsg args)
     {
         if (!TryGetGridDropship(ent, out var dropship))
@@ -358,12 +388,24 @@ public sealed class DropshipSystem : SharedDropshipSystem
 
     private void OnNavigationLockout(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLockoutDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
         ent.Comp.LockedOutUntil = _timing.CurTime + ent.Comp.LockoutDuration;
-        ent.Comp.RemoteControl = false;
         Dirty(ent);
 
         _ui.CloseUis(ent.Owner);
         UnlockAllDoors(ent);
+
+        // Stories-DropshipLockout-Start
+        if (TryGetGridDropship(ent, out var dropship) &&
+            TryComp(dropship, out DropshipAutopilotComponent? autopilot))
+        {
+            SetAutopilotDisabled(dropship, autopilot, args.User, Loc.GetString("rmc-dropship-autopilot-status-detail-locked"));
+        }
+        // Stories-DropshipLockout-End
 
         _popup.PopupEntity(Loc.GetString("rmc-dropship-locked", ("minutes", (int)ent.Comp.LockoutDuration.TotalMinutes)), ent, args.User, PopupType.Medium);
     }
@@ -473,7 +515,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
         }
 
         if (!TryComp(destination, out DockingComponent? destinationDock))
-            return true;
+            return CanLandAtCoordinates(computer, destination, out reason);
 
         return TryGetDockingTravelTarget(
             computer,
@@ -481,6 +523,48 @@ public sealed class DropshipSystem : SharedDropshipSystem
             destinationDock,
             out _,
             out reason);
+    }
+
+    private bool CanLandAtCoordinates(
+        Entity<DropshipNavigationComputerComponent> computer,
+        EntityUid destination,
+        out string reason)
+    {
+        if (Transform(computer).GridUid is not { } shuttle ||
+            !TryGetShuttleHardBoundsCenter(shuttle, out var center))
+        {
+            reason = Loc.GetString("rmc-dropship-invalid-docking-footprint");
+            return false;
+        }
+
+        var destinationXform = Transform(destination);
+        var coordinates = _transform.GetMoverCoordinates(destination, destinationXform);
+        var rotation = destinationXform.LocalRotation;
+        if (TryComp(destination, out RMCDropshipDestinationCoordinatesOverrideComponent? coordinatesOverride) &&
+            coordinatesOverride.Coordinates.MapId != MapId.Nullspace)
+        {
+            if (!_mapSystem.TryGetMap(coordinatesOverride.Coordinates.MapId, out var map))
+            {
+                reason = Loc.GetString("rmc-dropship-destination-unavailable");
+                return false;
+            }
+
+            coordinates = new EntityCoordinates(map.Value, coordinatesOverride.Coordinates.Position);
+            rotation = coordinatesOverride.Rotation;
+        }
+        else
+        {
+            coordinates = coordinates.Offset(-rotation.RotateVec(center));
+        }
+
+        if (TryGetRestrictedDockingObstacle(shuttle, coordinates.EntityId, destination, coordinates, rotation))
+        {
+            reason = Loc.GetString("rmc-dropship-destination-obstructed");
+            return false;
+        }
+
+        reason = string.Empty;
+        return true;
     }
 
     public void SetPlayerRouteLock(EntityUid shuttle, EntityUid? destination)
@@ -539,8 +623,19 @@ public sealed class DropshipSystem : SharedDropshipSystem
         Dirty(shuttle, dropship);
     }
 
-    public override bool FlyTo(Entity<DropshipNavigationComputerComponent> computer, EntityUid destination, EntityUid? user, bool hijack = false, float? startupTime = null, float? hyperspaceTime = null, bool offset = false)
+    public override bool FlyTo(Entity<DropshipNavigationComputerComponent> computer, EntityUid destination, EntityUid? user, bool hijack = false, float? startupTime = null, float? hyperspaceTime = null, bool offset = false, DropshipLaunchSource source = DropshipLaunchSource.ManualNavigation)
     {
+        // Stories-DropshipLockout-Start
+        if (!hijack && _timing.CurTime < computer.Comp.LockedOutUntil)
+        {
+            if (user != null)
+                _popup.PopupEntity(Loc.GetString("rmc-dropship-locked-out", ("minutes", Math.Max(1, (int)(computer.Comp.LockedOutUntil - _timing.CurTime).TotalMinutes))), computer, user.Value, PopupType.MediumCaution);
+
+            Log.Warning($"Tried to launch locked out dropship {ToPrettyString(computer)}");
+            return false;
+        }
+        // Stories-DropshipLockout-End
+
         if (user != null &&
             !CanPlayerLaunchToDestination(computer, destination, out var playerRouteReason))
         {
@@ -551,7 +646,7 @@ public sealed class DropshipSystem : SharedDropshipSystem
             return false;
         }
 
-        base.FlyTo(computer, destination, user, hijack, startupTime, hyperspaceTime);
+        base.FlyTo(computer, destination, user, hijack, startupTime, hyperspaceTime, offset, source);
 
         _hijack = hijack;
         var dropshipId = Transform(computer).GridUid;
@@ -612,6 +707,14 @@ public sealed class DropshipSystem : SharedDropshipSystem
             }
 
             EnsureComp<DropshipInFlyByComponent>(dropshipId.Value);
+        }
+        var autopilot = EnsureComp<DropshipAutopilotComponent>(dropshipId.Value);
+        if (source == DropshipLaunchSource.RoundInit &&
+            newDestination != null &&
+            ResolveDestinationKind((destination, newDestination)) == DropshipDestinationKind.Hangar)
+        {
+            autopilot.RouteHangar ??= destination;
+            Dirty(dropshipId.Value, autopilot);
         }
 
         if (TryComp(dropship.Destination, out DropshipDestinationComponent? oldDestination))
@@ -765,6 +868,9 @@ public sealed class DropshipSystem : SharedDropshipSystem
         _adminLog.Add(LogType.RMCDropshipLaunch,
             $"{ToPrettyString(user):player} {(hijack ? "hijacked" : "launched")} {ToPrettyString(dropshipId):dropship} to {ToPrettyString(destination):destination}");
 
+        DisableAutopilotForManualOverride((dropshipId.Value, dropship), autopilot, source, user);
+        RefreshUI(computer);
+        RefreshRemoteControlConsoles();
         return true;
     }
 
@@ -1084,6 +1190,8 @@ public sealed class DropshipSystem : SharedDropshipSystem
         if (!_fixturesQuery.TryComp(shuttle, out var fixtures))
             return false;
 
+        var targetXform = Transform(targetGrid);
+        var mapCoordinates = targetXform.MapUid == targetGrid;
         var transform = new Transform(coordinates.Position, angle);
         foreach (var fixture in fixtures.Fixtures.Values)
         {
@@ -1091,12 +1199,24 @@ public sealed class DropshipSystem : SharedDropshipSystem
                 continue;
 
             _restrictedDockingObstacles.Clear();
-            _entityLookup.GetLocalEntitiesIntersecting(
-                targetGrid,
-                fixture.Shape,
-                transform,
-                _restrictedDockingObstacles,
-                flags: LookupFlags.Uncontained);
+            if (mapCoordinates)
+            {
+                _entityLookup.GetEntitiesIntersecting(
+                    targetXform.MapID,
+                    fixture.Shape,
+                    transform,
+                    _restrictedDockingObstacles,
+                    flags: LookupFlags.Uncontained);
+            }
+            else
+            {
+                _entityLookup.GetLocalEntitiesIntersecting(
+                    targetGrid,
+                    fixture.Shape,
+                    transform,
+                    _restrictedDockingObstacles,
+                    flags: LookupFlags.Uncontained);
+            }
 
             foreach (var ent in _restrictedDockingObstacles)
             {
@@ -1109,7 +1229,8 @@ public sealed class DropshipSystem : SharedDropshipSystem
                 }
 
                 if (!_xformQuery.TryComp(ent, out var xform) ||
-                    xform.GridUid != targetGrid ||
+                    xform.GridUid == shuttle ||
+                    (!mapCoordinates && xform.GridUid != targetGrid) ||
                     !xform.Anchored)
                 {
                     continue;
@@ -1233,6 +1354,8 @@ public sealed class DropshipSystem : SharedDropshipSystem
             return;
 
         var doorLockStatus = GetDoorLockStatus(grid);
+        computer.Comp.DoorLockStatus = doorLockStatus;
+        computer.Comp.Autopilot = GetNavigationAutopilotStatus(grid);
 
         if (!TryComp(grid, out FTLComponent? ftl) ||
             !ftl.Running ||
@@ -1278,8 +1401,10 @@ public sealed class DropshipSystem : SharedDropshipSystem
                 }
             }
 
-            var state = new DropshipNavigationDestinationsBuiState(flyBy, destinations, doorLockStatus, computer.Comp.RemoteControl, computer.Comp.LaunchAlarmStatus);
-            _ui.SetUiState(computer.Owner, DropshipNavigationUiKey.Key, state);
+            computer.Comp.FlyBy = flyBy;
+            computer.Comp.Destinations = destinations;
+            computer.Comp.TravelState = null;
+            Dirty(computer);
             return;
         }
 
@@ -1300,18 +1425,16 @@ public sealed class DropshipSystem : SharedDropshipSystem
             }
         }
 
-        var travelState = new DropshipNavigationTravellingBuiState(ftl.State, ftl.StateTime, destinationName, departureName, doorLockStatus, computer.Comp.RemoteControl, computer.Comp.LaunchAlarmStatus);
-        _ui.SetUiState(computer.Owner, DropshipNavigationUiKey.Key, travelState);
+        computer.Comp.TravelState = ftl.State;
+        computer.Comp.TravelTime = ftl.StateTime;
+        computer.Comp.TravelDestination = destinationName;
+        computer.Comp.TravelDeparture = departureName;
+        Dirty(computer);
     }
 
     protected override bool IsShuttle(EntityUid dropship)
     {
         return HasComp<ShuttleComponent>(dropship);
-    }
-
-    protected override bool IsInFTL(EntityUid dropship)
-    {
-        return HasComp<FTLComponent>(dropship);
     }
 
     protected override void RefreshUI()
@@ -1470,8 +1593,17 @@ public sealed class DropshipSystem : SharedDropshipSystem
         if (_doorQuery.TryComp(door, out var doorComp) &&
             doorComp.State != DoorState.Closed)
         {
+            // Stories-ShuttleDoorLock-Start
+            PushEntitiesOutOfDoor(door.Owner);
+            // Stories-ShuttleDoorLock-End
+
             var oldCheck = doorComp.PerformCollisionCheck;
             doorComp.PerformCollisionCheck = false;
+
+            // Stories-ShuttleDoorLock-Start
+            if (doorComp.State == DoorState.Opening)
+                _door.SetState(door, DoorState.Open, doorComp);
+            // Stories-ShuttleDoorLock-End
 
             _door.StartClosing(door);
             _door.OnPartialClose(door);
@@ -1482,6 +1614,68 @@ public sealed class DropshipSystem : SharedDropshipSystem
         if (_doorBoltQuery.Resolve(door, ref door.Comp, false))
             _door.SetBoltsDown((door.Owner, door.Comp), true);
     }
+
+    // Stories-ShuttleDoorLock-Start
+    private void PushEntitiesOutOfDoor(EntityUid doorUid)
+    {
+        if (!_xformQuery.TryComp(doorUid, out var doorXform))
+            return;
+
+        var doorWorldPos = _transform.GetWorldPosition(doorXform);
+        var pushDir = Vector2.Zero;
+
+        if (doorXform.GridUid is { } gridUid && TryComp<MapGridComponent>(gridUid, out var grid))
+        {
+            var doorTile = _mapSystem.TileIndicesFor(gridUid, grid, doorXform.Coordinates);
+            var gridRot = _transform.GetWorldRotation(gridUid);
+            Span<Vector2i> dirs =
+            [
+                new(0, 1),
+                new(0, -1),
+                new(1, 0),
+                new(-1, 0),
+            ];
+
+            foreach (var dir in dirs)
+            {
+                if (_mapSystem.TryGetTileRef(gridUid, grid, doorTile + dir, out var tileRef) && !tileRef.Tile.IsEmpty)
+                    continue;
+
+                pushDir = gridRot.RotateVec(new Vector2(dir.X, dir.Y));
+                break;
+            }
+        }
+
+        _doorPushEntities.Clear();
+        _entityLookup.GetEntitiesIntersecting(doorUid, _doorPushEntities);
+
+        foreach (var target in _doorPushEntities)
+        {
+            if (target == doorUid || TerminatingOrDeleted(target) || _doorQuery.HasComp(target))
+                continue;
+
+            if (!_xformQuery.TryComp(target, out var targetXform) || targetXform.Anchored)
+                continue;
+
+            if (!_physicsQuery.TryComp(target, out var physics) || physics.BodyType == BodyType.Static)
+                continue;
+
+            var targetPos = _transform.GetWorldPosition(targetXform);
+            var dir = pushDir;
+            if (dir == Vector2.Zero)
+            {
+                var away = targetPos - doorWorldPos;
+                dir = away.LengthSquared() > 0.001f ? away.Normalized() : Vector2.UnitY;
+            }
+
+            var rel = targetPos - doorWorldPos;
+            var lateral = rel - dir * Vector2.Dot(rel, dir);
+            var offset = HasComp<VehicleComponent>(target) ? 2.2f : 1.15f;
+            _transform.SetWorldPosition(target, doorWorldPos + lateral + dir * offset);
+            _physics.SetLinearVelocity(target, dir * 2f, body: physics);
+        }
+    }
+    // Stories-ShuttleDoorLock-End
 
     public void UnlockDoor(Entity<DoorBoltComponent?> door, bool forceSafetyUnlock = false)
     {
@@ -1575,6 +1769,8 @@ public sealed class DropshipSystem : SharedDropshipSystem
                 continue;
             }
         }
+
+        UpdateAutopilots(time);
 
         if (Count<PrimaryLandingZoneComponent>() > 0)
             return;

@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNSquadLeader = cbrn ghost role specialist squad leader
+ent-RMCRandomHumanoidCBRNSquadLeader = роль призрака командира отделения РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

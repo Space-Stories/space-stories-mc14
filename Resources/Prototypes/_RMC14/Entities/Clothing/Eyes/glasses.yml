@@ -62,7 +62,6 @@
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/Eyes/Glasses/m42_scoutsight.rsi
   - type: NightVisionItem
-    mesons: true
     defaultState: half
   - type: Appearance
   - type: GenericVisualizer
@@ -117,7 +116,6 @@
   - type: Clothing
     sprite: _RMC14/Objects/Clothing/Eyes/Glasses/m42_scoutsight.rsi
   - type: NightVisionItem
-    mesons: true
     defaultState: half
   - type: Appearance
   - type: GenericVisualizer
@@ -204,6 +202,10 @@
         enum.ToggleableVisuals.Layer:
           True: {state: icon-on}
           False: {state: icon}
+  # Stories-SynthItemRestriction-Start
+  - type: STSynthItemRestriction
+    denyPopup: st-synth-item-synth-only
+  # Stories-SynthItemRestriction-End
 
 - type: entity
   parent: [ClothingEyesHudMedical, BaseToggleClothing]
@@ -827,6 +829,12 @@
       sprite: _RMC14/Objects/Clothing/Eyes/Glasses/bigsunglasses.rsi
       state: helmet
 
+
+- type: entity
+  parent: RMCSunglassesBig
+  id: RMCGlassesTriMaxPersonal
+  name: TriMax personal shades
+  description: These are an expensive pair of TriMax sunglasses. They look like they could survive the end of the world and still make the wearer look insufferably confident.
 
 - type: entity
   parent: RMCSunglassesBig

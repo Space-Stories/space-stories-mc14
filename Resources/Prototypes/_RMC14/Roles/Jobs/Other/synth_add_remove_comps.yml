@@ -39,7 +39,12 @@
   - type: ScoutWhitelist
   - type: SniperWhitelist
   - type: PyroWhitelist
-  - type: QYJWhitelist
+  - type: TackleResist # Stories-SynthTackleResist
+  # Stories-AcidBloodDodge-Start
+  - type: AcidBloodDodge
+    chance: 45
+  # Stories-AcidBloodDodge-End
+  - type: SPPSpecWhitelist
 
 - type: entity
   id: RMCSynthRemoveComponents

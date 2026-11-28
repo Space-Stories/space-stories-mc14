@@ -1,3 +1,3 @@
-ent-CMSpawnPointRCMPVESectionLeader = RCM section leader spawn point
+ent-CMSpawnPointRCMPVESectionLeader = точка появления командира отделения Королевской морской пехоты
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

@@ -45,6 +45,10 @@ public sealed class RangefinderBui : BoundUserInterface
 
             msg = Loc.GetString("rmc-rangefinder-latitude", ("y", target.Y));
             _window.Latitude.SetMarkupPermissive(msg);
+            // Stories-ZLevels-Start
+            msg = Loc.GetString("stories-targeting-rangefinder-height", ("z", rangefinder.LastTargetZ));
+            _window.TargetHeight.SetMarkupPermissive(msg);
+            // Stories-ZLevels-End
         }
 
         _window.BottomContainer.DisposeAllChildren();

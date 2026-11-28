@@ -96,6 +96,11 @@ public abstract partial class SharedGunSystem
     /// </summary>
     private void UseChambered(EntityUid uid, ChamberMagazineAmmoProviderComponent component, EntityUid? user = null)
     {
+        // Stories-GunBalance-Start
+        if (user != null && IsGunInHands(user.Value, uid) && !HasOtherHandFree(user.Value, uid))
+            return;
+        // Stories-GunBalance-End
+
         if (component.BoltClosed == false)
         {
             ToggleBolt(uid, component, user);
@@ -262,6 +267,11 @@ public abstract partial class SharedGunSystem
     /// </summary>
     public void ToggleBolt(EntityUid uid, ChamberMagazineAmmoProviderComponent component, EntityUid? user = null)
     {
+        // Stories-GunBalance-Start
+        if (user != null && IsGunInHands(user.Value, uid) && !HasOtherHandFree(user.Value, uid))
+            return;
+        // Stories-GunBalance-End
+
         if (component.BoltClosed == null)
             return;
 

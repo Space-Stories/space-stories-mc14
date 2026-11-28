@@ -5,6 +5,7 @@ using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Projectile;
 using Content.Shared._RMC14.Xenonids.Projectile.Spit;
+using Content.Shared._RMC14.Xenonids.Rest;
 using Content.Shared.Damage;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Standing;
@@ -55,8 +56,10 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (!ent.Comp.CanRehit)
             return;
 
-        if (ent.Comp.Damaged.Remove(args.OtherEntity))
+        // Stories-DeletedEntityReferences-Start
+        if (TryGetNetEntity(args.OtherEntity, out var other) && ent.Comp.Damaged.Remove(other.Value))
             Dirty(ent);
+        // Stories-DeletedEntityReferences-End
     }
 
     private void OnShutdown(Entity<DamageOnCollideComponent> ent, ref ComponentShutdown args)
@@ -72,8 +75,13 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (ent.Comp.Disabled)
             return;
 
-        if (ent.Comp.Damaged.Contains(other))
+        // Stories-DeletedEntityReferences-Start
+        if (TerminatingOrDeleted(other) || !TryGetNetEntity(other, out var otherNet))
             return;
+
+        if (ent.Comp.Damaged.Contains(otherNet.Value))
+            return;
+        // Stories-DeletedEntityReferences-End
 
         if (!_whitelist.IsWhitelistPassOrNull(ent.Comp.Whitelist, other))
             return;
@@ -90,13 +98,24 @@ public abstract class SharedOnCollideSystem : EntitySystem
         if (HasComp<UncloakOnHitComponent>(ent.Owner))
             _cloak.TrySetInvisibility(other, false, true);
 
-        ent.Comp.Damaged.Add(other);
+        ent.Comp.Damaged.Add(otherNet.Value); // Stories-DeletedEntityReferences
         Dirty(ent);
 
+        var bonusDamage = false;
+
+        if (ent.Comp.AcidComboDamage != null && ent.Comp.AcidComboDamageChain != null && _xenoSpit.EnhanceAcid(other, ent.Comp.AcidComboMaxTier))
+        {
+            _stun.TryParalyze(other, ent.Comp.AcidComboParalyze, true);
+            bonusDamage = true;
+        }
+
         var didEmote = false;
-        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, other))
+        if (ent.Comp.Chain == null || AddToChain(ent.Comp.Chain.Value, otherNet.Value)) // Stories-DeletedEntityReferences
         {
             var damage = ent.Comp.Damage;
+            if (bonusDamage && ent.Comp.AcidComboDamage != null)
+                damage += ent.Comp.AcidComboDamage;
+
             if (ent.Comp.Acidic)
                 damage = _xeno.TryApplyXenoAcidDamageMultiplier(other, damage);
             _damageable.TryChangeDamage(other, damage, ent.Comp.IgnoreResistances, armorPiercing: ent.Comp.ArmorPenetration);
@@ -106,14 +125,16 @@ public abstract class SharedOnCollideSystem : EntitySystem
         else
         {
             var damage = ent.Comp.ChainDamage;
+
+            if (bonusDamage && ent.Comp.AcidComboDamageChain != null)
+                damage += ent.Comp.AcidComboDamageChain;
+
             if (ent.Comp.Acidic)
                 damage = _xeno.TryApplyXenoAcidDamageMultiplier(other, damage);
             _damageable.TryChangeDamage(other, damage, ent.Comp.IgnoreResistances);
         }
 
-        _xenoSpit.SetAcidCombo(other, ent.Comp.AcidComboDuration, ent.Comp.AcidComboDamage, ent.Comp.AcidComboParalyze, ent.Comp.AcidComboResists);
-
-        if (ent.Comp.Paralyze > TimeSpan.Zero && !_standing.IsDown(other) && (!_size.TryGetSize(other, out var size) || size < RMCSizes.Big))
+        if (ent.Comp.Paralyze > TimeSpan.Zero && !_standing.IsDown(other) && !HasComp<XenoRestingComponent>(ent) && (!_size.TryGetSize(other, out var size) || size < RMCSizes.Big))
         {
             _stun.TryParalyze(other, ent.Comp.Paralyze, true);
 
@@ -129,7 +150,7 @@ public abstract class SharedOnCollideSystem : EntitySystem
     {
     }
 
-    private bool AddToChain(Entity<CollideChainComponent?> chain, EntityUid add)
+    private bool AddToChain(Entity<CollideChainComponent?> chain, NetEntity add) // Stories-DeletedEntityReferences
     {
         if (!_collideChainQuery.Resolve(chain, ref chain.Comp, false))
             return true;

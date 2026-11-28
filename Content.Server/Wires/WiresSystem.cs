@@ -21,7 +21,7 @@ using Robust.Shared.Random;
 
 namespace Content.Server.Wires;
 
-public sealed class WiresSystem : SharedWiresSystem
+public sealed partial class WiresSystem : SharedWiresSystem
 {
     [Dependency] private readonly IPrototypeManager _protoMan = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
@@ -726,6 +726,10 @@ public sealed class WiresSystem : SharedWiresSystem
                 if (wire.Action == null || wire.Action.Cut(user, wire))
                 {
                     wire.IsCut = true;
+                    // RMC14 start - Record successful wire cutting for forensic investigations.
+                    var cut = new WireCutEvent(user);
+                    RaiseLocalEvent(used, ref cut);
+                    // RMC14 end
                 }
 
                 UpdateUserInterface(used);
@@ -747,6 +751,10 @@ public sealed class WiresSystem : SharedWiresSystem
                 if (wire.Action == null || wire.Action.Mend(user, wire))
                 {
                     wire.IsCut = false;
+                    // RMC14 start - Record successful wire repairs for forensic investigations.
+                    var mended = new WireMendedEvent(user);
+                    RaiseLocalEvent(used, ref mended);
+                    // RMC14 end
                 }
 
                 UpdateUserInterface(used);

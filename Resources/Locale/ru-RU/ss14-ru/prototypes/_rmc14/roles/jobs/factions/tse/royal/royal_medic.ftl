@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidRoyalMarinesMedic = royal crown marines ghost role medic
+ent-RMCRandomHumanoidRoyalMarinesMedic = роль призрака медицинского техника Королевской морской пехоты
     .desc = { "" }
-    .suffix = Spawner, Player, Friendly
+    .suffix = Спавнер, Игрок, Дружелюбный

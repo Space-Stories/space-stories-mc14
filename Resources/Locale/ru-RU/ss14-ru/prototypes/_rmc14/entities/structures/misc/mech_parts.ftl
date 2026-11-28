@@ -1,6 +1,6 @@
 ent-RMCMechPropBase = { ent-BaseStructureDynamic }
     .desc = { ent-BaseStructureDynamic.desc }
-    .suffix = Проп
+    .suffix = Декорация
 ent-RMCMechPropDrill = дрель
     .desc = Это дрель, которая пронзит небеса!
     .suffix = { ent-RMCMechPropBase.suffix }

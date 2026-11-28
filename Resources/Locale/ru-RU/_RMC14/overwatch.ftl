@@ -24,7 +24,7 @@ rmc-overwatch-console-state = Состояние
 rmc-overwatch-console-location = Местоположение
 rmc-overwatch-console-sl-dist = Дистанция до КО.
 rmc-overwatch-console-longitude = ДОЛГОТА
-rmc-overwatch-console-latitude = ШИРИНА
+rmc-overwatch-console-latitude = ШИРОТА
 rmc-overwatch-console-status = Статус платформы
 rmc-overwatch-console-launch-supply-drop = Отправить ящик со снабжением
 rmc-overwatch-console-confirm-supply-drop = Вы уверены?
@@ -151,4 +151,4 @@ rmc-overwatch-role-combat-technicians = Боевые техники
 rmc-overwatch-console-scoped = Вы слишком заняты наблюдением через оптику.
 
 ent-RMCOverwatchCameraTripod = Полевая камера на треноге
-    .desc = Развёртываемая полевая камера Motoca-430-T на треноге, подключающаяся к сети наблюдения. Её можно переименовать и установить.
+    .desc = Развёртываемая полевая камера Мотока-430-T на треноге, подключающаяся к сети наблюдения. Её можно переименовать и установить.

@@ -43,6 +43,7 @@ public sealed class IdModificationConsoleBui : BoundUserInterface, IRefreshableB
         EntMan.TryGetComponent(target, out MetaDataComponent? metaData);
         EntMan.TryGetComponent(target, out IdCardComponent? targetCardComponent);
         EntMan.TryGetComponent(target, out AccessComponent? targetCardAccessComponent);
+        EntMan.TryGetComponent(privileged, out AccessComponent? privCardAccessComponent); // Stories-AccessSecurity
 
         if (console.Authenticated)
             _window.SignInButton.Text = "Log Out";
@@ -88,7 +89,7 @@ public sealed class IdModificationConsoleBui : BoundUserInterface, IRefreshableB
                 case "Access":
                     _window.AccessContainer.Visible = true;
                     AccessGroupRefresh(console, targetCardAccessComponent);
-                    AccessButtonRefresh(targetCardAccessComponent);
+                    AccessButtonRefresh(targetCardAccessComponent, privCardAccessComponent); // Stories-AccessSecurity
                     RefreshIFFButton(console);
                     break;
                 case "Jobs":
@@ -165,7 +166,8 @@ public sealed class IdModificationConsoleBui : BoundUserInterface, IRefreshableB
             SendPredictedMessage(new IdModificationConsoleMultipleAccessChangeBuiMsg("GrantAll", _currentAccessGroup));
             foreach (var button in _accessButtons)
             {
-                button.AccessButton.ModulateSelfOverride = Color.Green;
+                if (!button.AccessButton.Disabled) // Stories-AccessSecurity
+                    button.AccessButton.ModulateSelfOverride = Color.Green;
             }
         };
 
@@ -184,7 +186,8 @@ public sealed class IdModificationConsoleBui : BoundUserInterface, IRefreshableB
                 new IdModificationConsoleMultipleAccessChangeBuiMsg("GrantAllGroup", _currentAccessGroup));
             foreach (var button in _accessButtons)
             {
-                button.AccessButton.ModulateSelfOverride = Color.Green;
+                if (!button.AccessButton.Disabled) // Stories-AccessSecurity
+                    button.AccessButton.ModulateSelfOverride = Color.Green;
             }
         };
 
@@ -442,26 +445,39 @@ public sealed class IdModificationConsoleBui : BoundUserInterface, IRefreshableB
         }
     }
 
-    private void AccessButtonRefresh(AccessComponent access)
+    // Stories-AccessSecurity-Start
+    private void AccessButtonRefresh(AccessComponent? access, AccessComponent? privilegedAccess)
     {
         foreach (var button in _accessButtons)
         {
             if (button.AccessButton.Text == null)
                 return;
 
-            foreach (var tag in access.Tags)
-            {
-                if (!_prototype.TryIndex(tag, out var accessPrototype) || accessPrototype.Name == null)
-                    continue;
+            var hasTarget = HasAccessTag(access, button.Tag);
+            var hasPrivileged = HasAccessTag(privilegedAccess, button.Tag);
 
-                if (button.Tag != accessPrototype.Name)
-                    continue;
-
-                button.AccessButton.ModulateSelfOverride = Color.Green;
-                break;
-            }
+            button.AccessButton.ModulateSelfOverride = hasTarget ? Color.Green : null;
+            button.AccessButton.Disabled = !hasTarget && !hasPrivileged;
         }
     }
+
+    private bool HasAccessTag(AccessComponent? access, string buttonTag)
+    {
+        if (access == null)
+            return false;
+
+        foreach (var tag in access.Tags)
+        {
+            if (!_prototype.TryIndex(tag, out var accessPrototype) || accessPrototype.Name == null)
+                continue;
+
+            if (buttonTag == accessPrototype.Name)
+                return true;
+        }
+
+        return false;
+    }
+    // Stories-AccessSecurity-End
 
     private void ToggleAccessButtonColor(IdModificationConsoleAccessButton accessButton)
     {

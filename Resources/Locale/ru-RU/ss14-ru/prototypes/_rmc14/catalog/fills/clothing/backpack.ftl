@@ -1,6 +1,6 @@
 ent-RMCBackpackTyrargoSurvivorFillCMT = { ent-RMCBackpackTyrargo }
     .desc = { ent-RMCBackpackTyrargo.desc }
-    .suffix = Tyrargo Medic Tech, Filled
+    .suffix = Медтехник Тирарго, Заполненный
 ent-RMCBackpackTyrargoSurvivorFillCET = { ent-RMCBackpackTyrargo }
     .desc = { ent-RMCBackpackTyrargo.desc }
-    .suffix = Tyrargo Engineer Tech, Filled
+    .suffix = Инженер-техник Тирарго, Заполненный

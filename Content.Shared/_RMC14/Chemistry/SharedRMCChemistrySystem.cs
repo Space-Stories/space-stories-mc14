@@ -1,28 +1,36 @@
-﻿using System.Linq;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._RMC14.Power;
 using Content.Shared._RMC14.Scaling;
+using Content.Shared._RMC14.UserInterface;
+using Content.Shared.Chemistry;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Containers;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
+using Content.Shared.Ghost;
+using Content.Shared.Interaction.Events;
 using Content.Shared.Inventory;
 using Content.Shared.Popups;
 using Content.Shared.Smoking;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using System.Linq;
 
 namespace Content.Shared._RMC14.Chemistry;
 
 public abstract class SharedRMCChemistrySystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!; // Stories-Ordnance
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly EntityWhitelistSystem _entityWhitelist = default!;
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
@@ -31,8 +39,10 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
     [Dependency] private readonly RMCReagentSystem _rmcReagent = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly ScalingSystem _scaling = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly InventorySystem _inventory = default!; // Stories-Ordnance
 
@@ -46,12 +56,14 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         SubscribeLocalEvent<DetailedExaminableSolutionComponent, ExaminedEvent>(OnDetailedSolutionExamined);
 
         SubscribeLocalEvent<RMCChemicalDispenserComponent, MapInitEvent>(OnDispenserMapInit);
+        SubscribeLocalEvent<RMCChemicalDispenserComponent, BoundUserInterfaceMessageAttempt>(OnDispenserUIMessageAttempt);
 
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, MapInitEvent>(OnToggleableSolutionTransferMapInit);
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, AfterAutoHandleStateEvent>(OnToggleableSolutionTransferState); // Stories-Ordnance
         SubscribeLocalEvent<RMCToggleableSolutionTransferComponent, GetVerbsEvent<AlternativeVerb>>(OnToggleableSolutionTransferVerbs);
 
         SubscribeLocalEvent<RMCSolutionTransferWhitelistComponent, SolutionTransferAttemptEvent>(OnTransferWhitelistAttempt);
+        SubscribeLocalEvent<RMCSolutionRefillSoundComponent, SolutionTransferredEvent>(OnRefillSound);
 
         SubscribeLocalEvent<NoMixingReagentsComponent, ExaminedEvent>(OnNoMixingReagentsExamined);
         SubscribeLocalEvent<NoMixingReagentsComponent, SolutionTransferAttemptEvent>(OnNoMixingReagentsTransferAttempt);
@@ -59,6 +71,14 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         SubscribeLocalEvent<RMCEmptySolutionComponent, GetVerbsEvent<AlternativeVerb>>(OnEmptySolutionGetVerbs);
 
         SubscribeLocalEvent<InventoryComponent, SmokeReactionAttemptEvent>(OnSmokeReactionAttempt); // Stories-Ordnance
+
+        SubscribeLocalEvent<RMCConnectedContainerComponent, GetConnectedContainerEvent>(OnConnectedContainerGet);
+        SubscribeLocalEvent<RMCConnectedContainerComponent, EntInsertedIntoContainerMessage>(OnConnectedContainerInsert);
+        SubscribeLocalEvent<RMCConnectedContainerComponent, EntRemovedFromContainerMessage>(OnConnectedContainerRemove);
+
+        SubscribeLocalEvent<RMCConnectContainerRelayComponent, SolutionContainerChangedEvent>(OnConnectSolutionChanged);
+
+        SubscribeLocalEvent<RMCHypoTransferAmountsComponent, GetVerbsEvent<AlternativeVerb>>(AddTransferVerbs);
 
         Subs.BuiEvents<RMCChemicalDispenserComponent>(RMCChemicalDispenserUi.Key,
             subs =>
@@ -68,6 +88,28 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
                 subs.Event<RMCChemicalDispenserEjectBeakerBuiMsg>(OnChemicalDispenserEjectBeakerMsg);
                 subs.Event<RMCChemicalDispenserDispenseBuiMsg>(OnChemicalDispenserDispenseMsg);
             });
+    }
+
+    private void OnDispenserUIMessageAttempt(
+        Entity<RMCChemicalDispenserComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is not RMCChemicalDispenserUi.Key)
+            return;
+
+        if (!_rmcUI.CanUseUI(args))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (HasComp<GhostComponent>(args.Actor))
+            return;
+
+        var attempt = new GettingInteractedWithAttemptEvent(args.Actor, ent);
+        RaiseLocalEvent(ent, ref attempt);
+        if (attempt.Cancelled)
+            args.Cancel();
     }
 
     // Stories-Ordnance-Start
@@ -231,6 +273,12 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         }
     }
 
+    private void OnRefillSound(Entity<RMCSolutionRefillSoundComponent> ent, ref SolutionTransferredEvent args)
+    {
+        if (args.Amount > 0)
+            _audio.PlayPredicted(ent.Comp.Sound, ent, args.User);
+    }
+
     private void OnNoMixingReagentsExamined(Entity<NoMixingReagentsComponent> ent, ref ExaminedEvent args)
     {
         using (args.PushGroup(nameof(NoMixingReagentsComponent)))
@@ -321,7 +369,7 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
             slot.ContainerSlot?.ContainedEntity is not { } contained ||
             !_solution.TryGetMixableSolution(contained, out var solutionEnt, out _) ||
             !ent.Comp.Reagents.Contains(args.Reagent) ||
-            !TryGetStorage(ent.Comp.Network, out var storage))
+            !TryGetStorage(ent.Owner, ent.Comp.Network, out var storage))
         {
             return;
         }
@@ -344,8 +392,114 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         _solution.TryAddReagent(solutionEnt.Value, args.Reagent, ent.Comp.DispenseSetting);
     }
 
+    private void OnConnectedContainerGet(Entity<RMCConnectedContainerComponent> ent, ref GetConnectedContainerEvent args)
+    {
+        if (!_container.TryGetContainer(ent, ent.Comp.ContainerId, out var container) || container.ContainedEntities.Count <= 0)
+            return;
+
+        args.ContainerEntity = container.ContainedEntities[0];
+    }
+
+    private void OnConnectedContainerInsert(Entity<RMCConnectedContainerComponent> ent, ref EntInsertedIntoContainerMessage args)
+    {
+        if (_timing.ApplyingState)
+            return;
+
+        if (!_container.TryGetContainer(ent, ent.Comp.ContainerId, out var conContainer) || args.Container != conContainer)
+            return;
+
+        var contained = EnsureComp<RMCConnectContainerRelayComponent>(args.Entity);
+        contained.ContainerOwner = ent;
+        Dirty(args.Entity, contained);
+
+        if (_solution.TryGetMixableSolution(args.Entity, out _, out var solu))
+            UpdateConnectedAppearance(ent, solu);
+    }
+
+    private void OnConnectedContainerRemove(Entity<RMCConnectedContainerComponent> ent, ref EntRemovedFromContainerMessage args)
+    {
+        if (!_container.TryGetContainer(ent, ent.Comp.ContainerId, out var container) || args.Container != container)
+            return;
+
+        RemCompDeferred<RMCConnectContainerRelayComponent>(args.Entity);
+        UpdateConnectedAppearance(ent, null);
+    }
+
+    private void OnConnectSolutionChanged(Entity<RMCConnectContainerRelayComponent> ent, ref SolutionContainerChangedEvent args)
+    {
+        if (ent.Comp.ContainerOwner == null)
+            return;
+
+        UpdateConnectedAppearance(ent.Comp.ContainerOwner.Value, args.Solution);
+    }
+
+    private void UpdateConnectedAppearance(EntityUid container, Solution? solu)
+    {
+        if (!HasComp<SolutionContainerVisualsComponent>(container))
+            return;
+
+        var solution = new Solution();
+
+        if (solu != null)
+            solution = solu;
+
+        _appearance.SetData(container, SolutionContainerVisuals.FillFraction, solution.FillFraction);
+        _appearance.SetData(container, SolutionContainerVisuals.Color, solution.GetColor(_prototypes));
+        _appearance.SetData(container, SolutionContainerVisuals.SolutionName, Name(container));
+
+        if(solution.GetPrimaryReagentId() is { } reagent)
+            _appearance.SetData(container, SolutionContainerVisuals.BaseOverride, reagent.ToString());
+    }
+
+    // TODO RMC14 obselete this when upstream hypos + injectors merge is merged
+    private void AddTransferVerbs(Entity<RMCHypoTransferAmountsComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
+    {
+        if (!args.CanAccess || !args.CanInteract || args.Hands == null)
+            return;
+
+        if (!TryComp<HyposprayComponent>(ent, out var hypo))
+            return;
+
+        var @event = args;
+
+        var priority = 0;
+        var user = args.User;
+        var amounts = ent.Comp.TransferAmounts;
+        foreach (var amount in amounts)
+        {
+            if (amount < ent.Comp.MinTransferAmount || amount > ent.Comp.MaxTransferAmount)
+                continue;
+
+            AlternativeVerb verb = new();
+            verb.Text = Loc.GetString("comp-solution-transfer-verb-amount", ("amount", amount));
+            verb.Category = VerbCategory.SetTransferAmount;
+            verb.Act = () =>
+            {
+                hypo.TransferAmount = amount;
+
+                _popup.PopupClient(Loc.GetString("comp-solution-transfer-set-amount", ("amount", amount)), ent, user);
+
+                Dirty(ent, hypo);
+            };
+
+            // we want to sort by size, not alphabetically by the verb text.
+            verb.Priority = priority;
+            priority--;
+
+            args.Verbs.Add(verb);
+        }
+    }
+
     public bool TryGetStorage(EntProtoId network, out Entity<RMCChemicalStorageComponent> storage)
     {
+        return TryGetStorage(EntityUid.Invalid, network, out storage);
+    }
+
+    public bool TryGetStorage(EntityUid dispenserUid, EntProtoId network, out Entity<RMCChemicalStorageComponent> storage)
+    {
+        var dispenserTransform = dispenserUid.IsValid() ? Transform(dispenserUid) : null;
+        Entity<RMCChemicalStorageComponent>? fallback = null;
+
         var storages = EntityQueryEnumerator<RMCChemicalStorageComponent>();
         while (storages.MoveNext(out var storageId, out var storageComp))
         {
@@ -354,9 +508,28 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
 
             if (storageComp.Network == network)
             {
-                storage = (storageId, storageComp);
-                return true;
+                if (dispenserTransform == null)
+                {
+                    storage = (storageId, storageComp);
+                    return true;
+                }
+
+                var storageTransform = Transform(storageId);
+                if (storageTransform.GridUid == dispenserTransform.GridUid ||
+                    _zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid))
+                {
+                    storage = (storageId, storageComp);
+                    return true;
+                }
+
+                fallback ??= (storageId, storageComp);
             }
+        }
+
+        if (fallback != null)
+        {
+            storage = fallback.Value;
+            return true;
         }
 
         storage = default;
@@ -368,11 +541,19 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
         storage.Comp.Energy = FixedPoint2.Clamp(energy, FixedPoint2.Zero, storage.Comp.MaxEnergy);
         Dirty(storage);
 
+        var storageTransform = Transform(storage);
         var dispensers = EntityQueryEnumerator<RMCChemicalDispenserComponent>();
         while (dispensers.MoveNext(out var dispenserId, out var dispenserComp))
         {
             if (dispenserComp.Network != storage.Comp.Network)
                 continue;
+
+            var dispenserTransform = Transform(dispenserId);
+            if (storageTransform.GridUid != dispenserTransform.GridUid &&
+                !_zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid))
+            {
+                continue;
+            }
 
             dispenserComp.Energy = energy;
             Dirty(dispenserId, dispenserComp);
@@ -410,8 +591,12 @@ public abstract class SharedRMCChemistrySystem : EntitySystem
             {
                 var dispenserTransform = Transform(dispenserId);
 
-                if (dispenser.Network == storage.Network && storageTransform.GridUid == dispenserTransform.GridUid)
+                if (dispenser.Network == storage.Network &&
+                    (storageTransform.GridUid == dispenserTransform.GridUid ||
+                     _zLevels.AreInSameNetwork(storageTransform.MapUid, dispenserTransform.MapUid)))
+                {
                     _dispensers.Add((dispenserId, dispenser));
+                }
             }
 
             var baseMax = storage.BaseMax;

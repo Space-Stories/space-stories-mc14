@@ -1,2 +1,2 @@
-ent-RMCGuidebookRolePvM = Provost Marshal
-    .desc = Provost Marshal
+ent-RMCGuidebookRolePvM = Маршал Провост
+    .desc = Маршал Провост

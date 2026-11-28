@@ -72,7 +72,7 @@ rmc-ert-prompt-handheld-reason = State the reason for the {$title}.
 rmc-ert-console-request-announcement = A distress beacon has been launched. High Command is reviewing the request.
 
 rmc-ert-admin-actor-server = server
-rmc-ert-admin-actor-auto-resolve = automatic response timer
+rmc-ert-admin-actor-auto-resolve = automatic response
 rmc-ert-launcher-automatic = automatic launch timer
 rmc-ert-response-team-fallback = response team
 rmc-ert-ship-fallback = ship
@@ -117,7 +117,6 @@ rmc-ert-error-docking-verification-failed = The ERT shuttle failed to dock with 
 rmc-ert-warning-no-compatible-landing-zone = {$call} cannot be approved: no compatible landing zone or docking port is available.
 rmc-ert-error-no-random-calls = No weighted random ERT calls are available for this request.
 rmc-ert-error-random-selection-failed = Weighted random ERT selection failed.
-rmc-ert-error-unavailable-evacuation = {$call} is unavailable while evacuation is in progress.
 rmc-ert-error-min-round-time = {$call} requires at least {$minutes} minutes of round time.
 rmc-ert-error-max-calls-reached = {$call} has already been dispatched this round.
 rmc-ert-error-source-cooldown = {$call} is on cooldown for this distress source.

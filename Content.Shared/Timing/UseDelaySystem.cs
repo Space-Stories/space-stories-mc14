@@ -26,13 +26,23 @@ public sealed class UseDelaySystem : EntitySystem
         if (args.Current is not UseDelayComponentState state)
             return;
 
-        ent.Comp.Delays.Clear();
+        // Stories-UseDelay-Start
+        var old = ent.Comp.Delays;
+        ent.Comp.Delays = new(state.Delays.Count);
 
         // At time of writing sourcegen networking doesn't deep copy so this will mispredict if you try.
         foreach (var (key, delay) in state.Delays)
         {
-            ent.Comp.Delays[key] = new UseDelayInfo(delay.Length, delay.StartTime, delay.EndTime);
+            if (old.TryGetValue(key, out var prev) && prev.EndTime > _gameTiming.CurTime && Math.Abs((prev.EndTime - delay.EndTime).TotalSeconds) < 1.0)
+            {
+                ent.Comp.Delays[key] = prev;
+            }
+            else
+            {
+                ent.Comp.Delays[key] = new UseDelayInfo(delay.Length, delay.StartTime, delay.EndTime);
+            }
         }
+        // Stories-UseDelay-End
     }
 
     private void OnDelayGetState(Entity<UseDelayComponent> ent, ref ComponentGetState args)
@@ -134,15 +144,15 @@ public sealed class UseDelaySystem : EntitySystem
     /// </summary>
     public UseDelayInfo GetLastEndingDelay(Entity<UseDelayComponent> ent)
     {
-        if (!ent.Comp.Delays.TryGetValue(DefaultId, out var last))
-            return new UseDelayInfo(TimeSpan.Zero);
-
+        // Stories-UseDelay-Start
+        UseDelayInfo? last = null;
         foreach (var entry in ent.Comp.Delays)
         {
-            if (entry.Value.EndTime > last.EndTime)
+            if (last == null || entry.Value.EndTime > last.EndTime)
                 last = entry.Value;
         }
-        return last;
+        return last ?? new UseDelayInfo(TimeSpan.Zero);
+        // Stories-UseDelay-End
     }
 
     /// <summary>

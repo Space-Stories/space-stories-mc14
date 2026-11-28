@@ -54,6 +54,18 @@
     canCrush: false
     canPry: false
   - type: Appearance
+  # Stories-DoorLinking-Start
+  - type: DoorSignalControl
+  - type: DeviceLinkSink
+    ports:
+    - Open
+    - Close
+    - Toggle
+    - DoorBolt
+  - type: DeviceLinkSource
+    ports:
+    - DoorStatus
+  # Stories-DoorLinking-End
   - type: UserInterface
     interfaces:
       enum.WiresUiKey.Key:
@@ -185,6 +197,18 @@
   parent: RMCShutterAlmayer
   id: RMCShutterAlmayerUniformVendors
   name: uniform vendor shutters
+  components:
+  - type: ApcPowerReceiver # Stories-Fixes start
+    needsPower: false
+  - type: Corrodible
+    isCorrodible: false
+  - type: RemoveComponents
+    components:
+    - type: RMCWallExplosionDeletable
+    - type: DestroyedByExplosionType
+    - type: DoorSignalControl
+    - type: DeviceLinkSink
+    - type: DeviceLinkSource  # Stories-Fixes end
 
 - type: entity
   parent: RMCShutterAlmayer

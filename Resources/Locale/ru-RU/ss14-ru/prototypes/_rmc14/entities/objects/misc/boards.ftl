@@ -1,5 +1,5 @@
-ent-RMCBaseBoards = boards
-    .desc = Salvaged wooden boards.
+ent-RMCBaseBoards = доски
+    .desc = Подобранные деревянные доски.
 ent-RMCBoards1 = { ent-RMCBaseBoards }
     .desc = { ent-RMCBaseBoards.desc }
     .suffix = 1

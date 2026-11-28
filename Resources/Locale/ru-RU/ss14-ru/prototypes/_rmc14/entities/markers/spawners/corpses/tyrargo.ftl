@@ -1,6 +1,6 @@
-ent-RMCSpawnerCorpseTyrargoTrooper = Corpse Spawner — Tyrargo Rifleman
+ent-RMCSpawnerCorpseTyrargoTrooper = спавнер трупов — Стрелок Тирарго
     .desc = { ent-RMCSpawnerCorpse.desc }
     .suffix = { ent-RMCSpawnerCorpse.suffix }
-ent-RMCSpawnerCorpseTyrargoMedic = Corpse Spawner — Tyrargo Medic
+ent-RMCSpawnerCorpseTyrargoMedic = спавнер трупов — Медик Тирарго
     .desc = { ent-RMCSpawnerCorpse.desc }
     .suffix = { ent-RMCSpawnerCorpse.suffix }

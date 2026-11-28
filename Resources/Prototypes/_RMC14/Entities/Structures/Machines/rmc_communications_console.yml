@@ -38,6 +38,10 @@
     activeLoad: 300
     channel: Equipment
   - type: ActivatableUIRequiresPower
+  - type: InteractedBlacklist # Stories-InterfaceSecurity
+    blacklist:
+      components:
+      - Xeno
   - type: WallMount
     arc: 360
   - type: EmitSoundOnUIOpen
@@ -77,6 +81,7 @@
   - type: MarineControlComputer
   - type: OverwatchConsole
     canMessageSquad: true
+    canOrbitalBombardment: false # Stories-InterfaceSecurity
   - type: SupplyDropComputer
   - type: TacticalMapComputer
   - type: GuideHelp

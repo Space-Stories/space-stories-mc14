@@ -153,6 +153,11 @@ public abstract partial class SharedToolSystem
         if (args.Cancelled)
             return;
 
+        // Stories-WelderCancelOnOff-Start
+        if (!ItemToggle.IsActivated(ent.Owner))
+            return;
+        // Stories-WelderCancelOnOff-End
+
         if (!SolutionContainerSystem.TryGetSolution(ent.Owner, ent.Comp.FuelSolutionName, out var solution))
             return;
 

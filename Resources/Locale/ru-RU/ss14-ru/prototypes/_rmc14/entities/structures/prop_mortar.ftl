@@ -1,3 +1,3 @@
-ent-RMCPropMortar = M402 mortar
-    .desc = A manual, crew-operated mortar system intended to rain down 80mm goodness on anything it's aimed at. Uses an advanced targeting computer. This one has fired so many rounds the barrel is warped, leaving it non-functional.
-    .suffix = Prop
+ent-RMCPropMortar = миномет M402
+    .desc = Ручная минометная система с расчётом, предназначенная обрушивать 80-мм радость на всё, во что её наведут. Использует продвинутый компьютер наведения. Этот миномёт сделал столько выстрелов, что ствол повело, и он больше не работает.
+    .suffix = Декорация

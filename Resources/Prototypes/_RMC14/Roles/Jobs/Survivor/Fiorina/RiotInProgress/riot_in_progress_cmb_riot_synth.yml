@@ -17,13 +17,22 @@
       role: RMCJobSyntheticColony
       time: 252000 # 70 hours
     RMCRankCMBCorporal: []
+  # Stories-SurvivorSpawnerFallback-Start
+  survivorSpawnerFallback:
+  - RMCSurvivorFiorinaRiotInProgressCMBOfficer
+  # Stories-SurvivorSpawnerFallback-End
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
     - type: RMCSurvivor
     - type: MotionDetectorTracked
@@ -46,7 +55,8 @@
 - type: startingGear
   id: RMCGearSurvivorFiorinaRiotInProgressCMBRiotControlSynth
   equipment:
-    jumpsuit: RMCSwatCMBUniform # TODO RMC14: Drop pouch with flashbangs and handcuffs
+    # jumpsuit: RMCSwatCMBUniform # TODO RMC14: Drop pouch with flashbangs and handcuffs # Stories-SynthSurvivorGear
+    jumpsuit: STSwatCMBUniformRiotSynth # Stories-SynthSurvivorGear
     id: RMCIDCardCMBDeputySurvivor
     back: RMCBackpackTyrargo
     head: CMHeadBeretCMB
@@ -58,11 +68,16 @@
     belt: CMBeltSecurityMPFilled # TODO RMC14: synth fill
     pocket1: RMCPouchSurvivalSynthFill
     pocket2: RMCPouchToolsFill
+  # Stories-SynthSurvivorGear-Start
+  inhand:
+  - RMCRC6RiotShield
+  # Stories-SynthSurvivorGear-End
   storage:
     back: # On CM, has 1 M16 magazine
     - RMCHandcuffs
     - RMCHandcuffs # TODO RMC14: Teargas grenades
     - RMCPacketGrenadeBatonSlugHIRRFilled
+    - RMCFlashlightPen # Stories-SynthSurvivorGear
     outerClothing:
     - RMCGrenadeFlashBang
     - RMCTelescopicBaton

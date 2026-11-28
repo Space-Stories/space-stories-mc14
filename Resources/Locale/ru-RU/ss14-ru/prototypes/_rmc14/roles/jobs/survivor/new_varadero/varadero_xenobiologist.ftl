@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorNewVaraderoXenobiologist = survivor new varadero xenobiologist spawn point
+ent-RMCSpawnPointSurvivorNewVaraderoXenobiologist = точка появления выжившего ксенобиолога Нью-Варадеро
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCSurvivorPresetNVXenobiologist = varadero xenobiologist preset
+ent-RMCSurvivorPresetNVXenobiologist = пресет ксенобиолога Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

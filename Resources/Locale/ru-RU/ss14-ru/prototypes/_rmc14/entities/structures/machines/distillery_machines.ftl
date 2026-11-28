@@ -1,0 +1,10 @@
+ent-RMCMachineDistilleryBase = { ent-BaseMachinePowered }
+    .desc = { ent-BaseMachinePowered.desc }
+ent-RMCMachineDistilleryMill = mill
+    .desc = It is a machine that grinds produce.
+ent-RMCMachineDistilleryFermenter = fermenter
+    .desc = It is a machine that ferments produce into alcoholic drinks.
+ent-RMCMachineDistilleryStill = still
+    .desc = It is a machine that produces hard liquor from alcoholic drinks.
+ent-RMCMachineDistillerySqueezer = squeezer
+    .desc = It is a machine that squeezes extracts from produce.

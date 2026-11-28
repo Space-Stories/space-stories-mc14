@@ -42,6 +42,8 @@ public sealed partial class AnnouncementWidget : UIWidget
     private bool _hasTitle;
     private int _titleOffset;
     private float _activeTextMaxWidth;
+    private TimeSpan? _layoutPausedAt;
+    private TimeSpan _layoutPauseDuration;
 
     public AnnouncementWidget()
     {
@@ -85,11 +87,11 @@ public sealed partial class AnnouncementWidget : UIWidget
     {
         base.FrameUpdate(args);
 
-        if (ActiveAnnouncement == null)
+        if (ActiveAnnouncement == null || _layoutPausedAt != null)
             return;
 
         var deltaTime = (float) args.DeltaSeconds;
-        var currentTime = _timing.CurTime;
+        var currentTime = _timing.CurTime - _layoutPauseDuration;
 
         if (PreviewMode)
         {
@@ -107,6 +109,23 @@ public sealed partial class AnnouncementWidget : UIWidget
         UpdateAnnouncement(deltaTime, currentTime);
         if (!PositionManaged)
             UpdatePosition();
+    }
+
+    internal void SetLayoutVisible(bool visible)
+    {
+        if (visible && _layoutPausedAt is { } pausedAt)
+        {
+            _layoutPauseDuration += _timing.CurTime - pausedAt;
+            _layoutPausedAt = null;
+        }
+        else if (!visible && _layoutPausedAt == null)
+        {
+            _layoutPausedAt = _timing.CurTime;
+        }
+
+        // Hidden announcements still need measuring when space becomes available or the viewport changes.
+        ReservesSpace = !visible;
+        Visible = visible;
     }
 
     private void FinishAnnouncement()
@@ -139,6 +158,9 @@ public sealed partial class AnnouncementWidget : UIWidget
         _hasTitle = false;
         _titleOffset = 0;
         _activeTextMaxWidth = 0f;
+        _layoutPausedAt = null;
+        _layoutPauseDuration = TimeSpan.Zero;
+        ReservesSpace = false;
         ResetLayoutState();
     }
 

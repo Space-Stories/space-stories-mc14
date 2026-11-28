@@ -16,4 +16,4 @@ ent-RMCSwatCMBUniformMK45 = { ent-RMCSwatCMBUniform }
     .suffix = MK45
 ent-RMCSwatCMBUniformM1984 = { ent-RMCSwatCMBUniform }
     .desc = { ent-RMCSwatCMBUniform.desc }
-    .suffix = M1984
+    .suffix = M4A3

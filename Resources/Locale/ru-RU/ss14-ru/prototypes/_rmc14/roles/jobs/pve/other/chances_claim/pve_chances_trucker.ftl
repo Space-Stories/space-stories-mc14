@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesTrucker = chances trucker spawn point
+ent-RMCSpawnPointSurvivorChancesTrucker = точка появления дальнобойщика «Претензии Шанса»
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesTrucker = chances trucker ghost role
+ent-RMCRandomHumanoidSurvivorChancesTrucker = роль призрака дальнобойщика «Претензии Шанса»
     .desc = { ent-MarkerBase.desc }

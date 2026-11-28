@@ -7,7 +7,7 @@ namespace Content.Shared._RMC14.Intel;
 [Access(typeof(IntelSystem))]
 public sealed partial class IntelSafeObjectiveComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [DataField]
     public string Code = string.Empty;
 
     [DataField, AutoNetworkedField]

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Content.Server._RMC14.MapInsert;
+using Content.Server._RMC14.Spawners;
 using Content.Server.Voting;
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
@@ -37,6 +38,9 @@ public sealed partial class CMDistressSignalRuleSystem
         EnsureComp<RMCPlanetComponent>(map);
         EnsureComp<TacticalMapComponent>(map);
 
+        if (planet.Comp.SmallHostVariants != null)
+            EnsureComp<MapProportionalSpawnsComponent>(map).Prototypes = planet.Comp.SmallHostVariants;
+
         if (grids.Count == 0)
             return false;
 
@@ -47,6 +51,45 @@ public sealed partial class CMDistressSignalRuleSystem
 
         _mapSystem.InitializeMap((map, map));
 
+        // Stories-ZLevels-Start
+        if (planet.Comp.MapsBelow.Count > 0 || planet.Comp.MapsAbove.Count > 0)
+        {
+            var planetNetwork = _zLevels.CreateMapNetwork();
+            var dict = new Dictionary<EntityUid, int>
+            {
+                { map.Owner, 0 }
+            };
+
+            var depth = -planet.Comp.MapsBelow.Count;
+            foreach (var mapBelow in planet.Comp.MapsBelow)
+            {
+                if (_mapLoader.TryLoadMap(mapBelow, out var mapEnt, out _))
+                {
+                    _mapSystem.InitializeMap((mapEnt.Value.Owner, mapEnt.Value.Comp));
+                    EnsureComp<RMCPlanetComponent>(mapEnt.Value.Owner);
+                    EnsureComp<TacticalMapComponent>(mapEnt.Value.Owner);
+                    dict.Add(mapEnt.Value.Owner, depth);
+                }
+                depth++;
+            }
+
+            depth = 1;
+            foreach (var mapAbove in planet.Comp.MapsAbove)
+            {
+                if (_mapLoader.TryLoadMap(mapAbove, out var mapEnt, out _))
+                {
+                    _mapSystem.InitializeMap((mapEnt.Value.Owner, mapEnt.Value.Comp));
+                    EnsureComp<RMCPlanetComponent>(mapEnt.Value.Owner);
+                    EnsureComp<TacticalMapComponent>(mapEnt.Value.Owner);
+                    dict.Add(mapEnt.Value.Owner, depth);
+                }
+                depth++;
+            }
+
+            _zLevels.TryAddMapsIntoNetwork(planetNetwork, dict);
+        }
+
+        // Stories-ZLevels-End
         // Stories-Survivor-Start
         if (planet.Comp.Replacements != null && planet.Comp.Replacements.Count > 0)
         {

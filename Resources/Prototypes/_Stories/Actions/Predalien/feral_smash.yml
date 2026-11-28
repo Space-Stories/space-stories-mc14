@@ -1,0 +1,18 @@
+- type: entity
+  id: ActionSTFeralSmash
+  parent: ActionXenoBase
+  name: Feral Smash
+  description: Lunge at a target, grab them, and slam them into the ground.
+  components:
+  - type: Action
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Stories/Actions/predalien_actions.rsi
+      state: feral_smash
+    useDelay: 20
+  - type: TargetAction
+    range: 4
+    checkCanAccess: false
+  - type: WorldTargetAction
+    event: !type:XenoLeapActionEvent
+  - type: RMCDazeableAction

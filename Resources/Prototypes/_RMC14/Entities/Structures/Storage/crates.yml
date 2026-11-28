@@ -28,6 +28,7 @@
   - type: RequisitionsCrate
   - type: InteractionOutline
   - type: Physics
+  - type: ZPhysics # Stories-ZLevels
   - type: Fixtures
     fixtures:
       fix1:
@@ -117,6 +118,7 @@
   - type: AnimationPlayer
   - type: RMCMesonsNonviewable
   - type: EntityStorageCloseOnMapInit
+  - type: RMCEntityStorageLineBlockable
 
 - type: entity
   parent: RMCCrateBase

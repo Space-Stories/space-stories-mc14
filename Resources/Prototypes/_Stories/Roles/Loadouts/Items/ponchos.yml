@@ -1,0 +1,6 @@
+- type: loadout
+  id: STPonchoBlack
+  cost: 2
+  storage:
+    back:
+    - STPonchoBlack

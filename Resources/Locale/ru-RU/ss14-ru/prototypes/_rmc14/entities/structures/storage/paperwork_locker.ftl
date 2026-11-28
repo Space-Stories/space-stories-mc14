@@ -1,3 +1,3 @@
-ent-RMCPaperworkLocker = police paperwork
-    .desc = A filing cabinet containing various forms and documents for administrative purposes.
+ent-RMCPaperworkLocker = полицейские документы
+    .desc = Картотечный шкаф с разными бланками и документами для административных нужд.
     .suffix = { ent-CMFilingCabinet.suffix }

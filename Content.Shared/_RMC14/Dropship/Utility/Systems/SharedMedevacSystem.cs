@@ -104,17 +104,23 @@ public abstract class SharedMedevacSystem : EntitySystem
             _appearance.SetData(utilId.Value, DropshipUtilityVisuals.State, sprite.Sprite.RsiState);
         }
 
+        // Stories-MedevacFix-Start
+        if (_net.IsClient)
+            return;
+
         if (_stretcher.TryMedevac(stretcherEnt, ent.Owner))
         {
             _dropshipUtility.ResetActivationCooldown(utilEnt);
-            ent.Comp.Target = null;
-            Dirty(ent);
         }
         else
         {
             var ev = new MedevacFailedEvent();
             RaiseLocalEvent(target.Value, ref ev);
         }
+
+        ent.Comp.Target = null;
+        Dirty(ent);
+        // Stories-MedevacFix-End
     }
 
     public override void Update(float frameTime)
@@ -124,8 +130,10 @@ public abstract class SharedMedevacSystem : EntitySystem
         var medevacQuery = AllEntityQuery<MedevacComponent>();
         while (medevacQuery.MoveNext(out var ent, out var medicomp))
         {
+            // Stories-MedevacFix-Start
             if (!TryComp(ent, out UseDelayComponent? delayComp))
-                return;
+                continue;
+            // Stories-MedevacFix-End
 
             if (medicomp.IsActivated &&
                 !_useDelay.IsDelayed((ent, delayComp), MedevacComponent.AnimationDelay))

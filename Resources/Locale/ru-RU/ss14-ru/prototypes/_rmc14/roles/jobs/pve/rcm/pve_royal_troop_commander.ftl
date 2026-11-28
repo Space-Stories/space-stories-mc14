@@ -1,3 +1,3 @@
-ent-CMSpawnPointRCMPVETroopCommander = RCM troop commander spawn point
+ent-CMSpawnPointRCMPVETroopCommander = точка появления командира подразделения Королевской морской пехоты
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

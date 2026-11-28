@@ -1,5 +1,5 @@
-ent-RMCBaseRockStalagmite = stalagmite
-    .desc = A cave stalagmite.
+ent-RMCBaseRockStalagmite = сталагмит
+    .desc = Пещерный сталагмит.
     .suffix = { ent-RMCBaseRockNonCollide.suffix }
 ent-RMCBaseRockStalagmite1 = { ent-RMCBaseRockStalagmite }
     .desc = { ent-RMCBaseRockStalagmite.desc }

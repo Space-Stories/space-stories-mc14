@@ -64,9 +64,17 @@ public sealed class FoldableClothingSystem : EntitySystem
             // to modify.
             // This should instead work via an event or something that gets raised to optionally modify the currently hidden layers.
             // Or at the very least it should stash the old layers and restore them when unfolded.
-            // TODO CLOTHING fix this.
-            if (ent.Comp.FoldedHideLayers.Count != 0 && TryComp<HideLayerClothingComponent>(ent.Owner, out var hideLayerComp))
-                hideLayerComp.Slots = ent.Comp.FoldedHideLayers;
+            // Stories-FoldableClothing-Start
+            if (TryComp<HideLayerClothingComponent>(ent.Owner, out var hideLayerComp))
+            {
+                if (ent.Comp.FoldedHideLayers.Count != 0)
+                    hideLayerComp.Slots = ent.Comp.FoldedHideLayers;
+                else
+                    hideLayerComp.Slots = null;
+
+                Dirty(ent.Owner, hideLayerComp);
+            }
+            // Stories-FoldableClothing-End
 
         }
         else

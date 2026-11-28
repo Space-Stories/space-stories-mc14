@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesVehicleRepairman = vehicle repairman spawn point
+ent-RMCSpawnPointSurvivorChancesVehicleRepairman = точка появления ремонтника техники
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesVehicleRepairman = vehicle repairman ghost role
+ent-RMCRandomHumanoidSurvivorChancesVehicleRepairman = роль призрака ремонтника техники
     .desc = { ent-MarkerBase.desc }

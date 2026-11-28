@@ -621,7 +621,7 @@ public sealed partial class AnnouncementWidget
             };
         }
 
-        private Font ResolveFont(string? fontId, int size)
+        public Font ResolveFont(string? fontId, int size)
         {
             var id = string.IsNullOrEmpty(fontId) ? FontTag.DefaultFont : fontId;
             if (!_owner._prototypeManager.TryIndex<FontPrototype>(id, out var prototype))

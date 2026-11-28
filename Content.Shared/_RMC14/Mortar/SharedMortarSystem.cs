@@ -1,4 +1,4 @@
-﻿using Content.Shared._RMC14.Areas;
+using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Camera;
 using Content.Shared._RMC14.CameraShake;
 using Content.Shared._RMC14.Chat;
@@ -8,6 +8,7 @@ using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rangefinder;
 using Content.Shared._RMC14.Rules;
+using Content.Shared._RMC14.Weapons.Melee;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._Stories.AntiGrief.Cadet;
 using Content.Shared._Stories.Ordnance;
@@ -81,13 +82,14 @@ public abstract class SharedMortarSystem : EntitySystem
         SubscribeLocalEvent<MortarComponent, DialMortarDoAfterEvent>(OnMortarDialDoAfter);
         SubscribeLocalEvent<MortarComponent, InteractUsingEvent>(OnMortarInteractUsing);
         SubscribeLocalEvent<MortarComponent, LoadMortarShellDoAfterEvent>(OnMortarLoadDoAfter);
+        SubscribeLocalEvent<MortarComponent, DoAfterAttemptEvent<LoadMortarShellDoAfterEvent>>(OnMortarLoadAttempt); // Stories-MortarFix
         SubscribeLocalEvent<MortarComponent, UnanchorAttemptEvent>(OnMortarUnanchorAttempt);
         SubscribeLocalEvent<MortarComponent, AnchorStateChangedEvent>(OnMortarAnchorStateChanged);
         SubscribeLocalEvent<MortarComponent, ExaminedEvent>(OnMortarExamined);
         SubscribeLocalEvent<MortarComponent, ActivatableUIOpenAttemptEvent>(OnMortarActivatableUIOpenAttempt);
-        SubscribeLocalEvent<MortarComponent, CombatModeShouldHandInteractEvent>(OnMortarShouldInteract);
         SubscribeLocalEvent<MortarComponent, DestructionEventArgs>(OnMortarDestruction);
         SubscribeLocalEvent<MortarComponent, BeforeDamageChangedEvent>(OnMortarBeforeDamageChanged);
+        SubscribeLocalEvent<MortarComponent, CheckMeleeAttackerEvent>(OnMortarReceivingMeleeAttackAttempt);
         SubscribeLocalEvent<MortarComponent, LinkMortarLaserDesignatorDoAfterEvent>(OnMortarLinkLaserDesignatorDoAfter);
         SubscribeLocalEvent<MortarComponent, GetVerbsEvent<AlternativeVerb>>(OnGetMortarVerbs);
         SubscribeLocalEvent<MortarComponent, MortarLaserTargetUpdateDoAfterEvent>(OnMortarLaserTargetUpdateDoAfter);
@@ -112,6 +114,14 @@ public abstract class SharedMortarSystem : EntitySystem
     {
         if (!ent.Comp.Deployed) // cannot destroy in item form
             args.Cancelled = true;
+    }
+
+    private void OnMortarReceivingMeleeAttackAttempt(Entity<MortarComponent> ent, ref CheckMeleeAttackerEvent args)
+    {
+        // undeployed mortars can't be damaged, but we can't cancel the attack because
+        // we allow mortars to be picked up in combat mode
+        if (!ent.Comp.Deployed)
+            args.Defer = true;
     }
 
     private void OnMortarDestruction(Entity<MortarComponent> mortar, ref DestructionEventArgs args)
@@ -269,13 +279,27 @@ public abstract class SharedMortarSystem : EntitySystem
             if (!HasSkillPopup(mortar, user, true))
                 return;
 
+            // Stories-MortarFix-Start
+            if (mortar.Comp.LoadingShell != null)
+            {
+                _popup.PopupPredicted(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, PopupType.SmallCaution);
+                return;
+            }
+            // Stories-MortarFix-End
+
             if (!CanLoadPopup(mortar, (used, shell), user, out _, out _))
                 return;
+
+            // Stories-MortarFix-Start
+            mortar.Comp.LoadingShell = used;
+            Dirty(mortar);
+            // Stories-MortarFix-End
 
             var ev = new LoadMortarShellDoAfterEvent();
             var doAfter = new DoAfterArgs(EntityManager, user, shell.LoadDelay, ev, mortar, mortar, used)
             {
                 BreakOnMove = true,
+                NeedHand = true, // Stories-MortarFix
                 BreakOnHandChange = true,
                 ForceVisible = true,
             };
@@ -292,8 +316,31 @@ public abstract class SharedMortarSystem : EntitySystem
                 if (_net.IsServer)
                     _audio.PlayPvs(mortar.Comp.ReloadSound, mortar);
             }
+            else
+            {
+                // Stories-MortarFix-Start
+                mortar.Comp.LoadingShell = null;
+                Dirty(mortar);
+                // Stories-MortarFix-End
+            }
         }
     }
+
+    // Stories-MortarFix-Start
+    private void OnMortarLoadAttempt(Entity<MortarComponent> mortar, ref DoAfterAttemptEvent<LoadMortarShellDoAfterEvent> args)
+    {
+        if (!mortar.Comp.Deployed)
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (args.DoAfter.Args.Used is { } shellId && mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shellId)
+        {
+            args.Cancel();
+        }
+    }
+    // Stories-MortarFix-End
 
     private void OnMortarLoadDoAfter(Entity<MortarComponent> mortar, ref LoadMortarShellDoAfterEvent args)
     {
@@ -305,6 +352,14 @@ public abstract class SharedMortarSystem : EntitySystem
             return;
         }
         // Stories-AntiGrief-End
+
+        // Stories-MortarFix-Start
+        if (args.Used is { } usedShell && mortar.Comp.LoadingShell == usedShell)
+        {
+            mortar.Comp.LoadingShell = null;
+            Dirty(mortar);
+        }
+        // Stories-MortarFix-End
 
         var user = args.User;
         if (args.Cancelled || args.Handled || args.Used is not { } shellId)
@@ -420,6 +475,7 @@ public abstract class SharedMortarSystem : EntitySystem
             return;
 
         mortar.Comp.Deployed = false;
+        mortar.Comp.LoadingShell = null; // Stories-MortarFix
         Dirty(mortar);
 
         if (_fixture.GetFixtureOrNull(mortar, mortar.Comp.FixtureId) is { } fixture)
@@ -452,11 +508,6 @@ public abstract class SharedMortarSystem : EntitySystem
 
         if (!ent.Comp.Deployed)
             args.Cancel();
-    }
-
-    private void OnMortarShouldInteract(Entity<MortarComponent> ent, ref CombatModeShouldHandInteractEvent args)
-    {
-        args.Cancelled = true;
     }
 
     private void OnMortarCameraShellLand(Entity<MortarCameraShellComponent> ent, ref MortarShellLandEvent args)
@@ -551,6 +602,7 @@ public abstract class SharedMortarSystem : EntitySystem
         {
             BreakOnMove = true,
             BreakOnHandChange = true,
+            RootEntity = true,
         };
 
         if (_doAfter.TryStartDoAfter(args))
@@ -594,7 +646,28 @@ public abstract class SharedMortarSystem : EntitySystem
     {
         travelTime = default;
         coordinates = default;
-        return false;
+
+        // Stories-MortarFix-Start
+        if (mortar.Comp.LoadingShell != null && mortar.Comp.LoadingShell != shell.Owner)
+        {
+            _popup.PopupClient(Loc.GetString("rmc-mortar-shell-busy", ("mortar", mortar)), user, user, PopupType.SmallCaution);
+            return false;
+        }
+
+        if (_container.TryGetContainer(mortar, mortar.Comp.ContainerId, out var container))
+        {
+            foreach (var contained in container.ContainedEntities)
+            {
+                if (!HasComp<ActiveMortarShellComponent>(contained))
+                {
+                    _popup.PopupClient(Loc.GetString("rmc-mortar-cant-insert", ("shell", shell), ("mortar", mortar)), user, user, PopupType.SmallCaution);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+        // Stories-MortarFix-End
     }
 
     protected virtual bool ValidateTargetCoordinates(
@@ -711,7 +784,7 @@ public abstract class SharedMortarSystem : EntitySystem
                 // Stories-Ordnance-Start
                 if (TryComp<OrdnanceCasingComponent>(uid, out var casing))
                 {
-                    var triggerEv = new OrdnanceDetonateEvent(null);
+                    var triggerEv = new OrdnanceDetonateEvent(user);
                     RaiseLocalEvent(uid, ref triggerEv);
                 }
                 else

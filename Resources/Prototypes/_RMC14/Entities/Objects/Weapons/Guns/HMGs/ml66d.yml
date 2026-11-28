@@ -109,6 +109,7 @@
   - type: Tag
     tags:
     - RMCSmartGunMounted
+  - type: GunIgnoreContainerOwnerCollision
 
 - type: entity
   parent: RMCSmartGunMounted

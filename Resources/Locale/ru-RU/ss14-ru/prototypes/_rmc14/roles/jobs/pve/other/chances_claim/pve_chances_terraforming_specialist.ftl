@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesTerraformingSpecialist = terraforming specialist spawn point
+ent-RMCSpawnPointSurvivorChancesTerraformingSpecialist = точка появления специалиста по терраформированию
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesTerraformingSpecialist = terraforming specialist ghost role
+ent-RMCRandomHumanoidSurvivorChancesTerraformingSpecialist = роль призрака специалиста по терраформированию
     .desc = { ent-MarkerBase.desc }

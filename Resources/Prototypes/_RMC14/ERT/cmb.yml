@@ -3,6 +3,7 @@
   name: rmc-ert-call-cmb-name
   organization: rmc-ert-organization-cmb
   npcFactions: [ Bureau ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   category: rmc-ert-category-law
   enabled: true
   adminSelectable: true
@@ -70,7 +71,7 @@
       message: rmc-ert-announcement-cmb-inspection-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 5
@@ -80,6 +81,7 @@
   name: rmc-ert-call-cmb-black-market-name
   organization: rmc-ert-organization-cmb
   npcFactions: [ Bureau ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   category: rmc-ert-category-law
   enabled: true
   adminSelectable: true
@@ -111,8 +113,9 @@
     ghostRoleEntityPool:
     - entity: RMCRandomHumanoidBureauDeputy
       weight: 100
-    min: 1
+    min: 0
     max: 1
+    required: false
     roleTags: [ police ]
     seatTags: [ troop ]
   - id: liaison
@@ -140,7 +143,7 @@
       message: rmc-ert-announcement-cmb-black-market-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 2m
     maxCallsPerRound: 1
     minRequiredSlots: 2
     maxSlots: 3
@@ -150,6 +153,7 @@
   name: rmc-ert-call-cmb-riot-name
   organization: rmc-ert-organization-cmb
   npcFactions: [ Bureau ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   category: rmc-ert-category-law
   enabled: true
   adminSelectable: true
@@ -232,7 +236,7 @@
       message: rmc-ert-announcement-cmb-riot-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 8

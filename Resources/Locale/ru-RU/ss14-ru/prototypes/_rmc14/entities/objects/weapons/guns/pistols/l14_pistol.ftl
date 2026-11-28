@@ -1,10 +1,10 @@
-ent-RMCWeaponPistolL14 = L14 combat pistol
-    .desc = The L14 is the standard issue sidearm of the Royal Crown Marines, and the product of an inordinate amount of time and capital investment by the TSE. It is a compact but accurate high-capacity combat pistol chambered in 9mm, capable of tight two-round bursts. This piece can usually be found on junior officers and supporting roles within the RCM.
+ent-RMCWeaponPistolL14 = боевой пистолет L14
+    .desc = L14 — стандартное личное оружие Королевской морской пехоты и плод непомерных затрат времени и капитала со стороны ИТС. Компактный, но точный боевой пистолет повышенной ёмкости под патрон 9 мм, способный вести кучные очереди по два выстрела. Обычно встречается у младших офицеров и бойцов вспомогательных ролей Королевской морской пехоты.
     .suffix = PVE
-ent-RMCWeaponPistolL14Custom = L14 custom combat pistol
-    .desc = The L14 is the standard issue sidearm of the Royal Crown Marines, a compact but accurate high-capacity combat pistol chambered in 9mm. This particular L14 has been modified with aftermarket rubber grip plates to improve handling.
-    .suffix = PVE, Loadout
-ent-RMCMagazinePistolL14 = L14 magazine (9mm)
+ent-RMCWeaponPistolL14Custom = доработанный боевой пистолет L14
+    .desc = L14 — стандартное личное оружие Королевской морской пехоты, компактный, но точный боевой пистолет повышенной ёмкости под патрон 9 мм. На этот экземпляр установлены резиновые накладки на рукоять для лучшего хвата.
+    .suffix = PVE, Снаряжение
+ent-RMCMagazinePistolL14 = магазин L14 (9 мм)
     .desc = { ent-CMBaseMagazinePistol.desc }
-ent-RMCMagazinePistolL14AP = L14 AP magazine (9mm)
+ent-RMCMagazinePistolL14AP = бронебойный магазин L14 (9 мм)
     .desc = { ent-RMCMagazinePistolL14.desc }

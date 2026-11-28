@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Content.Server._RMC14.Trigger;
 using Content.Server._Stories.Ordnance.Explosion;
 using Content.Server.Explosion.Components;
 using Content.Server.Explosion.EntitySystems;
@@ -101,7 +102,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
             }
 
             _transform.SetCoordinates(ent.Comp.WarheadUid, _transform.GetMoverCoordinates(ent));
-            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), args.User);
+            _ordnanceExplosion.Detonate((ent.Comp.WarheadUid, warheadCasing), CompOrNull<ProjectileComponent>(ent)?.Shooter);
         }
         args.Handled = true;
         QueueDel(ent);
@@ -109,7 +110,8 @@ public sealed class OrdnanceCasingSystem : EntitySystem
 
     private void OnTrigger(Entity<OrdnanceCasingComponent> ent, ref TriggerEvent args)
     {
-        _ordnanceExplosion.Detonate(ent, args.User);
+        var user = TryComp<ProjectileComponent>(ent, out var projectile) ? projectile.Shooter : args.User;
+        _ordnanceExplosion.Detonate(ent, user);
         args.Handled = true;
     }
 
@@ -236,6 +238,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                     RemComp<ExplosiveComponent>(proj);
                     RemComp<CMExplosionEffectComponent>(proj);
                     RemComp<TriggerOnCollideComponent>(proj);
+                    RemComp<TriggerOnFixedDistanceStopComponent>(proj);
                 }
                 else
                 {
@@ -251,6 +254,8 @@ public sealed class OrdnanceCasingSystem : EntitySystem
 
                         var projComp = EnsureComp<ProjectileComponent>(proj);
                         projComp.MaxFixedRange = gunCasing.WarheadMaxRange;
+
+                        EnsureComp<TriggerOnFixedDistanceStopComponent>(proj);
 
                         if (TryComp<FixturesComponent>(proj, out var fixtures))
                         {
@@ -282,6 +287,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                         var projComp = EnsureComp<ProjectileComponent>(proj);
                         projComp.MaxFixedRange = casing.WarheadMaxRange;
 
+                        EnsureComp<TriggerOnFixedDistanceStopComponent>(proj);
                         EnsureComp<ExplodeOnTriggerComponent>(proj);
 
                         if (TryComp<FixturesComponent>(proj, out var fixtures))
@@ -301,6 +307,7 @@ public sealed class OrdnanceCasingSystem : EntitySystem
                     {
                         RemComp<OrdnanceNoFuelDetonateComponent>(proj);
                         RemComp<TriggerOnCollideComponent>(proj);
+                        RemComp<TriggerOnFixedDistanceStopComponent>(proj);
                     }
                 }
             }

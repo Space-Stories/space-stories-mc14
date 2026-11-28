@@ -1,8 +1,10 @@
-ent-RMCSynthGenOne = Generation One
+ent-RMCSynthGenOne = Первое поколение
     .desc = { "" }
-ent-RMCSynthGenTwo = Generation Two
+ent-RMCSynthGenTwo = Второе поколение
     .desc = { "" }
-ent-RMCSynthGenThree = Generation Three
+ent-RMCSynthGenThree = Третье поколение
     .desc = { "" }
-ent-RMCSynthWhiteout = Classified Programme
+ent-RMCSynthWhiteout = Засекреченная программа
+    .desc = { "" }
+ent-RMCARESWorker = ARES Worker
     .desc = { "" }

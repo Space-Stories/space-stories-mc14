@@ -14,6 +14,7 @@
   - type: CMAutomatedVendor
     jobs:
     - CMMilitaryPolice
+    - CMProvostInspector
     sections:
     - name: Полицейский Набор (обязательно)
       takeAll: RMCMPSet
@@ -37,7 +38,7 @@
       choices: { CMArmor: 1 }
       entries:
       - id: CMArmorM2MP
-      - id: RMCArmorVestMP
+      # - id: RMCArmorVestMP # Stories-Balance
 #    - name: Hat
 #      choices: { CMHat: 1 }
 #      entries:
@@ -58,6 +59,7 @@
       - id: RMCBeltHolsterPistol
       - id: RMCBeltHolsterRevolver
       - id: RMCBeltUtilityGeneral
+      - id: RMCBeltBrowne
     - name: Подсумки
       choices: { RMCPouch: 2 }
       entries:
@@ -98,9 +100,11 @@
       entries:
       - id: RMCGuidebookLawMarine
         amount: 10
+        recommended: true
       - id: RMCGuidebookSOP
         amount: 10
-        
+        recommended: true
+
 # WARDEN
 - type: entity
   parent: ColMarTechBase
@@ -137,7 +141,7 @@
       choices: { CMArmor: 1 }
       entries:
       - id: CMArmorM3Warden
-      - id: RMCArmorVestMP
+      # - id: RMCArmorVestMP # Stories-Balance
 #    - name: Hat
 #      choices: { CMHat: 1 }
 #      entries:
@@ -158,6 +162,7 @@
       - id: RMCBeltHolsterPistol
       - id: RMCBeltHolsterRevolver
       - id: RMCBeltUtilityGeneral
+      - id: RMCBeltBrowne
     - name: Подсумки
       choices: { RMCPouch: 2 }
       entries:
@@ -198,5 +203,7 @@
       entries:
       - id: RMCGuidebookLawMarine
         amount: 10
+        recommended: true
       - id: RMCGuidebookSOP
         amount: 10
+        recommended: true

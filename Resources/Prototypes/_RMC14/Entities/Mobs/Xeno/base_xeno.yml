@@ -46,6 +46,9 @@
     simple: true
     deadText: rmc-medical-examine-dead-xeno
   - type: RMCBlockMedicalExamine
+  - type: BlackMarketValue
+    deadValue: 50
+    killsMendozaWhenSoldAlive: true
   - type: MobState
     allowedStates:
     - Alive
@@ -236,6 +239,8 @@
         type: HiveTeamBui
       enum.HiveLeaderSquadUIKey.Key:
         type: HiveLeaderSquadBui
+      enum.HiveTeamMemberUIKey.Key:
+        type: HiveTeamMemberBui
       enum.TacticalMapUserUi.Key:
         type: TacticalMapUserBui
       enum.XenoReserveParasiteChangeUI.Key:
@@ -324,9 +329,11 @@
     color: "#459A62"
   - type: ExplosionResistance
     damageCoefficient: 2
+  - type: RMCProneExplosionMult
   - type: NpcFactionMember
     factions:
     - RMCXeno
+  - type: STXenoMaskKnockoff # Stories-MaskKnockoff
   - type: RMCNightVisionVisible
   - type: CrashLandable
   - type: UserBlacklistActivatableUI
@@ -402,16 +409,20 @@
   - type: EmoteCooldown
   - type: TTS # Stories-TTS
     voice: clinkz_dota_2
+  - type: ZPhysics # Stories-ZLevels
   - type: IgnoreInteractionRange
     whitelist:
       components:
       - Corrodible
       - DeletedByWeedKiller
       - Xeno
+      - XenoConstructionPlasmaCost
     range: 1.5
   - type: RMCMesonsNonviewable
     xenoVisible: true
   - type: CanBeLarvaQueued
+  - type: XenoLastStandable
+  # - type: RMCEquippedStorageOpenOnInteract - TODO RMC14 to use with xeno backpacks
 
 - type: entity
   abstract: true

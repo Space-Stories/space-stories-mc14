@@ -3,7 +3,7 @@
   id: RMCSurvivorParaSupportSynthetic
   name: rmc-job-name-para-synth
   ranks:
-    RMCRankParaWarrantOfficerClass2: [ ]
+    RMCRankTSEWarrantOfficer2: [ ]
   startingGear: RMCGearParaSupportSynthetic
   icon: RMCJobIconParaSupportSynthetic
   playTimeTracker: RMCJobSyntheticColony
@@ -12,7 +12,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: NpcFactionMember
@@ -35,6 +35,11 @@
       squad: SquadPara
     - type: JobPrefix
       prefix: rmc-job-prefix-para-synth
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
       generation: rmc-species-synth-generation-second
   useLoadoutOfJob: RMCSyntheticColony # for inheritance

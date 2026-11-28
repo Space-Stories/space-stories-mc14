@@ -73,3 +73,15 @@
         c: 0
         min: 2
         max: 2
+      # Stories-Synth-Start
+      RMCJobSynthetic:
+        factor: 120
+        c: 1
+        min: 1
+        max: 2
+      STJobWorkingJoe:
+        factor: 30
+        c: 1
+        min: 3
+        max: 6
+      # Stories-Synth-End

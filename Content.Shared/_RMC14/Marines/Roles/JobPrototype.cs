@@ -3,6 +3,7 @@ using Content.Shared._RMC14.Marines.Roles.Ranks;
 using Content.Shared._RMC14.Medal;
 using Content.Shared._RMC14.Prototypes;
 using Robust.Shared.Audio;
+using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
 
@@ -89,6 +90,9 @@ public sealed partial class JobPrototype : IInheritingPrototype, ICMSpecific
 
     [DataField]
     public ProtoId<JobPrototype>? WhitelistParent;
+
+    [DataField]
+    public ProtoId<AntagPrototype>? AntagRole; // Stories: ProtoId instead of string for prototype validation
 
     /// <summary>
     /// Starting gear that is given when the map has a certain camoflage enabled.

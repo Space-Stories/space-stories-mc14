@@ -7,6 +7,8 @@
   - type: HumanoidAppearance
     species: STHunter
   - type: Unparalyzable
+  - type: AcidBloodDodge
+    chance: 70
   - type: Vocal
     sounds:
       Male: STHunter
@@ -106,13 +108,17 @@
       - STHunter
     currentLanguage: STHunter
     defaultLanguage: STHunter
+  - type: Infectable
+    sound:
+      Male: /Audio/_Stories/Voice/Hunter/pred_facehugged.ogg
+      Female: /Audio/_Stories/Voice/Hunter/pred_facehugged.ogg
+      Unsexed: /Audio/_Stories/Voice/Hunter/pred_facehugged.ogg
   - type: Hunter
     removeComponents:
     - type: RMCStamina
     - type: Marine
     - type: MarineMapTracked
     - type: TacticalMapTracked
-    - type: Infectable
     - type: Perishable
     - type: ThermalRegulator
     - type: Stamina

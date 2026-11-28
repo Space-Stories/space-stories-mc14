@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidRiotControlLeader = riot control leader ghost role
+ent-RMCRandomHumanoidRiotControlLeader = роль призрака командира отряда по борьбе с беспорядками
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

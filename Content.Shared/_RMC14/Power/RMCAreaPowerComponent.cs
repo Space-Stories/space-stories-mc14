@@ -1,4 +1,4 @@
-﻿using Robust.Shared.GameStates;
+using Robust.Shared.GameStates;
 
 namespace Content.Shared._RMC14.Power;
 
@@ -8,6 +8,11 @@ public sealed partial class RMCAreaPowerComponent : Component
 {
     [ViewVariables]
     public HashSet<EntityUid> Apcs = new();
+
+    // Stories-ZLevels-Start
+    [ViewVariables]
+    public EntityUid? CanonicalArea;
+    // Stories-ZLevels-End
 
     [ViewVariables]
     public HashSet<EntityUid> EquipmentReceivers = new();

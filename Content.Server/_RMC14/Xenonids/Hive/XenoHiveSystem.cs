@@ -8,6 +8,7 @@ using Content.Shared._RMC14.Marines;
 using Content.Shared._RMC14.Synth;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.Strain;
 using Content.Shared.Chat;
 using Content.Shared.GameTicking;
 using Content.Shared.Popups;
@@ -48,9 +49,10 @@ public sealed class XenoHiveSystem : SharedXenoHiveSystem
     private readonly List<string> _announce = [];
     private readonly EntProtoId _defaultHive = "CMXenoHive";
 
-    private TimeSpan _lateJoinsPerBurrowedLarvaEarlyThreshold;
-    private float _lateJoinsPerBurrowedLarvaEarly;
-    private float _lateJoinsPerBurrowedLarva;
+    private TimeSpan _lateJoinsPerBurrowedAdjustmentThreshold;
+    private float _lateJoinsPerBurrowedAdjustment;
+    private float _lateJoinsPerBurrowedMinimum;
+    private float _marinesPerXeno;
 
     private const int InvinciblePer = 10;
     private readonly List<Entity<InvincibleHiveStructureComponent>> _invincibles = new();
@@ -66,11 +68,12 @@ public sealed class XenoHiveSystem : SharedXenoHiveSystem
         SubscribeLocalEvent<InvincibleHiveStructureComponent, MapInitEvent>(OnInvincibleMapInit);
 
         Subs.CVar(_config,
-            RMCCVars.RMCLateJoinsPerBurrowedLarvaEarlyThresholdMinutes,
-            v => _lateJoinsPerBurrowedLarvaEarlyThreshold = TimeSpan.FromMinutes(v),
+            RMCCVars.RMCLateJoinsPerBurrowedAdjustmentThresholdMinutes,
+            v => _lateJoinsPerBurrowedAdjustmentThreshold = TimeSpan.FromMinutes(v),
             true);
-        Subs.CVar(_config, RMCCVars.RMCLateJoinsPerBurrowedLarvaEarly, v => _lateJoinsPerBurrowedLarvaEarly = v, true);
-        Subs.CVar(_config, RMCCVars.RMCLateJoinsPerBurrowedLarva, v => _lateJoinsPerBurrowedLarva = v, true);
+        Subs.CVar(_config, RMCCVars.RMCLateJoinsPerBurrowedAdjustment, v => _lateJoinsPerBurrowedAdjustment = v, true);
+        Subs.CVar(_config, RMCCVars.RMCLateJoinsPerBurrowedMinimum, v => _lateJoinsPerBurrowedMinimum = v, true);
+        Subs.CVar(_config, RMCCVars.CMMarinesPerXeno, v => _marinesPerXeno = v, true);
     }
 
     private void OnPlayerSpawnComplete(PlayerSpawnCompleteEvent ev)
@@ -83,15 +86,16 @@ public sealed class XenoHiveSystem : SharedXenoHiveSystem
 
         if (ev.JobId is not { } jobId ||
             !_prototypes.TryIndex(jobId, out JobPrototype? job) ||
-            job.RoleWeight < 0)
+            job.RoleWeight <= 0)
         {
             return;
         }
 
         var time = _timing.CurTime;
-        var lateJoinsPer = time < _lateJoinsPerBurrowedLarvaEarlyThreshold
-            ? _lateJoinsPerBurrowedLarvaEarly
-            : _lateJoinsPerBurrowedLarva;
+        var lateJoinsPer = _marinesPerXeno;
+        if (time >= _lateJoinsPerBurrowedAdjustmentThreshold)
+            lateJoinsPer += _lateJoinsPerBurrowedAdjustment;
+        lateJoinsPer = Math.Max(lateJoinsPer, _lateJoinsPerBurrowedMinimum);
 
         var hives = EntityQueryEnumerator<HiveComponent>();
         while (hives.MoveNext(out var uid, out var hive))
@@ -193,7 +197,15 @@ public sealed class XenoHiveSystem : SharedXenoHiveSystem
                         hive.AnnouncedUnlocks.Add(unlock);
 
                         if (_prototypes.TryIndex(unlock, out var prototype))
-                            _announce.Add(prototype.Name);
+                        {
+                            // Stories-HiveAnnounce-Start
+                            if (prototype.TryGetComponent(out XenoStrainComponent? _, _compFactory))
+                                continue;
+
+                            if (!_announce.Contains(prototype.Name))
+                                _announce.Add(prototype.Name);
+                            // Stories-HiveAnnounce-End
+                        }
                     }
                 }
 

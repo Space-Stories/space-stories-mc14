@@ -11,7 +11,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon
@@ -27,6 +27,11 @@
     - type: MotionDetectorTracked
     - type: EquipSurvivorPreset
       preset: RMCSurvivorPresetHybrisaSynthTSEPA
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   useLoadoutOfJob: RMCSyntheticColony # for inheritance
 

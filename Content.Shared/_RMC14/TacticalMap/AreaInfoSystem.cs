@@ -65,6 +65,12 @@ public sealed class AreaInfoSystem : EntitySystem
         if (GetAreaInfo(ent, false) is not { areaName: var areaName, ceilingLevel: var ceilingLevel, restrictions: var restrictions })
             return;
 
+        // Stories-Optimization-Start
+        ent.Comp.LastAreaName = areaName;
+        ent.Comp.LastCeilingLevel = ceilingLevel;
+        ent.Comp.LastRestrictions = restrictions;
+        // Stories-Optimization-End
+
         _alerts.ShowAlert(ent, ent.Comp.Alert,
             severity: ceilingLevel,
             dynamicMessage: Loc.GetString("rmc-area-info",
@@ -75,6 +81,11 @@ public sealed class AreaInfoSystem : EntitySystem
 
     private void OnRemove(Entity<AreaInfoComponent> ent, ref ComponentRemove args)
     {
+        // Stories-Optimization-Start
+        ent.Comp.LastAreaName = null;
+        ent.Comp.LastCeilingLevel = null;
+        ent.Comp.LastRestrictions = null;
+        // Stories-Optimization-End
         _alerts.ClearAlert(ent, ent.Comp.Alert);
     }
 
@@ -83,10 +94,22 @@ public sealed class AreaInfoSystem : EntitySystem
         if (_timing.ApplyingState)
             return;
 
-        // TODO RMC14 make this client only?
         // update the alert when they move to a new area
         if (GetAreaInfo(ent, true) is not { areaName: var areaName, ceilingLevel: var ceilingLevel, restrictions: var restrictions })
             return;
+
+        // Stories-Optimization-Start
+        if (ent.Comp.LastAreaName == areaName &&
+            ent.Comp.LastCeilingLevel == ceilingLevel &&
+            ent.Comp.LastRestrictions == restrictions)
+        {
+            return;
+        }
+
+        ent.Comp.LastAreaName = areaName;
+        ent.Comp.LastCeilingLevel = ceilingLevel;
+        ent.Comp.LastRestrictions = restrictions;
+        // Stories-Optimization-End
 
         _alerts.ShowAlert(ent, ent.Comp.Alert,
             severity: ceilingLevel,
@@ -274,6 +297,19 @@ public sealed class AreaInfoSystem : EntitySystem
 
                 if (GetAreaInfo(ent, false) is not { areaName: var areaName, ceilingLevel: var ceilingLevel, restrictions: var restrictions })
                     continue;
+
+                // Stories-Optimization-Start
+                if (ent.Comp.LastAreaName == areaName &&
+                    ent.Comp.LastCeilingLevel == ceilingLevel &&
+                    ent.Comp.LastRestrictions == restrictions)
+                {
+                    continue;
+                }
+
+                ent.Comp.LastAreaName = areaName;
+                ent.Comp.LastCeilingLevel = ceilingLevel;
+                ent.Comp.LastRestrictions = restrictions;
+                // Stories-Optimization-End
 
                 _alerts.ShowAlert(ent, ent.Comp.Alert,
                     severity: ceilingLevel,

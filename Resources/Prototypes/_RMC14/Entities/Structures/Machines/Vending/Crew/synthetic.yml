@@ -16,7 +16,7 @@
     - name: Standard Equipment
       takeAll: CMStandard
       entries:
-      # /obj/item/coin/marine/synth
+      - id: STSynthExperimentalToolsToken # Stories-SynthExperimentalToken
       # /obj/item/device/defibrillator/synthetic
       - id: RMCSynthResetKey
       - id: RMCHeadsetSynth
@@ -48,6 +48,12 @@
       - id: RMCShoesWhite
         recommended: true
       - id: CMBootsBlackFilled
+      # Stories-SynthVendorParity-Start
+      - id: CMBootsBrownFilled
+      - id: CMBootsGreyFilled
+      - id: CMBootsJungleFilled
+      - id: CMBootsUrbanFilled
+      # Stories-SynthVendorParity-End
     - name: Helmet
       choices: { CMHelmet: 1 }
       entries:
@@ -73,6 +79,11 @@
       - id: CMHandsBlackInsulated
         recommended: true
       - id: CMHandsBlackMarine
+      # Stories-SynthVendorParity-Start
+      - id: RMCHandsBrownMarine
+      - id: RMCHandsGreyMarine
+      - id: RMCHandsFingerlessMarine
+      # Stories-SynthVendorParity-End
       - id: CMHandsLatex
     - name: Backpack
       choices: { CMBackpack: 1 }
@@ -177,7 +188,8 @@
     sections:
     - name: Engineer Supplies
       entries:
-      # /obj/item/circuitboard/airlock - 2 Points
+      - id: RMCDoorElectronics
+        points: 2
       - id: CMAPCElectronics
         points: 2
       - id: CMEntrenchingTool
@@ -199,7 +211,8 @@
         points: 7
       - id: RMCExplosivePlastic
         points: 3
-      # /obj/item/tool/weldpack/minitank - 4 Points
+      - id: RMCES11MobileFuelCanister
+        points: 4
       - id: RMCEngineerKit
         points: 1
       - id: RMCTacticalPrybar
@@ -254,8 +267,16 @@
         points: 1
       - id: CMDexalinPlusAutoInjector
         points: 1
+      # Stories-SynthVendorParity-Start
+      - id: RMCDyloveneAutoInjector
+        points: 1
+      # Stories-SynthVendorParity-End
       - id: CMEpinephrineAutoInjector
         points: 1
+      # Stories-SynthVendorParity-Start
+      - id: CMInaprovalineAutoInjector
+        points: 1
+      # Stories-SynthVendorParity-End
       - id: CMKelotaneAutoInjector
         points: 1
       # /obj/item/reagent_container/hypospray/autoinjector/oxycodone - 2 Points
@@ -265,6 +286,14 @@
       # /obj/item/reagent_container/hypospray/autoinjector/empty/small - 1 Point
       # /obj/item/reagent_container/hypospray/autoinjector/empty/medium - 2 Points
       # /obj/item/reagent_container/hypospray/autoinjector/empty/large - 4 Points
+      # Stories-SynthVendorParity-Start
+      - id: RMCMedicAutoInjectorCS15
+        points: 1
+      - id: RMCMedicAutoInjectorCS30
+        points: 2
+      - id: RMCMedicAutoInjectorCS60
+        points: 4
+      # Stories-SynthVendorParity-End
       - id: CMDefibrillator
         points: 4
         # mandatory: true, TODO allow vendors to mark entries as mandatory
@@ -344,6 +373,16 @@
         points: 15
       - id: RMCSatchelMarineIntelChestrig
         points: 15
+      # Stories-SynthVendorParity-Start
+      - id: RMCToolWebbingFilled
+        points: 15
+      - id: RMCSatchelMarineIntelSatchel
+        points: 15
+      # Stories-SynthVendorParity-End
+      # Stories-SynthExperimentalMeson-Start
+      - id: RMCGlassesExperimentalMeson
+        points: 15
+      # Stories-SynthExperimentalMeson-End
 
 - type: entity
   parent: CMVendorBundleRiflemanApparel

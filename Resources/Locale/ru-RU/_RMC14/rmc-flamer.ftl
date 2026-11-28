@@ -1,4 +1,4 @@
-rmc-flamer-tank-not-potent-enough = Этот химикат недостаточно мощный, чтобы использовать его в огнемете!
+rmc-flamer-tank-not-potent-enough = Этот химикат недостаточно мощный, чтобы использовать его в огнемёте!
 rmc-flamer-tank-not-whitelisted = Этот химикат нельзя использовать в { $tank }.
 rmc-flamer-ignite-first-with = Сначала нужно поджечь оружие!
 rmc-flamer-ignite-first = Сначала нужно зажечь оружие с помощью { $key }!

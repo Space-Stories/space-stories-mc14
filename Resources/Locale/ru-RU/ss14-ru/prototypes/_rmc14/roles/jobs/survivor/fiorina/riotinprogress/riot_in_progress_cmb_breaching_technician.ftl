@@ -1,3 +1,3 @@
-ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlBreachingTechnician = cmb riot control breaching technician spawn point
+ent-RMCSpawnPointSurvivorFiorinaRiotInProgressCMBRiotControlBreachingTechnician = точка появления техника-взломщика группы по борьбе с беспорядками БКМ
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, fiorina riot
+    .suffix = Спец. выживший, Бунт на Фиорине

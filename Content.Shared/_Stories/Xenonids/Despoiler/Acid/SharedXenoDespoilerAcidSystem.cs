@@ -38,6 +38,15 @@ public sealed class SharedXenoDespoilerAcidSystem : EntitySystem
         SubscribeLocalEvent<XenoDespoilerSlashOnHitComponent, GetMeleeDamageEvent>(OnGetMeleeDamage);
         SubscribeLocalEvent<XenoDespoilerSlashOnHitComponent, RMCGetTailStabBonusDamageEvent>(OnGetTailStabBonusDamage);
         SubscribeLocalEvent<XenoDespoilerHypertensionComponent, DamageChangedEvent>(OnDamageTaken);
+        SubscribeLocalEvent<UserAcidedComponent, ComponentShutdown>(OnUserAcidedShutdown);
+    }
+
+    private void OnUserAcidedShutdown(Entity<UserAcidedComponent> ent, ref ComponentShutdown args)
+    {
+        if (_net.IsClient)
+            return;
+
+        RemCompDeferred<XenoDespoilerAcidTierComponent>(ent);
     }
 
     private void OnGetMeleeDamage(EntityUid uid, XenoDespoilerSlashOnHitComponent comp, ref GetMeleeDamageEvent args)
@@ -124,8 +133,7 @@ public sealed class SharedXenoDespoilerAcidSystem : EntitySystem
             tier.Tier = tier.MaxTier;
             if (_userAcidedQuery.TryComp(target, out var acid))
             {
-                _xenoSpit.SetAcidCombo((target, acid),
-                    duration: default, damage: null, paralyze: default, resists: default);
+                _xenoSpit.EnhanceAcid((target, acid), tier.MaxTier);
             }
         }
         else if (tier.Tier < tier.MaxTier)

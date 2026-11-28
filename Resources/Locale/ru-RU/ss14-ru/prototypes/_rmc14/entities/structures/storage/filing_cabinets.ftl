@@ -18,4 +18,4 @@ ent-CMFilingCabinetChestWood = деревянный комод
     .suffix = { ent-CMFilingCabinetChest.suffix }
 ent-CMFilingCabinetChestAngled = комод
     .desc = { ent-CMFilingCabinetBase.desc }
-    .suffix = угловой
+    .suffix = Угловой

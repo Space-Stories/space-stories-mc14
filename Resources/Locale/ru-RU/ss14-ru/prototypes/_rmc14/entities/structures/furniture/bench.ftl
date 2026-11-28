@@ -1,6 +1,6 @@
 ent-RMCBenchLeft = скамейка
     .desc = Металлический каркас, сиденья обтянуты искусственной кожей, которая со временем выцвела.
-    .suffix = Левая
+    .suffix = Левый
 ent-RMCBenchRight = { ent-RMCBenchLeft }
     .desc = { ent-RMCBenchLeft.desc }
-    .suffix = Правая
+    .suffix = Правый

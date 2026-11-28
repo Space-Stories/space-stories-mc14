@@ -47,7 +47,7 @@ rmc-mutiny-side-refuse = Отказаться сражаться
 
 rmc-mutiny-announcement = ОПАСНОСТЬ: получено сообщение о происходящем мятеже. Код действий: задерживать, арестовывать, защищать.
 
-rmc-mutiny-error-invalid-member = Цель не может участвовать в мятеже КМ США.
+rmc-mutiny-error-invalid-member = Цель не может участвовать в мятеже КМП США.
 rmc-mutiny-error-invalid-recruit = Этого морпеха нельзя завербовать в мятежники.
 rmc-mutiny-error-rule = Не удалось запустить игровое правило мятежа.
 rmc-mutiny-error-other-rule = Разум цели уже участвует в другом мятеже.

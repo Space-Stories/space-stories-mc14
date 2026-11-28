@@ -1,5 +1,5 @@
-ent-RMCPropIlluminator = UE-92/B Area Illuminator
-    .desc = A variant of the UE-92, a large deployable floodlight. This version is less powerful but it houses an internal power source that allows it to operate for several hours without being linked to a power generator.
+ent-RMCPropIlluminator = зональный прожектор UE-92/B
+    .desc = Вариант UE-92 — большого развёртываемого прожектора. Эта версия слабее, но оснащена встроенным источником питания, который позволяет ей работать несколько часов без подключения к генератору.
 ent-RMCPropIlluminatorOn = { ent-RMCPropIlluminator }
     .desc = { ent-RMCPropIlluminator.desc }
-    .suffix = True
+    .suffix = Вкл.

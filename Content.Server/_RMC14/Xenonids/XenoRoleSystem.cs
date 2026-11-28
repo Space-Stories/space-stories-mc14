@@ -1,10 +1,12 @@
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.Server.Players.PlayTimeTracking;
+using Content.Server.Preferences.Managers;
 using Content.Server.Roles;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._RMC14.Xenonids.Eye;
 using Content.Shared._RMC14.Xenonids.Maturing;
 using Content.Shared._RMC14.Xenonids.Name;
 using Content.Shared._RMC14.Xenonids.Rank;
@@ -29,8 +31,10 @@ public sealed class XenoRoleSystem : EntitySystem
     [Dependency] private readonly NameModifierSystem _nameModifier = default!;
     [Dependency] private readonly PlayTimeTrackingSystem _playTime = default!;
     [Dependency] private readonly PlayTimeTrackingManager _playTimeManager = default!;
+    [Dependency] private readonly IServerPreferencesManager _preferences = default!; // Stories-PreferencesCheck
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
+    [Dependency] private readonly QueenEyeSystem _queenEye = default!;
     [Dependency] private readonly RoleSystem _role = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
 
@@ -41,6 +45,9 @@ public sealed class XenoRoleSystem : EntitySystem
     private TimeSpan _rankFourTime;
     private TimeSpan _rankFiveTime;
     private TimeSpan _rankSixTime;
+    private TimeSpan _rankSevenTime;
+    private TimeSpan _rankEightTime;
+    private TimeSpan _rankNineTime;
 
     private readonly List<Entity<XenoComponent>> _toUpdate = new();
 
@@ -63,6 +70,9 @@ public sealed class XenoRoleSystem : EntitySystem
         Subs.CVar(_config, RMCCVars.RMCPlaytimeGoldMedalTimeHours, v => _rankFourTime = TimeSpan.FromHours(v), true);
         Subs.CVar(_config, RMCCVars.RMCPlaytimePlatinumMedalTimeHours, v => _rankFiveTime = TimeSpan.FromHours(v), true);
         Subs.CVar(_config, RMCCVars.RMCPlaytimeRubyMedalTimeHours, v => _rankSixTime = TimeSpan.FromHours(v), true);
+        Subs.CVar(_config, RMCCVars.RMCPlaytimeAmethystMedalTimeHours, v => _rankSevenTime = TimeSpan.FromHours(v), true);
+        Subs.CVar(_config, RMCCVars.RMCPlaytimeEmeraldMedalTimeHours, v => _rankEightTime = TimeSpan.FromHours(v), true);
+        Subs.CVar(_config, RMCCVars.RMCPlaytimePrismaticMedalTimeHours, v => _rankNineTime = TimeSpan.FromHours(v), true);
         Subs.CVar(_config, RMCCVars.RMCDisconnectedXenoGhostRoleTimeSeconds, v => _disconnectedXenoGhostRoleTime = TimeSpan.FromSeconds(v), true);
     }
 
@@ -108,6 +118,8 @@ public sealed class XenoRoleSystem : EntitySystem
 
         if (args.Hive is {} newHive)
             _pvsOverride.AddForceSend(newHive, session);
+
+        _queenEye.ReconcileViewerToActiveEyes(ent.Owner);
     }
 
     private void OnRankRefreshName(Entity<XenoRankComponent> ent, ref RefreshNameModifiersEvent args)
@@ -126,7 +138,7 @@ public sealed class XenoRoleSystem : EntitySystem
         args.AddModifier(rank.Value);
     }
 
-    private void UpdateRank(EntityUid xeno, ICommonSession player, string jobId, HumanoidCharacterProfile profile)
+    private void UpdateRank(EntityUid xeno, ICommonSession player, string jobId, HumanoidCharacterProfile? profile) // Stories-PreferencesCheck
     {
         if (!HasComp<XenoComponent>(xeno))
             return;
@@ -139,8 +151,14 @@ public sealed class XenoRoleSystem : EntitySystem
         }
 
         int rank;
-        if (!profile.PlaytimePerks)
+        if (profile != null && !profile.PlaytimePerks) // Stories-PreferencesCheck
             rank = 1;
+        else if (time > _rankNineTime)
+            rank = 9;
+        else if (time > _rankEightTime)
+            rank = 8;
+        else if (time > _rankSevenTime)
+            rank = 7;
         else if (time > _rankSixTime)
             rank = 6;
         else if (time > _rankFiveTime)
@@ -195,8 +213,12 @@ public sealed class XenoRoleSystem : EntitySystem
 
                     try
                     {
-                        var profile = _gameTicker.GetPlayerProfile(player);
+                        // Stories-PreferencesCheck-Start
+                        var profile = _preferences.HavePreferencesLoaded(player)
+                            ? _gameTicker.GetPlayerProfile(player)
+                            : null;
                         UpdateRank(xeno, player, xeno.Comp.Role, profile);
+                        // Stories-PreferencesCheck-End
                     }
                     catch (Exception e)
                     {

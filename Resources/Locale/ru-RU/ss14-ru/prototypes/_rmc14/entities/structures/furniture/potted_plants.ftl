@@ -1,6 +1,9 @@
 ent-CMPottedPlantRandom = случайное горшечное растение
     .desc = { ent-PottedPlantRandom.desc }
     .suffix = RMC
+ent-RMCPottedPlantRandomUnanchored = растение в горшке
+    .desc = { ent-CMPottedPlantBase.desc }
+    .suffix = RMC, Случайный, Незакрепленный
 ent-CMPottedPlantBase = комнатное растение
     .desc = { ent-PottedPlantBase.desc }
     .suffix = RMC

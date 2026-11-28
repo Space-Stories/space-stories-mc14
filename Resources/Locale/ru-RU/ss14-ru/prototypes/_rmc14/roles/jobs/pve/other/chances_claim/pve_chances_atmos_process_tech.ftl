@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesAtmosProcessTech = atmospheric processing reactor technician spawn point
+ent-RMCSpawnPointSurvivorChancesAtmosProcessTech = точка появления техника реактора атмосферной переработки
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesAtmosProcessTech = atmospheric processing reactor technician ghost role
+ent-RMCRandomHumanoidSurvivorChancesAtmosProcessTech = роль призрака техника реактора атмосферной переработки
     .desc = { ent-MarkerBase.desc }

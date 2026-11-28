@@ -176,10 +176,10 @@
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
     - name: Bracer Attachments
-      choices: { STBracer: 1 }
+      choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
-      # - id: STBracerAttachmentShield
+      - id: STBracerAttachmentShield
     - name: Secondary Equipment
       choices: { STAdd: 2 }
       entries:
@@ -280,10 +280,10 @@
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
     - name: Bracer Attachments
-      choices: { STBracer: 1 }
+      choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
-      # - id: STBracerAttachmentShield
+      - id: STBracerAttachmentShield
 
 - type: entity
   parent: STHunterVendorEquipYoung
@@ -367,10 +367,10 @@
       - id: STVendorBundleHunterScimitarsAlt
       - id: STVendorBundleHunterChainGauntlets
     - name: Bracer Attachments
-      choices: { STBracer: 1 }
+      choices: { STBracer: 2 }
       entries:
       - id: STVendorBundleHunterWristblades
-      # - id: STBracerAttachmentShield
+      - id: STBracerAttachmentShield
     - name: Secondary Equipment
       choices: { STAdd: 2 }
       entries:

@@ -1,2 +1,2 @@
-ent-ActionChooseGen = Choose Synth Generation
-    .desc = Choose your synth generation
+ent-ActionChooseGen = Выбрать поколение синтетика
+    .desc = Выберите поколение своего синтетика

@@ -8,6 +8,7 @@ ui-options-function-rmc-activate-attachable-stock = Активировать о�
 ui-options-function-rmc-activate-attachable-underbarrel = Активируйте обвес подствольный
 ui-options-function-rmc-field-strip-held-item = Окно обвесов текущего оружия в руке
 ui-options-function-rmc-cycle-fire-mode = Цикл режима огня
+ui-options-function-rmc-toggle-shotgun-tube = Toggle shotgun tube
 ui-options-function-cm-unique-action = Уникальное действие
 ui-options-function-cm-holster-primary = Снять с хранения
 ui-options-function-cm-holster-secondary = Снять с хранения вторичный
@@ -17,7 +18,6 @@ ui-options-function-rmc-pick-up-dropped-items = Подобрать упавши�
 ui-options-function-rmc-interact-with-other-hand = Взаимодействие с другой рукой
 ui-options-function-rmc-pushup = Отжаться
 ui-options-function-rmc-pushup-routine = Начать серию отжиманий
-ui-options-function-rmc-weak-pushup = Отжаться с колен
 ui-options-function-rmc-rest = Отдыхать
 ui-options-function-rmc-resist = Сопротивляться
 ui-options-function-rmc-marine-issue-order = Отдать приказ
@@ -34,6 +34,7 @@ ui-options-function-rmc-quick-equip-inventory = Быстро экипирова�
 
 rmc-keybind-auto-eject-enabled = Автоматическое извлечение магазина включено.
 rmc-keybind-auto-eject-disabled = Автоматическое извлечение магазина выключено.
+ui-options-function-rmc-weak-pushup = Отжаться с колен
 
 ui-options-header-rmc-xeno = Ксеноморфы
 

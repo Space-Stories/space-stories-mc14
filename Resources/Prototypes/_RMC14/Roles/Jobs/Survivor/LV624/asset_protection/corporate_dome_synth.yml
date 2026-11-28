@@ -11,11 +11,15 @@
   hasIcon: true
   ranks:
     RMCRankCivilianOfficer: []
+  # Stories-SurvivorSpawnerFallback-Start
+  survivorSpawnerFallback:
+  - CMSurvivorLV624CorporateDomeGoon
+  # Stories-SurvivorSpawnerFallback-End
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: RMCSurvivor
@@ -35,6 +39,11 @@
         state: background_goon
     - type: JobPrefix
       prefix: rmc-job-prefix-pmc-synth
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
 
 - type: startingGear

@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorNewVaraderoResearchDirector = survivor new varadero research director spawn point
+ent-RMCSpawnPointSurvivorNewVaraderoResearchDirector = точка появления выжившего директора исследований Нью-Варадеро
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCSurvivorPresetNVResearchDirector = varadero research director preset
+ent-RMCSurvivorPresetNVResearchDirector = пресет директора исследований Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

@@ -7,7 +7,7 @@
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: TacticalMapIcon
@@ -22,6 +22,11 @@
     - type: MotionDetectorTracked
     - type: EquipSurvivorPreset
       preset: RMCSurvivorPresetHybrisaSynthEngineer
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenTwo
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   useLoadoutOfJob: RMCSyntheticColony # for inheritance
 
@@ -31,6 +36,10 @@
   equipment:
     back: RMCSatchelLightpack
     shoes: CMBootsBlackFilled
+  # Stories-SynthSurvivorGear-Start
+  inhand:
+  - STMaintenanceJack
+  # Stories-SynthSurvivorGear-End
   storage:
     back:
     - WeaponNailgun

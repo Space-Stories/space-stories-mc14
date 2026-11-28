@@ -13,4 +13,4 @@ ent-RMCBoxRegulationTapesEmpty = коробка штатных кассет (x5)
     .desc = Коробка штатных кассет для универсальных рекордеров.
 ent-RMCBoxRegulationTapes = { ent-RMCBoxRegulationTapesEmpty }
     .desc = { ent-RMCBoxRegulationTapesEmpty.desc }
-    .suffix = Заполнено
+    .suffix = Заполненный

@@ -35,6 +35,7 @@
         RMCSkillConstruction: 2
         RMCSkillLeadership: 3
         RMCSkillOverwatch: 1
+        RMCSkillMedical: 2
         RMCSkillEngineer: 1
         RMCSkillFireman: 5
         RMCSkillFirearms: 2
@@ -83,6 +84,9 @@
     requirements:
     - !type:RoleTimeRequirement
       role: CMJobMilitaryPolice
+      time: 18000
+    - !type:DepartmentTimeRequirement
+      department: CMCommand
       time: 18000 # 5 Hours
   - type: GhostRoleApplySpecial
 
@@ -106,8 +110,9 @@
     suitstorage: RMCWeaponShotgunM3717
   storage:
     back:
+    - RMCBlackMarketTradebandDevice
     - RMCUniversalRecorder
-    - RMCHandheldDistressBeaconCMB
+    - RMCHandheldDistressBeaconCMBMarshal
 
 - type: playTimeTracker
   id: RMCJobBureauMarshal

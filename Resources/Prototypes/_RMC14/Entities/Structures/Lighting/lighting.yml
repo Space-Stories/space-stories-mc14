@@ -396,6 +396,19 @@
     channel: Lighting
   - type: Sprite
     sprite: _RMC14/Structures/Wallmounts/LightingOffset/light_tube.rsi
+    # Stories-LightOffset-Start
+    state: rtube1
+    layers:
+    - state: rtube1
+      map: ["enum.PoweredLightLayers.Base"]
+  - type: PoweredLightVisuals
+    spriteStateMap:
+      Empty: rtube-empty
+      Off: rtube0
+      On: rtube1
+      Broken: rtube-broken
+      Burned: rtube-burned
+  # Stories-LightOffset-End
 
 - type: entity
   parent: [RMCLightFixtureRed, RMCLightFixtureOffset]

@@ -56,6 +56,9 @@
   - type: Examiner
     skipChecks: true
   - type: Ghost
+  # Stories-ZLevels-Start
+  - type: ZLevelGhostMover
+  # Stories-ZLevels-End
   - type: CMGhost
   - type: ShowElectrocutionHUD
   - type: IntrinsicRadioReceiver

@@ -53,7 +53,9 @@
     - ActionXenoSprayAcidPraetorian
     - ActionXenoDevolve
     tier: 3
-    hudOffset: 0,0.16
+    hudOffset: -0.2,0.16
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 900 # 15 minutes
   - type: XenoHeavy
   - type: XenoDevolve
@@ -162,7 +164,6 @@
     range: 6
     moveDelayTime: 0
   - type: XenoShield
-    shield: Praetorian
   - type: XenoAcidBall
   - type: XenoEvolution
     strains:
@@ -185,6 +186,12 @@
   id: RMCXenoPraetorianValkyrie
   suffix: Valkyrie
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoTantrum ]
+      XenoPrimaryTwo: [ ActionXenoHighGallop ]
+      XenoPrimaryThree: [ ActionXenoFightOrFlight ]
+      XenoPrimaryFour: [ ActionXenoRetrieve ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleValkyrie
@@ -207,6 +214,8 @@
     name: rmc-xeno-valkyrie-name
     description: rmc-xeno-valkyrie-description
     popup: rmc-xeno-valkyrie-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoPraetorian
   - type: XenoPheromones
     pheromonesMultiplier: 3
     pheroSuffix: strong
@@ -258,6 +267,11 @@
   id: RMCXenoPraetorianDancer
   suffix: Dancer
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoImpale ]
+      XenoPrimaryTwo: [ ActionXenoDodge ]
+      XenoPrimaryThree: [ ActionXenoTailTrip ]
   - type: Sprite
     sprite: _Stories/Mobs/Xenos/Praetorian/dancer_praetorian.rsi
   - type: XenoRegen
@@ -282,6 +296,8 @@
     name: rmc-xeno-dancer-name
     description: rmc-xeno-dancer-description
     popup: rmc-xeno-dancer-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoPraetorian
   - type: CMArmor
     xenoArmor: 20
   - type: XenoClaws
@@ -307,6 +323,12 @@
   id: RMCXenoPraetorianVanguard
   suffix: Vanguard
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoPierce ]
+      XenoPrimaryTwo: [ ActionXenoBlitz ]
+      XenoPrimaryThree: [ ActionXenoCleaveRoot ]
+      XenoPrimaryFour: [ ActionXenoCleaveFling ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleVanguard
@@ -332,6 +354,8 @@
     name: rmc-xeno-vanguard-name
     description: rmc-xeno-vanguard-description
     popup: rmc-xeno-vanguard-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoPraetorian
   - type: XenoClaws
     clawType: Sharp
   - type: XenoShield
@@ -360,6 +384,11 @@
   id: RMCXenoPraetorianOppressor
   suffix: Oppressor
   components:
+  - type: RMCKeybindActions
+    actions:
+      XenoPrimaryOne: [ ActionXenoAbduct ]
+      XenoPrimaryTwo: [ ActionXenoDislocate ]
+      XenoPrimaryThree: [ ActionXenoTailLash ]
   - type: GuideHelp
     guides:
     - RMCGuideRoleOppressor
@@ -383,6 +412,8 @@
     name: rmc-xeno-oppressor-name
     description: rmc-xeno-oppressor-description
     popup: rmc-xeno-oppressor-popup
+  - type: XenoDestrain
+    destrainTo: CMXenoPraetorian
   - type: MovementSpeedModifier
     baseWalkSpeed: 2.2
     baseSprintSpeed: 3.5

@@ -1,5 +1,5 @@
-ent-RMCMagazineRifleM54CMK1Rubber = M54C MK1 rubber magazine (10x24mm)
-    .desc = A magazine of less-lethal rubber 10x24mm rounds for use in the M54C battle rifle.
+ent-RMCMagazineRifleM54CMK1Rubber = резиновый магазин M41A MK1 (10x24 мм)
+    .desc = Магазин с резиновыми патронами 10x24 мм пониженной летальности для штурмовой винтовки M41A MK1.
 ent-RMCMagazineRifleM54CRubber = резиновый магазин M41A (10x24 мм)
     .desc = Магазин с менее смертоносными резиновыми патронами калибра 10x24 мм для боевой винтовки M41A.
 ent-RMCMagazineRifleM4SPRRubber = резиновый магазин M4RA (10x24 мм)

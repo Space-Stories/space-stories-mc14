@@ -1,4 +1,5 @@
 using Content.Shared._RMC14.Marines.Skills;
+using Content.Shared._RMC14.Stun;
 using Content.Shared.Access;
 using Content.Shared.DoAfter;
 using Content.Shared.PowerCell;
@@ -109,6 +110,33 @@ public sealed partial class RMCApcComponent : Component
     [DataField, AutoNetworkedField]
     public bool Broken;
 
+    [DataField]
+    public int XenoExposeWiresMinHits = 3;
+
+    [DataField]
+    public int XenoExposeWiresMaxHits = 4;
+
+    [DataField]
+    public int XenoHitsToCutWires = 10;
+
+    [DataField]
+    public RMCSizes XenoElectronicsDamageSize = RMCSizes.Big;
+
+    [DataField]
+    public SoundSpecifier XenoAttackSound = new SoundCollectionSpecifier("RMCXenoClawMetal");
+
+    [DataField]
+    public SoundSpecifier SparksSound = new SoundCollectionSpecifier("sparks");
+
+    [DataField]
+    public EntProtoId SparksEffect = "EffectSparks";
+
+    [ViewVariables]
+    public int XenoHits;
+
+    [ViewVariables]
+    public bool XenoWiresDamaged;
+
     [DataField, AutoNetworkedField]
     public ProtoId<ToolQualityPrototype> RepairTool = "Screwing";
 
@@ -120,6 +148,9 @@ public sealed partial class RMCApcComponent : Component
 
     [DataField, AutoNetworkedField]
     public ProtoId<ToolQualityPrototype> WeldingTool = "Welding";
+
+    [DataField, AutoNetworkedField]
+    public ProtoId<ToolQualityPrototype> WrenchTool = "Anchoring";
 
     [DataField, AutoNetworkedField]
     public ProtoId<StackPrototype> CableStack = "RMCCable";
@@ -236,16 +267,15 @@ public enum RMCApcElectronics
 public enum RMCApcState
 {
     Working,
+    WorkingBreakerOff,
     WiresExposed,
     CoverOpenBattery,
     CoverOpenNoBattery,
     CoverRemovedBattery,
     CoverRemovedNoBattery,
     Broken,
-    BrokenCoverRemovedBattery,
-    BrokenCoverRemovedNoBattery,
-    TerminalMissing,
-    Maintenance,
+    OpenMaintenance,
+    ClosedMaintenance,
 }
 
 [Serializable, NetSerializable]
@@ -298,7 +328,17 @@ public sealed class RMCApcMainBreakerBuiMsg : BoundUserInterfaceMessage;
 public sealed class RMCApcChargeModeBuiMsg : BoundUserInterfaceMessage;
 
 [RegisterComponent]
-public sealed partial class RMCApcFrameComponent : Component;
+public sealed partial class RMCApcFrameComponent : Component
+{
+    [DataField]
+    public EntProtoId BuildingPrototype = "CMApcBuilding";
+
+    [DataField]
+    public EntProtoId MetalPrototype = "CMSheetMetal2";
+
+    [DataField]
+    public ProtoId<ToolQualityPrototype> WrenchTool = "Anchoring";
+}
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class RMCApcConstructionFrameComponent : Component;

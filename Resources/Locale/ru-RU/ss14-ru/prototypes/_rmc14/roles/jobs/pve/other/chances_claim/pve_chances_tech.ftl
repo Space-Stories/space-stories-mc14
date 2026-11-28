@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorChancesCargoTech = warehouse worker spawn point
+ent-RMCSpawnPointSurvivorChancesCargoTech = точка появления работника склада
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCRandomHumanoidSurvivorChancesCargoTech = warehouse worker ghost role
+ent-RMCRandomHumanoidSurvivorChancesCargoTech = роль призрака работника склада
     .desc = { ent-MarkerBase.desc }

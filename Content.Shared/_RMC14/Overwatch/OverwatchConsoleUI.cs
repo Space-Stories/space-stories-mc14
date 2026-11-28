@@ -107,10 +107,14 @@ public sealed class OverwatchConsoleSupplyDropLatitudeBuiMsg(int latitude) : Bou
 public sealed class OverwatchConsoleSupplyDropLaunchBuiMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
-public sealed class OverwatchConsoleSupplyDropSaveBuiMsg(int longitude, int latitude) : BoundUserInterfaceMessage
+// Stories-ZLevels-Start
+public sealed class OverwatchConsoleSupplyDropSaveBuiMsg(int longitude, int latitude, int z = 0)
+    : BoundUserInterfaceMessage
+// Stories-ZLevels-End
 {
     public readonly int Longitude = longitude;
     public readonly int Latitude = latitude;
+    public readonly int Z = z; // Stories-ZLevels
 }
 
 [Serializable, NetSerializable]
@@ -136,10 +140,14 @@ public sealed class OverwatchConsoleOrbitalLatitudeBuiMsg(int latitude) : BoundU
 public sealed class OverwatchConsoleOrbitalLaunchBuiMsg : BoundUserInterfaceMessage;
 
 [Serializable, NetSerializable]
-public sealed class OverwatchConsoleOrbitalSaveBuiMsg(int longitude, int latitude) : BoundUserInterfaceMessage
+// Stories-ZLevels-Start
+public sealed class OverwatchConsoleOrbitalSaveBuiMsg(int longitude, int latitude, int z = 0)
+    : BoundUserInterfaceMessage
+// Stories-ZLevels-End
 {
     public readonly int Longitude = longitude;
     public readonly int Latitude = latitude;
+    public readonly int Z = z; // Stories-ZLevels
 }
 
 [Serializable, NetSerializable]

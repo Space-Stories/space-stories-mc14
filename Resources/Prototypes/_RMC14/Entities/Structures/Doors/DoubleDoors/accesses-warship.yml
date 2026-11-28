@@ -301,7 +301,7 @@
   suffix: Preparations, Locked, Prep & Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparations
@@ -309,7 +309,7 @@
   suffix: Preparations, Locked, Squad Leader, Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessSquadLeaderPrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessSquadLeaderPrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparationsAlpha
@@ -317,7 +317,7 @@
   suffix: Preparations, Alpha, Locked, Prep & Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparationsBravo
@@ -325,7 +325,7 @@
   suffix: Preparations, Bravo, Locked, Prep & Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparationsCharlie
@@ -333,7 +333,7 @@
   suffix: Preparations, Charlie, Locked, Prep & Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparationsDelta
@@ -341,7 +341,7 @@
   suffix: Preparations, Delta, Locked, Prep & Command
   components:
   - type: AccessReader
-    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ] ]
+    access: [ [ "CMAccessMarinePrep" ], [ "RMCAccessCommand" ], ["RMCAccessCommand"]] # Stories-Access
 
 - type: entity
   parent: RMCDoubleDoorPreparationsAlpha

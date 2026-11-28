@@ -97,7 +97,7 @@
     isCorrodible: false
   - type: NpcFactionMember
     factions:
-    - UNMC
+    - STLandingZoneTurret # Stories-CLFSurvivor
   - type: HTN
     rootTask:
       task: RMCTurretCompoundLZ

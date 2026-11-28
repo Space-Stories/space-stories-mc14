@@ -1,3 +1,3 @@
-ent-RMCBlockerVehicle = vehicle blocker
+ent-RMCBlockerVehicle = блокиратор техники
     .desc = { ent-MarkerBase.desc }
-    .suffix = DO NOT MAP
+    .suffix = RMC, Блокатор

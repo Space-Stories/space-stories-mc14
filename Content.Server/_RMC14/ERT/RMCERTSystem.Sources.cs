@@ -118,7 +118,7 @@ public sealed partial class RMCERTSystem
             return false;
         }
 
-        if (!CanCreateRequest(console, out reason))
+        if (!CanCreateRequest(console, out reason, RMCERTRequestSource.Console))
             return false;
 
         return true;
@@ -197,24 +197,7 @@ public sealed partial class RMCERTSystem
 
     private void CreateConsoleDistressRequest(EntityUid console, EntityUid user, string reason)
     {
-        var calls = GetCallOptions(new RMCERTCallQueryArgs
-        {
-            EnabledOnly = true,
-            Source = RMCERTRequestSource.Console,
-        }).Select(c => new ProtoId<RMCERTCallPrototype>(c.Id)).ToList();
-        var autoResolution = GetConsoleAutoResolutionOptions();
-
-        var result = CreateRequest(new RMCERTCreateRequestArgs
-        {
-            Source = RMCERTRequestSource.Console,
-            SourceEntity = console,
-            Requester = user,
-            Reason = reason,
-            AllowedCalls = calls,
-            AllowRandomSelection = true,
-            AllowSpecificSelection = false,
-            AutoResolution = autoResolution,
-        });
+        var result = RequestConsoleDistress(console, user, reason, Comp<MarineCommunicationsComputerComponent>(console).DistressReasonLimit);
 
         if (!result.Success && !string.IsNullOrWhiteSpace(result.Error))
             _popup.PopupEntity(result.Error, console, user, PopupType.MediumCaution);
@@ -251,6 +234,7 @@ public sealed partial class RMCERTSystem
             return;
         }
 
+        var lastUsed = beacon.Comp.LastUsed;
         beacon.Comp.LastUsed = _timing.CurTime;
 
         var result = CreateRequest(new RMCERTCreateRequestArgs
@@ -262,10 +246,15 @@ public sealed partial class RMCERTSystem
             AllowedCalls = calls,
             AllowRandomSelection = true,
             AllowSpecificSelection = true,
+            AutoResolution = beacon.Comp.AutoResolution,
         });
 
-        if (!result.Success && !string.IsNullOrWhiteSpace(result.Error))
-            _popup.PopupEntity(result.Error, beacon, user, PopupType.MediumCaution);
+        if (!result.Success)
+        {
+            beacon.Comp.LastUsed = lastUsed;
+            if (!string.IsNullOrWhiteSpace(result.Error))
+                _popup.PopupEntity(result.Error, beacon, user, PopupType.MediumCaution);
+        }
     }
 
     private bool TryGetHandheldAvailableCalls(

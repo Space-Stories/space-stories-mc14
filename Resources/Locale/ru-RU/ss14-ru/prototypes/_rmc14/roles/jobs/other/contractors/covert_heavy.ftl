@@ -1,0 +1,9 @@
+ent-RMCRandomHumanoidContractorCovertHeavy = covert contractor ghost role heavy
+    .desc = { ent-RMCRandomHumanoidContractorHeavy.desc }
+    .suffix = Spawner, Player, Friendly, Covert
+ent-RMCRandomHumanoidContractorCovertHeavyMAR40LMG = { ent-RMCRandomHumanoidContractorCovertHeavy }
+    .desc = { ent-RMCRandomHumanoidContractorCovertHeavy.desc }
+    .suffix = Spawner, Player, Friendly, Covert, MAR40 LMG
+ent-RMCRandomHumanoidContractorCovertHeavyM60 = { ent-RMCRandomHumanoidContractorCovertHeavy }
+    .desc = { ent-RMCRandomHumanoidContractorCovertHeavy.desc }
+    .suffix = Spawner, Player, Friendly, Covert, M60

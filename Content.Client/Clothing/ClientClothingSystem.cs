@@ -12,6 +12,7 @@ using Content.Shared.Item;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.ResourceManagement;
+using Robust.Shared.Graphics.RSI;
 using Robust.Shared.Serialization.TypeSerializers.Implementations;
 using Robust.Shared.Utility;
 using static Robust.Client.GameObjects.SpriteComponent;
@@ -21,6 +22,8 @@ namespace Content.Client.Clothing;
 public sealed class ClientClothingSystem : ClothingSystem
 {
     public const string Jumpsuit = "jumpsuit";
+
+    private readonly Dictionary<string, (RSI.StateId State, ResPath? RsiPath, int Frame, float Time, float TimeLeft)> _savedAnimState = new(); // Stories-ClothingAnimInert
 
     /// <summary>
     /// This is a shitty hotfix written by me (Paul) to save me from renaming all files.
@@ -32,6 +35,9 @@ public sealed class ClientClothingSystem : ClothingSystem
         {"head", "HELMET"},
         {"eyes", "EYES"},
         {"ears", "EARS"},
+        // RMC14
+        {"ears2", "EARS"},
+        // RMC14
         {"mask", "MASK"},
         {"outerClothing", "OUTERCLOTHING"},
         {Jumpsuit, "INNERCLOTHING"},
@@ -249,14 +255,24 @@ public sealed class ClientClothingSystem : ClothingSystem
 
         // Remove old layers. We could also just set them to invisible, but as items may add arbitrary layers, this
         // may eventually bloat the player with lots of invisible layers.
+        // Stories-ClothingAnimInert-Start
+        _savedAnimState.Clear();
         if (inventorySlots.VisualLayerKeys.TryGetValue(slot, out var revealedLayers))
         {
             foreach (var key in revealedLayers)
             {
-                _sprite.RemoveLayer((equipee, sprite), key);
+                if (_sprite.LayerMapTryGet((equipee, sprite), key, out var oldIdx, false) &&
+                    sprite[oldIdx] is Layer oldLayer &&
+                    oldLayer.State.IsValid)
+                {
+                    _savedAnimState[key] = (oldLayer.State, oldLayer.RSI?.Path, oldLayer.AnimationFrame, oldLayer.AnimationTime, oldLayer.AnimationTimeLeft);
+                }
+
+                _sprite.RemoveLayer((equipee, sprite), key, false); // Stories-CassetteFix
             }
             revealedLayers.Clear();
         }
+        // Stories-ClothingAnimInert-End
         else
         {
             revealedLayers = new();
@@ -333,6 +349,17 @@ public sealed class ClientClothingSystem : ClothingSystem
             }
 
             _sprite.LayerSetData((equipee, sprite), index, layerData);
+            // Stories-ClothingAnimInert-Start
+            if (_savedAnimState.TryGetValue(key, out var saved) &&
+                saved.State == layer.State &&
+                saved.RsiPath == layer.RSI?.Path)
+            {
+                layer.AnimationFrame = saved.Frame;
+                layer.AnimationTime = saved.Time;
+                layer.AnimationTimeLeft = saved.TimeLeft;
+            }
+            _sprite.QueueUpdateIsInert((equipee, sprite));
+            // Stories-ClothingAnimInert-End
             _sprite.LayerSetOffset(layer, layer.Offset + slotDef.Offset);
 
             if (displacementData is not null)

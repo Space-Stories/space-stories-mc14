@@ -1,3 +1,3 @@
-ent-CMSpawnPointSPPCrashlandSynth = special survivor spp crashland synth spawn point
+ent-CMSpawnPointSPPCrashlandSynth = точка появления спец. выжившего синтетика ВДВ СПН (крушение)
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

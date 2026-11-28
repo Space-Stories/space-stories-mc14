@@ -5,15 +5,14 @@
   tags:
   - CMAccessASO
   - RMCAccessCommand
-  - CMAccessBrig
-  - CMAccessArmory
+  # - CMAccessBrig # Stories-Fixes
+  # - CMAccessArmory # Stories-Fixes
   - CMAccessMedical
   - CMAccessResearch
   - CMAccessCE
   - CMAccessEngineering
   - CMAccessMaint
   - CMAccessOT
-  - CMAccessQM # Stories-Fixes
   - CMAccessRequisitions
   - CMAccessMarinePrep
   - CMAccessAlpha

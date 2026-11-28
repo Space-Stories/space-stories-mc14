@@ -1,4 +1,5 @@
 using System.Text;
+using Content.Shared._RMC14.Announce;
 using Content.Shared._RMC14.Announce.Animations;
 using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Utility;
@@ -156,7 +157,7 @@ public sealed class TypewriterAnimation : IAnnouncementAnimation
                 continue;
             }
 
-            result.Append(node);
+            AnnouncementMarkup.AppendNode(result, node);
             openTags.Push(node.Name);
         }
 

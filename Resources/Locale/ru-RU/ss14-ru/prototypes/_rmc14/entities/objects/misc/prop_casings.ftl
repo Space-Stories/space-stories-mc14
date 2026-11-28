@@ -1,6 +1,6 @@
 ent-RMCBasePropCasing = гильза
     .desc = Пустая и бесполезная сейчас.
-    .suffix = Гильза
+    .suffix = Декорация
 ent-RMCBasePropCasing1 = { ent-RMCBasePropCasing }
     .desc = { ent-RMCBasePropCasing.desc }
     .suffix = { ent-RMCBasePropCasing.suffix }

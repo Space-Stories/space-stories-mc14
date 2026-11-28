@@ -14,6 +14,10 @@ public sealed partial class GhostGui : UIWidget
     public event Action? RequestWarpsPressed;
     public event Action? ReturnToBodyPressed;
     public event Action? GhostRolesPressed;
+    // Stories-ZLevels-Start
+    public event Action? ZLevelUpPressed;
+    public event Action? ZLevelDownPressed;
+    // Stories-ZLevels-End
     private int _prevNumberRoles;
 
     public GhostGui()
@@ -28,6 +32,10 @@ public sealed partial class GhostGui : UIWidget
         ReturnToBodyButton.OnPressed += _ => ReturnToBodyPressed?.Invoke();
         GhostRolesButton.OnPressed += _ => GhostRolesPressed?.Invoke();
         GhostRolesButton.OnPressed += _ => GhostRolesButton.StyleClasses.Remove(StyleBase.ButtonCaution);
+        // Stories-ZLevels-Start
+        ZLevelUpButton.OnPressed += _ => ZLevelUpPressed?.Invoke();
+        ZLevelDownButton.OnPressed += _ => ZLevelDownPressed?.Invoke();
+        // Stories-ZLevels-End
     }
 
     public void Hide()

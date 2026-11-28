@@ -1,2 +1,2 @@
-ent-RMCSurvivorPresetUNMCPilot = varadero pilot preset
+ent-RMCSurvivorPresetUNMCPilot = пресет пилота Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

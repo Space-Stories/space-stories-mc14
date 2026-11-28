@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNFireteamLeader = cbrn ghost role fireteam leader
+ent-RMCRandomHumanoidCBRNFireteamLeader = роль призрака лидера огневой группы РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

@@ -19,6 +19,7 @@
       XenoPrimaryFour: [ ActionXenoTremor ]
       XenoPrimaryFive: [ ActionXenoOrderConstruction ]
   - type: XenoBaseCaste
+  - type: XenoBuilderCaste
   - type: CanBuildThickFromConstructNode
   - type: GuideHelp
     guides:
@@ -34,6 +35,13 @@
     tags:
     - DoorBumpOpener
     - RMCSynthGrabbable
+  # Stories-SynthHeavyGrab-Start
+  - type: FiremanCarriable
+    canThrow: true
+    carrierWhitelist:
+      components:
+      - STSynthHeavyGrab
+  # Stories-SynthHeavyGrab-End
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -55,7 +63,9 @@
     - ActionXenoTremor
     - ActionXenoDevolve
     tier: 2
-    hudOffset: 0,0.56
+    hudOffset: -0.15,0.56
+    hudRankIconScale: 0.95
+    hudRankIconOffset: 0,0.15
     unlockAt: 420 # 7 minutes
   - type: XenoLight
   - type: XenoDevolve

@@ -3,11 +3,14 @@
   name: Generation One
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
   - type: SynthGeneration
     generation: RMCSynthGenOne
     damageModifier: RMCSynthGenOne
     priority: 1
-    description: Slow and sturdy. Pounce resisting.
+    description: stories-synth-generation-one-desc # Stories-SynthGenerationLoc
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -34,9 +37,9 @@
     thresholds:
       0: Alive
       400: Dead
-  - type: MovementSpeedModifier
-    baseSprintSpeed: 3.625
-    baseWalkSpeed: 1.9575
+  - type: MovementSpeedModifier # Stories-Synth
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
   - type: ShowHealthIcons
   - type: ShowHealthBars
   - type: RemoveComponents
@@ -48,11 +51,13 @@
   name: Generation Two
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.3
   - type: SynthGeneration
     generation: RMCSynthGenTwo
     damageModifier: RMCSynthGenTwo
     priority: 2
-    description: A better looking Gen 1.
+    description: stories-synth-generation-two-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 3
@@ -79,9 +84,9 @@
     thresholds:
       0: Alive
       400: Dead
-  - type: MovementSpeedModifier
-    baseSprintSpeed: 3.625
-    baseWalkSpeed: 1.9575
+  - type: MovementSpeedModifier # Stories-Synth
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
   - type: ShowHealthIcons
   - type: ShowHealthBars
   - type: RemoveComponents
@@ -93,10 +98,12 @@
   name: Generation Three
   categories: [ HideSpawnMenu ]
   components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1
   - type: SynthGeneration
     generation: RMCSynthGenThree
     priority: 3
-    description: Better skills, agile but fragile.
+    description: stories-synth-generation-three-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
       RMCSkillCqc: 5
@@ -117,6 +124,11 @@
       RMCSkillIntel: 2
       RMCSkillDomestics: 2
       RMCSkillNavigations: 1
+  # Stories-Synth-Start
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 5
+    baseWalkSpeed: 2.7
+  # Stories-Synth-End
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -134,8 +146,9 @@
   components:
   - type: SynthGeneration
     generation: RMCSynthWhiteout
+    damageModifier: STSynthWhiteout # Stories-SynthWhiteout
     priority: 4
-    description: Generation Grill.
+    description: stories-synth-generation-whiteout-desc # Stories-SynthGenerationLoc
   - type: Skills
     skills:
         RMCSkillCqc: 5
@@ -163,6 +176,14 @@
   - type: RMCLeapProtection
     inherentStunDuration: 3
     fullProtection: true
+  # Stories-SynthWhiteout-Start
+  - type: STSynthHeavyGrab
+  - type: TackleResist
+    multiplier: 1.5
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 4.5
+    baseWalkSpeed: 2.4
+  # Stories-SynthWhiteout-End
   - type: MarineOrders
   - type: MobThresholds
     thresholds:
@@ -173,23 +194,49 @@
   - type: RemoveComponents
     components:
     - type: HiddenAppearance
+    - type: AffectableByWeeds # Stories-SynthWhiteout
 
-#- type: entity
-#  id: RMCARESWorker
-#  name: ARES Worker
-#  components:
-#  - type: SynthGeneration
-#    generation: RMCARESWorker
-#  - type: Skills
-#    skills:
-#      RMCSkillCqc: 5
-#      RMCSkillEngineer: 4
-#      RMCSkillConstruction: 3
-#      RMCSkillFirearms: 2
-#      RMCSkillMeleeWeapons: 2
-#      RMCSkillPolice: 2
-#      RMCSkillFireman: 2
-#      RMCSkillPowerLoader: 2
-#      RMCSkillVehicles: 2
-#      RMCSkillDomestics: 2
-#      RMCSkillEndurance: 1
+# Stories-Synth-Start
+- type: entity
+  id: RMCARESWorker
+  name: ARES Worker
+  components:
+  - type: TackleResist # Stories-SynthTackleResist
+    multiplier: 1.5
+  - type: SynthGeneration
+    generation: RMCARESWorker
+    damageModifier: STJoeSynth
+    selectable: false
+  - type: STSynthHeavyGrab # Stories-SynthHeavyGrab
+  - type: Skills
+    skills:
+      RMCSkillCqc: 5
+      RMCSkillEngineer: 4
+      RMCSkillConstruction: 3
+      RMCSkillFirearms: 2
+      RMCSkillMeleeWeapons: 2
+      RMCSkillPolice: 2
+      RMCSkillFireman: 2
+      RMCSkillPowerLoader: 2
+      RMCSkillVehicles: 2
+      RMCSkillDomestics: 2
+      RMCSkillEndurance: 1
+  # Stories-WorkingJoeLeapProtection-Start
+  - type: RMCLeapProtection
+    inherentStunDuration: 3
+    fullProtection: true
+  # Stories-WorkingJoeLeapProtection-End
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      400: Dead
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 3.8
+    baseWalkSpeed: 2.7
+  - type: ShowHealthIcons
+  - type: ShowHealthBars
+  - type: RMCAllowSuitStorage
+  - type: RemoveComponents
+    components:
+    - type: HiddenAppearance
+# Stories-Synth-End

@@ -6,6 +6,7 @@ using Content.Shared._RMC14.Chemistry.Reagent;
 using Content.Shared._RMC14.Chemistry.SmartFridge;
 using Content.Shared._RMC14.IconLabel;
 using Content.Shared._RMC14.Storage;
+using Content.Shared._RMC14.UserInterface;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -48,9 +49,11 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
     [Dependency] private readonly SharedRMCIconLabelSystem _rmcIconLabel = default!;
     [Dependency] private readonly SharedRMCSmartFridgeSystem _rmcSmartFridge = default!;
     [Dependency] private readonly RMCStorageSystem _rmcStorage = default!;
+    [Dependency] private readonly RMCUserInterfaceSystem _rmcUI = default!;
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly SolutionTransferSystem _solutionTransfer = default!;
     [Dependency] private readonly SharedStorageSystem _storage = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     private readonly List<EntityUid> _toFill = new();
 
@@ -61,6 +64,7 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
         SubscribeLocalEvent<RMCChemMasterComponent, EntInsertedIntoContainerMessage>(OnEntInsertedIntoContainer);
         SubscribeLocalEvent<RMCChemMasterComponent, EntRemovedFromContainerMessage>(OnEntRemovedFromContainer);
         SubscribeLocalEvent<RMCChemMasterComponent, RMCChemMasterPillBottleTransferDoAfterEvent>(OnPillBottleBoxTransferDoAfter);
+        SubscribeLocalEvent<RMCChemMasterComponent, BoundUserInterfaceMessageAttempt>(OnUIMessageAttempt);
 
         Subs.BuiEvents<RMCChemMasterComponent>(RMCChemMasterUI.Key,
             subs =>
@@ -83,6 +87,12 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
                 subs.Event<RMCChemMasterAutoSelectToggleMsg>(OnAutoSelectToggleMsg);
                 subs.Event<RMCChemMasterApplyPresetMsg>(OnApplyPresetMsg);
             });
+    }
+
+    private void OnUIMessageAttempt(Entity<RMCChemMasterComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is RMCChemMasterUI.Key && !_rmcUI.CanUseUI(args))
+            args.Cancel();
     }
 
     private void OnInteractUsing(Entity<RMCChemMasterComponent> ent, ref InteractUsingEvent args)
@@ -112,6 +122,7 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
             {
                 BreakOnMove = true,
                 NeedHand = true,
+                RootEntity = true,
             };
 
             if (_doAfter.TryStartDoAfter(doAfterArgs))
@@ -403,7 +414,27 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
                 continue;
 
             if (!TryComp(bottle, out StorageComponent? storage))
+            {
+                if (!TryComp<ItemSlotsComponent>(bottle, out var slots))
+                    continue;
+
+                var freeSlots = 0;
+                foreach (var slot in slots.Slots)
+                {
+                    if (slot.Value.ContainerSlot != null && slot.Value.ContainerSlot.ContainedEntity == null)
+                        freeSlots++;
+                }
+
+                if (freeSlots < ent.Comp.PillAmount)
+                {
+                    var msg = Loc.GetString("rmc-chem-master-pills-not-enough-space");
+                    _popup.PopupClient(msg, args.Actor, PopupType.MediumCaution);
+                    return;
+                }
+
+                _toFill.Add(bottle);
                 continue;
+            }
 
             var free = _rmcStorage.EstimateFreeColumns((bottle, storage));
             if (free < ent.Comp.PillAmount)
@@ -454,10 +485,35 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
         foreach (var fill in _toFill)
         {
             var label = CompOrNull<LabelComponent>(fill)?.CurrentLabel;
+
+            // Null out whitelists to allow storing in packets or other limited storages
+            EntityWhitelist? storageWhitelist = null;
+            Dictionary<string, EntityWhitelist> slotWhitelists = new();
+            if (TryComp<StorageComponent>(fill, out var store) && store.Whitelist != null)
+            {
+                storageWhitelist = store.Whitelist;
+                store.Whitelist = null;
+            }
+
+            if (TryComp<ItemSlotsComponent>(fill, out var slots))
+            {
+                foreach (var slot in slots.Slots)
+                {
+                    if (slot.Value.Whitelist != null)
+                    {
+                        slotWhitelists.Add(slot.Key, slot.Value.Whitelist);
+                        slot.Value.Whitelist = null;
+                    }
+                }
+            }
+
+            //Coloring
+            _appearance.SetData(fill, RMCPillColorVisuals.Color, buffer.Value.Comp.Solution.GetColor(_proto));
+
             for (var i = 0; i < ent.Comp.PillAmount; i++)
             {
                 var pill = Spawn(ent.Comp.PillProto, coords);
-                if (!_storage.Insert(fill, pill, out _, user: args.Actor, playSound: false))
+                if (!_storage.Insert(fill, pill, out _, user: args.Actor, playSound: false) && !_itemSlots.TryInsertEmpty(fill, pill, null, true))
                 {
                     QueueDel(pill);
                     continue;
@@ -486,6 +542,23 @@ public abstract class SharedRMCChemMasterSystem : EntitySystem
                     _adminLog.Add(LogType.Action,
                         LogImpact.Medium,
                         $"{ToPrettyString(args.Actor):player} transferred {SharedSolutionContainerSystem.ToPrettyString(pillSolution.Value.Comp.Solution)} to {ToPrettyString(pill):target}, which now contains {SharedSolutionContainerSystem.ToPrettyString(pillSolution.Value.Comp.Solution)}");
+                }
+            }
+
+            // Reset whitelists
+            if (storageWhitelist != null && store != null)
+            {
+                store.Whitelist = storageWhitelist;
+            }
+
+            if (slotWhitelists != null && slots != null)
+            {
+                foreach (var slotWhitelist in slotWhitelists)
+                {
+                    if (!_itemSlots.TryGetSlot(fill, slotWhitelist.Key, out var slot))
+                        continue;
+
+                    slot.Whitelist = slotWhitelist.Value;
                 }
             }
         }

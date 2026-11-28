@@ -18,7 +18,14 @@ public sealed class ShowAutoFireSystem : EntitySystem
     public override void Shutdown()
     {
         base.Shutdown();
-        _console.UnregisterCommand("showautofire");
+        try
+        {
+            _console.UnregisterCommand("showautofire");
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
         _overlay.RemoveOverlay<ShowAutoFireOverlay>();
     }
 

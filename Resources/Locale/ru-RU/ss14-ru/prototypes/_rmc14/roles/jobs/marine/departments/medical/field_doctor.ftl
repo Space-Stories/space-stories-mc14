@@ -1,3 +1,3 @@
-ent-RMCSpawnPointFieldDoctor = field doctor spawn point
+ent-RMCSpawnPointFieldDoctor = точка появления полевого доктора
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

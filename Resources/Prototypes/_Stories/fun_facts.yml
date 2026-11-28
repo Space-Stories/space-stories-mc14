@@ -1,0 +1,252 @@
+- type: entity
+  id: STFunFactKills
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-kills
+    stat: Kills
+    min: 5
+
+- type: entity
+  id: STFunFactDamageTaken
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-damage-taken
+    stat: DamageTaken
+    min: 400
+
+- type: entity
+  id: STFunFactDamageDealt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-damage-dealt
+    stat: DamageDealt
+    min: 1000
+
+- type: entity
+  id: STFunFactFriendlyDamage
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-friendly-damage
+    stat: FriendlyDamage
+    min: 200
+
+- type: entity
+  id: STFunFactCritTime
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-crit-time
+    stat: CritMinutes
+    min: 5
+
+- type: entity
+  id: STFunFactRevives
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-revives
+    stat: Revives
+    min: 5
+    xenos: false
+
+- type: entity
+  id: STFunFactTimesRevived
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-times-revived
+    stat: TimesRevived
+    min: 2
+    xenos: false
+
+- type: entity
+  id: STFunFactEvolutions
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-evolutions
+    stat: Evolutions
+    min: 3
+    humans: false
+
+- type: entity
+  id: STFunFactShots
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-shots
+    stat: ShotsFired
+    min: 300
+    xenos: false
+
+- type: entity
+  id: STFunFactHealed
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-healed
+    stat: Healed
+    min: 300
+    xenos: false
+
+- type: entity
+  id: STFunFactSurgeries
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-surgeries
+    stat: Surgeries
+    min: 3
+    xenos: false
+
+- type: entity
+  id: STFunFactBuilt
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-built
+    stat: Built
+    min: 10
+    xenos: false
+
+- type: entity
+  id: STFunFactDogtags
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-dogtags
+    stat: Dogtags
+    min: 3
+    xenos: false
+
+- type: entity
+  id: STFunFactGrenades
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-grenades
+    stat: Grenades
+    min: 5
+    xenos: false
+
+- type: entity
+  id: STFunFactIgnited
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-ignited
+    stat: Ignited
+    min: 3
+
+- type: entity
+  id: STFunFactEaten
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-eaten
+    stat: Eaten
+    min: 5
+    xenos: false
+
+- type: entity
+  id: STFunFactNested
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-nested
+    stat: Nested
+    min: 3
+    humans: false
+
+- type: entity
+  id: STFunFactInfected
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-infected
+    stat: Infected
+    min: 2
+    humans: false
+    allowExcludedCaste: true
+
+- type: entity
+  id: STFunFactResin
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-resin
+    stat: ResinBuilt
+    min: 30
+    humans: false
+
+- type: entity
+  id: STFunFactWeeds
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-weeds
+    stat: WeedsPlanted
+    min: 20
+    humans: false
+
+- type: entity
+  id: STFunFactAcid
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-acid
+    stat: AcidApplied
+    min: 5
+    humans: false
+
+- type: entity
+  id: STFunFactXenoHeals
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-xeno-heals
+    stat: XenoHeals
+    min: 10
+    humans: false
+
+- type: entity
+  id: STFunFactKnockdowns
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-knockdowns
+    stat: Knockdowns
+    min: 10
+
+- type: entity
+  id: STFunFactRescues
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-rescues
+    stat: Rescues
+    min: 2
+    xenos: false
+
+- type: entity
+  id: STFunFactDeaths
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-deaths
+    stat: Deaths
+    min: 3
+
+- type: entity
+  id: STFunFactLarvae
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: FunFact
+    message: stories-fun-fact-larvae
+    stat: LarvaeBurst
+    min: 3
+    humans: false

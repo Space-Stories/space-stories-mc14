@@ -1,3 +1,3 @@
-ent-CMSpawnPointRCMPVEMedicalAssistant = RCM medical assistant spawn point
+ent-CMSpawnPointRCMPVEMedicalAssistant = точка появления санитара Королевской морской пехоты
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

@@ -1,2 +1,2 @@
-ent-RMCPropWatchtower = Watchtower
-    .desc = A UN Marine Corps watchtower. Who watches the watchers?
+ent-RMCPropWatchtower = Сторожевая вышка
+    .desc = Сторожевая вышка Корпуса морской пехоты США. Кто сторожит сторожей?

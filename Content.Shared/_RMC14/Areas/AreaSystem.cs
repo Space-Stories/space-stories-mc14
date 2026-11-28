@@ -20,7 +20,7 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared._RMC14.Areas;
 
-public sealed class AreaSystem : EntitySystem
+public sealed partial class AreaSystem : EntitySystem // Stories-ZLevels
 {
     [Dependency] private readonly IComponentFactory _compFactory = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
@@ -98,6 +98,10 @@ public sealed class AreaSystem : EntitySystem
     {
         _toRender.Add(ent);
 
+        // Stories-ZLevels-Start
+        ent.Comp.AreaEntities.Clear();
+
+        // Stories-ZLevels-End
         var areas = ent.Comp.Areas.Values.DistinctBy(a => a.Id);
         foreach (var area in areas)
         {
@@ -126,6 +130,48 @@ public sealed class AreaSystem : EntitySystem
         areaGrid.Areas[position] = area;
 
         EnsureAreaEntityExists(areaGrid, area);
+    // Stories-ZLevels-Start
+    }
+
+    public void SetArea(AreaGridComponent areaGrid, Vector2i position, EntProtoId<AreaComponent> area)
+    {
+        areaGrid.Areas[position] = area;
+    }
+
+    public void RemoveArea(AreaGridComponent areaGrid, Vector2i position)
+    {
+        areaGrid.Areas.Remove(position);
+    }
+
+    public void ClearAreaEntities(Entity<AreaGridComponent> grid)
+    {
+        grid.Comp.AreaEntities.Clear();
+        Dirty(grid);
+    // Stories-ZLevels-End
+    }
+
+    // Stories-TacMap-Start
+    public bool TryGetAreaEntity(Entity<AreaGridComponent?> grid, EntProtoId<AreaComponent> proto, out EntityUid areaEnt)
+    {
+        areaEnt = default;
+        if (!Resolve(grid, ref grid.Comp, false))
+            return false;
+
+        return grid.Comp.AreaEntities.TryGetValue(proto, out areaEnt);
+    }
+    // Stories-TacMap-End
+
+    // Stories-TacMapInsert
+    public void QueueRender(EntityUid grid)
+    {
+        if (!_toRender.Contains(grid))
+            _toRender.Add(grid);
+    }
+
+    public void RefreshMinimap(EntityUid grid)
+    {
+        if (!_toRender.Contains(grid))
+            _toRender.Add(grid);
     }
 
     public bool SetAlwaysPowered(Entity<AreaComponent> area, bool alwaysPowered)
@@ -173,11 +219,15 @@ public sealed class AreaSystem : EntitySystem
         area = default;
         areaPrototype = default;
         if (_transform.GetGrid(coordinates) is not { } gridId ||
-            !_mapGridQuery.TryComp(gridId, out var grid) ||
-            !_areaGridQuery.TryComp(gridId, out var areaGrid))
+            !_mapGridQuery.TryComp(gridId, out var grid)) // Stories-ZLevels
         {
             return false;
         }
+
+        // Stories-ZLevels-Start
+        if (!_areaGridQuery.TryComp(gridId, out var areaGrid))
+            return TryGetUpperPlanetArea(coordinates, out area, out areaPrototype);
+        // Stories-ZLevels-End
 
         var indices = _map.CoordinatesToTile(gridId, grid, coordinates);
         return TryGetArea((gridId, grid, areaGrid), indices, out area, out areaPrototype);
@@ -531,6 +581,7 @@ public sealed class AreaSystem : EntitySystem
                 }
 
                 areaGrid.Colors.Clear();
+                areaGrid.Labels.Clear(); // Stories-TacMapInsert
                 Dirty(ent, areaGrid);
 
                 var tiles = _map.GetAllTilesEnumerator(ent, mapGrid);

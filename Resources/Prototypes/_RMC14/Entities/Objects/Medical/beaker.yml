@@ -206,14 +206,13 @@
   - type: SolutionContainerManager
     solutions:
       beaker:
-        maxVol: 300
+        maxVol: 500 # Stories-Ordnance
   - type: SolutionContainerVisuals
     maxFillLevels: 5
     fillBaseName: beakerbluespace
-  # Stories-Ordnance-Start
   - type: SolutionTransfer
     transferAmount: 100
-    maxTransferAmount: 300
+    maxTransferAmount: 500 # Stories-Ordnance
     canChangeTransferAmount: true
     transferAmounts:
     - 5
@@ -225,7 +224,7 @@
     - 100
     - 150
     - 300
-  # Stories-Ordnance-End
+    - 500 # Stories-Ordnance
   - type: Openable
     opened: true
     closeable: true

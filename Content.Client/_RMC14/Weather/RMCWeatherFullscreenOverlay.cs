@@ -121,11 +121,7 @@ public sealed class RMCWeatherFullscreenOverlay : Overlay
             _entity.HasComponent<RMCAdminGhostComponent>(player) ||
             !_entity.HasComponent<MobStateComponent>(player) ||
             !_entity.TryGetComponent(player, out TransformComponent? playerXform) ||
-            !_entity.TryGetComponent(player, out EyeComponent? eye) ||
-            args.Viewport.Eye != eye.Eye ||
-            playerXform.MapUid is not { } mapUid ||
-            playerXform.GridUid is not { } gridUid ||
-            playerXform.MapID != args.MapId)
+            playerXform.MapUid is not { } mapUid) // Stories-ZLevels
         {
             return false;
         }
@@ -133,7 +129,7 @@ public sealed class RMCWeatherFullscreenOverlay : Overlay
         if (!RMCWeatherOverlayHelpers.TryGetCurrentMapOverlay(_entity, playerXform.MapID, out var overlayContext))
             return false;
 
-        if (!IsExposedToWeather(player, playerXform, gridUid))
+        if (!IsExposedToWeather(player, playerXform)) // Stories-ZLevels
             return false;
 
         overlay = overlayContext.Overlay;
@@ -146,22 +142,22 @@ public sealed class RMCWeatherFullscreenOverlay : Overlay
             fullHalfSize.Y > clearHalfSize.Y;
     }
 
-    private bool IsExposedToWeather(EntityUid player, TransformComponent playerXform, EntityUid gridUid)
+    private bool IsExposedToWeather(EntityUid player, TransformComponent playerXform) // Stories-ZLevels
     {
-        // Match server exposure checks: Robust weather tile first, then RMC partial blockers.
         var moverCoords = _transform.GetMoverCoordinates(player, playerXform);
 
-        if (_transform.GetGrid(moverCoords) is not { } moverGridUid ||
-            moverGridUid != gridUid ||
-            !_entity.TryGetComponent(gridUid, out MapGridComponent? grid) ||
-            !_map.TryGetTileRef(gridUid, grid, moverCoords, out var tile))
+        // Stories-ZLevels-Start
+        if (_transform.GetGrid(moverCoords) is { } moverGridUid &&
+            _entity.TryGetComponent(moverGridUid, out MapGridComponent? grid) &&
+            _map.TryGetTileRef(moverGridUid, grid, moverCoords, out var tile))
+        // Stories-ZLevels-End
         {
-            return false;
+            // Stories-ZLevels-Start
+            _entity.TryGetComponent(moverGridUid, out RoofComponent? roof);
+            if (!_weather.CanWeatherAffect(moverGridUid, grid, tile, roof))
+                return false;
+            // Stories-ZLevels-End
         }
-
-        _entity.TryGetComponent(gridUid, out RoofComponent? roof);
-        if (!_weather.CanWeatherAffect(gridUid, grid, tile, roof))
-            return false;
 
         var playerMapPos = _transform.ToMapCoordinates(moverCoords).Position;
         return !IsRMCWeatherBlocked(playerXform.MapID, playerMapPos);

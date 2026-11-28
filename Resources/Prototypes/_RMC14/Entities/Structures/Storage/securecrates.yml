@@ -9,6 +9,12 @@
     sprite: _RMC14/Markers/landmarks.rsi
     layers:
     - state: random_toolbox
+  - type: EntityTableSpawner
+    deleteSpawnerAfterSpawn: false
+    offset: 0
+    table: !type:EntSelector
+      id: RMCBlackMarketHackingDevice
+      prob: 0.0001
   - type: RandomSpawner
     offset: 0
     chance: 1.0
@@ -19,7 +25,7 @@
     - RMCFlashlight
     - RMCFoodDonkpocket
     - CMGrenadeSmoke
-    - DoorElectronics
+    - RMCDoorElectronics
     - CMWirecutter
     - CMBootsBlackFilled
     - RMCJumpsuitMarinePatch
@@ -113,7 +119,7 @@
     - RMCWeaponRifleL42A: RMCMagazineRifleL42A
     - RMCWeaponSMGType19: RMCMagazineSMGType19
     - RMCWeaponRifleABR40: RMCMagazineRifleABR40
-    - WeaponSMGMP5: CMMagazineSMGMP5
+    - RMCWeaponSMGPCAC5A4: RMCMagazineSMGPCAC5
     - WeaponRifleM16: RMCMagazineRifleM16
     - WeaponRifleAR10: RMCMagazineRifleAR10
     - RMCWeaponRifleType71: RMCMagazineRifleType71
@@ -203,6 +209,7 @@
   id: RMCCrateOpenableBase
   components:
   - type: VehicleSmashable
+  - type: ZPhysics # Stories-ZLevels
   - type: CrateOpenable
     spawn:
     - id: RMCPlankWood2
@@ -314,6 +321,7 @@
   parent: RMCCrateLarge
   id: RMCCrateBlackmarketConfiscatedEquipment # TODO crate heat 10 and dollar cost 70
   name: seized foreign equipment crate
+  description: A crate of random confiscated foreign equipment.
   components:
   - type: SpawnOnTerminate
     spawn: RMCSpawnerRandomConfiscatedEquipment
@@ -322,6 +330,7 @@
   parent: RMCCrateLarge
   id: RMCCrateBlackmarketConfiscatedWeaponry # TODO crate heat 15 and dollar cost 45
   name: seized foreign weaponry crate
+  description: A crate of random confiscated foreign weaponry.
   components:
   - type: SpawnOnTerminate
     spawn: RMCSpawnerRandomConfiscatedWeaponry

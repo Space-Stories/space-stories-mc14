@@ -1,3 +1,4 @@
+using Content.Shared.Storage;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._RMC14.EntityPreset;
@@ -10,6 +11,7 @@ public interface IRMCRandomizedPreset
     List<List<EntProtoId>> RandomWeapon { get; }
     List<List<EntProtoId>> PrimaryWeapons { get; }
     List<List<List<EntProtoId>>> RandomGearOther { get; }
+    List<EntitySpawnEntry> AdditionalGear { get; }
     bool TryEquipRandomOtherGear { get; }
     bool TryRandomOutfitsInhand { get; }
     bool TryEquipRandomWeapon { get; }

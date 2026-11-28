@@ -1,4 +1,4 @@
-ent-RMCSurvivorPresetUNMCRifleman = varadero rifleman preset
+ent-RMCSurvivorPresetUNMCRifleman = пресет стрелка Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }
-ent-RMCGearSurvivorPresetUNMC = varadero weapon preset
+ent-RMCGearSurvivorPresetUNMC = пресет оружия Варадеро
     .desc = { "" }

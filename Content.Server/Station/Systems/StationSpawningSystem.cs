@@ -1,6 +1,7 @@
 using Content.Server.Access.Systems;
 using Content.Server.Humanoid;
 using Content.Server.IdentityManagement;
+using Content.Server.Jobs;
 using Content.Server.Mind.Commands;
 using Content.Server.PDA;
 using Content.Server.Station.Components;
@@ -139,6 +140,12 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             }
 
             DoJobSpecials(job, jobEntity);
+
+            // Stories-JobEntityIdCard-Start
+            if (prototype != null)
+                SetPdaAndIdCardData(jobEntity, Name(jobEntity), prototype, station);
+            // Stories-JobEntityIdCard-End
+
             _identity.QueueIdentityUpdate(jobEntity);
             return jobEntity;
         }
@@ -154,6 +161,11 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
         if (adminSpawn)
             EnsureComp<RMCAdminSpawnedComponent>(entity.Value);
         // RMC14
+
+        // Stories-SynthAppearance-Start
+        if (profile != null)
+            profile = GetJobProfile(profile, prototype);
+        // Stories-SynthAppearance-End
 
         if (profile != null)
         {
@@ -200,6 +212,44 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             jobSpecial.AfterEquip(entity);
         }
     }
+
+    // Stories-SynthAppearance-Start
+    public HumanoidCharacterProfile GetJobProfile(HumanoidCharacterProfile profile, ProtoId<JobPrototype>? job)
+    {
+        if (job == null || !_prototypeManager.TryIndex(job.Value, out var prototype))
+            return profile;
+
+        return GetJobProfile(profile, prototype);
+    }
+
+    public HumanoidCharacterProfile GetJobProfile(HumanoidCharacterProfile profile, JobPrototype? job)
+    {
+        if (job == null || !IsSynthJob(job))
+            return profile;
+
+        profile = new HumanoidCharacterProfile(profile);
+
+        if (profile.SynthAppearance != null)
+            profile = profile.WithCharacterAppearance(profile.SynthAppearance);
+
+        if (profile.SynthName != string.Empty)
+            profile.Name = profile.SynthName;
+
+        profile.FlavorText = string.Empty;
+        return profile;
+    }
+
+    private static bool IsSynthJob(JobPrototype job)
+    {
+        foreach (var special in job.Special)
+        {
+            if (special is AddComponentSpecial addComponent && addComponent.Components.ContainsKey("Synth"))
+                return true;
+        }
+
+        return false;
+    }
+    // Stories-SynthAppearance-End
 
     /// <summary>
     /// Sets the ID card and PDA name, job, and access data.

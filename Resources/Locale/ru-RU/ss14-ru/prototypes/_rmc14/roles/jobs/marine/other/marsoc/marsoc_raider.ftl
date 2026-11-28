@@ -1,6 +1,6 @@
 ent-RMCRandomHumanoidMarineRaider = роль призрака морпех рейдер
     .desc = { "" }
-    .suffix = Роль, ОТРЯД СМЕРТИ
+    .suffix = Роль
 ent-RMCDogtagMarineRaider = жетон морпеха-рейдера
     .desc = { ent-CMIDCardStandardDogtag.desc }
 ent-RMCDogtagMarineRaiderHidden = { ent-RMCIDCardStandardDogtagHidden }

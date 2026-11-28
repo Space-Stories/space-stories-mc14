@@ -1,4 +1,4 @@
-ent-RMCPropHanddrill = mining drill
-    .desc = Yours is the drill that will pierce through the rock walls.
-ent-RMCPropJackhammer = sonic jackhammer
-    .desc = Cracks rocks with sonic blasts, perfect for killing cave lizards.
+ent-RMCPropHanddrill = горный бур
+    .desc = Твой бур пронзит каменные стены.
+ent-RMCPropJackhammer = звуковой отбойный молоток
+    .desc = Раскалывает камни звуковыми ударами — идеален для истребления пещерных ящериц.

@@ -29,4 +29,9 @@ public sealed partial class FiremanCarriableComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool CanThrow = false;
+
+    // Stories-SynthHeavyGrab-Start
+    [DataField, AutoNetworkedField]
+    public EntityWhitelist? ThrowWhitelist;
+    // Stories-SynthHeavyGrab-End
 }

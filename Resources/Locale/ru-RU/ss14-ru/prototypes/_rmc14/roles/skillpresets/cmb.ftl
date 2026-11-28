@@ -1,10 +1,10 @@
-ent-RMCSkillPresetSurvivorMarshalCO = Deputy Marshal Commander Survivor
+ent-RMCSkillPresetSurvivorMarshalCO = Выживший командир заместителей маршала
     .desc = { ent-RMCSkillPresetSurvivor.desc }
 ent-RMCSkillPresetSurvivorMarshal = Выживший Заместитель Маршала
     .desc = { ent-RMCSkillPresetSurvivor.desc }
 ent-RMCSkillPresetSurvivorRiotControlTeamLeader = Выживший Руководитель группы по борьбе с массовыми беспорядками БКМ
     .desc = { ent-RMCSkillPresetSurvivorMarshal.desc }
-ent-RMCSkillPresetSurvivorRiotControlMedicalTechnician = CMB Riot Control Medical Technician
+ent-RMCSkillPresetSurvivorRiotControlMedicalTechnician = Медицинский техник группы по борьбе с беспорядками БКМ
     .desc = { ent-RMCSkillPresetSurvivorMarshal.desc }
-ent-RMCSkillPresetSurvivorRiotControlBreachingTechnician = CMB Riot Control Breaching Technician
+ent-RMCSkillPresetSurvivorRiotControlBreachingTechnician = Техник-взломщик группы по борьбе с беспорядками БКМ
     .desc = { ent-RMCSkillPresetSurvivorMarshal.desc }

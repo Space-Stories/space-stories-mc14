@@ -8,7 +8,7 @@
 - type: accessLevel
   id: CMAccessPilot
   parent: RMCBaseHidden
-  name: cm-job-name-pilot
+  name: cm-job-name-dropship-pilot
 
 # vehicle crewman and corresponding machines' access
 - type: accessLevel

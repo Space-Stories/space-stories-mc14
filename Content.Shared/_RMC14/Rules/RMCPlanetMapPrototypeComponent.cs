@@ -18,6 +18,14 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
 
     [DataField, AutoNetworkedField]
     public CamouflageType Camouflage = CamouflageType.Jungle;
+    // Stories-ZLevels-Start
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsBelow = new();
+
+    [DataField, AutoNetworkedField]
+    public List<ResPath> MapsAbove = new();
+    // Stories-ZLevels-End
 
     [DataField, AutoNetworkedField]
     public int MinPlayers;
@@ -93,11 +101,22 @@ public sealed partial class RMCPlanetMapPrototypeComponent : Component
     public Dictionary<EntProtoId, EntProtoId?>? Replacements;
     // Stories-Survivor-End
 
+    // Stories-RandomScenarioVariant-Start
+    [DataField, AutoNetworkedField]
+    public HashSet<ProtoId<JobPrototype>>? RandomScenarioVariantJobs;
+    // Stories-RandomScenarioVariant-End
+
     /// <summary>
     /// Round-start operational briefings sent to the Commanding Officer, keyed by their affiliation preference.
     /// </summary>
     [DataField, AutoNetworkedField]
     public Dictionary<CommandingOfficerAffiliation, EntProtoId<PaperComponent>>? CommandingOfficerBriefings;
+
+    /// <summary>
+    /// Which small hosts types should spawn on the planet
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId>? SmallHostVariants;
 }
 
 [DataDefinition]

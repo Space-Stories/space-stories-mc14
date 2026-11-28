@@ -1,3 +1,3 @@
-ent-CMSpawnPointCrewman = vehicle crewman spawn point
+ent-CMSpawnPointCrewman = точка появления экипажа бронетехники
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

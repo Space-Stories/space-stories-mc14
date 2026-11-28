@@ -3,6 +3,7 @@
   name: rmc-ert-call-pmc-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -75,13 +76,38 @@
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
     priority: 30
+  - id: synth
+    name: stories-ert-role-pmc-synth
+    job: RMCPMCSynthetic
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidPMCSynthetic
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
+  - id: synthNoWhitelist
+    name: stories-ert-role-pmc-synth-no-whitelist
+    job: STPMCSyntheticNoWhitelist
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidPMCSyntheticNoWhitelist
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    allowedSources: [ Admin ]
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
       message: rmc-ert-announcement-pmc-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 6
@@ -91,6 +117,7 @@
   name: rmc-ert-call-pmc-platoon-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -174,13 +201,38 @@
     roleTags: [ specialist, rifleman ]
     seatTags: [ troop ]
     priority: 30
+  - id: synth
+    name: stories-ert-role-pmc-synth
+    job: RMCPMCSynthetic
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidPMCSynthetic
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
+  - id: synthNoWhitelist
+    name: stories-ert-role-pmc-synth-no-whitelist
+    job: STPMCSyntheticNoWhitelist
+    ghostRoleEntityPool:
+    - entity: STRandomHumanoidPMCSyntheticNoWhitelist
+      weight: 100
+    min: 0
+    max: 1
+    required: false
+    allowedSources: [ Admin ]
+    roleTags: [ synth, medic ]
+    seatTags: [ medic, troop ]
+    priority: 40
   announcements:
     arrival:
       title: rmc-ert-announcement-title-intercepted-transmission
       message: rmc-ert-announcement-pmc-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 3m
     maxCallsPerRound: 1
     minRequiredSlots: 8
 
@@ -189,6 +241,7 @@
   name: rmc-ert-call-weya-bodyguard-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -220,7 +273,7 @@
       sound: /Audio/_RMC14/AI/distressreceived.ogg
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -230,6 +283,7 @@
   name: rmc-ert-call-weya-bodyguard-goon-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -257,7 +311,7 @@
     seatTags: [ command ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -267,6 +321,7 @@
   name: rmc-ert-call-weya-bodyguard-pmc-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -293,7 +348,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -303,6 +358,7 @@
   name: rmc-ert-call-weya-bodyguard-pmc-enforcer-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -329,7 +385,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -339,6 +395,7 @@
   name: rmc-ert-call-weya-bodyguard-commando-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -365,7 +422,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 1
@@ -375,6 +432,7 @@
   name: rmc-ert-call-weya-lawyers-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -414,7 +472,7 @@
     seatTags: [ troop ]
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 1
     maxSlots: 2
@@ -462,6 +520,7 @@
   name: rmc-ert-call-wy-commando-name
   organization: rmc-ert-organization-weya
   npcFactions: [ WeYa ]
+  accessGroups: [ ShipMasterAccess, RMCERT ]
   iffFaction: FactionWeYa
   category: rmc-ert-category-corporate
   enabled: true
@@ -516,7 +575,7 @@
       message: rmc-ert-announcement-wy-commando-arrival
   requirements:
     cooldown: 10m
-    recruitmentDuration: 30s
+    recruitmentDuration: 1m
     maxCallsPerRound: 1
     minRequiredSlots: 3
     maxSlots: 6

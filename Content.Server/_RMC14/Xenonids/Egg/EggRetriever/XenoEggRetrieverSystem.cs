@@ -1,11 +1,14 @@
 using System.Numerics;
+using Content.Server.DoAfter;
 using Content.Shared._RMC14.Xenonids;
 using Content.Shared._RMC14.Xenonids.Announce;
+using Content.Shared._RMC14.Xenonids.Construction.EggMorpher;
 using Content.Shared._RMC14.Xenonids.Egg;
 using Content.Shared._RMC14.Xenonids.Egg.EggRetriever;
 using Content.Shared._RMC14.Xenonids.Evolution;
 using Content.Shared._RMC14.Xenonids.Hive;
 using Content.Shared._RMC14.Xenonids.Plasma;
+using Content.Shared.DoAfter;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs;
@@ -29,6 +32,7 @@ public sealed partial class XenoEggRetrieverSystem : SharedXenoEggRetrieverSyste
     [Dependency] private readonly SharedXenoAnnounceSystem _announce = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly XenoPlasmaSystem _plasma = default!;
+    [Dependency] private readonly DoAfterSystem _doafter = default!;
 
     public override void Initialize()
     {
@@ -52,15 +56,48 @@ public sealed partial class XenoEggRetrieverSystem : SharedXenoEggRetrieverSyste
        var target = args.Target;
         args.Handled = true;
 
-        // If none of the entities on the selected, in-range tile are eggs, try to pull an egg out of inventory
-        if (_interact.InRangeUnobstructed(eggRetriever, target))
+        // Stories-XenoEggRetrieve-Start
+        var inRange = _interact.InRangeUnobstructed(eggRetriever, target, range: 1.5f);
+        if (!inRange)
         {
-            var clickedEntities = _lookup.GetEntitiesIntersecting(target);
+            foreach (var ent in _lookup.GetEntitiesIntersecting(target))
+            {
+                if (TryComp<XenoEggComponent>(ent, out var egg) &&
+                    egg.State == XenoEggState.Item &&
+                    _interact.InRangeUnobstructed(eggRetriever.Owner, ent, range: 1.5f))
+                {
+                    inRange = true;
+                    break;
+                }
+            }
+        }
+        // Stories-XenoEggRetrieve-End
+
+        // If none of the entities on the selected, in-range tile are eggs, try to pull an egg out of inventory
+        if (inRange)
+        {
+            var clickedEntities = _lookup.GetEntitiesInRange(target, 0.5f, LookupFlags.Approximate | LookupFlags.Uncontained);
             var tileHasEggs = false;
 
-            foreach (var possibleEgg in clickedEntities)
+            foreach (var possibleEggOrMorpher in clickedEntities)
             {
-                if (!TryComp<XenoEggComponent>(possibleEgg, out var egg) ||
+                if (TryComp<EggMorpherComponent>(possibleEggOrMorpher, out var morpher) && _hive.FromSameHive(eggRetriever.Owner, possibleEggOrMorpher))
+                {
+                    if (eggRetriever.Comp.CurEggs <= 0 || morpher.CurParasites >= morpher.MaxParasites)
+                        continue;
+
+                    var ev = new EggMorpherFillDoafterEvent();
+                    var doAfter = new DoAfterArgs(EntityManager, eggRetriever, eggRetriever.Comp.InsertEggsDoafter, ev, possibleEggOrMorpher)
+                    {
+                        BreakOnMove = true,
+                    };
+
+                    _popup.PopupEntity(Loc.GetString("rmc-xeno-retrieve-egg-fill", ("morpher", possibleEggOrMorpher)), eggRetriever, PopupType.Medium);
+                    _doafter.TryStartDoAfter(doAfter);
+                    return;
+                }
+
+                if (!TryComp<XenoEggComponent>(possibleEggOrMorpher, out var egg) ||
                     egg.State != XenoEggState.Item)
                     continue;
 
@@ -72,7 +109,7 @@ public sealed partial class XenoEggRetrieverSystem : SharedXenoEggRetrieverSyste
                     return;
                 }
 
-                AddEgg(possibleEgg, eggRetriever);
+                AddEgg(possibleEggOrMorpher, eggRetriever);
             }
 
             if (tileHasEggs)

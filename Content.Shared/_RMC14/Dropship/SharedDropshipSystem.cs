@@ -3,7 +3,6 @@ using System.Linq;
 using Content.Shared._RMC14.AntiAir;
 using Content.Shared._RMC14.ARES;
 using Content.Shared._RMC14.ARES.Logs;
-using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.CCVar;
 using Content.Shared._RMC14.Dropship.AttachmentPoint;
 using Content.Shared._RMC14.Dropship.Utility.Components;
@@ -12,10 +11,8 @@ using Content.Shared._RMC14.Evacuation;
 using Content.Shared._RMC14.Marines.Announce;
 using Content.Shared._RMC14.Marines.Skills;
 using Content.Shared._RMC14.Rules;
-using Content.Shared._RMC14.Thunderdome;
 using Content.Shared._RMC14.Tracker;
 using Content.Shared._RMC14.Xenonids;
-using Content.Shared._RMC14.Xenonids.Announce;
 using Content.Shared._RMC14.Xenonids.Maturing;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
@@ -23,6 +20,7 @@ using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
+using Content.Shared.Ghost;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Popups;
@@ -45,13 +43,14 @@ public abstract class SharedDropshipSystem : EntitySystem
 {
     [Dependency] protected readonly SharedAudioSystem Audio = default!;
 
-    [Dependency] private readonly AreaSystem _areas = default!;
+    [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLog = default!;
     [Dependency] private readonly RMCShipAntiAirSystem _antiAir = default!;
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly ARESCoreSystem _core = default!;
     [Dependency] private readonly SharedGameTicker _gameTicker = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedMarineAnnounceSystem _marineAnnounce = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
@@ -60,7 +59,6 @@ public abstract class SharedDropshipSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedXenoAnnounceSystem _xenoAnnounce = default!;
 
     private TimeSpan _dropshipInitialDelay;
     private TimeSpan _hijackInitialDelay;
@@ -72,14 +70,14 @@ public abstract class SharedDropshipSystem : EntitySystem
         SubscribeLocalEvent<DropshipComponent, MapInitEvent>(OnDropshipMapInit);
 
         SubscribeLocalEvent<DropshipNavigationComputerComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<DropshipNavigationComputerComponent, BoundUserInterfaceMessageAttempt>(
+            OnNavigationMessageAttempt);
+        SubscribeLocalEvent<DropshipRemoteControlConsoleComponent, BoundUserInterfaceMessageAttempt>(
+            OnRemoteMessageAttempt);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, ActivatableUIOpenAttemptEvent>(OnUIOpenAttempt);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, AfterActivatableUIOpenEvent>(OnNavigationOpen);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, DropshipLockoutOverrideDoAfterEvent>(OnNavigationLockoutOverride);
         SubscribeLocalEvent<DropshipNavigationComputerComponent, GettingAttackedAttemptEvent>(OnGettingAttackedAttempt);
-
-        SubscribeLocalEvent<DropshipTerminalComponent, ActivateInWorldEvent>(OnDropshipTerminalActivateInWorld, before: [typeof(ActivatableUISystem), typeof(ActivatableUIRequiresAccessSystem)]);
-        SubscribeLocalEvent<DropshipTerminalComponent, ActivatableUIOpenAttemptEvent>(OnTerminalOpenAttempt);
-        SubscribeLocalEvent<DropshipTerminalComponent, AfterActivatableUIOpenEvent>(OnTerminalOpen);
 
         SubscribeLocalEvent<DropshipWeaponPointComponent, MapInitEvent>(OnAttachmentPointMapInit);
         SubscribeLocalEvent<DropshipWeaponPointComponent, EntityTerminatingEvent>(OnAttachmentPointRemove);
@@ -109,12 +107,6 @@ public abstract class SharedDropshipSystem : EntitySystem
             subs =>
             {
                 subs.Event<DropshipHijackerDestinationChosenBuiMsg>(OnHijackerDestinationChosenMsg);
-            });
-
-        Subs.BuiEvents<DropshipTerminalComponent>(DropshipTerminalUiKey.Key,
-            subs =>
-            {
-                subs.Event<DropshipTerminalSummonDropshipMsg>(OnTerminalSummon);
             });
 
         Subs.CVar(_config, RMCCVars.RMCDropshipInitialDelayMinutes, v => _dropshipInitialDelay = TimeSpan.FromMinutes(v), true);
@@ -156,7 +148,8 @@ public abstract class SharedDropshipSystem : EntitySystem
         if (args.Cancelled)
             return;
 
-        if (HasComp<XenoComponent>(args.User) && !HasComp<DropshipHijackerComponent>(args.User))
+        if (HasComp<XenoComponent>(args.User) &&
+            (!HasComp<DropshipHijackerComponent>(args.User) || !ent.Comp.Hijackable))
         {
             args.Cancel();
             return;
@@ -230,6 +223,57 @@ public abstract class SharedDropshipSystem : EntitySystem
         _ui.SetUiState(ent.Owner, DropshipHijackerUiKey.Key, new DropshipHijackerBuiState(destinations));
     }
 
+    private void OnNavigationMessageAttempt(
+        Entity<DropshipNavigationComputerComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.Cancelled)
+            return;
+
+        if (!CanUseDropshipConsole(ent, args.Actor) ||
+            TryGetGridDropship(ent, out var dropship) && dropship.Comp.Crashed ||
+            !TryDropshipLaunchPopup(ent, args.Actor, false))
+        {
+            args.Cancel();
+            return;
+        }
+
+        if (args.UiKey is DropshipHijackerUiKey)
+        {
+            if (!ent.Comp.Hijackable || !HasComp<DropshipHijackerComponent>(args.Actor) ||
+                _timing.CurTime >= ent.Comp.LockedOutUntil ||
+                !TryDropshipHijackPopup(ent, args.Actor, false))
+            {
+                args.Cancel();
+            }
+
+            return;
+        }
+
+        if (args.UiKey is DropshipNavigationUiKey &&
+            (HasComp<XenoComponent>(args.Actor) || _timing.CurTime < ent.Comp.LockedOutUntil))
+        {
+            args.Cancel();
+        }
+    }
+
+    private void OnRemoteMessageAttempt(
+        Entity<DropshipRemoteControlConsoleComponent> ent,
+        ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (args.UiKey is DropshipRemoteControlUiKey &&
+            (HasComp<XenoComponent>(args.Actor) || !CanUseDropshipConsole(ent, args.Actor)))
+        {
+            args.Cancel();
+        }
+    }
+
+    private bool CanUseDropshipConsole(EntityUid console, EntityUid actor)
+    {
+        return HasComp<GhostComponent>(actor) ||
+               _interaction.InRangeUnobstructed(actor, console) && _access.IsAllowed(actor, console);
+    }
+
     private void OnNavigationOpen(Entity<DropshipNavigationComputerComponent> ent, ref AfterActivatableUIOpenEvent args)
     {
         RefreshUI(ent);
@@ -237,6 +281,11 @@ public abstract class SharedDropshipSystem : EntitySystem
 
     private void OnNavigationLockoutOverride(Entity<DropshipNavigationComputerComponent> ent, ref DropshipLockoutOverrideDoAfterEvent args)
     {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
         var lockedOutRemaining = ent.Comp.LockedOutUntil - _timing.CurTime;
         var reduction = lockedOutRemaining / 10 + TimeSpan.FromSeconds(20);
         ent.Comp.LockedOutUntil -= reduction;
@@ -262,185 +311,6 @@ public abstract class SharedDropshipSystem : EntitySystem
 
         Audio.PlayPvs(ent.Comp.LaunchAlarmForcedShutdownSound, ent);
         _popup.PopupEntity(Loc.GetString("rmc-dropship-launch-alarm-xeno-shutdown", ("console", ent)), args.Attacker);
-    }
-
-    private void OnDropshipTerminalActivateInWorld(Entity<DropshipTerminalComponent> ent, ref ActivateInWorldEvent args)
-    {
-        var user = args.User;
-        if (!HasComp<XenoComponent>(user))
-        {
-            // not handled -> Open the UI for marines.
-            return;
-        }
-
-        args.Handled = true;
-        if (_net.IsClient)
-            return;
-
-        if (!HasComp<DropshipHijackerComponent>(user))
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-xeno-clueless", ("terminal", Name(ent.Owner))), user, user);
-            return;
-        }
-
-        if (!TryDropshipLaunchPopup(ent, user, false))
-            return;
-
-        if (!TryDropshipHijackPopup(ent, user, false))
-            return;
-
-        var userTransform = Transform(user);
-        var closestDestination = FindClosestLZ(userTransform);
-        if (closestDestination == null)
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-no-nearby-destinations"), user, user, PopupType.MediumCaution);
-            return;
-        }
-
-        if (closestDestination.Value.Comp1.Ship != null)
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-dropship-inbound"), user, user, PopupType.MediumCaution);
-            return;
-        }
-
-        if (Count<PrimaryLandingZoneComponent>() > 0 &&
-            !HasComp<PrimaryLandingZoneComponent>(closestDestination))
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-not-primary"), user, user, PopupType.MediumCaution);
-            return;
-        }
-
-        var dropships = EntityQueryEnumerator<DropshipComponent, TransformComponent>();
-        while (dropships.MoveNext(out var uid, out var dropship, out var xform))
-        {
-            if (dropship.Crashed || IsInFTL(uid))
-                continue;
-
-            if (HasComp<ThunderdomeMapComponent>(xform.MapUid))
-                continue;
-
-            var computerQuery = EntityQueryEnumerator<DropshipNavigationComputerComponent>();
-            while (computerQuery.MoveNext(out var computerId, out var computer))
-            {
-                if (!computer.Hijackable)
-                    continue;
-
-                if (Transform(computerId).GridUid == uid &&
-                    FlyTo((computerId, computer), closestDestination.Value, user))
-                {
-                    _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-call-down-success"), user, user, PopupType.LargeCaution);
-
-                    var locationName = "Unknown";
-                    if (_areas.TryGetArea(closestDestination.Value, out _, out var areaProto))
-                        locationName = areaProto.Name;
-
-                    _xenoAnnounce.AnnounceSameHiveDefaultSound(user, $"The Queen has commanded the metal bird to the hive at {locationName}");
-                    return;
-                }
-            }
-        }
-
-        _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-no-available-dropships"), user, user, PopupType.LargeCaution);
-    }
-
-    private void OnTerminalOpenAttempt(Entity<DropshipTerminalComponent> terminal, ref ActivatableUIOpenAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        if (HasComp<XenoComponent>(args.User))
-            args.Cancel();
-    }
-
-    private void OnTerminalOpen(Entity<DropshipTerminalComponent> terminal, ref AfterActivatableUIOpenEvent args)
-    {
-        if (!_ui.IsUiOpen(terminal.Owner, DropshipTerminalUiKey.Key, args.Actor))
-            return;
-
-        var closestLZ = FindClosestLZ(terminal);
-        if (closestLZ is not { } lz)
-        {
-            var failedState = new DropshipTerminalBuiState(Loc.GetString("rmc-dropship-terminal-unknown-location"), []);
-            _ui.SetUiState(terminal.Owner, DropshipTerminalUiKey.Key, failedState);
-            return;
-        }
-
-        var dropships = new List<DropshipEntry>();
-        var dropshipQuery = EntityQueryEnumerator<DropshipComponent>();
-        while (dropshipQuery.MoveNext(out var uid, out var _))
-        {
-            var computerQuery = EntityQueryEnumerator<DropshipNavigationComputerComponent>();
-            while (computerQuery.MoveNext(out var computerId, out var computer))
-            {
-                // Restricted shuttles can opt out of hijacking, so this filters them out of planetside terminals.
-                if (!computer.Hijackable)
-                    continue;
-
-                // On a different grid => not the associated computer.
-                if (Transform(computerId).GridUid != uid)
-                    continue;
-
-                dropships.Add(new DropshipEntry(GetNetEntity(computerId), Name(uid)));
-            }
-        }
-
-        var state = new DropshipTerminalBuiState(Name(lz), dropships);
-        _ui.SetUiState(terminal.Owner, DropshipTerminalUiKey.Key, state);
-    }
-
-    private void OnTerminalSummon(Entity<DropshipTerminalComponent> terminal, ref DropshipTerminalSummonDropshipMsg args)
-    {
-        if (_net.IsClient)
-            return;
-
-        if (!_ui.IsUiOpen(terminal.Owner, DropshipTerminalUiKey.Key, args.Actor))
-            return;
-
-        if (!TryGetEntity(args.Id, out var computerId) ||
-            !TryComp<DropshipNavigationComputerComponent>(computerId, out var computer) ||
-            !computer.Hijackable)
-        {
-            Log.Warning($"{ToPrettyString(args.Actor)} tried to remotely pilot a invalid dropship");
-            return;
-        }
-
-        var closestDestination = FindClosestLZ(terminal);
-        if (closestDestination == null)
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-no-nearby-destinations"), terminal, args.Actor, PopupType.MediumCaution);
-            return;
-        }
-
-        if (closestDestination.Value.Comp1.Ship is { } ship)
-        {
-            if (HasComp<FTLComponent>(ship))
-            {
-                _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-dropship-inbound"), terminal, args.Actor, PopupType.MediumCaution);
-            }
-            else
-            {
-                _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-dropship-present"), terminal, args.Actor, PopupType.MediumCaution);
-            }
-            return;
-        }
-
-        if (!computer.RemoteControl)
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-remote-control-disabled"), terminal, args.Actor, PopupType.MediumCaution);
-            return;
-        }
-
-        if (!TryDropshipLaunchPopup(terminal, args.Actor, false))
-            return;
-
-        if (!FlyTo((computerId.Value, computer), closestDestination.Value, args.Actor))
-        {
-            _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-dropship-busy"), terminal, args.Actor, PopupType.MediumCaution);
-            return;
-        }
-
-        _ui.CloseUi(terminal.Owner, DropshipTerminalUiKey.Key, args.Actor);
-        _popup.PopupEntity(Loc.GetString("rmc-dropship-terminal-dropship-routed"), terminal, args.Actor, PopupType.Medium);
     }
 
     private void OnAttachmentPointMapInit<TComp, TEvent>(Entity<TComp> ent, ref TEvent args) where TComp : IComponent?
@@ -539,7 +409,8 @@ public abstract class SharedDropshipSystem : EntitySystem
             return;
         }
 
-        FlyTo(ent, destination.Value, user);
+        if (!FlyTo(ent, destination.Value, user, source: DropshipLaunchSource.ManualNavigation))
+            return;
 
         var grid = _transform.GetGrid((ent.Owner, Transform(ent.Owner)));
         if (grid != null)
@@ -596,7 +467,7 @@ public abstract class SharedDropshipSystem : EntitySystem
             return;
         }
 
-        if (FlyTo(ent, antiAirEv.Destination, args.Actor, true) &&
+        if (FlyTo(ent, antiAirEv.Destination, args.Actor, true, source: DropshipLaunchSource.Hijack) &&
             xform.ParentUid.Valid)
         {
             var dropship = EnsureComp<DropshipComponent>(xform.ParentUid);
@@ -698,7 +569,8 @@ public abstract class SharedDropshipSystem : EntitySystem
         bool hijack = false,
         float? startupTime = null,
         float? hyperspaceTime = null,
-        bool offset = false)
+        bool offset = false,
+        DropshipLaunchSource source = DropshipLaunchSource.ManualNavigation)
     {
         return false;
     }
@@ -712,11 +584,6 @@ public abstract class SharedDropshipSystem : EntitySystem
     }
 
     protected virtual bool IsShuttle(EntityUid dropship)
-    {
-        return false;
-    }
-
-    protected virtual bool IsInFTL(EntityUid dropship)
     {
         return false;
     }
@@ -964,12 +831,11 @@ public abstract class SharedDropshipSystem : EntitySystem
         return rounded.ToString("0.##");
     }
 
-    private bool TryDropshipLaunchPopup(EntityUid computer, EntityUid user, bool predicted)
+    protected bool TryDropshipLaunchPopup(EntityUid computer, EntityUid user, bool predicted)
     {
-        var roundDuration = _gameTicker.RoundDuration();
-        if (roundDuration < _dropshipInitialDelay)
+        if (IsDropshipPreFlightFueling(out var remaining))
         {
-            var minutesLeft = Math.Max(1, (int)(_dropshipInitialDelay - roundDuration).TotalMinutes);
+            var minutesLeft = Math.Max(1, (int)remaining.TotalMinutes);
             var msg = Loc.GetString("rmc-dropship-pre-flight-fueling", ("minutes", minutesLeft));
 
             if (predicted)
@@ -981,6 +847,12 @@ public abstract class SharedDropshipSystem : EntitySystem
         }
 
         return true;
+    }
+
+    protected bool IsDropshipPreFlightFueling(out TimeSpan remaining)
+    {
+        remaining = _dropshipInitialDelay - _gameTicker.RoundDuration();
+        return remaining > TimeSpan.Zero;
     }
 
     protected bool TryDropshipHijackPopup(EntityUid computer, Entity<DropshipHijackerComponent?> user, bool predicted)
@@ -1149,40 +1021,5 @@ public abstract class SharedDropshipSystem : EntitySystem
     {
         var grid = _transform.GetGrid(coordinates);
         return HasComp<DropshipComponent>(grid);
-    }
-
-    public Entity<DropshipDestinationComponent, TransformComponent>? FindClosestLZ(TransformComponent userTransform)
-    {
-        Entity<DropshipDestinationComponent, TransformComponent>? closestDestination = null;
-        var destinations = EntityQueryEnumerator<DropshipDestinationComponent, TransformComponent>();
-        while (destinations.MoveNext(out var uid, out var destination, out var xform))
-        {
-            if (xform.MapID != userTransform.MapID)
-                continue;
-
-            if (closestDestination == null)
-            {
-                closestDestination = (uid, destination, xform);
-                continue;
-            }
-
-            if (userTransform.Coordinates.TryDistance(EntityManager, xform.Coordinates, out var distance) &&
-                userTransform.Coordinates.TryDistance(EntityManager,
-                    closestDestination.Value.Comp2.Coordinates,
-                    out var oldDistance) &&
-                distance < oldDistance)
-            {
-                closestDestination = (uid, destination, xform);
-            }
-        }
-        return closestDestination;
-    }
-
-    public Entity<DropshipDestinationComponent, TransformComponent>? FindClosestLZ(EntityUid entity)
-    {
-        if (TryComp(entity, out TransformComponent? transform))
-            return FindClosestLZ(transform);
-
-        return null;
     }
 }

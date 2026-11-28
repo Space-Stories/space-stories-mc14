@@ -1,5 +1,5 @@
-ent-RMCSpawnPointSurvivorAirportFirefighter = survivor airport firefighter spawn point
+ent-RMCSpawnPointSurvivorAirportFirefighter = точка появления выжившего аэродромного пожарного
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCGearSurvivorPresetAirportFirefighter = varadero airport firefighter preset
+ent-RMCGearSurvivorPresetAirportFirefighter = пресет аэродромного пожарного Варадеро
     .desc = { ent-RMCGearSurvivorPresetUNMC.desc }

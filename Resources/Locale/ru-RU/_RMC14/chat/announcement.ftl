@@ -48,8 +48,8 @@ rmc-announcement-first-deployment-message = [font="CozetteBold"]{ $operation }[/
     { $time }
     { $planet }
     { $assignment }
-rmc-announcement-first-deployment-operation = ОПЕРАЦИЯ { $name }
 rmc-announcement-first-deployment-time = { $time } Ч, { $numericDate }
+rmc-announcement-first-deployment-operation = ОПЕРАЦИЯ { $name }
 rmc-announcement-first-deployment-assignment-combat = 2-я рота «Падающие соколы»
 rmc-announcement-first-deployment-assignment-flight-crew = Лётный состав, { $warship }
 rmc-announcement-first-deployment-assignment-security = Военная полиция, { $warship }
@@ -90,7 +90,7 @@ rmc-announcement-ares-map = [color=#CECECE][font size=14][bold]Объявлен�
 
     { $message }[/bold][/font][/color]
 
-rmc-announcement-ares-varadero = [color=#CECECE][font size=16][bold]Нью-Варадеро, односторонний аварийный ретранслятор КМП США[/bold][/font][/color][color=red][font size=14][bold]
+rmc-announcement-ares-varadero = [color=#CECECE][font size=16][bold]Новый Варадеро, односторонний аварийный ретранслятор КМП США[/bold][/font][/color][color=red][font size=14][bold]
 
     { $message }[/bold][/font][/color]
 
@@ -105,7 +105,7 @@ rmc-announcement-anti-air = [color=#CECECE][font size=16][bold]Система П
     { $message }[/bold][/font][/color]
 
 rmc-announcement-emergency-dropship-crash = [font size=14][bold][color=#CECECE]ТРЕВОГА[/color][/bold][/font][font size=14][color=red]
-  ДЕСАНТНЫЙ КОРАБЛЬ НА КУРСЕ СТОЛКНОВЕНИЯ. КРУШЕНИЕ НЕИЗБЕЖНО.[/color][/font]
+    ДЕСАНТНЫЙ КОРАБЛЬ НА КУРСЕ СТОЛКНОВЕНИЯ. КРУШЕНИЕ НЕИЗБЕЖНО.[/color][/font]
 
 rmc-announcement-delta = [color=#CECECE][font size=14][bold]АВАРИЙНОЕ САМОУНИЧТОЖЕНИЕ РАЗРЕШЕНО[/bold][/font][/color][color=red][font size=14][bold]
 
@@ -126,3 +126,10 @@ rmc-announcement-unidentified-lifesigns = [color=#CECECE][font size=14][bold]В�
     Обнаружены неопознанные формы жизни ({ $count }) на борту десантного корабля { $name }. Рекомендация: блокировка внешних портов доступа, включая вентиляционные каналы и шахты.[/bold][/font][/color]
 
 rmc-announcement-shipside-header = Пожалуйста, напишите сообщение для экипажа
+rmc-announcement-echo-confirm-title = Подтвердите активацию
+rmc-announcement-echo-confirm-message = Подтвердите активацию отряда "Эхо" для { $message }
+rmc-announcement-echo-reason-title = Какова цель отряда "Эхо"?
+rmc-announcement-overwatch-untrained = Вы не обучены работе с наблюдением!
+rmc-announcement-evacuation-confirm = Подтвердить?
+rmc-announcement-evacuation-cancel = Отменить эвакуацию
+rmc-announcement-evacuation-initiate = Начать эвакуацию

@@ -10,16 +10,12 @@ rmc-ghost-name-corp-provost-advisor = Советник Провост (Друж�
 rmc-job-name-corp-provost-advisor = Советник Провост
 rmc-job-prefix-provost-advisor = СВПР
 
-rmc-ghost-name-corp-provost-chief = Главный инспектор Провост (Дружественный)
-rmc-job-name-corp-provost-chief = Главный инспектор Провост
-rmc-job-prefix-provost-chief = ГИПР
-
 rmc-ghost-name-corp-provost-deputy-marshal = Заместитель маршала Провост (Дружественный)
 rmc-job-name-corp-provost-deputy-marshal = Заместитель маршала Провост
 rmc-job-prefix-provost-deputy-marshal = ЗМПР
 
-rmc-ghost-name-corp-provost-enforcer = Сотрудник Провост (Дружественный)
-rmc-job-name-corp-provost-enforcer = Сотрудник Провост
+rmc-ghost-name-corp-provost-enforcer = Провост (Дружественный)
+rmc-job-name-corp-provost-enforcer = Провост
 rmc-job-prefix-provost-enforcer = СПР
 
 rmc-ghost-name-corp-provost-inspector = Инспектор Провост (Дружественный)
@@ -32,6 +28,6 @@ rmc-ghost-name-corp-provost-marshal = Маршал Провост (Дружес�
 rmc-job-name-corp-provost-marshal = Маршал Провост
 rmc-job-prefix-provost-marshal = МПР
 
-rmc-ghost-name-corp-provost-team-leader = Руководитель группы Провост (Дружественный)
-rmc-job-name-corp-provost-team-leader = Руководитель группы Провост
+rmc-ghost-name-corp-provost-team-leader = Руководитель группы провостов (Дружественный)
+rmc-job-name-corp-provost-team-leader = Руководитель группы провостов
 rmc-job-prefix-provost-team-leader = РГПР

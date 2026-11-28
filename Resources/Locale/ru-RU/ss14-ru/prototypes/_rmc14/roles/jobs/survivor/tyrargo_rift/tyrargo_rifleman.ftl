@@ -1,3 +1,3 @@
-ent-CMSpawnPointTyrargoRifleman = tyrargo marine rifleman spawn point
+ent-CMSpawnPointTyrargoRifleman = точка появления стрелка морпеха Тирарго
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }

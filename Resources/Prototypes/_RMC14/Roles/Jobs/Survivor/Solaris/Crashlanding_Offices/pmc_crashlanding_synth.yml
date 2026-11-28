@@ -8,11 +8,15 @@
   icon: "RMCJobIconPMCSynthetic"
   playTimeTracker: RMCJobSyntheticColony
   spawnMenuRoleName: PMC Synthetic (Solaris Special Survivor)
+  # Stories-SurvivorSpawnerFallback-Start
+  survivorSpawnerFallback:
+  - RMCSurvivorSolarisPMCStandard
+  # Stories-SurvivorSpawnerFallback-End
   special:
   - !type:AddComponentSpecial
     components:
     - type: Language
-      preset: RMCLanguagePresetSynthColonist
+      preset: RMCLanguagePresetSynth
     - type: LanguageLearning
       preset: RMCLanguageLearningPresetSynthColonist
     - type: NpcFactionMember
@@ -34,6 +38,11 @@
       squad: SquadPMC
     - type: JobPrefix
       prefix: rmc-job-prefix-pmc-synth
+    # Stories-Synth-Start
+    - type: SynthGeneration
+      generation: RMCSynthGenThree
+      selectable: false
+    # Stories-Synth-End
     - type: Synth
   useLoadoutOfJob: RMCSyntheticColony # for inheritance
   hidden: true
@@ -50,7 +59,8 @@
     shoes: RMCBootsPMCFilled
     id: CMIDCardPMC
     eyes: RMCSunglasses
-    gloves: RMCHandsVeteran
+    # gloves: RMCHandsVeteran # Stories-SynthSurvivorGear
+    gloves: RMCHandsVeteranPMC # Stories-SynthSurvivorGear
     pocket1: RMCPouchToolsSocFilledSynthetic
     pocket2: RMCPouchConstructionFillLowGrade # TODO RMC14: WY construction pouch
   storage:
@@ -62,6 +72,7 @@
     - CMFireExtinguisherPortable
     - CMDefibrillator # TODO RMC14: Upgraded defib, crew monitor
     - RMCSynthResetKey
+    - RMCRadioHandheldColony # Stories-SynthSurvivorGear
     outerClothing:
     - RMCMREWeYaPMC
     - RMCTelescopicBaton

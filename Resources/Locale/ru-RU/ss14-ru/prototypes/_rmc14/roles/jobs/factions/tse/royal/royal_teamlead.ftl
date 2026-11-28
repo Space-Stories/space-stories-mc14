@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidRoyalMarinesTeamlead = royal crown marines ghost role team leader
+ent-RMCRandomHumanoidRoyalMarinesTeamlead = роль призрака командира отряда Королевской морской пехоты
     .desc = { "" }
-    .suffix = Spawner, Player, Friendly
+    .suffix = Спавнер, Игрок, Дружелюбный

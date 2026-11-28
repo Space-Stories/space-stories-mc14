@@ -1,9 +1,13 @@
+using System.Linq;
 using System.Numerics;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
 using Content.Shared._RMC14.Atmos;
 using Content.Shared._RMC14.Evasion;
 using Content.Shared._RMC14.Map;
 using Content.Shared._RMC14.Random;
 using Content.Shared._RMC14.Xenonids.Hive;
+using Content.Shared._Stories.ZLevels.Core.EntitySystems;
 using Content.Shared.Examine;
 using Content.Shared.FixedPoint;
 using Content.Shared.Mobs.Systems;
@@ -11,6 +15,7 @@ using Content.Shared.NPC.Systems;
 using Content.Shared.Popups;
 using Content.Shared.Projectiles;
 using Content.Shared.Whitelist;
+using Robust.Shared.Map; // Stories-ZLevels
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
@@ -22,16 +27,19 @@ namespace Content.Shared._RMC14.Projectiles;
 public sealed class RMCProjectileSystem : EntitySystem
 {
     [Dependency] private readonly ExamineSystemShared _examine = default!;
+    [Dependency] private readonly FixtureSystem _fixtures = default!;
+    [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
     [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly NpcFactionSystem _npcFaction = default!;
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly RMCMapSystem _rmcMap = default!;
+    [Dependency] private readonly SharedProjectileSystem _sharedProjectile = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
-    [Dependency] private readonly SharedXenoHiveSystem _hive = default!;
+    [Dependency] private readonly SharedZLevelsSystem _zLevels = default!; // Stories-ZLevels
 
     public override void Initialize()
     {
@@ -79,12 +87,54 @@ public sealed class RMCProjectileSystem : EntitySystem
         Dirty(projectile);
     }
 
+    // Stories-ZLevels-Start
+    private bool TryGetRangeDistance(EntityCoordinates a, EntityCoordinates b, out float distance)
+    {
+        if (a.TryDistance(EntityManager, _transform, b, out distance))
+            return true;
+
+        var aMap = _transform.GetMapId(a);
+        var bMap = _transform.GetMapId(b);
+        if (aMap != bMap && aMap != MapId.Nullspace && bMap != MapId.Nullspace && _zLevels.AreInSameNetwork(aMap, bMap))
+        {
+            var aWorld = _transform.ToMapCoordinates(a).Position;
+            var bWorld = _transform.ToMapCoordinates(b).Position;
+            distance = Vector2.Distance(aWorld, bWorld);
+            return true;
+        }
+
+        distance = 0f;
+        return false;
+    }
+
+    private bool TryGetRangeDelta(EntityCoordinates a, EntityCoordinates b, out Vector2 delta)
+    {
+        if (a.TryDelta(EntityManager, _transform, b, out delta))
+            return true;
+
+        var aMap = _transform.GetMapId(a);
+        var bMap = _transform.GetMapId(b);
+        if (aMap != bMap && aMap != MapId.Nullspace && bMap != MapId.Nullspace && _zLevels.AreInSameNetwork(aMap, bMap))
+        {
+            var aWorld = _transform.ToMapCoordinates(a).Position;
+            var bWorld = _transform.ToMapCoordinates(b).Position;
+            delta = aWorld - bWorld;
+            return true;
+        }
+
+        delta = Vector2.Zero;
+        return false;
+    }
+    // Stories-ZLevels-End
+
     private void OnFalloffProjectileHit(Entity<RMCProjectileDamageFalloffComponent> projectile, ref ProjectileHitEvent args)
     {
         if (projectile.Comp.ShotFrom == null || projectile.Comp.MinRemainingDamageMult < 0)
             return;
 
-        var distance = (_transform.GetMoverCoordinates(args.Target).Position - projectile.Comp.ShotFrom.Value.Position).Length();
+        var targetCoords = _transform.GetMoverCoordinates(args.Target);
+        if (!TryGetRangeDistance(targetCoords, projectile.Comp.ShotFrom.Value, out var distance))
+            distance = (_transform.ToMapCoordinates(targetCoords).Position - _transform.ToMapCoordinates(projectile.Comp.ShotFrom.Value).Position).Length();
         var minDamage = args.Damage.GetTotal() * projectile.Comp.MinRemainingDamageMult;
         foreach (var threshold in projectile.Comp.Thresholds)
         {
@@ -126,75 +176,115 @@ public sealed class RMCProjectileSystem : EntitySystem
         Dirty(projectile);
     }
 
+    public bool ShouldHitTarget(EntityUid projectileUid, RMCProjectileAccuracyComponent? accuracyComp, EntityUid target, ProjectileComponent? projectileComponent = null)
+    {
+        var netOther = GetNetEntity(target);
+        if (accuracyComp != null && accuracyComp.Dodged.Contains(netOther))
+            return false;
+
+        var ev = new RMCBeforeProjectileAccuracyEvent(projectileUid);
+        RaiseLocalEvent(target, ref ev);
+
+        if (ev.GuaranteedMiss)
+        {
+            if (accuracyComp != null)
+            {
+                accuracyComp.Dodged.Add(netOther);
+                Dirty(projectileUid, accuracyComp);
+            }
+            return false;
+        }
+
+        if (accuracyComp == null || accuracyComp.ForceHit || accuracyComp.ShotFrom == null)
+            return true;
+
+        if (!Resolve(projectileUid, ref projectileComponent, false))
+            return true;
+
+        if (!TryComp(target, out EvasionComponent? evasionComponent))
+            return true;
+
+        var accuracy = accuracyComp.Accuracy;
+        var targetCoords = _transform.GetMoverCoordinates(target);
+        var distance = (targetCoords.Position - accuracyComp.ShotFrom.Value.Position).Length();
+
+        foreach (var threshold in accuracyComp.Thresholds)
+        {
+            var pastRange = distance - threshold.Range;
+
+            if (threshold.Buildup)
+            {
+                if (pastRange >= 0)
+                    continue;
+
+                accuracy += threshold.Falloff * pastRange;
+                continue;
+            }
+
+            if (pastRange <= 0)
+                continue;
+
+            accuracy -= threshold.Falloff * pastRange;
+        }
+
+        if (!_examine.InRangeUnOccluded(_transform.ToMapCoordinates(accuracyComp.ShotFrom.Value), _transform.ToMapCoordinates(targetCoords), distance, null))
+            accuracy += (int)AccuracyModifiers.TargetOccluded;
+
+        if (!accuracyComp.IgnoreFriendlyEvasion && IsProjectileTargetFriendly(projectileUid, target))
+            accuracy -= evasionComponent.ModifiedEvasionFriendly;
+
+        accuracy -= evasionComponent.ModifiedEvasion;
+
+        accuracy = accuracy > accuracyComp.MinAccuracy ? accuracy : accuracyComp.MinAccuracy;
+
+        var random = new Xoshiro128P(accuracyComp.GunSeed, (long)accuracyComp.Tick << 32 | netOther.Id).NextFloat(0f, 100f);
+
+        if (accuracy >= random)
+            return true;
+
+        accuracyComp.Dodged.Add(netOther);
+        Dirty(projectileUid, accuracyComp);
+        return false;
+    }
+
     private void OnProjectileAccuracyPreventCollide(Entity<RMCProjectileAccuracyComponent> projectile, ref PreventCollideEvent args)
     {
         if (args.Cancelled)
             return;
 
-        var netOther = GetNetEntity(args.OtherEntity);
-        if (projectile.Comp.Dodged.Contains(netOther))
-        {
+        if (!ShouldHitTarget(projectile.Owner, projectile.Comp, args.OtherEntity))
             args.Cancelled = true;
-            return;
-        }
+    }
 
-        var ev = new RMCBeforeProjectileAccuracyEvent(projectile);
-        RaiseLocalEvent(args.OtherEntity, ref ev);
-
-        if (!ev.GuaranteedMiss)
+    private FixedPoint2 ApplyAccuracyFalloff(RMCProjectileAccuracyComponent comp, float distance)
+    {
+        var accuracy = comp.Accuracy;
+        foreach (var threshold in comp.Thresholds)
         {
-            if (projectile.Comp.ForceHit || projectile.Comp.ShotFrom == null)
-                return;
+            var pastRange = distance - threshold.Range;
 
-            if (!TryComp(projectile.Owner, out ProjectileComponent? projectileComponent))
-                return;
-
-            if (!TryComp(args.OtherEntity, out EvasionComponent? evasionComponent))
-                return;
-
-            var accuracy = projectile.Comp.Accuracy;
-            var targetCoords = _transform.GetMoverCoordinates(args.OtherEntity);
-            var distance = (targetCoords.Position - projectile.Comp.ShotFrom.Value.Position).Length();
-
-            foreach (var threshold in projectile.Comp.Thresholds)
+            if (threshold.Buildup)
             {
-                var pastRange = distance - threshold.Range;
-
-                if (threshold.Buildup)
-                {
-                    if (pastRange >= 0)
-                        continue;
-
-                    accuracy += threshold.Falloff * pastRange;
-                    continue;
-                }
-
-                if (pastRange <= 0)
+                if (pastRange >= 0)
                     continue;
 
-                accuracy -= threshold.Falloff * pastRange;
+                accuracy += threshold.Falloff * pastRange;
+                continue;
             }
 
-            if (!_examine.InRangeUnOccluded(_transform.ToMapCoordinates(projectile.Comp.ShotFrom.Value), _transform.ToMapCoordinates(targetCoords), distance, null))
-                accuracy += (int)AccuracyModifiers.TargetOccluded;
+            if (pastRange <= 0)
+                continue;
 
-            if (!projectile.Comp.IgnoreFriendlyEvasion && IsProjectileTargetFriendly(projectile.Owner, args.OtherEntity))
-                accuracy -= evasionComponent.ModifiedEvasionFriendly;
-
-            accuracy -= evasionComponent.ModifiedEvasion;
-
-            accuracy = accuracy > projectile.Comp.MinAccuracy ? accuracy : projectile.Comp.MinAccuracy;
-
-            var random = new Xoshiro128P(projectile.Comp.GunSeed, (long)projectile.Comp.Tick << 32 | GetNetEntity(args.OtherEntity).Id).NextFloat(0f, 100f);
-
-            if (accuracy >= random)
-                return;
+            accuracy -= threshold.Falloff * pastRange;
         }
 
-        args.Cancelled = true;
+        return accuracy;
+    }
 
-        projectile.Comp.Dodged.Add(netOther);
-        Dirty(projectile);
+    public FixedPoint2 GetEffectiveAccuracy(Entity<RMCProjectileAccuracyComponent> projectile, float distance)
+    {
+        var accuracy = ApplyAccuracyFalloff(projectile.Comp, distance);
+        return accuracy > projectile.Comp.MinAccuracy ? accuracy : projectile.Comp.MinAccuracy;
     }
 
     private bool IsProjectileTargetFriendly(EntityUid projectile, EntityUid target)
@@ -207,8 +297,15 @@ public sealed class RMCProjectileSystem : EntitySystem
 
     private void OnSpawnOnTerminatingMapInit(Entity<SpawnOnTerminateComponent> ent, ref MapInitEvent args)
     {
-        ent.Comp.Origin = _transform.GetMoverCoordinates(ent);
-        Dirty(ent);
+        // Stories-ZLevels-Start
+        var xform = Transform(ent);
+        if (xform.MapUid is { } mapUid)
+        {
+            var worldPos = _transform.GetWorldPosition(xform);
+            ent.Comp.Origin = new EntityCoordinates(mapUid, worldPos);
+            Dirty(ent);
+        }
+        // Stories-ZLevels-End
     }
 
     private void OnSpawnOnTerminatingTerminate(Entity<SpawnOnTerminateComponent> ent, ref EntityTerminatingEvent args)
@@ -224,7 +321,7 @@ public sealed class RMCProjectileSystem : EntitySystem
 
         var coordinates = transform.Coordinates;
         if (ent.Comp.Origin is { } origin &&
-            coordinates.TryDelta(EntityManager, _transform, origin, out var delta))
+            TryGetRangeDelta(coordinates, origin, out var delta)) // Stories-ProjectileDirection
         {
             var deltaLength = delta.Length();
 
@@ -237,7 +334,18 @@ public sealed class RMCProjectileSystem : EntitySystem
                 {
                     deltaLength = projectileMaxRange.Max;
                     delta = direction * deltaLength;
-                    coordinates = origin.Offset(delta);
+                    var curMap = _transform.GetMapId(coordinates);
+                    var origMap = _transform.GetMapId(origin);
+                    if (curMap != origMap)
+                    {
+                        var originWorld = _transform.ToMapCoordinates(origin).Position;
+                        var clampedWorld = originWorld + delta;
+                        coordinates = new EntityCoordinates(transform.ParentUid, clampedWorld - _transform.GetWorldPosition(transform.ParentUid));
+                    }
+                    else
+                    {
+                        coordinates = origin.Offset(delta);
+                    }
                 }
 
                 if (ent.Comp.AdjustSpawn && ent.Comp.SpawnOffset != 0f)
@@ -327,7 +435,7 @@ public sealed class RMCProjectileSystem : EntitySystem
         if (ent.Comp.Origin is not { } origin)
             return;
 
-        if (!origin.TryDistance(EntityManager, _transform.GetMoverCoordinates(ent), out var distance))
+        if (!TryGetRangeDistance(origin, _transform.GetMoverCoordinates(ent), out var distance))
             return;
 
         if (distance < ent.Comp.Max)
@@ -352,7 +460,7 @@ public sealed class RMCProjectileSystem : EntitySystem
         {
             var coordinates = _transform.GetMoverCoordinates(uid);
             if (comp.Origin is not { } origin ||
-                !coordinates.TryDistance(EntityManager, _transform, origin, out var distance))
+                !TryGetRangeDistance(coordinates, origin, out var distance))
             {
                 StopProjectile((uid, comp));
                 continue;
@@ -363,8 +471,112 @@ public sealed class RMCProjectileSystem : EntitySystem
 
             StopProjectile((uid, comp));
         }
+
+        UpdateProjectileCcd(); // Stories-Projectiles
     }
+
+    // Stories-Projectiles-Start
+    private void UpdateProjectileCcd()
+    {
+        if (_net.IsClient)
+            return;
+
+        var query = EntityQueryEnumerator<ProjectileComponent, PhysicsComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out var projectile, out var physics, out var xform))
+        {
+            if (projectile.ProjectileSpent || !physics.CanCollide || physics.BodyStatus != BodyStatus.InAir)
+            {
+                projectile.LastCcdPosition = null;
+                continue;
+            }
+
+            var curPos = _transform.GetWorldPosition(xform);
+            if (projectile.LastCcdPosition == null)
+            {
+                projectile.LastCcdPosition = curPos;
+                continue;
+            }
+
+            var prevPos = projectile.LastCcdPosition.Value;
+            projectile.LastCcdPosition = curPos;
+
+            var displacement = curPos - prevPos;
+            var distSq = displacement.LengthSquared();
+            // If the projectile moved less than 0.5 tiles, Box2D discrete overlap catches it.
+            if (distSq < 0.25f)
+                continue;
+
+            var dist = MathF.Sqrt(distSq);
+            var dir = displacement / dist;
+
+            if (_fixtures.GetFixtureOrNull(uid, SharedProjectileSystem.ProjectileFixture) is not { } fixture)
+                continue;
+
+            var mapId = xform.MapID;
+            var ray = new CollisionRay(prevPos, dir, fixture.CollisionMask);
+            var results = _physics.IntersectRayWithPredicate(mapId, ray, dist, target =>
+            {
+                if (target == uid)
+                    return true;
+
+                if (projectile.IgnoreShooter && (target == projectile.Shooter || target == projectile.Weapon))
+                    return true;
+
+                return false;
+            }, returnOnFirstHit: false).ToList();
+
+            if (results.Count == 0)
+                continue;
+
+            if (results.Count > 1)
+                results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+
+            foreach (var hit in results)
+            {
+                if (projectile.ProjectileSpent || TerminatingOrDeleted(uid))
+                    break;
+
+                var target = hit.HitEntity;
+                if (TerminatingOrDeleted(target))
+                    continue;
+
+                if (!TryComp<PhysicsComponent>(target, out var targetPhysics))
+                    continue;
+
+                if (!TryComp<FixturesComponent>(target, out var targetFixtures) || targetFixtures.Fixtures.Count == 0)
+                    continue;
+
+                var targetFixture = targetFixtures.Fixtures.Values.FirstOrDefault(f => (f.CollisionLayer & fixture.CollisionMask) != 0)
+                    ?? targetFixtures.Fixtures.Values.First();
+
+                // Respect PreventCollideEvent on both projectile and target (RequireProjectileTargetSystem,
+                // GunPredictionSystem, PreventCollideWithDeadComponent, VehicleRideSurface, etc.)
+                var projectileEv = new PreventCollideEvent(uid, target, physics, targetPhysics, fixture, targetFixture);
+                RaiseLocalEvent(uid, ref projectileEv);
+                if (projectileEv.Cancelled)
+                    continue;
+
+                var targetEv = new PreventCollideEvent(target, uid, targetPhysics, physics, targetFixture, fixture);
+                RaiseLocalEvent(target, ref targetEv);
+                if (targetEv.Cancelled)
+                    continue;
+
+                // Accuracy and evasion checks
+                TryComp<RMCProjectileAccuracyComponent>(uid, out var accuracyComp);
+                if (!ShouldHitTarget(uid, accuracyComp, target, projectile))
+                    continue;
+
+                // Bullet hit the target along its swept path!
+                _transform.SetWorldPosition(uid, hit.HitPos);
+                _sharedProjectile.ProjectileCollide((uid, projectile, physics), target);
+                break;
+            }
+        }
+    }
+    // Stories-Projectiles-End
 }
 
+// Stories-Projectiles-Start
 [ByRefEvent]
-public record struct ProjectileShotEvent(EntityUid? Shooter, bool Predicted = true);
+public readonly record struct ProjectileShotEvent(EntityUid? Shooter, bool Predicted = true);
+// Stories-Projectiles-End

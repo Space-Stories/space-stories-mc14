@@ -542,7 +542,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         var stunTime = door.DoorStunTime + door.OpenTimeOne;
         foreach (var entity in GetColliding(uid, physics))
         {
-            door.CurrentlyCrushing.Add(entity);
+            door.CurrentlyCrushing.Add(GetNetEntity(entity)); // Stories-DeletedEntityReferences
             if (door.CrushDamage != null)
                 _damageableSystem.TryChangeDamage(entity, door.CrushDamage, origin: uid);
 
@@ -570,10 +570,11 @@ public abstract partial class SharedDoorSystem : EntitySystem
         // GetCollidingEntities that returns Entity<PhysicsComponent>
         if (!TryComp<MapGridComponent>(xform.GridUid, out var mapGridComp))
             yield break;
-        var tileRef = _mapSystem.GetTileRef(xform.GridUid.Value, mapGridComp, xform.Coordinates);
-
+        // Stories-MultiTileDoorCheck-Start
         _doorIntersecting.Clear();
-        _entityLookup.GetLocalEntitiesIntersecting(xform.GridUid.Value, tileRef.GridIndices, _doorIntersecting, gridComp: mapGridComp, flags: (LookupFlags.All & ~LookupFlags.Sensors));
+        var doorBounds = _entityLookup.GetWorldAABB(uid, xform).Enlarged(-0.05f);
+        _entityLookup.GetEntitiesIntersecting(xform.MapID, doorBounds, _doorIntersecting, flags: (LookupFlags.All & ~LookupFlags.Sensors));
+        // Stories-MultiTileDoorCheck-End
 
         // TODO SLOTH fix electro's code.
         // ReSharper disable once InconsistentNaming
@@ -611,10 +612,12 @@ public abstract partial class SharedDoorSystem : EntitySystem
 
     private void PreventCollision(EntityUid uid, DoorComponent component, ref PreventCollideEvent args)
     {
-        if (component.CurrentlyCrushing.Contains(args.OtherEntity))
+        // Stories-DeletedEntityReferences-Start
+        if (TryGetNetEntity(args.OtherEntity, out var other) && component.CurrentlyCrushing.Contains(other.Value))
         {
             args.Cancelled = true;
         }
+        // Stories-DeletedEntityReferences-End
     }
 
     /// <summary>

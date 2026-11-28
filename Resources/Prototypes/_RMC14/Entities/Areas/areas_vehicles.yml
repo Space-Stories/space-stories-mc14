@@ -22,7 +22,7 @@
     noTunnel: true
     unweedable: true
     resinAllowed: false
-    alwaysPowered: true
+    alwaysPowered: false # Stories-VehiclePower
 
 - type: entity
   parent: RMCAreaVehicleInterior

@@ -1,5 +1,6 @@
 using Content.Shared._RMC14.GameStates;
 using Content.Shared._RMC14.Inventory;
+using Content.Shared._RMC14.Movement;
 using Content.Shared._RMC14.Rangefinder;
 using Content.Shared._RMC14.Rangefinder.Spotting;
 using Content.Shared.Hands;
@@ -24,6 +25,7 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<TargetingComponent, ComponentRemove>(OnTargetingRemoved);
+        SubscribeLocalEvent<TargetingComponent, EntityTerminatingEvent>(OnTargetingRemoved); // Stories-FixDeletedTargetingEntities
         SubscribeLocalEvent<TargetingComponent, DroppedEvent>(OnTargetingDropped);
         SubscribeLocalEvent<TargetingComponent, RMCDroppedEvent>(OnTargetingDropped);
         SubscribeLocalEvent<TargetingComponent, GotUnequippedHandEvent>(OnTargetingDropped);
@@ -31,6 +33,30 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
 
         SubscribeLocalEvent<RMCTargetedComponent, ComponentRemove>(OnTargetedRemove);
         SubscribeLocalEvent<RMCTargetedComponent, EntityTerminatingEvent>(OnTargetedRemove);
+
+        SubscribeLocalEvent<RMCTargetingRootedComponent, RMCAttemptMobPushedEvent>(OnRootedAttemptMobPushed);
+    }
+
+    private void OnRootedAttemptMobPushed(Entity<RMCTargetingRootedComponent> ent, ref RMCAttemptMobPushedEvent args)
+    {
+        if (ent.Comp.Equipment is not { } equipment ||
+            !TryComp(equipment, out TargetingComponent? targeting) ||
+            targeting.User != ent.Owner ||
+            targeting.LaserDurations.Count == 0)
+        {
+            return;
+        }
+
+        args.Cancelled = true;
+    }
+
+    private void ReleaseRootedUser(Entity<TargetingComponent> targeting)
+    {
+        if (TryComp(targeting.Comp.User, out RMCTargetingRootedComponent? rooted) &&
+            rooted.Equipment == targeting.Owner)
+        {
+            RemComp<RMCTargetingRootedComponent>(targeting.Comp.User);
+        }
     }
 
     /// <summary>
@@ -53,6 +79,8 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
         {
             _rmcPvs.RemoveSessionOverride(targeting.Owner, session);
         }
+
+        ReleaseRootedUser(targeting);
     }
 
     /// <summary>
@@ -77,16 +105,21 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        foreach (var targeting in ent.Comp.TargetedBy)
+        // Stories-FixDeletedTargetingEntities-Start
+        foreach (var targeting in ent.Comp.TargetedBy.ToArray())
         {
             if (!TryComp(targeting, out TargetingComponent? targetingComp))
                 continue;
 
-            targetingComp.Targets.Remove(ent);
+            while (targetingComp.Targets.Remove(ent)) {}
             targetingComp.LaserDurations.Remove(ent);
             targetingComp.OriginalLaserDurations.Remove(ent);
             Dirty(targeting, targetingComp);
+
+            if (targetingComp.Targets.Count == 0)
+                RemComp<TargetingComponent>(targeting);
         }
+        // Stories-FixDeletedTargetingEntities-End
 
         foreach (var session in _player.Sessions)
         {
@@ -104,47 +137,49 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
         if (!Resolve(targeting, ref targeting.Comp, false))
             return;
 
-        targeting.Comp.Targets.Remove(target);
+        // Stories-FixDeletedTargetingEntities-Start
+        while (targeting.Comp.Targets.Remove(target)) {}
+        targeting.Comp.LaserDurations.Remove(target);
+        targeting.Comp.OriginalLaserDurations.Remove(target);
         Dirty(targeting);
 
-        if (!TryComp(target, out RMCTargetedComponent? targeted))
-            return;
+        if (targeting.Comp.Targets.Count == 0)
+            ReleaseRootedUser((targeting, targeting.Comp));
 
-        targeted.TargetedBy.Remove(targeting);
-        Dirty(target, targeted);
-
-        // Find the next target marker with the highest priority
-        var highestMark = TargetedEffects.None;
-        var spotters = false;
-
-        // Check all active lasers currently targeting the target
-        foreach (var activeLaser in targeted.TargetedBy)
+        if (TryComp(target, out RMCTargetedComponent? targeted))
         {
-            if (!TryComp(activeLaser, out TargetingComponent? comp))
-                continue;
+            targeted.TargetedBy.Remove(targeting);
+            targeted.AlphaMultipliers.Remove(targeting);
+            Dirty(target, targeted);
 
-            if (comp.LaserType > highestMark)
-                highestMark = comp.LaserType;
+            var highestMark = TargetedEffects.None;
+            var spotters = false;
 
-            if (comp.LaserType == TargetedEffects.Spotted)
-                spotters = true;
+            foreach (var activeLaser in targeted.TargetedBy)
+            {
+                if (!TryComp(activeLaser, out TargetingComponent? comp))
+                    continue;
+
+                if (comp.LaserType > highestMark)
+                    highestMark = comp.LaserType;
+
+                if (comp.LaserType == TargetedEffects.Spotted)
+                    spotters = true;
+            }
+
+            targeted.TargetType = highestMark;
+            Dirty(target, targeted);
+
+            if (!spotters)
+                RemComp<SpottedComponent>(target);
+
+            if (targeted.TargetedBy.Count == 0)
+                RemComp<RMCTargetedComponent>(target);
         }
-
-        targeted.TargetType = highestMark;
-        Dirty(target, targeted);
-
-        // Remove the spotted component if none of the targeting lasers is a spotter
-        if (!spotters)
-            RemComp<SpottedComponent>(target);
-
-        if (targeted.TargetedBy.Count != 0)
-            return;
-
-        // Remove the target's targeted component if it has nothing targeting it anymore
-        RemComp<RMCTargetedComponent>(target);
 
         if (targeting.Comp.Targets.Count == 0)
             RemComp<TargetingComponent>(targeting);
+        // Stories-FixDeletedTargetingEntities-End
     }
 
     /// <summary>
@@ -157,15 +192,26 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
     /// <param name="targetingDuration">How long the targeting should last if not interrupted</param>
     /// <param name="targetedEffect">The visualiser to apply on the entity being targeted</param>
     /// <param name="showDirection">If a direction indicator pointing towards the targeting entity should be displayed</param>
-    public void Target(EntityUid equipment, EntityUid user, EntityUid target, float targetingDuration, TargetedEffects targetedEffect = TargetedEffects.None, bool showDirection = false)
+    public void Target(EntityUid equipment, EntityUid user, EntityUid target, float targetingDuration, TargetedEffects targetedEffect = TargetedEffects.None, bool showDirection = false, bool rootUser = false)
     {
+        // Stories-FixDeletedTargetingEntities-Start
+        if (TerminatingOrDeleted(equipment) || TerminatingOrDeleted(user) || TerminatingOrDeleted(target) ||
+            !Exists(equipment) || !Exists(user) || !Exists(target))
+        {
+            return;
+        }
+        // Stories-FixDeletedTargetingEntities-End
+
         // Change the laser and targeting effect if focused.
         var ev = new TargetingStartedEvent(targetedEffect, target);
         RaiseLocalEvent(equipment, ref ev);
         targetedEffect = ev.TargetedEffect;
 
         var targeted = EnsureComp<RMCTargetedComponent>(target);
-        targeted.TargetedBy.Add(equipment);
+        // Stories-FixDeletedTargetingEntities-Start
+        if (!targeted.TargetedBy.Contains(equipment))
+            targeted.TargetedBy.Add(equipment);
+        // Stories-FixDeletedTargetingEntities-End
         targeted.ShowDirection = showDirection;
         if (targetedEffect > targeted.TargetType)
             targeted.TargetType = targetedEffect;
@@ -179,11 +225,21 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
             targeting.OriginalLaserDurations[target].Add(targetingDuration);
 
         targeting.Source = equipment;
-        targeting.Targets.Add(target);
+        // Stories-FixDeletedTargetingEntities-Start
+        if (!targeting.Targets.Contains(target))
+            targeting.Targets.Add(target);
+        // Stories-FixDeletedTargetingEntities-End
         targeting.Origin = Transform(user).Coordinates;
         targeting.User = user;
         targeting.LaserType = targetedEffect;
         Dirty(equipment, targeting);
+
+        if (rootUser)
+        {
+            var rooted = EnsureComp<RMCTargetingRootedComponent>(user);
+            rooted.Equipment = equipment;
+            Dirty(user, rooted);
+        }
 
         foreach (var session in _player.Sessions)
         {
@@ -201,11 +257,16 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
     /// <param name="ent">The targeting entity</param>
     /// <param name="target">The target the laser is pointing to</param>
     /// <param name="laserNumber">The position of the laser in the list of lasers connecting to the target</param>
+    // Stories-FixDeletedTargetingEntities-Start
     private void RemoveLaser(Entity<TargetingComponent> ent, EntityUid target, int laserNumber)
     {
-        ent.Comp.LaserDurations[target].RemoveAt(laserNumber);
-        ent.Comp.OriginalLaserDurations[target].RemoveAt(laserNumber);
-        if (ent.Comp.LaserDurations[target].Count <= 0)
+        if (ent.Comp.LaserDurations.TryGetValue(target, out var durations) && laserNumber < durations.Count)
+            durations.RemoveAt(laserNumber);
+
+        if (ent.Comp.OriginalLaserDurations.TryGetValue(target, out var origDurations) && laserNumber < origDurations.Count)
+            origDurations.RemoveAt(laserNumber);
+
+        if (ent.Comp.LaserDurations.TryGetValue(target, out var remaining) && remaining.Count <= 0)
         {
             ent.Comp.LaserDurations.Remove(target);
             ent.Comp.OriginalLaserDurations.Remove(target);
@@ -213,6 +274,7 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
 
         Dirty(ent);
     }
+    // Stories-FixDeletedTargetingEntities-End
 
     /// <summary>
     ///     Reduce the duration of targeting effects every frame.
@@ -222,13 +284,41 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
         var query = EntityQueryEnumerator<TargetingComponent, TransformComponent>();
         while (query.MoveNext(out var uid, out var targeting, out var xform))
         {
+            // Stories-FixDeletedTargetingEntities-Start
+            if (TerminatingOrDeleted(targeting.User) ||
+                TerminatingOrDeleted(targeting.Source) ||
+                !Exists(targeting.User) ||
+                !Exists(targeting.Source) ||
+                TerminatingOrDeleted(targeting.Origin.EntityId) ||
+                !Exists(targeting.Origin.EntityId))
+            {
+                RemCompDeferred<TargetingComponent>(uid);
+                continue;
+            }
+            // Stories-FixDeletedTargetingEntities-End
+
             var targetNumber = 0;
             var checkedTargets = new List<EntityUid>();
             while (targetNumber < targeting.Targets.Count)
             {
                 var target = targeting.Targets[targetNumber];
-                if (!targeting.LaserDurations.Keys.Contains(target) || checkedTargets.Contains(target))
+                // Stories-FixDeletedTargetingEntities-Start
+                if (TerminatingOrDeleted(target) || !Exists(target))
                 {
+                    StopTargeting((uid, targeting), target);
+                    continue;
+                }
+                // Stories-FixDeletedTargetingEntities-End
+
+                if (!targeting.LaserDurations.ContainsKey(target) || checkedTargets.Contains(target))
+                {
+                    // Stories-FixDeletedTargetingEntities-Start
+                    if (!targeting.LaserDurations.ContainsKey(target))
+                    {
+                        StopTargeting((uid, targeting), target);
+                        continue;
+                    }
+                    // Stories-FixDeletedTargetingEntities-End
                     targetNumber++;
                     continue;
                 }
@@ -259,12 +349,24 @@ public abstract class SharedRMCTargetingSystem : EntitySystem
                             var ev = new TargetingFinishedEvent(targeting.User, targetTransform.Coordinates, target);
                             RaiseLocalEvent(uid, ref ev);
                         }
+
+                        // Stories-FixDeletedTargetingEntities-Start
+                        if (!targeting.LaserDurations.ContainsKey(target) || targeting.LaserDurations[target].Count == 0)
+                        {
+                            StopTargeting((uid, targeting), target);
+                        }
+                        // Stories-FixDeletedTargetingEntities-End
                         break;
                     }
                     laserNumber++;
                 }
                 targetNumber++;
             }
+
+            // Stories-FixDeletedTargetingEntities-Start
+            if (!TryComp(uid, out targeting))
+                continue;
+            // Stories-FixDeletedTargetingEntities-End
 
             // Remove the active component and raise an event if the user moves.
             if (TryComp(xform.ParentUid, out TransformComponent? parentTransform) &&

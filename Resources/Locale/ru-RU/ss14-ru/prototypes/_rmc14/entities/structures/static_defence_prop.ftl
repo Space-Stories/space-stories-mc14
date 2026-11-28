@@ -1,2 +1,2 @@
-ent-RMCPropSentry = UH-46 Heavy Sentry Gun
-    .desc = A large weapons system platform designed to deploy multiple types of automated defense systems. This one has been rendered permanently non-functional.
+ent-RMCPropSentry = тяжёлая турель UH-46
+    .desc = Большая платформа для развёртывания нескольких типов автоматических оборонительных систем. Эта навсегда выведена из строя.

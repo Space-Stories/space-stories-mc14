@@ -1,3 +1,3 @@
-ent-RMCSpawnPointPMCSynth = pmc support synthetic spawn point
+ent-RMCSpawnPointPMCSynth = точка появления синтетика поддержки ЧВК
     .desc = { ent-CMSpawnPointJobBase.desc }
-    .suffix = special survivor, solaris crashlanding
+    .suffix = Спец. выживший, Крушение на Солярисе

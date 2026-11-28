@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis; // Stories-ZLevels
 using Content.Shared._RMC14.Areas;
 using Content.Shared._RMC14.Dropship.Weapon;
 using Content.Shared._RMC14.Power;
 using Content.Shared.GameTicking;
+using Content.Shared.UserInterface;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -16,6 +17,7 @@ public abstract class SharedRMCCameraSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedRMCPowerSystem _power = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _ui = default!;
 
     private readonly HashSet<EntProtoId> _refresh = new();
 
@@ -132,12 +134,21 @@ public abstract class SharedRMCCameraSystem : EntitySystem
             return;
 
         var actor = args.Actor;
+        if (ent.Comp.Watchers.Contains(actor))
+            return;
+
+        if (TryComp(actor, out RMCCameraWatcherComponent? previous) &&
+            previous.Computer is { } previousComputer && previousComputer != ent.Owner)
+        {
+            _ui.CloseUi(previousComputer, RMCCameraUiKey.Key, actor);
+        }
+
         ent.Comp.Watchers.Add(actor);
         _power.SetPowerMode(ent.Owner, RMCPowerMode.Active);
         Dirty(ent);
 
         var watcher = EnsureComp<RMCCameraWatcherComponent>(actor);
-        watcher.Computer = null;
+        watcher.Computer = ent.Owner;
         Dirty(actor, watcher);
 
         Refresh(ent, null);
@@ -149,12 +160,13 @@ public abstract class SharedRMCCameraSystem : EntitySystem
             return;
 
         var actor = args.Actor;
-        ent.Comp.Watchers.Remove(actor);
+        ent.Comp.Watchers.RemoveAll(watcher => watcher == actor);
         if (ent.Comp.Watchers.Count == 0 && !ent.Comp.StayConnected)
             _power.SetPowerMode(ent.Owner, RMCPowerMode.Idle);
         Dirty(ent);
 
-        RemCompDeferred<RMCCameraWatcherComponent>(actor);
+        if (TryComp(actor, out RMCCameraWatcherComponent? watcher) && watcher.Computer == ent.Owner)
+            RemCompDeferred(actor, watcher);
     }
 
     private void OnComputerWatchBuiMsg(Entity<RMCCameraComputerComponent> ent, ref RMCCameraWatchBuiMsg args)
@@ -226,7 +238,7 @@ public abstract class SharedRMCCameraSystem : EntitySystem
     {
         if (TryComp(watcher.Comp.Computer, out RMCCameraComputerComponent? computer))
         {
-            computer.Watchers.Remove(watcher);
+            computer.Watchers.RemoveAll(actor => actor == watcher.Owner);
             if (computer.Watchers.Count == 0 && !computer.StayConnected)
                 _power.SetPowerMode(watcher.Comp.Computer.Value, RMCPowerMode.Idle);
             Dirty(watcher.Comp.Computer.Value, computer);
@@ -261,11 +273,17 @@ public abstract class SharedRMCCameraSystem : EntitySystem
                 if (index >= 0)
                 {
                     comp.CameraIds.RemoveAt(index);
-                    comp.CameraNames.RemoveAt(index);
+                    // Stories-ZLevels-Start
+                    if (index < comp.CameraNames.Count)
+                        comp.CameraNames.RemoveAt(index);
+                    // Stories-ZLevels-End
                 }
 
                 if (comp.CurrentCamera == camera)
+                {
                     comp.CurrentCamera = null;
+                    Refresh((uid, comp), camera);
+                }
 
                 Dirty(uid, comp);
             }
@@ -277,9 +295,9 @@ public abstract class SharedRMCCameraSystem : EntitySystem
         computer.ProtoIds.Add(protoId);
     }
 
-    public void RemoveProtoId(RMCCameraComputerComponent computer, EntProtoId protoId)
+    public void RemoveProtoId(Entity<RMCCameraComputerComponent> computer, EntProtoId protoId)
     {
-        computer.ProtoIds.Remove(protoId);
+        computer.Comp.ProtoIds.Remove(protoId);
 
         var cameraQuery = EntityQueryEnumerator<RMCCameraComponent>();
         while (cameraQuery.MoveNext(out var uid, out var camera))
@@ -287,14 +305,23 @@ public abstract class SharedRMCCameraSystem : EntitySystem
             if (camera.Id != protoId)
                 continue;
 
-            computer.CameraIds.Remove(GetNetEntity(uid));
+            computer.Comp.CameraIds.Remove(GetNetEntity(uid));
 
             var name = Name(uid);
             if (camera.NameOverride != null)
                 name = camera.NameOverride;
 
-            computer.CameraNames.Remove(name);
+            computer.Comp.CameraNames.Remove(name);
         }
+
+        if (computer.Comp.CurrentCamera is { } current &&
+            !computer.Comp.CameraIds.Contains(GetNetEntity(current)))
+        {
+            computer.Comp.CurrentCamera = null;
+            Refresh(computer, current);
+        }
+
+        Dirty(computer);
     }
 
     public void RefreshCameras(EntProtoId protoId)

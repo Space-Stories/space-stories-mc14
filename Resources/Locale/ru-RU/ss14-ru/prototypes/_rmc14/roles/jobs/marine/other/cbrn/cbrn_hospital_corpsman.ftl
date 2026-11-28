@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNMedic = cbrn ghost role hospital corpsman
+ent-RMCRandomHumanoidCBRNMedic = роль призрака санитара РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

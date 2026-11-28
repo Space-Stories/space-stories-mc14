@@ -4,6 +4,7 @@
   id: RMCBaseArmorNoAccessory
   abstract: true
   components:
+  - type: TackleResist # Stories-Armor-Balance
   - type: Sprite
     state: icon # default state used by most inheritors
   - type: Item

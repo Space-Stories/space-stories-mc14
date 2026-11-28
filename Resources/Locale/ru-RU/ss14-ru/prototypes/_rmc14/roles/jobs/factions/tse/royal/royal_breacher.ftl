@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidRoyalMarinesBreacher = royal crown marines ghost role breacher
+ent-RMCRandomHumanoidRoyalMarinesBreacher = роль призрака штурмовика Королевской морской пехоты
     .desc = { "" }
-    .suffix = Spawner, Player, Friendly
+    .suffix = Спавнер, Игрок, Дружелюбный

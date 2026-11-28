@@ -145,7 +145,7 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
 
         var location = _transform.GetMoverCoordinates(xeno).SnapToGrid(EntityManager);
 
-        if (!_xenoPlasma.HasPlasmaPopup(xeno.Owner, args.PlasmaCost, false))
+        if (!_xenoPlasma.HasPlasmaPopup(xeno.Owner, args.PlasmaCost, false) || !CanPlaceResinHole(xeno, location))
         {
             return;
         }
@@ -326,7 +326,7 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
         var destroyed = false;
         if (_destructible.TryGetDestroyedAt(resinHole.Owner, out var totalHealth))
         {
-            destroyed = args.Damageable.TotalDamage + args.DamageDelta.GetTotal() > totalHealth;
+            destroyed = args.Damageable.TotalDamage + args.DamageDelta.GetTotal() >= totalHealth;
         }
         ActivateTrap(resinHole, destroyed);
     }
@@ -430,7 +430,10 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
             return false;
         }
 
-        if (HasComp<VehicleInteriorOccupantComponent>(user))
+        // Stories-VehicleDeployBlock-Start
+        if (HasComp<VehicleInteriorOccupantComponent>(user) ||
+            (Transform(user).MapUid is { } mapUid && HasComp<VehicleInteriorLinkComponent>(mapUid)))
+        // Stories-VehicleDeployBlock-End
         {
             var msg = Loc.GetString("rmc-xeno-construction-failed-cant-build-resin-hole");
             _popup.PopupEntity(msg, user, user, PopupType.SmallCaution);
@@ -515,13 +518,14 @@ public sealed class XenoResinHoleSystem : SharedXenoResinHoleSystem
 
         var ev = new XenoResinHoleActivationEvent(msg);
 
+        SetTrapType(resinHole, null, !destroyed);
+
         // If the resin hole is destroyed, it's the XenoAnnounceStructureDestructionComponent job to announce
         // the entity's destruction
         if (!destroyed)
         {
             RaiseLocalEvent(ent, ev);
 
-            SetTrapType(resinHole, null);
             _appearanceSystem.SetData(resinHole.Owner, XenoResinHoleVisuals.Contained, ContainedTrap.Empty);
         }
 

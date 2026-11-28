@@ -1,5 +1,5 @@
-ent-CMSpawnPointTyrargoMarksman = tyrargo marine marksman spawn point
+ent-CMSpawnPointTyrargoMarksman = точка появления меткого стрелка морпеха Тирарго
     .desc = { ent-CMSpawnPointJobBase.desc }
     .suffix = { ent-CMSpawnPointJobBase.suffix }
-ent-RMCSurvivorPresetTyrargoMarksman = tyrargo marine marksman survivor preset
+ent-RMCSurvivorPresetTyrargoMarksman = пресет выжившего меткого стрелка морпеха Тирарго
     .desc = { ent-RMCSurvivorPresetTyrargoSurvivorNoPrimary.desc }

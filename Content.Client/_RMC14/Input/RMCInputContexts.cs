@@ -35,6 +35,7 @@ public static class RMCInputContexts
         CMKeyFunctions.RMCResist,
         CMKeyFunctions.RMCToggleAutoEject,
         CMKeyFunctions.RMCToggleIff,
+        CMKeyFunctions.RMCToggleShotgunTube,
         CMKeyFunctions.RMCUnloadWeapon,
         CMKeyFunctions.RMCWeakPushup,
     ];
@@ -82,6 +83,7 @@ public static class RMCInputContexts
         ContentKeyFunctions.ReleasePulledObject,
         ContentKeyFunctions.OpenEmotesMenu,
         ContentKeyFunctions.MouseMiddle,
+        ContentKeyFunctions.ToggleLookUp, // Stories-ZLevels
     ];
 
     public static void Setup(IInputContextContainer contexts)

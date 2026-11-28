@@ -1,3 +1,3 @@
-ent-RMCRandomHumanoidCBRNRifleman = cbrn ghost role rifleman
+ent-RMCRandomHumanoidCBRNRifleman = роль призрака стрелка РХБЗ
     .desc = { "" }
-    .suffix = Spawner, Player
+    .suffix = Спавнер, Игрок

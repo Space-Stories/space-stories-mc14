@@ -1,6 +1,6 @@
-ent-RMCVehicleWreckExplosion = vehicle wreck explosion
+ent-RMCVehicleWreckExplosion = взрыв обломков техники
     .desc = { ent-MarkerBase.desc }
-    .suffix = Explodes when triggered
+    .suffix = Взрывается при срабатывании
 ent-RMCMortarExplosionHE = фугасный взрыв миномета
     .desc = { ent-MarkerBase.desc }
     .suffix = Выпускает минометный снаряд!

@@ -45,6 +45,7 @@ public sealed class VehicleAmmoLoaderSystem : EntitySystem
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, InteractHandEvent>(OnInteractHand);
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, ComponentShutdown>(OnLoaderShutdown);
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, VehicleAmmoLoaderDoAfterEvent>(OnLoadDoAfter);
+        SubscribeLocalEvent<VehicleAmmoLoaderComponent, BoundUserInterfaceMessageAttempt>(OnUiMessageAttempt);
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, BoundUIOpenedEvent>(OnUiOpened);
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, BoundUIClosedEvent>(OnUiClosed);
         SubscribeLocalEvent<VehicleAmmoLoaderComponent, VehicleAmmoLoaderSelectMessage>(OnUiSelect);
@@ -140,7 +141,7 @@ public sealed class VehicleAmmoLoaderSystem : EntitySystem
 
     private void OnLoadDoAfter(Entity<VehicleAmmoLoaderComponent> ent, ref VehicleAmmoLoaderDoAfterEvent args)
     {
-        if (_net.IsClient || args.Cancelled || args.Handled)
+        if (_net.IsClient || args.Cancelled || args.Handled || HasComp<XenoComponent>(args.User))
             return;
 
         if (!args.SlotPath.IsValid)
@@ -253,12 +254,18 @@ public sealed class VehicleAmmoLoaderSystem : EntitySystem
         UpdateOpenLoaderUisForVehicle(args.Vehicle);
     }
 
+    private void OnUiMessageAttempt(Entity<VehicleAmmoLoaderComponent> ent, ref BoundUserInterfaceMessageAttempt args)
+    {
+        if (Equals(args.UiKey, VehicleAmmoLoaderUiKey.Key) && HasComp<XenoComponent>(args.Actor))
+            args.Cancel();
+    }
+
     private void OnUiSelect(Entity<VehicleAmmoLoaderComponent> ent, ref VehicleAmmoLoaderSelectMessage args)
     {
         if (!Equals(args.UiKey, VehicleAmmoLoaderUiKey.Key))
             return;
 
-        if (args.Actor == default || !Exists(args.Actor))
+        if (args.Actor == default || !Exists(args.Actor) || HasComp<XenoComponent>(args.Actor))
             return;
 
         if (args.Action == VehicleAmmoLoaderSlotAction.Unload)

@@ -41,7 +41,7 @@ public sealed partial class HiveTeamPanelControl : BoxContainer
 
     public void Populate(
         int index,
-        HiveTeamEntry? entry,
+        HiveTeamEntryState? entry,
         List<(NetEntity Entity, string Name, EntProtoId? ProtoId)> allXenos,
         List<(NetEntity Entity, string Name, EntProtoId? ProtoId)> pickerXenos,
         Func<EntProtoId?, Texture?> getTexture,
@@ -60,9 +60,12 @@ public sealed partial class HiveTeamPanelControl : BoxContainer
         RoleBox.OnItemSelected += args => onSetRole(index, args.Id);
 
         LeaderSlot.DisposeAllChildren();
-        if (entry?.Leader is { } leaderNet)
+        // Stories-HiveTeamLeaderCheck-Start
+        if (entry?.Leader is { } leaderNet &&
+            allXenos.Find(x => x.Entity == leaderNet) is { } leaderXeno &&
+            leaderXeno.Entity != NetEntity.Invalid)
         {
-            var leaderXeno = allXenos.Find(x => x.Entity == leaderNet);
+        // Stories-HiveTeamLeaderCheck-End
             var btn = new Button
             {
                 HorizontalExpand = true,

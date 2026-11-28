@@ -10,5 +10,5 @@ ent-RMCSkillPresetParaLeader = Королевский парадесантник
     .desc = { ent-RMCSkillPresetParamarine.desc }
 ent-RMCSkillPresetParaSynth = Королевский парадесантник Синтетик
     .desc = { "" }
-ent-RMCSkillPresetParaCommander = Royal Paramarine Commander
+ent-RMCSkillPresetParaCommander = Королевский парадесантник командир
     .desc = { ent-RMCSkillPresetParamarine.desc }
