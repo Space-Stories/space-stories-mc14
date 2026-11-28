@@ -226,7 +226,7 @@
   - type: Projectile
     damage:
       types:
-        Heat: 75
+        Heat: 40
 
 - type: entity
   parent: STPlasmaBoltBaseProjectile
@@ -241,5 +241,68 @@
   - type: Projectile
     damage:
       types:
-        Heat: 100
+        Heat: 20
   - type: IgniteOnProjectileHit
+
+- type: entity
+  parent: STPlasmaBoltBaseProjectile
+  id: STRifleIncendiaryBolt
+  name: rifle incendiary bolt
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/incendiarypulse.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Heat: 40
+  - type: IgniteOnProjectileHit
+  - type: RifleBolt
+    stunTime: 4
+    bonusXenoDamage:
+      types:
+        Heat: 41.25
+
+
+- type: entity
+  parent: STPlasmaBoltBaseProjectile
+  id: STCarbineIncencidaryBolt
+  name: carbine Incendiary bolt
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Projectiles/Hunter/incendiarypulse.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Heat: 45
+  - type: IgniteOnProjectileHit
+
+- type: entity
+  parent: STPlasmaBoltBaseProjectile
+  id: STCarbineBoltLethal
+  name: carbine high-impact bolt
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Ammunition/Projectiles/pulse_projectiles.rsi
+    layers:
+    - state: bullet
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Projectile
+    damage:
+      types:
+        Heat: 70
+  - type: ExplodeOnTrigger
+  - type: TriggerOnCollide
+    fixtureID: projectile
+  - type: Explosive
+    explosionType: RMC
+    totalIntensity: 60
+    intensitySlope: 20
+    maxIntensity: 40
+  - type: CMExplosionEffect
+  - type: RMCScorchEffect

@@ -1,3 +1,4 @@
+using Content.Shared.Damage;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -23,4 +24,14 @@ public sealed partial class HunterAreaStunOnHitComponent : Component
 
     [DataField]
     public TimeSpan StunTime = TimeSpan.FromSeconds(6);
+}
+
+[RegisterComponent, NetworkedComponent]
+public sealed partial class RifleBoltComponent : Component
+{
+    [DataField]
+    public TimeSpan StunTime = TimeSpan.FromSeconds(4);
+
+    [DataField]
+    public DamageSpecifier BonusXenoDamage = new();
 }
