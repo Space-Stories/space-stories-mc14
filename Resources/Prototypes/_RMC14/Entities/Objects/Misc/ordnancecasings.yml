@@ -286,6 +286,9 @@
           icon_locked: { state: icon_locked }
           icon_active: { state: icon_active }
           icon_sensing: { state: icon_sensing }
+  - type: Tag # Stories-C4CaseFix
+    tags:
+    - RMCExplosiveBreachingCharge
 
 - type: entity
   parent: BaseItem
