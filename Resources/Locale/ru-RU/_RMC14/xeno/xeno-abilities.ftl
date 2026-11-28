@@ -198,8 +198,8 @@ rmc-xeno-rest-cant = Вы не можете делать это во время 
 cm-xeno-toggle-crest-cant-fortify = Вы не можете укрепиться, пока ваш гребень понижен!
 cm-xeno-toggle-crest-cant-rest = Вы не можете отдыхать, пока ваш гребень опущен!
 cm-xeno-toggle-crest-cant-tail-sweep = Вы не можете сделать удар хвостом, пока ваш гребень опущен!
-rmc-alert-xeno-crest-lowered = Crest Lowered
-rmc-alert-xeno-crest-lowered-desc = Your armor is [color=green]increased[/color], but movement speed is [color=red]reduced[/color].
+rmc-alert-xeno-crest-lowered = Гребень опущен
+rmc-alert-xeno-crest-lowered-desc = Ваша броня [color=green]повышена[/color], но скорость передвижения [color=red]понижена[/color].
 
 # Transfer Plasma
 cm-xeno-plasma-transferred-to-other = Вы передали { $plasma } плазмы в { $target }. Теперь у вас есть { $total }
@@ -230,8 +230,8 @@ cm-xeno-retrieve-egg-too-many-eggs = Мы не можем нести больш�
 cm-xeno-retrieve-egg-stash-egg = Мы складываем яйцо в надежном месте. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 cm-xeno-retrieve-egg-unstash-egg = Мы берем яйцо из нашего хранилища. Сейчас хранится: { $cur_eggs }/{ $max_eggs }.
 rmc-xeno-retrieve-egg-current = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-BE($xeno) } хранит: { $cur_eggs }/{ $max_eggs } яйца.
-rmc-xeno-retrieve-egg-fill = We start filling { THE($morpher) } with our children.
-rmc-xeno-retrieve-egg-fill-finish = We slide our children out of eggs into { THE($morpher) }. Now holding: { $cur_eggs }/{ $max_eggs }.
+rmc-xeno-retrieve-egg-fill = Мы начинаем заполнять { $morpher } нашими лицехватами.
+rmc-xeno-retrieve-egg-fill-finish = Мы переносим наших лицехватов из яиц в { $morpher }. Сейчас внутри: { $cur_eggs }/{ $max_eggs }.
 
 # Throw Parasite
 cm-xeno-throw-parasite-no-parasites = У нас нет никаких лицехватов!
@@ -243,12 +243,12 @@ rmc-xeno-throw-parasite-reserves = { CAPITALIZE(SUBJECT($xeno)) } { CONJUGATE-HA
     [one] роль
     *[other] роли
 } доступно.
-rmc-xeno-throw-parasite-empty = We take children from { THE($morpher) } and carry them for safekeeping. Now sheltering: { $cur_parasites }/{ $max_parasites }.
-rmc-xeno-throw-parasite-empty-on-fire = Touching { THE($morpher) } while you're on fire would burn the children in it!
-rmc-xeno-throw-parasite-throw-cooldown = We must wait before throwing another child.
-rmc-xeno-throw-parasite-retrieve-cooldown = We must wait before retrieving another child.
+rmc-xeno-throw-parasite-empty = Мы берём лицехватов из { $morpher }. Сейчас хранится: { $cur_parasites }/{ $max_parasites }.
+rmc-xeno-throw-parasite-empty-on-fire = Нельзя касаться { $morpher }, пока мы горим, это сожжёт лицехватов!
+rmc-xeno-throw-parasite-throw-cooldown = Мы должны подождать, прежде чем бросить ещё одного лицехвата.
+rmc-xeno-throw-parasite-retrieve-cooldown = Мы должны подождать, прежде чем достать ещё одного лицехвата.
 
-rmc-xeno-parasite-drop-cooldown = We must wait before dropping another child.
+rmc-xeno-parasite-drop-cooldown = Мы должны подождать, прежде чем положить ещё одного лицехвата.
 
 # Defensive Shield
 rmc-xeno-defensive-shield-end = Мы чувствуем, как кончается наш усиленный щит!
@@ -267,9 +267,9 @@ rmc-xeno-retrieve-anchored = Эта сестра не может двигать�
 rmc-xeno-retrieve-too-big = { $target } слишком велик, чтобы достать его стоя!
 rmc-xeno-retrieve-dead = { $target } уже мертв!
 rmc-xeno-retrieve-blocked = Мы не можем достичь { $target } с помощью нашего крюка!
-rmc-xeno-retrieve-finish-self = We fling { $target } over our head with our resin hook!
+rmc-xeno-retrieve-finish-self = Мы перебрасываем { $target } через голову нашим смоляным крюком!
 rmc-xeno-retrieve-finish-target = Нас тянет к { $user }!
-rmc-xeno-retrieve-finish-others = { $target } is pulled over { $user }'s head!
+rmc-xeno-retrieve-finish-others = { $user } перебрасывает { $target } через голову!
 
 # Aid
 rmc-xeno-aid-self = Мы не можем исцелить себя сами!
@@ -501,27 +501,28 @@ rmc-xeno-marked-critical-disappear = Ты успокаиваешься и при
 rmc-xeno-marked-critical-consumed = Ты пришёл в себя!
 
 # Massacre
-rmc-xeno-massacre-no-targets = There's no dead to tear apart!
-rmc-xeno-massacre-start-self = We start ripping apart the dead!
-rmc-xeno-massacre-start-others = { CAPITALIZE(THE($user)) } starts tearing apart the nearby bodies!
-rmc-xeno-massacre-end-self = We tear the dead apart!
-rmc-xeno-massacre-end-others = { CAPITALIZE(THE($user)) } tears the nearby bodies apart!
+rmc-xeno-massacre-no-targets = Здесь нет мёртвых для потрошения!
+rmc-xeno-massacre-start-self = Мы начинаем потрошить тела!
+rmc-xeno-massacre-start-others = { CAPITALIZE($user) } начинает потрошить тела поблизости!
+rmc-xeno-massacre-end-self = Мы распотрошили мёртвых!
+rmc-xeno-massacre-end-others = { CAPITALIZE($user) } заканчивает потрошить тела поблизости!
 
 # Blood Drain
-rmc-xeno-blood-drain-target = { CAPITALIZE(THE($user)) } is biting into you!
-rmc-xeno-blood-drain-no-blood = { CAPITALIZE(THE($target)) } has no blood left!
-rmc-xeno-blood-drain-bad-blood = { CAPITALIZE(THE($target)) } has terrible tasting blood!
-rmc-xeno-blood-drain-infected-blood = { CAPITALIZE(THE($target)) } has sister blood flowing through them!
-rmc-xeno-blood-drain-pull = We need to pull { CAPITALIZE(THE($target)) } to drain blood!
-rmc-xeno-blood-drain-down = We need to keep { CAPITALIZE(THE($target)) } down to drain blood!
+rmc-xeno-blood-drain-target = { CAPITALIZE($user) } впивается в вас!
+rmc-xeno-blood-drain-no-blood = У { CAPITALIZE($target) } не осталось крови!
+rmc-xeno-blood-drain-bad-blood = У { CAPITALIZE($target) } отвратительная на вкус кровь!
+rmc-xeno-blood-drain-infected-blood = По { CAPITALIZE($target) } течёт кровь сестры!
+rmc-xeno-blood-drain-pull = Нам нужно притянуть { CAPITALIZE($target) }, чтобы высосать кровь!
+rmc-xeno-blood-drain-down = Нам нужно удерживать { CAPITALIZE($target) } на земле, чтобы высосать кровь!
 
 # Paratoxin Slashes
-rmc-xeno-paratoxin-slashes-apply = Our next {$number ->
-    [1] slash
-    *[other] { $number } slashes
-} will apply paratoxin!
-rmc-xeno-paratoxin-slashes-expire = We have waited too long, our slashes will no longer apply paratoxin!
+rmc-xeno-paratoxin-slashes-apply = { $number ->
+    [one] Наш следующий удар
+    [few] Наши следующие { $number } удара
+   *[other] Наши следующие { $number } ударов
+} наложат паратоксин!
+rmc-xeno-paratoxin-slashes-expire = Мы ждали слишком долго, наши удары больше не накладывают паратоксин!
 
 # Catalytic Tail Stab
-rmc-xeno-catalytic-tail-stab-buff = We are faster and more armored for a short time!
-rmc-xeno-catalytic-tail-stab-buff-expire = We feel our speed and armor dissipate!
+rmc-xeno-catalytic-tail-stab-buff = Мы на короткое время ускорились, а броня защищает лучше!
+rmc-xeno-catalytic-tail-stab-buff-expire = Мы чувствуем, как наша скорость и броня снижаются!

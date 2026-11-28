@@ -1,2 +1,2 @@
-rmc-xeno-queen-attach-ovipositor = The Queen has grown an ovipositor; evolution progress resumed.
-rmc-xeno-queen-shed-ovipositor = The Queen has shed her ovipositor; evolution progress paused.
+rmc-xeno-queen-attach-ovipositor = Королева отрастила яйцеклад; прогресс эволюции возобновлён.
+rmc-xeno-queen-shed-ovipositor = Королева сбросила свой яйцеклад; прогресс эволюции приостановлен.

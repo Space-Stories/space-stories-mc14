@@ -21,11 +21,11 @@ paper-ui-save-button = Сохранить ({ $keybind })
 # Form and signature buttons
 paper-form-fill-button = Заполнить
 paper-signature-sign-button = Подписать
-paper-date-button = Date
-paper-time-button = Time
+paper-date-button = Дата
+paper-time-button = Время
 paper-form-dialog-ok = OK
 paper-form-dialog-cancel = Отмена
 paper-signature-unknown = Неизвестно
 
 paper-tamper-proof-modified-message = Текст на странице был написан с использованием нефальсицицируемых чернил.
-paper-component-someone-editing = Someone else is currently writing on this.
+paper-component-someone-editing = Кто-то другой уже пишет тут.

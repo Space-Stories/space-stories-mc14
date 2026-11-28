@@ -1,3 +1,3 @@
-ent-RMCGearSurvivorPresetVaraderoContractor = varadero contractor preset
+ent-RMCGearSurvivorPresetVaraderoContractor = пресет Варадеро контрактор
     .desc = { ent-RMCSurvivorPresetCivilianRareItem.desc }
-    .suffix = survivor
+    .suffix = Выживший

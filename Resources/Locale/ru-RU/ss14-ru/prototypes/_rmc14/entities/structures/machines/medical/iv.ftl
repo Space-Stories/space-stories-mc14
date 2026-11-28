@@ -1,6 +1,6 @@
-ent-RMCIVStand = iv stand
-    .desc = Allows you to inject blood into a patient or extract blood from them to do a blood transfusion.
-    .suffix = IV, empty
+ent-RMCIVStand = штатив для капельницы
+    .desc = Позволяет вводить пациенту кровь или забирать её для переливания.
+    .suffix = IV, Пустой
 ent-CMBloodPack = пакет крови
     .desc = Пакет крови. Содержит жидкости, обычно используемые для переливания.
     .suffix = CM, Пустой

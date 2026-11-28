@@ -1,3 +1,3 @@
-ent-RMCWeaponSMGPCAC5SD = PCAC5SD submachine gun
-    .desc = A Pistol-Caliber Automatic Carbine, Model 5 — a timeless classic. The PCAC5 Schalldampfer variant features a collapsible stock and integral suppressor.
-    .suffix = PVE, Filled
+ent-RMCWeaponSMGPCAC5SD = пистолет-пулемёт PCAC5SD
+    .desc = Автоматический карабин пистолетного калибра, модель 5 — нестареющая классика. Вариант Schalldampfer (нем. -  глушитель) PCAC5 имеет складной приклад и интегрированный глушитель.
+    .suffix = PVE, Заполненный

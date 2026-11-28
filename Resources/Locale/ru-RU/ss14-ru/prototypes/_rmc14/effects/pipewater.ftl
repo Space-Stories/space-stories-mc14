@@ -1,2 +1,2 @@
-ent-RMCEffectPipeWater = dripping water
+ent-RMCEffectPipeWater = капающая вода
     .desc = { "" }

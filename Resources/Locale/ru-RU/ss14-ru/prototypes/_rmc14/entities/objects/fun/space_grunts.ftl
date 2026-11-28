@@ -1,2 +1,2 @@
-ent-RMCSpaceGrunts = Space Grunts
-    .desc = A tabletop game based around the UNMC, easy to get into, simple to play, and most importantly fun for the whole squad.
+ent-RMCSpaceGrunts = Космические солдафоны
+    .desc = Настольная игра, посвящённая КМП: легко освоить, просто играть и, что важнее всего, весело всему отряду.

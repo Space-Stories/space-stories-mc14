@@ -1,2 +1,2 @@
-ent-RMCPropRemoteConsolePod = remote console pod
-    .desc = A drop pod used to launch remote piloting equipment to UNMC areas of operation.
+ent-RMCPropRemoteConsolePod = капсула дистанционной консоли
+    .desc = Десантная капсула для доставки оборудования дистанционного пилотирования в зоны операций КМП.

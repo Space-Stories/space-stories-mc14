@@ -15,4 +15,4 @@ ent-RMCLockerEngineerWelderFilled = { ent-CMLockerEngineerWelder }
     .suffix = Заполненный
 ent-RMCLockerEngineerAtmosFilled = { ent-RMCLockerEngineerAtmos }
     .desc = { ent-RMCLockerEngineerAtmos.desc }
-    .suffix = Filled
+    .suffix = Заполненный

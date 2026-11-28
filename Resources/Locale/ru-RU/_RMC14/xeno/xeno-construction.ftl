@@ -98,17 +98,25 @@ rmc-xeno-construction-egg-morpher-already-full = Этот морфер для я
 
 rmc-xeno-egg-morpher-return-self = { CAPITALIZE($parasite) } заползает в морфер яйца.
 
-rmc-xeno-construction-egg-morpher-examine-count = Sheltering: { $cur_paras }/{ $max_paras } children.
-rmc-xeno-construction-egg-morpher-examine-next-spawn = A new child will grow in [bold]{ $time_left }[/bold] seconds.
+rmc-xeno-construction-egg-morpher-examine-count = Внутри { $cur_paras }/{ $max_paras } { $cur_paras ->
+    [one] лицехват
+    [few] лицехвата
+   *[other] лицехватов
+}.
+rmc-xeno-construction-egg-morpher-examine-next-spawn = Новый лицехват вырастет через [bold]{ $time_left }[/bold] { $time_left ->
+    [one] секунду
+    [few] секунды
+   *[many] секунд
+}.
 
 rmc-xeno-construction-recovery-node-heal-target = Вы чувствуете, как вас окутывает теплая аура.
 rmc-xeno-construction-recovery-node-heal-other = { CAPITALIZE($target) } светится, когда его окутывает теплая аура.
-rmc-xeno-construction-recovery-node-xeno-examine = Recovers the { -rmc-xeno-construction-recovery-node-type-text(type: $type) } of adjacent Xenonids.
+rmc-xeno-construction-recovery-node-xeno-examine = Восстанавливает { -rmc-xeno-construction-recovery-node-type-text(type: $type) } у соседних ксеноморфов.
 -rmc-xeno-construction-recovery-node-type-text =
     { $type ->
-        [Health] [color=green]health[/color]
-        [Plasma] [color=cyan]plasma[/color]
-        *[other] [color=red]unknown[/color]
+        [Health] [color=green]здоровье[/color]
+        [Plasma] [color=cyan]плазму[/color]
+        *[other] [color=red]неизвестно[/color]
     }
 
 rmc-xeno-construction-no-map-structure = Здесь недостаточно твердая почва.
@@ -136,4 +144,4 @@ rmc-xeno-designer-greater-surge-none = Поблизости нет узлов д
 rmc-xeno-designer-greater-surge-success = Мы преобразовали { $count } узлов дизайнера в толстые стенки из смолы.
 rmc-xeno-designer-infuse-node = Вы вводите плазму в лимфатический узел.
 
-rmc-xeno-weedbound-examined = You sense that this structure will collapse if the weeds it is merged with disappear.
+rmc-xeno-weedbound-examined = Вы чувствуете, что эта постройка обрушится, если исчезнет смола, с которой она срослась.
