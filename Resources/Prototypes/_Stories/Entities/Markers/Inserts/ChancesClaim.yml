@@ -19,5 +19,8 @@
     variations:
     - spawn: "/Maps/_Stories/Inserts/Chances/Reactor_West.yml"
       probability: 0.3
+    - spawn: "/Maps/_Stories/Inserts/Chances/Kanava.yml"
+      probability: 0.4
+      offset: 55,-80
     clearEntities: true
     clearDecals: true
