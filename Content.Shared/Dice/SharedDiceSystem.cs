@@ -41,7 +41,7 @@ public abstract class SharedDiceSystem : EntitySystem
         //No details check, since the sprite updates to show the side.
         using (args.PushGroup(nameof(DiceComponent)))
         {
-            args.PushMarkup(Loc.GetString("dice-component-on-examine-message-part-1", ("sidesAmount", entity.Comp.Sides)));
+            args.PushMarkup(Loc.GetString("dice-component-on-examine-message-part-1", ("currentSide", GetSideDisplayName(entity)))); //Stories-Coin
             args.PushMarkup(Loc.GetString("dice-component-on-examine-message-part-2",
                 ("currentSide", entity.Comp.CurrentValue)));
         }
@@ -79,8 +79,18 @@ public abstract class SharedDiceSystem : EntitySystem
 
         var popupString = Loc.GetString("dice-component-on-roll-land",
             ("die", entity),
-            ("currentSide", entity.Comp.CurrentValue));
+            ("currentSide", GetSideDisplayName(entity))); //Stories-Coin
         _popup.PopupPredicted(popupString, entity, user);
         _audio.PlayPredicted(entity.Comp.Sound, entity, user);
     }
+    //Stories-Coin-Start
+    private string GetSideDisplayName(Entity<DiceComponent> entity)
+    {
+        if (entity.Comp.SideNames != null && entity.Comp.SideNames.TryGetValue(entity.Comp.CurrentValue, out var locId))
+        {
+            return Loc.GetString(locId);
+        }
+        return entity.Comp.CurrentValue.ToString();
+    }
+    //Stories-Coin-End
 }

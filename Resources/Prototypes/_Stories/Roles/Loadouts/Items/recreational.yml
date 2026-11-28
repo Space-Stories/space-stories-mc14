@@ -1,0 +1,7 @@
+﻿- type: loadout
+  id: TreasureCoinIronST
+  cost: 1
+  storage:
+    back:
+    - TreasureCoinIron
+

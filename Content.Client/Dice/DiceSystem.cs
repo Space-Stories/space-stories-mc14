@@ -16,6 +16,9 @@ public sealed class DiceSystem : SharedDiceSystem
 
     private void OnDiceAfterHandleState(Entity<DiceComponent> entity, ref AfterAutoHandleStateEvent args)
     {
+        if (!entity.Comp.UpdateSpriteOnRoll) //Stories-Coin
+            return;
+
         if (!TryComp<SpriteComponent>(entity, out var sprite))
             return;
 
