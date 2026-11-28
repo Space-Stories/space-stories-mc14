@@ -26,6 +26,20 @@ public sealed partial class BatteryWeaponFireModesComponent : Component
     [DataField]
     [AutoNetworkedField]
     public int CurrentFireMode;
+
+    /// <summary> // Stories start
+    /// The original BaseFireRate from RMCSelectiveFireComponent, saved when a fire mode with custom fireRate is selected.
+    /// </summary>
+    [DataField]
+    [AutoNetworkedField] // Stories end
+    public float OriginalBaseFireRate = 0f;
+
+    /// <summary> // Stories start
+    /// Whether a custom fire rate has been applied.
+    /// </summary>
+    [DataField]
+    [AutoNetworkedField] // Stories End
+    public bool HasCustomFireRate = false; // Stories
 }
 
 [DataDefinition, Serializable, NetSerializable]
@@ -42,6 +56,13 @@ public sealed partial class BatteryWeaponFireMode
     /// </summary>
     [DataField]
     public float FireCost = 100;
+
+    /// <summary> // Stories Start
+    /// The fire rate to apply when this projectile type is selected. Overrides BaseFireRate on RMCSelectiveFireComponent.
+    /// Set to 0 to leave BaseFireRate unchanged.
+    /// </summary>
+    [DataField]
+    public float FireRate; // Stories end
 }
 
 [Serializable, NetSerializable]

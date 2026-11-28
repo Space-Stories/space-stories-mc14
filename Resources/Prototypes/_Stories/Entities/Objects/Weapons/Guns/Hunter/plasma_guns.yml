@@ -1,0 +1,276 @@
+- type: entity
+  parent: STHunterBaseItem
+  id: STWeaponPlasmaPistol
+  name: plasma pistol
+  description: A plasma pistol capable of rapid fire. It has an integrated battery. Can be used to set fires, either to braziers or on people.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_pistol.rsi
+    layers:
+    - state: plasma-pistol
+      map: [ "enum.GunVisualLayers.Base" ]
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_pistol.rsi
+    slots:
+    - suitstorage
+    - belt
+  - type: Item
+    size: Small
+  - type: AmmoCounter
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      collection: STPulseShotCollection
+  - type: RMCSelectiveFire
+    baseFireModes:
+    - SemiAuto
+    recoilUnwielded: 0.1
+    recoilWielded: 0
+    scatterWielded: 0
+    scatterUnwielded: 5
+    baseFireRate: 2.2
+  - type: Wieldable
+  - type: ProjectileBatteryAmmoProvider
+    proto: STPistolBolt
+    fireCost: 1
+  - type: Battery
+    maxCharge: 40
+    startingCharge: 40
+  - type: BatteryWeaponFireModes
+    fireModes:
+    - proto: STPistolBolt
+      fireCost: 1
+      fireRate: 2.2
+    - proto: STPistolBoltIncendiary
+      fireCost: 5
+      fireRate: 1.67
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 0.75
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - Hunter
+
+- type: entity
+  parent: STHunterBaseItem
+  id: STWeaponPlasmaCarbine
+  name: plasma carbine
+  description: A short-barreled rapid-fire assault weapon only given to military caste soldiers, unsuitable for hunting actual prey. Features a deadly burst-fire mode, alongside incendiary or impact-explosive rounds. Although more accurate when wielded, it can be fired with one hand.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_carbine.rsi
+    state: plasma-carbine
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_carbine.rsi
+    slots:
+    - suitStorage
+    - Back
+  - type: Item
+    size: Huge
+  - type: AmmoCounter
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    - Burst
+    soundGunshot:
+      collection: STPulseShotCollection
+  - type: RMCSelectiveFire
+    baseFireModes:
+    - SemiAuto
+    - Burst
+    recoilUnwielded: 5
+    recoilWielded: 0.1
+    scatterWielded: 2
+    scatterUnwielded: 8
+    baseFireRate: 3
+  - type: Wieldable
+  - type: ProjectileBatteryAmmoProvider
+    proto: STPistolBoltIncendiary
+    fireCost: 1
+  - type: Battery
+    maxCharge: 40
+    startingCharge: 40
+  - type: BatteryWeaponFireModes
+    fireModes:
+    - proto: STPistolBoltIncendiary
+      fireCost: 1
+      fireRate: 3.2
+    - proto: STPlasmaBoltLethalProjectile
+      fireCost: 2
+      fireRate: 1.9
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 1
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - Hunter
+
+- type: entity
+  parent: STHunterBaseItem
+  id: STWeaponPlasmaRifle
+  name: plasma rifle
+  description: A long-barreled heavy plasma weapon. Intended for combat, not hunting. Has an integrated battery that allows for a functionally unlimited amount of shots to be discharged. Equipped with an internal gyroscopic stabilizer allowing its operator to fire the weapon one-handed if desired.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_rifle.rsi
+    layers:
+    - state: plasma-rifle
+      map: [ "enum.GunVisualLayers.Base" ]
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/plasma_rifle.rsi
+    slots:
+    - suitStorage
+    - Back
+  - type: Item
+    size: Huge
+  - type: AmmoCounter
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot: /Audio/_Stories/Weapons/pred_plasma_shot.ogg
+  - type: RMCSelectiveFire
+    baseFireModes:
+    - SemiAuto
+    recoilUnwielded: 0.3
+    recoilWielded: 0
+    scatterWielded: 2
+    scatterUnwielded: 10
+    baseFireRate: 0.7
+  - type: Wieldable
+  - type: ProjectileBatteryAmmoProvider
+    proto: STRifleIncendiaryBolt
+    fireCost: 5
+  - type: Battery
+    maxCharge: 100
+    startingCharge: 100
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 2.5
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - Hunter
+
+- type: entity
+  parent: STHunterBaseItem
+  id: STWeaponSpikeLauncher
+  name: spike launcher
+  description: A compact Yautja device in the shape of a crescent. It can rapidly fire damaging spikes and automatically recharges.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/spike_launcher.rsi
+    layers:
+    - state: spike-launcher
+      map: [ "enum.GunVisualLayers.Base" ]
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/spike_launcher.rsi
+    slots:
+    - suitstorage
+    - belt
+  - type: Item
+    size: Small
+  - type: AmmoCounter
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot: /Audio/_Stories/Weapons/spike_thunk.ogg
+  - type: RMCSelectiveFire
+    baseFireModes:
+    - SemiAuto
+    recoilUnwielded: 0.1
+    recoilWielded: 0
+    scatterWielded: 0
+    scatterUnwielded: 5
+    baseFireRate: 1.7
+  - type: Wieldable
+  - type: ProjectileBatteryAmmoProvider
+    proto: STSpikeProjectile
+    fireCost: 1
+  - type: Battery
+    maxCharge: 12
+    startingCharge: 12
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 0.4
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - Hunter
+
+- type: entity
+  parent: [ RMCWeaponFlamer, STHunterBaseItem ]
+  id: STWeaponDefoliator
+  name: heavy gel defoliator
+  description: A high-power incendiary device used to rapidly expunge evidence of hives or dishonorable foes. Unsurprisingly, it is just as effective in direct combat, and lightweight enough to be fired with one hand.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/defoliator.rsi
+    layers:
+    - state: base
+      sprite: _Stories/Objects/Weapons/Guns/Hunter/defoliator.rsi
+    - state: empty
+      sprite: _Stories/Objects/Weapons/Guns/Hunter/defoliator.rsi
+      color: "#DD9B00"
+      map: ["enum.RMCFlamerVisualLayers.Strip"]
+    - state: lit
+  - type: Item
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/defoliator.rsi
+  - type: Clothing
+    sprite: _Stories/Objects/Weapons/Guns/Hunter/defoliator.rsi
+    slots:
+    - Back
+  - type: Gun
+    soundGunshot:
+      collection: RMCFlamerFL3Shoot
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Tank
+        startingItem: STDefoliatorTank
+        insertSound: /Audio/_RMC14/Weapons/Guns/Flamer/wy_flamer_reload.ogg
+        ejectSound: /Audio/_RMC14/Weapons/Guns/Flamer/wy_flamer_unload.ogg
+        priority: 2
+  - type: RMCIgniter
+    sound:
+      path: /Audio/_RMC14/Weapons/Guns/Flamer/wy_flamer_ignite.ogg
+  - type: Wieldable
+  - type: WieldableSpeedModifiers
+    base: 0.9
+    light: 0.8
+    medium: 0.7
+    heavy: 0.6
+  - type: AttachableHolder
+    slots: {}
+  - type: GunUserWhitelist
+    whitelist:
+      components:
+      - Hunter
+
+- type: entity
+  parent: [ RMCBaseTankFlamer, STHunterBaseItem ]
+  id: STDefoliatorTank
+  name: gel defoliator fuel tank
+  description: A high-capacity heat-resistant tank of highly-flammable gel fuel for a heavy defoliator.
+  components:
+  - type: Sprite
+    sprite: _Stories/Objects/Weapons/Guns/Ammunition/defoliator.rsi
+    state: flametank
+  - type: Item
+    size: Normal
+  - type: RMCFlamerTank
+    maxIntensity: 70
+    maxRange: 8
+  - type: SolutionContainerManager
+    solutions:
+      rmc_flamer_tank:
+        maxVol: 100
+        reagents:
+        - ReagentId: RMCNapalmEX
+          Quantity: 100

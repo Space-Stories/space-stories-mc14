@@ -1,11 +1,12 @@
 using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Weapons.Ranged.Systems; //ST
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._RMC14.Weapons.Ranged;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(RMCSelectiveFireSystem))]
+[Access(typeof(RMCSelectiveFireSystem), typeof(BatteryWeaponFireModesSystem))] //Stories
 public sealed partial class RMCSelectiveFireComponent : Component
 {
     /// <summary>

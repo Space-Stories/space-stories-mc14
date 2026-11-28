@@ -7,6 +7,7 @@ using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
+using Content.Shared._RMC14.Weapons.Ranged; // Stories
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Weapons.Ranged.Systems;
@@ -17,6 +18,7 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
     [Dependency] private readonly AccessReaderSystem _accessReaderSystem = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearanceSystem = default!;
+    [Dependency] private readonly RMCSelectiveFireSystem _selectiveFireSystem = default!; // Stories
 
     public override void Initialize()
     {
@@ -142,5 +144,36 @@ public sealed class BatteryWeaponFireModesSystem : EntitySystem
             var updateClientAmmoEvent = new UpdateClientAmmoEvent();
             RaiseLocalEvent(uid, ref updateClientAmmoEvent);
         }
+
+        // Stories
+        if (TryComp(uid, out RMCSelectiveFireComponent? selectiveFireComponent))
+        {
+            if (fireMode.FireRate > 0)
+            {
+                // Save original BaseFireRate if not already saved
+                if (component.OriginalBaseFireRate == 0f)
+                {
+                    component.OriginalBaseFireRate = selectiveFireComponent.BaseFireRate;
+                    component.HasCustomFireRate = true;
+                    Dirty(uid, component);
+                }
+
+                // Apply custom fire rate
+                selectiveFireComponent.BaseFireRate = fireMode.FireRate;
+                Dirty(uid, selectiveFireComponent);
+
+                // Refresh GunComponent.FireRate from the updated BaseFireRate
+                _selectiveFireSystem.RefreshFireModeGunValues((uid, selectiveFireComponent));
+            }
+            else if (component.HasCustomFireRate && component.OriginalBaseFireRate > 0f)
+            {
+                // Restore original BaseFireRate
+                selectiveFireComponent.BaseFireRate = component.OriginalBaseFireRate;
+                Dirty(uid, selectiveFireComponent);
+
+                // Refresh GunComponent.FireRate from the restored BaseFireRate
+                _selectiveFireSystem.RefreshFireModeGunValues((uid, selectiveFireComponent));
+            }
+        } // Stories
     }
 }
