@@ -252,10 +252,11 @@ public sealed partial class CMDistressSignalRuleSystem
         if (distress == null)
             return;
 
-        if (distress.Result == DistressSignalRuleResult.None)
+        // Stories-DistressPersistence-Start
+        if (distress.Result is not { } result || result == DistressSignalRuleResult.None)
             return;
 
-        var audio = distress.Result switch
+        var audio = result switch
         {
             DistressSignalRuleResult.MajorMarineVictory => distress.MajorMarineAudio,
             DistressSignalRuleResult.MinorMarineVictory => distress.MinorMarineAudio,
@@ -267,60 +268,45 @@ public sealed partial class CMDistressSignalRuleSystem
 
         if (audio != null)
             _audio.PlayGlobal(audio, Filter.Broadcast(), true, AudioParams.Default.WithVolume(-8));
+
+        var adjust = result switch
+        {
+            DistressSignalRuleResult.MajorMarineVictory => -1,
+            DistressSignalRuleResult.MinorMarineVictory => -1,
+            DistressSignalRuleResult.MajorXenoVictory => 1,
+            DistressSignalRuleResult.MinorXenoVictory => 0, // hijack but all xenos die or timeout happens
+            DistressSignalRuleResult.AllDied => 0,
+            DistressSignalRuleResult.SelfDestruct => 0,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+
+        var value = _marinesPerXeno;
+        if (_autoBalance)
+        {
+            var applyAdjustment = adjust == _autoBalanceLastAdjustment || !_autoBalanceStreakOnly;
+            if (adjust != _autoBalanceLastAdjustment)
+                _config.SetCVar(RMCCVars.RMCAutoBalanceLastAdjustment, adjust);
+
+            if (applyAdjustment && adjust != 0)
+                value = Math.Clamp(value + adjust * _autoBalanceStep, _autoBalanceMin, _autoBalanceMax);
+        }
+
+        FinishPersistentRound(ev.RoundId, value);
+        // Stories-DistressPersistence-End
     }
 
     private void OnRoundRestartCleanup(RoundRestartCleanupEvent ev)
     {
         InvalidateActiveRule();
-        StartPlanetVote();
+        // Stories-DistressPersistence-Start
         ResetSelectedPlanet();
+        StartPlanetVote();
+        // Stories-DistressPersistence-End
         _spawnedDropships = false;
         _commandingOfficerBriefingScheduled = false;
         OperationName = null;
         ActiveNightmareScenario = null;
         _config.SetCVar(CCVars.GameDisallowLateJoins, false);
-
-        if (!_autoBalance)
-            return;
-
-        var rules = QueryAllRules();
-        while (rules.MoveNext(out var comp, out _))
-        {
-            var adjust = comp.Result switch
-            {
-                DistressSignalRuleResult.None => 0,
-                DistressSignalRuleResult.MajorMarineVictory => -1,
-                DistressSignalRuleResult.MinorMarineVictory => -1,
-                DistressSignalRuleResult.MajorXenoVictory => 1,
-                DistressSignalRuleResult.MinorXenoVictory => 0, // hijack but all xenos die or timeout happens
-                DistressSignalRuleResult.AllDied => 0,
-                DistressSignalRuleResult.SelfDestruct => 0,
-                null => 0,
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-
-            if (adjust != _autoBalanceLastAdjustment)
-            {
-                _config.SetCVar(RMCCVars.RMCAutoBalanceLastAdjustment, adjust);
-                // If streak only is enabled, don't make an adjustment because this adjustment was different from the previous attempt.
-                if (_autoBalanceStreakOnly)
-                    break;
-            }
-
-            if (adjust == 0)
-                break;
-
-            var value = _marinesPerXeno;
-            value += adjust * _autoBalanceStep;
-
-            if (value > _autoBalanceMax)
-                value = _autoBalanceMax;
-            else if (value < _autoBalanceMin)
-                value = _autoBalanceMin;
-
-            _config.SetCVar(RMCCVars.CMMarinesPerXeno, value);
-            break;
-        }
     }
 
     /// <summary>
