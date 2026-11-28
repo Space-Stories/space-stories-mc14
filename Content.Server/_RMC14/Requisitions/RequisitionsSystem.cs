@@ -597,7 +597,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
             {
                 foreach (var entry in category.Entries)
                 {
-                    if (crates.ContainsKey(entry.Crate))
+                    if (crates.ContainsKey(entry.Crate) && entry.Cost > 0)
                         crates[entry.Crate] = 10000f / entry.Cost;
                 }
             }
@@ -660,7 +660,7 @@ public sealed partial class RequisitionsSystem : SharedRequisitionsSystem
                 var crateCosts = new Dictionary<EntProtoId, float>();
                 foreach (var choice in pool.Choices)
                 {
-                    crateCosts[choice] = 0;
+                    crateCosts[choice] = 50f;
                 }
 
                 if (crateCosts.Count == 0)
