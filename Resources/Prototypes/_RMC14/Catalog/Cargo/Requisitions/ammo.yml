@@ -58,10 +58,16 @@
       - cost: 1000
         unit: true
         crate: CMMagazineRifleM54CE2
+      - cost: 8000
+        unit: true
+        crate: RMCBoxMagazineRifleM54CE2
 
       - cost: 1500
         unit: true
         crate: CMMagazineRifleM54CE2HT
+      - cost: 12000
+        unit: true
+        crate: RMCBoxMagazineRifleM54CE2HT
 
       - cost: 375
         unit: true
@@ -132,10 +138,16 @@
       - cost: 1250
         unit: true
         crate: RMCMagazineM2C
+      - cost: 10000
+        unit: true
+        crate: RMCBoxMagazineM2C
 
       - cost: 2500
         unit: true
         crate: RMCMagazineML66D
+      - cost: 20000
+        unit: true
+        crate: RMCBoxMagazineML66D
 
       - cost: 188
         unit: true
@@ -181,6 +193,9 @@
       - cost: 1500
         unit: true
         crate: RMCMagazineSmartGun
+      - cost: 12000
+        unit: true
+        crate: RMCBoxMagazineSmartGun
 
       - cost: 1000
         unit: true
@@ -210,10 +225,16 @@
       - cost: 1000
         unit: true
         crate: RMCTankFlamer
+      - cost: 8000
+        unit: true
+        crate: RMCBoxFlamerTank
 
       - cost: 1000
         unit: true
         crate: RMCTankFlamerBGel
+      - cost: 8000
+        unit: true
+        crate: RMCBoxFlamerTankBGel
 
       - cost: 4000
         crate: RMCCrateMagazineFlamerMixed

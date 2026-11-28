@@ -46,6 +46,7 @@ public sealed class RequisitionsRespondRequestMsg(int number, bool approve) : Bo
     public int Revision;
     public List<RequisitionsRequestSelection>? Selections;
     public int? ExpectedCost;
+    public bool DeliverToCounter = true;
 }
 
 [Serializable, NetSerializable]

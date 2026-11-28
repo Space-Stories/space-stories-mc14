@@ -63,6 +63,7 @@ using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -491,19 +492,23 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
 
     protected virtual void OnVendBui(Entity<CMAutomatedVendorComponent> vendor, ref CMVendorVendBuiMsg args)
     {
-        VendFromMenu(vendor, ref args);
+        TryVendFromMenu(vendor, ref args);
     }
 
-    private void VendFromMenu(
+    private bool TryVendFromMenu(
         Entity<CMAutomatedVendorComponent> vendor,
         ref CMVendorVendBuiMsg args,
-        bool autoGrab = true)
+        EntityCoordinates? deliveryCoordinates = null,
+        bool fromRequisition = false)
     {
-        _audio.PlayPredicted(vendor.Comp.Sound, vendor, args.Actor);
-        _rmcAnimation.TryFlick(vendor.Owner, vendor.Comp.AnimationSprite, vendor.Comp.BaseSprite);
+        if (deliveryCoordinates == null)
+        {
+            _audio.PlayPredicted(vendor.Comp.Sound, vendor, args.Actor);
+            _rmcAnimation.TryFlick(vendor.Owner, vendor.Comp.AnimationSprite, vendor.Comp.BaseSprite);
+        }
 
         if (_net.IsClient)
-            return;
+            return false;
 
         var comp = vendor.Comp;
         var sections = comp.Sections.Count;
@@ -511,7 +516,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         if (args.Section < 0 || args.Section >= sections)
         {
             Log.Error($"{ToPrettyString(actor)} sent an invalid vend section: {args.Section}. Max: {sections}");
-            return;
+            return false;
         }
 
         var section = comp.Sections[args.Section];
@@ -519,17 +524,17 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         if (args.Entry < 0 || args.Entry >= entries)
         {
             Log.Error($"{ToPrettyString(actor)} sent an invalid vend entry: {args.Entry}. Max: {entries}");
-            return;
+            return false;
         }
 
         var entry = section.Entries[args.Entry];
         if (entry.Amount is <= 0)
-            return;
+            return false;
 
         if (!_prototypes.TryIndex(entry.Id, out var entity))
         {
             Log.Error($"Tried to vend non-existent entity: {entry.Id}");
-            return;
+            return false;
         }
 
         // Stories-VendorSecurity-Start
@@ -546,14 +551,14 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                         owner.Id != actor)
                     {
                         _popup.PopupEntity(Loc.GetString("cm-vending-machine-wrong-card"), vendor, actor);
-                        return;
+                        return false;
                     }
                 }
 
                 if (!_accessReader.IsAllowed(actor, vendor))
                 {
                     _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
-                    return;
+                    return false;
                 }
             }
 
@@ -580,7 +585,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 if (!validVendorJob)
                 {
                     _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
-                    return;
+                    return false;
                 }
             }
 
@@ -602,7 +607,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 if (!validVendorRank)
                 {
                     _popup.PopupEntity(Loc.GetString("cm-vending-machine-access-denied"), vendor, actor);
-                    return;
+                    return false;
                 }
             }
         }
@@ -615,7 +620,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             if (!user.TakeAll.Add((takeAll, entry.Id)))
             {
                 Log.Error($"{ToPrettyString(actor)} tried to buy too many take-alls.");
-                return;
+                return false;
             }
 
             Dirty(actor, user);
@@ -627,7 +632,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             if (!user.TakeOne.Add(takeOne))
             {
                 Log.Error($"{ToPrettyString(actor)} tried to buy too many take-ones.");
-                return;
+                return false;
             }
 
             Dirty(actor, user);
@@ -662,7 +667,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         }
 
         if (!validJob || !validRank)
-            return;
+            return false;
 
         var validHoliday = section.Holidays.Count == 0;
         foreach (var holiday in section.Holidays)
@@ -672,7 +677,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         }
 
         if (!validHoliday)
-            return;
+            return false;
 
         if (section.Choices is { } choices)
         {
@@ -687,7 +692,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             if (playerChoices >= choices.Amount)
             {
                 Log.Error($"{ToPrettyString(actor)} tried to buy too many choices.");
-                return;
+                return false;
             }
 
             user.Choices[choices.Id] = ++playerChoices;
@@ -713,7 +718,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                     // FIXME
                     ResetChoices();
                     _popup.PopupEntity(Loc.GetString("cm-vending-machine-specialist-max"), vendor, actor);
-                    return;
+                    return false;
                 }
 
                 // Get every RMCVendorSpec
@@ -738,7 +743,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 {
                     ResetChoices();
                     _popup.PopupEntity(Loc.GetString("cm-vending-machine-specialist-max"), vendor.Owner, actor);
-                    return;
+                    return false;
                 }
 
                 var old = thisSpecVendor.GlobalSharedVends.GetValueOrDefault(args.Entry, 0);
@@ -761,7 +766,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 Log.Debug(
                     $"{ToPrettyString(actor)} tried to buy {entry.Id} for {entry.Points} points without having points.");
                 // Stories-VendorSpam-End
-                return;
+                return false;
             }
 
             var userPoints = vendor.Comp.PointsType == null
@@ -773,7 +778,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
                 Log.Debug(
                     $"{ToPrettyString(actor)} with {user.Points} tried to buy {entry.Id} for {entry.Points} points without having enough points.");
                 // Stories-VendorSpam-End
-                return;
+                return false;
             }
 
             if (vendor.Comp.PointsType == null)
@@ -881,9 +886,12 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
 
         var min = comp.MinOffset;
         var max = comp.MaxOffset;
+        var vended = false;
         for (var i = 0; i < entry.Spawn; i++)
         {
-            var offset = _random.NextVector2Box(min.X, min.Y, max.X, max.Y);
+            var offset = deliveryCoordinates == null
+                ? _random.NextVector2Box(min.X, min.Y, max.X, max.Y)
+                : Vector2.Zero;
             var currentPartialAmount = i == 0 ? partialStackAmount : null;
             var currentPartialItemId = i == 0 ? partialStackItemId : null;
 
@@ -892,7 +900,8 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             {
                 // Only apply partial stack to the specific item that has it
                 var bundledPartialAmount = toVend == currentPartialItemId ? currentPartialAmount : null;
-                Vend(vendor, actor, toVend, offset, bundledPartialAmount, entry.ReplaceSlot, autoGrab);
+                vended |= TryVend(vendor, actor, toVend, offset, bundledPartialAmount, entry.ReplaceSlot,
+                    deliveryCoordinates, fromRequisition);
             }
             // Stories-Hunter-End
         }
@@ -902,16 +911,19 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         {
             EntityManager.AddComponents(actor, change.AddComponents);
         }
+
+        return vended;
     }
 
-    private void Vend(
+    private bool TryVend(
         EntityUid vendor,
         EntityUid player,
         EntProtoId toVend,
         Vector2 offset,
-        int? partialStackAmount = null,
-        SlotFlags? replaceSlot = null,
-        bool autoGrab = true)
+        int? partialStackAmount,
+        SlotFlags? replaceSlot,
+        EntityCoordinates? deliveryCoordinates,
+        bool fromRequisition)
     {
         if (_prototypes.Index(toVend).TryGetComponent(out CMVendorMapToSquadComponent? mapTo, _compFactory))
         {
@@ -928,17 +940,20 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             }
             else
             {
-                return;
+                return false;
             }
         }
 
-        if (TryComp(vendor, out RMCRequisitionsVendorComponent? vendorComponent) && vendorComponent.Enabled &&
+        if (!fromRequisition && CanDispenseToCounter(vendor) &&
             _rmcMap.HasAnchoredEntityEnumerator<RMCRequisitionsChairComponent>(player.ToCoordinates(),
                 out var requisitionsChair))
         {
-            var itemPlacementOffset = requisitionsChair.Comp.OffsetItem;
-            var finalPlacementCoordinates = requisitionsChair.Owner.ToCoordinates().Offset(itemPlacementOffset);
-            var spawn = SpawnAtPosition(toVend, finalPlacementCoordinates);
+            deliveryCoordinates = requisitionsChair.Owner.ToCoordinates(requisitionsChair.Comp.OffsetItem);
+        }
+
+        if (deliveryCoordinates is { } coordinates)
+        {
+            var spawn = SpawnAtPosition(toVend, coordinates);
             if (partialStackAmount.HasValue && TryComp<StackComponent>(spawn, out var stack))
             {
                 _stack.SetCount(spawn, partialStackAmount.Value, stack);
@@ -949,7 +964,7 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             RaiseLocalEvent(vendor, ref vendedEv);
             // Stories-Hunter-End
 
-            AfterVend(spawn, player, vendor, offset, true, replaceSlot, autoGrab);
+            AfterVend(spawn, player, vendor, offset, placedAtDestination: true);
         }
         else
         {
@@ -964,8 +979,10 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
             RaiseLocalEvent(vendor, ref vendedEv);
             // Stories-Hunter-End
 
-            AfterVend(spawn, player, vendor, offset, replaceSlot: replaceSlot, autoGrab: autoGrab);
+            AfterVend(spawn, player, vendor, offset, replaceSlot: replaceSlot, fromRequisition: fromRequisition);
         }
+
+        return true;
     }
 
     private void AfterVend(
@@ -973,9 +990,9 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         EntityUid player,
         EntityUid vendor,
         Vector2 offset,
-        bool vended = false,
+        bool placedAtDestination = false,
         SlotFlags? replaceSlot = null,
-        bool autoGrab = true)
+        bool fromRequisition = false)
     {
         _rmcPower.AddOneOffEnergy(vendor, Comp<CMAutomatedVendorComponent>(vendor).VendEnergy);
 
@@ -992,9 +1009,9 @@ public abstract partial class SharedCMAutomatedVendorSystem : EntitySystem
         mount.Arc = Angle.FromDegrees(360);
         Dirty(spawn, mount);
 
-        if (!vended)
+        if (!placedAtDestination)
         {
-            var grabbed = autoGrab && Grab(player, spawn, replaceSlot);
+            var grabbed = !fromRequisition && Grab(player, spawn, replaceSlot);
             if (!grabbed && TryComp(spawn, out TransformComponent? xform))
                 _transform.SetLocalPosition(spawn, xform.LocalPosition + offset, xform);
         }

@@ -100,6 +100,9 @@ public sealed partial class RequisitionsComputerComponent : Component
     public int BlackMarketBalance;
 
     [AutoNetworkedField]
+    public bool BlackMarketHeatWarning;
+
+    [AutoNetworkedField]
     public RequisitionsBlackMarketStatus BlackMarketStatus;
 
     [AutoNetworkedField]

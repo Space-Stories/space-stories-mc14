@@ -15,6 +15,13 @@
         crate: RMCBlackMarketScanner
 
       - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 55
+        blackMarketHeat: 10
+        crate: RMCMotionDetectorCompact
+
+      - cost: 0
         blackMarket: true
         blackMarketCost: 70
         blackMarketHeat: 10
@@ -64,8 +71,8 @@
 
       - cost: 0
         blackMarket: true
-        blackMarketCost: 100
-        blackMarketHeat: 5
+        blackMarketCost: 120
+        blackMarketHeat: 8
         crate: RMCCrateBlackMarketMAR50
         icon:
           entity: RMCWeaponMar50LMG
@@ -85,6 +92,14 @@
         crate: RMCCrateBlackMarketCustomShotgun
         icon:
           entity: WeaponShotgunCustomBuiltDamaged
+
+      - cost: 0
+        blackMarket: true
+        blackMarketCost: 40
+        blackMarketHeat: 6
+        crate: STCrateBlackMarketM357Sawn
+        icon:
+          entity: WeaponShotgunM357Sawn
 
       - cost: 0
         blackMarket: true
@@ -194,6 +209,14 @@
 
       - cost: 0
         blackMarket: true
+        blackMarketCost: 65
+        blackMarketHeat: 10
+        crate: STCrateBlackMarketL54Custom
+        icon:
+          entity: RMCWeaponPistolL54Custom
+
+      - cost: 0
+        blackMarket: true
         blackMarketCost: 15
         blackMarketHeat: 5
         crate: RMCCrateBlackMarketType73
@@ -255,3 +278,10 @@
         crate: RMCCrateBlackMarketR4T
         icon:
           entity: RMCWeaponRifleR4T
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 55
+        blackMarketHeat: 10
+        crate: RMCGunCaseRevolverWarwickMkVIISnub

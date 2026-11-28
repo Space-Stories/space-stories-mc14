@@ -50,13 +50,15 @@ public sealed partial class RequisitionsBui
 
     private void RespondToRequest(int number, bool approve)
     {
-        if (_state?.Requests.FirstOrDefault(request => request.Number == number) is not { } request)
+        if (_state?.Requests.FirstOrDefault(request => request.Number == number) is not { } request ||
+            !_requestCards.TryGetValue(number, out var card))
             return;
 
         var message = new RequisitionsRespondRequestMsg(number, approve)
         {
             Revision = _requestRevisions.GetValueOrDefault(number),
             ExpectedCost = _requestCosts.GetValueOrDefault(number),
+            DeliverToCounter = card.DeliverToCounter.Pressed,
             Selections = new(),
         };
         for (var i = 0; i < request.Items.Count; i++)

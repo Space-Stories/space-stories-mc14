@@ -46,3 +46,40 @@
         crate: RMCCrateBlackMarketShipsideMiscellaneous
         icon:
           entity: BikeHorn
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 20
+        blackMarketHeat: 3
+        crate: STHollowCaneWithBayonet
+        name: rmc-requisitions-black-market-cane-bayonet
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 55
+        blackMarketHeat: 9
+        crate: RMCScabbardKatanaFilled
+        name: rmc-requisitions-black-market-katana-scabbard
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 25
+        blackMarketHeat: -2
+        crate: RMCCoatBomberRed
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 25
+        blackMarketHeat: 0
+        crate: RMCZippoGold
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 50
+        blackMarketHeat: 9
+        crate: RMCM2100Machete

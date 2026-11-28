@@ -147,6 +147,14 @@
   - RMCBoxMagazineRifleM16EmptyBuild
   - RMCBoxMagazineRifleSSG45EmptyBuild
   - RMCBoxMagazineRifleSSG45APEmptyBuild
+  - RMCDividerConstruction
+  - RMCBoxMagazineRifleM54CE2EmptyBuild
+  - RMCBoxMagazineRifleM54CE2HTEmptyBuild
+  - RMCBoxMagazineRifleM54CE2HEAPEmptyBuild
+  - RMCBoxMagazineSmartGunEmptyBuild
+  - RMCBoxMagazineSmartGunIrradiatedEmptyBuild
+  - RMCBoxMagazineML66DEmptyBuild
+  - RMCBoxMagazineM2CEmptyBuild
 
 - type: rmcConstruction
   parent: RMCCardboardBuildBase
@@ -253,6 +261,7 @@
   - RMCBoxMagazinePistolM1984EmptyBuild
   - RMCBoxMagazinePistolM1984APEmptyBuild
   - RMCBoxMagazinePistolM1984HPEmptyBuild
+  - RMCBoxMagazinePistolM1984IncendiaryEmptyBuild
   - RMCDividerConstruction
   - RMCBoxMagazinePistolMK80EmptyBuild
   - RMCDividerConstruction
@@ -429,6 +438,7 @@
   - RMCBoxPackFlareCASEmptyBuild
   - RMCDividerConstruction
   - RMCBoxFlamerTankEmptyBuild
+  - RMCBoxFlamerTankBGelEmptyBuild
   - RMCDividerConstruction
   - RMCBoxFlashlightsEmptyBuild
   - RMCBoxMREEmptyBuild
@@ -469,3 +479,57 @@
   id: RMCBoxMagazinePowerCellsHighBuild
   name: high-capacity power cells box
   prototype: RMCBoxMagazinePowerCellsHigh
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineRifleM54CE2EmptyBuild
+  name: M54CE2 magazine box
+  prototype: RMCBoxMagazineRifleM54CE2Empty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineRifleM54CE2HTEmptyBuild
+  name: M54CE2 HT magazine box
+  prototype: RMCBoxMagazineRifleM54CE2HTEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineRifleM54CE2HEAPEmptyBuild
+  name: M54CE2 HEAP magazine box
+  prototype: RMCBoxMagazineRifleM54CE2HEAPEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineSmartGunEmptyBuild
+  name: ML66A magazine box
+  prototype: RMCBoxMagazineSmartGunEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineSmartGunIrradiatedEmptyBuild
+  name: Irradiated ML79A magazine box
+  prototype: RMCBoxMagazineSmartGunIrradiatedEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineML66DEmptyBuild
+  name: ML66D magazine box
+  prototype: RMCBoxMagazineML66DEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazineM2CEmptyBuild
+  name: M2C magazine box
+  prototype: RMCBoxMagazineM2CEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxFlamerTankBGelEmptyBuild
+  name: B-Gel fuel tanks box
+  prototype: RMCBoxFlamerTankBGelEmpty
+
+- type: rmcConstruction
+  parent: RMCCardboardBuildBase
+  id: RMCBoxMagazinePistolM1984IncendiaryEmptyBuild
+  name: M1984 Incendiary magazine box
+  prototype: RMCBoxMagazinePistolM1984IncendiaryEmpty

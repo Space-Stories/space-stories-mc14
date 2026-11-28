@@ -53,6 +53,9 @@ public sealed partial class RequisitionsAccountComponent : Component
     public int BlackMarketHeat;
 
     [DataField]
+    public int BlackMarketHeatWarningThreshold = 70;
+
+    [DataField]
     [Access(typeof(SharedRequisitionsSystem), typeof(ScalingSystem))]
     public bool BlackMarketHeatDisabled;
 

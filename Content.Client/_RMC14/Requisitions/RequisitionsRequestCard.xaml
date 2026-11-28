@@ -26,13 +26,17 @@
                     <RichTextLabel Name="Plan" Access="Public" HorizontalExpand="True" />
                 </BoxContainer>
             </PanelContainer>
-            <BoxContainer Orientation="Horizontal" HorizontalAlignment="Right">
+            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="5">
+                <CheckBox Name="DeliverToCounter" Access="Public" Pressed="True" VerticalAlignment="Center"
+                          Text="{Loc rmc-requisitions-request-deliver-to-counter}"
+                          ToolTip="{Loc rmc-requisitions-request-deliver-to-counter-tooltip}" />
+                <Control HorizontalExpand="True" />
                 <ui:ConfirmButton Name="Approve" Access="Public" Text="{Loc rmc-requisitions-request-approve}"
                                   ConfirmationText="{Loc rmc-requisitions-request-approve-confirm}"
                                   StyleClasses="ButtonSquare" />
                 <ui:ConfirmButton Name="Deny" Access="Public" Text="{Loc rmc-requisitions-request-deny}"
                                   ConfirmationText="{Loc rmc-requisitions-request-deny-confirm}"
-                                  StyleClasses="ButtonSquare" Margin="5 0 0 0" />
+                                  StyleClasses="ButtonSquare" />
             </BoxContainer>
         </BoxContainer>
     </PanelContainer>

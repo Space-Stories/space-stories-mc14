@@ -20,11 +20,10 @@
                         Access="Public"
                         HorizontalExpand="True"
                         Margin="0 0 0 8">
-            <BoxContainer Name="DialogueContents"
-                          Access="Public"
-                          Orientation="Vertical"
-                          HorizontalExpand="True"
-                          Margin="8" />
+            <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="8">
+                <BoxContainer Name="DialogueContents" Access="Public" Orientation="Vertical" HorizontalExpand="True" />
+                <controls:RequisitionsMessage Name="MendozaHeatWarning" Access="Public" Visible="False" />
+            </BoxContainer>
         </PanelContainer>
         <Button Name="BriefingButton"
                 Access="Public"

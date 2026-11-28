@@ -22,6 +22,42 @@
         blackMarketHeat: -10
         crate: RMCPottedPlantRandomUnanchored
 
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 35
+        blackMarketHeat: 6
+        crate: RMCPinpointerUniversal
+        name: rmc-requisitions-black-market-universal-pinpointer
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 15
+        blackMarketHeat: -2
+        crate: RMCPlayingCardDeck
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 10
+        blackMarketHeat: 0
+        crate: CMPlushieBarricade
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 0
+        crate: RMCFlashlightLantern
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 30
+        blackMarketHeat: 3
+        crate: RMCBinocularsCiv
+
       # TODO RMC14: Port cargo tug behavior before enabling this Miscellaneous entry.
       # TODO RMC14: Cargo Tug Crate, cost 50, heat 0.
       - cost: 0

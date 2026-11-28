@@ -45,6 +45,14 @@
       - cost: 0
         unit: true
         blackMarket: true
+        blackMarketCost: 8
+        blackMarketHeat: 1
+        crate: RMCBoxShotgunBuckshot
+        name: rmc-requisitions-black-market-buckshot-12g
+
+      - cost: 0
+        unit: true
+        blackMarket: true
         blackMarketCost: 115
         blackMarketHeat: 5
         crate: RMCBoxShellsType23Slugs
@@ -140,6 +148,13 @@
         blackMarketCost: 260
         blackMarketHeat: 5
         crate: RMCBoxMagazinePistolHandcannonHIAP
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 8
+        blackMarketHeat: 1
+        crate: RMCMagazinePistolL54Custom
 
       - cost: 0
         unit: true
@@ -374,6 +389,13 @@
         blackMarketCost: 30
         blackMarketHeat: 5
         crate: RMCBoxMagazineRevolverZHNK72
+
+      - cost: 0
+        unit: true
+        blackMarket: true
+        blackMarketCost: 8
+        blackMarketHeat: 1
+        crate: RMCSpeedLoaderM44
 
       - cost: 0
         unit: true

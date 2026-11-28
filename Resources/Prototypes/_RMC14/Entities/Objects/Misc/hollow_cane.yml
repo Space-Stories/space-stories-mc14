@@ -30,3 +30,13 @@
           - RMCM5Bayonet
         insertSound: /Audio/Items/sheath.ogg
         ejectSound: /Audio/Items/unsheath.ogg
+
+- type: entity
+  parent: RMCHollowCane
+  id: STHollowCaneWithBayonet
+  suffix: Filled
+  components:
+  - type: ContainerFill
+    containers:
+      item:
+      - RMCM5Bayonet

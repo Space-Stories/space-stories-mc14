@@ -24,6 +24,8 @@ rmc-requisitions-request-submit = Распечатать заявку
 rmc-requisitions-request-submit-confirm = Распечатать бланк?
 rmc-requisitions-request-approve = Одобрить
 rmc-requisitions-request-approve-confirm = Выполнить выбранное?
+rmc-requisitions-request-deliver-to-counter = Выдать на стойку
+rmc-requisitions-request-deliver-to-counter-tooltip = Подключённые к стойке автоматы выдадут предметы на неё. Остальное можно забрать у автоматов.
 rmc-requisitions-request-deny = Закрыть заявку
 rmc-requisitions-request-deny-confirm = Закрыть остаток заявки?
 rmc-requisitions-request-title = Заявка №{ $number }
@@ -46,6 +48,8 @@ rmc-requisitions-request-paper =
     { "" }[color=#b18644]________________________________[/color]
     { "" }[head=2]Заявка на снабжение[/head]
     { "" }[mono size=10]ОП-103 / №{ $number }[/mono]{ $completion }
+
+    { "" }Вставьте бланк в консоль АСПХ в отделе снабжения.
 
     { "" }[bold]Заказчик:[/bold] { $requester }
     { "" }[bold]Должность:[/bold] { $rank }
